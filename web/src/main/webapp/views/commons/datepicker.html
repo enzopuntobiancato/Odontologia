@@ -1,0 +1,22 @@
+<div class="input-group" ng-controller="datepickerCtrl">
+    <input type="text"
+           class="form-control"
+           datepicker-popup="{{format}}"
+           ng-model="shortDate"
+           placeholder="dd-mm-yyyy"
+           is-open="opened"
+           min-date="minDate"
+           datepicker-options="dateOptions"
+           date-disabled="disabled(date, mode)"
+           ng-required="true"
+           close-text="Cerrar"
+            current-text="Hoy"
+            clear-text="Limpiar"/>
+  <span class="input-group-btn">
+    <button type="button"
+            class="btn"
+            ng-click="open($event)">
+        <i class="glyphicon glyphicon-calendar"></i>
+    </button>
+  </span>
+</div>

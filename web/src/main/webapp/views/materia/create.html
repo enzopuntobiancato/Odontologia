@@ -1,0 +1,64 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="page-header">
+            <div class="input-group">
+                <h2>Materia
+                    <small>Crear</small>
+                </h2>
+                <div class="input-group-btn">
+                    <input ng-show="data.disableFields" type="button" ng-click="reload()" class="btn btn-success btn-lg"
+                           value="Nuevo"/>
+                </div>
+            </div>
+        </div>
+
+        <form novalidate name="createMateriaForm">
+            <div class="row-fluid">
+                <div class="col-lg-8">
+                    <div class="form-group" show-errors>
+                        <label>Nombre</label>
+                        <input ng-disabled="data.disableFields" name="nombre" ng-model="materia.nombre"
+                               class="form-control"
+                               type="text" required/>
+                        <span class="help-block" for="nombre"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group" show-errors>
+                        <label>Nivel</label>
+                        <select required ng-disabled="data.disableFields" name="nivel" class="form-control"
+                                ng-model="materia.nivel"
+                                ng-options="item.nombre as item.nombre for item in data.niveles">
+                            <option value="">Seleccione</option>
+                        </select>
+                        <span class="help-block" for="nivel"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea ng-disabled="data.disableFields" ng-model="materia.descripcion"
+                                  class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="col-lg-12">
+                    <div class="pull-right">
+                        <input ng-show="!data.disableFields" type="submit" ng-click="save()" class="btn btn-primary"
+                               value="Aceptar"/>
+                        <input ng-show="!data.disableFields" type="button" ng-click="goIndex()" class="btn btn-default"
+                               value="Cancelar"/>
+                        <input ng-show="data.disableFields" type="button" ng-click="goIndex()" class="btn btn-info"
+                               value="Volver"/>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="page-header">
+                <div class="input-group">
+                    <h2>Materia
+                        <small>Consultar</small>
+                    </h2>
+                    <div class="input-group-btn">
+                        <input type="button" ng-click="new()" class="btn btn-success btn-lg" value="Nuevo"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="col-lg-8">
+                    <!--<div class="form-group">-->
+                    <!--<label>Fecha</label>-->
+                    <!--<div name="nombre" ng-model="filter.fecha"-->
+                    <!--date-picker></div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input name="nombre" ng-model="filter.nombre" class="form-control"
+                               type="text"/>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>Nivel</label>
+                        <select name="nivel" class="form-control" ng-model="filter.nivel"
+                                ng-options="item.nombre as item.nombre for item in niveles">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="col-lg-12">
+                    <div class="pull-right">
+                        <input type="button" ng-click="consultar()" class="btn btn-primary"
+                               value="Consultar"/>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid col-lg-12">
+        <fieldset>
+            <legend>Resultados
+            </legend>
+            <table id="grid-result" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Nivel</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-show="result.length > 0" data-ng-repeat="item in result">
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.descripcion}}</td>
+                    <td>{{item.nivel}}</td>
+                </tr>
+                <tr ng-show="result.length == 0">
+                    <td colspan="3">No se encontraron resultados</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-pagination" ng-show="result.length > 0">
+                <ul class="pager">
+                    <li ng-class="{previous: true}">
+                        <a href=""><i class="fa fa-arrow-circle-left fa-lg"></i></a></li>
+                    <li ng-class="{next: true}"><a href=""> <i class="fa fa-arrow-circle-right fa-lg"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </fieldset>
+    </div>
+</div>

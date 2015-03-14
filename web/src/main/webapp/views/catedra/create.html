@@ -1,0 +1,126 @@
+<div>
+
+    <div class="page-header">
+        <div class="input-group">
+            <h2>Cátedra
+                <small>Crear</small>
+            </h2>
+            <div class="input-group-btn">
+                <input ng-show="data.disableFields" type="button" ng-click="reload()" class="btn btn-success btn-lg"
+                       value="Nuevo"/>
+            </div>
+        </div>
+    </div>
+
+    <form novalidate name="createCatedraForm">
+        <div class="row-fluid">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Denominación</label>
+                    <input ng-disabled="data.disableFields" ng-model="catedra.denominacion" type="text" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Materia</label>
+                    <select ng-disabled="data.disableFields" name="materia" class="form-control" ng-model="catedra.materia"
+                            ng-options="item.id as item.nombre for item in data.materias">
+                        <option value="">Seleccione</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea ng-model="catedra.descripcion" ng-disabled="data.disableFields" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Horarios</div>
+                    <div class="panel-body">
+                        <div class="row-fluid">
+                            <div class="col-lg-6">
+                                <div class="row-fluid">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>Dia de la semana</label>
+                                            <select ng-disabled="data.disableFields" name="dia" class="form-control" ng-model="newHorario.dia"
+                                                    ng-options="item.nombre as item.nombre for item in data.dias">
+                                                <option value="">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>Hora desde</label>
+                                            <timepicker ng-disabled="data.disableFields" hour-step="1" minute-step="15" show-meridian="false" ng-model="newHorario.horaDesde"></timepicker>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>Hora hasta</label>
+                                            <timepicker ng-disabled="data.disableFields" hour-step="1" minute-step="15" show-meridian="false" ng-model="newHorario.horaHasta"></timepicker>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button ng-disabled="data.disableFields" type="button" class="btn btn-default pull-right" ng-click="addHorario()">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <table id="grid-horarios2" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Dia</th>
+                                        <th>Hora desde</th>
+                                        <th>Hora hasta</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-show="catedra.horarios.length > 0" data-ng-repeat="item in catedra.horarios">
+                                        <td>{{item.dia}}</td>
+                                        <td>{{item.horaDesde | date:'HH:mm'}}</td>
+                                        <td>{{item.horaHasta | date:'HH:mm'}}</td>
+                                    </tr>
+                                    <tr ng-show="catedra.horarios.length == 0">
+                                        <td colspan="3">Sin horarios cargados</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="col-lg-12">
+                <div class="pull-right">
+                    <input ng-show="!data.disableFields" type="submit" ng-click="save()" class="btn btn-primary"
+                           value="Aceptar"/>
+                    <input ng-show="!data.disableFields" type="button" ng-click="goIndex()" class="btn btn-default"
+                           value="Cancelar"/>
+                    <input ng-show="data.disableFields" type="button" ng-click="goIndex()" class="btn btn-info"
+                           value="Volver"/>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>

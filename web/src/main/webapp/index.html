@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="odontologiaApp">
+<head>
+    <meta charset="utf-8">
+    <title>SIGEPO</title>
+    <link rel="stylesheet" href="resources/css/bootstrap/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="resources/css/bootstrap/bootstrap-theme.css"/>-->
+    <link rel="stylesheet" href="resources/css/bootstrap/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="resources/css/bootstrap/jquery-ui.theme.min.css"/>
+    <!--<link rel="stylesheet" href="resources/css/semantic/semantic.min.css"/>-->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/resources/css/bootstrap/material.css"/>
+    <link rel="stylesheet" href="/resources/css/bootstrap/ripples.css"/>
+    <link rel="stylesheet" href="/resources/css/bootstrap/material-wfont.css"/>
+    <link rel="stylesheet" href="/resources/css/bootstrap/bootstrap-select.min.css"/>
+    <link rel="stylesheet" href="resources/css/commons/commons.css"/>
+
+</head>
+<body>
+<div id="widget" style="display: none">
+    <div><i class="fa fa-spinner fa-spin fa-4x"></i></div>
+</div>
+<!-- HEADER AND NAVBAR -->
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" ui-sref="#">SAPO</a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
+                <li><a ui-sref="materia.index"><i class="fa fa-shield"></i> Materia</a></li>
+                <li><a ui-sref="catedra.create">Cátedra</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuario
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuario
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div class="container wrapper" ng-controller="AppController">
+    <div ui-view></div>
+    <div class="push"></div>
+</div>
+<!-- FOOTER -->
+<!--<div class="navbar navbar-default navbar-static footer">-->
+<!--<div class="container">-->
+<!--<p class="navbar-text pull-left">Todos los derechos reservados 2013-2014</p>-->
+<!--</div>-->
+<!--</div>-->
+
+<script type="text/javascript" src="resources/scripts/lib/bootstrap/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/bootstrap/jquery-ui.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/angular/angular.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/angular/angular-ui-router.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/angular/ocLazyLoad.min.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/bootstrap/bootbox.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/bootstrap/ripples.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/bootstrap/material.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/angular/i18n/angular-locale_es-es.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/angular/date.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/angular/ui-bootstrap-tpls-0.12.0.min.js"></script>
+<!--<script type="text/javascript" src="resources/scripts/lib/semantic/semantic.min.js"></script>-->
+<script type="text/javascript" src="resources/scripts/lib/bootstrap/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="resources/scripts/commons.js"></script>
+<script type="text/javascript" src="resources/scripts/bootstrap.js"></script>
+
+
+</body>
+</html>
