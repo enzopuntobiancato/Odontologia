@@ -9,18 +9,8 @@ module.controller('MateriaCtrl_Create', ['$scope', 'MateriaSrv', '$state', 'Noti
         niveles: commons.enumToJson(nivelesResponse.data)
     }
 
-//    init();
-//
-//    function init() {
-//        commonsSrv.getNiveles().success(function(data) {
-//            $scope.data.niveles = commonsSrv.enumToJson(data);
-//        })
-//    }
-
     $scope.save = function()
     {
-//        if ($scope.createMateriaForm.$valid)
-//        {
             notification.showWidget();
             service.create($scope.materia)
                 .success(function(data) {
@@ -32,11 +22,6 @@ module.controller('MateriaCtrl_Create', ['$scope', 'MateriaSrv', '$state', 'Noti
                     notification.hideWidget();
                     notification.badArray(data, function() {});
                 })
-//        } else
-//        {
-//            $scope.createMateriaForm.$setDirty();
-//        }
-
     }
 
     $scope.goIndex = function() {

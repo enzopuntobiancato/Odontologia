@@ -164,7 +164,6 @@ odontologiaApp.controller('AppController', function ($scope) {
 
 });
 
-
 odontologiaApp
     .controller('datepickerCtrl', function($scope) {
 
@@ -237,8 +236,6 @@ odontologiaApp
         }
 
     })
-
-
 
 odontologiaApp.
     factory('NotificationSrv', [function () {
@@ -333,6 +330,36 @@ odontologiaApp.factory('CommonsSrv', ['$http', function($http) {
 
     return service;
 }])
+
+var submitValidate = ['$parse', function($parse) {
+    return {
+        restrict: 'A',
+        require: 'form',
+        link: function(scope, formElement, attributes, formController) {
+
+            var fn = $parse(attributes.submitValidate);
+            formElement.bind('submit', function(event){
+
+                if (formController.$invalid) {
+                    var invalidElements = formElement[0].querySelectorAll('.ng-invalid');
+                    for (var i = 0; i < invalidElements.length; i++) {
+                        var element = angular.element(invalidElements[i]);
+                        element.blur();
+                    }
+                    return false;
+                }
+
+                scope.$apply(function() {
+                    fn(scope, {$event:event});
+                });
+            })
+        }
+
+    };
+}]
+
+odontologiaApp
+    .directive('submitValidate', submitValidate);
 
 odontologiaApp.directive('showErrors', function () {
     return {

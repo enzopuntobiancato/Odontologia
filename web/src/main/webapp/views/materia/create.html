@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <form novalidate name="createMateriaForm">
+        <form novalidate submit-validate="save()" name="createMateriaForm">
             <div class="row-fluid">
                 <div class="col-lg-8">
                     <div class="form-group" show-errors>
@@ -48,7 +48,7 @@
             <div class="row-fluid">
                 <div class="col-lg-12">
                     <div class="pull-right">
-                        <input ng-show="!data.disableFields" type="submit" ng-click="save()" class="btn btn-primary"
+                        <input ng-show="!data.disableFields" type="submit" class="btn btn-primary"
                                value="Aceptar"/>
                         <input ng-show="!data.disableFields" type="button" ng-click="goIndex()" class="btn btn-default"
                                value="Cancelar"/>
