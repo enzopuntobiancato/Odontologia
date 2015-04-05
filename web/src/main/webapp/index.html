@@ -22,7 +22,7 @@
 </div>
 <!-- HEADER AND NAVBAR -->
 <header>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" ui-sref="#">SAPO</a>
@@ -46,7 +46,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuario
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="40" height="40" src="https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fmedia.uccdn.com%2Fimages%2F1%2F6%2F2%2Fimg_como_cambiar_mi_nombre_de_usuario_en_facebook_4261_orig.jpg&f=1" alt="Usuario" class="img-thumbnail">
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Action</a></li>
@@ -60,9 +60,8 @@
         </div>
     </nav>
 </header>
-<div class="container wrapper" ng-controller="AppController">
-    <div ui-view></div>
-    <div class="push"></div>
+<div id="container" class="container wrapper" ng-controller="AppController">
+    <div id="page-content" ui-view></div>
 </div>
 <!-- FOOTER -->
 <!--<div class="navbar navbar-default navbar-static footer">-->

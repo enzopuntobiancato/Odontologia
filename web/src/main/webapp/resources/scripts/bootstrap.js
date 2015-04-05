@@ -1,6 +1,3 @@
-
-
-
 var odontologiaApp = angular.module('odontologiaApp', [
 //  'ngAnimate',
     'ui.router',
@@ -97,7 +94,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/materia/index.html',
                 controller: 'MateriaCtrl_Index',
                 resolve: {
-                    nivelesResponse : ['CommonsSrv', function(commons) {
+                    nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
                     }]
                 }
@@ -107,14 +104,14 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/materia/create.html',
                 controller: 'MateriaCtrl_Create',
                 resolve: {
-                    nivelesResponse : ['CommonsSrv', function(commons) {
+                    nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
                     }]
                 }
             })
             .state('catedra', {
                 url: '/catedra',
-                template:'<ui-view/>',
+                template: '<ui-view/>',
                 abstract: true,
                 resolve: module('catedraModule')
             })
@@ -122,13 +119,13 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/create',
                 templateUrl: 'views/catedra/create.html',
                 controller: 'CatedraCtrl_Create',
-                resolve: { materiaResponse: ['CommonsSrv', function(commons) {
+                resolve: { materiaResponse: ['CommonsSrv', function (commons) {
                     return commons.getMaterias();
                 }],
 
-                    diasResponse: ['CommonsSrv', function(commons) {
-                    return commons.getDias();
-                }]}
+                    diasResponse: ['CommonsSrv', function (commons) {
+                        return commons.getDias();
+                    }]}
             })
         ;
 
@@ -148,7 +145,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 {
                     name: 'catedraModule',
                     files: [url('/catedra/catedraCreateCtrl.js'),
-                            url('/catedra/catedraSrv.js')]
+                        url('/catedra/catedraSrv.js')]
                 }
             ]
         });
@@ -165,23 +162,23 @@ odontologiaApp.controller('AppController', function ($scope) {
 });
 
 odontologiaApp
-    .controller('datepickerCtrl', function($scope) {
+    .controller('datepickerCtrl', function ($scope) {
 
         $scope.clear = function () {
             $scope.dt = null;
         };
 
         // Disable weekend selection
-        $scope.disabled = function(date, mode) {
+        $scope.disabled = function (date, mode) {
             return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
         };
 
-        $scope.toggleMin = function() {
+        $scope.toggleMin = function () {
             $scope.minDate = $scope.minDate ? null : new Date();
         };
         $scope.toggleMin();
 
-        $scope.open = function($event) {
+        $scope.open = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
 
@@ -193,48 +190,15 @@ odontologiaApp
             startingDay: 1
         };
 
-        $scope.formats = ['dd/MM/yyyy','dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        $scope.formats = ['dd/MM/yyyy', 'dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
         $scope.format = $scope.formats[0];
     })
 
 odontologiaApp
-    .directive('datePicker', function() {
+    .directive('datePicker', function () {
         return {
             templateUrl: 'views/commons/datepicker.html'
         }
-    })
-
-odontologiaApp
-    .directive('timePicker', function() {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/commons/timepicker.html',
-            require: 'ngModel',
-            scope: {ngModel: '='},
-            link: function(scope, element, attrs, ngModelCtrl) {
-                  var model = scope.ngModel;
-                var hola = attrs.ngModel;
-            }
-
-        }
-    })
-
-odontologiaApp
-    .controller('timepickerCtrl', function($scope){
-        $scope.hstep = 1;
-        $scope.mstep = 15;
-
-        $scope.time = defaultTime();
-
-        function defaultTime() {
-            var time = new Date();
-            time.setHours(8);
-            time.setMinutes(0);
-            time.setMilliseconds(0);
-
-            return time;
-        }
-
     })
 
 odontologiaApp.
@@ -284,18 +248,24 @@ odontologiaApp.
             angular.element('#widget').hide();
         };
 
+        service.scrollTo = function (id) {
+            var old = $location.hash();
+            $location.hash(id);
+            $anchorScroll();
+            $location.hash(old);
+        }
+
         return service;
 
     }]);
 
-odontologiaApp.factory('CommonsSrv', ['$http', function($http) {
+odontologiaApp.factory('CommonsSrv', ['$http', function ($http) {
     var service = {};
 
-    service.enumToJson = function(data) {
+    service.enumToJson = function (data) {
         var result = [];
 
-        for (var i = 0; i < data.length; i++)
-        {
+        for (var i = 0; i < data.length; i++) {
             var json = {};
             json.id = i;
             json.nombre = data[i];
@@ -304,7 +274,7 @@ odontologiaApp.factory('CommonsSrv', ['$http', function($http) {
         return result;
     }
 
-    service.getNiveles = function() {
+    service.getNiveles = function () {
         return $http({
             method: 'GET',
             url: 'api/commons/getNiveles',
@@ -312,7 +282,7 @@ odontologiaApp.factory('CommonsSrv', ['$http', function($http) {
         })
     }
 
-    service.getDias = function() {
+    service.getDias = function () {
         return $http({
             method: 'GET',
             url: 'api/commons/getDias',
@@ -331,14 +301,14 @@ odontologiaApp.factory('CommonsSrv', ['$http', function($http) {
     return service;
 }])
 
-var submitValidate = ['$parse', function($parse) {
+var submitValidate = ['$parse', '$location', '$anchorScroll', function ($parse, $location, $anchorScroll) {
     return {
         restrict: 'A',
         require: 'form',
-        link: function(scope, formElement, attributes, formController) {
+        link: function (scope, formElement, attributes, formController) {
 
             var fn = $parse(attributes.submitValidate);
-            formElement.bind('submit', function(event){
+            formElement.bind('submit', function (event) {
 
                 if (formController.$invalid) {
                     var invalidElements = formElement[0].querySelectorAll('.ng-invalid');
@@ -346,11 +316,20 @@ var submitValidate = ['$parse', function($parse) {
                         var element = angular.element(invalidElements[i]);
                         element.blur();
                     }
+
+                    scope.$apply(function() {
+                        scope.showSummaryError = true;
+                    })
+                    var old = $location.hash();
+                    $location.hash('container');
+                    $anchorScroll();
+                    $location.hash(old);
                     return false;
                 }
 
-                scope.$apply(function() {
-                    fn(scope, {$event:event});
+                scope.$apply(function () {
+                    scope.showSummaryError = false;
+                    fn(scope, {$event: event});
                 });
             })
         }
@@ -360,6 +339,19 @@ var submitValidate = ['$parse', function($parse) {
 
 odontologiaApp
     .directive('submitValidate', submitValidate);
+
+odontologiaApp.directive('summaryError', function() {
+    return {
+        restrict: 'E',
+        scope: {
+            var: '='
+        },
+        template: ' <div ng-if="var"><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle"></i><strong> ¡Datos erróneos!</strong> Verifique el formulario y complete los datos correctamente.</div></div>',
+        controller: function($scope) {
+
+        }
+    }
+})
 
 odontologiaApp.directive('showErrors', function () {
     return {

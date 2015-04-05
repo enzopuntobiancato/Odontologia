@@ -12,21 +12,25 @@
         </div>
     </div>
 
-    <form novalidate name="createCatedraForm">
+    <summary-error var="showSummaryError"></summary-error>
+
+    <form novalidate submit-validate="save()" name="createCatedraForm">
         <div class="row-fluid">
             <div class="col-lg-6">
-                <div class="form-group">
+                <div class="form-group" show-errors>
                     <label>Denominación</label>
-                    <input ng-disabled="data.disableFields" ng-model="catedra.denominacion" type="text" class="form-control"/>
+                    <input ng-disabled="data.disableFields" name="denominacion" ng-model="catedra.denominacion" type="text" class="form-control" required/>
+                    <span class="help-block" for="denominacion"></span>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="form-group">
+                <div class="form-group" show-errors>
                     <label>Materia</label>
                     <select ng-disabled="data.disableFields" name="materia" class="form-control" ng-model="catedra.materia"
-                            ng-options="item.id as item.nombre for item in data.materias">
+                            ng-options="item.id as item.nombre for item in data.materias" required>
                         <option value="">Seleccione</option>
                     </select>
+                    <span class="help-block" for="materia"></span>
                 </div>
             </div>
         </div>
@@ -110,7 +114,7 @@
         <div class="row-fluid">
             <div class="col-lg-12">
                 <div class="pull-right">
-                    <input ng-show="!data.disableFields" type="submit" ng-click="save()" class="btn btn-primary"
+                    <input ng-show="!data.disableFields" type="submit" class="btn btn-primary"
                            value="Aceptar"/>
                     <input ng-show="!data.disableFields" type="button" ng-click="goIndex()" class="btn btn-default"
                            value="Cancelar"/>
