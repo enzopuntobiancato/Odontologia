@@ -7,9 +7,8 @@ import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
-import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.util.List;
 
@@ -34,6 +33,7 @@ public class MateriaService extends BaseService<Materia> {
         return dao.create(entity);
     }
 
+    @TransactionAttribute()
     @Override
     public void update(Materia entity) throws SAPOException {
         validate(entity, validator);
@@ -49,7 +49,12 @@ public class MateriaService extends BaseService<Materia> {
         return dao.findByFilters(nombre, nivel);
     }
 
+
     public List<Materia> findAll() {
           return dao.findAll();
+    }
+
+    public List<Materia> findBySpecs(String name, Nivel nivel) {
+        return null;
     }
 }
