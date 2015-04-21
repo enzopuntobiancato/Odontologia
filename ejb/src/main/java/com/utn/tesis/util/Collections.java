@@ -2,7 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tesis.odontologia.core.domain;
+package com.utn.tesis.util;
+
+import com.utn.tesis.model.EntityBase;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -84,7 +86,7 @@ public class Collections {
             }
 
 // si es IEntidad o IGenericEntity
-            if (Generic.class.isAssignableFrom(type)) {
+            if (EntityBase.class.isAssignableFrom(type)) {
                 reload(getValue(f, o), profundidad - 1);
                 continue;
             }
