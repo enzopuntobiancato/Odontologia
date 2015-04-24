@@ -1,5 +1,7 @@
 package com.utn.tesis.model;
 
+import com.utn.tesis.exception.SAPOValidationException;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,18 +12,19 @@ import java.util.List;
 public class Catedra extends EntityBase {
     private static final long serialVersionUID = 1L;
 
-    @NotNull (message = "Debe ingresar una denominación")
+    @NotNull (message = "Debe ingresar una denominación.")
     private String denominacion;
 
     @Size (max = 400)
     private String descripcion;
 
-    @NotNull (message = "Debe ingresar días y horarios")
+    @NotNull (message = "Debe ingresar días y horarios.")
     @OneToMany(targetEntity = DiaHorario.class, mappedBy = "catedra", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<DiaHorario> horarios;
 
     @ManyToOne
     @JoinColumn(name = "materiaId")
+    @NotNull(message = "La catedra debe pertenecer a una materia.")
     private Materia materia;
 
 
@@ -55,5 +58,33 @@ public class Catedra extends EntityBase {
 
     public void setMateria(Materia materia) {
         this.materia = materia;
+    }
+
+    @Override
+    public void validar() throws SAPOValidationException {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Catedra)) return false;
+        if (!super.equals(o)) return false;
+
+        Catedra catedra = (Catedra) o;
+
+        if (!denominacion.equals(catedra.denominacion)) return false;
+        if (!horarios.equals(catedra.horarios)) return false;
+        if (!materia.equals(catedra.materia)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + denominacion.hashCode();
+        result = 31 * result + horarios.hashCode();
+        result = 31 * result + materia.hashCode();
+        return result;
     }
 }

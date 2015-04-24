@@ -1,11 +1,13 @@
 package com.utn.tesis.model;
 
+import com.utn.tesis.interfaces.Validator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 
 @MappedSuperclass
-public abstract class EntityBase implements Serializable {
+public abstract class EntityBase implements Serializable, Validator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

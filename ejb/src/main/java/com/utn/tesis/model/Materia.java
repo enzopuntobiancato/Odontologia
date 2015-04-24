@@ -1,5 +1,6 @@
 package com.utn.tesis.model;
 
+import com.utn.tesis.exception.SAPOValidationException;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -21,11 +22,11 @@ public class Materia extends EntityBase {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "Debe ingresar un nombre")
-    @Size(max = 50)
+    @NotNull(message = "Debe ingresar un nombre.")
+    @Size(max = 50, message = "El nombre debe tener entre 0 y 50 caracteres.")
     private String nombre;
 
-    @NotNull(message = "Debe ingresar el nivel")
+    @NotNull(message = "Debe ingresar el nivel.")
     @Enumerated(EnumType.STRING)
     private Nivel nivel;
 
@@ -59,11 +60,29 @@ public class Materia extends EntityBase {
         this.descripcion = descripcion;
     }
 
-//    public List<Catedra> getCatedras() {
-//        return catedras;
-//    }
-//
-//    public void setCatedras(List<Catedra> catedras) {
-//        this.catedras = catedras;
-//    }
+    @Override
+    public void validar() throws SAPOValidationException {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Materia)) return false;
+        if (!super.equals(o)) return false;
+
+        Materia materia = (Materia) o;
+
+        if (nivel != materia.nivel) return false;
+        if (!nombre.equals(materia.nombre)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + nombre.hashCode();
+        result = 31 * result + nivel.hashCode();
+        return result;
+    }
 }

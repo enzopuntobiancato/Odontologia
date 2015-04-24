@@ -1,5 +1,7 @@
 package com.utn.tesis.model;
 
+import com.utn.tesis.exception.SAPOValidationException;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -52,5 +54,35 @@ public class DiaHorario extends EntityBase {
 
     public void setCatedra(Catedra catedra) {
         this.catedra = catedra;
+    }
+
+    @Override
+    public void validar() throws SAPOValidationException {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DiaHorario)) return false;
+        if (!super.equals(o)) return false;
+
+        DiaHorario that = (DiaHorario) o;
+
+        if (!catedra.equals(that.catedra)) return false;
+        if (dia != that.dia) return false;
+        if (!horaDesde.equals(that.horaDesde)) return false;
+        if (!horaHasta.equals(that.horaHasta)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + dia.hashCode();
+        result = 31 * result + horaDesde.hashCode();
+        result = 31 * result + horaHasta.hashCode();
+        result = 31 * result + catedra.hashCode();
+        return result;
     }
 }
