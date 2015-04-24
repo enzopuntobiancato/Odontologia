@@ -5,6 +5,8 @@ import com.utn.tesis.exception.SAPOValidationException;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -27,6 +29,9 @@ public class Catedra extends EntityBase {
     @NotNull(message = "La catedra debe pertenecer a una materia.")
     private Materia materia;
 
+    public Catedra() {
+        horarios = new ArrayList<DiaHorario>();
+    }
 
     public String getDenominacion() {
         return denominacion;
@@ -62,6 +67,13 @@ public class Catedra extends EntityBase {
 
     @Override
     public void validar() throws SAPOValidationException {
+        HashMap<String, String> e = new HashMap<String, String>();
+        if(horarios == null)
+           e.put("Null", "La lista de horarios no puede ser nula.");
+        if(horarios.isEmpty())
+            e.put("Empty", "La lista de horarios de la catedra no puede estar vacia.");
+        if(!e.isEmpty())
+            throw new SAPOValidationException(e);
     }
 
     @Override

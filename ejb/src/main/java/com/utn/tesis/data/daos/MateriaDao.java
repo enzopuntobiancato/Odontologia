@@ -19,7 +19,6 @@ public class MateriaDao extends DaoBase<Materia> {
         if (nivel != null)
            query.where(materia.nivel.eq(nivel));
         return query.list(materia);
-
     }
 
     public List<Materia> findAll() {
