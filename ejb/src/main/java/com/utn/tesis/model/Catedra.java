@@ -15,7 +15,7 @@ public class Catedra extends EntityBase {
     @NotNull (message = "Debe ingresar una denominación.")
     private String denominacion;
 
-    @Size (max = 400)
+    @Size (max = 400, message = "La descripcion debe tener entre 0 y 400 caracteres.")
     private String descripcion;
 
     @NotNull (message = "Debe ingresar días y horarios.")

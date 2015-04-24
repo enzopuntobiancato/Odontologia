@@ -7,6 +7,7 @@ package com.utn.tesis.model;
 import com.utn.tesis.util.FechaUtils;
 
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Size;
 import java.util.Calendar;
 
 /**
@@ -17,7 +18,10 @@ import java.util.Calendar;
 public abstract class Bajeable extends EntityBase {
 
     private int estadoAlta = ALTA;
+
+    @Size(max = 150, message = "El motivo de baja debe tener entre 0 y 150 caracteres.")
     private String motivo;
+
     private Calendar fechaBaja;
 
     private static int ALTA = 1;
