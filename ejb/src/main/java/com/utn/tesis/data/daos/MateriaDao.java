@@ -1,6 +1,7 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.utn.tesis.model.Bajeable;
 import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 import com.utn.tesis.model.QMateria;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class MateriaDao extends DaoBase<Materia> {
 
-    public List<Materia> findByFilters(String nombre, Nivel nivel) {
+    public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja) {
         QMateria materia = QMateria.materia;
 
         JPAQuery query = new JPAQuery(em).from(materia);
@@ -18,6 +19,8 @@ public class MateriaDao extends DaoBase<Materia> {
            query.where(materia.nombre.startsWith(nombre));
         if (nivel != null)
            query.where(materia.nivel.eq(nivel));
+        if (!dadosBaja)
+            query.where(materia.fechaBaja.isNull());
         return query.list(materia);
     }
 

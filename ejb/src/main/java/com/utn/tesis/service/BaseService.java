@@ -10,6 +10,8 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by aleBurgos on 09/02/2015.
@@ -31,7 +33,14 @@ public abstract class BaseService<T extends EntityBase> {
         try {
             constraintValidation(entity, validator);
             bussinessValidation(entity);
-        } catch (Exception e) {
+        }
+        catch (ConstraintViolationException cve) {
+            throw new SAPOException(cve);
+        } catch (SAPOValidationException sve) {
+            throw new SAPOException(sve);
+        }
+        catch (Exception e) {
+            Logger.getLogger(BaseService.class.getName()).log(Level.SEVERE, e.getMessage(), e);
             throw new SAPOException(e);
         }
 
@@ -51,6 +60,8 @@ public abstract class BaseService<T extends EntityBase> {
     /*
     Validaciones de negocio (se definen en las clases hijas). Si alguna restricción de negocio no se cumple lanzar ValidationException.
      */
-    public abstract void bussinessValidation(T entity) throws SAPOValidationException;
+    private void bussinessValidation(T entity) throws SAPOValidationException {
+        entity.validar();
+    }
 
 }

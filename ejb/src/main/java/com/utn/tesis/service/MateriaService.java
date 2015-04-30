@@ -7,9 +7,9 @@ import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -30,23 +30,33 @@ public class MateriaService extends BaseService<Materia> {
     @Override
     public Materia create(Materia entity) throws SAPOException {
         validate(entity, validator);
-        return dao.create(entity);
+        return dao.save(entity);
     }
 
-    @TransactionAttribute()
     @Override
     public void update(Materia entity) throws SAPOException {
         validate(entity, validator);
         dao.update(entity);
     }
 
-    @Override
-    public void bussinessValidation(Materia entity) throws SAPOValidationException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void remove(Long materiaId, String motivoBaja) {
+        Materia materia = dao.findById(materiaId);
+        materia.darDeBaja(motivoBaja);
+        dao.deleteLogical(materia);
     }
 
-    public List<Materia> findByFilters(String nombre, Nivel nivel) {
-        return dao.findByFilters(nombre, nivel);
+//    @Override
+//    public void bussinessValidation(Materia entity) throws SAPOValidationException {
+//        //To change body of implemented methods use File | Settings | File Templates.
+////        HashMap<String, String> vals = new HashMap<String, String>();
+////        vals.put("regla1", "No se cumplio la regla 1");
+////        SAPOValidationException ex = new SAPOValidationException(vals);
+////        throw ex;
+//
+//    }
+
+    public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja) {
+        return dao.findByFilters(nombre, nivel, dadosBaja);
     }
 
 

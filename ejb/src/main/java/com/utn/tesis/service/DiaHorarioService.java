@@ -35,9 +35,9 @@ public class DiaHorarioService extends BaseService<DiaHorario> {
         validate(entity, validator);
         dao.update(entity);
     }
-
-    @Override
-    public void bussinessValidation(DiaHorario entity) throws SAPOValidationException {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+//
+//    @Override
+//    public void bussinessValidation(DiaHorario entity) throws SAPOValidationException {
+//        //To change body of implemented methods use File | Settings | File Templates.
+//    }
 }

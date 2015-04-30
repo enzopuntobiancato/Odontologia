@@ -46,8 +46,8 @@ public class CatedraService extends BaseService<Catedra>{
         dao.update(entity);
     }
 
-    @Override
-    public void bussinessValidation(Catedra entity) throws SAPOValidationException {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+//    @Override
+//    public void bussinessValidation(Catedra entity) throws SAPOValidationException {
+//        //To change body of implemented methods use File | Settings | File Templates.
+//    }
 }
