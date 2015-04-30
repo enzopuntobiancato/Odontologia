@@ -19,8 +19,8 @@ public abstract class Bajeable extends EntityBase {
 
     private int estadoAlta = ALTA;
 
-    @Size(max = 150, message = "El motivo de baja debe tener entre 0 y 150 caracteres.")
-    private String motivo;
+    @Size(max = 150, message = "El motivoBaja de baja debe tener entre 0 y 150 caracteres.")
+    private String motivoBaja;
 
     private Calendar fechaBaja;
 
@@ -38,13 +38,29 @@ public abstract class Bajeable extends EntityBase {
     
     public void darDeBaja(String motivo) {
         estadoAlta = BAJA;
-        this.motivo = motivo;
+        this.motivoBaja = motivo;
         fechaBaja = FechaUtils.convertDateToCalendar(Calendar.getInstance().getTime());
     }
 
     public void darDeBaja(String motivo, Calendar fechaDeBaja) {
         estadoAlta = BAJA;
-        this.motivo = motivo;
+        this.motivoBaja = motivo;
         fechaBaja = fechaDeBaja;
+    }
+
+    public String getMotivoBaja() {
+        return motivoBaja;
+    }
+
+    public void setMotivoBaja(String motivoBaja) {
+        this.motivoBaja = motivoBaja;
+    }
+
+    public Calendar getFechaBaja() {
+        return fechaBaja;
+    }
+
+    public void setFechaBaja(Calendar fechaBaja) {
+        this.fechaBaja = fechaBaja;
     }
 }
