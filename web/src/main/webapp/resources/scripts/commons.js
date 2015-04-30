@@ -1,4 +1,4 @@
-$(document).ready(function() {
-    $.material.init();
-});
-$('.selectpicker').selectpicker();
+//$(document).ready(function() {
+//    $.material.init();
+//});
+//$('.selectpicker').selectpicker();

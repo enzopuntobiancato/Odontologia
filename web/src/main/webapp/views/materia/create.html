@@ -21,16 +21,16 @@
                         <label>Nombre</label>
                         <input ng-disabled="data.disableFields" name="nombre" ng-model="materia.nombre"
                                class="form-control"
-                               type="text" required/>
+                               type="text" maxlength="50" required/>
                         <span class="help-block" for="nombre"></span>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group" show-errors>
                         <label>Nivel</label>
-                        <select required ng-disabled="data.disableFields" name="nivel" class="form-control"
+                        <select ng-disabled="data.disableFields" name="nivel" class="form-control"
                                 ng-model="materia.nivel"
-                                ng-options="item.nombre as item.nombre for item in data.niveles">
+                                ng-options="item.nombre as item.nombre for item in data.niveles" required>
                             <option value="">Seleccione</option>
                         </select>
                         <span class="help-block" for="nivel"></span>
@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label>Descripción</label>
                         <textarea ng-disabled="data.disableFields" ng-model="materia.descripcion"
-                                  class="form-control" rows="2"></textarea>
+                                  class="form-control" rows="2" maxlength="400"></textarea>
                     </div>
                 </div>
             </div>

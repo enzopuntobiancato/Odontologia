@@ -1,31 +1,78 @@
 var module = angular.module('materiaModule');
 
 
-module.controller('MateriaCtrl_Index', ['$scope', 'MateriaSrv', '$state', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', function ($scope, service, $state, notification, commons, nivelesResponse) {
+module.controller('MateriaCtrl_Index', ['$scope', '$document', 'MateriaSrv', '$state', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', function ($scope, $document, service, $state, notification, commons, nivelesResponse) {
 
     $scope.filter = {};
     $scope.result = [];
     $scope.niveles = commons.enumToJson(nivelesResponse.data);
 
-   /* init();
+    $scope.aux = {
+        showDadosBaja: false
+    }
 
-    function init() {
-        commonsSrv.getNiveles().success(function(data) {
-            $scope.niveles = commonsSrv.enumToJson(data);
-        })
-    }*/
-
-    $scope.consultar = function() {
+    $scope.consultar = function () {
         notification.showWidget();
-        service.find($scope.filter.nombre, $scope.filter.nivel).success(function(data) {
+        service.find($scope.filter.nombre, $scope.filter.nivel, $scope.filter.dadosBaja).success(function (data) {
             notification.hideWidget();
-             $scope.result = data;
+            $scope.result = data;
+            $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
         })
     }
 
-    $scope.new = function()
-    {
+    $scope.new = function () {
         $state.go('^.create');
+    }
+
+    $scope.darDeBaja = function (materiaId) {
+        notification.requestReason().then(function(motivo){
+            if (motivo != null) {
+                notification.showWidget();
+                service.remove(materiaId, motivo).success(function (response) {
+                    notification.hideWidget();
+                    notification.goodAndOnEscape("Materia dada de baja correctamente.", $scope.consultar(), $scope.consultar())
+                })
+                    .error(function (response) {
+                        notification.hideWidget();
+                    })
+            }
+        });
+
+
+
+
+//
+//        bootbox.dialog({
+//            message: '<textarea class="form-control" rows="3" name="motivoBaja"></textarea>' + $scope.motivoBaja,
+//            title: 'Ingrese el motivo de baja',
+//            buttons: {
+//                aceptar: {
+//                    label: "Aceptar",
+//                    className: "btn-primary",
+//                    callback: function() {
+//                        notification.showWidget();
+//                        $document.find
+//                        service.remove(materiaId, $scope.motivoBaja).success(function(response){
+//                            notification.hideWidget();
+//                            notification.goodAndOnEscape("Materia dada de baja correctamente.", $scope.consultar(), $scope.consultar())
+//                        })
+//                            .error(function(response){
+//                                notification.hideWidget();
+//                            })
+//                    }
+//                },
+//                cancelar: {
+//                    label: "Cancelar",
+//                    className: "btn-default",
+//                    callback: function() {
+//                    }
+//                }
+//            }
+//        });
+    }
+
+    $scope.cleanFilters = function () {
+        $scope.filter = {};
     }
 
 }]);

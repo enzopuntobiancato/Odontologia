@@ -37,8 +37,16 @@ public class MateriaAPI extends BaseAPI {
     @Path("/find")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Materia> findByFilters(@QueryParam("nombre") String nombre, @QueryParam("nivel") String nivel) {
-        return materiaService.findByFilters(nombre, nivel != null ? Nivel.valueOf(nivel) : null);
+    public List<Materia> findByFilters(@QueryParam("nombre") String nombre, @QueryParam("nivel") String nivel, @QueryParam("dadosBaja") boolean dadosBaja) {
+        return materiaService.findByFilters(nombre, nivel != null ? Nivel.valueOf(nivel) : null, dadosBaja);
+    }
+
+    @Path("/remove")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+    public void remove(Materia materia) {
+        materiaService.remove(materia.getId(), materia.getMotivoBaja());
     }
 
 }

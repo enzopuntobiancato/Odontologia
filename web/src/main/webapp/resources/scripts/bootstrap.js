@@ -2,7 +2,6 @@ var odontologiaApp = angular.module('odontologiaApp', [
 //  'ngAnimate',
     'ui.router',
     'oc.lazyLoad',
-    'ui.date',
     'ui.bootstrap'
 //  'appInterceptorHttp',
 //  'moduleHttpService'
@@ -157,7 +156,12 @@ angular.module('materiaModule', []);
 angular.module('catedraModule', []);
 
 
-odontologiaApp.controller('AppController', function ($scope) {
+odontologiaApp.controller('AppController', function ($scope, $rootScope, $document) {
+
+//    $rootScope.$on('$stateChangeSuccess',
+//        function(event, toState, toParams, fromState, fromParams){
+//                $.material.checkbox();
+//        })
 
 });
 
@@ -202,7 +206,7 @@ odontologiaApp
     })
 
 odontologiaApp.
-    factory('NotificationSrv', [function () {
+    factory('NotificationSrv', ['$q', function ($q) {
 
         var service = {};
 
@@ -210,6 +214,14 @@ odontologiaApp.
             bootbox.dialog({message: msg,
                 title: '<i class="fa fa-check-circle-o fa-lg"></i> Éxito',
                 buttons: {ok: {label: "OK", className: "btn-primary", callback: callback() } }
+            });
+        }
+
+        service.goodAndOnEscape = function (msg, callback, onEscape) {
+            bootbox.dialog({message: msg,
+                title: '<i class="fa fa-check-circle-o fa-lg"></i> Éxito',
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } },
+                onEscape: onEscape
             });
         }
 
@@ -253,6 +265,29 @@ odontologiaApp.
             $location.hash(id);
             $anchorScroll();
             $location.hash(old);
+        }
+
+        service.requestReason = function() {
+            var deferred = $q.defer();
+            var dialogOptions = {
+                title: 'Ingrese el motivo de baja',
+                inputType: 'textarea',
+                buttons: {
+                    confirm: {
+                        label: 'Aceptar'
+                    },
+                    cancel: {
+                        label: 'Cancelar'
+                    }
+                },
+                callback: function(result) {
+                    if(result != null) {
+                        deferred.resolve(result);
+                    }
+                }
+            }
+            bootbox.prompt(dialogOptions);
+            return deferred.promise;
         }
 
         return service;
@@ -348,7 +383,6 @@ odontologiaApp.directive('summaryError', function() {
         },
         template: ' <div ng-if="var"><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle"></i><strong> ¡Datos erróneos!</strong> Verifique el formulario y complete los datos correctamente.</div></div>',
         controller: function($scope) {
-
         }
     }
 })
