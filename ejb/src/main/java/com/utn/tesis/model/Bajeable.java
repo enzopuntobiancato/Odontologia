@@ -30,12 +30,9 @@ public abstract class Bajeable extends EntityBase {
     public void darDeAlta(){ 
         estadoAlta = ALTA;
         fechaBaja = null;
+        motivoBaja = null;
     }
-    
-    private void darDeBaja() {
-        estadoAlta = ALTA;
-    }
-    
+
     public void darDeBaja(String motivo) {
         estadoAlta = BAJA;
         this.motivoBaja = motivo;
