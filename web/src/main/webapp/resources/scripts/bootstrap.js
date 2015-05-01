@@ -213,7 +213,7 @@ odontologiaApp.
         service.good = function (msg, callback) {
             bootbox.dialog({message: msg,
                 title: '<i class="fa fa-check-circle-o fa-lg"></i> Éxito',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback() } }
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } }
             });
         }
 
@@ -228,14 +228,14 @@ odontologiaApp.
         service.warning = function (msg, callback) {
             bootbox.dialog({message: msg,
                 title: '<i class="fa fa-exclamation-triangle fa-lg"></i></i> Advertencia',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback() } }
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } }
             });
         }
 
         service.bad = function (msg, callback) {
             bootbox.dialog({message: msg,
                 title: '<i class="fa fa-times-circle fa-lg"></i></i></i> Error',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback() } }
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } }
             });
         }
 
@@ -248,7 +248,7 @@ odontologiaApp.
             message += '</ul>';
             bootbox.dialog({message: message,
                 title: '<i class="fa fa-times-circle fa-lg"></i></i></i> Error',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback() } }
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } }
             });
         }
 
@@ -270,7 +270,7 @@ odontologiaApp.
         service.requestReason = function() {
             var deferred = $q.defer();
             var dialogOptions = {
-                title: 'Ingrese el motivo de baja',
+                title: '<i class="fa fa-eraser fa-lg"></i></i> Ingrese el motivo de baja',
                 inputType: 'textarea',
                 buttons: {
                     confirm: {
@@ -288,6 +288,16 @@ odontologiaApp.
             }
             bootbox.prompt(dialogOptions);
             return deferred.promise;
+        }
+
+        service.requestConfirmation = function (msg, Okcallback) {
+            bootbox.dialog({message: msg,
+                title: '<i class="fa fa-question fa-lg"></i></i> Confirmación',
+                buttons: {
+                    ok: {label: "Aceptar", className: "btn-primary", callback: Okcallback },
+                    cancel: {label: "Cancelar", className: "btn-default", callback: function(){}}
+                }
+            });
         }
 
         return service;

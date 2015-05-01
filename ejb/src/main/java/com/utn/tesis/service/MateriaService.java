@@ -45,6 +45,12 @@ public class MateriaService extends BaseService<Materia> {
         dao.deleteLogical(materia);
     }
 
+    public void restore(Long materiaId) {
+        Materia materia = dao.findById(materiaId);
+        materia.darDeAlta();
+        dao.update(materia);
+    }
+
 //    @Override
 //    public void bussinessValidation(Materia entity) throws SAPOValidationException {
 //        //To change body of implemented methods use File | Settings | File Templates.

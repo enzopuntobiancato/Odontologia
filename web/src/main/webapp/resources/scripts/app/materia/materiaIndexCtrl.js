@@ -25,12 +25,12 @@ module.controller('MateriaCtrl_Index', ['$scope', '$document', 'MateriaSrv', '$s
     }
 
     $scope.darDeBaja = function (materiaId) {
-        notification.requestReason().then(function(motivo){
+        notification.requestReason().then(function (motivo) {
             if (motivo != null) {
                 notification.showWidget();
                 service.remove(materiaId, motivo).success(function (response) {
                     notification.hideWidget();
-                    notification.goodAndOnEscape("Materia dada de baja correctamente.", $scope.consultar(), $scope.consultar())
+                    notification.goodAndOnEscape("Materia dada de baja correctamente.", function(){$scope.consultar()}, function(){$scope.consultar()})
                 })
                     .error(function (response) {
                         notification.hideWidget();
@@ -38,8 +38,21 @@ module.controller('MateriaCtrl_Index', ['$scope', '$document', 'MateriaSrv', '$s
             }
         });
 
+        $scope.darDeAlta = function (materiaId) {
+             notification.requestConfirmation("¿Está seguro?", function(){altaConfirmada(materiaId)});
+        }
 
-
+        function altaConfirmada(materiaId) {
+            notification.showWidget();
+            service.restore(materiaId)
+                .success(function () {
+                    notification.hideWidget();
+                    notification.goodAndOnEscape("Materia dada de alta correctamente.", function (){$scope.consultar()}, function(){$scope.consultar()})
+                })
+                .error(function () {
+                    notification.hideWidget();
+                })
+        }
 
 //
 //        bootbox.dialog({

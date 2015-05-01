@@ -44,9 +44,16 @@ public class MateriaAPI extends BaseAPI {
     @Path("/remove")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
     public void remove(Materia materia) {
         materiaService.remove(materia.getId(), materia.getMotivoBaja());
     }
+
+    @Path("/restore")
+    @PUT
+    public void restore(@QueryParam("id") Long id) {
+        materiaService.restore(id);
+    }
+
+
 
 }
