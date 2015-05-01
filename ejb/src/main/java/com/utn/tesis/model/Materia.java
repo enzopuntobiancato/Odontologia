@@ -61,32 +61,7 @@ public class Materia extends Bajeable  {
 
     @Override
     public void validar() throws SAPOValidationException {
-        String a = "";
-        System.out.println("sdfajflkjk");
     }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof Materia)) return false;
-//        if (!super.equals(o)) return false;
-//
-//        Materia materia = (Materia) o;
-//
-//        if (nivel != materia.nivel) return false;
-//        if (!nombre.equals(materia.nombre)) return false;
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result = super.hashCode();
-//        result = 31 * result + nombre.hashCode();
-//        result = 31 * result + nivel.hashCode();
-//        return result;
-//    }
-
 
     @Override
     public boolean equals(Object o) {
