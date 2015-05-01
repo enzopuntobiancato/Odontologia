@@ -40,8 +40,7 @@ public abstract class Bajeable extends EntityBase {
     }
 
     public void darDeBaja(String motivo, Calendar fechaDeBaja) {
-        estadoAlta = BAJA;
-        this.motivoBaja = motivo;
+        darDeBaja(motivo);
         fechaBaja = fechaDeBaja;
     }
 
