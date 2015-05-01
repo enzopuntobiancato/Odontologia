@@ -4,13 +4,21 @@ import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class PracticaOdontologica extends EntityBase {
 
+
+    @NotNull(message = "El nombre de la practica no puede ser nulo.")
+    @Size(max = 75, message = "El nombre de la practica debe tener entre 0 y 75 caracteres.")
     private String denominacion;
-    private String codigo;
+
+    @Size(max = 200, message = "La observacion de la practica debe tener entre 0 y 200 caracteres.")
     private String observaciones;
+
+    @NotNull(message = "El grupo al cual pertenece la practica no puede ser nulo.")
     private GrupoPracticaOdontologica grupo;
 
     public String getDenominacion() {
@@ -19,14 +27,6 @@ public class PracticaOdontologica extends EntityBase {
 
     public void setDenominacion(String denominacion) {
         this.denominacion = denominacion;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     public String getObservaciones() {
@@ -43,6 +43,28 @@ public class PracticaOdontologica extends EntityBase {
 
     public void setGrupo(GrupoPracticaOdontologica grupo) {
         this.grupo = grupo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PracticaOdontologica)) return false;
+        if (!super.equals(o)) return false;
+
+        PracticaOdontologica that = (PracticaOdontologica) o;
+
+        if (denominacion != null ? !denominacion.equals(that.denominacion) : that.denominacion != null) return false;
+        if (grupo != null ? !grupo.equals(that.grupo) : that.grupo != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (denominacion != null ? denominacion.hashCode() : 0);
+        result = 31 * result + (grupo != null ? grupo.hashCode() : 0);
+        return result;
     }
 
     @Override
