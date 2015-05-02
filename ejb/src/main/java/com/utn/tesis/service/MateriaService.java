@@ -61,8 +61,8 @@ public class MateriaService extends BaseService<Materia> {
 //
 //    }
 
-    public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja) {
-        return dao.findByFilters(nombre, nivel, dadosBaja);
+    public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja, Long page, Long pageSize) {
+        return dao.findByFilters(nombre, nivel, dadosBaja, page, pageSize);
     }
 
 

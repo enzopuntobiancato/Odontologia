@@ -11,7 +11,8 @@ import java.util.List;
 
 public class MateriaDao extends DaoBase<Materia> {
 
-    public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja) {
+    public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja,
+                                       Long page, Long pageSize) {
         QMateria materia = QMateria.materia;
 
         JPAQuery query = new JPAQuery(em).from(materia);
@@ -21,6 +22,7 @@ public class MateriaDao extends DaoBase<Materia> {
            query.where(materia.nivel.eq(nivel));
         if (!dadosBaja)
             query.where(materia.fechaBaja.isNull());
+        query = paginar(query, page, pageSize);
         return query.list(materia);
     }
 
