@@ -4,11 +4,13 @@
  */
 package com.utn.tesis.model;
 
+import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.util.FechaUtils;
 
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  *
@@ -33,15 +35,22 @@ public abstract class Bajeable extends EntityBase {
         motivoBaja = null;
     }
 
-    public void darDeBaja(String motivo) {
-        estadoAlta = BAJA;
-        this.motivoBaja = motivo;
-        fechaBaja = FechaUtils.convertDateToCalendar(Calendar.getInstance().getTime());
+    public void darDeBaja(String motivo) throws SAPOValidationException {
+        if (estadoAlta == ALTA && motivoBaja == null && fechaBaja == null) {
+            estadoAlta = BAJA;
+            this.motivoBaja = motivo;
+            fechaBaja = FechaUtils.convertDateToCalendar(Calendar.getInstance().getTime());
+        } else {
+            HashMap<String, String> errors = new HashMap<String, String>(1);
+            errors.put("Entidad actualmente dada de baja", "La entidad ya se encuentra dada de baja.");
+            throw new SAPOValidationException(errors);
+        }
+
     }
 
-    public void darDeBaja(String motivo, Calendar fechaDeBaja) {
+    public void darDeBaja(String motivo, Calendar fechaDeBaja) throws SAPOValidationException {
         darDeBaja(motivo);
-        fechaBaja = fechaDeBaja;
+        fechaBaja = fechaDeBaja != null ? fechaDeBaja : this.fechaBaja;
     }
 
     public String getMotivoBaja() {

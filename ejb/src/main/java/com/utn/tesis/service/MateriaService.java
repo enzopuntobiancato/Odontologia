@@ -1,5 +1,6 @@
 package com.utn.tesis.service;
 
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import com.utn.tesis.data.daos.MateriaDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
@@ -39,14 +40,16 @@ public class MateriaService extends BaseService<Materia> {
         dao.update(entity);
     }
 
-    public void remove(Long materiaId, String motivoBaja) {
+    public Materia remove(Long materiaId, String motivoBaja) throws SAPOException {
         Materia materia = dao.findById(materiaId);
         materia.darDeBaja(motivoBaja);
         dao.deleteLogical(materia);
+        return materia;
     }
 
     public void restore(Long materiaId) {
         Materia materia = dao.findById(materiaId);
+        if (materia.getFechaBaja() == null )
         materia.darDeAlta();
         dao.update(materia);
     }

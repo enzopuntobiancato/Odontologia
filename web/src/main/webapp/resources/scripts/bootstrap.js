@@ -108,6 +108,20 @@ odontologiaApp.config(['$urlRouterProvider',
                     }]
                 }
             })
+            .state('materia.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/materia/edit.html',
+                controller: 'MateriaCtrl_Edit',
+                resolve: {
+                    nivelesResponse: ['CommonsSrv', function (commons) {
+                        return commons.getNiveles();
+                    }],
+                    materiaResponse: ['$stateParams', 'MateriaSrv', function(service, $stateParams){
+                        return service.findById($stateParams.id);
+                    }]
+
+                }
+            })
             .state('catedra', {
                 url: '/catedra',
                 template: '<ui-view/>',

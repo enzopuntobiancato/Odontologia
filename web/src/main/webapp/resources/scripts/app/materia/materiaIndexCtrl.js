@@ -34,6 +34,7 @@ module.controller('MateriaCtrl_Index', ['$scope', '$document', 'MateriaSrv', '$s
                 })
                     .error(function (response) {
                         notification.hideWidget();
+                        notification.badArray(response, function() {});
                     })
             }
         });

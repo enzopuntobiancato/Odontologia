@@ -31,11 +31,11 @@ public abstract class BaseAPI {
             builder = createViolationResponse(((ConstraintViolationException) origin).getConstraintViolations());
         } else if (origin instanceof SAPOValidationException) {
             Map<String, String> responseObj = ((SAPOValidationException)origin).getErrors();
-            builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
         } else {
             Map<String, String> responseObj = new HashMap<String, String>();
             responseObj.put("error", origin.getMessage());
-            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+            builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseObj);
         }
 
        return builder.build();

@@ -1,6 +1,7 @@
 package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
+import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 import com.utn.tesis.service.MateriaService;
@@ -26,9 +27,9 @@ public class MateriaAPI extends BaseAPI {
     public Response create(Materia materia) {
         try {
             materia = materiaService.create(materia);
-        } catch (Exception e)
+        } catch (SAPOException se)
         {
-            return persistenceRequest(e);
+            return persistenceRequest(se);
         }
 
         return Response.ok(materia).build();
@@ -44,14 +45,26 @@ public class MateriaAPI extends BaseAPI {
     @Path("/remove")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void remove(Materia materia) {
-        materiaService.remove(materia.getId(), materia.getMotivoBaja());
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(Materia materia) {
+        try {
+            materia = materiaService.remove(materia.getId(), materia.getMotivoBaja());
+        } catch (SAPOException se) {
+            return persistenceRequest(se);
+        }
+        return Response.ok(materia).build();
     }
 
     @Path("/restore")
     @PUT
     public void restore(@QueryParam("id") Long id) {
         materiaService.restore(id);
+    }
+
+    @Path("/findById")
+    @GET
+    public Materia findById(@QueryParam("id") Long id) {
+        return materiaService.findById(id);
     }
 
 

@@ -34,6 +34,13 @@ module
                     method: 'PUT',
                     params: {id: materiaId}
                 })
+            },
+            findById: function(id) {
+                return $http({
+                    url: 'api/materia/findById',
+                    method: 'GET',
+                    params: {id: id}
+                })
             }
 
         }

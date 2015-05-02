@@ -10,7 +10,7 @@ import java.io.Serializable;
 public abstract class EntityBase implements Serializable, Validator {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Version
