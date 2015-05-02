@@ -1,16 +1,13 @@
 package com.utn.tesis.service;
 
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import com.utn.tesis.data.daos.MateriaDao;
 import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -49,7 +46,6 @@ public class MateriaService extends BaseService<Materia> {
 
     public void restore(Long materiaId) {
         Materia materia = dao.findById(materiaId);
-        if (materia.getFechaBaja() == null )
         materia.darDeAlta();
         dao.update(materia);
     }
