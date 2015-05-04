@@ -4,9 +4,9 @@ var module = angular.module('materiaModule');
 module
     .factory('MateriaSrv', ['$http', function ($http) {
         return {
-            create: function (materia) {
+            save: function (materia) {
                 return $http({
-                    url: 'api/materia/create',
+                    url: 'api/materia/save',
                     method: 'POST',
                     data: angular.toJson(materia)
                 })

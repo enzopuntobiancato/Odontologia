@@ -18,20 +18,24 @@ import java.util.List;
 @RequestScoped
 public class MateriaAPI extends BaseAPI {
 
-    @Inject private MateriaService materiaService;
+    @Inject
+    private MateriaService materiaService;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/create")
-    public Response create(Materia materia) {
+    @Path("/save")
+    public Response save(Materia materia) {
         try {
-            materia = materiaService.create(materia);
-        } catch (SAPOException se)
-        {
+            if (materia.isNew()) {
+                materia = materiaService.create(materia);
+            } else {
+                materiaService.update(materia);
+            }
+
+        } catch (SAPOException se) {
             return persistenceRequest(se);
         }
-
         return Response.ok(materia).build();
     }
 
@@ -66,7 +70,6 @@ public class MateriaAPI extends BaseAPI {
     public Materia findById(@QueryParam("id") Long id) {
         return materiaService.findById(id);
     }
-
 
 
 }

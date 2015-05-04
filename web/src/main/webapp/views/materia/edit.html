@@ -6,15 +6,15 @@
                     <small>Editar</small>
                 </h2>
                 <div class="input-group-btn">
-                    <input ng-show="data.disableFields" type="button" ng-click="reload()" class="btn btn-success btn-lg"
-                           value="Nuevo"/>
+                    <input ng-show="data.disableFields" type="button" ng-click="reload()" class="btn btn-primary btn-lg"
+                           value="Editar"/>
                 </div>
             </div>
         </div>
 
         <summary-error var="showSummaryError"></summary-error>
 
-        <form novalidate submit-validate="save()" name="createMateriaForm">
+        <form novalidate submit-validate="save()" name="editMateriaForm">
             <div class="row-fluid">
                 <div class="col-lg-8">
                     <div class="form-group" show-errors>
@@ -54,7 +54,7 @@
                                value="Aceptar"/>
                         <input ng-show="!data.disableFields" type="button" ng-click="goIndex()" class="btn btn-default"
                                value="Cancelar"/>
-                        <input ng-show="data.disableFields" type="button" ng-click="goIndex()" class="btn btn-info"
+                        <input ng-show="data.disableFields" type="button" ng-click="goIndex()" class="btn btn-flat btn-info"
                                value="Volver"/>
                     </div>
                 </div>

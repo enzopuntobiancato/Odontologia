@@ -116,7 +116,7 @@ odontologiaApp.config(['$urlRouterProvider',
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
                     }],
-                    materiaResponse: ['$stateParams', 'MateriaSrv', function(service, $stateParams){
+                    materiaResponse: ['$stateParams', 'MateriaSrv', function ($stateParams, service) {
                         return service.findById($stateParams.id);
                     }]
 
@@ -153,7 +153,8 @@ odontologiaApp.config(['$urlRouterProvider',
                     name: 'materiaModule',
                     files: [url('/materia/materiaCreateCtrl.js'),
                         url('/materia/materiaSrv.js'),
-                        url('/materia/materiaIndexCtrl.js')]
+                        url('/materia/materiaIndexCtrl.js'),
+                        url('/materia/materiaEditCtrl.js')]
                 },
                 {
                     name: 'catedraModule',
@@ -281,7 +282,7 @@ odontologiaApp.
             $location.hash(old);
         }
 
-        service.requestReason = function() {
+        service.requestReason = function () {
             var deferred = $q.defer();
             var dialogOptions = {
                 title: '<i class="fa fa-eraser fa-lg"></i></i> Ingrese el motivo de baja',
@@ -294,8 +295,8 @@ odontologiaApp.
                         label: 'Cancelar'
                     }
                 },
-                callback: function(result) {
-                    if(result != null) {
+                callback: function (result) {
+                    if (result != null) {
                         deferred.resolve(result);
                     }
                 }
@@ -309,7 +310,8 @@ odontologiaApp.
                 title: '<i class="fa fa-question fa-lg"></i></i> Confirmación',
                 buttons: {
                     ok: {label: "Aceptar", className: "btn-primary", callback: Okcallback },
-                    cancel: {label: "Cancelar", className: "btn-default", callback: function(){}}
+                    cancel: {label: "Cancelar", className: "btn-default", callback: function () {
+                    }}
                 }
             });
         }
@@ -376,7 +378,7 @@ var submitValidate = ['$parse', '$location', '$anchorScroll', function ($parse, 
                         element.blur();
                     }
 
-                    scope.$apply(function() {
+                    scope.$apply(function () {
                         scope.showSummaryError = true;
                     })
                     var old = $location.hash();
@@ -399,14 +401,14 @@ var submitValidate = ['$parse', '$location', '$anchorScroll', function ($parse, 
 odontologiaApp
     .directive('submitValidate', submitValidate);
 
-odontologiaApp.directive('summaryError', function() {
+odontologiaApp.directive('summaryError', function () {
     return {
         restrict: 'E',
         scope: {
             var: '='
         },
         template: ' <div ng-if="var"><div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle"></i><strong> ¡Datos erróneos!</strong> Verifique el formulario y complete los datos correctamente.</div></div>',
-        controller: function($scope) {
+        controller: function ($scope) {
         }
     }
 })

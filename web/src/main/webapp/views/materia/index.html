@@ -72,11 +72,11 @@
                         <tbody>
                         <tr ng-class="{'danger' : item.fechaBaja}" ng-show="result.length > 0" data-ng-repeat="item in result">
                             <td>{{item.nombre}}</td>
-                            <td style="max-width: 20px">{{item.descripcion}}</td>
+                            <td style="max-width: 70px">{{item.descripcion}}</td>
                             <td>{{item.nivel}}</td>
                             <td ng-if="aux.showDadosBaja">{{item.fechaBaja | date:'dd/MM/yyyy'}}</td>
                             <td>
-                                <button ng-if="!item.fechaBaja" title="Editar" class="btn-link"><i class="fa fa-pencil-square-o"></i></button>
+                                <button ng-if="!item.fechaBaja" ng-click="edit(item.id)" title="Editar" class="btn-link"><i class="fa fa-pencil-square-o"></i></button>
                                 <button title="Ver detalle" class="btn-link"><i class="fa fa-list-alt"></i></button>
                                 <button ng-if="!item.fechaBaja" title="Eliminar" ng-click="darDeBaja(item.id)" class="btn-link"><i class="fa fa-eraser"></i></button>
                                 <button ng-if="item.fechaBaja" title="Restaurar" ng-click="darDeAlta(item.id)" class="btn-link"><i class="fa fa-undo"></i></button>

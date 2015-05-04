@@ -12,7 +12,7 @@ module.controller('MateriaCtrl_Create', ['$scope', 'MateriaSrv', '$state', 'Noti
     $scope.save = function()
     {
             notification.showWidget();
-            service.create($scope.materia)
+            service.save($scope.materia)
                 .success(function(data) {
                 $scope.data.disableFields = true;
                 notification.hideWidget();

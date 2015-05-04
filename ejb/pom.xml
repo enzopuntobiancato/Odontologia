@@ -39,6 +39,19 @@
         </license>
     </licenses>
 
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>codehaus</id>-->
+            <!--<url>http://repository.codehaus.org/org/codehaus</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+
     <dependencies>
 
         <!-- Declare the APIs we depend on and need for compilation. All of 
@@ -117,6 +130,15 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.6.1</version>
         </dependency>
+
+        <!--FOR MAPPING JSON-->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.6.4</version>
+            <scope>compile</scope>
+        </dependency>
+
 
     </dependencies>
 
