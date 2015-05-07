@@ -2,15 +2,10 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.EntityBase;
-import com.utn.tesis.model.Materia;
-import com.utn.tesis.util.Collections;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.lang.reflect.ParameterizedType;
-import java.util.List;
 
 
 public abstract class DaoBase<E extends EntityBase> {
@@ -52,8 +47,9 @@ public abstract class DaoBase<E extends EntityBase> {
 
     public JPAQuery paginar(JPAQuery query, Long page, Long pageSize) {
         if(query != null){
-        query.offset(page != null ? (page*(pageSize != null ? pageSize : 5)) : 0);
-        query.limit(pageSize != null ? pageSize : 5);
+        pageSize = pageSize != null ? pageSize : 5;
+        query.offset(page != null ? (page*(pageSize)) : 0);
+        query.limit(pageSize + 1);
         }
         return query;
     }

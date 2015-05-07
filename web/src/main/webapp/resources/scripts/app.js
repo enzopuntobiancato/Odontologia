@@ -2,7 +2,8 @@ var odontologiaApp = angular.module('odontologiaApp', [
 //  'ngAnimate',
     'ui.router',
     'oc.lazyLoad',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'Pagination'
 //  'appInterceptorHttp',
 //  'moduleHttpService'
 ]);
@@ -11,10 +12,11 @@ var odontologiaApp = angular.module('odontologiaApp', [
 odontologiaApp.config(['$urlRouterProvider',
     '$stateProvider',
     '$ocLazyLoadProvider',
-//    '$httpProvider', 
+//    '$httpProvider',
     function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider
               //        $httpProvider
         ) {
+
 
 //para convertir las fechas
 //    $httpProvider.defaults.transformResponse.push(function (responseData) {
@@ -90,7 +92,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('materia.index', {
                 url: '/',
-                templateUrl: 'views/materia/index.html',
+                templateUrl: 'views/materia/query.html',
                 controller: 'MateriaCtrl_Index',
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
@@ -121,6 +123,23 @@ odontologiaApp.config(['$urlRouterProvider',
                     }]
 
                 }
+            })
+            .state('materia.view', {
+                url: '/view/:id',
+                templateUrl: 'views/materia/view.html',
+                resolve: {
+                    materiaResponse: ['$stateParams', 'MateriaSrv', function ($stateParams, service) {
+                        return service.findById($stateParams.id);
+                    }]
+                },
+                controller: function($scope, $state, materiaResponse) {
+                    $scope.materia = materiaResponse.data;
+
+                    $scope.goIndex = function() {
+                        $state.go('^.index');
+                    }
+                }
+
             })
             .state('catedra', {
                 url: '/catedra',
@@ -298,6 +317,8 @@ odontologiaApp.
                 callback: function (result) {
                     if (result != null) {
                         deferred.resolve(result);
+                    } else {
+                        deferred.reject();
                     }
                 }
             }

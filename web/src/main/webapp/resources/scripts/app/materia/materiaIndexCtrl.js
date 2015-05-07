@@ -1,7 +1,7 @@
 var module = angular.module('materiaModule');
 
 
-module.controller('MateriaCtrl_Index', ['$scope', '$document', '$cacheFactory', 'MateriaSrv', '$state', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', function ($scope, $document, $cacheFactory, service, $state, notification, commons, nivelesResponse) {
+module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', '$state', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', 'PaginationService', function ($scope, $cacheFactory, service, $state, notification, commons, nivelesResponse, pagination) {
 
     $scope.filter = {};
     $scope.result = [];
@@ -13,13 +13,34 @@ module.controller('MateriaCtrl_Index', ['$scope', '$document', '$cacheFactory', 
         showDadosBaja: false
     }
 
-    $scope.consultar = function () {
+    var params = {
+        nombre: $scope.filter.nombre,
+        nivel: $scope.filter.nivel,
+        dadosBaja: $scope.filter.dadosBaja
+    }
+    pagination.config('api/materia/find', params);
+
+    $scope.paginationData = pagination.paginationData;
+
+    function executeQuery(pageNumber) {
         notification.showWidget();
-        service.find($scope.filter.nombre, $scope.filter.nivel, $scope.filter.dadosBaja).success(function (data) {
+        pagination.paginate(pageNumber).then(function(data){
             notification.hideWidget();
             $scope.result = data;
             $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
-        })
+            $scope.paginationData = pagination.getPaginationData();
+        }, function(){notification.hideWidget();});
+    }
+
+    $scope.consultar = function () {
+         executeQuery();
+    }
+
+    $scope.nextPage = function(){
+       executeQuery(++$scope.paginationData.pageNumber);
+    }
+    $scope.previousPage = function() {
+        executeQuery(--$scope.paginationData.pageNumber);
     }
 
     $scope.new = function () {
@@ -71,6 +92,11 @@ module.controller('MateriaCtrl_Index', ['$scope', '$document', '$cacheFactory', 
 
     $scope.edit = function (materiaId) {
         $state.go('^.edit', {id: materiaId});
+
+    }
+
+    $scope.viewDetail = function (materiaId) {
+        $state.go('^.view', {id: materiaId});
 
     }
 
