@@ -76,10 +76,10 @@
                             <td>{{item.nivel}}</td>
                             <td ng-if="aux.showDadosBaja">{{item.fechaBaja | date:'dd/MM/yyyy'}}</td>
                             <td>
-                                <button ng-if="!item.fechaBaja" ng-click="edit(item.id)" title="Editar" class="btn-link"><i class="fa fa-pencil-square-o"></i></button>
+                                <button ng-show="!item.fechaBaja" ng-click="edit(item.id)" title="Editar" class="btn-link"><i class="fa fa-pencil-square-o"></i></button>
                                 <button title="Ver detalle" ng-click="viewDetail(item.id)" class="btn-link"><i class="fa fa-list-alt"></i></button>
-                                <button ng-if="!item.fechaBaja" title="Eliminar" ng-click="darDeBaja(item.id)" class="btn-link"><i class="fa fa-eraser"></i></button>
-                                <button ng-if="item.fechaBaja" title="Restaurar" ng-click="darDeAlta(item.id)" class="btn-link"><i class="fa fa-undo"></i></button>
+                                <button ng-show="!item.fechaBaja" title="Eliminar" ng-click="darDeBaja(item.id)" class="btn-link"><i class="fa fa-eraser"></i></button>
+                                <button ng-show="item.fechaBaja" title="Restaurar" ng-click="darDeAlta(item.id)" class="btn-link"><i class="fa fa-undo"></i></button>
                             </td>
                         </tr>
                         <tr ng-show="result.length == 0">
@@ -87,13 +87,22 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="table-pagination" ng-show="result.length > 0">
-                        <ul class="pager">
-                            <li class="previous" ng-class="{'disabled': paginationData.firstPage}">
+                    <!--<div class="table-pagination" ng-show="result.length > 0">-->
+                        <!--<ul class="pager">-->
+                            <!--<li class="previous" ng-class="{'disabled': paginationData.firstPage}">-->
+                                <!--<a title="Página anterior" ng-click="previousPage()" href=""><i class="fa fa-arrow-circle-left fa-lg"></i></a></li>-->
+                            <!--<li class="next" ng-class="{'disabled': !paginationData.morePages}">-->
+                                <!--<a title="Página siguiente" ng-click="nextPage()" href=""> <i class="fa fa-arrow-circle-right fa-lg"></i></a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <div class="text-center" ng-show="result.length > 0">
+                        <ul class="pagination">
+                            <li ng-class="{'disabled': paginationData.firstPage}">
                                 <a title="Página anterior" ng-click="previousPage()" href=""><i class="fa fa-arrow-circle-left fa-lg"></i></a></li>
+                            <li class="active"><a>Página {{paginationData.pageNumber + 1}}</a></li>
                             <li class="next" ng-class="{'disabled': !paginationData.morePages}">
-                                <a title="Página siguiente" ng-click="nextPage()" href=""> <i class="fa fa-arrow-circle-right fa-lg"></i></a>
-                            </li>
+                                <a title="Página siguiente" ng-click="nextPage()" href=""> <i class="fa fa-arrow-circle-right fa-lg"></i></a></li>
                         </ul>
                     </div>
                 </fieldset>

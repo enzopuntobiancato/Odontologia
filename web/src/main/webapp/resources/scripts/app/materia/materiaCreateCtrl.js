@@ -6,7 +6,8 @@ module.controller('MateriaCtrl_Create', ['$scope', 'MateriaSrv', '$state', 'Noti
 
     $scope.data = {
         disableFields: false,
-        niveles: commons.enumToJson(nivelesResponse.data)
+        niveles: commons.enumToJson(nivelesResponse.data),
+        persistedOperation: false
     }
 
     $scope.save = function()
@@ -14,6 +15,7 @@ module.controller('MateriaCtrl_Create', ['$scope', 'MateriaSrv', '$state', 'Noti
             notification.showWidget();
             service.save($scope.materia)
                 .success(function(data) {
+                $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 notification.hideWidget();
                 notification.good("Registro realizado con éxito. ", function(){});
@@ -25,7 +27,7 @@ module.controller('MateriaCtrl_Create', ['$scope', 'MateriaSrv', '$state', 'Noti
     }
 
     $scope.goIndex = function() {
-         $state.go('^.index');
+         $state.go('^.index', {execQuery: $scope.data.persistedOperation});
     }
 
     $scope.reload = function() {

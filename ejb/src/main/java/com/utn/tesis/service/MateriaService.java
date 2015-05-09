@@ -27,6 +27,7 @@ public class MateriaService extends BaseService<Materia> {
 
     @Override
     public Materia create(Materia entity) throws SAPOException {
+        // TODO: Validar que no exista una materia con el mismo nombre.
         validate(entity, validator);
         return dao.save(entity);
     }
@@ -49,16 +50,6 @@ public class MateriaService extends BaseService<Materia> {
         materia.darDeAlta();
         dao.update(materia);
     }
-
-//    @Override
-//    public void bussinessValidation(Materia entity) throws SAPOValidationException {
-//        //To change body of implemented methods use File | Settings | File Templates.
-////        HashMap<String, String> vals = new HashMap<String, String>();
-////        vals.put("regla1", "No se cumplio la regla 1");
-////        SAPOValidationException ex = new SAPOValidationException(vals);
-////        throw ex;
-//
-//    }
 
     public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja, Long page, Long pageSize) {
         return dao.findByFilters(nombre, nivel, dadosBaja, page, pageSize);

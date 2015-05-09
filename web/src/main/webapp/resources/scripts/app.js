@@ -94,6 +94,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/',
                 templateUrl: 'views/materia/query.html',
                 controller: 'MateriaCtrl_Index',
+                params: {execQuery:false, execQuerySamePage:false},
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();

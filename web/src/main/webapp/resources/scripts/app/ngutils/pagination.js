@@ -21,19 +21,18 @@ var pagination = angular.module('Pagination',[]);
 
         service.config = function(url, params, pageSize) {
             service.url = url;
-            service.params = params;
             service.paginationData.pageSize = pageSize || service.paginationData.pageSize;
         }
 
-        service.paginate = function(pageNumber) {
+        service.paginate = function(params, pageNumber) {
             var deferred = $q.defer();
             service.paginationData.pageNumber = pageNumber || 0;
-            service.params.pageNumber = service.paginationData.pageNumber;
-            service.params.pageSize = service.paginationData.pageSize;
+            params.pageNumber = service.paginationData.pageNumber;
+            params.pageSize = service.paginationData.pageSize;
             $http({
                 url: service.url,
                 method: 'GET',
-                params: service.params
+                params: params
             })
                 .success(function(data) {
                     if (data.length > service.paginationData.pageSize) {

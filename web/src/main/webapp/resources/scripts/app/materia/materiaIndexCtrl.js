@@ -1,7 +1,7 @@
 var module = angular.module('materiaModule');
 
 
-module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', '$state', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', 'PaginationService', function ($scope, $cacheFactory, service, $state, notification, commons, nivelesResponse, pagination) {
+module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', '$state', '$stateParams', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', 'PaginationService', function ($scope, $cacheFactory, service, $state, $stateParams, notification, commons, nivelesResponse, pagination) {
 
     $scope.filter = {};
     $scope.result = [];
@@ -24,7 +24,7 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
 
     function executeQuery(pageNumber) {
         notification.showWidget();
-        pagination.paginate(pageNumber).then(function(data){
+        pagination.paginate($scope.filter, pageNumber).then(function(data){
             notification.hideWidget();
             $scope.result = data;
             $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
@@ -54,9 +54,9 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
                 service.remove(materiaId, motivo).success(function (response) {
                     notification.hideWidget();
                     notification.goodAndOnEscape("Materia dada de baja correctamente.", function () {
-                        $scope.consultar()
+                        executeQuery($scope.paginationData.pageNumber);
                     }, function () {
-                        $scope.consultar()
+                        executeQuery($scope.paginationData.pageNumber);
                     })
                 })
                     .error(function (response) {
@@ -79,9 +79,9 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
                 .success(function () {
                     notification.hideWidget();
                     notification.goodAndOnEscape("Materia dada de alta correctamente.", function () {
-                        $scope.consultar()
+                        executeQuery($scope.paginationData.pageNumber);
                     }, function () {
-                        $scope.consultar()
+                        executeQuery($scope.paginationData.pageNumber);
                     })
                 })
                 .error(function () {
@@ -134,7 +134,15 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
     $scope.$on('$stateChangeSuccess',
         function (event, toState, toParams, fromState, fromParams) {
             if (fromState.name.startsWith('materia')) {
-                getCachedData();
+                if (toParams.execQuery) {
+                   executeQuery();
+                } else if (toParams.execQuerySamePage){
+                   getCachedData();
+                   executeQuery($scope.paginationData.pageNumber)
+                } else {
+                    getCachedData();
+                }
+
             }
 
         })
