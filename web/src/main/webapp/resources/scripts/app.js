@@ -142,6 +142,47 @@ odontologiaApp.config(['$urlRouterProvider',
                 }
 
             })
+            .state('practicaOdontologica', {
+                url: '/practicaOdontologica',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('practicaOdontologicaModule')
+            })
+            .state('practicaOdontologica.index', {
+                url: '/',
+                templateUrl: 'views/practicaOdontologica/query.html',
+                params: {execQuery:false, execQuerySamePage:false},
+                controller: 'PracticaOdontologicaCtrl_Index',
+                resolve: {
+                    gruposPracticaResponse: ['CommonsSrv', function(commons){
+                        return commons.getGruposPractica();
+
+                    }]
+                }
+            })
+            .state('practicaOdontologica.create', {
+                url: '/create',
+                templateUrl: 'views/practicaOdontologica/create.html',
+                controller: 'PracticaOdontologicaCtrl_Create',
+                resolve: {
+                    gruposPracticaResponse: ['CommonsSrv', function(commons){
+                        return commons.getGruposPractica();
+                    }]
+                }
+            })
+            .state('practicaOdontologica.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/practicaOdontologica/edit.html',
+                controller: 'PracticaOdontologicaCtrl_Edit',
+                resolve: {
+                    gruposPracticaResponse: ['CommonsSrv', function(commons){
+                        return commons.getGruposPractica();
+                    }],
+                    practicaResponse: ['PracticaOdontologicaSrv','$stateParams', function(service, $stateParams){
+                        return service.findById($stateParams.id);
+                    }]
+                }
+            })
             .state('catedra', {
                 url: '/catedra',
                 template: '<ui-view/>',
@@ -177,6 +218,15 @@ odontologiaApp.config(['$urlRouterProvider',
                         url('/materia/materiaEditCtrl.js')]
                 },
                 {
+                    name: 'practicaOdontologicaModule',
+                    files: [
+                        url('/practicaOdontologica/practicaOdontologicaSrv.js'),
+                        url('/practicaOdontologica/practicaOdontologicaIndexCtrl.js'),
+                        url('/practicaOdontologica/practicaOdontologicaCreateCtrl.js'),
+                        url('/practicaOdontologica/practicaOdontologicaEditCtrl.js')
+                    ]
+                },
+                {
                     name: 'catedraModule',
                     files: [url('/catedra/catedraCreateCtrl.js'),
                         url('/catedra/catedraSrv.js')]
@@ -188,6 +238,7 @@ odontologiaApp.config(['$urlRouterProvider',
 
 angular.module('homeModule', []);
 angular.module('materiaModule', []);
+angular.module('practicaOdontologicaModule', []);
 angular.module('catedraModule', []);
 
 
@@ -241,7 +292,7 @@ odontologiaApp
     })
 
 odontologiaApp.
-    factory('NotificationSrv', ['$q', function ($q) {
+    factory('NotificationSrv', ['$q', '$location','$anchorScroll', function ($q, $location, $anchorScroll) {
 
         var service = {};
 
@@ -381,6 +432,14 @@ odontologiaApp.factory('CommonsSrv', ['$http', function ($http) {
         })
     }
 
+    service.getGruposPractica = function(){
+        return $http({
+            url: 'api/commons/getGruposPracticaOdontologica',
+            method: 'GET',
+            cache: true
+        })
+    }
+
     return service;
 }])
 
@@ -414,7 +473,7 @@ var submitValidate = ['$parse', '$location', '$anchorScroll', function ($parse, 
                     scope.showSummaryError = false;
                     fn(scope, {$event: event});
                 });
-            })
+            });
         }
 
     };

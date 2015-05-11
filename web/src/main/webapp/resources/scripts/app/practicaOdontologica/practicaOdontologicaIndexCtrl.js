@@ -1,19 +1,19 @@
-var module = angular.module('materiaModule');
+var module = angular.module('practicaOdontologicaModule');
 
 
-module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', '$state', '$stateParams', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', 'PaginationService', function ($scope, $cacheFactory, service, $state, $stateParams, notification, commons, nivelesResponse, pagination) {
+module.controller('PracticaOdontologicaCtrl_Index', ['$scope','$cacheFactory', 'PracticaOdontologicaSrv', '$state', '$stateParams', 'NotificationSrv', 'CommonsSrv', 'gruposPracticaResponse', 'PaginationService', function ($scope, $cacheFactory, service, $state, $stateParams, notification, commons, gruposPracticaResponse, pagination) {
 
     $scope.filter = {};
     $scope.result = [];
-    $scope.niveles = commons.enumToJson(nivelesResponse.data);
+    $scope.gruposPractica = gruposPracticaResponse.data;
 
-    var cache = $cacheFactory.get('materiaIndexCache') || $cacheFactory('materiaIndexCache');
+    var cache = $cacheFactory.get('practicaIndexCache') || $cacheFactory('practicaIndexCache');
 
     $scope.aux = {
         showDadosBaja: false
     }
 
-    pagination.config('api/materia/find');
+    pagination.config('api/practicaOdontologica/find');
 
     $scope.paginationData = pagination.paginationData;
 
@@ -28,11 +28,11 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
     }
 
     $scope.consultar = function () {
-         executeQuery();
+        executeQuery();
     }
 
     $scope.nextPage = function(){
-       executeQuery(++$scope.paginationData.pageNumber);
+        executeQuery(++$scope.paginationData.pageNumber);
     }
     $scope.previousPage = function() {
         executeQuery(--$scope.paginationData.pageNumber);
@@ -42,13 +42,13 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
         $state.go('^.create');
     }
 
-    $scope.darDeBaja = function (materiaId) {
+    $scope.darDeBaja = function (practicaId) {
         notification.requestReason().then(function (motivo) {
             if (motivo != null) {
                 notification.showWidget();
-                service.remove(materiaId, motivo).success(function (response) {
+                service.remove(practicaId, motivo).success(function (response) {
                     notification.hideWidget();
-                    notification.goodAndOnEscape("Materia dada de baja correctamente.", function () {
+                    notification.goodAndOnEscape("Práctica dada de baja correctamente.", function () {
                         executeQuery($scope.paginationData.pageNumber);
                     }, function () {
                         executeQuery($scope.paginationData.pageNumber);
@@ -63,17 +63,17 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
         });
     }
 
-    $scope.darDeAlta = function (materiaId) {
+    $scope.darDeAlta = function (practicaId) {
         notification.requestConfirmation("¿Está seguro?", function () {
-            altaConfirmada(materiaId)
+            altaConfirmada(practicaId)
         });
 
-        function altaConfirmada(materiaId) {
+        function altaConfirmada(practicaId) {
             notification.showWidget();
-            service.restore(materiaId)
+            service.restore(practicaId)
                 .success(function () {
                     notification.hideWidget();
-                    notification.goodAndOnEscape("Materia dada de alta correctamente.", function () {
+                    notification.goodAndOnEscape("Práctica odontológica dada de alta correctamente.", function () {
                         executeQuery($scope.paginationData.pageNumber);
                     }, function () {
                         executeQuery($scope.paginationData.pageNumber);
@@ -89,11 +89,10 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
         $state.go('^.edit', {id: materiaId});
 
     }
-
-    $scope.viewDetail = function (materiaId) {
-        $state.go('^.view', {id: materiaId});
-
-    }
+//
+//    $scope.viewDetail = function (materiaId) {
+//        $state.go('^.view', {id: materiaId});
+//    }
 
     $scope.cleanFilters = function () {
         $scope.filter = {};
@@ -118,7 +117,7 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
 
     $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {
-            if (toState.name.startsWith('materia')) {
+            if (toState.name.startsWith('practicaOdontologica')) {
                 cacheData();
             } else {
                 cache.put('data', null);
@@ -128,12 +127,12 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
 
     $scope.$on('$stateChangeSuccess',
         function (event, toState, toParams, fromState, fromParams) {
-            if (fromState.name.startsWith('materia')) {
+            if (fromState.name.startsWith('practicaOdontologica')) {
                 if (toParams.execQuery) {
-                   executeQuery();
+                    executeQuery();
                 } else if (toParams.execQuerySamePage){
-                   getCachedData();
-                   executeQuery($scope.paginationData.pageNumber)
+                    getCachedData();
+                    executeQuery($scope.paginationData.pageNumber)
                 } else {
                     getCachedData();
                 }

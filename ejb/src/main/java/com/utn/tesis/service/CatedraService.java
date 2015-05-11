@@ -2,8 +2,8 @@ package com.utn.tesis.service;
 
 
 import com.utn.tesis.data.daos.CatedraDao;
+import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.Catedra;
 import com.utn.tesis.model.DiaHorario;
 
@@ -24,8 +24,13 @@ public class CatedraService extends BaseService<Catedra>{
     @Inject DiaHorarioService diaHorarioService;
 
     @Override
-    public Catedra findById(Long idEntity) {
-        return dao.findById(idEntity);
+    DaoBase<Catedra> getDao() {
+        return dao;
+    }
+
+    @Override
+    Validator getValidator() {
+        return validator;
     }
 
     @Override
@@ -40,14 +45,4 @@ public class CatedraService extends BaseService<Catedra>{
         return dao.create(entity);
     }
 
-    @Override
-    public void update(Catedra entity) throws SAPOException {
-        validate(entity, validator);
-        dao.update(entity);
-    }
-
-//    @Override
-//    public void bussinessValidation(Catedra entity) throws SAPOValidationException {
-//        //To change body of implemented methods use File | Settings | File Templates.
-//    }
 }

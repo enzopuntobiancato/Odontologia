@@ -1,9 +1,8 @@
 package com.utn.tesis.service;
 
 
+import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.DiaHorarioDao;
-import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.DiaHorario;
 
 import javax.ejb.Stateless;
@@ -20,24 +19,13 @@ public class DiaHorarioService extends BaseService<DiaHorario> {
     Validator validator;
 
     @Override
-    public DiaHorario findById(Long idEntity) {
-        return dao.findById(idEntity);
+    DaoBase<DiaHorario> getDao() {
+        return dao;
     }
 
     @Override
-    public DiaHorario create(DiaHorario entity) throws SAPOException {
-        validate(entity, validator);
-        return dao.create(entity);
+    Validator getValidator() {
+        return validator;
     }
 
-    @Override
-    public void update(DiaHorario entity) throws SAPOException {
-        validate(entity, validator);
-        dao.update(entity);
-    }
-//
-//    @Override
-//    public void bussinessValidation(DiaHorario entity) throws SAPOValidationException {
-//        //To change body of implemented methods use File | Settings | File Templates.
-//    }
 }

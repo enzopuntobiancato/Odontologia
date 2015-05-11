@@ -2,12 +2,10 @@ package com.utn.tesis.api.commons;
 
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
-import com.utn.tesis.model.EntityBase;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -19,7 +17,6 @@ import java.util.logging.Logger;
  * User: Enzo
  * Date: 15/02/15
  * Time: 17:07
- * To change this template use File | Settings | File Templates.
  */
 public abstract class BaseAPI {
 
@@ -59,6 +56,6 @@ public abstract class BaseAPI {
             responseObj.put(violation.getPropertyPath().toString(), violation.getMessage());
         }
 
-        return Response.status(Response.Status.NOT_ACCEPTABLE).entity(responseObj);
+        return Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
     }
 }

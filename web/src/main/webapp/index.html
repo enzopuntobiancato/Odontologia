@@ -4,9 +4,6 @@
     <meta charset="utf-8">
     <title>SIGEPO</title>
     <link rel="stylesheet" href="resources/css/bootstrap/bootstrap.css"/>
-    <!--<link rel="stylesheet" href="resources/css/bootstrap/bootstrap-theme.css"/>-->
-    <!--<link rel="stylesheet" href="resources/css/bootstrap/jquery-ui.min.css"/>-->
-    <!--<link rel="stylesheet" href="resources/css/bootstrap/jquery-ui.theme.min.css"/>-->
     <link rel="stylesheet" href="resources/css/font-awesome-4.3.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="resources/css/bootstrap/roboto.css"/>
     <link rel="stylesheet" href="resources/css/bootstrap/material.css"/>
@@ -29,18 +26,8 @@
             <ul class="nav navbar-nav">
                 <li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
                 <li><a ui-sref="materia.index"><i class="fa fa-shield"></i> Materia</a></li>
+                <li><a ui-sref="practicaOdontologica.index"><i class="fa fa-shield"></i> Práctica odontológica</a></li>
                 <li><a ui-sref="catedra.create">Cátedra</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuario
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Cerrar sesión</a></li>
-                    </ul>
-                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -61,12 +48,6 @@
 <div id="container" class="container wrapper" ng-controller="AppController">
     <div id="page-content" ui-view></div>
 </div>
-<!-- FOOTER -->
-<!--<div class="navbar navbar-default navbar-static footer">-->
-<!--<div class="container">-->
-<!--<p class="navbar-text pull-left">Todos los derechos reservados 2013-2014</p>-->
-<!--</div>-->
-<!--</div>-->
 
 <script type="text/javascript" src="resources/scripts/lib/bootstrap/jquery-2.1.3.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/bootstrap/jquery-ui.js"></script>
@@ -79,17 +60,12 @@
 <script type="text/javascript" src="resources/scripts/lib/bootstrap/material.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/angular/i18n/angular-locale_es-es.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/angular/ui-bootstrap-tpls-0.12.0.min.js"></script>
+
+<!--OURS JS-->
 <script type="text/javascript" src="resources/scripts/commons.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/pagination.js"></script>
 <script type="text/javascript" src="resources/scripts/app.js"></script>
 
-
-<script>
-    $(document).ready(function() {
-        // This command is used to initialize some elements and make them work properly
-        $.material.init();
-    });
-</script>
 
 </body>
 </html>

@@ -9,20 +9,20 @@ var pagination = angular.module('Pagination',[]);
             pageSize: 5,
             morePages: false,
             firstPage: true
-        }
+        };
 
         service.isFirstPage = function() {
             return service.paginationData.pageNumber == 0;
-        }
+        };
 
         service.hasMorePages = function () {
             return service.paginationData.morePages;
-        }
+        };
 
-        service.config = function(url, params, pageSize) {
+        service.config = function(url, pageSize) {
             service.url = url;
             service.paginationData.pageSize = pageSize || service.paginationData.pageSize;
-        }
+        };
 
         service.paginate = function(params, pageNumber) {
             var deferred = $q.defer();
@@ -45,20 +45,20 @@ var pagination = angular.module('Pagination',[]);
                 })
                 .error(function() {
                     deferred.reject();
-                })
+                });
 
             return deferred.promise;
-        }
+        };
 
         function setPaginationData(morePages) {
             service.paginationData.morePages = morePages;
             service.paginationData.firstPage = service.isFirstPage();
-        }
+        };
 
         service.getPaginationData = function()
         {
             return service.paginationData;
-        }
+        };
 
         return service;
 

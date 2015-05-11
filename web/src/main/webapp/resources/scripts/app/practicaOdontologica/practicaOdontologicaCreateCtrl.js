@@ -1,26 +1,30 @@
-var module = angular.module('materiaModule');
+var module = angular.module('practicaOdontologicaModule');
 
 
-module.controller('MateriaCtrl_Edit', ['$scope', '$rootScope', 'MateriaSrv', '$state', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', 'materiaResponse', function ($scope,$rootScope, service, $state, notification, commons, nivelesResponse, materiaResponse) {
-    $scope.materia = materiaResponse.data;
+module.controller('PracticaOdontologicaCtrl_Create', ['$scope', '$rootScope', 'PracticaOdontologicaSrv', '$state', 'NotificationSrv', 'gruposPracticaResponse', '$filter', function ($scope, $rootScope, service, $state, notification, gruposPracticaResponse, $filter) {
+    $scope.practica = {}
 
     $scope.data = {
         disableFields: false,
-        niveles: commons.enumToJson(nivelesResponse.data),
-        persistedOperation: false,
+        gruposPractica: gruposPracticaResponse.data,
+        persistedOperation: $rootScope.persistedOperation || false,
         saved: false
     }
 
     $scope.save = function()
     {
         notification.showWidget();
-        service.save($scope.materia)
+        $scope.practica.grupo = $filter('filter')($scope.data.gruposPractica, function(value) {
+            return value.id == $scope.practica.grupoId;
+        })[0];
+
+        service.save($scope.practica)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
+                notification.scrollTo('container');
                 notification.hideWidget();
-//                notification.good("Cambios guardados con éxito. ", function(){});
             })
             .error(function (data) {
                 notification.hideWidget();
@@ -29,10 +33,11 @@ module.controller('MateriaCtrl_Edit', ['$scope', '$rootScope', 'MateriaSrv', '$s
     }
 
     $scope.goIndex = function() {
-        $state.go('^.index', {execQuery: false, execQuerySamePage: $scope.data.persistedOperation});
+        $state.go('^.index', {execQuery: $scope.data.persistedOperation});
     }
 
     $scope.reload = function() {
+        $rootScope.persistedOperation = $scope.data.persistedOperation;
         $state.go($state.current, {}, {reload: true});
     }
 
@@ -42,5 +47,6 @@ module.controller('MateriaCtrl_Edit', ['$scope', '$rootScope', 'MateriaSrv', '$s
                 delete $rootScope.persistedOperation;
             }
         });
+
 
 }]);

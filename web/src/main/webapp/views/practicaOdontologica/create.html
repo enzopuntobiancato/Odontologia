@@ -2,41 +2,41 @@
     <div class="panel-body">
         <div class="page-header">
             <div class="input-group">
-                <h2>Materia
-                    <small>Editar</small>
+                <h2>Práctica odontológica
+                    <small>Crear</small>
                 </h2>
                 <div class="input-group-btn">
-                    <input ng-show="data.disableFields" type="button" ng-click="reload()" class="btn btn-primary btn-lg"
-                           value="Reeditar"/>
+                    <input ng-show="data.disableFields" type="button" ng-click="reload()" class="btn btn-success btn-lg"
+                           value="Nuevo"/>
                 </div>
             </div>
         </div>
 
         <div class="row-fluid">
             <div ng-if="data.saved" class="alert alert-success">
-                <i class="fa fa-check-circle-o fa-lg"></i> <strong> ¡Éxito!</strong> Cambios guardados correctamente.
+                <i class="fa fa-check-circle-o fa-lg"></i> <strong> ¡Éxito!</strong> Práctica odontológica guardada correctamente.
             </div>
         </div>
 
-        <summary-error var="showSummaryError"></summary-error>
+        <summary-error var="showSummaryError && createPracticaForm.$invalid"></summary-error>
 
-        <form novalidate submit-validate="save()" name="editMateriaForm">
+        <form novalidate submit-validate="save()" name="createPracticaForm">
             <div class="row-fluid">
                 <div class="col-lg-8">
                     <div class="form-group" show-errors>
-                        <label>Nombre</label>
-                        <input ng-disabled="data.disableFields" name="nombre" ng-model="materia.nombre"
+                        <label>Denominación</label>
+                        <input ng-disabled="data.disableFields" name="denominacion" ng-model="practica.denominacion"
                                class="form-control"
-                               type="text" maxlength="50" required/>
-                        <span class="help-block" for="nombre"></span>
+                               type="text" maxlength="75" required/>
+                        <span class="help-block" for="denominacion"></span>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group" show-errors>
-                        <label>Nivel</label>
-                        <select ng-disabled="data.disableFields" name="nivel" class="form-control"
-                                ng-model="materia.nivel"
-                                ng-options="item.nombre as item.nombre for item in data.niveles" required>
+                        <label>Grupo</label>
+                        <select ng-disabled="data.disableFields" name="grupo" class="form-control"
+                                ng-model="practica.grupoId"
+                                ng-options="item.id as item.nombre for item in data.gruposPractica" required>
                             <option value="">Seleccione</option>
                         </select>
                         <span class="help-block" for="nivel"></span>
@@ -46,9 +46,9 @@
             <div class="row-fluid">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>Descripción</label>
-                        <textarea ng-disabled="data.disableFields" ng-model="materia.descripcion"
-                                  class="form-control" rows="2" maxlength="400"></textarea>
+                        <label>Observaciones</label>
+                        <textarea ng-disabled="data.disableFields" ng-model="practica.observaciones"
+                                  class="form-control" rows="2" maxlength="200"></textarea>
                     </div>
                 </div>
             </div>

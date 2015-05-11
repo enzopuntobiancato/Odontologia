@@ -12,7 +12,13 @@
             </div>
         </div>
 
-        <summary-error var="showSummaryError"></summary-error>
+        <div class="row-fluid">
+            <div ng-if="data.saved" class="alert alert-success">
+                <i class="fa fa-check-circle-o fa-lg"></i> <strong> ¡Éxito!</strong> Materia guardada correctamente.
+            </div>
+        </div>
+
+        <summary-error var="showSummaryError && createMateriaForm.$invalid"></summary-error>
 
         <form novalidate submit-validate="save()" name="createMateriaForm">
             <div class="row-fluid">

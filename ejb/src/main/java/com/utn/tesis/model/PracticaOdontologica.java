@@ -3,22 +3,25 @@ package com.utn.tesis.model;
 import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class PracticaOdontologica extends EntityBase {
+public class PracticaOdontologica extends Bajeable {
 
 
-    @NotNull(message = "El nombre de la practica no puede ser nulo.")
-    @Size(max = 75, message = "El nombre de la practica debe tener entre 0 y 75 caracteres.")
+    @NotNull(message = "El nombre de la práctica no puede ser nulo.")
+    @Size(max = 75, message = "El nombre de la práctica debe tener entre 0 y 75 caracteres.")
     private String denominacion;
 
-    @Size(max = 200, message = "La observacion de la practica debe tener entre 0 y 200 caracteres.")
+    @Size(max = 200, message = "La observación de la práctica debe tener entre 0 y 200 caracteres.")
     private String observaciones;
 
-    @NotNull(message = "El grupo al cual pertenece la practica no puede ser nulo.")
+    @ManyToOne
+    @JoinColumn(name = "grupoId")
+    @NotNull(message = "El grupo al cual pertenece la práctica no puede ser nulo.")
     private GrupoPracticaOdontologica grupo;
 
     public String getDenominacion() {

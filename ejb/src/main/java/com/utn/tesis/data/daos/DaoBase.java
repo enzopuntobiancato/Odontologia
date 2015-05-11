@@ -5,7 +5,9 @@ import com.utn.tesis.model.EntityBase;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 
 public abstract class DaoBase<E extends EntityBase> {
@@ -53,6 +55,14 @@ public abstract class DaoBase<E extends EntityBase> {
         }
         return query;
     }
+
+    public List<E> findAll() {
+        String q = "SELECT e FROM "+ getGenericParamater().getSimpleName() + " e";
+        Query query = em.createQuery(q);
+        List<E> result = query.getResultList();
+        return result;
+    }
+
      /**
     public List<E> findAll() {
         String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();

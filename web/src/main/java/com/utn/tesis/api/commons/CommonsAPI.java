@@ -1,6 +1,7 @@
 package com.utn.tesis.api.commons;
 
 import com.utn.tesis.model.Dia;
+import com.utn.tesis.model.GrupoPracticaOdontologica;
 import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 import com.utn.tesis.service.CommonsService;
@@ -43,5 +44,12 @@ public class CommonsAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Dia> findAllDias() {
         return commonsService.findAllDias();
+    }
+
+    @Path("/getGruposPracticaOdontologica")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<GrupoPracticaOdontologica> findAllGruposPracticaOdontologica() {
+        return commonsService.findAllGruposPracticaOdontologica();
     }
 }

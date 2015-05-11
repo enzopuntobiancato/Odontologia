@@ -17,5 +17,16 @@
 
 -- You can use this file to load seed data into the database using SQL statements
 
+insert into GrupoPracticaOdontologica(id, version, nombre) values (1, 0, 'CONSULTAS');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (2, 0, 'OPERATORIA DENTAL');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (3, 0, 'ENDODONCIA SIN OBTURACIÓN');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (4, 0, 'PRÓTESIS');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (5, 0, 'ODONTOLOGÍA PREVENTIVA');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (6, 0, 'ORTODONCIA Y ORTOPEDIA FUNCIONAL');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (7, 0, 'ODONTOPEDIATRÍA');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (8, 0, 'PERIODONCIA');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (9, 0, 'RADIOLOGÍA');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (10, 0, 'CIRUGÍA BUCAL');
+
 -- insert into Materia(id, nombre, descripcion, nivel) values (1, 'Prostodoncia', 'lalalalal', 'PRIMERO');
 -- insert into Materia(id, nombre, descripcion, nivel) values (2, 'Endodoncia', 'lalalalal', 'PRIMERO');

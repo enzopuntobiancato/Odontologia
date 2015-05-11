@@ -1,7 +1,6 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.utn.tesis.model.Bajeable;
 import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 import com.utn.tesis.model.QMateria;
@@ -31,5 +30,15 @@ public class MateriaDao extends DaoBase<Materia> {
         Query query = em.createQuery(q);
         List<Materia> result = query.getResultList();
         return result;
+    }
+
+    public Materia findByNombre(String nombre) {
+        QMateria materia = QMateria.materia;
+
+        JPAQuery query = new JPAQuery(em).from(materia);
+        query.where(materia.nombre.equalsIgnoreCase(nombre));
+
+        List<Materia> result = query.list(materia);
+        return result.isEmpty() ? null : result.get(0);
     }
 }

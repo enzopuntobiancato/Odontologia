@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
  * User: Enzo
  * Date: 10/02/15
  * Time: 21:10
- * To change this template use File | Settings | File Templates.
  */
 
 @Entity
@@ -31,9 +30,6 @@ public class Materia extends Bajeable  {
 
     @Size(max = 400)
     private String descripcion;
-
-//    @OneToMany(targetEntity = Catedra.class, mappedBy = "materia")
-//    private List<Catedra> catedras;
 
     public String getNombre() {
         return nombre;

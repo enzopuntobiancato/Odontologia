@@ -3,12 +3,14 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.model.Bajeable;
 import com.utn.tesis.model.EntityBase;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,18 +20,44 @@ import java.util.logging.Logger;
  */
 public abstract class BaseService<T extends EntityBase> {
 
-    private DaoBase<T> daoBase;
+    abstract DaoBase<T> getDao();
+    abstract Validator getValidator();
 
-    public abstract T findById(Long idEntity);
+    public T findById(Long id) {
+        return getDao().findById(id);
+    }
 
-    public abstract T create(T entity) throws SAPOException;
+    public T create(T entity) throws SAPOException {
+        validate(entity, getValidator());
+        return getDao().create(entity);
+    }
 
-    public abstract void update(T entity) throws SAPOException;
+    public void update(T entity) throws SAPOException {
+        validate(entity, getValidator());
+        getDao().update(entity);
+    }
+
+    public T remove(Long id, String motivoBaja) throws SAPOException {
+        T entity = getDao().findById(id);
+        ((Bajeable)entity).darDeBaja(motivoBaja);
+        getDao().deleteLogical(entity);
+        return entity;
+    }
+
+    public void restore(Long id) {
+        T entity = getDao().findById(id);
+        ((Bajeable)entity).darDeAlta();
+        getDao().update(entity);
+    }
+
+    public List<T> findAll() {
+        return getDao().findAll();
+    }
 
     /*
     Template method que llama a las validaciones de restricciones de modelo y a las validaciones de negocio.
      */
-    protected void validate(T entity, Validator validator) throws SAPOException {
+    void validate(T entity, Validator validator) throws SAPOException {
         try {
             constraintValidation(entity, validator);
             bussinessValidation(entity);
