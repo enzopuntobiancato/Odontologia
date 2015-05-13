@@ -27,12 +27,12 @@
                 <div class="col-lg-6">
                    <div class="form-group" show-errors>
                        <label>Nombre</label>
-                       <input required ng-model="trabajoPractico.nombre" name="nombre" type="text" class="form-control"/>
+                       <input maxlength="100" required ng-model="trabajoPractico.nombre" name="nombre" type="text" class="form-control"/>
                        <span class="help-block" for="nombre"></span>
                    </div>
                     <div class="form-group" show-errors>
                         <label>Descripción</label>
-                        <textarea required ng-model="trabajoPractico.descripcion" name="descripcion" class="form-control" rows="6"></textarea>
+                        <textarea maxlength="400" required ng-model="trabajoPractico.descripcion" name="descripcion" class="form-control" rows="6"></textarea>
                         <span class="help-block" for="descripcion"></span>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                              </div>
                             <div class="form-group" show-errors>
                                 <label>Práctica</label>
-                                <select required ng-model="trabajoPractico.practicaOdontologica" name="practica" class="form-control" ng-options="practica as practica.denominacion for practica in data.practicas | filter:filterPracticas track by practica.id">
+                                <select required ng-model="trabajoPractico.practicaOdontologica" name="practica" class="form-control" ng-options="practica as practica.denominacion for practica in practicasSelect track by practica.id">
                                     <option value="">Seleccione</option>
                                 </select>
                                 <span class="help-block" for="practica"></span>

@@ -3,6 +3,8 @@ package com.utn.tesis.model;
 import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -16,11 +18,14 @@ import javax.validation.constraints.Size;
 public class TrabajoPractico extends Bajeable {
 
     @NotNull (message = "Debe ingresar un nombre.")
-    @Size(max = 50, message = "El nombre no puede ser mayor a 50 caracteres.")
+    @Size(max = 100, message = "El nombre no puede ser mayor a 100 caracteres.")
     private String nombre;
     @NotNull (message = "Debe ingresar una descripción.")
     @Size(max = 400, message = "La descripción no puede ser mayor a 400 caracteres.")
     private String descripcion;
+
+    @ManyToOne
+    @JoinColumn(name = "practicaOdontologicaId")
     @NotNull (message = "Debe seleccionar una práctica odontológica.")
     private PracticaOdontologica practicaOdontologica;
 

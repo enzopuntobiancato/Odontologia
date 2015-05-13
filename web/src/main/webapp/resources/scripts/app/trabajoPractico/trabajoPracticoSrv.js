@@ -9,21 +9,14 @@ module
                     url: 'api/practicaOdontologica/findAll',
                     method: 'GET'
                 })
+            },
+            save: function (trabajoPractico) {
+                return $http({
+                    url: 'api/trabajoPractico/save',
+                    method: 'POST',
+                    data: angular.toJson(trabajoPractico)
+                })
             }
-//            save: function (materia) {
-//                return $http({
-//                    url: 'api/materia/save',
-//                    method: 'POST',
-//                    data: angular.toJson(materia)
-//                })
-//            },
-//            find: function (nombre, nivel, dadosBaja) {
-//                return $http({
-//                    url: 'api/materia/find',
-//                    method: 'GET',
-//                    params: {nombre: nombre, nivel: nivel, dadosBaja: dadosBaja}
-//                })
-//            },
 //            remove: function (materiaId, motivoBaja) {
 //                var materia = {
 //                    id: materiaId,

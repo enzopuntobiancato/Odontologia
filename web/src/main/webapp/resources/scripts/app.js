@@ -1,12 +1,12 @@
 var odontologiaApp = angular.module('odontologiaApp', [
-    'ngSanitize',
+//    'ngSanitize',
     'ui.router',
     'oc.lazyLoad',
     'ui.bootstrap',
     'Pagination',
     'sapo.directives',
-    'sapo.services',
-    'ui.select'
+    'sapo.services'
+//    'ui.select'
 ]);
 
 
@@ -167,7 +167,9 @@ odontologiaApp.config(['$urlRouterProvider',
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
-
+                    }],
+                    practicasResponse: ['TrabajoPracticoSrv', function(service){
+                        return service.getPracticas();
                     }]
                 }
             })
