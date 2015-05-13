@@ -18,9 +18,9 @@
             </div>
         </div>
 
-        <summary-error var="showSummaryError && createPracticaForm.$invalid"></summary-error>
+        <summary-error var="showSummaryError && editPracticaForm.$invalid"></summary-error>
 
-        <form novalidate submit-validate="save()" name="createPracticaForm">
+        <form novalidate submit-validate="save()" name="editPracticaForm">
             <div class="row-fluid">
                 <div class="col-lg-8">
                     <div class="form-group" show-errors>
@@ -35,8 +35,8 @@
                     <div class="form-group" show-errors>
                         <label>Grupo</label>
                         <select ng-disabled="data.disableFields" name="grupo" class="form-control"
-                                ng-model="practica.grupoId"
-                                ng-options="item.id as item.nombre for item in data.gruposPractica" required>
+                                ng-model="practica.grupo"
+                                ng-options="grupo as grupo.nombre for grupo in data.gruposPractica" required>
                             <option value="">Seleccione</option>
                         </select>
                         <span class="help-block" for="nivel"></span>

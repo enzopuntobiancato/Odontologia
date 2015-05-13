@@ -1,7 +1,7 @@
 var module = angular.module('practicaOdontologicaModule');
 
 
-module.controller('PracticaOdontologicaCtrl_Create', ['$scope', '$rootScope', 'PracticaOdontologicaSrv', '$state', 'NotificationSrv', 'gruposPracticaResponse', '$filter', function ($scope, $rootScope, service, $state, notification, gruposPracticaResponse, $filter) {
+module.controller('PracticaOdontologicaCtrl_Create', ['$scope', '$rootScope', 'PracticaOdontologicaSrv', '$state', 'NotificationSrv', 'gruposPracticaResponse', '$filter', function ($scope, $rootScope, service, $state, notification, gruposPracticaResponse) {
     $scope.practica = {}
 
     $scope.data = {
@@ -14,9 +14,6 @@ module.controller('PracticaOdontologicaCtrl_Create', ['$scope', '$rootScope', 'P
     $scope.save = function()
     {
         notification.showWidget();
-        $scope.practica.grupo = $filter('filter')($scope.data.gruposPractica, function(value) {
-            return value.id == $scope.practica.grupoId;
-        })[0];
 
         service.save($scope.practica)
             .success(function(data) {

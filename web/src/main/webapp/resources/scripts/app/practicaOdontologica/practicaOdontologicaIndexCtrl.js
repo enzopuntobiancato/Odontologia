@@ -89,10 +89,10 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope','$cacheFactory', '
         $state.go('^.edit', {id: materiaId});
 
     }
-//
-//    $scope.viewDetail = function (materiaId) {
-//        $state.go('^.view', {id: materiaId});
-//    }
+
+    $scope.viewDetail = function (practicaId) {
+        $state.go('^.view', {id: practicaId});
+    }
 
     $scope.cleanFilters = function () {
         $scope.filter = {};

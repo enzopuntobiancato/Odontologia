@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <summary-error var="showSummaryError"></summary-error>
+        <summary-error var="showSummaryError && editMateriaForm.$invalid"></summary-error>
 
         <form novalidate submit-validate="save()" name="editMateriaForm">
             <div class="row-fluid">

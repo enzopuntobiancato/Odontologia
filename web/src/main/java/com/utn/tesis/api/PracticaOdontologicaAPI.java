@@ -79,4 +79,10 @@ public class PracticaOdontologicaAPI extends BaseAPI {
     public PracticaOdontologica findById(@QueryParam("id") Long id) {
         return practicaOdontologicaService.findById(id);
     }
+
+    @Path("/findAll")
+    @GET
+    public List<PracticaOdontologica> findAll() {
+        return practicaOdontologicaService.findAll();
+    }
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="resources/css/bootstrap/roboto.css"/>
     <link rel="stylesheet" href="resources/css/bootstrap/material.css"/>
     <link rel="stylesheet" href="resources/css/bootstrap/ripples.css"/>
+    <link rel="stylesheet" href="resources/css/ui-select/select.css"/>
     <link rel="stylesheet" href="resources/css/commons/commons.css"/>
 
 </head>
@@ -17,33 +18,41 @@
 </div>
 <!-- HEADER AND NAVBAR -->
 <header>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" ui-sref="#">SAPO</a>
-            </div>
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
 
-            <ul class="nav navbar-nav">
-                <li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
-                <li><a ui-sref="materia.index"><i class="fa fa-shield"></i> Materia</a></li>
-                <li><a ui-sref="practicaOdontologica.index"><i class="fa fa-shield"></i> Práctica odontológica</a></li>
-                <li><a ui-sref="catedra.create">Cátedra</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Usuario
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Cerrar sesión</a></li>
-                    </ul>
-                </li>
-            </ul>
+                  <a class="navbar-brand" ui-sref="#">SAPO</a>
+              </div>
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav">
+                    <li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
+                    <li><a ui-sref="materia.index"><i class="fa fa-shield"></i> Materia</a></li>
+                    <li><a ui-sref="practicaOdontologica.index"><i class="fa fa-shield"></i> Práctica odontológica</a></li>
+                    <li><a ui-sref="catedra.create">Cátedra</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Usuario
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </nav>
+    </div>
 </header>
 <div id="container" class="container wrapper" ng-controller="AppController">
     <div id="page-content" ui-view></div>
@@ -52,6 +61,7 @@
 <script type="text/javascript" src="resources/scripts/lib/bootstrap/jquery-2.1.3.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/bootstrap/jquery-ui.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/angular/angular.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/angular/angular-sanitize.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/angular/angular-ui-router.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/angular/ocLazyLoad.min.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/bootstrap/bootstrap.js"></script>
@@ -60,10 +70,13 @@
 <script type="text/javascript" src="resources/scripts/lib/bootstrap/material.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/angular/i18n/angular-locale_es-es.js"></script>
 <script type="text/javascript" src="resources/scripts/lib/angular/ui-bootstrap-tpls-0.12.0.min.js"></script>
+<script type="text/javascript" src="resources/scripts/lib/angular/ui-select/select.js"></script>
 
 <!--OURS JS-->
 <script type="text/javascript" src="resources/scripts/commons.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/pagination.js"></script>
+<script type="text/javascript" src="resources/scripts/app/ngutils/directives.js"></script>
+<script type="text/javascript" src="resources/scripts/app/ngutils/services.js"></script>
 <script type="text/javascript" src="resources/scripts/app.js"></script>
 
 

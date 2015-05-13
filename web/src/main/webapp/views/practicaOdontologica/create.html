@@ -35,8 +35,8 @@
                     <div class="form-group" show-errors>
                         <label>Grupo</label>
                         <select ng-disabled="data.disableFields" name="grupo" class="form-control"
-                                ng-model="practica.grupoId"
-                                ng-options="item.id as item.nombre for item in data.gruposPractica" required>
+                                ng-model="practica.grupo"
+                                ng-options="grupo as grupo.nombre for grupo in data.gruposPractica" required>
                             <option value="">Seleccione</option>
                         </select>
                         <span class="help-block" for="nivel"></span>
@@ -64,7 +64,6 @@
                                value="Volver"/>
                     </div>
                 </div>
-
             </div>
 
         </form>
