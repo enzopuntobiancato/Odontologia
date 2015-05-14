@@ -79,56 +79,56 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             $state.go('^.create');
         }
 
-//    $scope.darDeBaja = function (materiaId) {
-//        notification.requestReason().then(function (motivo) {
-//            if (motivo != null) {
-//                notification.showWidget();
-//                service.remove(materiaId, motivo).success(function (response) {
-//                    notification.hideWidget();
-//                    notification.goodAndOnEscape("Materia dada de baja correctamente.", function () {
-//                        executeQuery($scope.paginationData.pageNumber);
-//                    }, function () {
-//                        executeQuery($scope.paginationData.pageNumber);
-//                    })
-//                })
-//                    .error(function (response) {
-//                        notification.hideWidget();
-//                        notification.badArray(response, function () {
-//                        });
-//                    })
-//            }
-//        });
-//    }
+    $scope.darDeBaja = function (trabajoPracticoId) {
+        notification.requestReason().then(function (motivo) {
+            if (motivo != null) {
+                notification.showWidget();
+                service.remove(trabajoPracticoId, motivo).success(function (response) {
+                    notification.hideWidget();
+                    notification.goodAndOnEscape("Trabajo práctico dado de baja correctamente.", function () {
+                        executeQuery($scope.paginationData.pageNumber);
+                    }, function () {
+                        executeQuery($scope.paginationData.pageNumber);
+                    })
+                })
+                    .error(function (response) {
+                        notification.hideWidget();
+                        notification.badArray(response, function () {
+                        });
+                    })
+            }
+        });
+    }
 
-//    $scope.darDeAlta = function (materiaId) {
-//        notification.requestConfirmation("¿Está seguro?", function () {
-//            altaConfirmada(materiaId)
-//        });
-//
-//        function altaConfirmada(materiaId) {
-//            notification.showWidget();
-//            service.restore(materiaId)
-//                .success(function () {
-//                    notification.hideWidget();
-//                    notification.goodAndOnEscape("Materia dada de alta correctamente.", function () {
-//                        executeQuery($scope.paginationData.pageNumber);
-//                    }, function () {
-//                        executeQuery($scope.paginationData.pageNumber);
-//                    })
-//                })
-//                .error(function () {
-//                    notification.hideWidget();
-//                })
-//        }
-//    }
+    $scope.darDeAlta = function (id) {
+        notification.requestConfirmation("¿Está seguro?", function () {
+            altaConfirmada(id)
+        });
 
-        $scope.edit = function (trabajoPracticoId) {
-            $state.go('^.edit', {id: trabajoPracticoId});
+        function altaConfirmada(id) {
+            notification.showWidget();
+            service.restore(id)
+                .success(function () {
+                    notification.hideWidget();
+                    notification.goodAndOnEscape("Trabajo práctico dado de alta correctamente.", function () {
+                        executeQuery($scope.paginationData.pageNumber);
+                    }, function () {
+                        executeQuery($scope.paginationData.pageNumber);
+                    })
+                })
+                .error(function () {
+                    notification.hideWidget();
+                })
+        }
+    }
+
+        $scope.edit = function (id) {
+            $state.go('^.edit', {id: id});
 
         }
 
-        $scope.viewDetail = function (trabajoPracticoId) {
-            $state.go('^.view', {id: trabajoPracticoId});
+        $scope.viewDetail = function (id) {
+            $state.go('^.view', {id: id});
 
         }
 

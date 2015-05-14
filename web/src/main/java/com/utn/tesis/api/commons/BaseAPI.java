@@ -2,9 +2,14 @@ package com.utn.tesis.api.commons;
 
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.model.Bajeable;
+import com.utn.tesis.model.EntityBase;
+import com.utn.tesis.service.BaseService;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +23,53 @@ import java.util.logging.Logger;
  * Date: 15/02/15
  * Time: 17:07
  */
-public abstract class BaseAPI {
+public abstract class BaseAPI<T extends EntityBase> {
+
+    public abstract BaseService<T> getEjbInstance();
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/save")
+    public Response save(T entity) {
+        try {
+            if (entity.isNew()) {
+                entity = getEjbInstance().create(entity);
+            } else {
+                getEjbInstance().update(entity);
+            }
+
+        } catch (SAPOException se) {
+            return persistenceRequest(se);
+        }
+        return Response.ok(entity).build();
+    }
+
+    @Path("/remove")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(T entity) {
+        try {
+            entity = getEjbInstance().remove(entity.getId(), ((Bajeable)entity).getMotivoBaja());
+        } catch (SAPOException se) {
+            return persistenceRequest(se);
+        }
+        return Response.ok(entity).build();
+    }
+
+    @Path("/restore")
+    @PUT
+    public void restore(@QueryParam("id") Long id) {
+        getEjbInstance().restore(id);
+    }
+
+    @Path("/findById")
+    @GET
+    public T findById(@QueryParam("id") Long id) {
+        return getEjbInstance().findById(id);
+    }
+
 
     public Response persistenceRequest(Exception e) {
         Response.ResponseBuilder builder = null;
@@ -58,4 +109,5 @@ public abstract class BaseAPI {
 
         return Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
     }
+
 }

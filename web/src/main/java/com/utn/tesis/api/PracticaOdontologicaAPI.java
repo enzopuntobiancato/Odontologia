@@ -3,6 +3,7 @@ package com.utn.tesis.api;
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.PracticaOdontologica;
+import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.PracticaOdontologicaService;
 
 import javax.enterprise.context.RequestScoped;
@@ -21,27 +22,14 @@ import java.util.List;
 
 @Path("/practicaOdontologica")
 @RequestScoped
-public class PracticaOdontologicaAPI extends BaseAPI {
+public class PracticaOdontologicaAPI extends BaseAPI<PracticaOdontologica> {
 
     @Inject
     private PracticaOdontologicaService practicaOdontologicaService;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/save")
-    public Response save(PracticaOdontologica practica) {
-        try {
-            if (practica.isNew()) {
-                practica = practicaOdontologicaService.create(practica);
-            } else {
-                practicaOdontologicaService.update(practica);
-            }
-
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
-        return Response.ok(practica).build();
+    @Override
+    public BaseService getEjbInstance() {
+            return practicaOdontologicaService;
     }
 
     @Path("/find")
@@ -55,34 +43,11 @@ public class PracticaOdontologicaAPI extends BaseAPI {
         return practicaOdontologicaService.findByFilters(denominacion, idGrupoPractica, dadosBaja, pageNumber, pageSize);
     }
 
-    @Path("/remove")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(PracticaOdontologica practica) {
-        try {
-            practica = practicaOdontologicaService.remove(practica.getId(), practica.getMotivoBaja());
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
-        return Response.ok(practica).build();
-    }
-
-    @Path("/restore")
-    @PUT
-    public void restore(@QueryParam("id") Long id) {
-        practicaOdontologicaService.restore(id);
-    }
-
-    @Path("/findById")
-    @GET
-    public PracticaOdontologica findById(@QueryParam("id") Long id) {
-        return practicaOdontologicaService.findById(id);
-    }
 
     @Path("/findAll")
     @GET
     public List<PracticaOdontologica> findAll() {
         return practicaOdontologicaService.findAll();
     }
+
 }

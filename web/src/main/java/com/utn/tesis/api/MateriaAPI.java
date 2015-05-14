@@ -4,6 +4,7 @@ import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
+import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.MateriaService;
 
 import javax.enterprise.context.RequestScoped;
@@ -16,27 +17,15 @@ import java.util.List;
 
 @Path("/materia")
 @RequestScoped
-public class MateriaAPI extends BaseAPI {
+public class MateriaAPI extends BaseAPI<Materia> {
 
     @Inject
     private MateriaService materiaService;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/save")
-    public Response save(Materia materia) {
-        try {
-            if (materia.isNew()) {
-                materia = materiaService.create(materia);
-            } else {
-                materiaService.update(materia);
-            }
 
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
-        return Response.ok(materia).build();
+    @Override
+    public BaseService<Materia> getEjbInstance() {
+        return materiaService;
     }
 
     @Path("/find")
@@ -49,31 +38,4 @@ public class MateriaAPI extends BaseAPI {
                                        @QueryParam("pageSize") Long pageSize) {
         return materiaService.findByFilters(nombre, nivel != null ? Nivel.valueOf(nivel) : null, dadosBaja, pageNumber, pageSize);
     }
-
-    @Path("/remove")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(Materia materia) {
-        try {
-            materia = materiaService.remove(materia.getId(), materia.getMotivoBaja());
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
-        return Response.ok(materia).build();
-    }
-
-    @Path("/restore")
-    @PUT
-    public void restore(@QueryParam("id") Long id) {
-        materiaService.restore(id);
-    }
-
-    @Path("/findById")
-    @GET
-    public Materia findById(@QueryParam("id") Long id) {
-        return materiaService.findById(id);
-    }
-
-
 }

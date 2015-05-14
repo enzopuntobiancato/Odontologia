@@ -2,7 +2,9 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.TrabajoPractico;
+import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.TrabajoPracticoService;
 
 import javax.enterprise.context.RequestScoped;
@@ -20,27 +22,14 @@ import java.util.List;
  */
 @Path("/trabajoPractico")
 @RequestScoped
-public class TrabajoPracticoAPI extends BaseAPI {
+public class TrabajoPracticoAPI extends BaseAPI<TrabajoPractico> {
 
     @Inject
     TrabajoPracticoService trabajoPracticoService;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/save")
-    public Response save(TrabajoPractico trabajoPractico) {
-        try {
-            if (trabajoPractico.isNew()) {
-                trabajoPractico = trabajoPracticoService.create(trabajoPractico);
-            } else {
-                trabajoPracticoService.update(trabajoPractico);
-            }
-
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
-        return Response.ok(trabajoPractico).build();
+    @Override
+    public BaseService<TrabajoPractico> getEjbInstance() {
+        return trabajoPracticoService;
     }
 
     @Path("/find")
@@ -48,10 +37,8 @@ public class TrabajoPracticoAPI extends BaseAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public List<TrabajoPractico> findByFilters(@QueryParam("nombre") String nombre, @QueryParam("grupoPracticaId") Long grupoPracticaId,
                                                @QueryParam("practicaId") Long practicaId, @QueryParam("dadosBaja") boolean dadosBaja,
-                                                @QueryParam("pageNumber") Long pageNumber, @QueryParam("pageSize") Long pageSize ) {
+                                               @QueryParam("pageNumber") Long pageNumber, @QueryParam("pageSize") Long pageSize) {
         return trabajoPracticoService.findByFilters(nombre, grupoPracticaId, practicaId, dadosBaja, pageNumber, pageSize);
     }
-
-
 
 }

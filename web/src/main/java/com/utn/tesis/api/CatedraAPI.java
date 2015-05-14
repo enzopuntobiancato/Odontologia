@@ -2,6 +2,7 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.model.Catedra;
+import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.CatedraService;
 
 import javax.enterprise.context.RequestScoped;
@@ -15,23 +16,14 @@ import javax.ws.rs.core.Response;
 
 @Path("/catedra")
 @RequestScoped
-public class CatedraAPI extends BaseAPI {
+public class CatedraAPI extends BaseAPI<Catedra> {
 
     @Inject
     CatedraService catedraService;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/create")
-    public Response create(Catedra catedra) {
-        try {
-            catedra = catedraService.create(catedra);
-        } catch (Exception e)
-        {
-            return persistenceRequest(e);
-        }
-
-        return Response.ok(catedra).build();
+    @Override
+    public BaseService<Catedra> getEjbInstance() {
+        return catedraService;
     }
+
 }

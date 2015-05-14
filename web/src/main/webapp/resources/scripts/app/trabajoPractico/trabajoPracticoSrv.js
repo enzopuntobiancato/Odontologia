@@ -16,31 +16,31 @@ module
                     method: 'POST',
                     data: angular.toJson(trabajoPractico)
                 })
+            },
+            remove: function (id, motivoBaja) {
+                var entity = {
+                    id: id,
+                    motivoBaja: motivoBaja}
+                return $http({
+                    url: 'api/trabajoPractico/remove',
+                    method: 'POST',
+                    data: entity
+                })
+            },
+            restore: function (id) {
+                return $http({
+                    url: 'api/trabajoPractico/restore',
+                    method: 'PUT',
+                    params: {id: id}
+                })
+            },
+            findById: function(id) {
+                return $http({
+                    url: 'api/trabajoPractico/findById',
+                    method: 'GET',
+                    params: {id: id}
+                })
             }
-//            remove: function (materiaId, motivoBaja) {
-//                var materia = {
-//                    id: materiaId,
-//                    motivoBaja: motivoBaja}
-//                return $http({
-//                    url: 'api/materia/remove',
-//                    method: 'POST',
-//                    data: materia
-//                })
-//            },
-//            restore: function (materiaId) {
-//                return $http({
-//                    url: 'api/materia/restore',
-//                    method: 'PUT',
-//                    params: {id: materiaId}
-//                })
-//            },
-//            findById: function(id) {
-//                return $http({
-//                    url: 'api/materia/findById',
-//                    method: 'GET',
-//                    params: {id: id}
-//                })
-//            }
 
         }
 
