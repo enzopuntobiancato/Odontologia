@@ -186,6 +186,39 @@ odontologiaApp.config(['$urlRouterProvider',
                     }]
                 }
             })
+            .state('trabajoPractico.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/trabajoPractico/edit.html',
+                controller: 'TrabajoPracticoCtrl_Edit',
+                resolve: {
+                    gruposPracticaResponse: ['CommonsSrv', function (commons) {
+                        return commons.getGruposPractica();
+                    }],
+                    practicasResponse: ['TrabajoPracticoSrv', function(service){
+                        return service.getPracticas();
+                    }],
+                    trabajoPracticoResponse: ['$stateParams', 'TrabajoPracticoSrv', function($stateParams, service) {
+                        return service.findById($stateParams.id)
+                    }]
+                }
+            })
+            .state('trabajoPractico.view', {
+                url: '/view/:id',
+                templateUrl: 'views/trabajoPractico/view.html',
+                resolve: {
+                    trabajoPracticoResponse: ['$stateParams', 'TrabajoPracticoSrv', function ($stateParams, service) {
+                        return service.findById($stateParams.id);
+                    }]
+                },
+                controller: function ($scope, $state, trabajoPracticoResponse) {
+                    $scope.trabajoPractico = trabajoPracticoResponse.data;
+
+                    $scope.goIndex = function () {
+                        $state.go('^.index');
+                    }
+                }
+
+            })
             .state('catedra', {
                 url: '/catedra',
                 template: '<ui-view/>',
