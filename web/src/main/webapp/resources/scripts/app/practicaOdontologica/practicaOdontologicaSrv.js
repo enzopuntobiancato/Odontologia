@@ -41,6 +41,12 @@ module
                     method: 'GET',
                     params: {id: id}
                 })
+            },
+            findAll: function() {
+                return $http({
+                    url: 'api/practicaOdontologica/findAll',
+                    method: 'GET'
+                })
             }
 
         }

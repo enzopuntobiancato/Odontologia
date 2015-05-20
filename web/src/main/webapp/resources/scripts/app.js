@@ -1,3 +1,5 @@
+'use strict';
+
 var odontologiaApp = angular.module('odontologiaApp', [
 //    'ngSanitize',
     'ui.router',
@@ -24,7 +26,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
                     //lazyload de un modulo
                     return $ocLazyLoad.load(depency);
-                } ]
+                }]
             };
         }
 
@@ -168,7 +170,7 @@ odontologiaApp.config(['$urlRouterProvider',
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
                     }],
-                    practicasResponse: ['TrabajoPracticoSrv', function(service){
+                    practicasResponse: ['loadMyModule', 'TrabajoPracticoSrv', function(module, service){
                         return service.getPracticas();
                     }]
                 }
@@ -285,7 +287,7 @@ angular.module('homeModule', []);
 angular.module('materiaModule', []);
 angular.module('practicaOdontologicaModule', []);
 angular.module('catedraModule', []);
-angular.module('trabajoPracticoModule', []);
+angular.module('trabajoPracticoModule', ['practicaOdontologicaModule']);
 
 
 odontologiaApp.controller('AppController', function ($scope, $sce, $rootScope, $document) {

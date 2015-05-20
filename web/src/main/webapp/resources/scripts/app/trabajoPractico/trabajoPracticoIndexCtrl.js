@@ -10,7 +10,7 @@ var module = angular.module('trabajoPracticoModule');
 
 
 module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'TrabajoPracticoSrv', '$state', '$stateParams', 'NotificationSrv', 'gruposPracticaResponse', 'practicasResponse', 'PaginationService', '$filter',
-                                        function ($scope, $cacheFactory, service, $state, $stateParams, notification, gruposPracticaResponse, practicasResponse, pagination, $filter) {
+    function ($scope, $cacheFactory, service, $state, $stateParams, notification, gruposPracticaResponse, practicasResponse, pagination, $filter) {
 
         $scope.filter = {};
         $scope.result = [];
@@ -19,6 +19,10 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             gruposPractica: gruposPracticaResponse.data,
             practicas: practicasResponse.data
         }
+//        $scope.data = {
+//            gruposPractica: dataResponse.data,
+//            practicas: dataResponse
+//        }
 
         $scope.select = {
             practicas: $scope.data.practicas
@@ -79,48 +83,48 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             $state.go('^.create');
         }
 
-    $scope.darDeBaja = function (trabajoPracticoId) {
-        notification.requestReason().then(function (motivo) {
-            if (motivo != null) {
-                notification.showWidget();
-                service.remove(trabajoPracticoId, motivo).success(function (response) {
-                    notification.hideWidget();
-                    notification.goodAndOnEscape("Trabajo práctico dado de baja correctamente.", function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    }, function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    })
-                })
-                    .error(function (response) {
+        $scope.darDeBaja = function (trabajoPracticoId) {
+            notification.requestReason().then(function (motivo) {
+                if (motivo != null) {
+                    notification.showWidget();
+                    service.remove(trabajoPracticoId, motivo).success(function (response) {
                         notification.hideWidget();
-                        notification.badArray(response, function () {
-                        });
+                        notification.goodAndOnEscape("Trabajo práctico dado de baja correctamente.", function () {
+                            executeQuery($scope.paginationData.pageNumber);
+                        }, function () {
+                            executeQuery($scope.paginationData.pageNumber);
+                        })
+                    })
+                        .error(function (response) {
+                            notification.hideWidget();
+                            notification.badArray(response, function () {
+                            });
+                        })
+                }
+            });
+        }
+
+        $scope.darDeAlta = function (id) {
+            notification.requestConfirmation("¿Está seguro?", function () {
+                altaConfirmada(id)
+            });
+
+            function altaConfirmada(id) {
+                notification.showWidget();
+                service.restore(id)
+                    .success(function () {
+                        notification.hideWidget();
+                        notification.goodAndOnEscape("Trabajo práctico dado de alta correctamente.", function () {
+                            executeQuery($scope.paginationData.pageNumber);
+                        }, function () {
+                            executeQuery($scope.paginationData.pageNumber);
+                        })
+                    })
+                    .error(function () {
+                        notification.hideWidget();
                     })
             }
-        });
-    }
-
-    $scope.darDeAlta = function (id) {
-        notification.requestConfirmation("¿Está seguro?", function () {
-            altaConfirmada(id)
-        });
-
-        function altaConfirmada(id) {
-            notification.showWidget();
-            service.restore(id)
-                .success(function () {
-                    notification.hideWidget();
-                    notification.goodAndOnEscape("Trabajo práctico dado de alta correctamente.", function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    }, function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    })
-                })
-                .error(function () {
-                    notification.hideWidget();
-                })
         }
-    }
 
         $scope.edit = function (id) {
             $state.go('^.edit', {id: id});
