@@ -1,8 +1,6 @@
 package com.utn.tesis.model;
 
-import java.io.Serializable;
-
-public enum Nivel implements Serializable {
+public enum Nivel {
 
     PRIMERO(0, "PRIMERO"),
     SEGUNDO(1, "SEGUNDO"),
@@ -10,7 +8,6 @@ public enum Nivel implements Serializable {
     CUARTO(3, "CUARTO"),
     QUINTO(4, "QUINTO");
 
-    private static final long serialVersionUID = 1L;
     private int id;
     private String nombre;
 

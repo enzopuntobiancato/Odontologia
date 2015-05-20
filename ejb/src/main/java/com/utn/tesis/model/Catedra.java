@@ -29,6 +29,9 @@ public class Catedra extends EntityBase {
     @NotNull(message = "La catedra debe pertenecer a una materia.")
     private Materia materia;
 
+    @ManyToMany(mappedBy = "catedras")
+    private List<Profesor> profesores;
+
     public Catedra() {
         horarios = new ArrayList<DiaHorario>();
     }
@@ -63,6 +66,14 @@ public class Catedra extends EntityBase {
 
     public void setMateria(Materia materia) {
         this.materia = materia;
+    }
+
+    public List<Profesor> getProfesores() {
+        return profesores;
+    }
+
+    public void setProfesores(List<Profesor> profesores) {
+        this.profesores = profesores;
     }
 
     @Override

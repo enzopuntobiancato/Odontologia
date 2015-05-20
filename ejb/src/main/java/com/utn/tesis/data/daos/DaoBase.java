@@ -1,6 +1,7 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.utn.tesis.model.Bajeable;
 import com.utn.tesis.model.EntityBase;
 
 import javax.persistence.EntityManager;
@@ -17,12 +18,12 @@ public abstract class DaoBase<E extends EntityBase> {
     protected EntityManager em;
 
 
-    Class<E> getGenericParamater() {
+    Class<E> getGenericParameter() {
         return (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     public E findById(Long idEntity) {
-        return em.find(getGenericParamater(), idEntity);
+        return em.find(getGenericParameter(), idEntity);
     }
 
     public E create(E entity) {
@@ -48,73 +49,82 @@ public abstract class DaoBase<E extends EntityBase> {
     }
 
     public JPAQuery paginar(JPAQuery query, Long page, Long pageSize) {
-        if(query != null){
-        pageSize = pageSize != null ? pageSize : 5;
-        query.offset(page != null ? (page*(pageSize)) : 0);
-        query.limit(pageSize + 1);
+        if (query != null) {
+            pageSize = pageSize != null ? pageSize : 5;
+            query.offset(page != null ? (page * (pageSize)) : 0);
+            query.limit(pageSize + 1);
         }
         return query;
     }
 
+    /**
+     * Busca todas las ocurrencias en la base de datos de la entidad teniendo en cuenta si es Bajeable.
+     * Si lo es solo trae aquellas que no se encuentren dadas de baja.
+     *
+     * @return La lista de las entidades activas
+     */
     public List<E> findAll() {
-        String q = "SELECT e FROM "+ getGenericParamater().getSimpleName() + " e";
-        Query query = em.createQuery(q);
-        List<E> result = query.getResultList();
-        return result;
-    }
-
-     /**
-    public List<E> findAll() {
-        String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
-        String q = "SELECT e FROM " + className +" e";
-        Query query = em.createQuery(q);
-        List<E> result = query.getResultList();
-        return result;
-    }
-
-    public void flush() {
-        em.flush();
-    }
-
-    public E saveAndFlush(E entity) {
-        em.persist(entity);
-        em.flush();
-        return (E) entity;
-    }
-
-    public long count() {
-        String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
-        String q = "SELECT COUNT(all) FROM " + className +";";
-        Query query = em.createQuery(q);
-        Long result = (Long) query.getSingleResult();
-        return result;
-    }
-
-    public void delete(E entity) {
-        String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
-        String q = "DELETE FROM " + className +" e WHERE e.id = "+ entity.getId() +";";
-        Query query = em.createQuery(q);
-        query.executeUpdate();
-    }
-
-    public <S extends E> S findOne(Long id) {
-        String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
-        String q = "SELECT e FROM " + className +" e WHERE e.id = "+ id +";";
-        Query query = em.createQuery(q);
-        return (S) query.getSingleResult();
-    }
-
-
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public <S extends E> S reload(S entity, int depth) {
-
-        if (entity instanceof EntityBase) {
-            entity = (S) findOne(((EntityBase) entity).getId());
-        } else {
-            entity = save(entity);
+        String q = "SELECT e FROM " + getGenericParameter().getSimpleName() + " e";
+        if (getGenericParameter().getSuperclass().equals(Bajeable.class)) {
+            q = q.concat(" where e.fechaBaja is null");
         }
-        return Collections.reload(entity, depth);
+        Query query = em.createQuery(q);
+        List<E> result = query.getResultList();
+        return result;
     }
-                     */
+
+    /**
+     public List<E> findAll() {
+     String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
+     String q = "SELECT e FROM " + className +" e";
+     Query query = em.createQuery(q);
+     List<E> result = query.getResultList();
+     return result;
+     }
+
+     public void flush() {
+     em.flush();
+     }
+
+     public E saveAndFlush(E entity) {
+     em.persist(entity);
+     em.flush();
+     return (E) entity;
+     }
+
+     public long count() {
+     String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
+     String q = "SELECT COUNT(all) FROM " + className +";";
+     Query query = em.createQuery(q);
+     Long result = (Long) query.getSingleResult();
+     return result;
+     }
+
+     public void delete(E entity) {
+     String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
+     String q = "DELETE FROM " + className +" e WHERE e.id = "+ entity.getId() +";";
+     Query query = em.createQuery(q);
+     query.executeUpdate();
+     }
+
+     public <S extends E> S findOne(Long id) {
+     String className = ((Class<E>)(((ParameterizedType) (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
+     String q = "SELECT e FROM " + className +" e WHERE e.id = "+ id +";";
+     Query query = em.createQuery(q);
+     return (S) query.getSingleResult();
+     }
+
+
+     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+     public <S extends E> S reload(S entity, int depth) {
+
+     if (entity instanceof EntityBase) {
+     entity = (S) findOne(((EntityBase) entity).getId());
+     } else {
+     entity = save(entity);
+     }
+     return Collections.reload(entity, depth);
+     }
+     */
 
 }

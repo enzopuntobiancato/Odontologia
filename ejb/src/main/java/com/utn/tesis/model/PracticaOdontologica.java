@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 @Entity
 public class PracticaOdontologica extends Bajeable {
 
+    private static final long serialVersionUID = 1L;
 
     @NotNull(message = "El nombre de la práctica no puede ser nulo.")
     @Size(max = 75, message = "El nombre de la práctica debe tener entre 0 y 75 caracteres.")

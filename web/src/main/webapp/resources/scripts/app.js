@@ -287,7 +287,7 @@ angular.module('homeModule', []);
 angular.module('materiaModule', []);
 angular.module('practicaOdontologicaModule', []);
 angular.module('catedraModule', []);
-angular.module('trabajoPracticoModule', ['practicaOdontologicaModule']);
+angular.module('trabajoPracticoModule', []);
 
 
 odontologiaApp.controller('AppController', function ($scope, $sce, $rootScope, $document) {

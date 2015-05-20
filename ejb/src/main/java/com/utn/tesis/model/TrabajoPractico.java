@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 @Entity
 public class TrabajoPractico extends Bajeable {
 
+    private static final long serialVersionUID = 1L;
+
     @NotNull (message = "Debe ingresar un nombre.")
     @Size(max = 100, message = "El nombre no puede ser mayor a 100 caracteres.")
     private String nombre;
