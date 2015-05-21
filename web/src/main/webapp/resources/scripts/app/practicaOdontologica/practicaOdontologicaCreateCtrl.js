@@ -13,7 +13,7 @@ module.controller('PracticaOdontologicaCtrl_Create', ['$scope', '$rootScope', 'P
 
     $scope.save = function()
     {
-        notification.showWidget();
+//        notification.showWidget();
 
         service.save($scope.practica)
             .success(function(data) {
@@ -21,10 +21,10 @@ module.controller('PracticaOdontologicaCtrl_Create', ['$scope', '$rootScope', 'P
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
                 notification.scrollTo('container');
-                notification.hideWidget();
+//                notification.hideWidget();
             })
             .error(function (data) {
-                notification.hideWidget();
+//                notification.hideWidget();
                 notification.badArray(data, function() {});
             })
     }

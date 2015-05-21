@@ -42,17 +42,17 @@ module.controller('TrabajoPracticoCtrl_Edit', ['$scope','$rootScope', 'TrabajoPr
 
     $scope.save = function()
     {
-        notification.showWidget();
+//        notification.showWidget();
         service.save($scope.trabajoPractico)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
                 notification.scrollTo('container');
-                notification.hideWidget();
+//                notification.hideWidget();
             })
             .error(function (data) {
-                notification.hideWidget();
+//                notification.hideWidget();
                 notification.badArray(data, function() {});
             })
     };

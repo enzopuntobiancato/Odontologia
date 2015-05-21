@@ -35,17 +35,17 @@ module.controller('TrabajoPracticoCtrl_Create', ['$scope','$rootScope', 'Trabajo
 
     $scope.save = function()
     {
-        notification.showWidget();
+//        notification.showWidget();
         service.save($scope.trabajoPractico)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
                 notification.scrollTo('container');
-                notification.hideWidget();
+//                notification.hideWidget();
             })
             .error(function (data) {
-                notification.hideWidget();
+//                notification.hideWidget();
                 notification.badArray(data, function() {});
             })
     };

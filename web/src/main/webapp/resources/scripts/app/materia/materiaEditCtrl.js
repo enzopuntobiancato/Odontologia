@@ -13,17 +13,17 @@ module.controller('MateriaCtrl_Edit', ['$scope', '$rootScope', 'MateriaSrv', '$s
 
     $scope.save = function()
     {
-        notification.showWidget();
+//        notification.showWidget();
         service.save($scope.materia)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
-                notification.hideWidget();
+//                notification.hideWidget();
 //                notification.good("Cambios guardados con éxito. ", function(){});
             })
             .error(function (data) {
-                notification.hideWidget();
+//                notification.hideWidget();
                 notification.badArray(data, function() {});
             })
     }

@@ -18,13 +18,15 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
     $scope.paginationData = pagination.paginationData;
 
     function executeQuery(pageNumber) {
-        notification.showWidget();
+//        notification.showWidget();
         pagination.paginate($scope.filter, pageNumber).then(function(data){
-            notification.hideWidget();
+//            notification.hideWidget();
             $scope.result = data;
             $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
             $scope.paginationData = pagination.getPaginationData();
-        }, function(){notification.hideWidget();});
+        }, function(){
+//            notification.hideWidget();
+        });
     }
 
     $scope.consultar = function () {
@@ -45,9 +47,9 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
     $scope.darDeBaja = function (materiaId) {
         notification.requestReason().then(function (motivo) {
             if (motivo != null) {
-                notification.showWidget();
+//                notification.showWidget();
                 service.remove(materiaId, motivo).success(function (response) {
-                    notification.hideWidget();
+//                    notification.hideWidget();
                     notification.goodAndOnEscape("Materia dada de baja correctamente.", function () {
                         executeQuery($scope.paginationData.pageNumber);
                     }, function () {
@@ -55,7 +57,7 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
                     })
                 })
                     .error(function (response) {
-                        notification.hideWidget();
+//                        notification.hideWidget();
                         notification.badArray(response, function () {
                         });
                     })
@@ -69,10 +71,10 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
         });
 
         function altaConfirmada(materiaId) {
-            notification.showWidget();
+//            notification.showWidget();
             service.restore(materiaId)
                 .success(function () {
-                    notification.hideWidget();
+//                    notification.hideWidget();
                     notification.goodAndOnEscape("Materia dada de alta correctamente.", function () {
                         executeQuery($scope.paginationData.pageNumber);
                     }, function () {
@@ -80,7 +82,7 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
                     })
                 })
                 .error(function () {
-                    notification.hideWidget();
+//                    notification.hideWidget();
                 })
         }
     }

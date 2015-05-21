@@ -18,13 +18,15 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope','$cacheFactory', '
     $scope.paginationData = pagination.paginationData;
 
     function executeQuery(pageNumber) {
-        notification.showWidget();
+//        notification.showWidget();
         pagination.paginate($scope.filter, pageNumber).then(function(data){
-            notification.hideWidget();
+//            notification.hideWidget();
             $scope.result = data;
             $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
             $scope.paginationData = pagination.getPaginationData();
-        }, function(){notification.hideWidget();});
+        }, function(){
+//            notification.hideWidget();
+        });
     }
 
     $scope.consultar = function () {
@@ -45,9 +47,9 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope','$cacheFactory', '
     $scope.darDeBaja = function (practicaId) {
         notification.requestReason().then(function (motivo) {
             if (motivo != null) {
-                notification.showWidget();
+//                notification.showWidget();
                 service.remove(practicaId, motivo).success(function (response) {
-                    notification.hideWidget();
+//                    notification.hideWidget();
                     notification.goodAndOnEscape("Práctica dada de baja correctamente.", function () {
                         executeQuery($scope.paginationData.pageNumber);
                     }, function () {
@@ -55,7 +57,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope','$cacheFactory', '
                     })
                 })
                     .error(function (response) {
-                        notification.hideWidget();
+//                        notification.hideWidget();
                         notification.badArray(response, function () {
                         });
                     })
@@ -69,10 +71,10 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope','$cacheFactory', '
         });
 
         function altaConfirmada(practicaId) {
-            notification.showWidget();
+//            notification.showWidget();
             service.restore(practicaId)
                 .success(function () {
-                    notification.hideWidget();
+//                    notification.hideWidget();
                     notification.goodAndOnEscape("Práctica odontológica dada de alta correctamente.", function () {
                         executeQuery($scope.paginationData.pageNumber);
                     }, function () {
@@ -80,7 +82,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope','$cacheFactory', '
                     })
                 })
                 .error(function () {
-                    notification.hideWidget();
+//                    notification.hideWidget();
                 })
         }
     }

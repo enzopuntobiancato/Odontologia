@@ -7,15 +7,19 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'ui.bootstrap',
     'Pagination',
     'sapo.directives',
-    'sapo.services'
+    'sapo.services',
+    'angular-loading-bar',
+    'ngAnimate'
 //    'ui.select'
 ]);
 
 
 odontologiaApp.config(['$urlRouterProvider',
     '$stateProvider',
-    '$ocLazyLoadProvider',
-    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider) {
+    '$ocLazyLoadProvider', 'cfpLoadingBarProvider',
+    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider) {
+
+        cfpLoadingBarProvider.loadingBarTemplate = '<div id="bar-container"></div><div id="loading-bar"><div class="bar"><div class="peg"></div></div></div></div>';
 
         function url(url) {
             return 'resources/scripts/app' + url;

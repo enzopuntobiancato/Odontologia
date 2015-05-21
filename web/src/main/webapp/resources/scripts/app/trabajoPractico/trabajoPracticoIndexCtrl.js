@@ -57,14 +57,14 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         $scope.paginationData = pagination.paginationData;
 
         function executeQuery(pageNumber) {
-            notification.showWidget();
+//            notification.showWidget();
             pagination.paginate($scope.filter, pageNumber).then(function (data) {
-                notification.hideWidget();
+//                notification.hideWidget();
                 $scope.result = data;
                 $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
                 $scope.paginationData = pagination.getPaginationData();
             }, function () {
-                notification.hideWidget();
+//                notification.hideWidget();
             });
         }
 
@@ -86,9 +86,9 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         $scope.darDeBaja = function (trabajoPracticoId) {
             notification.requestReason().then(function (motivo) {
                 if (motivo != null) {
-                    notification.showWidget();
+//                    notification.showWidget();
                     service.remove(trabajoPracticoId, motivo).success(function (response) {
-                        notification.hideWidget();
+//                        notification.hideWidget();
                         notification.goodAndOnEscape("Trabajo práctico dado de baja correctamente.", function () {
                             executeQuery($scope.paginationData.pageNumber);
                         }, function () {
@@ -96,7 +96,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
                         })
                     })
                         .error(function (response) {
-                            notification.hideWidget();
+//                            notification.hideWidget();
                             notification.badArray(response, function () {
                             });
                         })
@@ -110,10 +110,10 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             });
 
             function altaConfirmada(id) {
-                notification.showWidget();
+//                notification.showWidget();
                 service.restore(id)
                     .success(function () {
-                        notification.hideWidget();
+//                        notification.hideWidget();
                         notification.goodAndOnEscape("Trabajo práctico dado de alta correctamente.", function () {
                             executeQuery($scope.paginationData.pageNumber);
                         }, function () {
@@ -121,7 +121,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
                         })
                     })
                     .error(function () {
-                        notification.hideWidget();
+//                        notification.hideWidget();
                     })
             }
         }
