@@ -9,7 +9,8 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'sapo.directives',
     'sapo.services',
     'angular-loading-bar',
-    'ngAnimate'
+//    'ngAnimate',
+//    'ngMaterial'
 //    'ui.select'
 ]);
 
@@ -231,17 +232,50 @@ odontologiaApp.config(['$urlRouterProvider',
                 abstract: true,
                 resolve: module('catedraModule')
             })
+            .state('catedra.index',{
+                url: '/',
+                templateUrl: 'views/catedra/query.html',
+                params: {execQuery: false, execQuerySamePage: false},
+                controller: 'CatedraCtrl_Index',
+                resolve: {
+
+                }
+            })
             .state('catedra.create', {
                 url: '/create',
                 templateUrl: 'views/catedra/create.html',
                 controller: 'CatedraCtrl_Create',
-                resolve: { materiaResponse: ['CommonsSrv', function (commons) {
-                    return commons.getMaterias();
+                resolve: { materiasResponse: ['CatedraSrv', function (service) {
+                    return service.findAllMaterias();
                 }],
 
                     diasResponse: ['CommonsSrv', function (commons) {
                         return commons.getDias();
                     }]}
+            })
+            .state('catedra.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/catedra/edit.html',
+                controller: 'CatedraCtrl_Edit',
+                resolve: {
+
+                }
+            })
+            .state('catedra.view', {
+                url: '/view/:id',
+                templateUrl: 'views/catedra/view.html',
+                resolve: {
+                    catedraResponse: ['$stateParams', 'CatedraSrv', function ($stateParams, service) {
+                        return service.findById($stateParams.id);
+                    }]
+                },
+                controller: function ($scope, $state, catedraResponse) {
+                    $scope.catedra = catedraResponse.data;
+
+                    $scope.goIndex = function () {
+                        $state.go('^.index');
+                    }
+                }
             })
         ;
 
@@ -279,8 +313,12 @@ odontologiaApp.config(['$urlRouterProvider',
                 },
                 {
                     name: 'catedraModule',
-                    files: [url('/catedra/catedraCreateCtrl.js'),
-                        url('/catedra/catedraSrv.js')]
+                    files: [
+                        url('/catedra/catedraSrv.js'),
+                        url('/catedra/catedraIndexCtrl.js'),
+                        url('/catedra/catedraCreateCtrl.js'),
+                        url('/catedra/catedraEditCtrl.js')
+                        ]
                 }
             ]
         });
@@ -294,9 +332,7 @@ angular.module('catedraModule', []);
 angular.module('trabajoPracticoModule', []);
 
 
-odontologiaApp.controller('AppController', function ($scope, $sce, $rootScope, $document) {
+odontologiaApp.controller('AppController', function ($scope) {
 
-    $scope.trustAsHtml = function(value) {
-        return $sce.trustAsHtml(value);
-    };
+
 });

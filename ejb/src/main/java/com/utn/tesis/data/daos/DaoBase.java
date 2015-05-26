@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -69,6 +70,29 @@ public abstract class DaoBase<E extends EntityBase> {
             q = q.concat(" where e.fechaBaja is null");
         }
         Query query = em.createQuery(q);
+        List<E> result = query.getResultList();
+        return result;
+    }
+
+    public List<E> findBy(HashMap<String, Object> filter) {
+        StringBuilder q = new StringBuilder("SELECT e FROM " + getGenericParameter().getSimpleName() + " e");
+        if (!filter.isEmpty()) {
+            int i = 0;
+            q.append(" where ");
+            for (String column : filter.keySet()) {
+                i++;
+                q.append("e.").append(column);
+                if (filter.get(column) instanceof String) {
+                    q.append(" LIKE ").append("'").append(filter.get(column)).append("'");
+                } else {
+                    q.append(" = ").append(filter.get(column));
+                }
+                if (i < filter.size()) {
+                    q.append(" AND ");
+                }
+            }
+        }
+        Query query = em.createQuery(q.toString());
         List<E> result = query.getResultList();
         return result;
     }

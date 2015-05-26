@@ -22,21 +22,11 @@ public class CommonsAPI {
     @Inject
     CommonsService commonsService;
 
-    @Inject
-    MateriaService materiaService;
-
     @Path("/getNiveles")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Nivel> findAllNiveles() {
         return commonsService.findAllNiveles();
-    }
-
-    @Path("/getMaterias")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Materia> findAllMaterias() {
-        return materiaService.findAll();
     }
 
     @Path("/getDias")

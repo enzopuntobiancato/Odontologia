@@ -1,6 +1,7 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,7 @@ public class DiaHorario extends EntityBase {
     @NotNull (message = "Debe ingresar hora hasta")
     private String horaHasta;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn (name = "catedraId")
     private Catedra catedra;

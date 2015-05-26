@@ -1,6 +1,6 @@
 <div>
     <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel-body" ng-keydown="keyboardOk($event)">
             <div class="page-header">
                 <div class="input-group">
                     <h2>Práctica odontológica
@@ -32,7 +32,11 @@
             </div>
             <div class="row-fluid col-lg-12">
                 <div class="form-group">
-                    <input type="checkbox" ng-model="filter.dadosBaja"> Incluir dados de baja
+                    <div class="checkbox">
+                        <label>
+                            <input ng-model="filter.dadosBaja" type="checkbox"> Incluir dados de baja
+                        </label>
+                    </div>
                 </div>
             </div>
 

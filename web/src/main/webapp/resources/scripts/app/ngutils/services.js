@@ -134,14 +134,6 @@ services
         })
     };
 
-    service.getMaterias = function () {
-        return $http({
-            method: 'GET',
-            url: 'api/commons/getMaterias',
-            cache: true
-        })
-    };
-
     service.getGruposPractica = function(){
         return $http({
             url: 'api/commons/getGruposPracticaOdontologica',

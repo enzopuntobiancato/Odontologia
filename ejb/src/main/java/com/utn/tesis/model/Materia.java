@@ -2,6 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

@@ -88,7 +88,7 @@ public abstract class BaseService<T extends EntityBase> {
     /*
     Validaciones de negocio (se definen en las clases hijas). Si alguna restricción de negocio no se cumple lanzar ValidationException.
      */
-    private void bussinessValidation(T entity) throws SAPOValidationException {
+    protected void bussinessValidation(T entity) throws SAPOValidationException {
         entity.validar();
     }
 

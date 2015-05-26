@@ -41,8 +41,7 @@ public class CatedraService extends BaseService<Catedra>{
             horarios.get(i).setCatedra(entity);
             diaHorarioService.create(horarios.get(i));
         }
-        validate(entity, validator);
-        return dao.create(entity);
+        return super.create(entity);
     }
 
 }

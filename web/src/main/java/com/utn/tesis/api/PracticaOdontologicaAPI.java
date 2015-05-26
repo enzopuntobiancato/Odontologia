@@ -44,10 +44,10 @@ public class PracticaOdontologicaAPI extends BaseAPI<PracticaOdontologica> {
     }
 
 
-    @Path("/findAll")
-    @GET
-    public List<PracticaOdontologica> findAll() {
-        return practicaOdontologicaService.findAll();
-    }
+//    @Path("/findAll")
+//    @GET
+//    public List<PracticaOdontologica> findAll() {
+//        return practicaOdontologicaService.findAll();
+//    }
 
 }

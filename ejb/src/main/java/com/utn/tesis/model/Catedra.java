@@ -1,6 +1,7 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,11 +16,13 @@ public class Catedra extends EntityBase {
     private static final long serialVersionUID = 1L;
 
     @NotNull (message = "Debe ingresar una denominación.")
+    @Size (max = 10, message = "La denominacion no puede ser mayor a 10 caracteres.")
     private String denominacion;
 
     @Size (max = 400, message = "La descripcion debe tener entre 0 y 400 caracteres.")
     private String descripcion;
 
+    @JsonManagedReference
     @NotNull (message = "Debe ingresar días y horarios.")
     @OneToMany(targetEntity = DiaHorario.class, mappedBy = "catedra", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<DiaHorario> horarios;
@@ -31,6 +34,14 @@ public class Catedra extends EntityBase {
 
     @ManyToMany(mappedBy = "catedras")
     private List<Profesor> profesores;
+
+    @ManyToMany
+    @JoinTable(name = "catedra_x_trabajo_practico",
+            joinColumns = {
+                    @JoinColumn(name = "catedra_id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "trabajo_practico_id")})
+    private List<TrabajoPractico> trabajosPracticos;
 
     public Catedra() {
         horarios = new ArrayList<DiaHorario>();
@@ -76,6 +87,14 @@ public class Catedra extends EntityBase {
         this.profesores = profesores;
     }
 
+    public List<TrabajoPractico> getTrabajosPracticos() {
+        return trabajosPracticos;
+    }
+
+    public void setTrabajosPracticos(List<TrabajoPractico> trabajosPracticos) {
+        this.trabajosPracticos = trabajosPracticos;
+    }
+
     @Override
     public void validar() throws SAPOValidationException {
         HashMap<String, String> e = new HashMap<String, String>();
@@ -95,9 +114,14 @@ public class Catedra extends EntityBase {
 
         Catedra catedra = (Catedra) o;
 
-        if (!denominacion.equals(catedra.denominacion)) return false;
-        if (!horarios.equals(catedra.horarios)) return false;
-        if (!materia.equals(catedra.materia)) return false;
+        if (denominacion != null ? !denominacion.equals(catedra.denominacion) : catedra.denominacion != null)
+            return false;
+        if (descripcion != null ? !descripcion.equals(catedra.descripcion) : catedra.descripcion != null) return false;
+        if (horarios != null ? !horarios.equals(catedra.horarios) : catedra.horarios != null) return false;
+        if (materia != null ? !materia.equals(catedra.materia) : catedra.materia != null) return false;
+        if (profesores != null ? !profesores.equals(catedra.profesores) : catedra.profesores != null) return false;
+        if (trabajosPracticos != null ? !trabajosPracticos.equals(catedra.trabajosPracticos) : catedra.trabajosPracticos != null)
+            return false;
 
         return true;
     }
@@ -105,9 +129,11 @@ public class Catedra extends EntityBase {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + denominacion.hashCode();
-        result = 31 * result + horarios.hashCode();
-        result = 31 * result + materia.hashCode();
+        result = 31 * result + (denominacion != null ? denominacion.hashCode() : 0);
+        result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
+        result = 31 * result + (materia != null ? materia.hashCode() : 0);
+        result = 31 * result + (profesores != null ? profesores.hashCode() : 0);
+        result = 31 * result + (trabajosPracticos != null ? trabajosPracticos.hashCode() : 0);
         return result;
     }
 }

@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-body">
+    <div class="panel-body" >
         <div class="page-header">
             <div class="input-group">
                 <h2>Trabajo práctico
@@ -38,7 +38,13 @@
                 </select>
             </div>
             <div class="col-lg-7">
-                <input ng-model="filter.dadosBaja" type="checkbox"> Incluir dados de baja
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input ng-model="filter.dadosBaja" type="checkbox"> Incluir dados de baja
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row-fluid col-lg-12">

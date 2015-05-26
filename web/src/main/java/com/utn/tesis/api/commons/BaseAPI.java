@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -38,11 +39,13 @@ public abstract class BaseAPI<T extends EntityBase> {
             } else {
                 getEjbInstance().update(entity);
             }
-
+            return Response.ok(entity).build();
         } catch (SAPOException se) {
             return persistenceRequest(se);
+        } catch (Exception e) {
+            Logger.getLogger(BaseAPI.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-        return Response.ok(entity).build();
     }
 
     @Path("/remove")
@@ -70,6 +73,11 @@ public abstract class BaseAPI<T extends EntityBase> {
         return getEjbInstance().findById(id);
     }
 
+    @Path("/findAll")
+    @GET
+    public List<T> findAll() {
+        return getEjbInstance().findAll();
+    }
 
     public Response persistenceRequest(Exception e) {
         Response.ResponseBuilder builder = null;

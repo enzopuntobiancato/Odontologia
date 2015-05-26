@@ -33,11 +33,23 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
          executeQuery();
     }
 
-    $scope.nextPage = function(){
-       executeQuery(++$scope.paginationData.pageNumber);
+    $scope.nextPage = function () {
+        if ($scope.paginationData.morePages) {
+            executeQuery(++$scope.paginationData.pageNumber);
+        }
     }
-    $scope.previousPage = function() {
-        executeQuery(--$scope.paginationData.pageNumber);
+
+
+    $scope.previousPage = function () {
+        if (!$scope.paginationData.firstPage) {
+            executeQuery(--$scope.paginationData.pageNumber);
+        }
+    }
+
+    $scope.keyboardOk = function (event) {
+        if (event.which == 13) {
+            executeQuery();
+        }
     }
 
     $scope.new = function () {

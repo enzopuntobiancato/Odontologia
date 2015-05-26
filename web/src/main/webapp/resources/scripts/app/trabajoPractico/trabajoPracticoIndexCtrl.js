@@ -19,10 +19,6 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             gruposPractica: gruposPracticaResponse.data,
             practicas: practicasResponse.data
         }
-//        $scope.data = {
-//            gruposPractica: dataResponse.data,
-//            practicas: dataResponse
-//        }
 
         $scope.select = {
             practicas: $scope.data.practicas
@@ -73,10 +69,20 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         }
 
         $scope.nextPage = function () {
-            executeQuery(++$scope.paginationData.pageNumber);
+            if ($scope.paginationData.morePages) {
+                executeQuery(++$scope.paginationData.pageNumber);
+            }
         }
         $scope.previousPage = function () {
-            executeQuery(--$scope.paginationData.pageNumber);
+            if (!$scope.paginationData.firstPage) {
+                executeQuery(--$scope.paginationData.pageNumber);
+            }
+        }
+
+        $scope.keyboardOk = function (event) {
+            if (event.which == 13) {
+                executeQuery();
+            }
         }
 
         $scope.new = function () {
