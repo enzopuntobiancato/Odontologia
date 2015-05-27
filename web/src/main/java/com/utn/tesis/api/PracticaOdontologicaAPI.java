@@ -1,16 +1,17 @@
 package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
-import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.PracticaOdontologica;
 import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.PracticaOdontologicaService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -42,12 +43,5 @@ public class PracticaOdontologicaAPI extends BaseAPI<PracticaOdontologica> {
                                        @QueryParam("pageSize") Long pageSize) {
         return practicaOdontologicaService.findByFilters(denominacion, idGrupoPractica, dadosBaja, pageNumber, pageSize);
     }
-
-
-//    @Path("/findAll")
-//    @GET
-//    public List<PracticaOdontologica> findAll() {
-//        return practicaOdontologicaService.findAll();
-//    }
 
 }

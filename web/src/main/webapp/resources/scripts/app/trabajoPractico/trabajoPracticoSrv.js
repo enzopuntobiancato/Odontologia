@@ -2,46 +2,15 @@ var module = angular.module('trabajoPracticoModule');
 
 
 module
-    .factory('TrabajoPracticoSrv', ['$http', function ($http) {
+    .factory('TrabajoPracticoSrv', ['$http', 'ABMCFactory', function ($http, ABMCFactory) {
         return {
+            abmcFactory: ABMCFactory.config('trabajoPractico'),
             getPracticas: function() {
                 return $http({
                     url: 'api/practicaOdontologica/findAll',
                     method: 'GET'
                 })
-            },
-            save: function (trabajoPractico) {
-                return $http({
-                    url: 'api/trabajoPractico/save',
-                    method: 'POST',
-                    data: angular.toJson(trabajoPractico)
-                })
-            },
-            remove: function (id, motivoBaja) {
-                var entity = {
-                    id: id,
-                    motivoBaja: motivoBaja}
-                return $http({
-                    url: 'api/trabajoPractico/remove',
-                    method: 'POST',
-                    data: entity
-                })
-            },
-            restore: function (id) {
-                return $http({
-                    url: 'api/trabajoPractico/restore',
-                    method: 'PUT',
-                    params: {id: id}
-                })
-            },
-            findById: function(id) {
-                return $http({
-                    url: 'api/trabajoPractico/findById',
-                    method: 'GET',
-                    params: {id: id}
-                })
             }
-
         }
 
     }]);

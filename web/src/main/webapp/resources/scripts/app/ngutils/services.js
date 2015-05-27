@@ -1,7 +1,7 @@
 var services = angular.module('sapo.services', []);
 
 services.
-    factory('NotificationSrv', ['$q', '$location','$anchorScroll', function ($q, $location, $anchorScroll) {
+    factory('NotificationSrv', ['$q', '$location', '$anchorScroll', function ($q, $location, $anchorScroll) {
 
         var service = {};
 
@@ -104,43 +104,91 @@ services.
 
 services
     .factory('CommonsSrv', ['$http', function ($http) {
-    var service = {};
+        var service = {};
 
-    service.enumToJson = function (data) {
-        var result = [];
+        service.enumToJson = function (data) {
+            var result = [];
 
-        for (var i = 0; i < data.length; i++) {
-            var json = {};
-            json.id = i;
-            json.nombre = data[i];
-            result.push(json);
-        }
-        return result;
-    };
+            for (var i = 0; i < data.length; i++) {
+                var json = {};
+                json.id = i;
+                json.nombre = data[i];
+                result.push(json);
+            }
+            return result;
+        };
 
-    service.getNiveles = function () {
-        return $http({
-            method: 'GET',
-            url: 'api/commons/getNiveles',
-            cache: true
-        })
-    };
+        service.getNiveles = function () {
+            return $http({
+                method: 'GET',
+                url: 'api/commons/getNiveles',
+                cache: true
+            })
+        };
 
-    service.getDias = function () {
-        return $http({
-            method: 'GET',
-            url: 'api/commons/getDias',
-            cache: true
-        })
-    };
+        service.getDias = function () {
+            return $http({
+                method: 'GET',
+                url: 'api/commons/getDias',
+                cache: true
+            })
+        };
 
-    service.getGruposPractica = function(){
-        return $http({
-            url: 'api/commons/getGruposPracticaOdontologica',
-            method: 'GET',
-            cache: true
-        })
-    };
+        service.getGruposPractica = function () {
+            return $http({
+                url: 'api/commons/getGruposPracticaOdontologica',
+                method: 'GET',
+                cache: true
+            })
+        };
 
-    return service;
-}]);
+        return service;
+    }]);
+
+services
+    .factory('ABMCFactory', ['$http', function ($http) {
+        var service = {
+            namespace: ''
+        };
+
+        service.config = function (namespace) {
+            service.namespace = namespace;
+            return service;
+        };
+
+        service.save = function (object) {
+            return $http({
+                url: 'api/' + service.namespace + '/save',
+                method: 'POST',
+                data: angular.toJson(object)
+            })
+        };
+
+        service.remove = function (id, motivoBaja) {
+            var object = {
+                id: id,
+                motivoBaja: motivoBaja}
+            return $http({
+                url: 'api/' + service.namespace + '/remove',
+                method: 'POST',
+                data: object
+            })
+        };
+        service.restore = function (id) {
+            return $http({
+                url: 'api/' + service.namespace + '/restore',
+                method: 'PUT',
+                params: {id: id}
+            })
+        };
+        service.findById = function (id) {
+            return $http({
+                url: 'api/' + service.namespace + '/findById',
+                method: 'GET',
+                params: {id: id}
+            })
+        };
+
+        return service;
+
+    }]);

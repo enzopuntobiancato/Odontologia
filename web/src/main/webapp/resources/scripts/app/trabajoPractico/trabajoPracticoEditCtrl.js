@@ -43,7 +43,7 @@ module.controller('TrabajoPracticoCtrl_Edit', ['$scope','$rootScope', 'TrabajoPr
     $scope.save = function()
     {
 //        notification.showWidget();
-        service.save($scope.trabajoPractico)
+        service.abmcFactory.save($scope.trabajoPractico)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;

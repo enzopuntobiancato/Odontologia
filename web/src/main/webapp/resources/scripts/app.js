@@ -8,7 +8,7 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'Pagination',
     'sapo.directives',
     'sapo.services',
-    'angular-loading-bar',
+    'angular-loading-bar'
 //    'ngAnimate',
 //    'ngMaterial'
 //    'ui.select'
@@ -79,8 +79,8 @@ odontologiaApp.config(['$urlRouterProvider',
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
                     }],
-                    materiaResponse: ['$stateParams', 'MateriaSrv', function ($stateParams, service) {
-                        return service.findById($stateParams.id);
+                    materiaResponse: ['loadMyModule', '$stateParams', 'MateriaSrv', function (loadMyModule, $stateParams, service) {
+                        return service.abmcFactory.findById($stateParams.id);
                     }]
 
                 }
@@ -89,8 +89,8 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/view/:id',
                 templateUrl: 'views/materia/view.html',
                 resolve: {
-                    materiaResponse: ['$stateParams', 'MateriaSrv', function ($stateParams, service) {
-                        return service.findById($stateParams.id);
+                    materiaResponse: ['loadMyModule', '$stateParams', 'MateriaSrv', function (loadMyModule, $stateParams, service) {
+                        return service.abmcFactory.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, materiaResponse) {
@@ -138,8 +138,8 @@ odontologiaApp.config(['$urlRouterProvider',
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
                     }],
-                    practicaResponse: ['PracticaOdontologicaSrv', '$stateParams', function (service, $stateParams) {
-                        return service.findById($stateParams.id);
+                    practicaResponse: ['loadMyModule', 'PracticaOdontologicaSrv', '$stateParams', function (loadMyModule, service, $stateParams) {
+                        return service.abmcFactory.findById($stateParams.id);
                     }]
                 }
             })
@@ -147,8 +147,8 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/view/:id',
                 templateUrl: 'views/practicaOdontologica/view.html',
                 resolve: {
-                    practicaResponse: ['$stateParams', 'PracticaOdontologicaSrv', function ($stateParams, service) {
-                        return service.findById($stateParams.id);
+                    practicaResponse: ['loadMyModule', '$stateParams', 'PracticaOdontologicaSrv', function (loadMyModule, $stateParams, service) {
+                        return service.abmcFactory.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, practicaResponse) {
@@ -175,7 +175,7 @@ odontologiaApp.config(['$urlRouterProvider',
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
                     }],
-                    practicasResponse: ['loadMyModule', 'TrabajoPracticoSrv', function(module, service){
+                    practicasResponse: ['loadMyModule', 'TrabajoPracticoSrv', function (module, service) {
                         return service.getPracticas();
                     }]
                 }
@@ -188,7 +188,7 @@ odontologiaApp.config(['$urlRouterProvider',
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
                     }],
-                    practicasResponse: ['TrabajoPracticoSrv', function(service){
+                    practicasResponse: ['loadMyModule', 'TrabajoPracticoSrv', function (loadMyModule, service) {
                         return service.getPracticas();
                     }]
                 }
@@ -201,11 +201,11 @@ odontologiaApp.config(['$urlRouterProvider',
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
                     }],
-                    practicasResponse: ['TrabajoPracticoSrv', function(service){
+                    practicasResponse: ['loadMyModule', 'TrabajoPracticoSrv', function (loadMyModule, service) {
                         return service.getPracticas();
                     }],
-                    trabajoPracticoResponse: ['$stateParams', 'TrabajoPracticoSrv', function($stateParams, service) {
-                        return service.findById($stateParams.id)
+                    trabajoPracticoResponse: ['loadMyModule', '$stateParams', 'TrabajoPracticoSrv', function (loadMyModule, $stateParams, service) {
+                        return service.abmcFactory.findById($stateParams.id)
                     }]
                 }
             })
@@ -213,8 +213,8 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/view/:id',
                 templateUrl: 'views/trabajoPractico/view.html',
                 resolve: {
-                    trabajoPracticoResponse: ['$stateParams', 'TrabajoPracticoSrv', function ($stateParams, service) {
-                        return service.findById($stateParams.id);
+                    trabajoPracticoResponse: ['loadMyModule', '$stateParams', 'TrabajoPracticoSrv', function (loadMyModule, $stateParams, service) {
+                        return service.abmcFactory.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, trabajoPracticoResponse) {
@@ -232,7 +232,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 abstract: true,
                 resolve: module('catedraModule')
             })
-            .state('catedra.index',{
+            .state('catedra.index', {
                 url: '/',
                 templateUrl: 'views/catedra/query.html',
                 params: {execQuery: false, execQuerySamePage: false},
@@ -245,13 +245,20 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/create',
                 templateUrl: 'views/catedra/create.html',
                 controller: 'CatedraCtrl_Create',
-                resolve: { materiasResponse: ['CatedraSrv', function (service) {
-                    return service.findAllMaterias();
-                }],
-
+                resolve: {
+                    materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
+                        return service.findAllMaterias();
+                    }],
                     diasResponse: ['CommonsSrv', function (commons) {
                         return commons.getDias();
-                    }]}
+                    }],
+                    gruposPracticaResponse: ['CommonsSrv', function (commons) {
+                        return commons.getGruposPractica();
+                    }],
+                    practicasResponse: ['loadMyModule', 'CatedraSrv', function(loadMyModule, service){
+                        return service.getPracticas();
+                    }]
+                }
             })
             .state('catedra.edit', {
                 url: '/edit/:id',
@@ -265,8 +272,8 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/view/:id',
                 templateUrl: 'views/catedra/view.html',
                 resolve: {
-                    catedraResponse: ['$stateParams', 'CatedraSrv', function ($stateParams, service) {
-                        return service.findById($stateParams.id);
+                    catedraResponse: ['loadMyModule', '$stateParams', 'CatedraSrv', function (loadMyModule, $stateParams, service) {
+                        return service.abmcFactory.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, catedraResponse) {
@@ -318,7 +325,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         url('/catedra/catedraIndexCtrl.js'),
                         url('/catedra/catedraCreateCtrl.js'),
                         url('/catedra/catedraEditCtrl.js')
-                        ]
+                    ]
                 }
             ]
         });

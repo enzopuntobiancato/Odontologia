@@ -1,9 +1,9 @@
 var module = angular.module('practicaOdontologicaModule');
 
 
-module.controller('PracticaOdontologicaCtrl_Edit', ['$scope','$rootScope', 'PracticaOdontologicaSrv', '$state', 'NotificationSrv', 'gruposPracticaResponse', 'practicaResponse', '$filter', function ($scope,$rootScope, service, $state, notification, gruposPracticaResponse, practicaResponse) {
+module.controller('PracticaOdontologicaCtrl_Edit', ['$scope','$rootScope', 'PracticaOdontologicaSrv', '$state', 'NotificationSrv', 'gruposPracticaResponse', 'practicaResponse', function ($scope,$rootScope, service, $state, notification, gruposPracticaResponse, practicaResponse) {
     $scope.practica = practicaResponse.data;
-    $scope.practica.grupoId = $scope.practica.grupo.id;
+//    $scope.practica.grupoId = $scope.practica.grupo.id;
 
     $scope.data = {
         disableFields: false,
@@ -16,7 +16,7 @@ module.controller('PracticaOdontologicaCtrl_Edit', ['$scope','$rootScope', 'Prac
     {
 //        notification.showWidget();
 
-        service.save($scope.practica)
+        service.abmcFactory.save($scope.practica)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;

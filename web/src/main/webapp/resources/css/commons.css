@@ -43,6 +43,10 @@ html, body {
     overflow: auto;
 }
 
+/*#navigation-bar {*/
+    /*z-index: 10002;*/
+/*}*/
+
 #widget
 {
     position: fixed;

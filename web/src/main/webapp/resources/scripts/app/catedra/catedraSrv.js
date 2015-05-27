@@ -1,21 +1,22 @@
 var module = angular.module('catedraModule');
 
 module.
-    factory('CatedraSrv', ['$http', function ($http) {
-        var service = {};
-
-        service.save = function (catedra) {
-            return $http({
-                method: 'POST',
-                url: 'api/catedra/save',
-                data: angular.toJson(catedra)
-            })
-        }
+    factory('CatedraSrv', ['$http', 'ABMCFactory', function ($http, ABMCFactory) {
+        var service = {
+            abmcFactory: ABMCFactory.config('catedra')
+        };
 
         service.findAllMaterias = function(){
             return $http({
                 method:'GET',
                 url: 'api/materia/findAll'
+            })
+        }
+
+        service.getPracticas = function() {
+            return $http({
+                url: 'api/practicaOdontologica/findAll',
+                method: 'GET'
             })
         }
         return service;

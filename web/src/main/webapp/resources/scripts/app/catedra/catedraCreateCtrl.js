@@ -1,7 +1,8 @@
 'use strict';
 var module = angular.module('catedraModule');
 
-module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'CommonsSrv', 'NotificationSrv', 'CatedraSrv','materiasResponse', 'diasResponse','$filter','PaginationService', function($scope,$rootScope, $state,  commons, notification, service, materiasResponse, diasResponse, $filter, pagination) {
+module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'CommonsSrv', 'NotificationSrv', 'CatedraSrv','materiasResponse', 'diasResponse', 'gruposPracticaResponse', 'practicasResponse', '$filter','PaginationService',
+    function($scope,$rootScope, $state,  commons, notification, service, materiasResponse, diasResponse, gruposPracticaResponse, practicasResponse, $filter, pagination) {
 
     $scope.catedra = {
         horarios: [],
@@ -20,10 +21,10 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
         editing: false,
         result: [],
         filter: {},
-        gruposPractica: [],
-        practicas: [],
+        gruposPractica: gruposPracticaResponse.data,
+        practicas: practicasResponse.data,
         select: {
-            practicas: this.practicas
+            practicas: practicasResponse.data
         }
     }
 
@@ -196,7 +197,7 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
 
         $scope.tpData.editing = false;
 
-        service.save($scope.catedra)
+        service.abmcFactory.save($scope.catedra)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;

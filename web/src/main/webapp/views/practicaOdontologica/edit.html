@@ -36,10 +36,10 @@
                         <label>Grupo</label>
                         <select ng-disabled="data.disableFields" name="grupo" class="form-control"
                                 ng-model="practica.grupo"
-                                ng-options="grupo as grupo.nombre for grupo in data.gruposPractica" required>
+                                ng-options="grupo as grupo.nombre for grupo in data.gruposPractica track by grupo.id" required>
                             <option value="">Seleccione</option>
                         </select>
-                        <span class="help-block" for="nivel"></span>
+                        <span class="help-block" for="grupo"></span>
                     </div>
                 </div>
             </div>

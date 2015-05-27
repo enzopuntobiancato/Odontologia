@@ -14,7 +14,7 @@ module.controller('MateriaCtrl_Edit', ['$scope', '$rootScope', 'MateriaSrv', '$s
     $scope.save = function()
     {
 //        notification.showWidget();
-        service.save($scope.materia)
+        service.abmcFactory.save($scope.materia)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;

@@ -60,7 +60,7 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
         notification.requestReason().then(function (motivo) {
             if (motivo != null) {
 //                notification.showWidget();
-                service.remove(materiaId, motivo).success(function (response) {
+                service.abmcFactory.remove(materiaId, motivo).success(function (response) {
 //                    notification.hideWidget();
                     notification.goodAndOnEscape("Materia dada de baja correctamente.", function () {
                         executeQuery($scope.paginationData.pageNumber);
@@ -84,7 +84,7 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
 
         function altaConfirmada(materiaId) {
 //            notification.showWidget();
-            service.restore(materiaId)
+            service.abmcFactory.restore(materiaId)
                 .success(function () {
 //                    notification.hideWidget();
                     notification.goodAndOnEscape("Materia dada de alta correctamente.", function () {

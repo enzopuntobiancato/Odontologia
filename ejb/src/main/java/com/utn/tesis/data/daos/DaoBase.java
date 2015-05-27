@@ -81,10 +81,12 @@ public abstract class DaoBase<E extends EntityBase> {
             q.append(" where ");
             for (String column : filter.keySet()) {
                 i++;
-                q.append("e.").append(column);
+
                 if (filter.get(column) instanceof String) {
-                    q.append(" LIKE ").append("'").append(filter.get(column)).append("'");
+                    q.append("UPPER(e.").append(column).append(")");
+                    q.append(" LIKE ").append("'").append(((String) filter.get(column)).toUpperCase()).append("'");
                 } else {
+                    q.append("e.").append(column);
                     q.append(" = ").append(filter.get(column));
                 }
                 if (i < filter.size()) {

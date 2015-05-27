@@ -38,13 +38,20 @@ public class MateriaService extends BaseService<Materia> {
 
     @Override
     protected void bussinessValidation(Materia entity) throws SAPOValidationException {
-        HashMap<String, Object> filter = new HashMap<String, Object>();
-        filter.put("nombre", entity.getNombre());
-        List<Materia> result = dao.findBy(filter);
-        if (!result.isEmpty()) {
-            HashMap<String, String> error = new HashMap<String, String>(1);
-            error.put("nombre", "El nombre ingresado para la materia ya existe.");
-            throw new SAPOValidationException(error);
+        boolean executeNameValidation = true;
+        if (!entity.isNew()) {
+            Materia persistedEntity = this.findById(entity.getId());
+            executeNameValidation = !entity.getNombre().equalsIgnoreCase(persistedEntity.getNombre());
+        }
+        if (executeNameValidation) {
+            HashMap<String, Object> filter = new HashMap<String, Object>();
+            filter.put("nombre", entity.getNombre());
+            List<Materia> result = dao.findBy(filter);
+            if (!result.isEmpty()) {
+                HashMap<String, String> error = new HashMap<String, String>(1);
+                error.put("nombre", "El nombre ingresado para la materia ya existe.");
+                throw new SAPOValidationException(error);
+            }
         }
         super.bussinessValidation(entity);
     }
