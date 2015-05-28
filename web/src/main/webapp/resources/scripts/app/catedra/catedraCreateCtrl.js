@@ -155,7 +155,8 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
         var overlappingHours = $filter('filter')($scope.catedra.horarios, function(horario){
             var sameDay = horario.dia === $scope.newHorario.dia;
             var overlappingHours = $scope.newHorario.horaDesde >= horario.horaDesde && $scope.newHorario.horaHasta <= horario.horaHasta;
-            overlappingHours |=  $scope.newHorario.horaDesde >= horario.horaHasta && $scope.newHorario.horaHasta <= horario.horaDesde;
+            overlappingHours |=  $scope.newHorario.horaDesde < horario.horaDesde && $scope.newHorario.horaHasta > horario.horaDesde;
+            overlappingHours |=  $scope.newHorario.horaDesde < horario.horaHasta && $scope.newHorario.horaHasta > horario.horaHasta;
             return sameDay && overlappingHours;
         }).length;
         if (overlappingHours) {

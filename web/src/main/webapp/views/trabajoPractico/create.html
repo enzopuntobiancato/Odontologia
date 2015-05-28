@@ -27,12 +27,12 @@
                 <div class="col-lg-6">
                    <div class="form-group" show-errors>
                        <label>Nombre</label>
-                       <input maxlength="100" required ng-model="trabajoPractico.nombre" name="nombre" type="text" class="form-control"/>
+                       <input ng-disabled="data.disableFields" maxlength="100" required ng-model="trabajoPractico.nombre" name="nombre" type="text" class="form-control"/>
                        <span class="help-block" for="nombre"></span>
                    </div>
                     <div class="form-group" show-errors>
                         <label>Descripción</label>
-                        <textarea maxlength="400" required ng-model="trabajoPractico.descripcion" name="descripcion" class="form-control" rows="6"></textarea>
+                        <textarea ng-disabled="data.disableFields" maxlength="400" required ng-model="trabajoPractico.descripcion" name="descripcion" class="form-control" rows="6"></textarea>
                         <span class="help-block" for="descripcion"></span>
                     </div>
                 </div>
@@ -43,13 +43,13 @@
                             <div class="form-group"><p>Si lo desea acote las prácticas mostradas mediante el filtro GRUPO</p></div>
                             <div class="form-group">
                                  <label>Grupo</label>
-                                 <select ng-model="selectedGrupo" class="form-control" ng-options="grupo as grupo.nombre for grupo in data.gruposPractica track by grupo.id">
+                                 <select ng-disabled="data.disableFields" ng-model="selectedGrupo" class="form-control" ng-options="grupo as grupo.nombre for grupo in data.gruposPractica track by grupo.id">
                                      <option value="">Seleccione</option>
                                  </select>
                              </div>
                             <div class="form-group" show-errors>
                                 <label>Práctica</label>
-                                <select required ng-model="trabajoPractico.practicaOdontologica" name="practica" class="form-control" ng-options="practica as practica.denominacion for practica in practicasSelect track by practica.id">
+                                <select ng-disabled="data.disableFields" required ng-model="trabajoPractico.practicaOdontologica" name="practica" class="form-control" ng-options="practica as practica.denominacion for practica in practicasSelect track by practica.id">
                                     <option value="">Seleccione</option>
                                 </select>
                                 <span class="help-block" for="practica"></span>

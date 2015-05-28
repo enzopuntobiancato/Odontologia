@@ -23,10 +23,15 @@ public class TrabajoPracticoDao extends DaoBase<TrabajoPractico> {
         if (practicaId != null) {
             query.where(trabajoPractico.practicaOdontologica.id.eq(practicaId));
         } else if (grupoPracticaId != null) {
-
+            QPracticaOdontologica practica = QPracticaOdontologica.practicaOdontologica;
+            query.where(trabajoPractico.practicaOdontologica.in(
+                    new JPAQuery(em).from(practica).where(
+                            practica.grupo.id.eq
+                                    (grupoPracticaId)).list(practica)));
         }
         if (!dadosBaja) {
-            query.where(trabajoPractico.fechaBaja.isNull()); }
+            query.where(trabajoPractico.fechaBaja.isNull());
+        }
         query = paginar(query, pageNumber, pageSize);
         return query.list(trabajoPractico);
     }

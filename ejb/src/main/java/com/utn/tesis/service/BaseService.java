@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by aleBurgos on 09/02/2015.
+ * Created by enzo on 09/02/2015.
  */
 public abstract class BaseService<T extends EntityBase> {
 
