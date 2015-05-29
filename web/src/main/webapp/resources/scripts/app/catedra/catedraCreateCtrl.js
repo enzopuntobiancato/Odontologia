@@ -198,7 +198,7 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
 
         $scope.tpData.editing = false;
 
-        service.abmcFactory.save($scope.catedra)
+        service.save($scope.catedra)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;

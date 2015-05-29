@@ -58,7 +58,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
         notification.requestReason().then(function (motivo) {
             if (motivo != null) {
 //                notification.showWidget();
-                service.abmcFactory.remove(practicaId, motivo).success(function (response) {
+                service.remove(practicaId, motivo).success(function (response) {
 //                    notification.hideWidget();
                     notification.goodAndOnEscape("Práctica dada de baja correctamente.", function () {
                         executeQuery($scope.paginationData.pageNumber);
@@ -82,7 +82,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
 
         function altaConfirmada(practicaId) {
 //            notification.showWidget();
-            service.abmcFactory.restore(practicaId)
+            service.restore(practicaId)
                 .success(function () {
 //                    notification.hideWidget();
                     notification.goodAndOnEscape("Práctica odontológica dada de alta correctamente.", function () {

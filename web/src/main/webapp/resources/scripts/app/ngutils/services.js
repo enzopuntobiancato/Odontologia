@@ -142,53 +142,12 @@ services
             })
         };
 
-        return service;
-    }]);
-
-services
-    .factory('ABMCFactory', ['$http', function ($http) {
-        var service = {
-            namespace: ''
-        };
-
-        service.config = function (namespace) {
-            service.namespace = namespace;
-            return service;
-        };
-
-        service.save = function (object) {
+        service.initializeData = function () {
             return $http({
-                url: 'api/' + service.namespace + '/save',
-                method: 'POST',
-                data: angular.toJson(object)
+                url: 'api/commons/initializeData',
+                method: 'POST'
             })
-        };
-
-        service.remove = function (id, motivoBaja) {
-            var object = {
-                id: id,
-                motivoBaja: motivoBaja}
-            return $http({
-                url: 'api/' + service.namespace + '/remove',
-                method: 'POST',
-                data: object
-            })
-        };
-        service.restore = function (id) {
-            return $http({
-                url: 'api/' + service.namespace + '/restore',
-                method: 'PUT',
-                params: {id: id}
-            })
-        };
-        service.findById = function (id) {
-            return $http({
-                url: 'api/' + service.namespace + '/findById',
-                method: 'GET',
-                params: {id: id}
-            })
-        };
+        }
 
         return service;
-
     }]);

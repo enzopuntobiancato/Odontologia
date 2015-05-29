@@ -16,7 +16,7 @@ module.controller('PracticaOdontologicaCtrl_Edit', ['$scope','$rootScope', 'Prac
     {
 //        notification.showWidget();
 
-        service.abmcFactory.save($scope.practica)
+        service.save($scope.practica)
             .success(function(data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;

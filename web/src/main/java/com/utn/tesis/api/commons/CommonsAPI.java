@@ -2,17 +2,18 @@ package com.utn.tesis.api.commons;
 
 import com.utn.tesis.model.Dia;
 import com.utn.tesis.model.GrupoPracticaOdontologica;
-import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 import com.utn.tesis.service.CommonsService;
-import com.utn.tesis.service.MateriaService;
+import com.utn.tesis.service.initialization.InitializationService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/commons")
@@ -21,6 +22,9 @@ public class CommonsAPI {
 
     @Inject
     CommonsService commonsService;
+
+    @Inject
+    InitializationService initService;
 
     @Path("/getNiveles")
     @GET
@@ -41,5 +45,12 @@ public class CommonsAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public List<GrupoPracticaOdontologica> findAllGruposPracticaOdontologica() {
         return commonsService.findAllGruposPracticaOdontologica();
+    }
+
+    @Path("/initializeData")
+    @POST
+    public Response loadInitializationData() {
+        initService.initializeData();
+        return Response.status(Response.Status.OK).build();
     }
 }

@@ -42,7 +42,18 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/',
                 templateUrl: 'views/home/home.html',
                 controller: 'HomeCtrl',
-                resolve: module('homeModule')
+                resolve: {
+                    loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        //lazyload de un modulo
+                        return $ocLazyLoad.load('homeModule');
+                    }],
+                    initializeData: ['$http', function($http) {
+                        return $http({
+                            url:'api/commons/initializeData',
+                            method: 'POST'
+                        })
+                    }]
+                }
             })
             .state('materia', {
                 url: '/materia',
@@ -80,7 +91,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         return commons.getNiveles();
                     }],
                     materiaResponse: ['loadMyModule', '$stateParams', 'MateriaSrv', function (loadMyModule, $stateParams, service) {
-                        return service.abmcFactory.findById($stateParams.id);
+                        return service.findById($stateParams.id);
                     }]
 
                 }
@@ -90,7 +101,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/materia/view.html',
                 resolve: {
                     materiaResponse: ['loadMyModule', '$stateParams', 'MateriaSrv', function (loadMyModule, $stateParams, service) {
-                        return service.abmcFactory.findById($stateParams.id);
+                        return service.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, materiaResponse) {
@@ -139,7 +150,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         return commons.getGruposPractica();
                     }],
                     practicaResponse: ['loadMyModule', 'PracticaOdontologicaSrv', '$stateParams', function (loadMyModule, service, $stateParams) {
-                        return service.abmcFactory.findById($stateParams.id);
+                        return service.findById($stateParams.id);
                     }]
                 }
             })
@@ -148,7 +159,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/practicaOdontologica/view.html',
                 resolve: {
                     practicaResponse: ['loadMyModule', '$stateParams', 'PracticaOdontologicaSrv', function (loadMyModule, $stateParams, service) {
-                        return service.abmcFactory.findById($stateParams.id);
+                        return service.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, practicaResponse) {
@@ -205,7 +216,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         return service.getPracticas();
                     }],
                     trabajoPracticoResponse: ['loadMyModule', '$stateParams', 'TrabajoPracticoSrv', function (loadMyModule, $stateParams, service) {
-                        return service.abmcFactory.findById($stateParams.id)
+                        return service.findById($stateParams.id)
                     }]
                 }
             })
@@ -214,7 +225,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/trabajoPractico/view.html',
                 resolve: {
                     trabajoPracticoResponse: ['loadMyModule', '$stateParams', 'TrabajoPracticoSrv', function (loadMyModule, $stateParams, service) {
-                        return service.abmcFactory.findById($stateParams.id);
+                        return service.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, trabajoPracticoResponse) {
@@ -273,7 +284,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/catedra/view.html',
                 resolve: {
                     catedraResponse: ['loadMyModule', '$stateParams', 'CatedraSrv', function (loadMyModule, $stateParams, service) {
-                        return service.abmcFactory.findById($stateParams.id);
+                        return service.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, catedraResponse) {

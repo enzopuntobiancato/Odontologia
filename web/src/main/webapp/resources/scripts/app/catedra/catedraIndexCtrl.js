@@ -88,13 +88,13 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'No
             }
         }
 
-        $scope.edit = function (materiaId) {
-            $state.go('^.edit', {id: materiaId});
+        $scope.edit = function (id) {
+            $state.go('^.edit', {id: id});
 
         }
 
-        $scope.viewDetail = function (practicaId) {
-            $state.go('^.view', {id: practicaId});
+        $scope.viewDetail = function (id) {
+            $state.go('^.view', {id: id});
         }
 
         $scope.cleanFilters = function () {

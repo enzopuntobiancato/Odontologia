@@ -2,16 +2,47 @@ var module = angular.module('materiaModule');
 
 
 module
-    .factory('MateriaSrv', ['$http','ABMCFactory', function ($http, ABMCFactory) {
+    .factory('MateriaSrv', ['$http', function ($http) {
         return {
-            abmcFactory: ABMCFactory.config('materia'),
+            save: function (materia) {
+                return $http({
+                    url: 'api/materia/save',
+                    method: 'POST',
+                    data: angular.toJson(materia)
+                })
+            },
             find: function (nombre, nivel, dadosBaja) {
                 return $http({
                     url: 'api/materia/find',
                     method: 'GET',
                     params: {nombre: nombre, nivel: nivel, dadosBaja: dadosBaja}
                 })
+            },
+            remove: function (materiaId, motivoBaja) {
+                var materia = {
+                    id: materiaId,
+                    motivoBaja: motivoBaja}
+                return $http({
+                    url: 'api/materia/remove',
+                    method: 'POST',
+                    data: materia
+                })
+            },
+            restore: function (materiaId) {
+                return $http({
+                    url: 'api/materia/restore',
+                    method: 'PUT',
+                    params: {id: materiaId}
+                })
+            },
+            findById: function(id) {
+                return $http({
+                    url: 'api/materia/findById',
+                    method: 'GET',
+                    params: {id: id}
+                })
             }
+
         }
 
     }]);

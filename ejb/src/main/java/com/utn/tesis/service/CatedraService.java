@@ -44,4 +44,8 @@ public class CatedraService extends BaseService<Catedra>{
         return super.create(entity);
     }
 
+    public List<Catedra> findByFilters(String denominacion, Long materiaId, boolean dadosBaja, Long pageNumber, Long pageSize) {
+         return dao.findByFilters(denominacion, materiaId, dadosBaja, pageNumber, pageSize);
+    }
+
 }
