@@ -35,7 +35,7 @@
                         <label>Materia</label>
                         <select ng-disabled="data.disableFields" name="materia" class="form-control"
                                 ng-model="catedra.materia"
-                                ng-options="materia as materia.nombre for materia in data.materias" required>
+                                ng-options="materia as materia.nombre for materia in data.materias track by materia.id" required>
                             <option value="">Seleccione</option>
                         </select>
                         <span class="help-block" for="materia"></span>
@@ -118,7 +118,7 @@
                                             <td>{{item.dia}}</td>
                                             <td>{{item.horaDesde | date:'HH:mm'}}</td>
                                             <td>{{item.horaHasta | date:'HH:mm'}}</td>
-                                            <td><button title="Eliminar" ng-disabled="data.disableFields" ng-click="deleteHorario($index)" class="btn-link"><i class="fa fa-eraser"></i></button></td>
+                                            <td><button type="button" title="Eliminar" ng-disabled="data.disableFields" ng-click="deleteHorario($index)" class="btn-link"><i class="fa fa-eraser"></i></button></td>
                                         </tr>
                                         <tr ng-show="catedra.horarios.length == 0">
                                             <td colspan="4">Sin horarios cargados</td>

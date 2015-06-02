@@ -116,7 +116,7 @@
                                 <td>{{item.practicaOdontologica.grupo.nombre}}</td>
                                 <td>{{item.practicaOdontologica.denominacion}}</td>
                                 <td ng-if="tpData.editing">
-                                    <button title="Eliminar" ng-click="deleteTrabajosPracticos($index)" class="btn-link"><i class="fa fa-eraser"></i></button>
+                                    <button ng-show="!item.deleted" title="Eliminar" type="button" ng-click="deleteTrabajosPracticos($index)" class="btn-link"><i class="fa fa-eraser"></i></button>
                                 </td>
                             </tr>
                             <tr ng-if="!catedra.trabajosPracticos.length">

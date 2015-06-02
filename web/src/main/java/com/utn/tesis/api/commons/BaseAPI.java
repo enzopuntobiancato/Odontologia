@@ -58,7 +58,7 @@ public abstract class BaseAPI<T extends EntityBase> {
         } catch (SAPOException se) {
             return persistenceRequest(se);
         }
-        return Response.ok(entity).build();
+        return Response.ok().build();
     }
 
     @Path("/restore")

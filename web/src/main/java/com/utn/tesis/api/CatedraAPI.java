@@ -35,6 +35,10 @@ public class CatedraAPI extends BaseAPI<Catedra> {
                                        @QueryParam("pageNumber") Long pageNumber,
                                        @QueryParam("pageSize") Long pageSize) {
         List<Catedra> result = catedraService.findByFilters(denominacion, materiaId, dadosBaja, pageNumber, pageSize);
+        for (int i = 0; i < result.size(); i++) {
+            result.get(i).setProfesores(null);
+            result.get(i).setTrabajosPracticos(null);
+        }
         return result;
     }
 

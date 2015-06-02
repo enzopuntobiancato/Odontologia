@@ -57,6 +57,12 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
     function executeQuery(pageNumber) {
         pagination.paginate($scope.tpData.filter, pageNumber).then(function (data) {
             $scope.tpData.result = data;
+            for(var i = 0; i < $scope.tpData.result.length; i++) {
+                var indexInOtherList = findItemIndexInList($scope.tpData.result[i].id, $scope.catedra.trabajosPracticos);
+                if (indexInOtherList > -1 && !$scope.catedra.trabajosPracticos[indexInOtherList].deleted) {
+                    $scope.tpData.result[i].added = true;
+                }
+            }
             $scope.paginationData = pagination.getPaginationData();
         }, function () {
         });
@@ -123,6 +129,9 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
 
     function newHour(hour,minutes) {
         var date = new Date();
+        date.setYear(1970);
+        date.setMonth(0);
+        date.setDate(1);
         date.setHours(hour);
         date.setMinutes(minutes);
         date.setSeconds(0);
@@ -191,10 +200,10 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
             return;
         }
 
-        for (var i = 0; i < $scope.catedra.horarios.length; i++) {
-            $scope.catedra.horarios[i].horaDesde = getTimeFromDate($scope.catedra.horarios[i].horaDesde);
-            $scope.catedra.horarios[i].horaHasta = getTimeFromDate($scope.catedra.horarios[i].horaHasta);
-        }
+//        for (var i = 0; i < $scope.catedra.horarios.length; i++) {
+//            $scope.catedra.horarios[i].horaDesde = getTimeFromDate($scope.catedra.horarios[i].horaDesde);
+//            $scope.catedra.horarios[i].horaHasta = getTimeFromDate($scope.catedra.horarios[i].horaHasta);
+//        }
 
         $scope.tpData.editing = false;
 

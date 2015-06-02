@@ -13,6 +13,7 @@ import java.util.List;
 
 @Entity
 public class Catedra extends Bajeable {
+
     private static final long serialVersionUID = 1L;
 
     @NotNull (message = "Debe ingresar una denominación.")

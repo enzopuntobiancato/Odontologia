@@ -276,7 +276,21 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/catedra/edit.html',
                 controller: 'CatedraCtrl_Edit',
                 resolve: {
-
+                    materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
+                        return service.findAllMaterias();
+                    }],
+                    diasResponse: ['CommonsSrv', function (commons) {
+                        return commons.getDias();
+                    }],
+                    gruposPracticaResponse: ['CommonsSrv', function (commons) {
+                        return commons.getGruposPractica();
+                    }],
+                    practicasResponse: ['loadMyModule', 'CatedraSrv', function(loadMyModule, service){
+                        return service.getPracticas();
+                    }],
+                    catedraResponse: ['loadMyModule', '$stateParams', 'CatedraSrv', function(loadMyModule, $stateParams, service){
+                        return service.findById($stateParams.id);
+                    }]
                 }
             })
             .state('catedra.view', {

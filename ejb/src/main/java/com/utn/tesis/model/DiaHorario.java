@@ -5,6 +5,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 
 @Entity
@@ -16,10 +17,10 @@ public class DiaHorario extends EntityBase {
     private Dia dia;
 
     @NotNull (message = "Debe ingresar hora desde")
-    private String horaDesde;
+    private Date horaDesde;
 
     @NotNull (message = "Debe ingresar hora hasta")
-    private String horaHasta;
+    private Date horaHasta;
 
     @JsonBackReference
     @ManyToOne
@@ -34,19 +35,19 @@ public class DiaHorario extends EntityBase {
         this.dia = dia;
     }
 
-    public String getHoraDesde() {
+    public Date getHoraDesde() {
         return horaDesde;
     }
 
-    public void setHoraDesde(String horaDesde) {
+    public void setHoraDesde(Date horaDesde) {
         this.horaDesde = horaDesde;
     }
 
-    public String getHoraHasta() {
+    public Date getHoraHasta() {
         return horaHasta;
     }
 
-    public void setHoraHasta(String horaHasta) {
+    public void setHoraHasta(Date horaHasta) {
         this.horaHasta = horaHasta;
     }
 

@@ -68,7 +68,7 @@
                         </thead>
                         <tbody>
                         <tr ng-class="{'danger' : item.fechaBaja}" data-ng-repeat="item in result">
-                            <td>{{item.nombre}}</td>
+                            <td>{{item.denominacion}}</td>
                             <td>{{item.materia.nombre}}</td>
                             <td>{{item.descripcion}}</td>
                             <td ng-if="aux.showDadosBaja">{{item.fechaBaja | date:'dd/MM/yyyy'}}</td>
