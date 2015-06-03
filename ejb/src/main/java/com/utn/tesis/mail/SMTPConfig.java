@@ -67,7 +67,7 @@ public class SMTPConfig {
             MimeMessage message = new MimeMessage(session);
             message.setSender(new InternetAddress(props.getString("mail.email")));
             message.setSubject(titulo);
-            //message.setContent(mensaje, "text/html; charset=utf-8");
+            message.setContent(mensaje, "text/html; charset=utf-8");
             message.setFrom(new InternetAddress(props.getString("mail.smtp.mail.sender")));
             message.setReplyTo(InternetAddress.parse(props.getString("mail.smtp.mail.sender")));
 
@@ -78,25 +78,25 @@ public class SMTPConfig {
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(paraEmail));
             }
             
-            MimeMultipart multipart = new MimeMultipart();
+            //MimeMultipart multipart = new MimeMultipart();
             
-            BodyPart messageBodyPart = new MimeBodyPart();
-            String htmlText = mensaje;
-            messageBodyPart.setContent(htmlText, "text/html");
+            //BodyPart messageBodyPart = new MimeBodyPart();
+            //String htmlText = mensaje;
+            //messageBodyPart.setContent(htmlText, "text/html");
             
-            multipart.addBodyPart(messageBodyPart);
+            //multipart.addBodyPart(messageBodyPart);
             
-            messageBodyPart = new MimeBodyPart();
+            //messageBodyPart = new MimeBodyPart();
             
-            DataSource fds = new FileDataSource("src/main/resources/encabezadoMail.png");
-            messageBodyPart.setDataHandler(new DataHandler(fds));
-            messageBodyPart.setHeader("Content-ID", "<image>");
+                    //DataSource fds = new FileDataSource("src/main/resources/encabezadoMail.png");
+                    //messageBodyPart.setDataHandler(new DataHandler(fds));
+            //messageBodyPart.setHeader("Content-ID", "<image>");
             
             
             
-            multipart.addBodyPart(messageBodyPart);
+            //multipart.addBodyPart(messageBodyPart);
             
-            message.setContent(multipart);
+            //message.setContent(multipart);
             //envío del mensaje
             Transport.send(message);
 
