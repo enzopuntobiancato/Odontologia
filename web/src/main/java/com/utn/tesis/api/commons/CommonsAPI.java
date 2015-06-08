@@ -50,7 +50,11 @@ public class CommonsAPI {
     @Path("/initializeData")
     @POST
     public Response loadInitializationData() {
-        initService.initializeData();
-        return Response.status(Response.Status.OK).build();
+        try {
+            initService.initializeData();
+            return Response.status(Response.Status.OK).build();
+        } catch(Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
