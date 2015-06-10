@@ -86,3 +86,17 @@ html, body {
     bottom:50px;
     left:-40px
 }
+
+.circular-image-login {
+    width: 300px;
+    height: 300px;
+    border-radius: 150px;
+    -webkit-border-radius: 150px;
+    -moz-border-radius: 150px;
+    background: url(http://www.riskid.nl/assets/testimonials/user-3995d1ed5f9b6ea6ef9c7bc9ead47415.jpg) no-repeat;
+    background-position: 50% 50%;
+    background-size: 300px auto;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+}

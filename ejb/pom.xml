@@ -39,19 +39,6 @@
         </license>
     </licenses>
 
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>codehaus</id>-->
-            <!--<url>http://repository.codehaus.org/org/codehaus</url>-->
-            <!--<snapshots>-->
-                <!--<enabled>true</enabled>-->
-            <!--</snapshots>-->
-            <!--<releases>-->
-                <!--<enabled>true</enabled>-->
-            <!--</releases>-->
-        <!--</repository>-->
-    <!--</repositories>-->
-
     <dependencies>
 
         <!-- Declare the APIs we depend on and need for compilation. All of 
@@ -143,6 +130,24 @@
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
             <version>1.4</version>
         </dependency>
 

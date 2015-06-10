@@ -8,7 +8,8 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'Pagination',
     'sapo.directives',
     'sapo.services',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    'auth.services'
 //    'ngAnimate',
 //    'ngMaterial'
 //    'ui.select'
@@ -17,10 +18,14 @@ var odontologiaApp = angular.module('odontologiaApp', [
 
 odontologiaApp.config(['$urlRouterProvider',
     '$stateProvider',
-    '$ocLazyLoadProvider', 'cfpLoadingBarProvider',
-    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider) {
+    '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
+    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider) {
+
+        $httpProvider.interceptors.push('authHttpRequestInterceptor');
 
         cfpLoadingBarProvider.loadingBarTemplate = '<div id="bar-container"></div><div id="loading-bar"><div class="bar"><div class="peg"></div></div></div></div>';
+
+
 
         function url(url) {
             return 'resources/scripts/app' + url;
@@ -42,6 +47,9 @@ odontologiaApp.config(['$urlRouterProvider',
                 url: '/',
                 templateUrl: 'views/home/home.html',
                 controller: 'HomeCtrl',
+                data: {
+                   isFree: true
+                },
                 resolve: {
                     loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
                         //lazyload de un modulo
@@ -54,6 +62,14 @@ odontologiaApp.config(['$urlRouterProvider',
                         })
                     }]
                 }
+            })
+            .state('login', {
+                url: '/login',
+                templateUrl: 'views/login/login.html',
+                data: {
+                    isFree: true
+                },
+                controller: 'loginCtrl'
             })
             .state('materia', {
                 url: '/materia',
@@ -364,7 +380,42 @@ angular.module('catedraModule', []);
 angular.module('trabajoPracticoModule', []);
 
 
-odontologiaApp.controller('AppController', function ($scope) {
+odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', function($scope, $state, authFactory){
+
+    $scope.user = authFactory.getAuthData();
+    $scope.$on('$stateChangeStart',
+        function(event, toState, toParams, fromState, fromParams){
+//            event.preventDefault();
+            if (toState.name === 'login' && authFactory.isAuthenticated()) {
+                event.preventDefault();
+                $state.go('home');
+            }
+            if (toState.data && toState.data.isFree) {
+                return;
+            }
+            if (!authFactory.isAuthenticated()) {
+                event.preventDefault();
+                $state.go('login');
+            }
+        });
+
+    $scope.$on('authChanged', function(){
+        $scope.user = authFactory.getAuthData();
+    })
 
 
-});
+
+}]);
+
+odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', function($scope, authFactory){
+
+    $scope.user = {};
+    $scope.login = function (user) {
+        authFactory.login(user).success(function (data) {
+            authFactory.setAuthData(data);
+            // Redirect etc.
+        }).error(function () {
+                // Error handling
+            });
+    };
+}])
