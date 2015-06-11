@@ -410,10 +410,19 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', f
 odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', function($scope, authFactory){
 
     $scope.user = {};
+    $scope.loginData = {
+        userNotFound: false
+    }
     $scope.login = function (user) {
+        $scope.loginData.userNotFound = false;
         authFactory.login(user).success(function (data) {
-            authFactory.setAuthData(data);
-            // Redirect etc.
+            if (Object.keys(data).length) {
+                $scope.loginData.userNotFound = false;
+                authFactory.setAuthData(data);
+            } else {
+                 $scope.loginData.userNotFound = true;
+            }
+
         }).error(function () {
                 // Error handling
             });

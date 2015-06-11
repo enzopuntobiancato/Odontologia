@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="resources/css/commons.css"/>
 
 </head>
-<body>
+<body ng-controller="AppController">
 
 <div id="widget" style="display: none">
     <div><i class="fa fa-spinner fa-spin fa-4x"></i></div>
@@ -51,7 +51,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!user"><a ui-sref="login">Iniciar sesión</a></li>
                     <li ng-if="user" class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{user.id}}
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                             {{ user.authId}}
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">Action</a></li>
@@ -66,7 +67,7 @@
         </div>
     </div>
 </header>
-<div id="container" class="container wrapper" ng-controller="AppController">
+<div id="container" class="container wrapper">
     <div id="page-content" ui-view></div>
 </div>
 

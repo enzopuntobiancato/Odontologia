@@ -1,4 +1,4 @@
-var directives = angular.module('sapo.directives',[]);
+var directives = angular.module('sapo.directives', []);
 
 var submitValidate = ['$parse', '$location', '$anchorScroll', function ($parse, $location, $anchorScroll) {
     return {
@@ -110,6 +110,17 @@ function getErrorMessageByType(type) {
     }
     return msg;
 };
+
+directives.directive('showFocus', function($timeout) {
+    return function(scope, element, attrs) {
+        scope.$watch(attrs.showFocus,
+            function (newValue) {
+                $timeout(function() {
+                    newValue && element.focus() && element.select();
+                });
+            },true);
+    };
+});
 
 
 //odontologiaApp
