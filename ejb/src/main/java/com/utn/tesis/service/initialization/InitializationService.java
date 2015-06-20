@@ -1,12 +1,10 @@
 package com.utn.tesis.service.initialization;
 
-import com.utn.tesis.model.Materia;
-import com.utn.tesis.model.Nivel;
-import com.utn.tesis.model.PracticaOdontologica;
-import com.utn.tesis.model.TrabajoPractico;
+import com.utn.tesis.model.*;
 import com.utn.tesis.service.MateriaService;
 import com.utn.tesis.service.PracticaOdontologicaService;
 import com.utn.tesis.service.TrabajoPracticoService;
+import com.utn.tesis.service.UsuarioService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -32,6 +30,9 @@ public class InitializationService {
     @Inject
     PracticaOdontologicaService practicaOdontologicaService;
 
+    @Inject
+    UsuarioService usuarioService;
+
 
     public void initializeData() {
         if (!InitVariables.getInstance().isInitializationRunned()) {
@@ -51,11 +52,17 @@ public class InitializationService {
             tp1.setDescripcion("lalal");
             tp1.setPracticaOdontologica(practicas.get(0));
 
+            Usuario usuario = new Usuario();
+            usuario.setNombreUsuario("enzo");
+            usuario.setContraseña("123");
+            usuario.setRol(new Rol(Rol.ADMIN));
+
             //EJECUTAR GUARDADOS Y CATCHEAR EXCEPTION PARA NO CLAVAR LA APP.
             try {
                 materiaService.create(m1);
                 materiaService.create(m2);
                 trabajoPracticoService.create(tp1);
+                usuarioService.create(usuario);
                 InitVariables.getInstance().setInitializationRunned(true);
             } catch (Exception e) {
                 Logger.getLogger(InitializationService.class.getName()).log(Level.SEVERE, e.getMessage(), e);

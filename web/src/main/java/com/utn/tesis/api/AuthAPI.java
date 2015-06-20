@@ -36,9 +36,9 @@ public class AuthAPI {
     public AuthAccessElement login(@Context HttpServletRequest request, AuthLoginElement loginElement) {
         AuthAccessElement accessElement = authService.login(loginElement);
         if (accessElement != null) {
+            request.getSession().setMaxInactiveInterval(15);
             request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_ID, accessElement.getAuthId());
             request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_TOKEN, accessElement.getAuthToken());
-
         }
            return accessElement;
     }

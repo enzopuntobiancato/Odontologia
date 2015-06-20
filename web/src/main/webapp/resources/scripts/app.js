@@ -385,7 +385,11 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', f
     $scope.user = authFactory.getAuthData();
     $scope.$on('$stateChangeStart',
         function(event, toState, toParams, fromState, fromParams){
-//            event.preventDefault();
+
+            if(authFactory.isAuthenticated()){
+                authFactory.updateExpiresTime();
+            }
+
             if (toState.name === 'login' && authFactory.isAuthenticated()) {
                 event.preventDefault();
                 $state.go('home');

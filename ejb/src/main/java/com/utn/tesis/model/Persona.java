@@ -34,6 +34,8 @@ public class Persona extends EntityBase {
     @NotNull(message = "La fecha de nacimiento no puede estar vacío.")
     private Calendar fechaNacimiento;
 
+    private Usuario usuario;
+
     public Persona() {
     }
 
@@ -69,9 +71,17 @@ public class Persona extends EntityBase {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     /*
-     * Calcula y devuelve un Integer con la edad de la persona.
-     */
+         * Calcula y devuelve un Integer con la edad de la persona.
+         */
     public Integer getEdad() {
         return fechaNacimiento == null ? null : Calendar.getInstance().get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
     }

@@ -1,6 +1,7 @@
 package com.utn.tesis.service.authentication;
 
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.UsuarioService;
 
@@ -37,8 +38,13 @@ public class AuthService {
 
     public boolean isAuthorized(String authId, String authToken, Set<String> rolesAllowed) {
         Usuario user = usuarioService.findByUsernameAndAuthToken(authId, authToken);
+
         if (user != null) {
-            return rolesAllowed.contains(user.getRol().toString());
+            if (user.getRol().getNombre().equals(Rol.ADMIN)) {
+                return true;
+            } else {
+                return rolesAllowed.contains(user.getRol().getNombre());
+            }
         } else {
             return false;
         }
