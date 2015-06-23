@@ -3,6 +3,10 @@ package com.utn.tesis.model;
 import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +26,14 @@ public class Rol extends EntityBase {
 
     private String nombre;
 
+    @ManyToMany
+    @JoinTable(name = "rol_x_privilegio",
+            joinColumns = {
+                    @JoinColumn(name = "rol_id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "privilegio_id")})
+    private List<Privilegio> privilegios;
+
     public Rol() {
     }
 
@@ -35,6 +47,14 @@ public class Rol extends EntityBase {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<Privilegio> getPrivilegios() {
+        return privilegios;
+    }
+
+    public void setPrivilegios(List<Privilegio> privilegios) {
+        this.privilegios = privilegios;
     }
 
     @Override
