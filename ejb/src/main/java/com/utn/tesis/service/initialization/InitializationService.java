@@ -41,10 +41,10 @@ public class InitializationService {
         public void initializeData() throws SAPOException {
             if (!InitVariables.getInstance().isInitializationRunned()) {
                 cargarMaterias();
-                cargarTrabajoPracticos();
                 cargarUsuarios();
                 cargarGrupoPracticaOdontologica();
                 cargarPracticaOdontologica();
+                cargarTrabajoPracticos();
                 InitVariables.getInstance().setInitializationRunned(true);
             }
         }
@@ -73,11 +73,10 @@ public class InitializationService {
         }
 
         private void cargarTrabajoPracticos() throws SAPOException {
-            List<PracticaOdontologica> practicas = practicaOdontologicaService.findAll();
             TrabajoPractico tp1 = new TrabajoPractico();
-            tp1.setNombre("Trabajo practico 1");
-            tp1.setDescripcion("lalal");
-            tp1.setPracticaOdontologica(practicas.get(0));
+            tp1.setNombre("TP 1 - Diagnostico");
+            tp1.setDescripcion("diagnosticar bla bla bla");
+            tp1.setPracticaOdontologica(PracticaOdontologicasList.get(0));
 
             trabajoPracticoService.create(tp1);
         }
