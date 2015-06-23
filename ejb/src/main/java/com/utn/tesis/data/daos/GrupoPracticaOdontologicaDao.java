@@ -14,16 +14,6 @@ import java.util.List;
  * Date: 10/05/15
  * Time: 18:18
  */
-public class GrupoPracticaOdontologicaDao {
+public class GrupoPracticaOdontologicaDao extends DaoBase<GrupoPracticaOdontologica> {
 
-    @PersistenceContext(unitName = "primary")
-    protected EntityManager em;
-
-    public List<GrupoPracticaOdontologica> findAll() {
-        QGrupoPracticaOdontologica practica = QGrupoPracticaOdontologica.grupoPracticaOdontologica;
-
-        JPAQuery query = new JPAQuery(em).from(practica);
-
-        return query.list(practica);
-    }
 }

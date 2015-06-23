@@ -23,6 +23,10 @@ public class GrupoPracticaOdontologica  extends EntityBase {
         this.nombre = nombre;
     }
 
+    public GrupoPracticaOdontologica(String nombre) {
+        this.nombre = nombre;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
