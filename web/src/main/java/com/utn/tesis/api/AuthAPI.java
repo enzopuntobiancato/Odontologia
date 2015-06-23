@@ -3,6 +3,7 @@ package com.utn.tesis.api;
 import com.utn.tesis.service.authentication.AuthAccessElement;
 import com.utn.tesis.service.authentication.AuthLoginElement;
 import com.utn.tesis.service.authentication.AuthService;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
@@ -33,6 +34,7 @@ public class AuthAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @POST
     @PermitAll
+    @JsonSerialize(include= JsonSerialize.Inclusion.NON_NULL)
     public AuthAccessElement login(@Context HttpServletRequest request, AuthLoginElement loginElement) {
         AuthAccessElement accessElement = authService.login(loginElement);
         if (accessElement != null) {

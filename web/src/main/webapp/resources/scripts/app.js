@@ -55,11 +55,24 @@ odontologiaApp.config(['$urlRouterProvider',
                         //lazyload de un modulo
                         return $ocLazyLoad.load('homeModule');
                     }],
-                    initializeData: ['$http', function($http) {
-                        return $http({
+                    initializeData: ['loadMyModule', '$http', '$q', function(loadMyModule, $http, $q) {
+                        var deferred = $q.defer();
+                        $http({
                             url:'api/commons/initializeData',
                             method: 'POST'
                         })
+                            .success(function(response){
+                                if (response) {
+                                    deferred.resolve('Inicialización de datos ejecutada con éxito.');
+                                } else {
+                                    deferred.resolve(undefined);
+                                }
+
+                            })
+                            .error(function() {
+                                deferred.resolve('Error durante la ejecución de la inicialización de datos');
+                            })
+                        return deferred.promise;
                     }]
                 }
             })
@@ -405,13 +418,18 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', f
 
     $scope.$on('authChanged', function(){
         $scope.user = authFactory.getAuthData();
-    })
+    });
+
+    $scope.logOut = function() {
+        $scope.user = authFactory.logout();
+        $state.go('home');
+    }
 
 
 
 }]);
 
-odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', function($scope, authFactory){
+odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory','$state', function($scope, authFactory, $state){
 
     $scope.user = {};
     $scope.loginData = {
@@ -420,9 +438,10 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', function($scope
     $scope.login = function (user) {
         $scope.loginData.userNotFound = false;
         authFactory.login(user).success(function (data) {
-            if (Object.keys(data).length) {
+            if (data) {
                 $scope.loginData.userNotFound = false;
                 authFactory.setAuthData(data);
+                $state.go('home');
             } else {
                  $scope.loginData.userNotFound = true;
             }

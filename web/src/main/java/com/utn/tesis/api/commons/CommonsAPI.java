@@ -51,8 +51,8 @@ public class CommonsAPI {
     @POST
     public Response loadInitializationData() {
         try {
-            initService.initializeData();
-            return Response.status(Response.Status.OK).build();
+            boolean result = initService.initializeData();
+            return Response.status(Response.Status.OK).entity(result).build();
         } catch(Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

@@ -37,7 +37,7 @@ public class UsuarioService extends BaseService<Usuario>{
     public Usuario findByUserAndPassword(String userName, String password) {
         HashMap<String, Object> filter = new HashMap<String, Object>(2);
         filter.put("nombreUsuario", userName);
-        filter.put("contraseña", password);
+        filter.put("contrasenia", password);
         List<Usuario> results = dao.findBy(filter);
         return results.size() == 1 ? results.get(0) : null;
     }

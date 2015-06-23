@@ -7,15 +7,22 @@ services.
 
         service.good = function (msg, callback) {
             bootbox.dialog({message: msg,
-                title: '<i class="fa fa-check-circle-o fa-lg"></i> Éxito',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } }
+            title: '<i class="fa fa-check-circle-o fa-lg"></i> Éxito',
+            buttons: {ok: {label: "OK", className: "btn-primary", callback: callback || function(){}} }
+        });
+    };
+
+        service.alert = function (msg) {
+            bootbox.dialog({message: msg,
+                title:  'Mensaje',
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: function(){}} }
             });
-        };
+        }
 
         service.goodAndOnEscape = function (msg, callback, onEscape) {
             bootbox.dialog({message: msg,
                 title: '<i class="fa fa-check-circle-o fa-lg"></i> Éxito',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } },
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback || function(){} } },
                 onEscape: onEscape
             });
         };
@@ -23,14 +30,14 @@ services.
         service.warning = function (msg, callback) {
             bootbox.dialog({message: msg,
                 title: '<i class="fa fa-exclamation-triangle fa-lg"></i></i> Advertencia',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } }
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback || function() {} } }
             });
         };
 
         service.bad = function (msg, callback) {
             bootbox.dialog({message: msg,
                 title: '<i class="fa fa-times-circle fa-lg"></i></i></i> Error',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } }
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback || function() {} } }
             });
         };
 
@@ -43,7 +50,7 @@ services.
             message += '</ul>';
             bootbox.dialog({message: message,
                 title: '<i class="fa fa-times-circle fa-lg"></i></i></i> Error',
-                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback } }
+                buttons: {ok: {label: "OK", className: "btn-primary", callback: callback || function(){}} }
             });
         };
 

@@ -49,7 +49,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
 
     authFactory.logout = function() {
         $cookies.remove(SESSION_COOKIE);
-        this.setAuthData = undefined;
+        return this.authData = undefined;
     };
     return authFactory;
 }]);

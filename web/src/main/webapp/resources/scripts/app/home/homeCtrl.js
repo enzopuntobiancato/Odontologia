@@ -1,6 +1,9 @@
 var homeModule = angular.module('homeModule');
 
 
-homeModule.controller('HomeCtrl', [ '$scope','$http', function ($scope, $http) {
-    $scope.userName="enzo.biancato";
+homeModule.controller('HomeCtrl', [ '$scope', 'initializeData', 'NotificationSrv', function ($scope, initializeData, notification) {
+    if (initializeData) {
+        notification.alert(initializeData);
+    }
+
 }]);
