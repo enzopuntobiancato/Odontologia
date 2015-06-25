@@ -2,12 +2,14 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
+import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.util.List;
 
 /**
  * Created by cids on 23/06/2015.
  */
+@Entity
 public class Privilegio extends EntityBase {
 
     private Funcionalidad funcionalidad;
