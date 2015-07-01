@@ -28,7 +28,9 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
         this.authData = {
             authId: authData.authId,
             authToken: authData.authToken,
-            authPermission: authData.authPermission
+            authPermission: authData.authPermission,
+            permission: authData.permission,
+            hasMoreRoles: authData.hasMoreRoles
         };
         $cookies.putObject(SESSION_COOKIE, this.authData, {expires: getExpiresDate()});
         $rootScope.$broadcast('authChanged');

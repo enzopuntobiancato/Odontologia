@@ -3,6 +3,8 @@ package com.utn.tesis.model;
 import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by cids on 23/06/2015.
@@ -11,7 +13,12 @@ import javax.persistence.Entity;
 public class Funcionalidad extends EntityBase {
 
     private String nombre;
+
+    // El estado asociado es el nombre del state de angular.
     private String estadoAsociado;
+
+    @ManyToOne
+    @JoinColumn(name = "grupoFuncionalidadId")
     private GrupoFuncionalidad grupoFuncionalidad;
 
     public Funcionalidad() {

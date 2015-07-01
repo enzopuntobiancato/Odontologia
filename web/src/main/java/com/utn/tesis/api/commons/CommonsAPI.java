@@ -3,8 +3,10 @@ package com.utn.tesis.api.commons;
 import com.utn.tesis.model.Dia;
 import com.utn.tesis.model.GrupoPracticaOdontologica;
 import com.utn.tesis.model.Nivel;
+import com.utn.tesis.model.Rol;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.initialization.InitializationService;
+import org.codehaus.jackson.map.annotate.JsonView;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -56,5 +58,11 @@ public class CommonsAPI {
         } catch(Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Path("/getRoles")
+    @GET
+    public List<Rol> findAllRoles() {
+        return commonsService.findAllRoles();
     }
 }

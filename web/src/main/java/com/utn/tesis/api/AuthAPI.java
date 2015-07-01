@@ -1,5 +1,6 @@
 package com.utn.tesis.api;
 
+import com.utn.tesis.model.Rol;
 import com.utn.tesis.service.authentication.AuthAccessElement;
 import com.utn.tesis.service.authentication.AuthLoginElement;
 import com.utn.tesis.service.authentication.AuthService;
@@ -34,14 +35,34 @@ public class AuthAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @POST
     @PermitAll
-    @JsonSerialize(include= JsonSerialize.Inclusion.NON_NULL)
     public AuthAccessElement login(@Context HttpServletRequest request, AuthLoginElement loginElement) {
-        AuthAccessElement accessElement = authService.login(loginElement);
-        if (accessElement != null) {
+        AuthAccessElement accessElement;
+        if (loginElement.getRol() == null) {
+            accessElement = authService.login(loginElement);
+        } else {
+            accessElement = authService.selectRol(loginElement, true);
+        }
+
+        if (accessElement != null && accessElement.getAuthId() != null && accessElement.getAuthToken() != null) {
             request.getSession().setMaxInactiveInterval(15);
             request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_ID, accessElement.getAuthId());
             request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_TOKEN, accessElement.getAuthToken());
         }
-           return accessElement;
+        return accessElement;
     }
+
+//    @Path("/selectRol")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @POST
+//    @PermitAll
+//    public AuthAccessElement login(@Context HttpServletRequest request, AuthLoginElement loginElement, Rol rol) {
+//        AuthAccessElement accessElement = authService.selectRol(loginElement, rol, true);
+//        if (accessElement != null) {
+//            request.getSession().setMaxInactiveInterval(15);
+//            request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_ID, accessElement.getAuthId());
+//            request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_TOKEN, accessElement.getAuthToken());
+//        }
+//        return accessElement;
+//    }
 }

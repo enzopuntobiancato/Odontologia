@@ -1,11 +1,10 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -16,6 +15,7 @@ import java.util.List;
  */
 @Entity
 public class Rol extends EntityBase {
+
     public static final String ADMIN = "ADMINISTRADOR";
     public static final String ALUMNO = "ALUMNO";
     public static final String PROFESOR = "PROFESOR";
@@ -25,14 +25,13 @@ public class Rol extends EntityBase {
     public static final String AUTORIDAD = "AUTORIDAD";
 
     private String nombre;
-
-    @ManyToMany
-    @JoinTable(name = "rol_x_privilegio",
-            joinColumns = {
-                    @JoinColumn(name = "rol_id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "privilegio_id")})
+    @JsonManagedReference
+    @OneToMany(mappedBy="rol", fetch = FetchType.EAGER)
     private List<Privilegio> privilegios;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
+    private List<Usuario> usuarios;
+    private String descripcion;
 
     public Rol() {
     }
@@ -55,6 +54,22 @@ public class Rol extends EntityBase {
 
     public void setPrivilegios(List<Privilegio> privilegios) {
         this.privilegios = privilegios;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @Override

@@ -50,6 +50,28 @@ directives.directive('summaryError', function () {
     }
 });
 
+    directives.directive('sameAs', function() {
+        return {
+            require: 'ngModel',
+            link: function(scope, elem, attrs, ngModel) {
+                ngModel.$parsers.unshift(validate);
+
+                // Force-trigger the parsing pipeline.
+                scope.$watch(attrs.sameAs, function() {
+                    ngModel.$setViewValue(ngModel.$viewValue);
+                });
+
+                function validate(value) {
+                    var isValid = scope.$eval(attrs.sameAs) == value;
+
+                    ngModel.$setValidity('sameAs', isValid);
+
+                    return isValid ? value : undefined;
+                }
+            }
+        };
+    });
+
 directives.directive('showErrors', function () {
     return {
         restrict: 'A',

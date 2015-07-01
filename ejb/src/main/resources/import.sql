@@ -1,20 +1,48 @@
 
-SET NAMES 'utf8';
+-- GRUPOS FUNCIONALIDAD (SER√ÅN ITEMS DEL MEN√ö CON SUS CORRESPONDIENTES SUBITEMS)
+insert into GrupoFuncionalidad(id, version, nombre) values (1, 0, 'Soporte');
+
+insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (1, 0, 'Materia', 'materia.index', 1);
+insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (2, 0, 'Practica odontologica', 'practicaOdontologica.index', 1);
+insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (3, 0, 'Trabajo practico', 'trabajoPractico.index', 1);
+insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (4, 0, 'Catedra', 'catedra.index', 1);
+
+-- ROLES
+insert into Rol(id, version, nombre, descripcion) values (1, 0, 'ADMINISTRADOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+insert into Rol(id, version, nombre, descripcion) values (2, 0, 'ALUMNO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+insert into Rol(id, version, nombre, descripcion) values (3, 0, 'PROFESOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+insert into Rol(id, version, nombre, descripcion) values (4, 0, 'RESPONSABLE DE RECEPCION DE PACIENTES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+insert into Rol(id, version, nombre, descripcion) values (5, 0, 'ADMINISTRADOR ACADEMICO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+insert into Rol(id, version, nombre, descripcion) values (6, 0, 'PACIENTE', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+insert into Rol(id, version, nombre, descripcion) values (7, 0, 'AUTORIDAD', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+
+insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (1, 0, 1, 1, 1);
+insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (2, 0, 2, 1, 1);
+insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (3, 0, 3, 1, 1);
+insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (4, 0, 4, 1, 1);
+
+insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja) values (1, 0, 'admin', 'admin', 'admin@admin.com', 1, null, null);
+insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja) values (2, 0, 'enzo', '123', 'enzo@enzo.com', 1, null, null);
+insert into usuario_x_rol(usuario_id, rol_id) values (1, 1);
+insert into usuario_x_rol(usuario_id, rol_id) values (1, 5);
+insert into usuario_x_rol(usuario_id, rol_id) values (2, 1);
+
+
 insert into GrupoPracticaOdontologica(id, version, nombre) values (1, 0, 'CONSULTAS');
 insert into GrupoPracticaOdontologica(id, version, nombre) values (2, 0, 'OPERATORIA DENTAL');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (3, 0, 'ENDODONCIA SIN OBTURACI”N');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (4, 0, 'PR”TESIS');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (5, 0, 'ODONTOLOGÕA PREVENTIVA');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (3, 0, 'ENDODONCIA SIN OBTURACION');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (4, 0, 'PR0TESIS');
+insert into GrupoPracticaOdontologica(id, version, nombre) values (5, 0, 'ODONTOLOGA PREVENTIVA');
 insert into GrupoPracticaOdontologica(id, version, nombre) values (6, 0, 'ORTODONCIA Y ORTOPEDIA FUNCIONAL');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (7, 0, 'ODONTOPEDIATRÕA');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (8, 0, 'PERIODONCIA');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (9, 0, 'RADIOLOGÕA');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (10, 0, 'CIRUGÕA BUCAL');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (7, 0, 'ODONTOPEDIATRÔøΩA');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (8, 0, 'PERIODONCIA');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (9, 0, 'RADIOLOGÔøΩA');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (10, 0, 'CIRUGÔøΩA BUCAL');
 
-INSERT INTO PracticaOdontologica (id,version,estadoAlta,fechaBaja,motivoBaja,denominacion,observaciones,grupoId) VALUES (2,0,1,NULL,NULL,'EXAMEN, DIAGN”STICO, FICHADO Y PLAN DE TRATAMIENTO','Se considera primera consulta al examen, diagnÛstico, fichado y plan de tratamiento. Como consecuencia del ex·men, el fichado deber· reflejar el estado actual de la boca, previo al tratamiento.',1);
-INSERT INTO PracticaOdontologica (id,version,estadoAlta,fechaBaja,motivoBaja,denominacion,observaciones,grupoId) VALUES (3,0,1,NULL,NULL,'VISITA A DOMICILIO','Se considera consulta domiciliaria a la atenciÛn de pacientes impedidos de trasladarse al consultorio del odontÛlogo.',1);
-INSERT INTO PracticaOdontologica (id,version,estadoAlta,fechaBaja,motivoBaja,denominacion,observaciones,grupoId) VALUES (4,0,1,NULL,NULL,'CONSULTA DE URGENCIA','Se considera consulta de urgencia a toda prestaciÛn que no constituye paso intermedio y/o final de tratamiento. Importante establecer el motivo de la misma.',1);
-INSERT INTO PracticaOdontologica (id,version,estadoAlta,fechaBaja,motivoBaja,denominacion,observaciones,grupoId) VALUES (5,0,1,NULL,NULL,'OBTURACI”N CON AMALGAMA - CAVIDAD SIMPLE','Se reconocer· como obturaciÛn simple de amalgama a aquellas en las que se haya practicado un adecuado tallado de la cavidad.',2);
+-- INSERT INTO PracticaOdontologica (id,version,estadoAlta,fechaBaja,motivoBaja,denominacion,observaciones,grupoId) VALUES (2,0,1,NULL,NULL,'EXAMEN, DIAGNÔøΩSTICO, FICHADO Y PLAN DE TRATAMIENTO','Se considera primera consulta al examen, diagnÔøΩstico, fichado y plan de tratamiento. Como consecuencia del exÔøΩmen, el fichado deberÔøΩ reflejar el estado actual de la boca, previo al tratamiento.',1);
+-- INSERT INTO PracticaOdontologica (id,version,estadoAlta,fechaBaja,motivoBaja,denominacion,observaciones,grupoId) VALUES (3,0,1,NULL,NULL,'VISITA A DOMICILIO','Se considera consulta domiciliaria a la atenciÔøΩn de pacientes impedidos de trasladarse al consultorio del odontÔøΩlogo.',1);
+-- INSERT INTO PracticaOdontologica (id,version,estadoAlta,fechaBaja,motivoBaja,denominacion,observaciones,grupoId) VALUES (4,0,1,NULL,NULL,'CONSULTA DE URGENCIA','Se considera consulta de urgencia a toda prestaciÔøΩn que no constituye paso intermedio y/o final de tratamiento. Importante establecer el motivo de la misma.',1);
+-- INSERT INTO PracticaOdontologica (id,version,estadoAlta,fechaBaja,motivoBaja,denominacion,observaciones,grupoId) VALUES (5,0,1,NULL,NULL,'OBTURACIÔøΩN CON AMALGAMA - CAVIDAD SIMPLE','Se reconocerÔøΩ como obturaciÔøΩn simple de amalgama a aquellas en las que se haya practicado un adecuado tallado de la cavidad.',2);
 
 -- insert into Materia(id, nombre, descripcion, nivel) values (1, 'Prostodoncia', 'lalalalal', 'PRIMERO');
 -- insert into Materia(id, nombre, descripcion, nivel) values (2, 'Endodoncia', 'lalalalal', 'PRIMERO');

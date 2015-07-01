@@ -52,11 +52,11 @@ public class InitializationService {
     }
 
     private void cargarUsuarios() throws SAPOException {
-        Usuario usuario = new Usuario();
-        usuario.setNombreUsuario("enzo");
-        usuario.setContrasenia("123");
-        usuario.setRol(new Rol(Rol.ADMIN));
-        usuarioService.create(usuario);
+//        Usuario usuario = new Usuario();
+//        usuario.setNombreUsuario("enzo");
+//        usuario.setContrasenia("123");
+//        usuario.setRol();
+//        usuarioService.create(usuario);
     }
 
     private void cargarMaterias() throws SAPOException {

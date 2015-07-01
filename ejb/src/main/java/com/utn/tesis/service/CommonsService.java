@@ -1,9 +1,11 @@
 package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.GrupoPracticaOdontologicaDao;
+import com.utn.tesis.data.daos.RolDao;
 import com.utn.tesis.model.Dia;
 import com.utn.tesis.model.GrupoPracticaOdontologica;
 import com.utn.tesis.model.Nivel;
+import com.utn.tesis.model.Rol;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -17,6 +19,9 @@ public class CommonsService {
     @Inject
     GrupoPracticaOdontologicaDao grupoPracticaOdontologicaDao;
 
+    @Inject
+    RolDao rolDao;
+
     public List<Nivel> findAllNiveles() {
         List<Nivel> result = new ArrayList<Nivel>(Arrays.asList(Nivel.values()));
         return result;
@@ -29,6 +34,12 @@ public class CommonsService {
 
     public List<GrupoPracticaOdontologica> findAllGruposPracticaOdontologica() {
         List<GrupoPracticaOdontologica> result = grupoPracticaOdontologicaDao.findAll();
+
+        return result;
+    }
+
+    public List<Rol> findAllRoles() {
+        List<Rol> result = rolDao.findAll();
 
         return result;
     }

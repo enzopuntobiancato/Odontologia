@@ -25,13 +25,27 @@ public class AuthService {
     public AuthAccessElement login(AuthLoginElement loginElement) {
         Usuario user = usuarioService.findByUserAndPassword(loginElement.getUsername(), loginElement.getPassword());
         if (user != null) {
-             user.setAuthToken(UUID.randomUUID().toString());
+            if (user.getRoles().size() == 1) {
+                loginElement.setRol(user.getRoles().get(0));
+                return selectRol(loginElement, false);
+            } else {
+                return new AuthAccessElement(user.getRoles());
+            }
+        }
+        return null;
+    }
+
+    public AuthAccessElement selectRol(AuthLoginElement loginElement, boolean hasMoreRoles) {
+        Usuario user = usuarioService.findByUserAndPassword(loginElement.getUsername(), loginElement.getPassword());
+        if (user != null) {
+            user.setAuthToken(UUID.randomUUID().toString());
+            user.setAuthRol(loginElement.getRol().getNombre());
             try {
                 usuarioService.update(user);
             } catch (SAPOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            return new AuthAccessElement(loginElement.getUsername(), user.getAuthToken(), user.getRol().toString());
+            return new AuthAccessElement(loginElement.getUsername(), user.getAuthToken(), loginElement.getRol().toString(), loginElement.getRol().getPrivilegios(), hasMoreRoles);
         }
         return null;
     }
@@ -40,10 +54,10 @@ public class AuthService {
         Usuario user = usuarioService.findByUsernameAndAuthToken(authId, authToken);
 
         if (user != null) {
-            if (user.getRol().getNombre().equals(Rol.ADMIN)) {
+            if (user.getAuthRol().equals(Rol.ADMIN)) {
                 return true;
             } else {
-                return rolesAllowed.contains(user.getRol().getNombre());
+                return rolesAllowed.contains(user.getAuthRol());
             }
         } else {
             return false;

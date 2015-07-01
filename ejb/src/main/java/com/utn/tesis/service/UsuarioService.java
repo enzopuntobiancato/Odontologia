@@ -2,11 +2,14 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
+import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.Usuario;
+import com.utn.tesis.util.EncryptionUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,6 +49,18 @@ public class UsuarioService extends BaseService<Usuario>{
         return this.findById(new Long(1));
     }
 
+    @Override
+    public Usuario create(Usuario entity) throws SAPOException {
+        // Enviar e-mail con la contraseña antes de encriptar la misma
+
+        //encriptamos la contraseña
+        try {
+            entity.setContrasenia(EncryptionUtils.encryptMD5A1(entity.getContrasenia()));
+        } catch (NoSuchAlgorithmException e) {
+            entity.setContrasenia(EncryptionUtils.encryptMD5A2(entity.getContrasenia()));
+        }
+        return super.create(entity);
+    }
 }
 
 

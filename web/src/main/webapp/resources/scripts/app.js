@@ -26,7 +26,6 @@ odontologiaApp.config(['$urlRouterProvider',
         cfpLoadingBarProvider.loadingBarTemplate = '<div id="bar-container"></div><div id="loading-bar"><div class="bar"><div class="peg"></div></div></div></div>';
 
 
-
         function url(url) {
             return 'resources/scripts/app' + url;
         }
@@ -48,20 +47,20 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/home/home.html',
                 controller: 'HomeCtrl',
                 data: {
-                   isFree: true
+                    isFree: true
                 },
                 resolve: {
                     loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
                         //lazyload de un modulo
                         return $ocLazyLoad.load('homeModule');
                     }],
-                    initializeData: ['loadMyModule', '$http', '$q', function(loadMyModule, $http, $q) {
+                    initializeData: ['loadMyModule', '$http', '$q', function (loadMyModule, $http, $q) {
                         var deferred = $q.defer();
                         $http({
-                            url:'api/commons/initializeData',
+                            url: 'api/commons/initializeData',
                             method: 'POST'
                         })
-                            .success(function(response){
+                            .success(function (response) {
                                 if (response) {
                                     deferred.resolve('Inicialización de datos ejecutada con éxito.');
                                 } else {
@@ -69,7 +68,7 @@ odontologiaApp.config(['$urlRouterProvider',
                                 }
 
                             })
-                            .error(function() {
+                            .error(function () {
                                 deferred.resolve('Error durante la ejecución de la inicialización de datos');
                             })
                         return deferred.promise;
@@ -78,11 +77,22 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('login', {
                 url: '/login',
-                templateUrl: 'views/login/login.html',
                 data: {
                     isFree: true
                 },
-                controller: 'loginCtrl'
+                views: {
+                    '': {
+                        templateUrl: 'views/login/main.html',
+                        controller: 'loginCtrl'
+                    },
+                    'initSesion@login': {
+                        templateUrl: 'views/login/login.html'
+                    },
+                    'selectRol@login': {
+                        templateUrl: 'views/login/selectRol.html'
+                    }
+                }
+
             })
             .state('materia', {
                 url: '/materia',
@@ -295,7 +305,7 @@ odontologiaApp.config(['$urlRouterProvider',
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
                     }],
-                    practicasResponse: ['loadMyModule', 'CatedraSrv', function(loadMyModule, service){
+                    practicasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
                         return service.getPracticas();
                     }]
                 }
@@ -314,10 +324,10 @@ odontologiaApp.config(['$urlRouterProvider',
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
                     }],
-                    practicasResponse: ['loadMyModule', 'CatedraSrv', function(loadMyModule, service){
+                    practicasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
                         return service.getPracticas();
                     }],
-                    catedraResponse: ['loadMyModule', '$stateParams', 'CatedraSrv', function(loadMyModule, $stateParams, service){
+                    catedraResponse: ['loadMyModule', '$stateParams', 'CatedraSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
                     }]
                 }
@@ -336,6 +346,31 @@ odontologiaApp.config(['$urlRouterProvider',
                     $scope.goIndex = function () {
                         $state.go('^.index');
                     }
+                }
+            })
+            .state('usuario', {
+                url: '/usuario',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('usuarioModule')
+            })
+            .state('usuario.index', {
+                url: '/',
+                templateUrl: 'views/usuario/query.html',
+                params: {execQuery: false, execQuerySamePage: false} ,
+                controller: 'UsuarioCtrl_Index',
+                resolve: {
+
+                }
+            })
+            .state('usuario.create', {
+                url: '/create',
+                templateUrl: 'views/usuario/create.html',
+                controller: 'UsuarioCtrl_Create',
+                resolve: {
+                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function(loadMyModule, service) {
+                        return service.getRoles();
+                    }]
                 }
             })
         ;
@@ -380,6 +415,15 @@ odontologiaApp.config(['$urlRouterProvider',
                         url('/catedra/catedraCreateCtrl.js'),
                         url('/catedra/catedraEditCtrl.js')
                     ]
+                },
+                {
+                    name: 'usuarioModule',
+                    files: [
+                        url('/usuario/usuarioSrv.js'),
+                        url('/usuario/usuarioIndexCtrl.js'),
+                        url('/usuario/usuarioCreateCtrl.js'),
+                        url('/usuario/usuarioEditCtrl.js')
+                    ]
                 }
             ]
         });
@@ -391,15 +435,17 @@ angular.module('materiaModule', []);
 angular.module('practicaOdontologicaModule', []);
 angular.module('catedraModule', []);
 angular.module('trabajoPracticoModule', []);
+angular.module('usuarioModule', []);
 
 
-odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', function($scope, $state, authFactory){
+odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', function ($scope, $state, authFactory, $filter) {
 
     $scope.user = authFactory.getAuthData();
+    $scope.menu = $scope.user ? buildMenu($scope.user.permission) : [];
     $scope.$on('$stateChangeStart',
-        function(event, toState, toParams, fromState, fromParams){
+        function (event, toState, toParams, fromState, fromParams) {
 
-            if(authFactory.isAuthenticated()){
+            if (authFactory.isAuthenticated()) {
                 authFactory.updateExpiresTime();
             }
 
@@ -416,38 +462,94 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', f
             }
         });
 
-    $scope.$on('authChanged', function(){
+    $scope.$on('authChanged', function () {
         $scope.user = authFactory.getAuthData();
+        $scope.menu = buildMenu($scope.user.permission);
     });
 
-    $scope.logOut = function() {
+    $scope.logOut = function () {
         $scope.user = authFactory.logout();
+        $scope.menu = [];
         $state.go('home');
     }
 
+    function buildMenu(permissions) {
+        var resultMenu = [];
 
+        var items = $filter('filter')(permissions, function (permission) {
+            return permission.esItemMenu;
+        });
 
+        angular.forEach(items, function (item) {
+            if (item.funcionalidad.grupoFuncionalidad && !$filter('filter')(resultMenu,function (itemMenu) {
+                return itemMenu.name == item.funcionalidad.grupoFuncionalidad.nombre;
+            }).length) {
+                resultMenu.push({
+                    dropdown: true,
+                    name: item.funcionalidad.grupoFuncionalidad.nombre,
+                    subItems: []
+                })
+            }
+        })
+
+        angular.forEach(items, function (item) {
+            if (!item.funcionalidad.grupoFuncionalidad) {
+                resultMenu.push({
+                    name: item.funcionalidad.nombre,
+                    ref: item.funcionalidad.estadoAsociado
+                })
+            } else {
+                for (var i = 0; i < resultMenu.length; i++) {
+                    if (item.funcionalidad.grupoFuncionalidad.nombre == resultMenu[i].name) {
+                        resultMenu[i].subItems.push({
+                                name: item.funcionalidad.nombre,
+                                ref: item.funcionalidad.estadoAsociado
+                            }
+                        )
+                    }
+                }
+            }
+        })
+        return resultMenu;
+    }
 }]);
 
-odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory','$state', function($scope, authFactory, $state){
+odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', function ($scope, authFactory, $state) {
 
     $scope.user = {};
     $scope.loginData = {
-        userNotFound: false
+        userNotFound: false,
+        selectRol: false,
+        roles: []
     }
     $scope.login = function (user) {
         $scope.loginData.userNotFound = false;
         authFactory.login(user).success(function (data) {
             if (data) {
-                $scope.loginData.userNotFound = false;
-                authFactory.setAuthData(data);
-                $state.go('home');
+                if (!data.roles) {
+                    $scope.loginData.userNotFound = false;
+                    authFactory.setAuthData(data);
+                    $state.go('home');
+                } else {
+                    $scope.loginData.selectRol = true;
+                    $scope.loginData.roles = data.roles;
+                    $scope.user.rol = $scope.loginData.roles[0];
+                }
             } else {
-                 $scope.loginData.userNotFound = true;
+                $scope.loginData.userNotFound = true;
             }
 
         }).error(function () {
                 // Error handling
             });
     };
+
+    $scope.selectRol = function(user) {
+        authFactory.login(user).success(function(data) {
+            if (data) {
+                authFactory.setAuthData(data);
+                $state.go('home');
+            }
+        })
+    }
 }])

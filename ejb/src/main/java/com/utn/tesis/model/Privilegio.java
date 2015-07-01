@@ -1,9 +1,12 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.List;
 
 /**
@@ -12,18 +15,23 @@ import java.util.List;
 @Entity
 public class Privilegio extends EntityBase {
 
+    @ManyToOne
+    @JoinColumn(name = "funcionalidadId")
     private Funcionalidad funcionalidad;
     private boolean esItemMenu;
-    @ManyToMany(mappedBy = "privilegios")
-    private List<Rol> roles;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="rol_id", nullable=false)
+    private Rol rol;
 
     public Privilegio() {
     }
 
-    public Privilegio(Funcionalidad funcionalidad, boolean esItemMenu, List<Rol> roles) {
+    public Privilegio(Funcionalidad funcionalidad, boolean esItemMenu, Rol rol) {
         this.funcionalidad = funcionalidad;
         this.esItemMenu = esItemMenu;
-        this.roles = roles;
+        this.rol = rol;
     }
 
     @Override
@@ -47,11 +55,11 @@ public class Privilegio extends EntityBase {
         this.esItemMenu = esItemMenu;
     }
 
-    public List<Rol> getRoles() {
-        return roles;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setRoles(List<Rol> roles) {
-        this.roles = roles;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 }

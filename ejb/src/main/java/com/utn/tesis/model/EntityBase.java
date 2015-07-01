@@ -2,12 +2,15 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.interfaces.Validator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonView;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @MappedSuperclass
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public abstract class EntityBase implements Serializable, Validator {
 
     @Id
