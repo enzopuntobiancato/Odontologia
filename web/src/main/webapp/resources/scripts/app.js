@@ -375,6 +375,22 @@ odontologiaApp.config(['$urlRouterProvider',
                     }]
                 }
             })
+            .state('usuario.view', {
+                url: '/view/:id',
+                templateUrl: 'views/usuario/view.html',
+                resolve: {
+                    usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
+                        return service.findById($stateParams.id);
+                    }]
+                },
+                controller: function ($scope, $state, usuarioResponse) {
+                    $scope.usuario = usuarioResponse.data;
+
+                    $scope.goIndex = function () {
+                        $state.go('^.index');
+                    }
+                }
+            })
         ;
 
         $ocLazyLoadProvider.config({

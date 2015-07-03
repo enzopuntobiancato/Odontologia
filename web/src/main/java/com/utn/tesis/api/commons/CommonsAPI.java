@@ -11,10 +11,7 @@ import com.utn.tesis.util.MappingUtil;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -65,5 +62,27 @@ public class CommonsAPI {
     @GET
     public List<Rol> findAllRoles() {
         return (List<Rol>)MappingUtil.serializeWithView(commonsService.findAllRoles(), JsonMap.Public.class);
+    }
+
+    @GET
+    @Path("/{name}")
+    @Produces("image/jpeg")
+    public byte[] get(@PathParam("name") String name) {
+
+//        Monitor m = Monitor.getMonitor(name);
+//
+//        if (m == null) {
+//            return null;
+//        }
+//
+//        ByteArrayOutputStream bo = new ByteArrayOutputStream(2048);
+//        try {
+//            ImageIO.write(m.getImage(),"jpeg",bo);
+//        } catch (IOException ex) {
+//            return null;
+//        }
+//
+//        return bo.toByteArray();
+        return null;
     }
 }

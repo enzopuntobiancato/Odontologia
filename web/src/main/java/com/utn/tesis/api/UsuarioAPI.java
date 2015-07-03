@@ -48,4 +48,9 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
         List<Usuario> result = (List<Usuario>)MappingUtil.serializeWithView(usuarioService.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize), JsonMap.Public.class);
         return result;
     }
+
+    @Override
+    public Usuario findById(@QueryParam("id") Long id) {
+        return (Usuario)MappingUtil.serializeWithView(super.findById(id), JsonMap.Public.class);
+    }
 }
