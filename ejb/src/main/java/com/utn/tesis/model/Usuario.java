@@ -26,7 +26,7 @@ public class Usuario extends Bajeable {
     private String contrasenia;
     @NotNull
     private String email;
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_x_rol",
             joinColumns = {
                     @JoinColumn(name = "usuario_id")},

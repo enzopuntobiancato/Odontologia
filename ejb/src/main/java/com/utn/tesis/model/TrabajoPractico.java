@@ -1,7 +1,6 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
-import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

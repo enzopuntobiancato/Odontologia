@@ -5,9 +5,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import java.util.List;
 
 /**
  * Created by cids on 23/06/2015.

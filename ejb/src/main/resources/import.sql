@@ -6,6 +6,7 @@ insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalida
 insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (2, 0, 'Practica odontologica', 'practicaOdontologica.index', 1);
 insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (3, 0, 'Trabajo practico', 'trabajoPractico.index', 1);
 insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (4, 0, 'Catedra', 'catedra.index', 1);
+insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (5, 0, 'Usuario', 'usuario.index', 1);
 
 -- ROLES
 insert into Rol(id, version, nombre, descripcion) values (1, 0, 'ADMINISTRADOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
@@ -20,6 +21,7 @@ insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values 
 insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (2, 0, 2, 1, 1);
 insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (3, 0, 3, 1, 1);
 insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (4, 0, 4, 1, 1);
+insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (5, 0, 5, 1, 1);
 
 insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja) values (1, 0, 'admin', 'admin', 'admin@admin.com', 1, null, null);
 insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja) values (2, 0, 'enzo', '123', 'enzo@enzo.com', 1, null, null);

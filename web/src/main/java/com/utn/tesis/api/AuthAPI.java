@@ -1,10 +1,8 @@
 package com.utn.tesis.api;
 
-import com.utn.tesis.model.Rol;
 import com.utn.tesis.service.authentication.AuthAccessElement;
 import com.utn.tesis.service.authentication.AuthLoginElement;
 import com.utn.tesis.service.authentication.AuthService;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;

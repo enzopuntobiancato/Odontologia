@@ -4,6 +4,7 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.UsuarioService;
+import com.utn.tesis.util.Collections;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -25,6 +26,7 @@ public class AuthService {
     public AuthAccessElement login(AuthLoginElement loginElement) {
         Usuario user = usuarioService.findByUserAndPassword(loginElement.getUsername(), loginElement.getPassword());
         if (user != null) {
+            Collections.reload(user, 2);
             if (user.getRoles().size() == 1) {
                 loginElement.setRol(user.getRoles().get(0));
                 return selectRol(loginElement, false);
@@ -38,6 +40,7 @@ public class AuthService {
     public AuthAccessElement selectRol(AuthLoginElement loginElement, boolean hasMoreRoles) {
         Usuario user = usuarioService.findByUserAndPassword(loginElement.getUsername(), loginElement.getPassword());
         if (user != null) {
+            Collections.reload(user, 2);
             user.setAuthToken(UUID.randomUUID().toString());
             user.setAuthRol(loginElement.getRol().getNombre());
             try {

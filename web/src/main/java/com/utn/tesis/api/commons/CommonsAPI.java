@@ -1,12 +1,13 @@
 package com.utn.tesis.api.commons;
 
+import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.model.Dia;
 import com.utn.tesis.model.GrupoPracticaOdontologica;
 import com.utn.tesis.model.Nivel;
 import com.utn.tesis.model.Rol;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.initialization.InitializationService;
-import org.codehaus.jackson.map.annotate.JsonView;
+import com.utn.tesis.util.MappingUtil;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -63,6 +64,6 @@ public class CommonsAPI {
     @Path("/getRoles")
     @GET
     public List<Rol> findAllRoles() {
-        return commonsService.findAllRoles();
+        return (List<Rol>)MappingUtil.serializeWithView(commonsService.findAllRoles(), JsonMap.Public.class);
     }
 }

@@ -360,7 +360,9 @@ odontologiaApp.config(['$urlRouterProvider',
                 params: {execQuery: false, execQuerySamePage: false} ,
                 controller: 'UsuarioCtrl_Index',
                 resolve: {
-
+                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function(loadMyModule, service) {
+                        return service.getRoles();
+                    }]
                 }
             })
             .state('usuario.create', {

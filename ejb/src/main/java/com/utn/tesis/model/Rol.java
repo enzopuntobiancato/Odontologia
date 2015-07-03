@@ -1,10 +1,13 @@
 package com.utn.tesis.model;
 
+import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.exception.SAPOValidationException;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 /**
@@ -26,7 +29,7 @@ public class Rol extends EntityBase {
 
     private String nombre;
     @JsonManagedReference
-    @OneToMany(mappedBy="rol", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="rol")
     private List<Privilegio> privilegios;
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
@@ -40,6 +43,7 @@ public class Rol extends EntityBase {
         this.nombre = nombre;
     }
 
+    @JsonMap(view = JsonMap.Public.class)
     public String getNombre() {
         return nombre;
     }
@@ -48,6 +52,7 @@ public class Rol extends EntityBase {
         this.nombre = nombre;
     }
 
+    @JsonMap(view = JsonMap.Internal.class)
     public List<Privilegio> getPrivilegios() {
         return privilegios;
     }
@@ -56,6 +61,7 @@ public class Rol extends EntityBase {
         this.privilegios = privilegios;
     }
 
+    @JsonMap(view = JsonMap.Internal.class)
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
@@ -64,6 +70,7 @@ public class Rol extends EntityBase {
         this.usuarios = usuarios;
     }
 
+    @JsonMap(view = JsonMap.Public.class)
     public String getDescripcion() {
         return descripcion;
     }
