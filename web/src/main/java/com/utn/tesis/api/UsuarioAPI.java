@@ -1,9 +1,11 @@
 package com.utn.tesis.api;
 
+import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.UsuarioService;
+import com.utn.tesis.util.MappingUtil;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -43,11 +45,7 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
                                        @QueryParam("dadosBaja") boolean dadosBaja,
                                        @QueryParam("pageNumber") Long pageNumber,
                                        @QueryParam("pageSize") Long pageSize) {
-        List<Usuario> result = usuarioService.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
-//        for (int i = 0; i < result.size(); i++) {
-//            result.get(i).setProfesores(null);
-//            result.get(i).setTrabajosPracticos(null);
-//        }
+        List<Usuario> result = (List<Usuario>)MappingUtil.serializeWithView(usuarioService.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize), JsonMap.Public.class);
         return result;
     }
 }

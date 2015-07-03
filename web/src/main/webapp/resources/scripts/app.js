@@ -460,6 +460,8 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             }
             if (!authFactory.isAuthenticated()) {
                 event.preventDefault();
+                $scope.user = authFactory.getAuthData();
+                $scope.menu = buildMenu($scope.user.permission);
                 $state.go('login');
             }
         });

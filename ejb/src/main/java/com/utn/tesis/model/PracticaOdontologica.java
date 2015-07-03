@@ -25,6 +25,9 @@ public class PracticaOdontologica extends Bajeable {
     @NotNull(message = "El grupo al cual pertenece la práctica no puede ser nulo.")
     private GrupoPracticaOdontologica grupo;
 
+    public PracticaOdontologica() {
+    }
+
     public PracticaOdontologica(GrupoPracticaOdontologica grupo, String denominacion, String observaciones) {
         this.denominacion = denominacion;
         this.observaciones = observaciones;

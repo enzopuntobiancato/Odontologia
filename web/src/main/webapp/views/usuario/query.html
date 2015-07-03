@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <label>Roles</label>
                         <select class="form-control" ng-model="filter.rolId"
-                                ng-options="rol.id as rol.nombre for rol in roles" required>
+                                ng-options="rol.id as rol.nombre for rol in roles">
                             <option value="">Seleccione</option>
                         </select>
                     </div>
@@ -78,7 +78,7 @@
                         <tr ng-class="{'danger' : item.fechaBaja}" data-ng-repeat="item in result">
                             <td>{{item.nombreUsuario}}</td>
                             <td>{{item.email}}</td>
-                            <td><span ng-repeat="rol in item.roles">{{rol.nombre}}</span></td>
+                            <td><span ng-repeat="rol in item.roles">{{rol.nombre}} <span ng-if="$index < item.roles.length - 1">-</span> </span></td>
                             <td ng-if="aux.showDadosBaja">{{item.fechaBaja | date:'dd/MM/yyyy'}}</td>
                             <td>
                                 <button ng-show="!item.fechaBaja" ng-click="edit(item.id)" title="Editar"

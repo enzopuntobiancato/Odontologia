@@ -1,5 +1,6 @@
 package com.utn.tesis.model;
 
+import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.util.RegexUtils;
 
@@ -49,6 +50,7 @@ public class Usuario extends Bajeable {
         }
     }
 
+    @JsonMap(view = JsonMap.Public.class)
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -57,6 +59,7 @@ public class Usuario extends Bajeable {
         this.nombreUsuario = nombreUsuario;
     }
 
+    @JsonMap(view = JsonMap.Internal.class)
     public String getContrasenia() {
         return contrasenia;
     }
@@ -65,6 +68,7 @@ public class Usuario extends Bajeable {
         this.contrasenia = contrasenia;
     }
 
+    @JsonMap(view = JsonMap.Public.class)
     public String getEmail() {
         return email;
     }
@@ -73,6 +77,7 @@ public class Usuario extends Bajeable {
         this.email = email;
     }
 
+    @JsonMap(view = JsonMap.Public.class)
     public List<Rol> getRoles() {
         return roles;
     }
@@ -81,6 +86,7 @@ public class Usuario extends Bajeable {
         this.roles = roles;
     }
 
+    @JsonMap(view = JsonMap.Internal.class)
     public String getAuthToken() {
         return authToken;
     }
@@ -89,6 +95,7 @@ public class Usuario extends Bajeable {
         this.authToken = authToken;
     }
 
+    @JsonMap(view = JsonMap.Internal.class)
     public String getAuthRol() {
         return authRol;
     }

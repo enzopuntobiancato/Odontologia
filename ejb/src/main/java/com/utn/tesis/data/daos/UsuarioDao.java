@@ -23,7 +23,7 @@ public class UsuarioDao extends DaoBase<Usuario> {
         if (nombreUsuario != null)
             query.where(usuario.nombreUsuario.startsWith(nombreUsuario));
         if (email != null)
-            query.where(usuario.email.eq(email));
+            query.where(usuario.email.startsWith(email));
         if (rolId != null) {
             QRol rol = QRol.rol;
             query.join(usuario.roles, rol).where(rol.id.eq(rolId));

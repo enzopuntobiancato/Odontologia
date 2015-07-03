@@ -15,15 +15,18 @@ public class GrupoPracticaOdontologica  extends EntityBase {
     @Size(max = 50, message = "El nombre del grupo de la practica odontologica debe tener entre 0 y 50 caracteres.")
     private String nombre;
 
+    public GrupoPracticaOdontologica() {
+    }
+
+    public GrupoPracticaOdontologica(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public GrupoPracticaOdontologica(String nombre) {
         this.nombre = nombre;
     }
 
