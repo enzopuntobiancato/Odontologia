@@ -3,6 +3,7 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.Collections;
 import com.utn.tesis.util.EncryptionUtils;
@@ -11,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +29,9 @@ public class UsuarioService extends BaseService<Usuario>{
     UsuarioDao dao;
 
     @Inject Validator validator;
+
+    @Inject
+    RolService rolService;
 
     @Override
     DaoBase<Usuario> getDao() {
@@ -60,11 +65,32 @@ public class UsuarioService extends BaseService<Usuario>{
         } catch (NoSuchAlgorithmException e) {
             entity.setContrasenia(EncryptionUtils.encryptMD5A2(entity.getContrasenia()));
         }
+
+        List<Rol> roles = new ArrayList<Rol>(entity.getRoles().size());
+        for (Rol rol: entity.getRoles()) {
+            roles.add(rolService.findById(rol.getId()));
+        }
+        entity.setRoles(roles);
         return super.create(entity);
     }
 
     public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
         return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
+    }
+
+    public void updateFromABM(Usuario entity) throws SAPOException {
+        if (entity.getContrasenia() == null) {
+            Usuario persistedEntity = this.findById(entity.getId());
+            entity.setContrasenia(persistedEntity.getContrasenia());
+        } else {
+            //encriptamos la nueva contraseña
+            try {
+                entity.setContrasenia(EncryptionUtils.encryptMD5A1(entity.getContrasenia()));
+            } catch (NoSuchAlgorithmException e) {
+                entity.setContrasenia(EncryptionUtils.encryptMD5A2(entity.getContrasenia()));
+            }
+        }
+        super.update(entity);
     }
 }
 

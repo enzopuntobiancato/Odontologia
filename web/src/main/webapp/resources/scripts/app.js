@@ -375,6 +375,19 @@ odontologiaApp.config(['$urlRouterProvider',
                     }]
                 }
             })
+            .state('usuario.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/usuario/edit.html',
+                controller: 'UsuarioCtrl_Edit',
+                resolve: {
+                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function(loadMyModule, service) {
+                        return service.getRoles();
+                    }],
+                    usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
+                        return service.findById($stateParams.id);
+                    }]
+                }
+            })
             .state('usuario.view', {
                 url: '/view/:id',
                 templateUrl: 'views/usuario/view.html',
@@ -459,12 +472,16 @@ angular.module('usuarioModule', []);
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', function ($scope, $state, authFactory, $filter) {
 
     $scope.user = authFactory.getAuthData();
-    $scope.menu = $scope.user ? buildMenu($scope.user.permission) : [];
+    $scope.menu = $scope.user ? buildMenu($scope.user.permission) : authFactory.getMenu();
     $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {
 
             if (authFactory.isAuthenticated()) {
                 authFactory.updateExpiresTime();
+            } else {
+                $scope.user = undefined;
+                $scope.menu = [];
+                authFactory.removeMenu();
             }
 
             if (toState.name === 'login' && authFactory.isAuthenticated()) {
@@ -476,8 +493,6 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             }
             if (!authFactory.isAuthenticated()) {
                 event.preventDefault();
-                $scope.user = authFactory.getAuthData();
-                $scope.menu = buildMenu($scope.user.permission);
                 $state.go('login');
             }
         });
@@ -529,7 +544,8 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
                     }
                 }
             }
-        })
+        });
+        authFactory.setMenu(resultMenu);
         return resultMenu;
     }
 }]);

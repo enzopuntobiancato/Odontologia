@@ -3,25 +3,25 @@
         <div class="page-header">
             <div class="input-group">
                 <h2>Usuario
-                    <small>Crear</small>
+                    <small>Editar</small>
                 </h2>
                 <div class="input-group-btn">
                     <input ng-show="data.disableFields" type="button" ng-click="reload()" class="btn btn-success btn-lg"
-                           value="Nuevo"/>
+                           value="Reeditar"/>
                 </div>
             </div>
         </div>
 
         <div class="row-fluid">
             <div ng-if="data.saved" class="alert alert-success">
-                <i class="fa fa-check-circle-o fa-lg"></i> <strong> ¡Éxito!</strong> Usuario guardado correctamente.
+                <i class="fa fa-check-circle-o fa-lg"></i> <strong> ¡Éxito!</strong> Cambios guardados correctamente.
             </div>
         </div>
 
-        <summary-error var="showSummaryError && usuarioForm.$invalid"></summary-error>
+        <summary-error var="showSummaryError && usuarioEditForm.$invalid"></summary-error>
 
         <div class="col-lg-8 col-lg-offset-2">
-            <form novalidate submit-validate="save()" name="usuarioForm">
+            <form novalidate submit-validate="save()" name="usuarioEditForm">
                 <div class="col-lg-6">
                     <div class="form-group" show-errors>
                         <label>Nombre de usuario</label>
@@ -41,7 +41,7 @@
                 <div class="col-lg-7">
                     <div class="form-group" show-errors>
                         <label>Roles</label>
-                        <select ng-disabled="data.disableFields" multiple ng-disabled="data.disableFields" name="rol"
+                        <select multiple ng-disabled="data.disableFields" name="rol"
                                 class="form-control"
                                 ng-model="usuario.roles"
                                 ng-options="rol as rol.nombre for rol in data.roles track by rol.id" required>
@@ -52,22 +52,24 @@
                 <div class="col-lg-5">
                     <div class="checkbox">
                         <label>
-                            <input ng-disabled="data.disableFields" ng-model="data.sendEmail" type="checkbox"> Notificar al usuario por e-mail
+                            <input ng-model="data.sendEmail" type="checkbox"> Notificar al usuario por e-mail
                         </label>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <legend>Ingrese contraseña si desea editar la actual</legend>
+                </div>
                 <div class="col-lg-6">
-                    <div class="form-group" show-errors>
+                    <div class="form-group">
                         <label>Contraseña</label>
-                        <input ng-disabled="data.disableFields" ng-model="usuario.contrasenia" required name="password" type="password" class="form-control">
-                        <span class="help-block" for="password"></span>
+                        <input ng-model="usuario.contrasenia" name="password" type="password" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="form-group" ng-class="{'has-error':usuarioForm.confirmPassword.$error.sameAs}">
+                    <div class="form-group" ng-class="{'has-error':usuarioEditForm.confirmPassword.$error.sameAs}">
                         <label>Confirmar contraseña</label>
-                        <input ng-disabled="data.disableFields" ng-model-options="{updateOn:'blur'}" same-as="usuario.contrasenia" ng-model="usuario.confirmacionContrasenia" name="confirmPassword" type="password" class="form-control">
-                        <span ng-show="usuarioForm.confirmPassword.$error.sameAs" class="help-block" for="confirmPassword">Las contraseñas no coinciden.</span>
+                        <input ng-model-options="{updateOn:'blur'}" same-as="usuario.contrasenia" ng-model="usuario.confirmacionContrasenia" name="confirmPassword" type="password" class="form-control">
+                        <span ng-show="usuarioEditForm.confirmPassword.$error.sameAs" class="help-block" for="confirmPassword">Las contraseñas no coinciden.</span>
                     </div>
                 </div>
 

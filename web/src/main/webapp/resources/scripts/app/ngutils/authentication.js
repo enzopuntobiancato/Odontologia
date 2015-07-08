@@ -5,6 +5,7 @@ var auth = angular.module('auth.services', ['ngCookies']);
 auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootScope, $http, $cookies) {
 
     var SESSION_COOKIE = 'SESSION';
+    var MENU_COOKIE = 'MENU';
 
     var authFactory = {
         authData: undefined
@@ -20,7 +21,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
 
     function getExpiresDate() {
         var now = new Date();
-        now.setMinutes(now.getMinutes() + 15);
+        now.setMinutes(now.getMinutes() + 1);
         return now;
     }
 
@@ -51,8 +52,21 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
 
     authFactory.logout = function() {
         $cookies.remove(SESSION_COOKIE);
+        $cookies.remove(MENU_COOKIE);
         return this.authData = undefined;
     };
+
+    authFactory.setMenu = function(menu) {
+        $cookies.putObject(MENU_COOKIE, menu, {});
+    };
+
+    authFactory.getMenu = function() {
+        return $cookies.getObject(MENU_COOKIE);
+    };
+
+    authFactory.removeMenu = function() {
+        $cookies.remove(MENU_COOKIE);
+    }
     return authFactory;
 }]);
 

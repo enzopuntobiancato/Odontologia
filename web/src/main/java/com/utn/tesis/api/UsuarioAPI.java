@@ -2,6 +2,7 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.api.commons.BaseAPI;
+import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.UsuarioService;
@@ -9,13 +10,12 @@ import com.utn.tesis.util.MappingUtil;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -52,5 +52,27 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
     @Override
     public Usuario findById(@QueryParam("id") Long id) {
         return (Usuario)MappingUtil.serializeWithView(super.findById(id), JsonMap.Public.class);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/save")
+    @Override
+    public Response save(Usuario entity) {
+        try {
+            if (entity.isNew()) {
+                entity = getEjbInstance().create(entity);
+            } else {
+                getEjbInstance().update(entity);
+            }
+            entity = (Usuario)MappingUtil.serializeWithView(entity, JsonMap.Public.class);
+            return Response.ok(entity).build();
+        } catch (SAPOException se) {
+            return persistenceRequest(se);
+        } catch (Exception e) {
+            Logger.getLogger(BaseAPI.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
