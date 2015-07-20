@@ -34,4 +34,22 @@ public class UsuarioDao extends DaoBase<Usuario> {
         query = paginar(query, pageNumber, pageSize);
         return query.list(usuario);
     }
+
+    public Usuario findByUsernameAndPassword(String nombreUsuario, String contrasenia) {
+        QUsuario usuario = QUsuario.usuario;
+
+        JPAQuery query = new JPAQuery(em).from(usuario);
+        query.where(usuario.nombreUsuario.eq(nombreUsuario).and(usuario.contrasenia.eq(contrasenia)));
+
+        return query.uniqueResult(usuario);
+    }
+
+    public Usuario findByUsernameAndAuthToken(String nombreUsuario, String authToken) {
+        QUsuario usuario = QUsuario.usuario;
+
+        JPAQuery query = new JPAQuery(em).from(usuario);
+        query.where(usuario.nombreUsuario.eq(nombreUsuario).and(usuario.authToken.eq(authToken)));
+
+        return query.uniqueResult(usuario);
+    }
 }
