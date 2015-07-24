@@ -26,6 +26,7 @@ public class Usuario extends Bajeable {
     @Size (max = 50)
     private String contrasenia;
     @NotNull
+    @Size (max = 70)
     private String email;
     @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_x_rol",

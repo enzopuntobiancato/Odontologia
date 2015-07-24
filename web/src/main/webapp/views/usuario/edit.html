@@ -25,7 +25,7 @@
                 <div class="col-lg-6">
                     <div class="form-group" show-errors>
                         <label>Nombre de usuario</label>
-                        <input ng-disabled="data.disableFields" name="nombreUsuario" ng-model="usuario.nombreUsuario"
+                        <input maxlength="50" ng-disabled="data.disableFields" name="nombreUsuario" ng-model="usuario.nombreUsuario"
                                type="text" class="form-control" required/>
                         <span class="help-block" for="nombreUsuario"></span>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="col-lg-6">
                     <div class="form-group" show-errors>
                         <label>E-mail</label>
-                        <input ng-disabled="data.disableFields" name="email" ng-model="usuario.email"
+                        <input maxlength="70" ng-disabled="data.disableFields" name="email" ng-model="usuario.email"
                                type="email" class="form-control" required/>
                         <span class="help-block" for="email"></span>
                     </div>
@@ -62,7 +62,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <label>Contraseña</label>
-                        <input ng-model="usuario.contrasenia" name="password" type="password" class="form-control">
+                        <input maxlength="50" ng-model="usuario.contrasenia" name="password" type="password" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-6">
