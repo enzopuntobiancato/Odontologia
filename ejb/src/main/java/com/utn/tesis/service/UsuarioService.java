@@ -5,7 +5,6 @@ import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.Usuario;
-import com.utn.tesis.util.Collections;
 import com.utn.tesis.util.EncryptionUtils;
 
 import javax.ejb.Stateless;
@@ -23,12 +22,13 @@ import java.util.List;
  * Time: 22:03
  */
 @Stateless
-public class UsuarioService extends BaseService<Usuario>{
+public class UsuarioService extends BaseService<Usuario> {
 
     @Inject
     UsuarioDao dao;
 
-    @Inject Validator validator;
+    @Inject
+    Validator validator;
 
     @Inject
     RolService rolService;
@@ -67,7 +67,7 @@ public class UsuarioService extends BaseService<Usuario>{
         }
 
         List<Rol> roles = new ArrayList<Rol>(entity.getRoles().size());
-        for (Rol rol: entity.getRoles()) {
+        for (Rol rol : entity.getRoles()) {
             roles.add(rolService.findById(rol.getId()));
         }
         entity.setRoles(roles);
@@ -78,19 +78,12 @@ public class UsuarioService extends BaseService<Usuario>{
         return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
     }
 
-    public void updateFromABM(Usuario entity) throws SAPOException {
-        if (entity.getContrasenia() == null) {
-            Usuario persistedEntity = this.findById(entity.getId());
-            entity.setContrasenia(persistedEntity.getContrasenia());
-        } else {
-            //encriptamos la nueva contraseña
-            try {
-                entity.setContrasenia(EncryptionUtils.encryptMD5A1(entity.getContrasenia()));
-            } catch (NoSuchAlgorithmException e) {
-                entity.setContrasenia(EncryptionUtils.encryptMD5A2(entity.getContrasenia()));
-            }
+    public List<Rol> getPersistedRoles(List<Rol> roles) {
+        List<Rol> result = new ArrayList<Rol>(roles.size());
+        for (Rol rol : roles) {
+            result.add(rolService.findById(rol.getId()));
         }
-        super.update(entity);
+        return result;
     }
 }
 

@@ -21,7 +21,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
 
     function getExpiresDate() {
         var now = new Date();
-        now.setMinutes(now.getMinutes() + 1);
+        now.setMinutes(now.getMinutes() + 15);
         return now;
     }
 
@@ -76,6 +76,7 @@ auth.factory('authHttpRequestInterceptor', ['$rootScope', '$injector',
             request: function ($request) {
                 var authFactory = $injector.get('authFactory');
                 if (authFactory.isAuthenticated()) {
+                    authFactory.updateExpiresTime();
                     $request.headers['auth-id'] = authFactory.getAuthData().authId;
                     $request.headers['auth-token'] = authFactory.getAuthData().authToken;
                 }
