@@ -27,8 +27,8 @@ public abstract class Bajeable extends EntityBase {
 
     private Calendar fechaBaja;
 
-    private static int ALTA = 1;
-    private static int BAJA = 0;
+    public static int ALTA = 1;
+    public static int BAJA = 0;
     
     public void darDeAlta(){ 
         estadoAlta = ALTA;

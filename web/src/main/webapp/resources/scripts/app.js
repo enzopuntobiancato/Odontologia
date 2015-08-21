@@ -569,10 +569,10 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', funct
                 if (!data.roles) {
                     $scope.loginData.userNotFound = false;
                     authFactory.setAuthData(data);
+                    authFactory.communicateAuthChanged();
                     if (data.firstLogin) {
                         $state.go('userRelatedData');
                     } else {
-                        authFactory.communicateAuthChanged();
                         $state.go('home');
                     }
                 } else {
@@ -593,10 +593,10 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', funct
         authFactory.login(user).success(function(data) {
             if (data) {
                 authFactory.setAuthData(data);
+                authFactory.communicateAuthChanged();
                 if (data.firstLogin) {
                     $state.go('userRelatedData');
                 } else {
-                    authFactory.communicateAuthChanged();
                     $state.go('home');
                 }
             }
@@ -604,11 +604,21 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', funct
     }
 }]);
 
-odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', function($scope) {
+odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', '$state', 'authFactory', 'NotificationSrv', function($scope, $state, authFactory,  messages) {
 
     $scope.persona = {};
 
     $scope.save = function() {
         console.log('lala');
     }
+
+    $scope.$on('$stateChangeStart',
+        function (event, toState) {
+            var user = authFactory.getAuthData();
+             if (toState.name != $state.$current.name && user.firstLogin) {
+                 event.preventDefault();
+                 $scope.user = authFactory.logout();
+                 $state.go('home');
+             }
+        });
 }]);

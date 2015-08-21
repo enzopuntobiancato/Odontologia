@@ -38,7 +38,7 @@
                 <ul class="nav navbar-nav">
                     <li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
                 </ul>
-                <ul class="nav navbar-nav" ng-repeat="menuItem in menu">
+                <ul class="nav navbar-nav" ng-repeat="menuItem in menu" ng-if="user && !user.firstLogin">
                     <li ng-if="menuItem.dropdown" class="dropdown">
                         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{menuItem.name}}
                             <span class="caret"></span></a>
@@ -47,17 +47,6 @@
                         </ul>
                     </li>
                     <li ng-if="!menuItem.dropdown"><a ui-sref="{{subItem.ref}}">{{menuItem.name}}</a></li>
-
-                    <!--<li class="dropdown">-->
-                        <!--<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Soporte-->
-                            <!--<span class="caret"></span></a>-->
-                        <!--<ul class="dropdown-menu" role="menu">-->
-                            <!--<li><a ui-sref="materia.index">Materia</a></li>-->
-                            <!--<li><a ui-sref="practicaOdontologica.index">Práctica odontológica</a></li>-->
-                            <!--<li><a ui-sref="trabajoPractico.index">Trabajo práctico</a></li>-->
-                            <!--<li><a ui-sref="catedra.index">Cátedra</a></li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!user"><a ui-sref="login">Iniciar sesión</a></li>

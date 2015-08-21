@@ -72,33 +72,35 @@ directives.directive('summaryError', function () {
         };
     });
 
-directives.directive('showErrors', function () {
+directives.directive('showErrors', function ($timeout) {
     return {
         restrict: 'A',
         require: '^form',
         link: function (scope, el, attrs, formCtrl) {
-            // find the text box element, which has the 'name' attribute
-            var inputEl = el[0].querySelector("[name]");
-            // convert the native text box element to an angular element
-            var inputNgEl = angular.element(inputEl);
-            // get the name on the text box so we know the property to check
-            // on the form controller
-            var inputName = inputNgEl.attr('name');
-            var errors = formCtrl[inputName].$error;
-            // only apply the has-error class after the user leaves the text box
-            inputNgEl.bind('blur', function () {
-                el.toggleClass('has-error', formCtrl[inputName].$invalid);
-                var msgSpan = angular.element(el[0].querySelector("[for]"));
-                var aux = '';
-                if (formCtrl[inputName].$invalid) {
-                    var errorTypes = Object.keys(errors);
-                    for (var i = 0; i < errorTypes.length; i++) {
-                        aux += getErrorMessageByType(errorTypes[i]);
+            var dir = function() {
+                // find the text box element, which has the 'name' attribute
+                var inputEl = el[0].querySelector("[name]");
+                // convert the native text box element to an angular element
+                var inputNgEl = angular.element(inputEl);
+                // get the name on the text box so we know the property to check
+                // on the form controller
+                var inputName = inputNgEl.attr('name');
+                var errors = formCtrl[inputName].$error;
+                // only apply the has-error class after the user leaves the text box
+                inputNgEl.bind('blur', function () {
+                    el.toggleClass('has-error', formCtrl[inputName].$invalid);
+                    var msgSpan = angular.element(el[0].querySelector("[for]"));
+                    var aux = '';
+                    if (formCtrl[inputName].$invalid) {
+                        var errorTypes = Object.keys(errors);
+                        for (var i = 0; i < errorTypes.length; i++) {
+                            aux += getErrorMessageByType(errorTypes[i]);
+                        }
                     }
-                }
-                msgSpan.text(aux);
-            });
-
+                    msgSpan.text(aux);
+                });
+            }
+            $timeout(dir, 10);
         }
     }
 });
@@ -153,11 +155,11 @@ directives.directive('datePicker', function () {
             maxDate: '=',
             minDate: '=',
             isRequired: '=',
-            modelName: '='
+            modelName: '=',
+            label: '='
         },
         templateUrl: 'views/commons/datepicker.html',
         controller: function ($scope) {
-
             if (!$scope.minDate) {
                 $scope.minDate = new Date('01/01/1900');
             } else {
@@ -171,7 +173,7 @@ directives.directive('datePicker', function () {
             }
 
             $scope.formats = ['dd-MMMM-yyyy', 'dd-MM-yyyy', 'dd.MM.yyyy', 'shortDate'];
-            $scope.format = $scope.formats[2];
+            $scope.format = $scope.formats[1];
 
             $scope.dateOptions = {
                 formatYear: 'yy',
@@ -187,47 +189,6 @@ directives.directive('datePicker', function () {
         }
     }
 });
-
-
-//odontologiaApp
-//    .controller('datepickerCtrl', function ($scope) {
-//
-//        $scope.clear = function () {
-//            $scope.dt = null;
-//        };
-//
-//        // Disable weekend selection
-//        $scope.disabled = function (date, mode) {
-//            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-//        };
-//
-//        $scope.toggleMin = function () {
-//            $scope.minDate = $scope.minDate ? null : new Date();
-//        };
-//        $scope.toggleMin();
-//
-//        $scope.open = function ($event) {
-//            $event.preventDefault();
-//            $event.stopPropagation();
-//
-//            $scope.opened = true;
-//        };
-//
-//        $scope.dateOptions = {
-//            formatYear: 'yyyy',
-//            startingDay: 1
-//        };
-//
-//        $scope.formats = ['dd/MM/yyyy', 'dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-//        $scope.format = $scope.formats[0];
-//    })
-//
-//odontologiaApp
-//    .directive('datePicker', function () {
-//        return {
-//            templateUrl: 'views/commons/datepicker.html'
-//        }
-//    })
 
 
 

@@ -91,7 +91,7 @@ public class UsuarioService extends BaseService<Usuario> {
 //        Persona persona = dao.findPersonaAsociada(usuarioId);
 //
 //        return persona == null;
-        return true;
+        return false;
     }
 }
 

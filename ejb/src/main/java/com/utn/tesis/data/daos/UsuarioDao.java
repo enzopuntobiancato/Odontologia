@@ -47,7 +47,7 @@ public class UsuarioDao extends DaoBase<Usuario> {
         QUsuario usuario = QUsuario.usuario;
 
         JPAQuery query = new JPAQuery(em).from(usuario);
-        query.where(usuario.nombreUsuario.eq(nombreUsuario).and(usuario.contrasenia.eq(contrasenia)));
+        query.where(usuario.nombreUsuario.eq(nombreUsuario).and(usuario.contrasenia.eq(contrasenia)).and(usuario.estadoAlta.eq(Bajeable.ALTA)));
 
         return query.uniqueResult(usuario);
     }

@@ -1,20 +1,23 @@
-<div class="input-group">
-    <input type="text"
-           class="form-control"
-           datepicker-popup="{{format}}"
-           placeholder="dd-mm-yyyy"
-           ng-model="ngModel"
-           is-open="opened"
-           min-date="minDate"
-           max-date="maxDate"
-           datepicker-options="dateOptions"
-           close-text="Cerrar"
-           ng-required="{{isRequired}}"
-           name="{{modelName}}"
-           show-weeks="false"
-           show-button-bar="false"
-            current-text="Hoy"
-            clear-text="Limpiar"/>
+<div class="form-group" show-errors>
+    <label>{{label}}</label>
+
+    <div class="input-group" style="max-height: 28px!important;">
+        <input type="text"
+               class="form-control"
+               datepicker-popup="{{format}}"
+               placeholder="dd-mm-yyyy"
+               ng-model="ngModel"
+               is-open="opened"
+               min-date="minDate"
+               max-date="maxDate"
+               datepicker-options="dateOptions"
+               close-text="Cerrar"
+               ng-required="{{isRequired}}"
+               name="{{modelName}}"
+               show-weeks="false"
+               show-button-bar="false"
+               current-text="Hoy"
+               clear-text="Limpiar"/>
   <span class="input-group-btn">
     <button type="button"
             class="btn"
@@ -22,7 +25,6 @@
         <i class="glyphicon glyphicon-calendar"></i>
     </button>
   </span>
+    </div>
+    <span class="help-block" for="{{modelName}}" style="margin-top: 0px; margin-bottom: 0px;"></span>
 </div>
-
-
-<!--date-disabled="disabled(date, mode)"-->

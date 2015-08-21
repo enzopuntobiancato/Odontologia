@@ -31,7 +31,8 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
             authToken: authData.authToken,
             authPermission: authData.authPermission,
             permission: authData.permission,
-            hasMoreRoles: authData.hasMoreRoles
+            hasMoreRoles: authData.hasMoreRoles,
+            firstLogin: authData.firstLogin
         };
         $cookies.putObject(SESSION_COOKIE, this.authData, {expires: getExpiresDate()});
     };
