@@ -30,4 +30,8 @@ public class EncryptionUtils {
     public static String encryptMD5A2(String string) {
         return DigestUtils.md5Hex(string);
     }
+
+    public static boolean isValidMD5(String string) {
+        return string.matches("[a-fA-F0-9]{32}");
+    }
 }

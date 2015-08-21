@@ -1,4 +1,4 @@
-var directives = angular.module('sapo.directives', []);
+var directives = angular.module('sapo.directives', ['ui.bootstrap']);
 
 var submitValidate = ['$parse', '$location', '$anchorScroll', function ($parse, $location, $anchorScroll) {
     return {
@@ -142,6 +142,50 @@ directives.directive('showFocus', function($timeout) {
                 });
             },true);
     };
+});
+
+directives.directive('datePicker', function () {
+    return {
+        priority: 1,
+        restrict: 'E',
+        scope: {
+            ngModel: '=',
+            maxDate: '=',
+            minDate: '=',
+            isRequired: '=',
+            modelName: '='
+        },
+        templateUrl: 'views/commons/datepicker.html',
+        controller: function ($scope) {
+
+            if (!$scope.minDate) {
+                $scope.minDate = new Date('01/01/1900');
+            } else {
+               if (!$scope.minDate instanceof Date) {
+                   $scope.minDate = new Date($scope.minDate);
+               }
+            }
+
+            if (!$scope.maxDate) {
+                $scope.maxDate = new Date();
+            }
+
+            $scope.formats = ['dd-MMMM-yyyy', 'dd-MM-yyyy', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
+
+            $scope.dateOptions = {
+                formatYear: 'yy',
+                startingDay: 1
+            };
+
+            $scope.open = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+
+                $scope.opened = true;
+            };
+        }
+    }
 });
 
 

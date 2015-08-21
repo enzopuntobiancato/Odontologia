@@ -22,17 +22,21 @@ public class AuthAccessElement implements Serializable {
     private String authPermission;
     private List<Privilegio> permission;
     private boolean hasMoreRoles;
+    // Lista de roles utilizada cdo el usuario posee más de un rol y se envian para que seleccione uno
     private List<Rol> roles;
+    // Atributo que expone si el usuario ya completo sus datos de persona
+    private boolean firstLogin;
 
     public AuthAccessElement() {
     }
 
-    public AuthAccessElement(String authId, String authToken, String authPermission, List<Privilegio> permission, boolean hasMoreRoles) {
+    public AuthAccessElement(String authId, String authToken, String authPermission, List<Privilegio> permission, boolean hasMoreRoles, boolean firstLogin) {
         this.authId = authId;
         this.authToken = authToken;
         this.authPermission = authPermission;
         this.permission = permission;
         this.hasMoreRoles = hasMoreRoles;
+        this.firstLogin = firstLogin;
     }
 
     public AuthAccessElement(List<Rol> roles) {
@@ -85,5 +89,13 @@ public class AuthAccessElement implements Serializable {
 
     public void setRoles(List<Rol> roles) {
         this.roles = roles;
+    }
+
+    public boolean isFirstLogin() {
+        return firstLogin;
+    }
+
+    public void setFirstLogin(boolean firstLogin) {
+        this.firstLogin = firstLogin;
     }
 }

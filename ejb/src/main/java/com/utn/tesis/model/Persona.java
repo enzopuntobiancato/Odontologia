@@ -2,10 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.Embedded;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
@@ -34,6 +31,7 @@ public class Persona extends EntityBase {
     @NotNull(message = "La fecha de nacimiento no puede estar vacío.")
     private Calendar fechaNacimiento;
 
+    @OneToOne
     private Usuario usuario;
 
     public Persona() {

@@ -44,15 +44,15 @@ public class UsuarioService extends BaseService<Usuario> {
     }
 
     public Usuario findByUserAndPassword(String userName, String password) {
-        HashMap<String, Object> filter = new HashMap<String, Object>(2);
-        filter.put("nombreUsuario", userName);
-        filter.put("contrasenia", password);
-        List<Usuario> results = dao.findBy(filter);
-        return results.size() == 1 ? results.get(0) : null;
+        try {
+            return dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A1(password));
+        } catch (NoSuchAlgorithmException e) {
+            return dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A2(password));
+        }
     }
 
     public Usuario findByUsernameAndAuthToken(String authId, String authToken) {
-        return this.findById(new Long(1));
+        return dao.findByUsernameAndAuthToken(authId, authToken);
     }
 
     @Override
@@ -84,6 +84,14 @@ public class UsuarioService extends BaseService<Usuario> {
             result.add(rolService.findById(rol.getId()));
         }
         return result;
+    }
+
+    public boolean isFirstLogin(Long usuarioId) {
+        // Buscamos la persona asociada al usuario, si no existe es primer login.
+//        Persona persona = dao.findPersonaAsociada(usuarioId);
+//
+//        return persona == null;
+        return true;
     }
 }
 

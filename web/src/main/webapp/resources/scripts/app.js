@@ -4,7 +4,6 @@ var odontologiaApp = angular.module('odontologiaApp', [
 //    'ngSanitize',
     'ui.router',
     'oc.lazyLoad',
-    'ui.bootstrap',
     'Pagination',
     'sapo.directives',
     'sapo.services',
@@ -93,6 +92,11 @@ odontologiaApp.config(['$urlRouterProvider',
                     }
                 }
 
+            })
+            .state('userRelatedData', {
+                url: '/userData',
+                templateUrl: 'views/login/userRelatedData.html',
+                controller: 'UserCtrl_RelatedData'
             })
             .state('materia', {
                 url: '/materia',
@@ -565,7 +569,12 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', funct
                 if (!data.roles) {
                     $scope.loginData.userNotFound = false;
                     authFactory.setAuthData(data);
-                    $state.go('home');
+                    if (data.firstLogin) {
+                        $state.go('userRelatedData');
+                    } else {
+                        authFactory.communicateAuthChanged();
+                        $state.go('home');
+                    }
                 } else {
                     $scope.loginData.selectRol = true;
                     $scope.loginData.roles = data.roles;
@@ -584,8 +593,22 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', funct
         authFactory.login(user).success(function(data) {
             if (data) {
                 authFactory.setAuthData(data);
-                $state.go('home');
+                if (data.firstLogin) {
+                    $state.go('userRelatedData');
+                } else {
+                    authFactory.communicateAuthChanged();
+                    $state.go('home');
+                }
             }
         })
     }
-}])
+}]);
+
+odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', function($scope) {
+
+    $scope.persona = {};
+
+    $scope.save = function() {
+        console.log('lala');
+    }
+}]);

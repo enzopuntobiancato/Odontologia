@@ -1,0 +1,56 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="page-header">
+            <h2>Complete sus datos para continuar
+                <!--<small>Crear</small>-->
+            </h2>
+        </div>
+
+        <summary-error var="showSummaryError && userRelatedDataForm.$invalid"></summary-error>
+
+        <form novalidate submit-validate="save()" name="userRelatedDataForm">
+            <div class="row-fluid">
+                <div class="col-lg-4">
+                    <div class="form-group" show-errors>
+                        <label>Apellido</label>
+                        <input ng-disabled="data.disableFields" name="apellido" ng-model="persona.apellido"
+                               type="text" class="form-control" required/>
+                        <span class="help-block" for="apellido"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group" show-errors>
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" required ng-disabled="data.disableFields" name="nombre" ng-model="persona.nombre"/>
+                        <!--<select ng-disabled="data.disableFields" name="materia" class="form-control"-->
+                                <!--ng-model="catedra.materia"-->
+                                <!--ng-options="materia as materia.nombre for materia in data.materias track by materia.id" required>-->
+                            <!--<option value="">Seleccione</option>-->
+                        <!--</select>-->
+                        <span class="help-block" for="nombre"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group" show-errors>
+                        <label>Fecha de nacimiento</label>
+                        <date-picker name="fechaNacimiento" model-name="'fechaNacimiento'" ng-model="persona.fechaNacimiento" min-date="'01/01/2000'" is-required="true"></date-picker>
+                        <span class="help-block" for="fechaNacimiento"></span>
+                    </div>
+                </div>
+            </div>
+
+            {{persona}}
+
+            <div class="row-fluid">
+                <div class="col-lg-12">
+                    <div class="pull-right">
+                        <input ng-show="!data.disableFields" type="submit" class="btn btn-primary"
+                               value="Aceptar"/>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>

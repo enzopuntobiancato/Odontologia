@@ -48,7 +48,8 @@ public class AuthService {
             } catch (SAPOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            return new AuthAccessElement(loginElement.getUsername(), user.getAuthToken(), loginElement.getRol().toString(), loginElement.getRol().getPrivilegios(), hasMoreRoles);
+            boolean firstLogin = usuarioService.isFirstLogin(user.getId());
+            return new AuthAccessElement(loginElement.getUsername(), user.getAuthToken(), loginElement.getRol().toString(), loginElement.getRol().getPrivilegios(), hasMoreRoles, firstLogin);
         }
         return null;
     }

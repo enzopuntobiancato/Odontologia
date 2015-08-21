@@ -23,8 +23,8 @@ insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values 
 insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (4, 0, 4, 1, 1);
 insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (5, 0, 5, 1, 1);
 
-insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja) values (1, 0, 'admin', 'admin', 'admin@admin.com', 1, null, null);
-insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja) values (2, 0, 'enzo', '123', 'enzo@enzo.com', 1, null, null);
+insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja) values (1, 0, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.com', 1, null, null);
+insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja) values (2, 0, 'enzo', '202cb962ac59075b964b07152d234b70', 'enzo@enzo.com', 1, null, null);
 insert into usuario_x_rol(usuario_id, rol_id) values (1, 1);
 insert into usuario_x_rol(usuario_id, rol_id) values (1, 5);
 insert into usuario_x_rol(usuario_id, rol_id) values (2, 1);
