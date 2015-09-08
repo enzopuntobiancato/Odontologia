@@ -149,6 +149,22 @@ services
             })
         };
 
+        service.getTiposDocumento = function() {
+            return $http({
+                url: 'api/commons/getTiposDocumento',
+                method: 'GET',
+                cache: true
+            })
+        };
+
+        service.savePerson = function(persona) {
+            return $http({
+                url: 'api/persona/save',
+                method: 'POST',
+                data: persona
+            })
+        }
+
         service.initializeData = function () {
             return $http({
                 url: 'api/commons/initializeData',

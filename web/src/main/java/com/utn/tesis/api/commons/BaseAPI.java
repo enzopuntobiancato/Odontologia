@@ -5,6 +5,7 @@ import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.Bajeable;
 import com.utn.tesis.model.EntityBase;
 import com.utn.tesis.service.BaseService;
+import com.utn.tesis.util.MappingUtil;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -28,6 +29,8 @@ public abstract class BaseAPI<T extends EntityBase> {
 
     public abstract BaseService<T> getEjbInstance();
 
+    protected static Class returningView;
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -38,6 +41,9 @@ public abstract class BaseAPI<T extends EntityBase> {
                 entity = getEjbInstance().create(entity);
             } else {
                 getEjbInstance().update(entity);
+            }
+            if (returningView != null) {
+                entity = (T) MappingUtil.serializeWithView(entity, returningView);
             }
             return Response.ok(entity).build();
         } catch (SAPOException se) {
@@ -87,7 +93,7 @@ public abstract class BaseAPI<T extends EntityBase> {
             builder = createViolationResponse(((ConstraintViolationException) origin).getConstraintViolations());
         } else if (origin instanceof SAPOValidationException) {
             Map<String, String> responseObj = ((SAPOValidationException)origin).getErrors();
-            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+            builder = Response.status(new SapoFailedRequestResponse().getStatusCode()).entity(responseObj);
         } else {
             Map<String, String> responseObj = new HashMap<String, String>();
             responseObj.put("error", origin.getMessage());
@@ -115,7 +121,7 @@ public abstract class BaseAPI<T extends EntityBase> {
             responseObj.put(violation.getPropertyPath().toString(), violation.getMessage());
         }
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
+        return Response.status(new SapoFailedRequestResponse().getStatusCode()).entity(responseObj);
     }
 
 }

@@ -10,6 +10,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,10 +48,10 @@ public class AuthService {
             try {
                 usuarioService.update(user);
             } catch (SAPOException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                Logger.getLogger(AuthService.class.getName()).log(Level.SEVERE, e.getMessage(), e);
             }
-            boolean firstLogin = usuarioService.isFirstLogin(user.getId());
-            return new AuthAccessElement(loginElement.getUsername(), user.getAuthToken(), loginElement.getRol().toString(), loginElement.getRol().getPrivilegios(), hasMoreRoles, firstLogin);
+            boolean firstLogin = usuarioService.isFirstLogin(user.getId(), loginElement.getRol());
+            return new AuthAccessElement(loginElement.getUsername(), user.getAuthToken(), loginElement.getRol().toString(), loginElement.getRol().getPrivilegios(), hasMoreRoles, firstLogin, loginElement.getRol().getPersonaAsociada());
         }
         return null;
     }

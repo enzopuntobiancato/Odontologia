@@ -9,13 +9,13 @@ insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalida
 insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (5, 0, 'Usuario', 'usuario.index', 1);
 
 -- ROLES
-insert into Rol(id, version, nombre, descripcion) values (1, 0, 'ADMINISTRADOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (2, 0, 'ALUMNO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (3, 0, 'PROFESOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (4, 0, 'RESPONSABLE DE RECEPCION DE PACIENTES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (5, 0, 'ADMINISTRADOR ACADEMICO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (6, 0, 'PACIENTE', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (7, 0, 'AUTORIDAD', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+insert into Rol(id, version, nombre, descripcion, personaAsociada) values (1, 0, 'ADMINISTRADOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', 'com.utn.tesis.model.Persona');
+insert into Rol(id, version, nombre, descripcion, personaAsociada) values (2, 0, 'ALUMNO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', 'com.utn.tesis.model.Alumno');
+insert into Rol(id, version, nombre, descripcion, personaAsociada) values (3, 0, 'PROFESOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', 'com.utn.tesis.model.Profesor');
+insert into Rol(id, version, nombre, descripcion, personaAsociada) values (4, 0, 'RESPONSABLE DE RECEPCION DE PACIENTES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', 'com.utn.tesis.model.Responsable');
+insert into Rol(id, version, nombre, descripcion, personaAsociada) values (5, 0, 'ADMINISTRADOR ACADEMICO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', 'com.utn.tesis.model.Persona');
+insert into Rol(id, version, nombre, descripcion, personaAsociada) values (6, 0, 'PACIENTE', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', 'com.utn.tesis.model.Persona');
+insert into Rol(id, version, nombre, descripcion, personaAsociada) values (7, 0, 'AUTORIDAD', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', 'com.utn.tesis.model.Autoridad');
 
 insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (1, 0, 1, 1, 1);
 insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (2, 0, 2, 1, 1);

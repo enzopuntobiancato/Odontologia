@@ -1,11 +1,9 @@
 package com.utn.tesis.api.commons;
 
 import com.utn.tesis.annotation.JsonMap;
-import com.utn.tesis.model.Dia;
-import com.utn.tesis.model.GrupoPracticaOdontologica;
-import com.utn.tesis.model.Nivel;
-import com.utn.tesis.model.Rol;
+import com.utn.tesis.model.*;
 import com.utn.tesis.service.CommonsService;
+import com.utn.tesis.service.PersonaService;
 import com.utn.tesis.service.initialization.InitializationService;
 import com.utn.tesis.util.MappingUtil;
 
@@ -63,6 +61,14 @@ public class CommonsAPI {
     public List<Rol> findAllRoles() {
         return (List<Rol>)MappingUtil.serializeWithView(commonsService.findAllRoles(), JsonMap.Public.class);
     }
+
+    @Path("/getTiposDocumento")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TipoDocumento> findAllTiposDocumento() {
+        return commonsService.findAllTiposDocumento();
+    }
+
 
     @GET
     @Path("/{name}")

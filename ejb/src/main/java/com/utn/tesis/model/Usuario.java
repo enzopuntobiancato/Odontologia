@@ -37,6 +37,8 @@ public class Usuario extends Bajeable {
     private List<Rol> roles;
     private String authToken;
     private String authRol;
+    @OneToMany(targetEntity = Persona.class, mappedBy = "usuario", cascade = CascadeType.MERGE)
+    private List<Persona> personas;
 
     @Override
     public void validar() throws SAPOValidationException {
@@ -103,6 +105,15 @@ public class Usuario extends Bajeable {
 
     public void setAuthRol(String authRol) {
         this.authRol = authRol;
+    }
+
+    @JsonMap(view = JsonMap.Internal.class)
+    public List<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(List<Persona> personas) {
+        this.personas = personas;
     }
 
     @Override

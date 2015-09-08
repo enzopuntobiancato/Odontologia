@@ -32,7 +32,8 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
             authPermission: authData.authPermission,
             permission: authData.permission,
             hasMoreRoles: authData.hasMoreRoles,
-            firstLogin: authData.firstLogin
+            firstLogin: authData.firstLogin,
+            typeOfPerson: authData.typeOfPerson
         };
         $cookies.putObject(SESSION_COOKIE, this.authData, {expires: getExpiresDate()});
     };
@@ -86,6 +87,22 @@ auth.factory('authHttpRequestInterceptor', ['$rootScope', '$injector',
                 }
                 return $request;
             }
+//            'response': function(response) {
+//                // do something on success
+//                return response;
+//            },
+
+            // optional method
+//            'responseError': function(rejection) {
+//                // do something on error
+//                if (rejection.status == 1000)
+//                    return $q.reject(rejection);
+//                else               {
+//                    rejection.data = [['Error, check de log']];
+//                    return $q.reject(rejection)
+//
+//                }
+//            }
         };
         return authHttpRequestInterceptor;
     }]);

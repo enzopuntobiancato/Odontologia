@@ -34,13 +34,28 @@ public class UsuarioDao extends DaoBase<Usuario> {
     }
 
 
-    public Persona findPersonaAsociada(Long usuarioId) {
-        QPersona persona = QPersona.persona;
+    public Persona findPersonaAsociada(Long usuarioId, Rol rol) {
+        QUsuario usuario = QUsuario.usuario;
 
-        JPAQuery query = new JPAQuery(em).from(persona);
-        query.where(persona.usuario.id.eq(usuarioId));
+        JPAQuery query = new JPAQuery(em).from(usuario);
+        query.where(usuario.id.eq(usuarioId));
+        Usuario user = query.uniqueResult(usuario);
 
-        return query.uniqueResult(persona);
+        Persona persona = null;
+        if (rol.getPersonaAsociada() != null) {
+            List<Persona> personas = user.getPersonas();
+            for (Persona p: personas) {
+                try {
+                    if (p.getClass().equals(Class.forName(rol.getPersonaAsociada()))) {
+                        persona = p;
+                        break;
+                    }
+                } catch (ClassNotFoundException e) {
+                    persona = null;
+                }
+            }
+        }
+        return persona;
     }
 
     public Usuario findByUsernameAndPassword(String nombreUsuario, String contrasenia) {

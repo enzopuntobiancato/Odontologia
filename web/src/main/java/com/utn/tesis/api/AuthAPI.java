@@ -48,19 +48,4 @@ public class AuthAPI {
         }
         return accessElement;
     }
-
-//    @Path("/selectRol")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @POST
-//    @PermitAll
-//    public AuthAccessElement login(@Context HttpServletRequest request, AuthLoginElement loginElement, Rol rol) {
-//        AuthAccessElement accessElement = authService.selectRol(loginElement, rol, true);
-//        if (accessElement != null) {
-//            request.getSession().setMaxInactiveInterval(15);
-//            request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_ID, accessElement.getAuthId());
-//            request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_TOKEN, accessElement.getAuthToken());
-//        }
-//        return accessElement;
-//    }
 }

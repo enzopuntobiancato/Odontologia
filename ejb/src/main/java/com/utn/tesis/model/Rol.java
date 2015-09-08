@@ -35,6 +35,7 @@ public class Rol extends EntityBase {
     @ManyToMany(mappedBy = "roles")
     private List<Usuario> usuarios;
     private String descripcion;
+    private String personaAsociada;
 
     public Rol() {
     }
@@ -79,8 +80,17 @@ public class Rol extends EntityBase {
         this.descripcion = descripcion;
     }
 
+    public String getPersonaAsociada() {
+        return personaAsociada;
+    }
+
+    public void setPersonaAsociada(String personaAsociada) {
+        this.personaAsociada = personaAsociada;
+    }
+
     @Override
     public void validar() throws SAPOValidationException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
 }

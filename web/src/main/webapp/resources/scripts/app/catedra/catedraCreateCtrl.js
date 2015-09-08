@@ -215,7 +215,7 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
                 notification.scrollTo('container');
             })
             .error(function (response) {
-                if (response.status === 400) {
+                if (response.status === 1000) {
                     notification.badArray(response, function() {});
                 } else {
                     notification.bad('Se produjo un error inesperado', function(){});

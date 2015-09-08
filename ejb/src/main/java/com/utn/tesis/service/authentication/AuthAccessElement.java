@@ -26,17 +26,19 @@ public class AuthAccessElement implements Serializable {
     private List<Rol> roles;
     // Atributo que expone si el usuario ya completo sus datos de persona
     private boolean firstLogin;
+    private String typeOfPerson;
 
     public AuthAccessElement() {
     }
 
-    public AuthAccessElement(String authId, String authToken, String authPermission, List<Privilegio> permission, boolean hasMoreRoles, boolean firstLogin) {
+    public AuthAccessElement(String authId, String authToken, String authPermission, List<Privilegio> permission, boolean hasMoreRoles, boolean firstLogin, String typeOfperson) {
         this.authId = authId;
         this.authToken = authToken;
         this.authPermission = authPermission;
         this.permission = permission;
         this.hasMoreRoles = hasMoreRoles;
         this.firstLogin = firstLogin;
+        this.typeOfPerson = typeOfperson;
     }
 
     public AuthAccessElement(List<Rol> roles) {
@@ -97,5 +99,13 @@ public class AuthAccessElement implements Serializable {
 
     public void setFirstLogin(boolean firstLogin) {
         this.firstLogin = firstLogin;
+    }
+
+    public String getTypeOfPerson() {
+        return typeOfPerson;
+    }
+
+    public void setTypeOfPerson(String typeOfPerson) {
+        this.typeOfPerson = typeOfPerson;
     }
 }

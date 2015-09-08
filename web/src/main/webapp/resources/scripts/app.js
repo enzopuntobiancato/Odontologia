@@ -96,7 +96,13 @@ odontologiaApp.config(['$urlRouterProvider',
             .state('userRelatedData', {
                 url: '/userData',
                 templateUrl: 'views/login/userRelatedData.html',
-                controller: 'UserCtrl_RelatedData'
+                controller: 'UserCtrl_RelatedData',
+                controllerAs: 'vm',
+                resolve: {
+                    tiposDocumentoResponse: ['CommonsSrv', function(commons) {
+                        return commons.getTiposDocumento();
+                    }]
+                }
             })
             .state('materia', {
                 url: '/materia',
@@ -604,21 +610,55 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', funct
     }
 }]);
 
-odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', '$state', 'authFactory', 'NotificationSrv', function($scope, $state, authFactory,  messages) {
+odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', '$state', 'authFactory', 'NotificationSrv', 'CommonsSrv', 'tiposDocumentoResponse', function($scope, $state, authFactory,  messages, commons, tiposDocumentoResponse) {
 
-    $scope.persona = {};
+    var vm = this;
+    // Data
+    vm.user = authFactory.getAuthData();
+    vm.data = {
+        tiposDocumento: commons.enumToJson(tiposDocumentoResponse.data),
+        disableFields: false,
+        typeOfPerson: vm.user.typeOfPerson.substring(vm.user.typeOfPerson.lastIndexOf('.')+1, vm.user.typeOfPerson.length)
+    }
+    vm.persona = {
+        documento: {},
+        type: vm.user.typeOfPerson
+    };
 
-    $scope.save = function() {
-        console.log('lala');
+    // Methods
+    vm.save = save;
+
+
+    function save() {
+        vm.persona.usuario = {
+            nombreUsuario: vm.user.authId,
+            authToken: vm.user.authToken
+        }
+        commons.savePerson(vm.persona)
+            .success(function(response) {
+               messages.good('Datos guardados correctamente', function() {
+                  vm.user.firstLogin = false;
+                  authFactory.setAuthData(vm.user);
+                  $state.go('home');
+               });
+            })
+            .error(function(response) {
+                messages.badArray(response);
+            })
+
     }
 
+
+    // Changing actual state
     $scope.$on('$stateChangeStart',
         function (event, toState) {
             var user = authFactory.getAuthData();
-             if (toState.name != $state.$current.name && user.firstLogin) {
-                 event.preventDefault();
-                 $scope.user = authFactory.logout();
-                 $state.go('home');
-             }
+            if (user) {
+                if (toState.name != $state.$current.name && user.firstLogin) {
+                    event.preventDefault();
+                    $scope.user = authFactory.logout();
+                    $state.go('home');
+                }
+            }
         });
 }]);

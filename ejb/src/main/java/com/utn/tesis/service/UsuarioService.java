@@ -3,6 +3,7 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
@@ -86,12 +87,14 @@ public class UsuarioService extends BaseService<Usuario> {
         return result;
     }
 
-    public boolean isFirstLogin(Long usuarioId) {
-        // Buscamos la persona asociada al usuario, si no existe es primer login.
-//        Persona persona = dao.findPersonaAsociada(usuarioId);
-//
-//        return persona == null;
-        return false;
+    public boolean isFirstLogin(Long usuarioId, Rol rol) {
+        boolean result = false;
+//        rol = rolService.findById(rol.getId());
+        if (rol.getPersonaAsociada() != null) {
+            Persona persona = dao.findPersonaAsociada(usuarioId, rol);
+            result = persona == null;
+        }
+        return result;
     }
 }
 

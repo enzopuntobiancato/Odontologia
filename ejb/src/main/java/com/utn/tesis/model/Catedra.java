@@ -20,7 +20,7 @@ public class Catedra extends Bajeable {
     @Size (max = 10, message = "La denominacion no puede ser mayor a 10 caracteres.")
     private String denominacion;
 
-    @Size (max = 400, message = "La descripcion debe tener entre 0 y 400 caracteres.")
+    @Size (max = 400, message = "La descripcion no puede ser mayor a 400 caracteres.")
     private String descripcion;
 
     @JsonManagedReference

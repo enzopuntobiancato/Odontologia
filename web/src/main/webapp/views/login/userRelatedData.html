@@ -2,40 +2,17 @@
     <div class="panel-body">
         <div class="page-header">
             <h2>Complete sus datos para continuar
-                <!--<small>Crear</small>-->
             </h2>
         </div>
+        {{vm.persona}}
 
         <summary-error var="showSummaryError && userRelatedDataForm.$invalid"></summary-error>
-
-        <form novalidate submit-validate="save()" name="userRelatedDataForm">
-            <div class="row-fluid">
-                <div class="col-lg-4">
-                    <div class="form-group" show-errors>
-                        <label>Apellido</label>
-                        <input ng-disabled="data.disableFields" name="apellido" ng-model="persona.apellido"
-                               type="text" class="form-control" required/>
-                        <span class="help-block" for="apellido"></span>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-group" show-errors>
-                        <label>Nombre</label>
-                        <input type="text" class="form-control" required ng-disabled="data.disableFields" name="nombre" ng-model="persona.nombre"/>
-                        <!--<select ng-disabled="data.disableFields" name="materia" class="form-control"-->
-                                <!--ng-model="catedra.materia"-->
-                                <!--ng-options="materia as materia.nombre for materia in data.materias track by materia.id" required>-->
-                            <!--<option value="">Seleccione</option>-->
-                        <!--</select>-->
-                        <span class="help-block" for="nombre"></span>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                   <date-picker label="'Fecha de nacimiento'" name="fechaNacimiento" model-name="'fechaNacimiento'" ng-model="persona.fechaNacimiento" min-date="'01/01/2000'" is-required="true"></date-picker>
-                </div>
-            </div>
-
-            {{persona}}
+        <form novalidate submit-validate="vm.save()" name="userRelatedDataForm">
+             <div ng-include="'views/persona/persona.html'"></div>
+             <div ng-if="vm.data.typeOfPerson == 'Autoridad'" ng-include="'views/persona/persona.html'"></div>
+             <div ng-if="vm.data.typeOfPerson == 'Responsable'" ng-include="'views/persona/responsable.html'"></div>
+             <div ng-if="vm.data.typeOfPerson == 'Alumno'" ng-include="'views/persona/alumno.html'"></div>
+             <div ng-if="vm.data.typeOfPerson == 'Profesor'" ng-include="'views/persona/profesor.html'"></div>
 
             <div class="row-fluid">
                 <div class="col-lg-12">

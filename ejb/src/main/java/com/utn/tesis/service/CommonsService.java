@@ -2,10 +2,7 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.GrupoPracticaOdontologicaDao;
 import com.utn.tesis.data.daos.RolDao;
-import com.utn.tesis.model.Dia;
-import com.utn.tesis.model.GrupoPracticaOdontologica;
-import com.utn.tesis.model.Nivel;
-import com.utn.tesis.model.Rol;
+import com.utn.tesis.model.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -42,5 +39,9 @@ public class CommonsService {
         List<Rol> result = rolDao.findAll();
 
         return result;
+    }
+
+    public List<TipoDocumento> findAllTiposDocumento() {
+        return new ArrayList<TipoDocumento>(Arrays.asList(TipoDocumento.values()));
     }
 }

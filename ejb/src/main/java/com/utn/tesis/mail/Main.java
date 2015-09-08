@@ -46,6 +46,11 @@ public class Main {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+
+        System.out.println(Alumno.class.getName());
+        System.out.println(Alumno.class.getCanonicalName());
+        System.out.println(Alumno.class.getSimpleName());
+
     }
     
 }
