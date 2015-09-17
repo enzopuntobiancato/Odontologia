@@ -28,6 +28,8 @@ public class Catedra extends Bajeable {
     @OneToMany(targetEntity = DiaHorario.class, mappedBy = "catedra", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<DiaHorario> horarios;
 
+
+
     @ManyToOne
     @JoinColumn(name = "materiaId")
     @NotNull(message = "La catedra debe pertenecer a una materia.")
