@@ -30,12 +30,12 @@ insert into usuario_x_rol(usuario_id, rol_id) values (1, 5);
 insert into usuario_x_rol(usuario_id, rol_id) values (2, 1);
 
 
-insert into GrupoPracticaOdontologica(id, version, nombre) values (1, 0, 'CONSULTAS');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (2, 0, 'OPERATORIA DENTAL');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (3, 0, 'ENDODONCIA SIN OBTURACION');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (4, 0, 'PR0TESIS');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (5, 0, 'ODONTOLOGA PREVENTIVA');
-insert into GrupoPracticaOdontologica(id, version, nombre) values (6, 0, 'ORTODONCIA Y ORTOPEDIA FUNCIONAL');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (1, 0, 'CONSULTAS');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (2, 0, 'OPERATORIA DENTAL');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (3, 0, 'ENDODONCIA SIN OBTURACION');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (4, 0, 'PR0TESIS');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (5, 0, 'ODONTOLOGA PREVENTIVA');
+-- insert into GrupoPracticaOdontologica(id, version, nombre) values (6, 0, 'ORTODONCIA Y ORTOPEDIA FUNCIONAL');
 -- insert into GrupoPracticaOdontologica(id, version, nombre) values (7, 0, 'ODONTOPEDIATR�A');
 -- insert into GrupoPracticaOdontologica(id, version, nombre) values (8, 0, 'PERIODONCIA');
 -- insert into GrupoPracticaOdontologica(id, version, nombre) values (9, 0, 'RADIOLOG�A');
