@@ -44,9 +44,13 @@ public abstract class DaoBase<E extends EntityBase> {
         em.merge(entity);
     }
 
-    public <S extends E> S save(S entity) {
-        em.persist(entity);
-        return (S) entity;
+    public E save(E entity) {
+        if (entity.isNew()) {
+            em.persist(entity);
+        } else {
+            em.merge(entity);
+        }
+        return entity;
     }
 
     public JPAQuery paginar(JPAQuery query, Long page, Long pageSize) {

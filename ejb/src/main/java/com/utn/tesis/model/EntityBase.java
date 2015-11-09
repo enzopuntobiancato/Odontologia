@@ -1,16 +1,11 @@
 package com.utn.tesis.model;
 
-import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.interfaces.Validator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @MappedSuperclass
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public abstract class EntityBase implements Serializable, Validator {
 
     @Id
@@ -21,7 +16,6 @@ public abstract class EntityBase implements Serializable, Validator {
     private Integer version;
 
     //GETTERS AND SETTERS
-    @JsonMap(view = JsonMap.Public.class)
     public Long getId() {
         return id;
     }
@@ -30,7 +24,6 @@ public abstract class EntityBase implements Serializable, Validator {
         this.id = id;
     }
 
-    @JsonMap(view = JsonMap.Internal.class)
     public Integer getVersion() {
         return version;
     }

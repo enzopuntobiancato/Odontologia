@@ -22,13 +22,13 @@ import java.util.List;
 public class UsuarioService extends BaseService<Usuario> {
 
     @Inject
-    UsuarioDao dao;
-
+    private UsuarioDao dao;
     @Inject
-    Validator validator;
-
+    private Validator validator;
     @Inject
-    RolService rolService;
+    private RolService rolService;
+    @Inject
+    private ArchivoService archivoService;
 
     @Override
     DaoBase<Usuario> getDao() {

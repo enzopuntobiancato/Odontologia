@@ -15,7 +15,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
         return $http({
             url: 'api/auth/login',
             method: 'POST',
-            data: angular.toJson(user)
+            data: user
         });
     };
 
@@ -26,19 +26,11 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
     }
 
     authFactory.setAuthData = function (authData) {
-        this.authData = {
-            authId: authData.authId,
-            authToken: authData.authToken,
-            authPermission: authData.authPermission,
-            permission: authData.permission,
-            hasMoreRoles: authData.hasMoreRoles,
-            firstLogin: authData.firstLogin,
-            typeOfPerson: authData.typeOfPerson
-        };
+        this.authData = authData;
         $cookies.putObject(SESSION_COOKIE, this.authData, {expires: getExpiresDate()});
     };
 
-    authFactory.communicateAuthChanged = function() {
+    authFactory.communicateAuthChanged = function () {
         $rootScope.$broadcast('authChanged');
     }
 
@@ -55,21 +47,21 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
         $cookies.putObject(SESSION_COOKIE, this.authData, {expires: getExpiresDate()});
     };
 
-    authFactory.logout = function() {
+    authFactory.logout = function () {
         $cookies.remove(SESSION_COOKIE);
         $cookies.remove(MENU_COOKIE);
         return this.authData = undefined;
     };
 
-    authFactory.setMenu = function(menu) {
+    authFactory.setMenu = function (menu) {
         $cookies.putObject(MENU_COOKIE, menu, {});
     };
 
-    authFactory.getMenu = function() {
+    authFactory.getMenu = function () {
         return $cookies.getObject(MENU_COOKIE);
     };
 
-    authFactory.removeMenu = function() {
+    authFactory.removeMenu = function () {
         $cookies.remove(MENU_COOKIE);
     }
     return authFactory;
@@ -87,22 +79,6 @@ auth.factory('authHttpRequestInterceptor', ['$rootScope', '$injector',
                 }
                 return $request;
             }
-//            'response': function(response) {
-//                // do something on success
-//                return response;
-//            },
-
-            // optional method
-//            'responseError': function(rejection) {
-//                // do something on error
-//                if (rejection.status == 1000)
-//                    return $q.reject(rejection);
-//                else               {
-//                    rejection.data = [['Error, check de log']];
-//                    return $q.reject(rejection)
-//
-//                }
-//            }
         };
         return authHttpRequestInterceptor;
     }]);

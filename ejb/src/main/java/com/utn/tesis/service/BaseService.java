@@ -21,7 +21,13 @@ import java.util.logging.Logger;
 public abstract class BaseService<T extends EntityBase> {
 
     abstract DaoBase<T> getDao();
+
     abstract Validator getValidator();
+
+    public T save(T entity) throws SAPOException {
+        validate(entity, getValidator());
+        return getDao().save(entity);
+    }
 
     public T findById(Long id) {
         return getDao().findById(id);
@@ -39,14 +45,14 @@ public abstract class BaseService<T extends EntityBase> {
 
     public T remove(Long id, String motivoBaja) throws SAPOException {
         T entity = getDao().findById(id);
-        ((Bajeable)entity).darDeBaja(motivoBaja);
+        ((Bajeable) entity).darDeBaja(motivoBaja);
         getDao().deleteLogical(entity);
         return entity;
     }
 
     public void restore(Long id) {
         T entity = getDao().findById(id);
-        ((Bajeable)entity).darDeAlta();
+        ((Bajeable) entity).darDeAlta();
         getDao().update(entity);
     }
 
@@ -61,13 +67,11 @@ public abstract class BaseService<T extends EntityBase> {
         try {
             constraintValidation(entity, validator);
             bussinessValidation(entity);
-        }
-        catch (ConstraintViolationException cve) {
+        } catch (ConstraintViolationException cve) {
             throw new SAPOException(cve);
         } catch (SAPOValidationException sve) {
             throw new SAPOException(sve);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Logger.getLogger(BaseService.class.getName()).log(Level.SEVERE, e.getMessage(), e);
             throw new SAPOException(e);
         }

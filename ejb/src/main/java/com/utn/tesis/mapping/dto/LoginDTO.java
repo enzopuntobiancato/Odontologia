@@ -1,6 +1,4 @@
-package com.utn.tesis.service.authentication;
-
-import java.io.Serializable;
+package com.utn.tesis.mapping.dto;
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,14 +6,16 @@ import java.io.Serializable;
  * Date: 02/06/15
  * Time: 22:21
  */
-public class AuthLoginElement implements Serializable {
+public class LoginDTO extends BaseDTO {
+    private static final long serialVersionUID = -7401432962765233207L;
+
     private String username;
     private String password;
 
-    public AuthLoginElement() {
+    public LoginDTO() {
     }
 
-    public AuthLoginElement(String username, String password) {
+    public LoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }

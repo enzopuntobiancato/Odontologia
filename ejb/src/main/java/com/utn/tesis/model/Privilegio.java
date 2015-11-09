@@ -1,7 +1,6 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
-import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -18,9 +17,8 @@ public class Privilegio extends EntityBase {
     private Funcionalidad funcionalidad;
     private boolean esItemMenu;
 
-    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name="rol_id", nullable=false)
+    @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
 
     public Privilegio() {
