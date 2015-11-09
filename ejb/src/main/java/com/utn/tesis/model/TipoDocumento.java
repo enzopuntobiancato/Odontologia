@@ -11,7 +11,7 @@ public enum TipoDocumento {
     DNI {
         @Override
         public String toString() {
-            return "DNI";
+            return "Documento nacional de identidad";
         }
     },
     PASAPORTE {

@@ -11,7 +11,8 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'ngMaterial',
     'ngAnimate',
     'ngMessages',
-    'ngMdIcons'
+    'ngMdIcons',
+    'ngFileUpload'
 ]);
 
 
@@ -19,7 +20,6 @@ odontologiaApp.config(['$urlRouterProvider',
     '$stateProvider',
     '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider', '$mdThemingProvider', '$mdIconProvider',
     function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider, $mdIconProvider) {
-
 
         var customBlueMap = $mdThemingProvider.extendPalette('light-blue', {
             'contrastDefaultColor': 'light',
@@ -44,6 +44,28 @@ odontologiaApp.config(['$urlRouterProvider',
 
         cfpLoadingBarProvider.loadingBarTemplate = '<div id="bar-container"></div><div id="loading-bar"><div class="bar"><div class="peg"></div></div></div></div>';
 
+        $httpProvider.defaults.transformResponse.push(function (responseData) {
+            convertDateStringsToDates(responseData);
+            return responseData;
+        });
+
+        function convertDateStringsToDates(input) {
+            var dateRX = /^\d{4}-\d{1,2}-\d{1,2}T\d{2}:\d{2}Z$/;
+            // Ignore things that aren't objects.
+            if (typeof input !== "object") return input;
+            for (var key in input) {
+                if (!input.hasOwnProperty(key)) continue;
+                var value = input[key];
+                // Check for string properties which look like dates.
+                if (typeof value === "string" && (value.match(dateRX) != null)) {
+                    var sDate = value.match(dateRX)[0];
+                    input[key] = new Date(sDate);
+                } else if (typeof value === "object") {
+                    // Recurse into object
+                    convertDateStringsToDates(value);
+                }
+            }
+        }
 
         function url(url) {
             return 'resources/scripts/app' + url;
@@ -64,7 +86,8 @@ odontologiaApp.config(['$urlRouterProvider',
             .state('landingPage', {
                 url: '/',
                 templateUrl: 'views/home/landingPage.html',
-                controller: 'loginTestCtrl',
+                controller: 'LandingPageCtrl',
+                controllerAs: 'vm',
                 resolve: {
                     loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
                         //lazyload de un modulo
@@ -86,12 +109,10 @@ odontologiaApp.config(['$urlRouterProvider',
                             })
                             .error(function () {
                                 deferred.resolve('Error durante la ejecución de la inicialización de datos');
-                            })
+                            });
                         return deferred.promise;
                     }]
                 }
-
-
             })
             .state('home', {
                 url: '/home',
@@ -107,48 +128,33 @@ odontologiaApp.config(['$urlRouterProvider',
                     }]}
 
             })
-            .state('login', {
-                url: '/login',
-                data: {
-                    isFree: true
-                },
-                views: {
-                    '': {
-                        templateUrl: 'views/login/main.html',
-                        controller: 'loginCtrl'
-                    },
-                    'initSesion@login': {
-                        templateUrl: 'views/login/login.html'
-                    },
-                    'selectRol@login': {
-                        templateUrl: 'views/login/selectRol.html'
-                    }
-                }
-
-            })
-            .state('userRelatedData', {
-                url: '/userData',
-                templateUrl: 'views/login/userRelatedData.html',
-                controller: 'UserCtrl_RelatedData',
-                controllerAs: 'vm',
-                resolve: {
-                    tiposDocumentoResponse: ['CommonsSrv', function (commons) {
-                        return commons.getTiposDocumento();
-                    }]
-                }
-            })
-            .state('persona',{
+            .state('persona', {
                 url: '/persona',
                 template: '<ui-view/>',
                 abstract: true,
                 resolve: module('personaModule')
             })
-            .state('persona.firstLogin',{
-                url:'/firstLogin',
+            .state('persona.firstLogin', {
+                url: '/firstLogin',
                 templateUrl: 'views/persona/firstLogin.html',
-                controller: 'PersonaCtrl_FirstLogin'
+                controller: 'PersonaCtrl_FirstLogin',
+                controllerAs: 'vm',
+                resolve: {
+                    personaResponse: ['loadMyModule', 'authFactory', 'PersonaSrv', function (loadMyModule, authFactory, personaSrv) {
+                        var user = authFactory.getAuthData();
+                        return personaSrv.findByUser(user.nombreUsuario, user.authToken);
+                    }],
+                    tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getTiposDocumento();
+                    }],
+                    sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getSexos();
+                    }],
+                    cargosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getCargos();
+                    }]
+                }
             })
-
             .state('materia', {
                 url: '/materia',
                 template: '<ui-view/>',
@@ -484,7 +490,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'PacienteCtrl_Index',
                 resolve: {
-                    materiasResponse: ['loadMyModule', 'PacienteSrv', function(loadMyModule,service){
+                    materiasResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
                         return service.findAllMaterias();
                     }],
                     practicasResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
@@ -502,9 +508,9 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/paciente/pacienteEdit.html',
                 controller: 'PacienteCtrl_Edit'
             })
-            .state('paciente.view',{
+            .state('paciente.view', {
                 url: '/view/:id',
-                templateUrl:'views/paciente/pacienteView.html',
+                templateUrl: 'views/paciente/pacienteView.html',
                 controller: 'PacienteCtrl_View'
             })
             .state('asignacion', {
@@ -513,12 +519,12 @@ odontologiaApp.config(['$urlRouterProvider',
                 abstract: true,
                 resolve: module('asignacionModule')
             })
-            .state('asignacion.index',{
+            .state('asignacion.index', {
                 url: '/',
                 templateUrl: 'views/asignacion/asignacionQuery.html',
                 controller: 'AsignacionCtrl_Index'
             })
-            .state('asignacion.create',{
+            .state('asignacion.create', {
                 url: '/create',
                 templateUrl: 'views/asignacion/asignacionCreate.html',
                 controller: 'AsignacionCtrl_Create'
@@ -530,7 +536,7 @@ odontologiaApp.config(['$urlRouterProvider',
             modules: [
                 {
                     name: 'sapo.login',
-                    files: [url('/home/loginTestCtrl.js')]
+                    files: [url('/home/landingPageCtrl.js')]
                 },
                 {
                     name: 'homeModule',
@@ -582,7 +588,8 @@ odontologiaApp.config(['$urlRouterProvider',
                 {
                     name: 'personaModule',
                     files: [
-                        url('/persona/firstLoginCtrl.js')
+                        url('/persona/firstLoginCtrl.js'),
+                        url('/persona/personaSrv.js')
                     ]
                 },
                 {
@@ -596,11 +603,11 @@ odontologiaApp.config(['$urlRouterProvider',
                     ]
                 },
                 {
-                  name: 'asignacionModule',
-                  files: [
-                      url('/asignacion/asignacionSrv.js'),
-                      url('/asignacion/asignacionIndexCtrl.js'),
-                      url('/asignacion/asignacionCreateCtrl.js')
+                    name: 'asignacionModule',
+                    files: [
+                        url('/asignacion/asignacionSrv.js'),
+                        url('/asignacion/asignacionIndexCtrl.js'),
+                        url('/asignacion/asignacionCreateCtrl.js')
                     ]
                 }
             ]
@@ -615,9 +622,9 @@ angular.module('catedraModule', []);
 angular.module('trabajoPracticoModule', []);
 angular.module('usuarioModule', []);
 angular.module('sapo.login', []);
-angular.module('personaModule',[]);
-angular.module('pacienteModule',[]);
-angular.module('asignacionModule',[]);
+angular.module('personaModule', []);
+angular.module('pacienteModule', []);
+angular.module('asignacionModule', []);
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {
@@ -626,38 +633,35 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         $mdSidenav(menuId).toggle();
     };
 
-    var originatorEv;
-
-
     $scope.show = "false";
     $scope.showFilters = function () {
         $scope.show = true;
     };
 
     $scope.user = authFactory.getAuthData();
-    $scope.menu = $scope.user ? buildMenu($scope.user.permission) : authFactory.getMenu();
+//    $scope.menu = $scope.user ? buildMenu($scope.user.permisos) : authFactory.getMenu();
     $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {
 
-            if (authFactory.isAuthenticated()) {
-                authFactory.updateExpiresTime();
-            } else {
-                $scope.user = undefined;
-                $scope.menu = [];
-                authFactory.removeMenu();
-            }
-
-            if (toState.name === 'login' && authFactory.isAuthenticated()) {
-                event.preventDefault();
-                $state.go('home');
-            }
-            if (toState.data && toState.data.isFree) {
-                return;
-            }
-            //if (!authFactory.isAuthenticated()) {
-            //    event.preventDefault();
-            //    $state.go('login');
-            //}
+//            if (authFactory.isAuthenticated()) {
+//                authFactory.updateExpiresTime();
+//            } else {
+//                $scope.user = undefined;
+//                $scope.menu = [];
+//                authFactory.removeMenu();
+//            }
+//
+//            if (toState.name === 'login' && authFactory.isAuthenticated()) {
+//                event.preventDefault();
+//                $state.go('home');
+//            }
+//            if (toState.data && toState.data.isFree) {
+//                return;
+//            }
+//            if (!authFactory.isAuthenticated()) {
+//                event.preventDefault();
+//                $state.go('landingPage');
+//            }
         });
 
     $scope.$on('authChanged', function () {
@@ -688,7 +692,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
                     subItems: []
                 })
             }
-        })
+        });
 
         angular.forEach(items, function (item) {
             if (!item.funcionalidad.grupoFuncionalidad) {
@@ -711,107 +715,4 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         authFactory.setMenu(resultMenu);
         return resultMenu;
     }
-}]);
-
-odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', function ($scope, authFactory, $state) {
-
-    $scope.user = {};
-    $scope.loginData = {
-        userNotFound: false,
-        selectRol: false,
-        roles: []
-    }
-    $scope.login = function (user) {
-        $scope.loginData.userNotFound = false;
-        authFactory.login(user).success(function (data) {
-            if (data) {
-                if (!data.roles) {
-                    $scope.loginData.userNotFound = false;
-                    authFactory.setAuthData(data);
-                    authFactory.communicateAuthChanged();
-                    if (data.firstLogin) {
-                        $state.go('userRelatedData');
-                    } else {
-                        $state.go('home');
-                    }
-                } else {
-                    $scope.loginData.selectRol = true;
-                    $scope.loginData.roles = data.roles;
-                    $scope.user.rol = $scope.loginData.roles[0];
-                }
-            } else {
-                $scope.loginData.userNotFound = true;
-            }
-
-        }).error(function () {
-                // Error handling
-            });
-    };
-
-    $scope.selectRol = function (user) {
-        authFactory.login(user).success(function (data) {
-            if (data) {
-                authFactory.setAuthData(data);
-                authFactory.communicateAuthChanged();
-                if (data.firstLogin) {
-                    $state.go('userRelatedData');
-                } else {
-                    $state.go('home');
-                }
-            }
-        })
-    }
-}]);
-
-odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', '$state', 'authFactory', 'NotificationSrv', 'CommonsSrv', 'tiposDocumentoResponse', function ($scope, $state, authFactory, messages, commons, tiposDocumentoResponse) {
-
-    var vm = this;
-    // Data
-    vm.user = authFactory.getAuthData();
-    vm.data = {
-        tiposDocumento: commons.enumToJson(tiposDocumentoResponse.data),
-        disableFields: false,
-        typeOfPerson: vm.user.typeOfPerson.substring(vm.user.typeOfPerson.lastIndexOf('.') + 1, vm.user.typeOfPerson.length)
-    }
-    vm.persona = {
-        documento: {},
-        type: vm.user.typeOfPerson
-    };
-
-    // Methods
-    vm.save = save;
-
-
-    function save() {
-        vm.persona.usuario = {
-            nombreUsuario: vm.user.authId,
-            authToken: vm.user.authToken
-        }
-        commons.savePerson(vm.persona)
-            .success(function (response) {
-                messages.good('Datos guardados correctamente', function () {
-                    vm.user.firstLogin = false;
-                    authFactory.setAuthData(vm.user);
-                    $state.go('home');
-                });
-            })
-            .error(function (response) {
-                messages.badArray(response);
-            })
-
-    }
-
-
-    // Changing actual state
-    $scope.$on('$stateChangeStart',
-        function (event, toState) {
-            var user = authFactory.getAuthData();
-            if (user) {
-                if (toState.name != $state.$current.name && user.firstLogin) {
-                    event.preventDefault();
-                    $scope.user = authFactory.logout();
-                    $state.go('home');
-                }
-            }
-        });
 }]);

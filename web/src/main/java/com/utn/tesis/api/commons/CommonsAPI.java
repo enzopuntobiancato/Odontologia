@@ -1,11 +1,11 @@
 package com.utn.tesis.api.commons;
 
-import com.utn.tesis.annotation.JsonMap;
-import com.utn.tesis.model.*;
+import com.utn.tesis.mapping.dto.EnumDTO;
+import com.utn.tesis.model.Dia;
+import com.utn.tesis.model.GrupoPracticaOdontologica;
+import com.utn.tesis.model.Nivel;
 import com.utn.tesis.service.CommonsService;
-import com.utn.tesis.service.PersonaService;
 import com.utn.tesis.service.initialization.InitializationService;
-import com.utn.tesis.util.MappingUtil;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -19,10 +19,10 @@ import java.util.List;
 public class CommonsAPI {
 
     @Inject
-    CommonsService commonsService;
+    private CommonsService commonsService;
 
     @Inject
-    InitializationService initService;
+    private InitializationService initService;
 
     @Path("/getNiveles")
     @GET
@@ -51,24 +51,31 @@ public class CommonsAPI {
         try {
             boolean result = initService.initializeData();
             return Response.status(Response.Status.OK).entity(result).build();
-        } catch(Exception e) {
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    @Path("/getRoles")
-    @GET
-    public List<Rol> findAllRoles() {
-        return (List<Rol>)MappingUtil.serializeWithView(commonsService.findAllRoles(), JsonMap.Public.class);
     }
 
     @Path("/getTiposDocumento")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TipoDocumento> findAllTiposDocumento() {
+    public List<EnumDTO> findAllTiposDocumento() {
         return commonsService.findAllTiposDocumento();
     }
 
+    @Path("/getSexos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EnumDTO> findAllSexos() {
+        return commonsService.findAllSexos();
+    }
+
+    @Path("/getCargos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EnumDTO> findAllCargos() {
+        return commonsService.findAllCargos();
+    }
 
     @GET
     @Path("/{name}")

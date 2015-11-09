@@ -40,7 +40,7 @@ module.
         }
 
         service.getRoles = function () {
-            return $http.get('api/commons/getRoles');
+            return $http.get('api/commons/getRoles', {});
         }
 
         service.find = function (nombre, email, dadosBaja, rol) {

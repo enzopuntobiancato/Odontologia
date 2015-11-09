@@ -15,13 +15,13 @@ import java.util.List;
 public class CatedraService extends BaseService<Catedra> {
 
     @Inject
-    CatedraDao dao;
+    private CatedraDao dao;
 
     @Inject
     private Validator validator;
 
-    @Inject
-    DiaHorarioService diaHorarioService;
+    @Inject 
+    private DiaHorarioService diaHorarioService;
 
     @Override
     DaoBase<Catedra> getDao() {
@@ -34,7 +34,8 @@ public class CatedraService extends BaseService<Catedra> {
     }
 
     public List<Catedra> findByFilters(String denominacion, Long materiaId, boolean dadosBaja, Long pageNumber, Long pageSize) {
-        return dao.findByFilters(denominacion, materiaId, dadosBaja, pageNumber, pageSize);
+        List<Catedra> result = dao.findByFilters(denominacion, materiaId, dadosBaja, pageNumber, pageSize);
+         return result;
     }
 
     @Override

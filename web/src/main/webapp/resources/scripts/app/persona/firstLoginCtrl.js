@@ -8,39 +8,60 @@
 
 var module = angular.module('personaModule');
 
-module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope','$state','MessageSrv','$mdDialog',
-function($scope,$rootScope,$state,message,$mdDialog){
+module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope', '$state', 'authFactory', 'MessageSrv', 'Upload', 'personaResponse', 'tiposDocumentoResponse', 'sexosResponse', 'cargosResponse',
+    function ($scope, $rootScope, $state, authFactory, message, Upload, personaResponse, tiposDocumentoResponse, sexosResponse, cargosResponse) {
 
-    $scope.persona = {};
-    $scope.data ={
-        provincias :[
-            {nombre: 'Córdoba'},{nombre: 'Buenos Aires'},{nombre: 'Santa Fe'},{nombre: 'San Luis'}
-        ],
-        ciudades : [
-            {nombre: 'Córdoba'},{nombre: 'Carlos Paz'},{nombre: 'Alta Gracia'},{nombre: 'La Falda'}
-        ],
-        barrios : [
-            {nombre: 'Capital Sur'},{nombre: 'Alberdi'},{nombre: 'Centro'},{nombre: 'Barrio Jardìn'}
-        ]
-    }
+        var vm = this;
+        vm.persona = personaResponse.data ? personaResponse.data : {};
+        vm.usuario = authFactory.getAuthData();
+        vm.data = {
+            tiposDocumento: tiposDocumentoResponse.data,
+            sexos: sexosResponse.data,
+            cargos: cargosResponse.data
+        }
 
-    $scope.save = function(){
+        vm.save = save;
 
-    }
+        function save() {
+            Upload.upload({
+                url: 'api/persona/saveUserRelatedData',
+                data: {file: vm.file, persona: Upload.json(vm.persona)}
+            }).then(function (response) {
+                    vm.usuario.firstLogin = false;
+                    authFactory.setAuthData(vm.usuario);
+                    authFactory.communicateAuthChanged();
+                    $state.go('home');
+                }, function () {
+                    message.errorMessage("Error guardando los datos")
+                });
+        }
 
-    $scope.goIndex = function(){
-        $state.go('landingPage', {execQuery: $scope.data.persistedOperation});
-    }
+//        $scope.goIndex = function () {
+//            $state.go('landingPage', {execQuery: $scope.data.persistedOperation});
+//        }
+//
+//        $scope.reload = function () {
+//            $rootScope.persistedOperation = $scope.data.persistedOperation;
+//            $state.go($state.current, {}, {reload: true});
+//        }
 
-    $scope.reload = function(){
-        $rootScope.persistedOperation = $scope.data.persistedOperation;
-        $state.go($state.current, {}, {reload: true});
-    }
+//        $scope.$on('$stateChangeStart',
+//            function (event, toState, toParams, fromState, fromParams) {
+//                if (!angular.equals($state.current, toState)) {
+//                    delete $rootScope.persistedOperation;
+//                }
+//            })
 
-    $scope.$on('$stateChangeStart',
-        function (event, toState, toParams, fromState, fromParams) {
-            if (!angular.equals($state.current, toState)) {
-                delete $rootScope.persistedOperation;
-            }
-        })
-}]);
+//        // Changing actual state
+//        $scope.$on('$stateChangeStart',
+//            function (event, toState) {
+//                var user = authFactory.getAuthData();
+//                if (user) {
+//                    if (toState.name != $state.$current.name && user.firstLogin) {
+//                        event.preventDefault();
+//                        $scope.user = authFactory.logout();
+//                        $state.go('home');
+//                    }
+//                }
+//            });
+    }]);

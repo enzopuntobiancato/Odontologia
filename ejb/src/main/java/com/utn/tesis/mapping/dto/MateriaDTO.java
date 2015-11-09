@@ -2,7 +2,8 @@ package com.utn.tesis.mapping.dto;
 
 import java.util.Calendar;
 
-public class MateriaDTO {
+public class MateriaDTO extends BaseDTO {
+    private static final long serialVersionUID = -1792766317112917917L;
 
     private Long id;
     private String nombre;

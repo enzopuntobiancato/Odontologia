@@ -1,7 +1,6 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,7 +24,6 @@ public class Catedra extends Bajeable {
     @Column(length = 400)
     private String descripcion;
 
-    @JsonManagedReference
     @NotNull(message = "Los horarios de la catedra no pueden ser nulos.")
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true, fetch = FetchType.LAZY)
