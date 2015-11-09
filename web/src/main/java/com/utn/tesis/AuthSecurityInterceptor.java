@@ -1,7 +1,7 @@
 package com.utn.tesis;
 
 
-import com.utn.tesis.service.authentication.AuthAccessElement;
+import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.service.authentication.AuthService;
 
 import javax.annotation.security.RolesAllowed;
@@ -42,8 +42,8 @@ public class AuthSecurityInterceptor implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        String authId = requestContext.getHeaderString(AuthAccessElement.PARAM_AUTH_ID);
-        String authToken = requestContext.getHeaderString(AuthAccessElement.PARAM_AUTH_TOKEN);
+        String authId = requestContext.getHeaderString(UsuarioLogueadoDTO.PARAM_AUTH_ID);
+        String authToken = requestContext.getHeaderString(UsuarioLogueadoDTO.PARAM_AUTH_TOKEN);
 
         // Get method invoked.
         Method methodInvoked = resourceInfo.getResourceMethod();

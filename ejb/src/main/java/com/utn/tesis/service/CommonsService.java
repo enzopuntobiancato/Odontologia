@@ -2,6 +2,8 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.GrupoPracticaOdontologicaDao;
 import com.utn.tesis.data.daos.RolDao;
+import com.utn.tesis.mapping.dto.EnumDTO;
+import com.utn.tesis.mapping.mapper.EnumMapper;
 import com.utn.tesis.model.*;
 
 import javax.ejb.Stateless;
@@ -14,7 +16,9 @@ import java.util.List;
 public class CommonsService {
 
     @Inject
-    GrupoPracticaOdontologicaDao grupoPracticaOdontologicaDao;
+    private GrupoPracticaOdontologicaDao grupoPracticaOdontologicaDao;
+    @Inject
+    private EnumMapper enumMapper;
 
     @Inject
     RolDao rolDao;
@@ -41,7 +45,17 @@ public class CommonsService {
         return result;
     }
 
-    public List<TipoDocumento> findAllTiposDocumento() {
-        return new ArrayList<TipoDocumento>(Arrays.asList(TipoDocumento.values()));
+    public List<EnumDTO> findAllTiposDocumento() {
+        List<TipoDocumento> tipoDocumentoList = Arrays.asList(TipoDocumento.values());
+        return enumMapper.tipoDocumentoListToDTOList(tipoDocumentoList);
+    }
+
+    public List<EnumDTO> findAllSexos() {
+        List<Sexo> sexoList = Arrays.asList(Sexo.values());
+        return enumMapper.sexoListToDTOList(sexoList);
+    }
+
+    public List<EnumDTO> findAllCargos() {
+        return enumMapper.cargoListToDTOList(Arrays.asList(Cargo.values()));
     }
 }

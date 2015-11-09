@@ -1,7 +1,7 @@
 package com.utn.tesis.api;
 
-import com.utn.tesis.service.authentication.AuthAccessElement;
-import com.utn.tesis.service.authentication.AuthLoginElement;
+import com.utn.tesis.mapping.dto.LoginDTO;
+import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.service.authentication.AuthService;
 
 import javax.annotation.security.PermitAll;
@@ -33,14 +33,14 @@ public class AuthAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @POST
     @PermitAll
-    public AuthAccessElement login(@Context HttpServletRequest request, AuthLoginElement loginElement) {
-        AuthAccessElement accessElement = authService.login(loginElement);
+    public UsuarioLogueadoDTO login(@Context HttpServletRequest request, LoginDTO loginElement) {
+        UsuarioLogueadoDTO usuarioLogueado = authService.login(loginElement);
 
-        if (accessElement != null && accessElement.getAuthId() != null && accessElement.getAuthToken() != null) {
+        if (usuarioLogueado != null && usuarioLogueado.getNombreUsuario() != null && usuarioLogueado.getAuthToken() != null) {
             request.getSession().setMaxInactiveInterval(15);
-            request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_ID, accessElement.getAuthId());
-            request.getSession().setAttribute(AuthAccessElement.PARAM_AUTH_TOKEN, accessElement.getAuthToken());
+            request.getSession().setAttribute(UsuarioLogueadoDTO.PARAM_AUTH_ID, usuarioLogueado.getNombreUsuario());
+            request.getSession().setAttribute(UsuarioLogueadoDTO.PARAM_AUTH_TOKEN, usuarioLogueado.getAuthToken());
         }
-        return accessElement;
+        return usuarioLogueado;
     }
 }

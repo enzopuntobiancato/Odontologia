@@ -5,7 +5,6 @@ import com.utn.tesis.mapping.dto.MateriaDTO;
 import com.utn.tesis.model.Materia;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.factory.Mappers;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,9 +15,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "cdi")
 public interface MateriaMapper {
 
-    MateriaMapper INSTANCE = Mappers.getMapper(MateriaMapper.class);
-
-    //    @Mapping(target = "nivel", expression = "java(materia.getNivel().toString())")
     MateriaDTO toDTO(Materia materia);
 
     Materia fromDTO(MateriaDTO materiaDTO);

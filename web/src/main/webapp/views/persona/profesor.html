@@ -1,0 +1,32 @@
+<div layout="row">
+    <md-input-container flex="30">
+        <label>Legajo</label>
+        <input name="legajo" ng-model="vm.persona.legajo"
+               type="text" ng-pattern="/^\d+$/" md-maxlength="10" required=>
+
+        <div ng-messages="form.legajo.$error">
+            <div ng-message="required">El legajo es un campo obligatorio.</div>
+            <div ng-message="md-maxlength">Máximo 10 caracteres.</div>
+            <div ng-message="pattern">Debe ser un número.</div>
+        </div>
+    </md-input-container>
+    <md-input-container flex="30">
+        <label>Matrícula profesional</label>
+        <input name="matricula" ng-model="vm.persona.matricula"
+               type="text" md-maxlength="25" required>
+
+        <div ng-messages="form.matricula.$error">
+            <div ng-message="required">El legajo es un campo obligatorio.</div>
+            <div ng-message="md-maxlength">Máximo 25 caracteres.</div>
+        </div>
+    </md-input-container>
+    <md-input-container flex="30">
+        <label>Profesión</label>
+        <input name="profesion" ng-model="vm.persona.profesion"
+               type="text" md-maxlength="75">
+
+        <div ng-messages="form.profesion.$error">
+            <div ng-message="md-maxlength">Máximo 75 caracteres.</div>
+        </div>
+    </md-input-container>
+</div>

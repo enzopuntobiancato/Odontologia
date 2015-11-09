@@ -4,7 +4,6 @@
  */
 package com.utn.tesis.model;
 
-import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.util.FechaUtils;
 
@@ -55,7 +54,6 @@ public abstract class Bajeable extends EntityBase {
         fechaBaja = fechaDeBaja != null ? fechaDeBaja : this.fechaBaja;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public String getMotivoBaja() {
         return motivoBaja;
     }
@@ -64,7 +62,6 @@ public abstract class Bajeable extends EntityBase {
         this.motivoBaja = motivoBaja;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public Calendar getFechaBaja() {
         return fechaBaja;
     }

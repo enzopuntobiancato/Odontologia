@@ -5,7 +5,6 @@ import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 import com.utn.tesis.model.QMateria;
 
-import javax.persistence.Query;
 import java.util.List;
 
 public class MateriaDao extends DaoBase<Materia> {
@@ -16,21 +15,15 @@ public class MateriaDao extends DaoBase<Materia> {
 
         JPAQuery query = new JPAQuery(em).from(materia);
         if (nombre != null)
-           query.where(materia.nombre.startsWith(nombre));
+            query.where(materia.nombre.startsWith(nombre));
         if (nivel != null)
-           query.where(materia.nivel.eq(nivel));
+            query.where(materia.nivel.eq(nivel));
         if (!dadosBaja)
             query.where(materia.fechaBaja.isNull());
         query = paginar(query, page, pageSize);
         return query.list(materia);
     }
 
-    public List<Materia> findAll() {
-        String q = "SELECT e FROM Materia e";
-        Query query = em.createQuery(q);
-        List<Materia> result = query.getResultList();
-        return result;
-    }
 
     public Materia findByNombre(String nombre) {
         QMateria materia = QMateria.materia;

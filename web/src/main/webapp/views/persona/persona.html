@@ -1,49 +1,99 @@
-<div layout layout-sm="column">
-    <md-input-container flex>
-        <label>Apellido</label>
-        <input ng-disabled="vm.data.disableFields" name="apellido" ng-model="vm.persona.apellido"
-               type="text" md-maxlength="50" required="true">
+<div layout-gt-sm layout="row">
+    <div flex="60" layout="column">
+        <div layout="row">
+            <md-input-container flex="50" class="md-block">
+                <label>Nombre</label>
+                <input md-maxlength="75" required name="nombre" ng-model="vm.persona.nombre">
 
-        <div ng-messages="userRelatedDataForm.apellido.$error">
-            <div ng-message="required">El apellido es un campo obligatorio.</div>
-            <div ng-message="md-maxlength">El apellido debe contener menos de 50 caractéres.</div>
-        </div>
-    </md-input-container>
-    <md-input-container flex>
-        <label>Nombre</label>
-        <input type="text" md-maxlength="50" required ng-disabled="vm.data.disableFields" name="nombre"
-               ng-model="vm.persona.nombre"/>
+                <div ng-messages="form.nombre.$error">
+                    <div ng-message="required">El nombre es un dato requerido.</div>
+                    <div ng-message="md-maxlength">Máximo 75 caracteres.</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex="50" class="md-block">
+                <label>Apellido</label>
+                <input md-maxlength="10" required name="apellido" ng-model="vm.persona.apellido">
 
-        <div ng-messages="userRelatedDataForm.nombre.$error">
-            <div ng-message="required">El nombre es un campo obligatorio.</div>
-            <div ng-message="md-maxlength">El nombre debe contener menos de 50 caractéres.</div>
+                <div ng-messages="form.apellido.$error">
+                    <div ng-message="required">El apellido es un dato requerido.</div>
+                    <div ng-message="md-maxlength">Máximo 75 caracteres.</div>
+                </div>
+            </md-input-container>
         </div>
-    </md-input-container>
-</div>
-<div layout="row" layout-sm="column">
-    <md-input-container>
-        <md-select name="tipoDocumento" ng-model="vm.persona.documento.tipoDocumento" required>
-            <md-option ng-repeat="item in vm.data.tiposDocumento" placeholder="Select a state">{{ item.nombre }}
-            </md-option>
-        </md-select>
-        <div class="errors" ng-messages="userRelatedDataForm.tipoDocumento.$error">
-            <div ng-message="required">El tipo de documento es obligatorio</div>
-        </div>
-    </md-input-container>
-    <md-input-container flex>
-        <label>Número</label>
-        <input md-maxlength="10" required="true" name="numeroDocumento" ng-model="vm.persona.documento.numero">
+        <div layout="row">
+            <md-input-container class="md-block" flex-gt-sm flex="50">
+                <label>Tipo documento</label>
+                <md-select required ng-model="vm.persona.documento.tipoDocumento"
+                           ng-model-options="{trackBy: '$value.key'}"
+                           name="tipoDocumento">
+                    <md-option ng-repeat="tipo in vm.data.tiposDocumento" ng-value="tipo">
+                        {{ tipo.nombre }}
+                    </md-option>
+                </md-select>
+                <div ng-messages="form.tipoDocumento.$error">
+                    <div ng-message="required">El tipo de documento es un dato requerido.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm flex="50">
+                <label>Número documento</label>
+                <input ng-pattern="/^\d+$/" md-maxlength="10" required name="numeroDocumento"
+                       ng-model="vm.persona.documento.numero">
 
-        <div ng-messages="userRelatedDataForm.numeroDocumento.$error">
-            <div ng-message="required">El número es un campo obligatorio.</div>
+                <div ng-messages="form.numeroDocumento.$error">
+                    <div ng-message="required">El número de documento es un dato requerido.</div>
+                    <div ng-message="pattern">Debe ser un número.</div>
+                    <div ng-message="md-maxlength">Máximo 10 caracteres.</div>
+                </div>
+            </md-input-container>
         </div>
-    </md-input-container>
-</div>
-<div layout layout-sm="column">
-    <md-datepicker ng-model="vm.persona.fechaNacimiento" md-placeholder="Fecha de nacimiento" name="fechaNacimiento"
-                   md-min-date="01/01/1950" required="true">
-    </md-datepicker>
-    <div ng-messages="userRelatedDataForm.numeroDocumento.$error">
-        <div ng-message="required">El número es un campo obligatorio.</div>
+        <div layout="row">
+            <md-input-container class="md-block" flex-gt-sm flex="50">
+                <label>Sexo</label>
+                <md-select required ng-model="vm.persona.documento.sexo" ng-model-options="{trackBy: '$value.key'}"
+                           name="sexo">
+                    <md-option ng-repeat="sexo in vm.data.sexos" ng-value="sexo">
+                        {{ sexo.nombre }}
+                    </md-option>
+                </md-select>
+                <div ng-messages="form.sexo.$error">
+                    <div ng-message="required">El sexo es un dato requerido.</div>
+                </div>
+            </md-input-container>
+            <md-datepicker flex="50" name="nacimiento" ng-model="vm.persona.fechaNacimiento"
+                           md-placeholder="Fecha de nacimiento"
+                           required></md-datepicker>
+            <div ng-messages="form.nacimiento.$error">
+                <div ng-message="valid">El valor ingresado no es una fecha.</div>
+                <div ng-message="required">La fecha de nacimiento es un dato requerido.</div>
+            </div>
+        </div>
+    </div>
+
+    <div flex="40" layout="row" layout-align="center center">
+        <md-button ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"
+                   accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
+            <img ng-if="vm.file" ngf-src="vm.file" ngf-resize="{width: 250, height: 250}">
+            <img style="height: 250;width: 250" nf-show="!vm.file"
+                 src="http://www.riskid.nl/assets/testimonials/user-3995d1ed5f9b6ea6ef9c7bc9ead47415.jpg"/>
+        </md-button>
     </div>
 </div>
+
+<!--<div layout-gt-sm="row">-->
+
+
+<!--</div>-->
+
+
+<!--<div class="row-fluid">-->
+<!--<div class="col-lg-2">-->
+<!--<button class="btn btn-primary" ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"-->
+<!--accept="image/*" ngf-max-size="20MB" ngf-min-height="100">Elegir foto-->
+<!--</button>-->
+<!--</div>-->
+<!--<div class="col-lg-10">-->
+<!--<img ngf-src="vm.file" ngf-resize="{width: 200, height: 200}">-->
+<!--</div>-->
+
+<!--ngf-no-object-url="true or false" // see #887 to force base64 url generation instead of object url. Default false-->
+<!--</div>-->

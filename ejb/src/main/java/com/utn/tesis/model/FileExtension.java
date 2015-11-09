@@ -1,35 +1,58 @@
 package com.utn.tesis.model;
 
-public enum FileExtension {
+import lombok.Getter;
 
-    JPEG {
+/**
+ * User: Enzo
+ * Date: 9/11/15
+ * Time: 22:49
+ */
+@Getter
+public enum FileExtension {
+    JPG("jpg", "image/jpeg") {
         @Override
-        public String toString() {
-            return "JPEG";
+        public boolean isImage() {
+            return true;
         }
     },
-    JPG {
+    PNG("png", "image/png") {
         @Override
-        public String toString() {
-            return "JPG";
+        public boolean isImage() {
+            return true;
         }
     },
-    BMP {
+    PDF("pdf", "application/pdf") {
         @Override
-        public String toString() {
-            return "BMP";
+        public boolean isPdf() {
+            return true;
         }
     },
-    PNG {
-        @Override
-        public String toString() {
-            return "PNG";
-        }
+    BMP("bmp", "image/bmp") {
+       @Override
+        public boolean isImage() {
+           return true;
+       }
     },
-    PDF {
-        @Override
-        public String toString() {
-            return "PDF";
-        }
-    };
+    NONE;
+
+    private final String name;
+    private final String mimeType;
+
+    private FileExtension(String name, String mimeType) {
+        this.name = name;
+        this.mimeType = mimeType;
+    }
+
+    private FileExtension() {
+        this.name = null;
+        this.mimeType = null;
+    }
+
+    public boolean isImage() {
+        return false;
+    }
+
+    public boolean isPdf() {
+        return false;
+    }
 }

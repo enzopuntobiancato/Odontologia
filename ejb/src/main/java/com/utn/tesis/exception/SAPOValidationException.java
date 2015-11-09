@@ -2,6 +2,7 @@ package com.utn.tesis.exception;
 
 import javax.validation.ValidationException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,13 +13,13 @@ import java.util.HashMap;
  */
 public class SAPOValidationException extends ValidationException {
 
-    private HashMap<String, String> errors;
+    private Map<String, String> errors;
 
-    public SAPOValidationException(HashMap<String, String> errors) {
+    public SAPOValidationException(Map<String, String> errors) {
         this.errors = errors;
     }
 
-    public HashMap<String, String> getErrors() {
+    public Map<String, String> getErrors() {
         return errors;
     }
 

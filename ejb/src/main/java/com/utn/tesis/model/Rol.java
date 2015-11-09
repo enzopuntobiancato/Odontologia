@@ -1,8 +1,8 @@
 package com.utn.tesis.model;
 
-import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.exception.SAPOValidationException;
-import org.codehaus.jackson.annotate.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +19,8 @@ import java.util.List;
  * Time: 21:58
  */
 @Entity
+@Builder
+@AllArgsConstructor
 public class Rol extends EntityBase {
 
     public static final String ADMIN = "ADMINISTRADOR";
@@ -26,7 +28,6 @@ public class Rol extends EntityBase {
     public static final String PROFESOR = "PROFESOR";
     public static final String RESPONSABLE_RECEPCION_PACIENTES = "RESPONSABLE DE RECEPCIÓN DE PACIENTES";
     public static final String ADMIN_ACADEMICO = "ADMINISTRADOR ACADÉMICO";
-    public static final String PACIENTE = "PACIENTE";
     public static final String AUTORIDAD = "AUTORIDAD";
 
     @NotNull
@@ -34,7 +35,6 @@ public class Rol extends EntityBase {
     @Column(nullable = false, length = 50)
     private String nombre;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "rol")
     @NotNull(message = "Los privilegios no pueden ser nulos.")
     private List<Privilegio> privilegios;
@@ -50,7 +50,6 @@ public class Rol extends EntityBase {
         this.nombre = nombre;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public String getNombre() {
         return nombre;
     }
@@ -59,7 +58,6 @@ public class Rol extends EntityBase {
         this.nombre = nombre;
     }
 
-    @JsonMap(view = JsonMap.Internal.class)
     public List<Privilegio> getPrivilegios() {
         return privilegios;
     }
@@ -68,7 +66,6 @@ public class Rol extends EntityBase {
         this.privilegios = privilegios;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public String getDescripcion() {
         return descripcion;
     }
