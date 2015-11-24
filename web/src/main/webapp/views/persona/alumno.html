@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<!--div class="row-fluid">
     <div class="col-lg-6">
         <div class="form-group" show-errors>
             <label>Legajo</label>
@@ -6,4 +6,16 @@
             <span class="help-block" for="legajo"></span>
         </div>
     </div>
+</div-->
+<div layout layout-sm="column">
+    <md-input-container flex>
+        <label>Legajo</label>
+        <input name="legajo" ng-model="vm.persona.legajo"
+               type="text" md-maxlength="10" required="true">
+
+        <div ng-messages="userRelatedDataForm.legajo.$error">
+            <div ng-message="required">El legajo es un campo obligatorio.</div>
+            <div ng-message="md-maxlength">El lehajo debe contener menos de 10 caractéres.</div>
+        </div>
+    </md-input-container>
 </div>

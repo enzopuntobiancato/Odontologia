@@ -1,0 +1,71 @@
+<md-content layout="row" layout-align="center start">
+    <div layout="column" flex="80">
+        <form name="createTrabajoPracticoForm" ng-submit="save()" novalidate>
+            <md-card>
+                <md-toolbar class="md-accent">
+                    <div class="md-toolbar-tools">
+                        <span>Crear trabajo práctico</span>
+                    </div>
+                </md-toolbar>
+                <md-card-content>
+                         <p>Complete los datos para crear un nuevo trabajo práctico</p>
+                        <div layout="row">
+                            <md-input-container flex>
+                                <label>Nombre</label>
+                                <input name="nombre" ng-model="trabajoPractico.nombre"
+                                       required md-maxlength="100">
+                                <div ng-messages="createTrabajoPracticoForm.nombre.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        El nombre no puede tener màs de 100 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex>
+                                <label>Grupo</label>
+                                <md-select ng-model="selectedGrupo" name="grupoPractica" >
+                                    <md-option ng-repeat="grupo in data.gruposPractica" ng-value="grupo">
+                                        {{ grupo.nombre }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex>
+                                <label>Práctica</label>
+                                <md-select required ng-model="trabajoPractico.practicaOdontologica" name="practica">                                           >
+                                    <md-option ng-repeat="practica in practicasSelect" ng-value="practica">
+                                        {{ practica.denominacion }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex>
+                                <label>Descripción</label>
+                                <textarea ng-model="trabajoPractico.descripcion" columns="1" md-maxlength="400" required
+                                          name="descripcion"></textarea>
+
+                                <div ng-messages="createTrabajoPracticoForm.descripcion.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">La descripcion es un campo
+                                        requerido.
+                                    </div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        La descripción no puede tener màs de 400 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div ng-if="trabajoPractico.practicaOdontologica">
+                            <h2 class="md-title">Descripción práctica</h2>
+                            <p>{{trabajoPractico.practicaOdontologica.observaciones}}
+                            </p>
+                        </div>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-click="goIndex()">Cancelar</md-button>
+                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                </md-card-actions>
+            </md-card>
+        </form>
+    </div>
+</md-content>
+

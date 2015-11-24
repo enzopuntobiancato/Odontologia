@@ -1,0 +1,55 @@
+<md-content layout="row" layout-align="center start">
+    <div layout="column" flex="80">
+        <form name="createPracticaForm" novalidate ng-submit="save()">
+            <md-card>
+                <md-toolbar class="md-accent">
+                    <div class="md-toolbar-tools">
+                        <span>Crear práctica odontológica</span>
+                    </div>
+                </md-toolbar>
+                <md-card-content>
+                        <p>Complete los datos para crear una nueva práctica odontológica</p>
+                        <div layout="row">
+                            <md-input-container>
+                                <label>Nombre</label>
+                                <input name="denominacion" ng-model="practica.denominacion"
+                                       required md-maxlength="75">
+                                <div ng-messages="createPracticaForm.denominacion.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        El nombre no puede tener màs de 75 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Grupo</label>
+                                <md-select ng-model="practica.grupo" name="grupo">
+                                    <md-option ng-repeat="grupo in data.gruposPractica" ng-value="grupo">
+                                        {{ grupo.nombre }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex>
+                                <label>Observaciones</label>
+                                <textarea ng-model="practica.observaciones" name="observaciones" columns="2"
+                                          md-maxlength="200"></textarea>
+                                <div ng-messages="createPracticaForm.observaciones.$error" role="alert" multiple>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        Las observaciones no pueden tener màs de 200 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    {{ practica }}
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-click="goIndex()">Cancelar</md-button>
+                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                </md-card-actions>
+            </md-card>
+        </form>
+    </div>
+</md-content>
+

@@ -1,7 +1,8 @@
 var module = angular.module('materiaModule');
 
 
-module.controller('MateriaCtrl_Create', ['$scope','$rootScope', 'MateriaSrv', '$state', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', function ($scope,$rootScope, service, $state, notification, commons, nivelesResponse) {
+module.controller('MateriaCtrl_Create', ['$scope', '$rootScope', 'MateriaSrv', '$state', 'MessageSrv', 'CommonsSrv', 'nivelesResponse',
+    function ($scope, $rootScope, service, $state, message, commons, nivelesResponse) {
     $scope.materia = {};
 
     $scope.data = {
@@ -11,29 +12,27 @@ module.controller('MateriaCtrl_Create', ['$scope','$rootScope', 'MateriaSrv', '$
         saved: false
     };
 
-    $scope.save = function()
-    {
-//            notification.showWidget();
-            service.save($scope.materia)
-                .success(function(data) {
+    $scope.save = function () {
+        service.save($scope.materia)
+            .success(function (data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
-                    $scope.data.saved = true;
-                    notification.scrollTo('container');
-//                notification.hideWidget();
-//                notification.good("Registro realizado con éxito. ", function(){});
+                $scope.data.saved = true;
+                message.showMessage("Materia creada con éxito");
+                $scope.goIndex();
             })
-                .error(function (data) {
-//                    notification.hideWidget();
-                    notification.badArray(data, function() {});
-                })
+            .error(function (data) {
+                showToast("Ha habido un error al crear la materia.");
+                Console.log(data);
+                $scope.goIndex();
+            })
     };
 
-    $scope.goIndex = function() {
-         $state.go('^.index', {execQuery: $scope.data.persistedOperation});
+    $scope.goIndex = function () {
+        $state.go('^.index', {execQuery: $scope.data.persistedOperation});
     };
 
-    $scope.reload = function() {
+    $scope.reload = function () {
         $rootScope.persistedOperation = $scope.data.persistedOperation;
         $state.go($state.current, {}, {reload: true});
     };
@@ -44,5 +43,4 @@ module.controller('MateriaCtrl_Create', ['$scope','$rootScope', 'MateriaSrv', '$
                 delete $rootScope.persistedOperation;
             }
         });
-
 }]);

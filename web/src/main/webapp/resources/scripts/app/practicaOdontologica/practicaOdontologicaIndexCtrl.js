@@ -1,156 +1,214 @@
 var module = angular.module('practicaOdontologicaModule');
 
 
-module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 'PracticaOdontologicaSrv', '$state', '$stateParams', 'NotificationSrv', 'CommonsSrv', 'gruposPracticaResponse', 'PaginationService', function ($scope, $cacheFactory, service, $state, $stateParams, notification, commons, gruposPracticaResponse, pagination) {
+module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 'PracticaOdontologicaSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv', 'gruposPracticaResponse', 'PaginationService', '$mdDialog',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, gruposPracticaResponse, pagination, $mdDialog) {
 
-    $scope.filter = {};
-    $scope.result = [];
-    $scope.gruposPractica = gruposPracticaResponse.data;
+        $scope.filter = {};
+        $scope.result = [];
+        $scope.gruposPractica = gruposPracticaResponse.data;
 
-    var cache = $cacheFactory.get('practicaIndexCache') || $cacheFactory('practicaIndexCache');
+        var cache = $cacheFactory.get('practicaIndexCache') || $cacheFactory('practicaIndexCache');
 
-    $scope.aux = {
-        showDadosBaja: false
-    }
+        $scope.aux = {
+            showDadosBaja: false
+        }
 
-    pagination.config('api/practicaOdontologica/find');
+        pagination.config('api/practicaOdontologica/find');
 
-    $scope.paginationData = pagination.paginationData;
-
-    function executeQuery(pageNumber) {
-//        notification.showWidget();
-        pagination.paginate($scope.filter, pageNumber).then(function (data) {
-//            notification.hideWidget();
-            $scope.result = data;
-            $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
-            $scope.paginationData = pagination.getPaginationData();
-        }, function () {
-//            notification.hideWidget();
-        });
-    }
-
-    $scope.consultar = function () {
+        $scope.paginationData = pagination.paginationData;
         executeQuery();
-    }
-
-    $scope.nextPage = function () {
-        if ($scope.paginationData.morePages) {
-            executeQuery(++$scope.paginationData.pageNumber);
+        function executeQuery(pageNumber) {
+            pagination.paginate($scope.filter, pageNumber).then(function (data) {
+                $scope.result = data;
+                $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
+                $scope.paginationData = pagination.getPaginationData();
+            }, function () {
+            });
         }
-    }
-    $scope.previousPage = function () {
-        if (!$scope.paginationData.firstPage) {
-            executeQuery(--$scope.paginationData.pageNumber);
-        }
-    }
 
-    $scope.keyboardOk = function (event) {
-        if (event.which == 13) {
+        $scope.consultar = function () {
             executeQuery();
         }
-    }
 
-    $scope.new = function () {
-        $state.go('^.create');
-    }
-
-    $scope.darDeBaja = function (practicaId) {
-        notification.requestReason().then(function (motivo) {
-            if (motivo != null) {
-//                notification.showWidget();
-                service.remove(practicaId, motivo).success(function (response) {
-//                    notification.hideWidget();
-                    notification.goodAndOnEscape("Práctica dada de baja correctamente.", function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    }, function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    })
-                })
-                    .error(function (response) {
-//                        notification.hideWidget();
-                        notification.badArray(response, function () {
-                        });
-                    })
+        $scope.nextPage = function () {
+            if ($scope.paginationData.morePages) {
+                executeQuery(++$scope.paginationData.pageNumber);
             }
-        });
-    }
-
-    $scope.darDeAlta = function (practicaId) {
-        notification.requestConfirmation("¿Está seguro?", function () {
-            altaConfirmada(practicaId)
-        });
-
-        function altaConfirmada(practicaId) {
-//            notification.showWidget();
-            service.restore(practicaId)
-                .success(function () {
-//                    notification.hideWidget();
-                    notification.goodAndOnEscape("Práctica odontológica dada de alta correctamente.", function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    }, function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    })
-                })
-                .error(function () {
-//                    notification.hideWidget();
-                })
         }
-    }
-
-    $scope.edit = function (materiaId) {
-        $state.go('^.edit', {id: materiaId});
-
-    }
-
-    $scope.viewDetail = function (practicaId) {
-        $state.go('^.view', {id: practicaId});
-    }
-
-    $scope.cleanFilters = function () {
-        $scope.filter = {};
-    }
-
-    function cacheData() {
-        var data = {
-            filter: $scope.filter,
-            result: $scope.result,
-            aux: $scope.aux
-        }
-        cache.put('data', data);
-    }
-
-    function getCachedData() {
-        var data = cache.get('data');
-
-        $scope.filter = data.filter;
-        $scope.result = data.result;
-        $scope.aux = data.aux;
-    }
-
-    $scope.$on('$stateChangeStart',
-        function (event, toState, toParams, fromState, fromParams) {
-            if (toState.name.startsWith('practicaOdontologica')) {
-                cacheData();
-            } else {
-                cache.put('data', null);
+        $scope.previousPage = function () {
+            if (!$scope.paginationData.firstPage) {
+                executeQuery(--$scope.paginationData.pageNumber);
             }
+        }
 
-        });
+        $scope.keyboardOk = function (event) {
+            if (event.which == 13) {
+                executeQuery();
+            }
+        }
 
-    $scope.$on('$stateChangeSuccess',
-        function (event, toState, toParams, fromState, fromParams) {
-            if (fromState.name.startsWith('practicaOdontologica')) {
-                if (toParams.execQuery) {
-                    executeQuery();
-                } else if (toParams.execQuerySamePage) {
-                    getCachedData();
-                    executeQuery($scope.paginationData.pageNumber)
+        $scope.new = function () {
+            $state.go('^.create');
+        }
+
+        $scope.edit = function (materiaId) {
+            $state.go('^.edit', {id: materiaId});
+
+        }
+
+        $scope.viewDetail = function (practicaId) {
+            $state.go('^.view', {id: practicaId});
+        }
+
+        $scope.cleanFilters = function () {
+            $scope.filter = {};
+            executeQuery();
+        }
+
+        $scope.openDeleteDialog = function (ev, practicaId) {
+            $mdDialog.show({
+                templateUrl: 'views/practicaOdontologica/practicaOdontologicaDelete.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                locals: {id: practicaId},
+                controller: function DialogController($scope, $mdDialog) {
+                    $scope.motivoBaja;
+                    $scope.cancelar = function () {
+                        $mdDialog.cancel();
+                    };
+                    $scope.confirmar = function () {
+                        $mdDialog.hide($scope.motivoBaja);
+                    };
+                }
+            })
+                .then(function (motivoBaja) {
+                    //Success
+                    service.remove(practicaId, motivoBaja)
+                        .success(function (response) {
+                            message.showMessage("Se ha dado de baja.");
+                            executeQuery();
+                            Console.log(response);
+                        })
+                        .error(function (error) {
+                            message.showMessage("Se ha registrado un error en la transacción.")
+                            Console.log(error);
+                        })
+                },
+                function () {
+                    //Failure
+                    $scope.status = 'You cancelled the dialog.';
+                    Console.log(error);
+                });
+        };
+
+        $scope.openRestoreDialog = function (ev, practicaId) {
+            $mdDialog.show({
+                templateUrl: 'views/practicaOdontologica/practicaOdontologicaRestore.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                locals: {id: practicaId},
+                controller: function DialogController($scope, $mdDialog) {
+                    $scope.cancelar = function () {
+                        $mdDialog.cancel();
+                    };
+                    $scope.confirmar = function () {
+                        $mdDialog.hide();
+                    };
+                }
+            })
+                .then(function () {
+                    //Success
+                    service.restore(practicaId)
+                        .success(function (response) {
+                            message.showMessage("Se ha dado de alta.");
+                            executeQuery($scope.paginationData.pageNumber);
+                            Console.log(response);
+                        })
+                        .error(function (error) {
+                            message.showMessage("Se ha registrado un error en la transacción.")
+                            executeQuery($scope.paginationData.pageNumber);
+                            Console.log(error);
+                        })
+                },
+                function () {
+                    //Failure
+                    $scope.status = 'You cancelled the dialog.';
+                    Console.log(error);
+                });
+        };
+
+        $scope.mostrarAcciones = function (item) {
+            item.showAction = true;
+        };
+
+        $scope.ocultarAcciones = function (item) {
+            item.showAction = false;
+        };
+
+        $scope.mostrarFiltros = false;
+
+        $scope.clickIcon = 'expand_more';
+        $scope.clickIconMorph = function () {
+            if ($scope.clickIcon === 'expand_more') {
+                $scope.clickIcon = 'expand_less';
+            }
+            else {
+                $scope.clickIcon = 'expand_more';
+            }
+        };
+
+        $scope.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
+        $scope.colorMouseOver = function (icon) {
+            $scope.colorIcon[icon] = '#E91E63';
+        };
+
+        $scope.colorMouseLeave = function (icon) {
+            $scope.colorIcon[icon] = '#00B0FF';
+        };
+
+        function cacheData() {
+            var data = {
+                filter: $scope.filter,
+                result: $scope.result,
+                aux: $scope.aux
+            }
+            cache.put('data', data);
+        }
+
+        function getCachedData() {
+            var data = cache.get('data');
+
+            $scope.filter = data.filter;
+            $scope.result = data.result;
+            $scope.aux = data.aux;
+        }
+
+        $scope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                if (toState.name.startsWith('practicaOdontologica')) {
+                    cacheData();
                 } else {
-                    getCachedData();
+                    cache.put('data', null);
                 }
 
-            }
+            });
 
-        })
+        $scope.$on('$stateChangeSuccess',
+            function (event, toState, toParams, fromState, fromParams) {
+                if (fromState.name.startsWith('practicaOdontologica')) {
+                    if (toParams.execQuery) {
+                        executeQuery();
+                    } else if (toParams.execQuerySamePage) {
+                        getCachedData();
+                        executeQuery($scope.paginationData.pageNumber)
+                    } else {
+                        getCachedData();
+                    }
 
-}]);
+                }
+
+            })
+    }]);

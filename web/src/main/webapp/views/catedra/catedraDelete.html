@@ -1,0 +1,40 @@
+<md-dialog  ng-cloak>
+    <form name="deleteCatedraForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Dar de baja</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancelar()">
+                    <ng-md-icon icon="close" size="40" style="fill: white"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+            <div class="md-dialog-content">
+                <h2>Describa el motivo de la baja</h2>
+
+                <p>
+                    Para dar de baja de la cátedra por favor, escriba el motivo.
+                </p>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label>Motivo de la baja </label>
+                        <textarea ng-model="motivoBaja" columns="5" md-maxlength="400" name="motivo"
+                                  required="true"></textarea>
+
+                        <div ng-messages="deleteCatedraForm.motivo.$error" role="alert" multiple>
+                            <div ng-message="required" class="my-message">La descripcion es un campo requerido.</div>
+                            <div ng-message="md-maxlength" class="my-message">
+                                La descripción no puede tener màs de 400 caracteres.
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <md-button ng-click="cancelar()">Cancelar</md-button>
+            <md-button type="submit" class="md-raised md-primary" ng-click="confirmar()">Aceptar</md-button>
+        </div>
+    </form>
+</md-dialog>

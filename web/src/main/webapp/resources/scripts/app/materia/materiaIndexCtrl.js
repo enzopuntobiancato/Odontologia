@@ -1,11 +1,14 @@
 var module = angular.module('materiaModule');
 
 
-module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', '$state', '$stateParams', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', 'PaginationService', function ($scope, $cacheFactory, service, $state, $stateParams, notification, commons, nivelesResponse, pagination) {
+module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv', 'nivelesResponse', 'PaginationService', 'materiasResponse', '$mdDialog',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, nivelesResponse, pagination, materiasResponse, $mdDialog) {
 
     $scope.filter = {};
     $scope.result = [];
     $scope.niveles = commons.enumToJson(nivelesResponse.data);
+    $scope.materiasTodas = commons.enumToJson(materiasResponse.data);
+    $scope.nivel;
 
     var cache = $cacheFactory.get('materiaIndexCache') || $cacheFactory('materiaIndexCache');
 
@@ -16,21 +19,18 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
     pagination.config('api/materia/find');
 
     $scope.paginationData = pagination.paginationData;
-
+    executeQuery();
     function executeQuery(pageNumber) {
-//        notification.showWidget();
-        pagination.paginate($scope.filter, pageNumber).then(function(data){
-//            notification.hideWidget();
+        pagination.paginate($scope.filter, pageNumber).then(function (data) {
             $scope.result = data;
             $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
             $scope.paginationData = pagination.getPaginationData();
-        }, function(){
-//            notification.hideWidget();
+        }, function () {
         });
     }
 
     $scope.consultar = function () {
-         executeQuery();
+        executeQuery();
     }
 
     $scope.nextPage = function () {
@@ -56,48 +56,111 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
         $state.go('^.create');
     }
 
-    $scope.darDeBaja = function (materiaId) {
-        notification.requestReason().then(function (motivo) {
-            if (motivo != null) {
-//                notification.showWidget();
-                service.remove(materiaId, motivo).success(function (response) {
-//                    notification.hideWidget();
-                    notification.goodAndOnEscape("Materia dada de baja correctamente.", function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    }, function () {
-                        executeQuery($scope.paginationData.pageNumber);
-                    })
-                })
-                    .error(function (response) {
-//                        notification.hideWidget();
-                        notification.badArray(response, function () {
-                        });
-                    })
+
+
+    $scope.openRestoreDialog = function (ev, materiaId) {
+        $mdDialog.show({
+            templateUrl: 'views/materia/materiaRestore.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            locals: {id: materiaId},
+            controller: function DialogController($scope, $mdDialog) {
+                $scope.cancelar = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.confirmar = function () {
+                    $mdDialog.hide();
+                };
             }
-        });
-    }
-
-    $scope.darDeAlta = function (materiaId) {
-        notification.requestConfirmation("¿Está seguro?", function () {
-            altaConfirmada(materiaId)
-        });
-
-        function altaConfirmada(materiaId) {
-//            notification.showWidget();
-            service.restore(materiaId)
-                .success(function () {
-//                    notification.hideWidget();
-                    notification.goodAndOnEscape("Materia dada de alta correctamente.", function () {
+        })
+            .then(function () {
+                //Success
+                service.restore(materiaId)
+                    .success(function (response) {
+                        message.showMessage("Se ha dado de alta.");
                         executeQuery($scope.paginationData.pageNumber);
-                    }, function () {
-                        executeQuery($scope.paginationData.pageNumber);
+                        Console.log(response);
                     })
-                })
-                .error(function () {
-//                    notification.hideWidget();
-                })
-        }
+                    .error(function (error) {
+                        message.showMessage("Se ha registrado un error al dar de alta la materia.")
+                        executeQuery($scope.paginationData.pageNumber);
+                        Console.log(error);
+                    })
+            },
+            function () {
+                //Failure
+                $scope.status = 'You cancelled the dialog.';
+                Console.log(error);
+            });
+    };
+
+    $scope.openDeleteDialog = function (ev, materiaId) {
+        $mdDialog.show({
+            templateUrl: 'views/materia/materiaDelete.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            locals: {id: materiaId},
+            controller: function DialogController($scope, $mdDialog) {
+                $scope.motivoBaja;
+                $scope.cancelar = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.confirmar = function () {
+                    $mdDialog.hide($scope.motivoBaja);
+                };
+            }
+        })
+            .then(function (motivoBaja) {
+                //Success
+                service.remove(materiaId, motivoBaja)
+                    .success(function (response) {
+                        message.showMessage("Se ha dado de baja.");
+                        executeQuery();
+                        Console.log(response);
+                    })
+                    .error(function (error) {
+                        message.showMessage("Se ha registrado un error en la transacción.")
+                        Console.log(error);
+                    })
+            },
+            function () {
+                //Failure
+                $scope.status = 'You cancelled the dialog.';
+                Console.log(error);
+            });
+    };
+
+    $scope.mostrarAcciones = function (item) {
+        item.showAction = true;
     }
+
+    $scope.ocultarAcciones = function (item) {
+        item.showAction = false;
+    }
+
+    $scope.mostrarFiltros = false;
+
+    $scope.clickIcon = 'expand_more';
+    $scope.clickIconMorph = function () {
+        if ($scope.clickIcon === 'expand_more') {
+            $scope.clickIcon = 'expand_less';
+        }
+        else {
+            $scope.clickIcon = 'expand_more';
+        }
+    };
+
+
+    $scope.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
+    $scope.colorMouseOver = function (icon) {
+        $scope.colorIcon[icon] = '#E91E63';
+    };
+
+    $scope.colorMouseLeave = function (icon) {
+        $scope.colorIcon[icon] = '#00B0FF';
+    };
 
     $scope.edit = function (materiaId) {
         $state.go('^.edit', {id: materiaId});
@@ -111,6 +174,7 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
 
     $scope.cleanFilters = function () {
         $scope.filter = {};
+        executeQuery();
     }
 
     function cacheData() {
@@ -144,10 +208,10 @@ module.controller('MateriaCtrl_Index', ['$scope','$cacheFactory', 'MateriaSrv', 
         function (event, toState, toParams, fromState, fromParams) {
             if (fromState.name.startsWith('materia')) {
                 if (toParams.execQuery) {
-                   executeQuery();
-                } else if (toParams.execQuerySamePage){
-                   getCachedData();
-                   executeQuery($scope.paginationData.pageNumber)
+                    executeQuery();
+                } else if (toParams.execQuerySamePage) {
+                    getCachedData();
+                    executeQuery($scope.paginationData.pageNumber)
                 } else {
                     getCachedData();
                 }

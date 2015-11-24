@@ -1,7 +1,8 @@
 var module = angular.module('materiaModule');
 
 
-module.controller('MateriaCtrl_Edit', ['$scope', '$rootScope', 'MateriaSrv', '$state', 'NotificationSrv', 'CommonsSrv', 'nivelesResponse', 'materiaResponse', function ($scope,$rootScope, service, $state, notification, commons, nivelesResponse, materiaResponse) {
+module.controller('MateriaCtrl_Edit', ['$scope', '$rootScope', 'MateriaSrv', '$state', 'MessageSrv', 'CommonsSrv', 'nivelesResponse', 'materiaResponse',
+    function ($scope, $rootScope, service, $state, message, commons, nivelesResponse, materiaResponse, $mdToast) {
     $scope.materia = materiaResponse.data;
 
     $scope.data = {
@@ -11,30 +12,28 @@ module.controller('MateriaCtrl_Edit', ['$scope', '$rootScope', 'MateriaSrv', '$s
         saved: false
     }
 
-    $scope.save = function()
-    {
-//        notification.showWidget();
+    $scope.save = function () {
         service.save($scope.materia)
-            .success(function(data) {
+            .success(function (data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
-//                notification.hideWidget();
-//                notification.good("Cambios guardados con éxito. ", function(){});
+                message.showMessage("Materia " + $scope.materia.nombre + " modificada con éxito!");
+                $scope.goIndex();
             })
             .error(function (data) {
-//                notification.hideWidget();
-                notification.badArray(data, function() {});
+                showToast("Error al modificar " + $scope.materia.nombre);
             })
     }
 
-    $scope.goIndex = function() {
+    $scope.goIndex = function () {
         $state.go('^.index', {execQuery: false, execQuerySamePage: $scope.data.persistedOperation});
     }
 
-    $scope.reload = function() {
+    $scope.reload = function () {
         $state.go($state.current, {}, {reload: true});
     }
+
 
     $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {

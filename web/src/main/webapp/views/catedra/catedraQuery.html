@@ -1,0 +1,146 @@
+<md-content layout="row" layout-align="center start">
+    <div layout="column" flex="80">
+        <md-card>
+            <md-toolbar class="md-medium-tall md-accent">
+                <div class="md-toolbar-tools">
+                    <span>Consultar cátedra</span>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <div layout="row" class="md-accent">
+                        <md-input-container flex>
+                            <label>Nombre</label>
+                            <input ng-model="filter.denominacion" name="nombre" ng-keypress="keyboardOk($event)">
+                        </md-input-container>
+
+                    <div flex="50" layout="row" layout-align="start center">
+                        <md-button ng-click="consultar()" type="button">
+                            <md-tooltip>
+                                Buscar
+                            </md-tooltip>
+                            <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{colorIcon[0]}}"
+                                        ng-Mouseover="colorMouseOver(0)"
+                                        ng-mouseleave="colorMouseLeave(0)"></ng-md-icon>
+                        </md-button>
+                        <md-button type="button" ng-click="mostrarFiltros = !mostrarFiltros">
+                            <md-tooltip>
+                                Ver filtros
+                            </md-tooltip>
+                            <ng-md-icon icon="{{clickIcon}}" size="40" ng-attr-style="fill: {{colorIcon[1]}}"
+                                        ng-Mouseover="colorMouseOver(1)" ng-mouseleave="colorMouseLeave(1)"
+                                        options='{"duration": 375, "rotation": "none"}'
+                                        ng-click="clickIconMorph()"></ng-md-icon>
+                        </md-button>
+                        <md-button ng-click="cleanFilters()" type="button">
+                            <md-tooltip>
+                                Limpiar filtros
+                            </md-tooltip>
+                            <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{colorIcon[2]}}"
+                                        ng-Mouseover="colorMouseOver(2)"
+                                        ng-mouseleave="colorMouseLeave(2)"></ng-md-icon>
+                        </md-button>
+                    </div>
+                </div>
+                <section ng-show="mostrarFiltros">
+                    <div>
+                        <md-input-container flex>
+                            <md-select ng-model="filter.materiaId" name="materia" placeholder="Materia"
+                                       ng-change="consultar()">
+                                <md-option ng-repeat="materia in data.materias" ng-value="{{ materia.id }}">
+                                    {{ materia.nombre }}
+                                </md-option>
+                            </md-select>
+
+                        </md-input-container>
+                    </div>
+                    <div>
+                        <md-input-container>
+                            <md-checkbox ng-model="filter.dadosBaja" aria-label="Incluir dados de baja"
+                                         ng-change="consultar()">
+                                Incluir dados de baja
+                            </md-checkbox>
+                        </md-input-container>
+                    </div>
+                </section>
+                <md-list ng-show="result.length > 0">
+                    <md-list-item class="md-3-line" ng-repeat="item in result"
+                                  ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
+                        <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
+                             class="md-avatar"/>
+                        <div class="md-list-item-text" layout="column">
+                            <h3 class="md-title">
+                                <a>{{item.denominacion}}</a>
+                            </h3>
+                            <h4>{{ item.materia.nombre }}</h4>
+                            <p>{{item.descripcion}}</p>
+                        </div>
+                        <div ng-show="item.showAction">
+                            <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.id)"
+                                        ng-attr-style="fill: {{colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
+                                        ng-mouseleave="colorMouseLeave(3)">
+                                <md-tooltip>
+                                    Editar
+                                </md-tooltip>
+                            </ng-md-icon>
+                            <ng-md-icon icon="visibility" size="24" ng-click="viewDetail(item.id)"
+                                        ng-attr-style="fill: {{colorIcon[4]}}" ng-Mouseover="colorMouseOver(4)"
+                                        ng-mouseleave="colorMouseLeave(4)">
+                                <md-tooltip>
+                                    Ver
+                                </md-tooltip>
+                            </ng-md-icon>
+                            <ng-md-icon ng-show="!item.fechaBaja" icon="delete" size="24"
+                                        ng-click="openDeleteDialog($event,item.id)"
+                                        ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
+                                        ng-mouseleave="colorMouseLeave(5)">
+                                <md-tooltip>
+                                    Dar de baja
+                                </md-tooltip>
+                            </ng-md-icon>
+                            <ng-md-icon ng-show="item.fechaBaja" icon="restore" size="24"
+                                        ng-click="openRestoreDialog($event,item.id)"
+                                        ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
+                                        ng-mouseleave="colorMouseLeave(5)">
+                                <md-tooltip>
+                                    Dar de alta
+                                </md-tooltip>
+                            </ng-md-icon>
+                        </div>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                    <md-list-item layout class="inset">
+                        <md-button layout layout-align="start center" flex ng-click="previousPage()"
+                                   ng-disabled="paginationData.firstPage">
+                            <!--svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg-->
+                            <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
+                            Anterior
+                        </md-button>
+                        <!--p class="md-body-1"> {{ cantResults }} <small class="md-caption">with small text</small>.</p-->
+                        <md-button layout layout-align="start center" flex ng-click="nextPage()"
+                                   ng-disabled="!paginationData.morePages">
+                            <!--svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg-->
+                            Siguiente
+                            <ng-md-icon icon="arrow_forward" style="fill: black"
+                                        ng-disabled="!paginationData.morePages"></ng-md-icon>
+                        </md-button>
+
+                    </md-list-item>
+
+                </md-list>
+                <div ng-show="!result.length">
+                    <h1 class="md-title">No hay resultados para mostrar.</h1>
+                </div>
+
+            </md-card-content>
+        </md-card>
+    </div>
+</md-content>
+
+<md-button class="md-fab md-fab-bottom-right" ng-click="new()">
+    <md-tooltip>
+        Nuevo
+    </md-tooltip>
+    <ng-md-icon icon="add" size="24" style="fill: white"></ng-md-icon>
+</md-button>
+
+

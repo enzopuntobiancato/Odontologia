@@ -31,7 +31,7 @@ module.
             })
         }
 
-        service.findById = function(id) {
+        service.findById = function (id) {
             return $http({
                 url: 'api/usuario/findById',
                 method: 'GET',
@@ -39,8 +39,16 @@ module.
             })
         }
 
-        service.getRoles = function() {
+        service.getRoles = function () {
             return $http.get('api/commons/getRoles');
+        }
+
+        service.find = function (nombre, email, dadosBaja, rol) {
+            return $http({
+                url: 'api/materia/find',
+                method: 'GET',
+                params: {nombre: nombre, email: email, dadosBaja: dadosBaja, rolId: rol}
+            })
         }
 
 

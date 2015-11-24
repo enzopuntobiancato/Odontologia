@@ -1,0 +1,39 @@
+<md-content layout-fill flex layout="row" class="landing-page" ng-controller="loginTestCtrl"
+            layout-align="center center">
+    <form ng-submit="login(user)" name="loginForm" novalidate="true">
+        <md-card class="md-whiteframe-z5">
+            <md-toolbar class="md-tall md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span>Login</span>
+                </h2>
+            </md-toolbar>
+            <md-card-content layout="column">
+                <md-input-container>
+                    <label>Usuario</label>
+                    <input required="true" type="text" name="username" ng-model="user.username">
+
+                    <div ng-messages="loginForm.username.$error">
+                        <div ng-message="required">El nombre de usuario es obligatorio.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Contraseña</label>
+                    <input required="true" name="password" type="password" ng-model="user.password">
+
+                    <div ng-messages="loginForm.password.$error">
+                        <div ng-message="required">La contraseña es obligatoria.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <md-checkbox aria-label="Recordarme">
+                        Recordarme
+                    </md-checkbox>
+                </md-input-container>
+            </md-card-content>
+            <md-card-footer>
+                <md-button>No tengo usuario</md-button>
+                <md-button type="submit" class="md-raised md-primary">Iniciar sesión</md-button>
+            </md-card-footer>
+        </md-card>
+    </form>
+</md-content>

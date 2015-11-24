@@ -39,4 +39,5 @@ public class MateriaAPI extends BaseAPI<Materia> {
                                        @QueryParam("pageSize") Long pageSize) {
         return materiaService.findByFilters(nombre, nivel != null ? Nivel.valueOf(nivel) : null, dadosBaja, pageNumber, pageSize);
     }
+
 }

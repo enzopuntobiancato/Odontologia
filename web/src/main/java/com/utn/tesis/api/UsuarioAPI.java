@@ -6,10 +6,8 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.UsuarioService;
-import com.utn.tesis.util.Collections;
 import com.utn.tesis.util.EncryptionUtils;
 import com.utn.tesis.util.MappingUtil;
-import net.sf.cglib.core.CollectionUtils;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -49,13 +47,13 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
                                        @QueryParam("dadosBaja") boolean dadosBaja,
                                        @QueryParam("pageNumber") Long pageNumber,
                                        @QueryParam("pageSize") Long pageSize) {
-        List<Usuario> result = (List<Usuario>)MappingUtil.serializeWithView(usuarioService.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize), JsonMap.Public.class);
+        List<Usuario> result = (List<Usuario>) MappingUtil.serializeWithView(usuarioService.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize), JsonMap.Public.class);
         return result;
     }
 
     @Override
     public Usuario findById(@QueryParam("id") Long id) {
-        return (Usuario)MappingUtil.serializeWithView(super.findById(id), JsonMap.Public.class);
+        return (Usuario) MappingUtil.serializeWithView(super.findById(id), JsonMap.Public.class);
     }
 
     @POST
@@ -70,7 +68,7 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
             } else {
                 this.update(entity);
             }
-            entity = (Usuario)MappingUtil.serializeWithView(entity, JsonMap.Public.class);
+            entity = (Usuario) MappingUtil.serializeWithView(entity, JsonMap.Public.class);
             return Response.ok(entity).build();
         } catch (SAPOException se) {
             return persistenceRequest(se);

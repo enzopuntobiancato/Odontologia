@@ -1,29 +1,44 @@
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="page-header">
-            <h2>Complete sus datos para continuar
-            </h2>
-        </div>
-        {{vm.persona}}
+<div layout-align="center center" layout="row">
 
-        <summary-error var="showSummaryError && userRelatedDataForm.$invalid"></summary-error>
-        <form novalidate submit-validate="vm.save()" name="userRelatedDataForm">
-             <div ng-include="'views/persona/persona.html'"></div>
-             <div ng-if="vm.data.typeOfPerson == 'Autoridad'" ng-include="'views/persona/persona.html'"></div>
-             <div ng-if="vm.data.typeOfPerson == 'Responsable'" ng-include="'views/persona/responsable.html'"></div>
-             <div ng-if="vm.data.typeOfPerson == 'Alumno'" ng-include="'views/persona/alumno.html'"></div>
-             <div ng-if="vm.data.typeOfPerson == 'Profesor'" ng-include="'views/persona/profesor.html'"></div>
-
-            <div class="row-fluid">
-                <div class="col-lg-12">
-                    <div class="pull-right">
-                        <input ng-show="!data.disableFields" type="submit" class="btn btn-primary"
-                               value="Aceptar"/>
-                    </div>
+    <div flex="80" offset="10">
+        <!--Inicio card -->
+        <md-card layout-margin>
+            <!--Inicio toolbar -->
+            <md-toolbar md-scroll-shrink class="primary md-hue-1">
+                <div class="md-toolbar-tools">
+                    <span>¿Primera vez en SAPO?</span>
+                    <span flex></span>
                 </div>
+            </md-toolbar>
+            <!--Fin toolbar -->
+            <!--Inicio card-content -->
+            <md-card-content>
+                <div>
+                    <p>
+                        Complete sus datos para continuar. {{ vm.data.typeOfPerson }}
+                    </p>
 
-            </div>
+                </div>
+                <div ng-include="'views/persona/persona.html'"></div>
+                <div ng-if="vm.data.typeOfPerson == 'Autoridad'" ng-include="'views/persona/autoridad.html'"></div>
+                <div ng-if="vm.data.typeOfPerson == 'Responsable'" ng-include="'views/persona/responsable.html'"></div>
+                <div ng-if="vm.data.typeOfPerson == 'Alumno'" ng-include="'views/persona/alumno.html'"></div>
+                <div ng-if="vm.data.typeOfPerson == 'Profesor'" ng-include="'views/persona/profesor.html'"></div>
 
-        </form>
+            </md-card-content>
+            <!--Fin card content -->
+            <!--Inicio card-footer -->
+            <md-card-footer>
+                <div layout="row" layout-align="end center">
+                    <md-button>Cancelar</md-button>
+                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                </div>
+            </md-card-footer>
+            <!--Fin card footer -->
+        </md-card>
+        <!--Fin card -->
     </div>
+    <div flex="10"></div>
 </div>
+<!--Fin content -->
+

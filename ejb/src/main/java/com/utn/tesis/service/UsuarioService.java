@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.validation.Validator;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
