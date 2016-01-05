@@ -1,24 +1,44 @@
 'use strict';
 
 var odontologiaApp = angular.module('odontologiaApp', [
-//    'ngSanitize',
     'ui.router',
     'oc.lazyLoad',
     'Pagination',
     'sapo.directives',
     'sapo.services',
     'angular-loading-bar',
-    'auth.services'
-//    'ngAnimate',
-//    'ngMaterial'
-//    'ui.select'
+    'auth.services',
+    'ngMaterial',
+    'ngAnimate',
+    'ngMessages',
+    'ngMdIcons'
 ]);
 
 
 odontologiaApp.config(['$urlRouterProvider',
     '$stateProvider',
-    '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
-    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider) {
+    '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider', '$mdThemingProvider', '$mdIconProvider',
+    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider, $mdIconProvider) {
+
+
+        var customBlueMap = $mdThemingProvider.extendPalette('light-blue', {
+            'contrastDefaultColor': 'light',
+            'contrastDarkColors': ['50'],
+            '50': 'ffffff'
+        });
+        $mdThemingProvider.definePalette('customBlue', customBlueMap);
+        $mdThemingProvider.theme('default')
+            .primaryPalette('customBlue', {
+                'default': '500',
+                'hue-1': '50'
+            })
+            .accentPalette('pink');
+
+        $mdIconProvider
+            .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
+            .iconSet('device', 'img/icons/sets/device-icons.svg', 24)
+            .iconSet('communication', 'img/icons/sets/communication-icons.svg', 24)
+            .defaultIconSet('img/icons/sets/core-icons.svg', 24);
 
         $httpProvider.interceptors.push('authHttpRequestInterceptor');
 
@@ -41,17 +61,14 @@ odontologiaApp.config(['$urlRouterProvider',
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            .state('home', {
+            .state('landingPage', {
                 url: '/',
-                templateUrl: 'views/home/home.html',
-                controller: 'HomeCtrl',
-                data: {
-                    isFree: true
-                },
+                templateUrl: 'views/home/landingPage.html',
+                controller: 'loginTestCtrl',
                 resolve: {
                     loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
                         //lazyload de un modulo
-                        return $ocLazyLoad.load('homeModule');
+                        return $ocLazyLoad.load('sapo.login');
                     }],
                     initializeData: ['loadMyModule', '$http', '$q', function (loadMyModule, $http, $q) {
                         var deferred = $q.defer();
@@ -73,6 +90,22 @@ odontologiaApp.config(['$urlRouterProvider',
                         return deferred.promise;
                     }]
                 }
+
+
+            })
+            .state('home', {
+                url: '/home',
+                templateUrl: 'views/home/home.html',
+                controller: 'HomeCtrl',
+                data: {
+                    isFree: true
+                },
+                resolve: {
+                    loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        //lazyload de un modulo
+                        return $ocLazyLoad.load('homeModule');
+                    }]}
+
             })
             .state('login', {
                 url: '/login',
@@ -99,31 +132,36 @@ odontologiaApp.config(['$urlRouterProvider',
                 controller: 'UserCtrl_RelatedData',
                 controllerAs: 'vm',
                 resolve: {
-                    tiposDocumentoResponse: ['CommonsSrv', function(commons) {
+                    tiposDocumentoResponse: ['CommonsSrv', function (commons) {
                         return commons.getTiposDocumento();
                     }]
                 }
             })
+
             .state('materia', {
                 url: '/materia',
                 template: '<ui-view/>',
                 abstract: true,
                 resolve: module('materiaModule')
             })
+
             .state('materia.index', {
                 url: '/',
-                templateUrl: 'views/materia/query.html',
+                templateUrl: 'views/materia/materiaQuery.html',
                 controller: 'MateriaCtrl_Index',
                 params: {execQuery: false, execQuerySamePage: false},
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
+                    }],
+                    materiasResponse: ['loadMyModule', 'MateriaSrv', function (loadMyModule, service) {
+                        return service.findAll();
                     }]
                 }
             })
             .state('materia.create', {
                 url: '/create',
-                templateUrl: 'views/materia/create.html',
+                templateUrl: 'views/materia/materiaCreate.html',
                 controller: 'MateriaCtrl_Create',
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
@@ -133,7 +171,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('materia.edit', {
                 url: '/edit/:id',
-                templateUrl: 'views/materia/edit.html',
+                templateUrl: 'views/materia/materiaEdit.html',
                 controller: 'MateriaCtrl_Edit',
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
@@ -147,7 +185,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('materia.view', {
                 url: '/view/:id',
-                templateUrl: 'views/materia/view.html',
+                templateUrl: 'views/materia/materiaView.html',
                 resolve: {
                     materiaResponse: ['loadMyModule', '$stateParams', 'MateriaSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -170,7 +208,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('practicaOdontologica.index', {
                 url: '/',
-                templateUrl: 'views/practicaOdontologica/query.html',
+                templateUrl: 'views/practicaOdontologica/practicaOdontologicaQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'PracticaOdontologicaCtrl_Index',
                 resolve: {
@@ -182,7 +220,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('practicaOdontologica.create', {
                 url: '/create',
-                templateUrl: 'views/practicaOdontologica/create.html',
+                templateUrl: 'views/practicaOdontologica/practicaOdontologicaCreate.html',
                 controller: 'PracticaOdontologicaCtrl_Create',
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
@@ -192,7 +230,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('practicaOdontologica.edit', {
                 url: '/edit/:id',
-                templateUrl: 'views/practicaOdontologica/edit.html',
+                templateUrl: 'views/practicaOdontologica/practicaOdontologicaEdit.html',
                 controller: 'PracticaOdontologicaCtrl_Edit',
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
@@ -205,7 +243,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('practicaOdontologica.view', {
                 url: '/view/:id',
-                templateUrl: 'views/practicaOdontologica/view.html',
+                templateUrl: 'views/practicaOdontologica/practicaOdontologicaView.html',
                 resolve: {
                     practicaResponse: ['loadMyModule', '$stateParams', 'PracticaOdontologicaSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -228,7 +266,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('trabajoPractico.index', {
                 url: '/',
-                templateUrl: 'views/trabajoPractico/query.html',
+                templateUrl: 'views/trabajoPractico/trabajoPracticoQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'TrabajoPracticoCtrl_Index',
                 resolve: {
@@ -242,7 +280,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('trabajoPractico.create', {
                 url: '/create',
-                templateUrl: 'views/trabajoPractico/create.html',
+                templateUrl: 'views/trabajoPractico/trabajoPracticoCreate.html',
                 controller: 'TrabajoPracticoCtrl_Create',
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
@@ -255,7 +293,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('trabajoPractico.edit', {
                 url: '/edit/:id',
-                templateUrl: 'views/trabajoPractico/edit.html',
+                templateUrl: 'views/trabajoPractico/trabajoPracticoEdit.html',
                 controller: 'TrabajoPracticoCtrl_Edit',
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
@@ -271,7 +309,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('trabajoPractico.view', {
                 url: '/view/:id',
-                templateUrl: 'views/trabajoPractico/view.html',
+                templateUrl: 'views/trabajoPractico/trabajoPracticoView.html',
                 resolve: {
                     trabajoPracticoResponse: ['loadMyModule', '$stateParams', 'TrabajoPracticoSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -294,16 +332,18 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('catedra.index', {
                 url: '/',
-                templateUrl: 'views/catedra/query.html',
+                templateUrl: 'views/catedra/catedraQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'CatedraCtrl_Index',
                 resolve: {
-
+                    materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
+                        return service.findAllMaterias();
+                    }]
                 }
             })
             .state('catedra.create', {
                 url: '/create',
-                templateUrl: 'views/catedra/create.html',
+                templateUrl: 'views/catedra/catedraCreate.html',
                 controller: 'CatedraCtrl_Create',
                 resolve: {
                     materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
@@ -322,7 +362,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('catedra.edit', {
                 url: '/edit/:id',
-                templateUrl: 'views/catedra/edit.html',
+                templateUrl: 'views/catedra/catedraEdit.html',
                 controller: 'CatedraCtrl_Edit',
                 resolve: {
                     materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
@@ -344,7 +384,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('catedra.view', {
                 url: '/view/:id',
-                templateUrl: 'views/catedra/view.html',
+                templateUrl: 'views/catedra/catedraView.html',
                 resolve: {
                     catedraResponse: ['loadMyModule', '$stateParams', 'CatedraSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -358,6 +398,8 @@ odontologiaApp.config(['$urlRouterProvider',
                     }
                 }
             })
+
+
             .state('usuario', {
                 url: '/usuario',
                 template: '<ui-view/>',
@@ -366,31 +408,31 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('usuario.index', {
                 url: '/',
-                templateUrl: 'views/usuario/query.html',
-                params: {execQuery: false, execQuerySamePage: false} ,
+                templateUrl: 'views/usuario/usuarioQuery.html',
+                params: {execQuery: false, execQuerySamePage: false},
                 controller: 'UsuarioCtrl_Index',
                 resolve: {
-                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function(loadMyModule, service) {
+                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
                     }]
                 }
             })
             .state('usuario.create', {
                 url: '/create',
-                templateUrl: 'views/usuario/create.html',
+                templateUrl: 'views/usuario/usuarioCreate.html',
                 controller: 'UsuarioCtrl_Create',
                 resolve: {
-                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function(loadMyModule, service) {
+                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
                     }]
                 }
             })
             .state('usuario.edit', {
                 url: '/edit/:id',
-                templateUrl: 'views/usuario/edit.html',
+                templateUrl: 'views/usuario/usuarioEdit.html',
                 controller: 'UsuarioCtrl_Edit',
                 resolve: {
-                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function(loadMyModule, service) {
+                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
                     }],
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
@@ -400,7 +442,7 @@ odontologiaApp.config(['$urlRouterProvider',
             })
             .state('usuario.view', {
                 url: '/view/:id',
-                templateUrl: 'views/usuario/view.html',
+                templateUrl: 'views/usuario/usuarioView.html',
                 resolve: {
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -419,6 +461,10 @@ odontologiaApp.config(['$urlRouterProvider',
         $ocLazyLoadProvider.config({
             debug: true,
             modules: [
+                {
+                    name: 'sapo.login',
+                    files: [url('/home/loginTestCtrl.js')]
+                },
                 {
                     name: 'homeModule',
                     files: [url('/home/homeCtrl.js')]
@@ -477,9 +523,22 @@ angular.module('practicaOdontologicaModule', []);
 angular.module('catedraModule', []);
 angular.module('trabajoPracticoModule', []);
 angular.module('usuarioModule', []);
+angular.module('sapo.login', []);
 
 
-odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', function ($scope, $state, authFactory, $filter) {
+odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {
+
+    $scope.toggleSidenav = function (menuId) {
+        $mdSidenav(menuId).toggle();
+    };
+
+    var originatorEv;
+
+
+    $scope.show = "false";
+    $scope.showFilters = function () {
+        $scope.show = true;
+    };
 
     $scope.user = authFactory.getAuthData();
     $scope.menu = $scope.user ? buildMenu($scope.user.permission) : authFactory.getMenu();
@@ -501,10 +560,10 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             if (toState.data && toState.data.isFree) {
                 return;
             }
-            if (!authFactory.isAuthenticated()) {
-                event.preventDefault();
-                $state.go('login');
-            }
+            //if (!authFactory.isAuthenticated()) {
+            //    event.preventDefault();
+            //    $state.go('login');
+            //}
         });
 
     $scope.$on('authChanged', function () {
@@ -595,8 +654,8 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', funct
             });
     };
 
-    $scope.selectRol = function(user) {
-        authFactory.login(user).success(function(data) {
+    $scope.selectRol = function (user) {
+        authFactory.login(user).success(function (data) {
             if (data) {
                 authFactory.setAuthData(data);
                 authFactory.communicateAuthChanged();
@@ -610,7 +669,7 @@ odontologiaApp.controller('loginCtrl', ['$scope', 'authFactory', '$state', funct
     }
 }]);
 
-odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', '$state', 'authFactory', 'NotificationSrv', 'CommonsSrv', 'tiposDocumentoResponse', function($scope, $state, authFactory,  messages, commons, tiposDocumentoResponse) {
+odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', '$state', 'authFactory', 'NotificationSrv', 'CommonsSrv', 'tiposDocumentoResponse', function ($scope, $state, authFactory, messages, commons, tiposDocumentoResponse) {
 
     var vm = this;
     // Data
@@ -618,7 +677,7 @@ odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', '$state', 'authFact
     vm.data = {
         tiposDocumento: commons.enumToJson(tiposDocumentoResponse.data),
         disableFields: false,
-        typeOfPerson: vm.user.typeOfPerson.substring(vm.user.typeOfPerson.lastIndexOf('.')+1, vm.user.typeOfPerson.length)
+        typeOfPerson: vm.user.typeOfPerson.substring(vm.user.typeOfPerson.lastIndexOf('.') + 1, vm.user.typeOfPerson.length)
     }
     vm.persona = {
         documento: {},
@@ -635,14 +694,14 @@ odontologiaApp.controller('UserCtrl_RelatedData', ['$scope', '$state', 'authFact
             authToken: vm.user.authToken
         }
         commons.savePerson(vm.persona)
-            .success(function(response) {
-               messages.good('Datos guardados correctamente', function() {
-                  vm.user.firstLogin = false;
-                  authFactory.setAuthData(vm.user);
-                  $state.go('home');
-               });
+            .success(function (response) {
+                messages.good('Datos guardados correctamente', function () {
+                    vm.user.firstLogin = false;
+                    authFactory.setAuthData(vm.user);
+                    $state.go('home');
+                });
             })
-            .error(function(response) {
+            .error(function (response) {
                 messages.badArray(response);
             })
 

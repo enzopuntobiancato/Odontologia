@@ -1,0 +1,99 @@
+<md-content layout="row" layout-align="center start">
+    <div layout="column" flex="80">
+        <form name="usuarioForm" novalidate ng-submit="save()">
+            <md-card>
+                <md-toolbar class="md-accent">
+                    <div class="md-toolbar-tools">
+                        <span>Crear usuario</span>
+                    </div>
+                </md-toolbar>
+                <md-card-content>
+                        <div>
+                            <p>Complete los datos para crear un nuevo usuario.</p>
+                            <md-input-container>
+                                <label>Nombre</label>
+                                <input name="nombre" name="nombreUsuario" ng-model="usuario.nombreUsuario"
+                                       required md-maxlength="100">
+                                <div ng-messages="usuarioForm.nombreUsuario.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        El nombre no puede tener màs de 100 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>E-mail</label>
+                                <input name="email" ng-model="usuario.email" type="email"
+                                       required md-maxlength="100">
+                                <div ng-messages="usuarioForm.email.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">El e-mail es un campo requerido.</div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        El e-mail no puede tener màs de 100 caracteres.
+                                    </div>
+                                    <div ng-message="email">
+                                        El formato del e-mail ingresado es incorrecto.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div>
+                            <md-input-container>
+                                <label>Contraseña</label>
+                                <input name="password" ng-model="usuario.contrasenia"
+                                       required md-maxlength="50" type="password">
+                                <div ng-messages="usuarioForm.password.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">La contraseña es un campo requerido.
+                                    </div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        La contraseña no puede tener màs de 50 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Confirmar contraseña</label>
+                                <input ng-model="usuario.confirmacionContrasenia" name="confirmPassword"
+                                       required md-maxlength="50" type="password" same-as="usuario.contrasenia">
+                                <div ng-messages="usuarioForm.confirmPassword.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">Es un campo requerido.</div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        El nombre no puede tener màs de 50 caracteres.
+                                    </div>
+                                    <div ng-message="sameAs" class="my-message">
+                                        Los dos campos deben coincidir.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div>
+                            <md-chips ng-model="usuario.roles" md-autocomplete-snap
+                                      md-transform-chip="transformChip($chip)"
+                                      md-require-match="true">
+                                <md-autocomplete
+                                        md-selected-item="selectedItem"
+                                        md-search-text="searchText"
+                                        md-items="rol in data.roles | filter:searchText"
+                                        md-item-text="rol.nombre"
+                                        md-min-length="0"
+                                        placeholder="Roles">
+                                    <md-item-template>
+                                        <span md-highlight-text="searchText"
+                                              md-highlight-flags="^i">{{rol.nombre}}</span>
+                                    </md-item-template>
+                                </md-autocomplete>
+                                <md-chip-template>
+                                    <span>
+                                      <strong>{{$chip.nombre}}</strong>
+                                    </span>
+                                </md-chip-template>
+                            </md-chips>
+                        </div>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-click="goIndex()">Cancelar</md-button>
+                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                </md-card-actions>
+            </md-card>
+        </form>
+    </div>
+</md-content>
+

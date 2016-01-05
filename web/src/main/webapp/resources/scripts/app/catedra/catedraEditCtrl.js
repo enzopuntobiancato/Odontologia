@@ -1,8 +1,10 @@
 'use strict';
 var module=angular.module('catedraModule');
 
-module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'CommonsSrv', 'NotificationSrv','CatedraSrv', 'materiasResponse', 'diasResponse', 'gruposPracticaResponse', 'practicasResponse', '$filter','PaginationService', 'catedraResponse',
-    function($scope, $rootScope, $state, commons, notification, service, materiasResponse, diasResponse, gruposPracticaResponse, practicasResponse, $filter, pagination, catedraResponse){
+module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'CommonsSrv', 'MessageSrv','CatedraSrv', 'materiasResponse', 'diasResponse', 'gruposPracticaResponse', 'practicasResponse',
+    '$filter','PaginationService', 'catedraResponse','$mdDialog',
+    function($scope, $rootScope, $state, commons, message, service, materiasResponse, diasResponse,
+             gruposPracticaResponse, practicasResponse, $filter, pagination, catedraResponse){
 
         $scope.catedra = catedraResponse.data;
 
@@ -90,27 +92,17 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
             }).length;
         }
 
-        $scope.addTrabajosPracticos = function(){
-            for (var i=0; i<$scope.tpData.result.length; i++) {
-                var tp = $scope.tpData.result[i];
-                if (tp.selected && !tp.added) {
-                    $scope.tpData.result[i].added = true;
-                    var indexInOtherList = findItemIndexInList($scope.tpData.result[i].id, $scope.catedra.trabajosPracticos);
-                    if (indexInOtherList === -1) {
-                        tp.new = true;
-                        $scope.catedra.trabajosPracticos.push(tp);
-                    } else {
-                        $scope.catedra.trabajosPracticos[indexInOtherList].deleted = false;
-                    }
-
-
-                }
+        $scope.addTrabajo = function(tp){
+            if(tp.selected){
+                $scope.catedra.trabajosPracticos.push(tp);
+            }else{
+                $scope.removeTrabajoPractico(tp.id,1);
             }
         }
 
         function findItemIndexInList(id, list) {
             var index = -1;
-            for (var i = 0; i< list.length; i++) {
+            for (var i = 0; i < list.length; i++) {
                 if (list[i].id === id) {
                     index = i;
                     break;
@@ -119,18 +111,27 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
             return index;
         }
 
-        $scope.deleteTrabajosPracticos = function(index) {
-            if ($scope.catedra.trabajosPracticos[index].new) {
-                $scope.catedra.trabajosPracticos.splice(index, 1);
-            } else {
-                $scope.catedra.trabajosPracticos[index].deleted = true;
+        function findItemById(id, list){
+            var tp = {};
+            for(var i = 0; i < list.length; i++){
+                if(list[i].id === id){
+                    tp = list[i];
+                    break;
+                }
             }
-            var indexInResult = findItemIndexInList($scope.catedra.trabajosPracticos[index].id, $scope.tpData.result);
-            if (indexInResult != -1) {
-                $scope.tpData.result[indexInResult].added = false;
-                $scope.tpData.result[indexInResult].selected = false;
-            }
+            return tp;
         }
+
+        $scope.removeTrabajoPractico = function(id,band){
+            if(band === 1){
+                var index = findItemIndexInList(id, $scope.catedra.trabajosPracticos);
+                $scope.catedra.trabajosPracticos.splice(index,1);
+            }else{
+                var tp = findItemById(id,$scope.tpData.result);
+                tp.selected = false;
+            }
+
+        };
 
 
         function newHour(hour,minutes) {
@@ -152,19 +153,19 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
 
         $scope.addHorario = function() {
             if (!$scope.newHorario.horaDesde || !$scope.newHorario.horaHasta) {
-                notification.bad('Debe seleccionar hora desde y hasta.', function(){});
+                message.showMessage('Debe seleccionar hora desde y hasta.');
                 return;
             }
             var horaDesdeGTHoraHasta = $scope.newHorario.horaDesde >= $scope.newHorario.horaHasta;
             if (horaDesdeGTHoraHasta) {
-                notification.bad('La hora desde debe ser menor a la hora hasta.', function(){});
+                message.showMessage('La hora de iniciso debe ser menor a la de finalización.');
                 return;
             }
             var isAlreadyAdded = $filter('filter')($scope.catedra.horarios, function(horario){
                 return angular.equals(horario, $scope.newHorario);
             }).length;
             if (isAlreadyAdded){
-                notification.bad('Día y horario ya agregado.', function(){});
+                message.showMessage('Día y horario ya agregado.');
                 return;
             }
             var overlappingHours = $filter('filter')($scope.catedra.horarios, function(horario){
@@ -175,10 +176,11 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
                 return sameDay && overlappingHours;
             }).length;
             if (overlappingHours) {
-                notification.bad('El horario elegido se encuentra contenido en uno ya agregado.', function(){});
+                message.showMessage('El horario elegido se encuentra contenido en uno ya agregado.');
                 return;
             }
             $scope.catedra.horarios.push($scope.newHorario);
+            message.showMessage('Horario agregado');
             $scope.newHorario = {
                 horaDesde: newHour(8,0),
                 horaHasta: newHour(18,0)
@@ -197,20 +199,6 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
 
         $scope.save = function() {
 
-            var errors = [];
-            validateRequireList(errors, $scope.catedra.horarios, "horarios de la cátedra.");
-            validateRequireList(errors, $scope.catedra.trabajosPracticos, 'trabajos prácticos de la cátedra.');
-
-            if (errors.length) {
-                notification.badArray(errors, function() {});
-                return;
-            }
-
-//        for (var i = 0; i < $scope.catedra.horarios.length; i++) {
-//            $scope.catedra.horarios[i].horaDesde = getTimeFromDate($scope.catedra.horarios[i].horaDesde);
-//            $scope.catedra.horarios[i].horaHasta = getTimeFromDate($scope.catedra.horarios[i].horaHasta);
-//        }
-
             //Quitamos de la lista de trabajos prácticos aquellos que se eliminaron pero que ya estaban persistidos.
             $scope.catedra.trabajosPracticos = $filter('filter')($scope.catedra.trabajosPracticos, function (tp){
                 return !tp.deleted;
@@ -223,13 +211,14 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
                     $scope.data.persistedOperation = true;
                     $scope.data.disableFields = true;
                     $scope.data.saved = true;
-                    notification.scrollTo('container');
+                    message.showMessage("La cátedra fue modificada con éxito");
+                    $scope.goIndex();
+
                 })
                 .error(function (response) {
                     if (response.status === 1000) {
-                        notification.badArray(response, function() {});
                     } else {
-                        notification.bad('Se produjo un error inesperado', function(){});
+                        message.showMessage("Hubo un error al modificar la cátedra.")
                     }
 
                 })
@@ -259,5 +248,25 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
                 }
             });
 
+        $scope.mostrarFiltros = false;
+
+        $scope.clickIcon = 'expand_more';
+        $scope.clickIconMorph = function () {
+            if ($scope.clickIcon === 'expand_more') {
+                $scope.clickIcon = 'expand_less';
+            }
+            else {
+                $scope.clickIcon = 'expand_more';
+            }
+        };
+
+        $scope.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
+        $scope.colorMouseOver = function (icon) {
+            $scope.colorIcon[icon] = '#E91E63';
+        };
+
+        $scope.colorMouseLeave = function (icon) {
+            $scope.colorIcon[icon] = '#00B0FF';
+        };
     }]);
 

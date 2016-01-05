@@ -1,0 +1,96 @@
+<div layout="row" class="md-accent">
+        <md-input-container flex>
+            <label>Nombre</label>
+            <input ng-model="tpData.filter.nombre" name="nombre" ng-keypress="keyboardOk($event)">
+        </md-input-container>
+    <div flex="50" layout="row" layout-align="start center">
+        <md-button ng-click="tpData.consultar()" type="button">
+            <md-tooltip>
+                Buscar
+            </md-tooltip>
+            <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{colorIcon[0]}}" ng-Mouseover="colorMouseOver(0)"
+                        ng-mouseleave="colorMouseLeave(0)"></ng-md-icon>
+        </md-button>
+        <md-button type="button" ng-click="mostrarFiltros = !mostrarFiltros">
+            <md-tooltip>
+                Ver filtros
+            </md-tooltip>
+            <ng-md-icon icon="{{clickIcon}}" size="40" ng-attr-style="fill: {{colorIcon[1]}}"
+                        ng-Mouseover="colorMouseOver(1)" ng-mouseleave="colorMouseLeave(1)"
+                        options='{"duration": 375, "rotation": "none"}' ng-click="clickIconMorph()"></ng-md-icon>
+        </md-button>
+        <md-button ng-click="tpData.cleanFilters()" type="button">
+            <md-tooltip>
+                Limpiar filtros
+            </md-tooltip>
+            <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{colorIcon[2]}}" ng-Mouseover="colorMouseOver(2)"
+                        ng-mouseleave="colorMouseLeave(2)"></ng-md-icon>
+        </md-button>
+    </div>
+</div>
+<section ng-show="mostrarFiltros">
+    <div>
+        <md-input-container>
+            <label>Grupo</label>
+            <md-select ng-model="tpData.filter.grupoPracticaId" name="grupoPractica"
+                       ng-change="tpData.consultar()">
+                <md-option ng-repeat="grupo in  tpData.gruposPractica" ng-value="{{ grupo.id }}">
+                    {{ grupo.nombre }}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container flex>
+            <label>Práctica</label>
+            <md-select ng-model="tpData.filter.practicaId" name="practica"
+                       ng-change="tpData.consultar()">
+                <md-option ng-repeat="practica in  tpData.select.practicas" ng-value="{{ practica.id }}">
+                    {{ practica.denominacion }}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+</section>
+<div>
+    <md-chips ng-model="catedra.trabajosPracticos" md-on-remove="removeTrabajoPractico($chip.id,2)">
+        <md-chip-template>
+            <span>
+              <strong>{{$chip.nombre}}</strong>
+            </span>
+        </md-chip-template>
+    </md-chips>
+</div>
+<md-list ng-show="tpData.result.length > 0">
+    <md-list-item class="md-3-line md-long-text" ng-repeat="item in tpData.result">
+        <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
+             class="md-avatar"/>
+        <div class="md-list-item-text">
+            <h3 class="md-title">
+                <a>{{item.nombre}}</a>
+            </h3>
+            <h4>{{ item.practicaOdontologica.grupo.nombre }} - {{ item.practicaOdontologica.denominacion }}</h4>
+            <p>{{item.descripcion}}</p>
+        </div>
+        <md-checkbox class="md-secondary" ng-click="addTrabajo(item,1)" ng-model="item.selected"></md-checkbox>
+    </md-list-item>
+    <md-divider></md-divider>
+    <md-list-item layout class="inset">
+        <md-button layout layout-align="start center" flex ng-click="previousPage()"
+                   ng-disabled="paginationData.firstPage">
+            <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
+            Anterior
+        </md-button>
+
+        <md-button layout layout-align="start center" flex ng-click="nextPage()"
+                   ng-disabled="!paginationData.morePages">
+            Siguiente
+            <ng-md-icon icon="arrow_forward" style="fill: black" ng-disabled="!paginationData.morePages"></ng-md-icon>
+        </md-button>
+    </md-list-item>
+</md-list>
+
+<div ng-show="!tpData.result.length">
+    <h1 class="md-title">No hay resultados para mostrar.</h1>
+</div>
+
+
+

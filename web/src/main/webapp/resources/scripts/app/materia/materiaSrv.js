@@ -35,14 +35,22 @@ module
                     params: {id: materiaId}
                 })
             },
-            findById: function(id) {
+            findById: function (id) {
                 return $http({
                     url: 'api/materia/findById',
                     method: 'GET',
                     params: {id: id}
+                })
+            },
+
+            findAll: function () {
+                return $http({
+                    url: 'api/materia/findAll',
+                    method: 'GET'
                 })
             }
 
         }
 
     }]);
+

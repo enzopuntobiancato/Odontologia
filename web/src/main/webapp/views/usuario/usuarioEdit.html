@@ -1,0 +1,109 @@
+<md-content layout="row" layout-align="center start">
+    <div layout="column" flex="80">
+        <md-card>
+            <md-toolbar class="md-medium-tall md-accent">
+                <div class="md-toolbar-tools">
+                    <span>Editar usuario</span>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <form name="usuarioEditForm" novalidate>
+                        <div>
+                        <p>Complete los datos para editar el usuario.</p>
+                        <md-input-container>
+                            <label>Nombre</label>
+                            <input name="nombre" ng-model="usuario.nombreUsuario"
+                                   required md-maxlength="100">
+                            <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
+                                <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                                <div ng-message="md-maxlength" class="my-message">
+                                    El nombre no puede tener màs de 100 caracteres.
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>E-mail</label>
+                            <input name="email" ng-model="usuario.email"
+                                   required md-maxlength="100">
+                            <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
+                                <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                                <div ng-message="md-maxlength" class="my-message">
+                                    El e-mail no puede tener màs de 100 caracteres.
+                                </div>
+                                <div ng-message="email">
+                                    El formato del e-mail ingresado es incorrecto.
+                                </div>
+                            </div>
+                        </md-input-container>
+                        </div>
+                        <div>
+                            <md-input-container>
+                                <label>Contraseña</label>
+                                <input name="password" ng-model="usuario.contrasenia"
+                                       required md-maxlength="50" type="password">
+
+                                <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">La contraseña es un campo requerido.
+                                    </div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        La contraseña no puede tener màs de 50 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Confirmar contraseña</label>
+                                <input ng-model="usuario.confirmacionContrasenia" name="confirmPassword"
+                                       required md-maxlength="50" type="password" same-as="usuario.contrasenia">
+
+                                <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        El nombre no puede tener màs de 50 caracteres.
+                                    </div>
+                                    <div ng-message="sameAs" class="my-message">
+                                        Los dos campos deben coincidir.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div>
+                            <md-chips ng-model="usuario.roles" md-autocomplete-snap
+                                      md-transform-chip="transformChip($chip)"
+                                      md-require-match="true">
+                                <md-autocomplete
+                                        md-selected-item="selectedItem"
+                                        md-search-text="searchText"
+                                        md-items="rol in data.roles | filter:searchText"
+                                        md-item-text="rol.nombre"
+                                        md-min-length="1"
+                                        placeholder="Roles">
+                                    <md-item-template>
+                                        <span md-highlight-text="searchText"
+                                              md-highlight-flags="^i">{{rol.nombre}}</span>
+                                    </md-item-template>
+                                </md-autocomplete>
+
+                                <md-chip-template>
+                                    <span>
+                                      <strong>{{$chip.nombre}}</strong>
+                                    </span>
+                                </md-chip-template>
+                            </md-chips>
+                        </div>
+                        <div>
+                            <md-input-container>
+                                <md-checkbox ng-model="data.sendEmail" aria-label="Notificar al usuario por e-mail">
+                                    Notificar al usuario por e-mail
+                                </md-checkbox>
+                            </md-input-container>
+                        </div>
+                </form>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="goIndex()">Cancelar</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="save()">Aceptar</md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</md-content>
+

@@ -1,0 +1,59 @@
+<md-content layout="row" layout-align="center start">
+    <div layout="column" flex="80">
+        <md-card>
+            <md-toolbar class="md-medium-tall md-accent">
+                <div class="md-toolbar-tools">
+                    <span>Editar materia</span>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <form name="editMateriaForm" novalidate>
+                    <p>Complete los datos para editar la materia.</p>
+                        <div layout="row">
+                            <md-input-container>
+                                <label>Nombre</label>
+                                <input name="nombre" ng-model="materia.nombre"
+                                       required md-maxlength="50">
+
+                                <div ng-messages="editMateriaForm.nombre.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        El nombre no puede tener màs de 50 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Nivel</label>
+                                <md-select ng-model="materia.nivel" name="nivel">
+                                    <md-option ng-repeat="item in data.niveles" ng-value="item.nombre">
+                                        {{ item.nombre }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex>
+                                <label>Descripción</label>
+                                <textarea ng-model="materia.descripcion" columns="5" md-maxlength="400" required
+                                          name="descripcion"></textarea>
+
+                                <div ng-messages="editMateriaForm.descripcion.$error" role="alert" multiple>
+                                    <div ng-message="required" class="my-message">La descripcion es un campo
+                                        requerido.
+                                    </div>
+                                    <div ng-message="md-maxlength" class="my-message">
+                                        La descripción no puede tener màs de 400 caracteres.
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                </form>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="goIndex()">Cancelar</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="save()">Aceptar</md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</md-content>
+

@@ -94,8 +94,32 @@ public class InitializationService {
         m2.setNivel(Nivel.SEGUNDO);
         m2.setDescripcion("Materia de segundo año donde se adquieren los conocimientos iniciales relacionados.");
 
+        Materia m3 = new Materia();
+        m3.setNombre("Sed volutpat");
+        m3.setNivel(Nivel.PRIMERO);
+        m3.setDescripcion("Sed volutpat turpis sed sem semper, id vestibulum lacus eleifend. In auctor urna id diam gravida scelerisque id vitae est..");
+
+        Materia m4 = new Materia();
+        m4.setNombre("Pellentesque");
+        m4.setNivel(Nivel.SEGUNDO);
+        m4.setDescripcion("Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus quis ornare neque.");
+
+        Materia m5 = new Materia();
+        m5.setNombre("Quisque");
+        m5.setNivel(Nivel.PRIMERO);
+        m5.setDescripcion("Quisque facilisis lectus eget urna pellentesque, ac mattis mauris ultricies. Phasellus quis dui semper, tristique massa eget, sagittis quam. Nulla facilis");
+
+        Materia m6 = new Materia();
+        m6.setNombre("Magna");
+        m6.setNivel(Nivel.SEGUNDO);
+        m6.setDescripcion("Magna ante, efficitur sed dui eu, fringilla condimentum mi. Donec pulvinar convallis ligula, in consectetur nisi varius ut. ");
+
         materiaService.create(m1);
         materiaService.create(m2);
+        materiaService.create(m3);
+        materiaService.create(m4);
+        materiaService.create(m5);
+        materiaService.create(m6);
     }
 
     @RunOnInit(order = 2)
@@ -132,6 +156,41 @@ public class InitializationService {
         tp1.setPracticaOdontologica(PracticaOdontologicasList.get(0));
 
         trabajoPracticoService.create(tp1);
+
+        TrabajoPractico tp2 = new TrabajoPractico();
+        tp2.setNombre("Lorem ipsum dolor");
+        tp2.setDescripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum risus massa, pharetra maximus felis elementum eget. Aliquam erat volutpat. Praesent mollis ullamcorper mollis. Cras porta varius tincidunt. Duis accumsan rutrum tellus, non pulvinar velit. Nam vel justo et justo porta pellentesque at eget diam.");
+        tp2.setPracticaOdontologica(PracticaOdontologicasList.get(0));
+
+        trabajoPracticoService.create(tp2);
+
+        TrabajoPractico tp3 = new TrabajoPractico();
+        tp3.setNombre("Morbi at ante diam");
+        tp3.setDescripcion("Morbi at ante diam. Integer auctor vulputate nulla id sollicitudin. Nam ac pellentesque quam, sed finibus ipsum. Suspendisse sodales sodales consectetur. Nunc quis risus metus. Morbi in turpis diam. Aenean quis libero lacinia, ornare erat et, mattis purus. Sed scelerisque eleifend elit, sit amet venenatis elit lobortis quis.");
+        tp3.setPracticaOdontologica(PracticaOdontologicasList.get(0));
+
+        trabajoPracticoService.create(tp3);
+
+        TrabajoPractico tp4 = new TrabajoPractico();
+        tp4.setNombre("Maecenas interdum justo");
+        tp4.setDescripcion("Maecenas interdum justo arcu, ut volutpat lacus vestibulum vel. Cras eu mi et lorem auctor aliquet. Mauris mollis ultricies eros ut pretium. In magna ante, efficitur sed dui eu, fringilla condimentum mi. Donec pulvinar convallis ligula, in consectetur nisi varius ut. ");
+        tp4.setPracticaOdontologica(PracticaOdontologicasList.get(1));
+
+        trabajoPracticoService.create(tp4);
+
+        TrabajoPractico tp5 = new TrabajoPractico();
+        tp5.setNombre("Vivamus lacus lorem");
+        tp5.setDescripcion("Vivamus lacus lorem, euismod vitae lobortis vitae, varius a mi. Ut rhoncus tellus id vehicula facilisis. Maecenas nunc metus, sagittis ut urna quis, faucibus feugiat nisi. In hac habitasse platea dictumst. ");
+        tp5.setPracticaOdontologica(PracticaOdontologicasList.get(1));
+
+        trabajoPracticoService.create(tp5);
+
+        TrabajoPractico tp6 = new TrabajoPractico();
+        tp6.setNombre("Duis sapien sapien");
+        tp6.setDescripcion("Duis sapien sapien, tincidunt ut viverra at, tempor nec nisl. Nullam vel massa nec urna consectetur ultricies ut non nunc. Morbi vitae aliquet turpis");
+        tp6.setPracticaOdontologica(PracticaOdontologicasList.get(3));
+
+        trabajoPracticoService.create(tp6);
     }
 
 }

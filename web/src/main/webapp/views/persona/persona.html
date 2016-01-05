@@ -1,45 +1,49 @@
-<div class="row-fluid">
-    <div class="col-lg-6">
-        <div class="form-group" show-errors>
-            <label>Apellido</label>
-            <input ng-disabled="vm.data.disableFields" name="apellido" ng-model="vm.persona.apellido"
-                   type="text" maxlength="50" class="form-control" required/>
-            <span class="help-block" for="apellido"></span>
+<div layout layout-sm="column">
+    <md-input-container flex>
+        <label>Apellido</label>
+        <input ng-disabled="vm.data.disableFields" name="apellido" ng-model="vm.persona.apellido"
+               type="text" md-maxlength="50" required="true">
+
+        <div ng-messages="userRelatedDataForm.apellido.$error">
+            <div ng-message="required">El apellido es un campo obligatorio.</div>
+            <div ng-message="md-maxlength">El apellido debe contener menos de 50 caractéres.</div>
         </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="form-group" show-errors>
-            <label>Nombre</label>
-            <input type="text" maxlength="50" class="form-control" required ng-disabled="vm.data.disableFields" name="nombre"
-                   ng-model="vm.persona.nombre"/>
-            <span class="help-block" for="nombre"></span>
+    </md-input-container>
+    <md-input-container flex>
+        <label>Nombre</label>
+        <input type="text" md-maxlength="50" required ng-disabled="vm.data.disableFields" name="nombre"
+               ng-model="vm.persona.nombre"/>
+
+        <div ng-messages="userRelatedDataForm.nombre.$error">
+            <div ng-message="required">El nombre es un campo obligatorio.</div>
+            <div ng-message="md-maxlength">El nombre debe contener menos de 50 caractéres.</div>
         </div>
-    </div>
+    </md-input-container>
 </div>
-<div class="row-fluid">
-    <div class="col-lg-6">
-        <div class="form-group" show-errors>
-            <label>Tipo documento</label>
-            <select ng-disabled="vm.data.disableFields" name="tipoDocumento" class="form-control"
-                    ng-model="vm.persona.documento.tipoDocumento"
-                    ng-options="item.nombre as item.nombre for item in vm.data.tiposDocumento" required>
-                <option value="">Seleccione</option>
-            </select>
-            <span class="help-block" for="tipoDocumento"></span>
+<div layout="row" layout-sm="column">
+    <md-input-container>
+        <md-select name="tipoDocumento" ng-model="vm.persona.documento.tipoDocumento" required>
+            <md-option ng-repeat="item in vm.data.tiposDocumento" placeholder="Select a state">{{ item.nombre }}
+            </md-option>
+        </md-select>
+        <div class="errors" ng-messages="userRelatedDataForm.tipoDocumento.$error">
+            <div ng-message="required">El tipo de documento es obligatorio</div>
         </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="form-group" show-errors>
-            <label>Número documento</label>
-            <input maxlength="10" type="text" class="form-control" required name="numeroDocumento"
-                   ng-model="vm.persona.documento.numero"/>
-            <span class="help-block" for="numeroDocumento"></span>
+    </md-input-container>
+    <md-input-container flex>
+        <label>Número</label>
+        <input md-maxlength="10" required="true" name="numeroDocumento" ng-model="vm.persona.documento.numero">
+
+        <div ng-messages="userRelatedDataForm.numeroDocumento.$error">
+            <div ng-message="required">El número es un campo obligatorio.</div>
         </div>
-    </div>
+    </md-input-container>
 </div>
-<div class="row-fluid">
-    <div class="col-lg-6">
-        <date-picker label="'Fecha de nacimiento'" name="fechaNacimiento" model-name="'fechaNacimiento'"
-                     ng-model="vm.persona.fechaNacimiento" max-date="'01/01/2000'" is-required="true"></date-picker>
+<div layout layout-sm="column">
+    <md-datepicker ng-model="vm.persona.fechaNacimiento" md-placeholder="Fecha de nacimiento" name="fechaNacimiento"
+                   md-min-date="01/01/1950" required="true">
+    </md-datepicker>
+    <div ng-messages="userRelatedDataForm.numeroDocumento.$error">
+        <div ng-message="required">El número es un campo obligatorio.</div>
     </div>
 </div>

@@ -1,0 +1,27 @@
+<md-dialog aria-label="Dar de alta" ng-cloak>
+    <form name="restoreTrabajoPracticoForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Dar de alta</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancelar()">
+                    <!--md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon-->
+                    <ng-md-icon icon="close" size="40" style="fill: white"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+            <div class="md-dialog-content">
+                <!--h2>Está seguro que desea dar de alta el trabajo práctico?</h2-->
+                <p>
+                    Está seguro que desea dar de alta el usuario?
+                </p>
+            </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="cancelar()">Cancelar</md-button>
+            <md-button type="submit" class="md-raised md-primary" ng-click="confirmar()">Aceptar</md-button>
+        </div>
+    </form>
+</md-dialog>

@@ -1,108 +1,166 @@
-<!DOCTYPE html>
-<html lang="es" ng-app="odontologiaApp">
+<html lang="en" ng-app="odontologiaApp">
 <head>
     <meta content="text/html;" http-equiv="content-type" charset="utf-8">
-    <title>SAPO</title>
-    <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="components/bootstrap-material-design/dist/css/roboto.min.css"/>
-    <link rel="stylesheet" href="components/bootstrap-material-design/dist/css/material.min.css"/>
-    <link rel="stylesheet" href="components/bootstrap-material-design/dist/css/ripples.min.css"/>
-    <!--<link rel="stylesheet" href="resources/css/ui-select/select.css"/>-->
-    <link rel="stylesheet" href="components/angular-loading-bar/build/loading-bar.css"/>
-    <!--<link rel="stylesheet" href="components/angular-material/angular-material.min.css"/>-->
-
+    <title>S.A.P.O.</title>
+    <meta name="viewport" content="initial-scale=1">
+    <link rel="stylesheet" href="resources/css/mdStyle.css"/>
     <link rel="stylesheet" href="resources/css/commons.css"/>
+    <link rel="stylesheet" href="components/angular-loading-bar/build/loading-bar.css">
+    <!--Local version -->
+    <!--link rel="stylesheet" href="components/angular-material/angular-material.css"/-->
+    <!--CDN version -->
+    <!--link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css"-->
+    <!--MASTER version -->
+    <link rel="stylesheet" href="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.css">
+    <link rel="stylesheet" href="components/angular-animate/animate.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
 
 </head>
-<body ng-controller="AppController">
-
-<div id="widget" style="display: none">
-    <div><i class="fa fa-spinner fa-spin fa-4x"></i></div>
-</div>
-<!-- HEADER AND NAVBAR -->
-<header>
-    <div id="navigation-bar" class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-              <div class="navbar-header">
-                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                  </button>
-
-                  <a class="navbar-brand" ui-sref="#">SAPO</a>
-              </div>
-            <div class="collapse navbar-collapse" id="navbar-menu">
-                <ul class="nav navbar-nav">
-                    <li><a ui-sref="home"><i class="fa fa-home"></i> Home</a></li>
-                </ul>
-                <ul class="nav navbar-nav" ng-repeat="menuItem in menu" ng-if="user && !user.firstLogin">
-                    <li ng-if="menuItem.dropdown" class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{menuItem.name}}
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="subItem in menuItem.subItems"><a ui-sref="{{subItem.ref}}">{{subItem.name}}</a></li>
-                        </ul>
-                    </li>
-                    <li ng-if="!menuItem.dropdown"><a ui-sref="{{subItem.ref}}">{{menuItem.name}}</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li ng-if="!user"><a ui-sref="login">Iniciar sesión</a></li>
-                    <li ng-if="user" class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                             {{ user.authId}}
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li ng-if="user && user.hasMoreRoles"><a href="javascript:void(0)">Cambiar rol</a></li>
-                            <li class="divider"></li>
-                            <li><a href="javascript:void(0)" ng-click="logOut()">Cerrar sesión</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<body ng-controller="AppController" layout="column">
+<md-toolbar class="md-primary">
+    <div class="md-toolbar-tools">
+        <md-button ng-click="toggleSidenav('left')">
+            <ng-md-icon icon="menu" style="fill: pink"></ng-md-icon>
+        </md-button>
+        <span>S.A.P.O.</span>
+        <span flex></span>
     </div>
-</header>
-<div id="container" class="container wrapper">
-    <div id="page-content" ui-view></div>
-</div>
+</md-toolbar>
+<!--md-content layout-fill flex layout="row" layout-align="center center"-->
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+    <md-toolbar class="md-tall md-hue-2">
+        <span flex></span>
+
+        <div layout="column" class="md-toolbar-tools-bottom inset">
+            <span></span>
+
+            <div>Ignacio López</div>
+            <div>ilopezarzuaga@gmail.com</div>
+        </div>
+    </md-toolbar>
+    <md-list class="nav navbar-nav">
+        <md-item>
+            <a>
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                    <div class="inset">
+                        <ng-md-icon icon=""></ng-md-icon>
+                    </div>
+                    <div class="inset">
+                        <md-button ui-sref="materiaAdmin"> Materia</md-button>
+                    </div>
+                </md-item-content>
+            </a>
+        </md-item>
+        <md-item>
+            <a>
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                    <div class="inset">
+                        <ng-md-icon icon=""></ng-md-icon>
+                    </div>
+                    <div class="inset">
+                        <md-button ui-sref="practicaOdontologica.index"> Práctica</md-button>
+                    </div>
+                </md-item-content>
+            </a>
+        </md-item>
+        <md-item>
+            <a>
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                    <div class="inset">
+                        <ng-md-icon icon=""></ng-md-icon>
+                    </div>
+                    <div class="inset">
+                        <md-button ui-sref="trabajoPractico.index"> Trabajo práctico</md-button>
+                    </div>
+                </md-item-content>
+            </a>
+        </md-item>
+        <md-item>
+            <a>
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                    <div class="inset">
+                        <ng-md-icon icon=""></ng-md-icon>
+                    </div>
+                    <div class="inset">
+                        <md-button ui-sref="catedra.index"> Cátedra</md-button>
+                    </div>
+                </md-item-content>
+            </a>
+        </md-item>
+        <md-item>
+            <a>
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                    <div class="inset">
+                        <ng-md-icon icon=""></ng-md-icon>
+                    </div>
+                    <div class="inset">
+                        <md-button ui-sref="usuario.index"> Usuario</md-button>
+                    </div>
+                </md-item-content>
+            </a>
+        </md-item>
+        <md-item>
+            <a>
+                <md-item-content md-ink-ripple layout="row" layout-align="start center">
+                    <div class="inset">
+                        <ng-md-icon icon=""></ng-md-icon>
+                    </div>
+                    <div class="inset">
+                        <md-button ui-sref="usuarioMaster"> UsuarioTest</md-button>
+                    </div>
+                </md-item-content>
+            </a>
+        </md-item>
+
+    </md-list>
+</md-sidenav>
+<md-content>
+    <div layout-fill>
+        <ui-view></ui-view>
+    </div>
+</md-content>
 
 
+<!--footer layout-gt-sm="row" layout-align-gt-sm="center end">
+    <md-toolbar class="md-accent">
+        <div class="md-toolbar-tools">
+            <span flex></span>
+        </div>
+    </md-toolbar>
+</footer-->
 
 <!--LIBRARIES-->
 <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
-<!--<script type="text/javascript" src="components/jquery-ui/jquery-ui.min.js"></script>-->
-<script type="text/javascript" src="components/angular/angular.min.js"></script>
-<!--<script type="text/javascript" src="resources/scripts/lib/angular/angular-sanitize.js"></script>-->
-<script type="text/javascript" src="components/angular-animate/angular-animate.min.js"></script>
-<script type="text/javascript" src="components/angular-aria/angular-aria.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-animate.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-messages.js"></script>
+<!--Local version -->
+<!--script type="text/javascript" src="components/angular-material/angular-material.js"></script-->
+
+<!--CDN version -->
+<!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script-->
+
+<!--From master-->
+<script type="text/javascript" src="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.js"></script>
+
+<!-- Auxiliares -->
 <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.js"></script>
 <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
 <script type="text/javascript" src="components/ocLazyLoad/dist/ocLazyLoad.min.js"></script>
-<script type="text/javascript" src="components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="components/bootbox/bootbox.js"></script>
-<script type="text/javascript" src="components/bootstrap-material-design/dist/js/ripples.min.js"></script>
-<script type="text/javascript" src="components/arrive/minified/arrive.min.js"></script>
-<script type="text/javascript" src="components/bootstrap-material-design/dist/js/material.min.js"></script>
 <script type="text/javascript" src="components/angular-i18n/angular-locale_es-ar.js"></script>
-<script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls-0.13.3.min.js"></script>
 <script type="text/javascript" src="components/angular-loading-bar/build/loading-bar.min.js"></script>
-<!--<script type="text/javascript" src="components/angular-material/angular-material.min.js"></script>-->
-
-<!--<script type="text/javascript" src="components/resources/scripts/lib/angular/ui-select/select.js"></script>-->
-<!--LIBRARIES-->
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script>
 
 <!--OURS JS-->
-<script type="text/javascript" src="resources/scripts/commons.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/authentication.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/pagination.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/directives.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/services.js"></script>
 <script type="text/javascript" src="resources/scripts/app.js"></script>
-<!--OURS JS-->
-
 </body>
+
+
 </html>

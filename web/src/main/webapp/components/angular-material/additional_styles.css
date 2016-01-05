@@ -1,0 +1,15 @@
+/*!
+ * Angular Material Design
+ * https://github.com/angular/material
+ * @license MIT
+ * v0.8.3
+ */
+.md-toolbar-tools h1 {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: inherit;
+}
+
+.header-shadow {
+
+}

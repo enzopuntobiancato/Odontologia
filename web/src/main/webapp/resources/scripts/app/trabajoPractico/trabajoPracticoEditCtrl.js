@@ -8,7 +8,8 @@
 var module = angular.module('trabajoPracticoModule');
 
 
-module.controller('TrabajoPracticoCtrl_Edit', ['$scope','$rootScope', 'TrabajoPracticoSrv', '$state', 'NotificationSrv', 'gruposPracticaResponse','practicasResponse','$filter', 'trabajoPracticoResponse', function ($scope,$rootScope, service, $state, notification, gruposPracticaResponse, practicasResponse, $filter, trabajoPracticoResponse) {
+module.controller('TrabajoPracticoCtrl_Edit', ['$scope', '$rootScope', 'TrabajoPracticoSrv', '$state', 'MessageSrv', 'gruposPracticaResponse', 'practicasResponse', '$filter', 'trabajoPracticoResponse',
+    function ($scope, $rootScope, service, $state, message, gruposPracticaResponse, practicasResponse, $filter, trabajoPracticoResponse) {
     $scope.trabajoPractico = trabajoPracticoResponse.data;
 
     $scope.data = {
@@ -22,8 +23,8 @@ module.controller('TrabajoPracticoCtrl_Edit', ['$scope','$rootScope', 'TrabajoPr
     $scope.practicasSelect = $scope.data.practicas;
 
 
-    $scope.$watch('selectedGrupo', function(newValue, oldValue){
-        if (!angular.equals(newValue, oldValue)){
+    $scope.$watch('selectedGrupo', function (newValue, oldValue) {
+        if (!angular.equals(newValue, oldValue)) {
             delete $scope.trabajoPractico.practicaOdontologica;
             filterPracticas();
         }
@@ -33,35 +34,32 @@ module.controller('TrabajoPracticoCtrl_Edit', ['$scope','$rootScope', 'TrabajoPr
             if (!$scope.selectedGrupo || !angular.isDefined($scope.selectedGrupo.id)) {
                 $scope.practicasSelect = $scope.data.practicas;
             } else {
-                $scope.practicasSelect = $filter('filter')($scope.data.practicas, function(value){
+                $scope.practicasSelect = $filter('filter')($scope.data.practicas, function (value) {
                     return angular.equals(value.grupo.id, $scope.selectedGrupo.id);
                 })
             }
         }
     })
 
-    $scope.save = function()
-    {
-//        notification.showWidget();
+    $scope.save = function () {
         service.save($scope.trabajoPractico)
-            .success(function(data) {
+            .success(function (data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
-                notification.scrollTo('container');
-//                notification.hideWidget();
+                message.showMessage("Trabajo práctico modificado con éxito!");
+                $scope.goIndex();
             })
             .error(function (data) {
-//                notification.hideWidget();
-                notification.badArray(data, function() {});
+                message.showMessage("Error al modificar " + $scope.trabajoPractico.nombre);
             })
     };
 
-    $scope.goIndex = function() {
+    $scope.goIndex = function () {
         $state.go('^.index', {execQuery: false, execQuerySamePage: $scope.data.persistedOperation});
     };
 
-    $scope.reload = function() {
+    $scope.reload = function () {
         $rootScope.persistedOperation = $scope.data.persistedOperation;
         $state.go($state.current, {}, {reload: true});
     };
@@ -72,6 +70,5 @@ module.controller('TrabajoPracticoCtrl_Edit', ['$scope','$rootScope', 'TrabajoPr
                 delete $rootScope.persistedOperation;
             }
         });
-
 }]);
 

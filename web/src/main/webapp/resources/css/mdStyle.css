@@ -1,0 +1,79 @@
+.md-button-menu {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-transform: capitalize;
+}
+
+.md-button-profile {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-transform: lowercase;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(33, 33, 33);
+}
+
+md-input-container {
+    padding-bottom: 0
+}
+
+.muted {
+    color: #bbb;
+    font-weight: 500;
+    text-align: left;
+}
+
+.md-fab-offset {
+    margin-top: -30px;
+    margin-bottom: -28px;
+    float: right !important;
+}
+
+md-card {
+    background-color: #fff;
+}
+
+h2:first-of-type {
+    margin-top: 0;
+}
+
+.landing-page {
+    background-image: url('../img/bg.jpg');
+}
+
+.login-menu {
+    background-color: #E91E63;
+}
+
+md-content.md-default-theme {
+    background-color: #D4D4D4;
+}
+
+.md-avatar-login {
+    width: 40px;
+    height: 40px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    box-sizing: content-box;
+}
+
+.animate-show {
+    line-height: 20px;
+    opacity: 1;
+    padding: 10px;
+    background: white;
+}
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+    transition: all linear 0.3s;
+}
+
+.animate-show.ng-hide {
+    line-height: 0;
+    opacity: 0;
+    padding: 0 10px;
+}
