@@ -36,21 +36,6 @@ module.controller('UsuarioCtrl_Edit', ['$scope', '$rootScope', 'UsuarioSrv', '$s
         $state.go($state.current, {}, {reload: true});
     };
 
-    $scope.selectedItem = null;
-    $scope.searchText = null;
-    /**
-     * Return the proper object when the append is called.
-     */
-    function transformChip(chip) {
-        // If it is an object, it's already a known chip
-        if (angular.isObject(chip)) {
-            return chip;
-        }
-        // Otherwise, create a new one
-        return { name: chip, type: 'new' }
-    }
-
-
     $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {
             if (!angular.equals($state.current, toState)) {

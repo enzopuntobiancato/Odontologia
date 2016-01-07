@@ -1,0 +1,66 @@
+<md-dialog  ng-cloak>
+    <form name="deletePacienteForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Confirmar creación</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancelar()">
+                    <ng-md-icon icon="close" size="40" style="fill: white"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+            <div class="md-dialog-content">
+                <h2>¿Está seguro que quiere confirmar la creación de la asignación?</h2>
+                <p>
+                    Por favor, revise si los datos son correctos.
+                </p>
+                <md-list>
+                    <md-list-item class="md-2-line label-item-two-columns">
+                        <ng-md-icon icon="school" size="20"></ng-md-icon>
+                        <div class="md-list-item-text compact">
+                            <h3>{{ asignacion.alumno.apellido}}, {{ asignacion.alumno.nombre}}</h3>
+                            <p>Alumno</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line label-item-two-columns">
+                        <ng-md-icon icon="person" size="20"></ng-md-icon>
+                        <div class="md-list-item-text compact">
+                            <h3>{{ asignacion.paciente.apellido}}, {{ asignacion.paciente.nombre}}</h3>
+                            <p>Paciente</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+                <md-list>
+                    <md-list-item class="md-2-line label-item-two-columns">
+                        <ng-md-icon icon="work" size="20"></ng-md-icon>
+                        <div class="md-list-item-text compact">
+                            <h3>{{ asignacion.catedra.nombre}}</h3>
+                            <p>Cátedra</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line label-item-two-columns">
+                        <ng-md-icon icon="person" size="20"></ng-md-icon>
+                        <div class="md-list-item-text compact">
+                            <h3>{{ asignacion.trabajoPractico.denominacion }}</h3>
+                            <p>Trabajo práctico</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+                <md-list>
+                    <md-list-item class="md-2-line label-item-two-columns">
+                        <ng-md-icon icon="day" size="20"></ng-md-icon>
+                        <div class="md-list-item-text compact">
+                            <h3>{{ asignacion.fecha}} - {{ asignacion.hora }}</h3>
+                            <p>Fecha</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancelar()">Cancelar</md-button>
+            <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

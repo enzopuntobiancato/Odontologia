@@ -77,3 +77,39 @@ md-content.md-default-theme {
     opacity: 0;
     padding: 0 10px;
 }
+
+.label-item-two-columns{
+    box-sizing: border-box;
+    padding: 14px 0;
+    max-width: 190px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    float: left;
+    width: 50%;
+}
+.label-item-two-columns h3 {
+    margin: 0 !important;
+    padding: 0;
+    line-height: 1.2em !important; }
+
+
+.md-2-line ng-md-icon{
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    opacity: 0.5;
+}
+
+.edit-icon {
+}
+.compact {
+    padding-top: 8px;
+    padding-bottom: 8px; }
+
+md-whiteframe {
+    background: #fff;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+   }

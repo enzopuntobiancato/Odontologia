@@ -67,28 +67,14 @@
                             </md-input-container>
                         </div>
                         <div>
-                            <md-chips ng-model="usuario.roles" md-autocomplete-snap
-                                      md-transform-chip="transformChip($chip)"
-                                      md-require-match="true">
-                                <md-autocomplete
-                                        md-selected-item="selectedItem"
-                                        md-search-text="searchText"
-                                        md-items="rol in data.roles | filter:searchText"
-                                        md-item-text="rol.nombre"
-                                        md-min-length="1"
-                                        placeholder="Roles">
-                                    <md-item-template>
-                                        <span md-highlight-text="searchText"
-                                              md-highlight-flags="^i">{{rol.nombre}}</span>
-                                    </md-item-template>
-                                </md-autocomplete>
-
-                                <md-chip-template>
-                                    <span>
-                                      <strong>{{$chip.nombre}}</strong>
-                                    </span>
-                                </md-chip-template>
-                            </md-chips>
+                            <md-input-container>
+                                <label>Rol</label>
+                                <md-select required ng-model="usuario.roles" name="rol">
+                                    <md-option ng-repeat="rol in data.roles" ng-value="rol">
+                                        {{ rol.nombre }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
                         </div>
                         <div>
                             <md-input-container>
