@@ -8,6 +8,8 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,9 +30,12 @@ public class Rol extends EntityBase {
     public static final String AUTORIDAD = "AUTORIDAD";
 
     private String nombre;
+
     @JsonManagedReference
     @OneToMany(mappedBy="rol")
+    @NotNull(message = "Los privilegios no pueden ser nulos.")
     private List<Privilegio> privilegios;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private List<Usuario> usuarios;
@@ -90,7 +95,19 @@ public class Rol extends EntityBase {
 
     @Override
     public void validar() throws SAPOValidationException {
-        //To change body of implemented methods use File | Settings | File Templates.
+        HashMap<String, String> e = new HashMap<String, String>();
+
+        if(privilegios == null) {
+            e.put("Lista privilegios null", "La lista de privilegios no puede ser nula.");
+        }
+
+        if(privilegios.isEmpty()) {
+            e.put("Lista privilegios vacia", "La lista de privilegios no puede estar vacia.");
+        }
+
+        if(!e.isEmpty()) {
+            throw new SAPOValidationException(e);
+        }
     }
 
 }

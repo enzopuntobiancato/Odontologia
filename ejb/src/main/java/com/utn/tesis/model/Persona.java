@@ -53,7 +53,13 @@ public class Persona extends EntityBase {
     private Usuario usuario;
 
     @NotNull
+    @Temporal(TemporalType.DATE)
     private Calendar fechaCarga;
+
+    private Sexo sexo;
+
+    private Domicilio domicilio;
+
 
     public Persona() {
     }

@@ -19,26 +19,30 @@ import java.util.List;
 @Entity
 public class Usuario extends Bajeable {
 
-    @NotNull
-    @Size (max = 50)
+    @NotNull(message = "El nombre de usuario no puede ser nulo.")
+    @Size (max = 50, message = "El nombre de usuario debe tener entre 1 y 50 caracteres.")
     private String nombreUsuario;
-    @NotNull
-    @Size (max = 50)
+
+    @NotNull(message = "La contraseña de usuario no puede ser nula.")
+    @Size (max = 50, message = "La contraseña de usuario debe tener entre 1 y 50 caracteres.")
     private String contrasenia;
-    @NotNull
-    @Size (max = 70)
+
+    @NotNull(message = "El email del usuario no puede ser nulo.")
+    @Size (max = 70, message = "El email del usuario debe tener entre 1 y 70 caracteres.")
     private String email;
-    @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_x_rol",
-            joinColumns = {
-                    @JoinColumn(name = "usuario_id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "rol_id")})
-    private List<Rol> roles;
+
+    @ManyToOne
+    @JoinColumn(name = "rolId")
+    @NotNull(message = "El rol de usuario no puede ser nulo.")
+    private Rol rol;
+
+    @ManyToOne
+    @JoinColumn(name = "archivoId")
+    private Archivo imagen;
+
+
     private String authToken;
     private String authRol;
-    @OneToMany(targetEntity = Persona.class, mappedBy = "usuario", cascade = CascadeType.MERGE)
-    private List<Persona> personas;
 
     @Override
     public void validar() throws SAPOValidationException {
@@ -46,6 +50,10 @@ public class Usuario extends Bajeable {
 
         if (!RegexUtils.validateEmail(email)) {
             e.put("E-mail inválido", "Ingrese un e-mail válido.");
+        }
+
+        if(rol == null) {
+            e.put("Rol Null", "El rol no puede ser nulo.");
         }
 
         if(!e.isEmpty()) {
@@ -81,12 +89,12 @@ public class Usuario extends Bajeable {
     }
 
     @JsonMap(view = JsonMap.Public.class)
-    public List<Rol> getRoles() {
-        return roles;
+    public Rol getRol(){
+        return rol;
     }
 
-    public void setRoles(List<Rol> roles) {
-        this.roles = roles;
+    public void setRol(Rol r) {
+        this.rol = r;
     }
 
     @JsonMap(view = JsonMap.Internal.class)
@@ -107,13 +115,12 @@ public class Usuario extends Bajeable {
         this.authRol = authRol;
     }
 
-    @JsonMap(view = JsonMap.Internal.class)
-    public List<Persona> getPersonas() {
-        return personas;
+    public Archivo getImagen() {
+        return imagen;
     }
 
-    public void setPersonas(List<Persona> personas) {
-        this.personas = personas;
+    public void setImagen(Archivo imagen) {
+        this.imagen = imagen;
     }
 
     @Override
@@ -130,7 +137,7 @@ public class Usuario extends Bajeable {
         if (email != null ? !email.equals(usuario.email) : usuario.email != null) return false;
         if (nombreUsuario != null ? !nombreUsuario.equals(usuario.nombreUsuario) : usuario.nombreUsuario != null)
             return false;
-        if (roles != null ? !roles.equals(usuario.roles) : usuario.roles != null) return false;
+        if (rol != null ? !rol.equals(usuario.rol) : usuario.rol != null) return false;
 
         return true;
     }
