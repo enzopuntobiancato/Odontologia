@@ -3,8 +3,6 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.model.Persona;
-import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
 
@@ -12,7 +10,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,34 +63,11 @@ public class UsuarioService extends BaseService<Usuario> {
             entity.setContrasenia(EncryptionUtils.encryptMD5A2(entity.getContrasenia()));
         }
 
-        List<Rol> roles = new ArrayList<Rol>(entity.getRoles().size());
-        for (Rol rol : entity.getRoles()) {
-            roles.add(rolService.findById(rol.getId()));
-        }
-        entity.setRoles(roles);
         return super.create(entity);
     }
 
     public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
         return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
-    }
-
-    public List<Rol> getPersistedRoles(List<Rol> roles) {
-        List<Rol> result = new ArrayList<Rol>(roles.size());
-        for (Rol rol : roles) {
-            result.add(rolService.findById(rol.getId()));
-        }
-        return result;
-    }
-
-    public boolean isFirstLogin(Long usuarioId, Rol rol) {
-        boolean result = false;
-//        rol = rolService.findById(rol.getId());
-        if (rol.getPersonaAsociada() != null) {
-            Persona persona = dao.findPersonaAsociada(usuarioId, rol);
-            result = persona == null;
-        }
-        return result;
     }
 }
 

@@ -25,5 +25,11 @@ public enum FileExtension {
         public String toString() {
             return "PNG";
         }
+    },
+    PDF {
+        @Override
+        public String toString() {
+            return "PDF";
+        }
     };
 }

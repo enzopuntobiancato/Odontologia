@@ -16,34 +16,27 @@ public class Catedra extends Bajeable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull (message = "Debe ingresar una denominación.")
-    @Size (max = 10, message = "La denominacion no puede ser mayor a 10 caracteres.")
+    @NotNull(message = "La denominacion de la catedra no puede ser nula.")
+    @Size(max = 10, message = "La denominacion de la catedra no puede ser mayor a 10 caracteres.")
+    @Column(nullable = false, length = 10)
     private String denominacion;
 
-    @Size (max = 400, message = "La descripcion no puede ser mayor a 400 caracteres.")
+    @Size(max = 400, message = "La descripcion de la catedra no puede ser mayor a 400 caracteres.")
+    @Column(length = 400)
     private String descripcion;
 
     @JsonManagedReference
-    @NotNull (message = "Debe ingresar días y horarios.")
-    @OneToMany(targetEntity = DiaHorario.class, mappedBy = "catedra", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @NotNull(message = "Los horarios de la catedra no pueden ser nulos.")
+    @OneToMany(cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    @Size(min = 1)
     private List<DiaHorario> horarios;
 
-
-
     @ManyToOne
-    @JoinColumn(name = "materiaId")
-    @NotNull(message = "La catedra debe pertenecer a una materia.")
+    @NotNull(message = "La materia a la cual pertenece la catedra no puede ser nula.")
     private Materia materia;
 
-    @ManyToMany(mappedBy = "catedras")
-    private List<Profesor> profesores;
-
-    @ManyToMany
-    @JoinTable(name = "catedra_x_trabajo_practico",
-            joinColumns = {
-                    @JoinColumn(name = "catedra_id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "trabajo_practico_id")})
+    @OneToMany(fetch = FetchType.LAZY)
     private List<TrabajoPractico> trabajosPracticos;
 
     public Catedra() {
@@ -74,20 +67,22 @@ public class Catedra extends Bajeable {
         this.horarios = horarios;
     }
 
+    public boolean addHorarios(DiaHorario dh) {
+        if (horarios == null) return false;
+        return horarios.add(dh);
+    }
+
+    public boolean removeHorarios(DiaHorario dh) {
+        if (horarios == null) return false;
+        return horarios.remove(dh);
+    }
+
     public Materia getMateria() {
         return materia;
     }
 
     public void setMateria(Materia materia) {
         this.materia = materia;
-    }
-
-    public List<Profesor> getProfesores() {
-        return profesores;
-    }
-
-    public void setProfesores(List<Profesor> profesores) {
-        this.profesores = profesores;
     }
 
     public List<TrabajoPractico> getTrabajosPracticos() {
@@ -98,14 +93,24 @@ public class Catedra extends Bajeable {
         this.trabajosPracticos = trabajosPracticos;
     }
 
+    public boolean addTrabajoPractico(TrabajoPractico tp) {
+        if (trabajosPracticos == null) return false;
+        return trabajosPracticos.add(tp);
+    }
+
+    public boolean removeTrabajoPractico(TrabajoPractico tp) {
+        if (trabajosPracticos == null) return false;
+        return trabajosPracticos.remove(tp);
+    }
+
     @Override
     public void validar() throws SAPOValidationException {
         HashMap<String, String> e = new HashMap<String, String>();
-        if(horarios == null)
-           e.put("Null", "La lista de horarios no puede ser nula.");
-        if(horarios.isEmpty())
+        if (horarios == null)
+            e.put("Null", "La lista de horarios no puede ser nula.");
+        if (horarios.isEmpty())
             e.put("Empty", "La lista de horarios de la catedra no puede estar vacia.");
-        if(!e.isEmpty())
+        if (!e.isEmpty())
             throw new SAPOValidationException(e);
     }
 
@@ -122,7 +127,6 @@ public class Catedra extends Bajeable {
         if (descripcion != null ? !descripcion.equals(catedra.descripcion) : catedra.descripcion != null) return false;
         if (horarios != null ? !horarios.equals(catedra.horarios) : catedra.horarios != null) return false;
         if (materia != null ? !materia.equals(catedra.materia) : catedra.materia != null) return false;
-        if (profesores != null ? !profesores.equals(catedra.profesores) : catedra.profesores != null) return false;
         if (trabajosPracticos != null ? !trabajosPracticos.equals(catedra.trabajosPracticos) : catedra.trabajosPracticos != null)
             return false;
 
@@ -135,7 +139,6 @@ public class Catedra extends Bajeable {
         result = 31 * result + (denominacion != null ? denominacion.hashCode() : 0);
         result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
         result = 31 * result + (materia != null ? materia.hashCode() : 0);
-        result = 31 * result + (profesores != null ? profesores.hashCode() : 0);
         result = 31 * result + (trabajosPracticos != null ? trabajosPracticos.hashCode() : 0);
         return result;
     }

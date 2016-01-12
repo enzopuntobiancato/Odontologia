@@ -2,6 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,9 +13,11 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Funcionalidad extends EntityBase {
 
+    @Column(length = 255)
     private String nombre;
 
     // El estado asociado es el nombre del state de angular.
+    @Column(length = 255)
     private String estadoAsociado;
 
     @ManyToOne

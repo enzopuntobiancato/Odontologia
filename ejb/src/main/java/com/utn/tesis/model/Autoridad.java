@@ -1,7 +1,8 @@
 package com.utn.tesis.model;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,24 +14,18 @@ import javax.validation.constraints.Size;
 public class Autoridad extends Persona {
     private static final long serialVersionUID = 1L;
 
-    private String legajo;
-    @NotNull(message = "Debe ingresar un cargo.")
-    @Size(max = 50, message = "El cargo no puede ser mayor a 50 caracteres.")
-    private String cargo;
+    @NotNull(message = "El cargo no puede ser nulo.")
+    @Enumerated(EnumType.STRING)
+    private Cargo cargo;
 
-    public String getLegajo() {
-        return legajo;
+    public Autoridad() {
     }
 
-    public void setLegajo(String legajo) {
-        this.legajo = legajo;
-    }
-
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 }

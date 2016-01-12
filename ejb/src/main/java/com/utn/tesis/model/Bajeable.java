@@ -8,13 +8,13 @@ import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.util.FechaUtils;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.HashMap;
 
 /**
- *
  * @author Maxi
  */
 @MappedSuperclass
@@ -23,14 +23,15 @@ public abstract class Bajeable extends EntityBase {
     private int estadoAlta = ALTA;
 
     @Size(max = 150, message = "El motivoBaja de baja debe tener entre 0 y 150 caracteres.")
+    @Column(length = 150)
     private String motivoBaja;
 
     private Calendar fechaBaja;
 
     public static int ALTA = 1;
     public static int BAJA = 0;
-    
-    public void darDeAlta(){ 
+
+    public void darDeAlta() {
         estadoAlta = ALTA;
         fechaBaja = null;
         motivoBaja = null;

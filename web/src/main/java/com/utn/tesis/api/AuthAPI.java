@@ -34,12 +34,7 @@ public class AuthAPI {
     @POST
     @PermitAll
     public AuthAccessElement login(@Context HttpServletRequest request, AuthLoginElement loginElement) {
-        AuthAccessElement accessElement;
-        if (loginElement.getRol() == null) {
-            accessElement = authService.login(loginElement);
-        } else {
-            accessElement = authService.selectRol(loginElement, true);
-        }
+        AuthAccessElement accessElement = authService.login(loginElement);
 
         if (accessElement != null && accessElement.getAuthId() != null && accessElement.getAuthToken() != null) {
             request.getSession().setMaxInactiveInterval(15);

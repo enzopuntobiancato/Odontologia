@@ -4,14 +4,13 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.UsuarioService;
-import com.utn.tesis.util.Collections;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.Calendar;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,54 +19,43 @@ import java.util.logging.Logger;
  * Time: 22:42
  */
 @Stateless
+@Slf4j
 public class AuthService {
 
     @Inject
     UsuarioService usuarioService;
 
-    public AuthAccessElement login(AuthLoginElement loginElement) {
-        Usuario user = usuarioService.findByUserAndPassword(loginElement.getUsername(), loginElement.getPassword());
-        if (user != null) {
-            Collections.reload(user, 2);
-            if (user.getRoles().size() == 1) {
-                loginElement.setRol(user.getRoles().get(0));
-                return selectRol(loginElement, false);
-            } else {
-                return new AuthAccessElement(user.getRoles());
-            }
-        }
-        return null;
-    }
 
-    public AuthAccessElement selectRol(AuthLoginElement loginElement, boolean hasMoreRoles) {
+    public AuthAccessElement login(AuthLoginElement loginElement) {
+        AuthAccessElement authAccessElement = null;
         Usuario user = usuarioService.findByUserAndPassword(loginElement.getUsername(), loginElement.getPassword());
         if (user != null) {
-            Collections.reload(user, 2);
             user.setAuthToken(UUID.randomUUID().toString());
-            user.setAuthRol(loginElement.getRol().getNombre());
             try {
+                boolean firstLogin = user.getUltimaConexion() == null;
+                user.setUltimaConexion(firstLogin ? null : Calendar.getInstance());
                 usuarioService.update(user);
+                authAccessElement = new AuthAccessElement(user.getNombreUsuario(), user.getAuthToken(), user.getRol().toString(), user.getRol().getPrivilegios(), firstLogin);
             } catch (SAPOException e) {
-                Logger.getLogger(AuthService.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
-            boolean firstLogin = usuarioService.isFirstLogin(user.getId(), loginElement.getRol());
-            return new AuthAccessElement(loginElement.getUsername(), user.getAuthToken(), loginElement.getRol().toString(), loginElement.getRol().getPrivilegios(), hasMoreRoles, firstLogin, loginElement.getRol().getPersonaAsociada());
         }
-        return null;
+        return authAccessElement;
     }
 
     public boolean isAuthorized(String authId, String authToken, Set<String> rolesAllowed) {
         Usuario user = usuarioService.findByUsernameAndAuthToken(authId, authToken);
 
         if (user != null) {
-            if (user.getAuthRol().equals(Rol.ADMIN)) {
+            if (user.getRol().equals(Rol.ADMIN)) {
                 return true;
             } else {
-                return rolesAllowed.contains(user.getAuthRol());
+                return rolesAllowed.contains(user.getRol());
             }
         } else {
             return false;
         }
     }
+
 
 }

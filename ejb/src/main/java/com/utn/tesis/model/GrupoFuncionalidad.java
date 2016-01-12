@@ -2,6 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 public class GrupoFuncionalidad extends EntityBase {
 
     @NotNull
+    @Column(nullable = false, length = 255)
     private String nombre;
 
     public GrupoFuncionalidad() {

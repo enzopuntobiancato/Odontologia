@@ -7,8 +7,8 @@ import com.utn.tesis.util.RegexUtils;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,15 +20,18 @@ import java.util.List;
 public class Usuario extends Bajeable {
 
     @NotNull(message = "El nombre de usuario no puede ser nulo.")
-    @Size (max = 50, message = "El nombre de usuario debe tener entre 1 y 50 caracteres.")
+    @Size(max = 50, message = "El nombre de usuario debe tener entre 1 y 50 caracteres.")
+    @Column(nullable = false, length = 50)
     private String nombreUsuario;
 
     @NotNull(message = "La contraseña de usuario no puede ser nula.")
-    @Size (max = 50, message = "La contraseña de usuario debe tener entre 1 y 50 caracteres.")
+    @Size(max = 50, message = "La contraseña de usuario debe tener entre 1 y 50 caracteres.")
+    @Column(nullable = false, length = 50)
     private String contrasenia;
 
     @NotNull(message = "El email del usuario no puede ser nulo.")
-    @Size (max = 70, message = "El email del usuario debe tener entre 1 y 70 caracteres.")
+    @Size(max = 70, message = "El email del usuario debe tener entre 1 y 70 caracteres.")
+    @Column(nullable = false, length = 70)
     private String email;
 
     @ManyToOne
@@ -40,9 +43,11 @@ public class Usuario extends Bajeable {
     @JoinColumn(name = "archivoId")
     private Archivo imagen;
 
+    @Temporal(TemporalType.DATE)
+    private Calendar ultimaConexion;
 
+    // UUID que se genera cdo un usuario inicia sesión
     private String authToken;
-    private String authRol;
 
     @Override
     public void validar() throws SAPOValidationException {
@@ -52,11 +57,11 @@ public class Usuario extends Bajeable {
             e.put("E-mail inválido", "Ingrese un e-mail válido.");
         }
 
-        if(rol == null) {
+        if (rol == null) {
             e.put("Rol Null", "El rol no puede ser nulo.");
         }
 
-        if(!e.isEmpty()) {
+        if (!e.isEmpty()) {
             throw new SAPOValidationException(e);
         }
     }
@@ -89,7 +94,7 @@ public class Usuario extends Bajeable {
     }
 
     @JsonMap(view = JsonMap.Public.class)
-    public Rol getRol(){
+    public Rol getRol() {
         return rol;
     }
 
@@ -106,21 +111,20 @@ public class Usuario extends Bajeable {
         this.authToken = authToken;
     }
 
-    @JsonMap(view = JsonMap.Internal.class)
-    public String getAuthRol() {
-        return authRol;
-    }
-
-    public void setAuthRol(String authRol) {
-        this.authRol = authRol;
-    }
-
     public Archivo getImagen() {
         return imagen;
     }
 
     public void setImagen(Archivo imagen) {
         this.imagen = imagen;
+    }
+
+    public Calendar getUltimaConexion() {
+        return ultimaConexion;
+    }
+
+    public void setUltimaConexion(Calendar ultimaConexion) {
+        this.ultimaConexion = ultimaConexion;
     }
 
     @Override
@@ -131,8 +135,6 @@ public class Usuario extends Bajeable {
 
         Usuario usuario = (Usuario) o;
 
-        if (authRol != null ? !authRol.equals(usuario.authRol) : usuario.authRol != null) return false;
-        if (authToken != null ? !authToken.equals(usuario.authToken) : usuario.authToken != null) return false;
         if (contrasenia != null ? !contrasenia.equals(usuario.contrasenia) : usuario.contrasenia != null) return false;
         if (email != null ? !email.equals(usuario.email) : usuario.email != null) return false;
         if (nombreUsuario != null ? !nombreUsuario.equals(usuario.nombreUsuario) : usuario.nombreUsuario != null)
@@ -148,8 +150,6 @@ public class Usuario extends Bajeable {
         result = 31 * result + (nombreUsuario != null ? nombreUsuario.hashCode() : 0);
         result = 31 * result + (contrasenia != null ? contrasenia.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (authToken != null ? authToken.hashCode() : 0);
-        result = 31 * result + (authRol != null ? authRol.hashCode() : 0);
         return result;
     }
 }

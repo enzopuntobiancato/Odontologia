@@ -2,7 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -19,20 +19,24 @@ import javax.validation.constraints.Size;
 @Entity
 public class Domicilio extends EntityBase {
 
-    @NotNull
+    @NotNull(message = "El barrio no puede ser nulo.")
     @ManyToOne
     private Barrio barrio;
 
-    @NotNull
+    @NotNull(message = "El nombre de la calle no puede ser nulo.")
     @Size(max = 100, message = "La calle no puede ser mayor a 100 caracteres")
+    @Column(nullable = false, length = 100)
     private String calle;
 
     private int codigoPostal;
 
+    @Size(max = 50, message = "El departamento no puede ser mayor a 50 caracteres.")
+    @Column(length = 50)
     private String departamento;
 
-    @NotNull
-    @Size(max = 50, message = "El numero no puede ser mayor a 50 caracteres")
+    @NotNull(message = "La numeracion de la calle no puede ser nula.")
+    @Size(max = 50, message = "El numero no puede ser mayor a 50 caracteres.")
+    @Column(nullable = false, length = 50)
     private String numero;
 
     private int piso;
@@ -97,5 +101,36 @@ public class Domicilio extends EntityBase {
     @Override
     public void validar() throws SAPOValidationException {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Domicilio)) return false;
+        if (!super.equals(o)) return false;
+
+        Domicilio domicilio = (Domicilio) o;
+
+        if (codigoPostal != domicilio.codigoPostal) return false;
+        if (piso != domicilio.piso) return false;
+        if (barrio != null ? !barrio.equals(domicilio.barrio) : domicilio.barrio != null) return false;
+        if (calle != null ? !calle.equals(domicilio.calle) : domicilio.calle != null) return false;
+        if (departamento != null ? !departamento.equals(domicilio.departamento) : domicilio.departamento != null)
+            return false;
+        if (numero != null ? !numero.equals(domicilio.numero) : domicilio.numero != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (barrio != null ? barrio.hashCode() : 0);
+        result = 31 * result + (calle != null ? calle.hashCode() : 0);
+        result = 31 * result + codigoPostal;
+        result = 31 * result + (departamento != null ? departamento.hashCode() : 0);
+        result = 31 * result + (numero != null ? numero.hashCode() : 0);
+        result = 31 * result + piso;
+        return result;
     }
 }

@@ -10,11 +10,11 @@ import java.io.Serializable;
 
 @MappedSuperclass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize (include = JsonSerialize.Inclusion.NON_NULL)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public abstract class EntityBase implements Serializable, Validator {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Version
@@ -39,8 +39,8 @@ public abstract class EntityBase implements Serializable, Validator {
         this.version = version;
     }
 
-    public boolean isNew(){
-        if(id == null && version == null) {
+    public boolean isNew() {
+        if (id == null && version == null) {
             return true;
         }
         return false;

@@ -5,14 +5,13 @@
 package com.utn.tesis.mail;
 
 import javax.mail.MessagingException;
-import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Enzo
  */
+
 public class MailService implements Runnable {
 
     private Mail mail;

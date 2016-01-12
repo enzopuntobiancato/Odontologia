@@ -1,42 +1,48 @@
 package com.utn.tesis.model;
 
-public enum Nivel {
+/**
+ * Created with IntelliJ IDEA.
+ * User: Maxi
+ * Date: 11/01/16
+ * Time: 11:10
+ * To change this template use File | Settings | File Templates.
+ */
+public enum Cargo {
 
-    PRIMERO {
+    BEDEL {
         @Override
         public String toString() {
-            return "Primero";
+            return "Bedel";
         }
     },
-    SEGUNDO {
+    ACADEMICO {
         @Override
         public String toString() {
-            return "Segundo";
+            return "Academico";
         }
     },
-    TERCERO {
+    VICEDECANO {
         @Override
         public String toString() {
-            return "Tercero";
+            return "Vicedecano";
         }
     },
-    CUARTO {
+    DECANO {
         @Override
         public String toString() {
-            return "Cuarto";
+            return "Decano";
         }
     },
-    QUINTO {
+    DIRECTOR {
         @Override
         public String toString() {
-            return "Quinto";
+            return "Director";
         }
     },
-    SEXTO {
+    OTRO {
         @Override
         public String toString() {
-            return "Sexto";
+            return "Otro";
         }
     };
-
 }
