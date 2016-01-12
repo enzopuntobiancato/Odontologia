@@ -137,6 +137,17 @@ odontologiaApp.config(['$urlRouterProvider',
                     }]
                 }
             })
+            .state('persona',{
+                url: '/persona',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('personaModule')
+            })
+            .state('persona.firstLogin',{
+                url:'/firstLogin',
+                templateUrl: 'views/persona/firstLogin.html',
+                controller: 'PersonaCtrl_FirstLogin'
+            })
 
             .state('materia', {
                 url: '/materia',
@@ -456,6 +467,57 @@ odontologiaApp.config(['$urlRouterProvider',
                     }
                 }
             })
+            .state('paciente', {
+                url: '/paciente',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('pacienteModule')
+            })
+            .state('paciente.index', {
+                url: '/',
+                templateUrl: 'views/paciente/pacienteQuery.html',
+                params: {execQuery: false, execQuerySamePage: false},
+                controller: 'PacienteCtrl_Index',
+                resolve: {
+                    materiasResponse: ['loadMyModule', 'PacienteSrv', function(loadMyModule,service){
+                        return service.findAllMaterias();
+                    }],
+                    practicasResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
+                        return service.getPracticas();
+                    }]
+                }
+            })
+            .state('paciente.create', {
+                url: '/create',
+                templateUrl: 'views/paciente/pacienteCreate.html',
+                controller: 'PacienteCtrl_Create'
+            })
+            .state('paciente.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/paciente/pacienteEdit.html',
+                controller: 'PacienteCtrl_Edit'
+            })
+            .state('paciente.view',{
+                url: '/view/:id',
+                templateUrl:'views/paciente/pacienteView.html',
+                controller: 'PacienteCtrl_View'
+            })
+            .state('asignacion', {
+                url: '/asignacion',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('asignacionModule')
+            })
+            .state('asignacion.index',{
+                url: '/',
+                templateUrl: 'views/asignacion/asignacionQuery.html',
+                controller: 'AsignacionCtrl_Index'
+            })
+            .state('asignacion.create',{
+                url: '/create',
+                templateUrl: 'views/asignacion/asignacionCreate.html',
+                controller: 'AsignacionCtrl_Create'
+            })
         ;
 
         $ocLazyLoadProvider.config({
@@ -511,6 +573,30 @@ odontologiaApp.config(['$urlRouterProvider',
                         url('/usuario/usuarioCreateCtrl.js'),
                         url('/usuario/usuarioEditCtrl.js')
                     ]
+                },
+                {
+                    name: 'personaModule',
+                    files: [
+                        url('/persona/firstLoginCtrl.js')
+                    ]
+                },
+                {
+                    name: 'pacienteModule',
+                    files: [
+                        url('/paciente/pacienteSrv.js'),
+                        url('/paciente/pacienteIndexCtrl.js'),
+                        url('/paciente/pacienteCreateCtrl.js'),
+                        url('/paciente/pacienteEditCtrl.js'),
+                        url('/paciente/pacienteViewCtrl.js')
+                    ]
+                },
+                {
+                  name: 'asignacionModule',
+                  files: [
+                      url('/asignacion/asignacionSrv.js'),
+                      url('/asignacion/asignacionIndexCtrl.js'),
+                      url('/asignacion/asignacionCreateCtrl.js')
+                    ]
                 }
             ]
         });
@@ -524,6 +610,9 @@ angular.module('catedraModule', []);
 angular.module('trabajoPracticoModule', []);
 angular.module('usuarioModule', []);
 angular.module('sapo.login', []);
+angular.module('personaModule',[]);
+angular.module('pacienteModule',[]);
+angular.module('asignacionModule',[]);
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {

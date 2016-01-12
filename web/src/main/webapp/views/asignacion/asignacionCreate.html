@@ -1,0 +1,272 @@
+              <div layout="row" layout-align="center center">
+                <div layout="column" flex="80">
+                        <form name="createAsignacionForm" novalidate ng-submit="save()">
+                            <md-card class="md-whiteframe-z5">
+                                <md-toolbar class="md-accent">
+                                    <div class="md-toolbar-tools">
+                                        <span>Registrar nueva asignación</span>
+                                    </div>
+                                </md-toolbar>
+                                <md-card-content layout="row">
+                                <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="true" flex="40" layout-fill>
+                                    <md-content layout-padding>
+                                        <section id="buscarAlumno" ng-show="showSections[0]">
+                                            <p>Seleccione el alumno para crear la asignación</p>
+                                            <div layout="row" id="busquedaAlumno">
+                                                <md-input-container flex>
+                                                    <label>Nombre o número de documento</label>
+                                                    <input ng-model="filterAlumno.nombreAlumno" name="nombreAlumno" ng-keypress="keyboardOkAlumno($event)">
+                                                </md-input-container>
+                                                <div flex="50" layout="row" layout-align="start center">
+                                                    <md-button ng-click="consultarAlumno()" type="button">
+                                                        <md-tooltip>
+                                                            Buscar
+                                                        </md-tooltip>
+                                                        <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{colorIcon[0]}}"
+                                                                    ng-Mouseover="colorMouseOver(0)"
+                                                                    ng-mouseleave="colorMouseLeave(0)"></ng-md-icon>
+                                                    </md-button>
+                                                    <md-button ng-click="cleanFiltersAlumno()" type="button">
+                                                        <md-tooltip>
+                                                            Limpiar filtros
+                                                        </md-tooltip>
+                                                        <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{colorIcon[1]}}"
+                                                                    ng-Mouseover="colorMouseOver(1)"
+                                                                    ng-mouseleave="colorMouseLeave(1)"></ng-md-icon>
+                                                    </md-button>
+                                                </div>
+                                            </div>
+                                            <div id="resultadosAlumno">
+                                                <md-list ng-show="resultAlumnos.length > 0">
+                                                    <md-list-item ng-repeat="item in resultAlumnos" ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)"
+                                                                  ng-click="seleccionarAlumno(item)">
+                                                        <img alt="{{ item.apellido }}" ng-src="{{ item.img }}" class="md-avatar" />
+                                                        <p>{{ item.apellido }}, {{ item.nombre }} - {{ item.nroDocumento }}</p>
+                                                        <ng-md-icon  icon="check" size="24"
+                                                                     ng-attr-style="fill: {{colorIcon[2]}}" ng-Mouseover="colorMouseOver(2)"
+                                                                     ng-mouseleave="colorMouseLeave(2)" ng-show="item.showAction">
+                                                            <md-tooltip>
+                                                                Seleccionar
+                                                            </md-tooltip>
+                                                        </ng-md-icon>
+                                                        <md-divider md-inset ng-if="!$last"></md-divider>
+                                                    </md-list-item>
+                                                    <md-divider></md-divider>
+                                                    <md-list-item layout class="inset">
+                                                        <md-button layout layout-align="start center" flex ng-click="previousPage()"
+                                                                   ng-disabled="paginationData.firstPage">
+                                                            <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
+                                                            Anterior
+                                                        </md-button>
+                                                        <md-button layout layout-align="start center" flex ng-click="nextPage()"
+                                                                   ng-disabled="!paginationData.morePages">
+                                                            Siguiente
+                                                            <ng-md-icon icon="arrow_forward" style="fill: black"
+                                                                        ng-disabled="!paginationData.morePages"></ng-md-icon>
+                                                        </md-button>
+                                                    </md-list-item>
+                                                </md-list>
+                                                <div ng-show="!resultAlumnos.length">
+                                                    <h1 class="md-title">No hay resultados para mostrar.</h1>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <section id="buscarPaciente" ng-show="showSections[1]">
+                                            <p>Busque y seleccione el paciente para la práctica.</p>
+                                            <div layout="row">
+                                                <md-input-container flex>
+                                                    <label>Nombre o número de documento</label>
+                                                    <input ng-model="filterPaciente.denominacionPaciente" name="nombrePaciente" ng-keypress="keyboardOkAlumno($event)">
+                                                </md-input-container>
+                                                <div flex="50" layout="row" layout-align="start center">
+                                                    <md-button ng-click="consultarPaciente()" type="button">
+                                                        <md-tooltip>
+                                                            Buscar
+                                                        </md-tooltip>
+                                                        <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{colorIcon[3]}}"
+                                                                    ng-Mouseover="colorMouseOver(3)"
+                                                                    ng-mouseleave="colorMouseLeave(3)"></ng-md-icon>
+                                                    </md-button>
+                                                    <md-button ng-click="cleanFiltersPaciente()" type="button">
+                                                        <md-tooltip>
+                                                            Limpiar filtros
+                                                        </md-tooltip>
+                                                        <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{colorIcon[4]}}"
+                                                                    ng-Mouseover="colorMouseOver(4)"
+                                                                    ng-mouseleave="colorMouseLeave(4)"></ng-md-icon>
+                                                    </md-button>
+                                                </div>
+                                            </div>
+                                            <div layout="row">
+                                                <md-input-container flex>
+                                                    <md-select ng-model="asignacion.catedra" name="catedra" placeholder="Cátedra"
+                                                               ng-change="consultarCatedra()">
+                                                        <md-option ng-repeat="catedra in data.catedras" ng-value="{{ catedra}}">
+                                                            {{ catedra.nombre }}
+                                                        </md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                                <md-input-container flex>
+                                                    <md-select ng-model="asignacion.trabajoPractico" name="practica" placeholder="Trabajo práctico"
+                                                               ng-change="consultarPaciente()">
+                                                        <md-option ng-repeat="practica in data.practicas" ng-value="{{ practica}}">
+                                                            {{ practica.denominacion }}
+                                                        </md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+                                            <div id="resultadoPacientes">
+                                                <md-list ng-show="resultPacientes.length > 0">
+                                                    <md-list-item ng-repeat="item in resultPacientes" ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)"
+                                                                  ng-click="seleccionarPaciente(item)">
+                                                        <img alt="{{ item.apellido }}" ng-src="{{ item.img }}" class="md-avatar" />
+                                                        <p>{{ item.apellido }}, {{ item.nombre }} - {{ item.nroDocumento }}</p>
+                                                        <ng-md-icon  icon="check" size="24"
+                                                                     ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
+                                                                     ng-mouseleave="colorMouseLeave(5)" ng-show="item.showAction">
+                                                            <md-tooltip>
+                                                                Seleccionar
+                                                            </md-tooltip>
+                                                        </ng-md-icon>
+                                                        <md-divider md-inset ng-if="!$last"></md-divider>
+                                                    </md-list-item>
+                                                    <md-divider></md-divider>
+                                                    <md-list-item layout class="inset">
+                                                        <md-button layout layout-align="start center" flex ng-click="previousPage()"
+                                                                   ng-disabled="paginationData.firstPage">
+                                                            <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
+                                                            Anterior
+                                                        </md-button>
+                                                        <md-button layout layout-align="start center" flex ng-click="nextPage()"
+                                                                   ng-disabled="!paginationData.morePages">
+                                                            Siguiente
+                                                            <ng-md-icon icon="arrow_forward" style="fill: black"
+                                                                        ng-disabled="!paginationData.morePages"></ng-md-icon>
+                                                        </md-button>
+                                                    </md-list-item>
+                                                </md-list>
+                                                <div ng-show="!resultPacientes.length">
+                                                    <h1 class="md-title">No hay resultados para mostrar.</h1>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <section id="fecha" ng-show="showSections[2]">
+                                            <p>Agregue el día y horario pactados para la práctica.</p>
+                                            <md-datepicker ng-model="asignacion.fecha" md-placeholder="Fecha">
+                                            </md-datepicker>
+                                            <div layout="row">
+                                                <md-input-container flex>
+                                                    <label>Hora</label>
+                                                    <input type=time step=900 name="hora" ng-model="asignacion.hora" required="true">
+                                                    <div ng-messages="createAsignacionForm.hora.$error" role="alert">
+                                                        <div ng-message="required" class="my-message">El horario es un campo requerido.</div>
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+                                        </section>
+                                    </md-content>
+                                </md-sidenav>
+                                    <div flex="60" layout="column"> <!-- Principio panel derecho-->
+                                        <md-whiteframe class="md-whiteframe-z1" layout="column">
+                                            <section id="asignacionAlumno">
+                                                <md-subheader class="md-no-sticky">Alumno
+                                                </md-subheader>
+                                                <md-divider></md-divider>
+                                                <md-list>
+                                                    <md-list-item class="md-3-line">
+                                                        <img ng-src="{{asignacion.alumno.img}}" class="md-avatar" />
+                                                        <div class="md-list-item-text" layout="column">
+                                                            <h3>{{asignacion.alumno.apellido }}, {{ asignacion.alumno.nombre }} - ({{ asignacion.alumno.nroDocumento }})</h3>
+                                                            <h4>{{asignacion.alumno.celular }} - {{ asignacion.alumno.celular }}</h4>
+                                                            <p>{{asignacion.alumno.direccion }}</p>
+                                                        </div>
+                                                        <ng-md-icon  icon="edit" size="30" ng-attr-style="fill: {{colorIcon[6]}}"
+                                                                     ng-Mouseover="colorMouseOver(6)"
+                                                                     ng-mouseleave="colorMouseLeave(6)">
+                                                            <md-tooltip>
+                                                                Editar
+                                                            </md-tooltip>
+                                                        </ng-md-icon>
+                                                    </md-list-item>
+                                                </md-list>
+                                            </section>
+                                        </md-whiteframe>
+                                        <md-whiteframe class="md-whiteframe-z1" layout="column">
+                                            <section id="asignacionPaciente">
+                                                <md-subheader class="md-no-sticky">Paciente
+                                                </md-subheader>
+                                                <md-divider></md-divider>
+                                                <md-list>
+                                                    <md-list-item class="md-3-line">
+                                                        <img ng-src="{{asignacion.paciente.img}}" class="md-avatar"/>
+                                                        <div class="md-list-item-text" layout="column">
+                                                            <h3>{{asignacion.paciente.apellido }}, {{ asignacion.paciente.nombre }} - ({{ asignacion.paciente.nroDocumento }})</h3>
+                                                            <h4>{{asignacion.paciente.celular }} - {{ asignacion.paciente.celular }}</h4>
+                                                            <p>{{asignacion.paciente.direccion }}</p>
+                                                        </div>
+                                                        <ng-md-icon  icon="edit" size="30"  ng-attr-style="fill: {{colorIcon[7]}}"
+                                                                     ng-Mouseover="colorMouseOver(7)"
+                                                                     ng-mouseleave="colorMouseLeave(7)">
+                                                            <md-tooltip>
+                                                                Editar
+                                                            </md-tooltip>
+                                                        </ng-md-icon>
+                                                    </md-list-item>
+                                                </md-list>
+                                            </section>
+                                            <section id="asignacionCatedra">
+                                                <md-subheader class="md-no-sticky">Cátedra y trabajo práctico</md-subheader>
+                                                <md-list>
+                                                    <md-list-item class="md-2-line label-item-two-columns">
+                                                        <ng-md-icon icon="work" size="20"></ng-md-icon>
+                                                        <div class="md-list-item-text compact">
+                                                            <h3>{{ asignacion.catedra.nombre }}</h3>
+                                                            <p>Cátedra</p>
+                                                        </div>
+                                                    </md-list-item>
+                                                    <md-list-item class="md-2-line label-item-two-columns">
+                                                        <div class="md-list-item-text compact">
+                                                            <h3>{{ asignacion.trabajoPractico.denominacion }}</h3>
+                                                            <p>Trabajo práctico</p>
+                                                        </div>
+                                                    </md-list-item>
+                                                </md-list>
+                                            </section>
+                                            <section id="asignacionFechaHora">
+                                                <md-subheader class="md-no-sticky">Fecha y hora</md-subheader>
+                                                <md-divider></md-divider>
+                                                <md-list>
+                                                    <md-list-item class="md-2-line label-item-two-columns">
+                                                        <ng-md-icon icon="today" size="20"></ng-md-icon>
+                                                        <div class="md-list-item-text compact">
+                                                            <h3>{{ asignacion.fecha | date:"MM/dd/yyyy"}}</h3>
+                                                            <p>Fecha</p>
+                                                        </div>
+                                                    </md-list-item>
+                                                    <md-list-item class="md-2-line label-item-two-columns">
+                                                        <div class="md-list-item-text compact">
+                                                            <h3>{{ asignacion.hora | date:"hh:mm"}}</h3>
+                                                            <p>Hora</p>
+                                                        </div>
+                                                        <span flex></span>
+                                                        <ng-md-icon  icon="edit" size="30" class="edit-icon" ng-attr-style="fill: {{colorIcon[8]}}"
+                                                                     ng-Mouseover="colorMouseOver(8)"
+                                                                     ng-mouseleave="colorMouseLeave(8)">
+                                                            <md-tooltip>
+                                                                Editar
+                                                            </md-tooltip>
+                                                        </ng-md-icon>
+                                                    </md-list-item>
+                                                </md-list>
+                                            </section>
+                                        </md-whiteframe>
+                                        </div>
+                                </md-card-content>
+                                <md-card-actions layout="row" layout-align="end center">
+                                    <md-button ng-click="goIndex()">Cancelar</md-button>
+                                    <md-button ng-click="openConfirmDialog($ev, asignacion)" class="md-raised md-primary">Aceptar</md-button>
+                                </md-card-actions>
+                            </md-card>
+                        </form>
+                </div>
+              </div>
