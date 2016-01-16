@@ -51,10 +51,10 @@ public class AuthSecurityInterceptor implements ContainerRequestFilter {
         if (methodInvoked.isAnnotationPresent(RolesAllowed.class)) {
             RolesAllowed rolesAllowedAnnotation = methodInvoked.getAnnotation(RolesAllowed.class);
             Set<String> rolesAllowed = new HashSet<String>(Arrays.asList(rolesAllowedAnnotation.value()));
-
+/*
             if (!authService.isAuthorized(authId, authToken, rolesAllowed)) {
                 requestContext.abortWith(ACCESS_UNAUTHORIZED);
-            }
+            }*/
         }
     }
 }

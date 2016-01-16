@@ -1,7 +1,10 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.utn.tesis.model.*;
+import com.utn.tesis.model.Bajeable;
+import com.utn.tesis.model.QRol;
+import com.utn.tesis.model.QUsuario;
+import com.utn.tesis.model.Usuario;
 
 import java.util.List;
 
@@ -24,38 +27,13 @@ public class UsuarioDao extends DaoBase<Usuario> {
             query.where(usuario.email.startsWith(email));
         if (rolId != null) {
             QRol rol = QRol.rol;
-            query.join(usuario.roles, rol).where(rol.id.eq(rolId));
+            query.join(usuario.rol, rol).where(rol.id.eq(rolId));
         }
         if (!dadosBaja)
             query.where(usuario.fechaBaja.isNull());
 
         query = paginar(query, pageNumber, pageSize);
         return query.list(usuario);
-    }
-
-
-    public Persona findPersonaAsociada(Long usuarioId, Rol rol) {
-        QUsuario usuario = QUsuario.usuario;
-
-        JPAQuery query = new JPAQuery(em).from(usuario);
-        query.where(usuario.id.eq(usuarioId));
-        Usuario user = query.uniqueResult(usuario);
-
-        Persona persona = null;
-        if (rol.getPersonaAsociada() != null) {
-            List<Persona> personas = user.getPersonas();
-            for (Persona p: personas) {
-                try {
-                    if (p.getClass().equals(Class.forName(rol.getPersonaAsociada()))) {
-                        persona = p;
-                        break;
-                    }
-                } catch (ClassNotFoundException e) {
-                    persona = null;
-                }
-            }
-        }
-        return persona;
     }
 
     public Usuario findByUsernameAndPassword(String nombreUsuario, String contrasenia) {

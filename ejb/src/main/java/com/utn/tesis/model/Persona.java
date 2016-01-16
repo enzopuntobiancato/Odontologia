@@ -2,7 +2,6 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.exception.SAPOValidationException;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
@@ -10,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,28 +18,30 @@ import java.util.Date;
  */
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({@JsonSubTypes.Type(value = Alumno.class, name="com.utn.tesis.Alumno"),
-                @JsonSubTypes.Type(value = Profesor.class, name="com.utn.tesis.Profesor"),
-        @JsonSubTypes.Type(value = Responsable.class, name="com.utn.tesis.Responsable"),
-        @JsonSubTypes.Type(value = Autoridad.class, name="com.utn.tesis.Autoridad"),
-        @JsonSubTypes.Type(value = Persona.class, name="com.utn.tesis.Persona")})
-@Entity
+@JsonSubTypes({@JsonSubTypes.Type(value = Alumno.class, name = "com.utn.tesis.Alumno"),
+        @JsonSubTypes.Type(value = Profesor.class, name = "com.utn.tesis.Profesor"),
+        @JsonSubTypes.Type(value = ResponsableRecepcion.class, name = "com.utn.tesis.ResponsableRecepcion"),
+        @JsonSubTypes.Type(value = Autoridad.class, name = "com.utn.tesis.Autoridad"),
+        @JsonSubTypes.Type(value = Persona.class, name = "com.utn.tesis.Persona")})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Persona extends EntityBase {
+public abstract class Persona extends EntityBase {
     private static final long serialVersionUID = 1L;
 
     @Transient
     private String type;
 
-    @Size(max = 50, message = "El apellido no puede ser mayor a 50 caracteres.")
+    @Size(max = 75, message = "El apellido no puede ser mayor a 75 caracteres.")
     @NotNull(message = "Debe ingresar un apellido.")
+    @Column(nullable = false, length = 75)
     private String apellido;
 
-    @Size(max = 50, message = "El nombre no puede ser mayor a 50 caracteres")
+    @Size(max = 75, message = "El nombre no puede ser mayor a 75 caracteres")
     @NotNull(message = "Debe ingresar un nombre.")
+    @Column(nullable = false, length = 75)
     private String nombre;
 
     @Embedded
+    @NotNull(message = "El documento no puede ser nulo.")
     private Documento documento;
 
     @Temporal(TemporalType.DATE)
@@ -49,11 +49,19 @@ public class Persona extends EntityBase {
     private Calendar fechaNacimiento;
 
     @ManyToOne
-    @JoinColumn (name = "usuarioId")
+    @JoinColumn(name = "usuarioId")
     private Usuario usuario;
 
-    @NotNull
+    @NotNull(message = "La fecha de carga no puede ser nula.")
+    @Temporal(TemporalType.DATE)
     private Calendar fechaCarga;
+
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Domicilio domicilio;
+
 
     public Persona() {
     }
@@ -65,6 +73,7 @@ public class Persona extends EntityBase {
     public void setType(String type) {
         this.type = type;
     }
+
     @JsonMap(view = JsonMap.Public.class)
     public String getApellido() {
         return apellido;
@@ -73,6 +82,7 @@ public class Persona extends EntityBase {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
+
     @JsonMap(view = JsonMap.Public.class)
     public String getNombre() {
         return nombre;
@@ -81,6 +91,7 @@ public class Persona extends EntityBase {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     @JsonMap(view = JsonMap.Public.class)
     public Documento getDocumento() {
         return documento;
@@ -89,6 +100,7 @@ public class Persona extends EntityBase {
     public void setDocumento(Documento documento) {
         this.documento = documento;
     }
+
     @JsonMap(view = JsonMap.Public.class)
     public Calendar getFechaNacimiento() {
         return fechaNacimiento;
@@ -97,6 +109,7 @@ public class Persona extends EntityBase {
     public void setFechaNacimiento(Calendar fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
     @JsonMap(view = JsonMap.Internal.class)
     public Usuario getUsuario() {
         return usuario;
@@ -105,6 +118,7 @@ public class Persona extends EntityBase {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
     @JsonMap(view = JsonMap.Public.class)
     public Calendar getFechaCarga() {
         return fechaCarga;

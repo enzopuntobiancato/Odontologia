@@ -7,19 +7,25 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-// TABLA DEFINIDA. NO HAY ABM. SE MANTIENE POR DB.
+/**
+ * Created with IntelliJ IDEA.
+ * User: Maxi
+ * Date: 14/01/16
+ * Time: 10:48
+ * To change this template use File | Settings | File Templates.
+ */
 @Entity
-public class GrupoPracticaOdontologica extends EntityBase {
+public class Trabajo extends EntityBase {
 
-    @NotNull(message = "El nombre del grupo de practica odontologica no puede ser nulo.")
-    @Size(max = 50, message = "El nombre del grupo de la practica odontologica debe tener entre 0 y 50 caracteres.")
+    @NotNull(message = "El nombre del trabajo no puede ser nulo.")
+    @Size(max = 50, message = "El nombre del trabajo no puede superar los 50 caracteres.")
     @Column(nullable = false, length = 50)
     private String nombre;
 
-    public GrupoPracticaOdontologica() {
+    public Trabajo() {
     }
 
-    public GrupoPracticaOdontologica(String nombre) {
+    public Trabajo(String nombre) {
         this.nombre = nombre;
     }
 
@@ -34,12 +40,12 @@ public class GrupoPracticaOdontologica extends EntityBase {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GrupoPracticaOdontologica)) return false;
+        if (!(o instanceof Trabajo)) return false;
         if (!super.equals(o)) return false;
 
-        GrupoPracticaOdontologica that = (GrupoPracticaOdontologica) o;
+        Trabajo trabajo = (Trabajo) o;
 
-        if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
+        if (nombre != null ? !nombre.equals(trabajo.nombre) : trabajo.nombre != null) return false;
 
         return true;
     }

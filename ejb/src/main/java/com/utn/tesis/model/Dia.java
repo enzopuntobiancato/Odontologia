@@ -1,20 +1,47 @@
 package com.utn.tesis.model;
 
 public enum Dia {
-    LUNES("LUNES"),
-    MARTES("MARTES"),
-    MIERCOLES("MIÉRCOLES"),
-    JUEVES("JUEVES"),
-    VIERNES("VIERNES"),
-    SABADO("SÁBADO");
+    LUNES {
+        @Override
+        public String toString() {
+            return "Lunes";
+        }
+    },
+    MARTES {
+        @Override
+        public String toString() {
+            return "Martes";
+        }
+    },
+    MIERCOLES {
+        @Override
+        public String toString() {
+            return "Miercoles";
+        }
+    },
+    JUEVES {
+        @Override
+        public String toString() {
+            return "Jueves";
+        }
+    },
+    VIERNES {
+        @Override
+        public String toString() {
+            return "Viernes";
+        }
+    },
+    SABADO {
+        @Override
+        public String toString() {
+            return "Sabado";
+        }
+    },
+    DOMINGO {
+        @Override
+        public String toString() {
+            return "Domingo";
+        }
+    };
 
-    String showableName;
-
-    Dia(String showableName) {
-        this.showableName = showableName;
-    }
-
-    public String getShowableName() {
-        return showableName;
-    }
 }

@@ -7,8 +7,8 @@ import com.utn.tesis.util.RegexUtils;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,26 +19,35 @@ import java.util.List;
 @Entity
 public class Usuario extends Bajeable {
 
-    @NotNull
-    @Size (max = 50)
+    @NotNull(message = "El nombre de usuario no puede ser nulo.")
+    @Size(max = 50, message = "El nombre de usuario debe tener entre 1 y 50 caracteres.")
+    @Column(nullable = false, length = 50)
     private String nombreUsuario;
-    @NotNull
-    @Size (max = 50)
+
+    @NotNull(message = "La contraseña de usuario no puede ser nula.")
+    @Size(max = 50, message = "La contraseña de usuario debe tener entre 1 y 50 caracteres.")
+    @Column(nullable = false, length = 50)
     private String contrasenia;
-    @NotNull
-    @Size (max = 70)
+
+    @NotNull(message = "El email del usuario no puede ser nulo.")
+    @Size(max = 70, message = "El email del usuario debe tener entre 1 y 70 caracteres.")
+    @Column(nullable = false, length = 70)
     private String email;
-    @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_x_rol",
-            joinColumns = {
-                    @JoinColumn(name = "usuario_id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "rol_id")})
-    private List<Rol> roles;
+
+    @ManyToOne
+    @JoinColumn(name = "rolId")
+    @NotNull(message = "El rol de usuario no puede ser nulo.")
+    private Rol rol;
+
+    @ManyToOne
+    @JoinColumn(name = "archivoId")
+    private Archivo imagen;
+
+    @Temporal(TemporalType.DATE)
+    private Calendar ultimaConexion;
+
+    // UUID que se genera cdo un usuario inicia sesión
     private String authToken;
-    private String authRol;
-    @OneToMany(targetEntity = Persona.class, mappedBy = "usuario", cascade = CascadeType.MERGE)
-    private List<Persona> personas;
 
     @Override
     public void validar() throws SAPOValidationException {
@@ -48,7 +57,11 @@ public class Usuario extends Bajeable {
             e.put("E-mail inválido", "Ingrese un e-mail válido.");
         }
 
-        if(!e.isEmpty()) {
+        if (rol == null) {
+            e.put("Rol Null", "El rol no puede ser nulo.");
+        }
+
+        if (!e.isEmpty()) {
             throw new SAPOValidationException(e);
         }
     }
@@ -81,12 +94,12 @@ public class Usuario extends Bajeable {
     }
 
     @JsonMap(view = JsonMap.Public.class)
-    public List<Rol> getRoles() {
-        return roles;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setRoles(List<Rol> roles) {
-        this.roles = roles;
+    public void setRol(Rol r) {
+        this.rol = r;
     }
 
     @JsonMap(view = JsonMap.Internal.class)
@@ -98,22 +111,20 @@ public class Usuario extends Bajeable {
         this.authToken = authToken;
     }
 
-    @JsonMap(view = JsonMap.Internal.class)
-    public String getAuthRol() {
-        return authRol;
+    public Archivo getImagen() {
+        return imagen;
     }
 
-    public void setAuthRol(String authRol) {
-        this.authRol = authRol;
+    public void setImagen(Archivo imagen) {
+        this.imagen = imagen;
     }
 
-    @JsonMap(view = JsonMap.Internal.class)
-    public List<Persona> getPersonas() {
-        return personas;
+    public Calendar getUltimaConexion() {
+        return ultimaConexion;
     }
 
-    public void setPersonas(List<Persona> personas) {
-        this.personas = personas;
+    public void setUltimaConexion(Calendar ultimaConexion) {
+        this.ultimaConexion = ultimaConexion;
     }
 
     @Override
@@ -124,13 +135,11 @@ public class Usuario extends Bajeable {
 
         Usuario usuario = (Usuario) o;
 
-        if (authRol != null ? !authRol.equals(usuario.authRol) : usuario.authRol != null) return false;
-        if (authToken != null ? !authToken.equals(usuario.authToken) : usuario.authToken != null) return false;
         if (contrasenia != null ? !contrasenia.equals(usuario.contrasenia) : usuario.contrasenia != null) return false;
         if (email != null ? !email.equals(usuario.email) : usuario.email != null) return false;
         if (nombreUsuario != null ? !nombreUsuario.equals(usuario.nombreUsuario) : usuario.nombreUsuario != null)
             return false;
-        if (roles != null ? !roles.equals(usuario.roles) : usuario.roles != null) return false;
+        if (rol != null ? !rol.equals(usuario.rol) : usuario.rol != null) return false;
 
         return true;
     }
@@ -141,8 +150,6 @@ public class Usuario extends Bajeable {
         result = 31 * result + (nombreUsuario != null ? nombreUsuario.hashCode() : 0);
         result = 31 * result + (contrasenia != null ? contrasenia.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (authToken != null ? authToken.hashCode() : 0);
-        result = 31 * result + (authRol != null ? authRol.hashCode() : 0);
         return result;
     }
 }

@@ -17,12 +17,13 @@ import javax.validation.constraints.Size;
  */
 
 @Entity
-public class Materia extends Bajeable  {
+public class Materia extends Bajeable {
 
     private static final long serialVersionUID = 1L;
 
     @NotNull(message = "Debe ingresar un nombre.")
     @Size(max = 50, message = "El nombre debe tener entre 0 y 50 caracteres.")
+    @Column(nullable = false, length = 50)
     private String nombre;
 
     @NotNull(message = "Debe ingresar el nivel.")
@@ -30,6 +31,7 @@ public class Materia extends Bajeable  {
     private Nivel nivel;
 
     @Size(max = 400)
+    @Column(length = 400)
     private String descripcion;
 
     public String getNombre() {
@@ -68,7 +70,6 @@ public class Materia extends Bajeable  {
 
         Materia materia = (Materia) o;
 
-        if (descripcion != null ? !descripcion.equals(materia.descripcion) : materia.descripcion != null) return false;
         if (nivel != materia.nivel) return false;
         if (nombre != null ? !nombre.equals(materia.nombre) : materia.nombre != null) return false;
 
@@ -80,7 +81,6 @@ public class Materia extends Bajeable  {
         int result = super.hashCode();
         result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
         result = 31 * result + (nivel != null ? nivel.hashCode() : 0);
-        result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
         return result;
     }
 }

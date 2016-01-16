@@ -2,6 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,9 +16,11 @@ public class PracticaOdontologica extends Bajeable {
 
     @NotNull(message = "El nombre de la práctica no puede ser nulo.")
     @Size(max = 75, message = "El nombre de la práctica debe tener entre 0 y 75 caracteres.")
+    @Column(nullable = false, length = 75)
     private String denominacion;
 
     @Size(max = 200, message = "La observación de la práctica debe tener entre 0 y 200 caracteres.")
+    @Column(length = 200)
     private String observaciones;
 
     @ManyToOne

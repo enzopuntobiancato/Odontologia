@@ -2,6 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.annotation.JsonMap;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,10 +21,11 @@ public class Documento implements Serializable {
 
     @Size(max = 10, message = "El número de documento no puede ser mayor a 10 caracteres.")
     @NotNull(message = "Ingrese el número de documento.")
+    @Column(nullable = false, length = 10)
     private String numero;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Seleccione el tipo de documento.")
+    @NotNull(message = "El tipo de documento no puede ser nulo.")
     private TipoDocumento tipoDocumento;
 
     public Documento() {
@@ -33,6 +35,7 @@ public class Documento implements Serializable {
         this.numero = numero;
         this.tipoDocumento = tipo;
     }
+
     @JsonMap(view = JsonMap.Public.class)
     public String getNumero() {
         return numero;
@@ -41,6 +44,7 @@ public class Documento implements Serializable {
     public void setNumero(String numero) {
         this.numero = numero;
     }
+
     @JsonMap(view = JsonMap.Public.class)
     public TipoDocumento getTipoDocumento() {
         return tipoDocumento;

@@ -7,19 +7,26 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-// TABLA DEFINIDA. NO HAY ABM. SE MANTIENE POR DB.
-@Entity
-public class GrupoPracticaOdontologica extends EntityBase {
+/**
+ * Created with IntelliJ IDEA.
+ * User: Maxi
+ * Date: 07/01/16
+ * Time: 10:00
+ * To change this template use File | Settings | File Templates.
+ */
 
-    @NotNull(message = "El nombre del grupo de practica odontologica no puede ser nulo.")
-    @Size(max = 50, message = "El nombre del grupo de la practica odontologica debe tener entre 0 y 50 caracteres.")
+@Entity
+public class Provincia extends EntityBase {
+
+    @NotNull
+    @Size(max = 50, message = "El nombre de la provincia no puede ser mayor a 50 caracteres")
     @Column(nullable = false, length = 50)
     private String nombre;
 
-    public GrupoPracticaOdontologica() {
+    public Provincia() {
     }
 
-    public GrupoPracticaOdontologica(String nombre) {
+    public Provincia(String nombre) {
         this.nombre = nombre;
     }
 
@@ -32,14 +39,19 @@ public class GrupoPracticaOdontologica extends EntityBase {
     }
 
     @Override
+    public void validar() throws SAPOValidationException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GrupoPracticaOdontologica)) return false;
+        if (!(o instanceof Provincia)) return false;
         if (!super.equals(o)) return false;
 
-        GrupoPracticaOdontologica that = (GrupoPracticaOdontologica) o;
+        Provincia provincia = (Provincia) o;
 
-        if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
+        if (nombre != null ? !nombre.equals(provincia.nombre) : provincia.nombre != null) return false;
 
         return true;
     }
@@ -49,10 +61,5 @@ public class GrupoPracticaOdontologica extends EntityBase {
         int result = super.hashCode();
         result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public void validar() throws SAPOValidationException {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

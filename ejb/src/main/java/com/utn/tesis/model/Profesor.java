@@ -1,9 +1,10 @@
 package com.utn.tesis.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +17,19 @@ import java.util.List;
 @Entity
 public class Profesor extends Persona {
 
-    @ManyToMany
-    @JoinTable(name = "profesor_x_catedra",
-            joinColumns = {
-                    @JoinColumn(name = "profesor_id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "catedra_id")})
-     private List<Catedra> catedras;
+    @OneToMany
+    @NotNull(message = "La lista de catedras del profesor no puede ser nula.")
+    private List<Catedra> catedras;
+
+    private int legajo;
+
+    @Size(max = 25, message = "La matricula no puede tener mas de 25 caracteres")
+    @Column(length = 25)
+    private String matricula;
+
+    @Size(max = 75, message = "La profesion no puede tener mas de 75 caracteres.")
+    @Column(length = 75)
+    private String profesion;
 
     public Profesor() {
         this.catedras = new ArrayList<Catedra>();
@@ -34,6 +41,40 @@ public class Profesor extends Persona {
 
     public void setCatedras(List<Catedra> catedras) {
         this.catedras = catedras;
+    }
+
+    public boolean addCatedra(Catedra c) {
+        if (catedras == null) return false;
+        return catedras.add(c);
+    }
+
+    public boolean removeCatedra(Catedra c) {
+        if (catedras == null) return false;
+        return catedras.remove(c);
+    }
+
+    public int getLegajo() {
+        return legajo;
+    }
+
+    public void setLegajo(int legajo) {
+        this.legajo = legajo;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getProfesion() {
+        return profesion;
+    }
+
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.utn.tesis.service.authentication;
 
 import com.utn.tesis.model.Privilegio;
-import com.utn.tesis.model.Rol;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,28 +20,18 @@ public class AuthAccessElement implements Serializable {
     private String authToken;
     private String authPermission;
     private List<Privilegio> permission;
-    private boolean hasMoreRoles;
-    // Lista de roles utilizada cdo el usuario posee más de un rol y se envian para que seleccione uno
-    private List<Rol> roles;
     // Atributo que expone si el usuario ya completo sus datos de persona
     private boolean firstLogin;
-    private String typeOfPerson;
 
     public AuthAccessElement() {
     }
 
-    public AuthAccessElement(String authId, String authToken, String authPermission, List<Privilegio> permission, boolean hasMoreRoles, boolean firstLogin, String typeOfperson) {
+    public AuthAccessElement(String authId, String authToken, String authPermission, List<Privilegio> permission, boolean firstLogin) {
         this.authId = authId;
         this.authToken = authToken;
         this.authPermission = authPermission;
         this.permission = permission;
-        this.hasMoreRoles = hasMoreRoles;
         this.firstLogin = firstLogin;
-        this.typeOfPerson = typeOfperson;
-    }
-
-    public AuthAccessElement(List<Rol> roles) {
-        this.roles = roles;
     }
 
     public String getAuthId() {
@@ -77,35 +66,11 @@ public class AuthAccessElement implements Serializable {
         this.permission = permission;
     }
 
-    public boolean isHasMoreRoles() {
-        return hasMoreRoles;
-    }
-
-    public void setHasMoreRoles(boolean hasMoreRoles) {
-        this.hasMoreRoles = hasMoreRoles;
-    }
-
-    public List<Rol> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Rol> roles) {
-        this.roles = roles;
-    }
-
     public boolean isFirstLogin() {
         return firstLogin;
     }
 
     public void setFirstLogin(boolean firstLogin) {
         this.firstLogin = firstLogin;
-    }
-
-    public String getTypeOfPerson() {
-        return typeOfPerson;
-    }
-
-    public void setTypeOfPerson(String typeOfPerson) {
-        this.typeOfPerson = typeOfPerson;
     }
 }

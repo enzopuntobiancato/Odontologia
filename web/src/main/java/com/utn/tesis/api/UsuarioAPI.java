@@ -83,7 +83,6 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
 
         persistedEntity.setNombreUsuario(entity.getNombreUsuario());
         persistedEntity.setEmail(entity.getEmail());
-        persistedEntity.setRoles(usuarioService.getPersistedRoles(entity.getRoles()));
 
         if (entity.getContrasenia() != null) {
             try {

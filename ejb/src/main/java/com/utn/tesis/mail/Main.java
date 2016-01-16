@@ -19,27 +19,27 @@ public class Main {
     public static void main(String [ ] args)
     {
 
-//        ExecutorService executor = Executors.newFixedThreadPool(10);
-//
-//
-//        Alumno alumno = new Alumno();
-//
-//        RegisterMail mail = new RegisterMail(alumno);
-//        mail.buildMail();
-//
-//
-//
-//
-//        // for (int i = 0; i < 2; i++) {
-//            MailService newMail = new MailService(mail);
-//            executor.execute(newMail);
-//
-//         //   System.out.println("Mail " + i + " disparado.");
-//        System.out.println("Mail disparado.");
-//        //}
-//
-//
-//        System.out.println("Lalalalala");
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+
+        Alumno alumno = new Alumno();
+
+        RegisterMail mail = new RegisterMail(alumno);
+        mail.buildMail();
+
+
+
+
+         //for (int i = 0; i < 2; i++) {
+            MailService newMail = new MailService(mail);
+            executor.execute(newMail);
+
+        //   System.out.println("Mail " + i + " disparado.");
+        System.out.println("Mail disparado.");
+        //}
+
+
+        System.out.println("Lalalalala");
         try {
             System.out.println(EncryptionUtils.encryptMD5A1("admin"));
             System.out.println(EncryptionUtils.encryptMD5A1("123"));
@@ -50,6 +50,7 @@ public class Main {
         System.out.println(Alumno.class.getName());
         System.out.println(Alumno.class.getCanonicalName());
         System.out.println(Alumno.class.getSimpleName());
+
 
     }
     

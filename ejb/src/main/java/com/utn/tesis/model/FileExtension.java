@@ -1,42 +1,35 @@
 package com.utn.tesis.model;
 
-public enum Nivel {
+public enum FileExtension {
 
-    PRIMERO {
+    JPEG {
         @Override
         public String toString() {
-            return "Primero";
+            return "JPEG";
         }
     },
-    SEGUNDO {
+    JPG {
         @Override
         public String toString() {
-            return "Segundo";
+            return "JPG";
         }
     },
-    TERCERO {
+    BMP {
         @Override
         public String toString() {
-            return "Tercero";
+            return "BMP";
         }
     },
-    CUARTO {
+    PNG {
         @Override
         public String toString() {
-            return "Cuarto";
+            return "PNG";
         }
     },
-    QUINTO {
+    PDF {
         @Override
         public String toString() {
-            return "Quinto";
-        }
-    },
-    SEXTO {
-        @Override
-        public String toString() {
-            return "Sexto";
+            return "PDF";
         }
     };
-
 }

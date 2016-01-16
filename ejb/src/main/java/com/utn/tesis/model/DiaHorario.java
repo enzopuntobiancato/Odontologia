@@ -5,27 +5,31 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.util.Calendar;
 
 
 @Entity
 public class DiaHorario extends EntityBase {
     private static final long serialVersionUID = 1L;
 
-    @NotNull (message = "Debe seleccionar un dia de la semana")
+    @NotNull (message = "Debe seleccionar un día de la semana.")
     @Enumerated(EnumType.STRING)
     private Dia dia;
 
-    @NotNull (message = "Debe ingresar hora desde")
-    private Date horaDesde;
+    @NotNull (message = "Debe ingresar hora desde.")
+    private Calendar horaDesde;
 
-    @NotNull (message = "Debe ingresar hora hasta")
-    private Date horaHasta;
+    @NotNull (message = "Debe ingresar hora hasta.")
+    private Calendar horaHasta;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn (name = "catedraId")
-    private Catedra catedra;
+    public DiaHorario() {
+    }
+
+    public DiaHorario(Dia dia, Calendar horaDesde, Calendar horaHasta) {
+        this.dia = dia;
+        this.horaDesde = horaDesde;
+        this.horaHasta = horaHasta;
+    }
 
     public Dia getDia() {
         return dia;
@@ -35,29 +39,22 @@ public class DiaHorario extends EntityBase {
         this.dia = dia;
     }
 
-    public Date getHoraDesde() {
+    public Calendar getHoraDesde() {
         return horaDesde;
     }
 
-    public void setHoraDesde(Date horaDesde) {
+    public void setHoraDesde(Calendar horaDesde) {
         this.horaDesde = horaDesde;
     }
 
-    public Date getHoraHasta() {
+    public Calendar getHoraHasta() {
         return horaHasta;
     }
 
-    public void setHoraHasta(Date horaHasta) {
+    public void setHoraHasta(Calendar horaHasta) {
         this.horaHasta = horaHasta;
     }
 
-    public Catedra getCatedra() {
-        return catedra;
-    }
-
-    public void setCatedra(Catedra catedra) {
-        this.catedra = catedra;
-    }
 
     @Override
     public void validar() throws SAPOValidationException {
@@ -71,7 +68,6 @@ public class DiaHorario extends EntityBase {
 
         DiaHorario that = (DiaHorario) o;
 
-        if (!catedra.equals(that.catedra)) return false;
         if (dia != that.dia) return false;
         if (!horaDesde.equals(that.horaDesde)) return false;
         if (!horaHasta.equals(that.horaHasta)) return false;
@@ -85,7 +81,6 @@ public class DiaHorario extends EntityBase {
         result = 31 * result + dia.hashCode();
         result = 31 * result + horaDesde.hashCode();
         result = 31 * result + horaHasta.hashCode();
-        result = 31 * result + catedra.hashCode();
         return result;
     }
 }
