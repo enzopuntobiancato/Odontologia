@@ -10,49 +10,46 @@
             </div>
         </md-toolbar>
         <md-dialog-content style="max-width:800px;max-height:810px; ">
-            <div class="md-dialog-content">
+            <div class="md-dialog-content" layout="column">
                 <h2>¿Está seguro que quiere confirmar la creación de la asignación?</h2>
                 <p>
                     Por favor, revise si los datos son correctos.
                 </p>
                 <md-list>
-                    <md-list-item class="md-2-line label-item-two-columns">
+                    <md-list-item class="md-2-line label-item-three-columns">
                         <ng-md-icon icon="school" size="20"></ng-md-icon>
                         <div class="md-list-item-text compact">
-                            <h3>{{ asignacion.alumno.apellido}}, {{ asignacion.alumno.nombre}}</h3>
+                            <h4>{{ asignacion.alumno.apellido}}, {{ asignacion.alumno.nombre}}</h4>
                             <p>Alumno</p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line label-item-two-columns">
+                    <md-list-item class="md-2-line label-item-three-columns">
                         <ng-md-icon icon="person" size="20"></ng-md-icon>
                         <div class="md-list-item-text compact">
-                            <h3>{{ asignacion.paciente.apellido}}, {{ asignacion.paciente.nombre}}</h3>
+                            <h4>{{ asignacion.paciente.apellido}}, {{ asignacion.paciente.nombre}}</h4>
                             <p>Paciente</p>
                         </div>
                     </md-list-item>
+                    <md-list-item class="md-2-line label-item-three-columns">
+                        <ng-md-icon icon="today" size="20"></ng-md-icon>
+                        <div class="md-list-item-text compact">
+                            <h4>{{ asignacion.fecha  | date:"MM/dd/yyyy"}} - {{ asignacion.hora  | date:"hh:mm" }}</h4>
+                            <p>Fecha</p>
+                        </div>
+                    </md-list-item>
                 </md-list>
                 <md-list>
-                    <md-list-item class="md-2-line label-item-two-columns">
+                    <md-list-item class="md-2-line label-item-three-columns">
                         <ng-md-icon icon="work" size="20"></ng-md-icon>
                         <div class="md-list-item-text compact">
-                            <h3>{{ asignacion.catedra.nombre}}</h3>
+                            <h4>{{ asignacion.catedra.nombre}}</h4>
                             <p>Cátedra</p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line label-item-two-columns">
-                        <ng-md-icon icon="person" size="20"></ng-md-icon>
+                    <md-list-item class="md-2-line label-item-three-columns">
                         <div class="md-list-item-text compact">
-                            <h3>{{ asignacion.trabajoPractico.denominacion }}</h3>
+                            <h4>{{ asignacion.trabajoPractico.denominacion }}</h4>
                             <p>Trabajo práctico</p>
-                        </div>
-                    </md-list-item>
-                </md-list>
-                <md-list>
-                    <md-list-item class="md-2-line label-item-two-columns">
-                        <ng-md-icon icon="day" size="20"></ng-md-icon>
-                        <div class="md-list-item-text compact">
-                            <h3>{{ asignacion.fecha}} - {{ asignacion.hora }}</h3>
-                            <p>Fecha</p>
                         </div>
                     </md-list-item>
                 </md-list>

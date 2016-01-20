@@ -93,6 +93,21 @@ md-content.md-default-theme {
     padding: 0;
     line-height: 1.2em !important; }
 
+.label-item-three-columns{
+    box-sizing: border-box;
+    padding: 0;
+    max-width: 210px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    float: left;
+    width: 33%;
+}
+.label-item-three-columns h4 {
+    margin: 0 !important;
+    padding: 0;
+    line-height: 1.2em !important; }
+
 
 .md-2-line ng-md-icon{
     margin-top: 15px;
