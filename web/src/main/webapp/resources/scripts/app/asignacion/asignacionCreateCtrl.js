@@ -35,12 +35,6 @@
             $scope.showSections=[true,false,false];
             //Asignación a crer
             $scope.asignacion = {
-                alumno : {},
-                paciente : {},
-                fecha:'',
-                hora: '',
-                catedra: {},
-                trabajoPractico: {}
             }
 
             //Consultar
@@ -191,13 +185,30 @@
             //Seleccionar
             $scope.seleccionarAlumno = function(alumno){
                 $scope.asignacion.alumno = alumno;
-
                 $scope.showSections[0] = false;
                 $scope.showSections[1] = true;
             }
 
             $scope.seleccionarPaciente = function(paciente){
                 $scope.asignacion.paciente = paciente;
+                $scope.showSections[1] = false;
+                $scope.showSections[2] = true;
+            }
+
+            $scope.editarAlumno = function(){
+                $scope.showSections[0] = true;
+                $scope.showSections[1] = false;
+                $scope.showSections[2] = false;
+            }
+
+            $scope.editarPaciente = function(){
+                $scope.showSections[0] = false;
+                $scope.showSections[1] = true;
+                $scope.showSections[2] = false;
+            }
+
+            $scope.editarFecha = function(){
+                $scope.showSections[0] = false;
                 $scope.showSections[1] = false;
                 $scope.showSections[2] = true;
             }
@@ -215,12 +226,13 @@
             }
 
             //Diálogos
-            $scope.openConfirmDialog = function (ev, asignacion) {
+
+            $scope.openConfirmDialog = function() {
                 $mdDialog.show({
-                    templateUrl: 'views/asignacion/asignacionConfirmarCreacion.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
                     clickOutsideToClose: true,
+                    scope: $scope,        // use parent scope in template
+                    preserveScope: true,  // do not forget this if use parent scope
+                    templateUrl: 'views/asignacion/asignacionConfirmarCreacion.html',
                     controller: function DialogController($scope, $mdDialog) {
                         $scope.cancelar = function () {
                             $mdDialog.cancel();
@@ -229,16 +241,12 @@
                             $mdDialog.hide();
                         };
                     }
-                })
+                });
             };
 
             //Adicionales
             $scope.clickIcon = 'keyboard_arrow_right';
             $scope.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
-
-            $scope.mostrarSeccion = function(idSeccion, titulo){
-
-            };
 
             $scope.mostrarAcciones = function (item, icon) {
                 item.showAction = true;
