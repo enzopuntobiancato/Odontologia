@@ -23,7 +23,6 @@ public class MateriaAPI extends BaseAPI<Materia> {
     @Inject
     private MateriaService materiaService;
 
-
     @Override
     public BaseService<Materia> getEjbInstance() {
         return materiaService;
