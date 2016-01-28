@@ -6,7 +6,6 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
 
     $scope.filter = {};
     $scope.result = [];
-
     $scope.roles = rolesResponse.data;
 
     var cache = $cacheFactory.get('usuarioIndexCache') || $cacheFactory('usuarioIndexCache');
@@ -19,7 +18,6 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
 
     $scope.paginationData = pagination.paginationData;
 
-    executeQuery();
     function executeQuery(pageNumber) {
         pagination.paginate($scope.filter, pageNumber).then(function (data) {
             $scope.result = data;
@@ -134,6 +132,7 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
 
     }
 
+
     $scope.viewDetail = function (id) {
         $state.go('^.view', {id: id});
 
@@ -145,7 +144,12 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
 
     $scope.ocultarAcciones = function (item) {
         item.showAction = false;
-    }
+    };
+
+        $scope.seleccionarUsuario = function(item){
+            $scope.usuario = item;
+        }
+
 
     $scope.mostrarFiltros = false;
 
