@@ -1,8 +1,8 @@
 var module = angular.module('usuarioModule');
 
 
-module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '$state', 'MessageSrv', 'rolesResponse', '$mdDialog', 
-    function ($scope, $rootScope, service, $state, message, rolesResponse, $mdDialog) {
+module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '$state', 'MessageSrv', 'rolesResponse', 'tiposDocResponse', '$mdDialog',
+    function ($scope, $rootScope, service, $state, message, rolesResponse, tiposDocResponse) {
     $scope.usuario = {};
 
     $scope.data = {
@@ -10,6 +10,7 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
         persistedOperation: $rootScope.persistedOperation || false,
         saved: false,
         roles: rolesResponse.data,
+        tiposDoc: tiposDocResponse.data,
         sendEmail: true
     };
 
@@ -19,16 +20,16 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
-                $mdDialog.hide();
                 message.showMessage('Usuario ' + $scope.usuario.nombreUsuario +' creado');
                 $scope.goIndex();
             })
-            .error(function (data) {
+            .error(function (data, status) {
+                Console.log(status);
                 message.showMessage('No se pudo crear el usuario ' + $scope.usuario.nombreUsuario);
             })
     };
 
-    $scope.goIndex = function ($mdDialog) {
+    $scope.goIndex = function () {
         $state.go('^.index', {execQuery: $scope.data.persistedOperation});
     };
 

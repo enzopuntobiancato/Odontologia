@@ -1,16 +1,16 @@
 var module = angular.module('usuarioModule');
 
 
-module.controller('UsuarioCtrl_Edit', ['$scope', '$rootScope', 'UsuarioSrv', '$state', 'MessageSrv', 'rolesResponse', 'usuarioResponse', 
-    function ($scope, $rootScope, service, $state, message, rolesResponse, usuarioResponse) {
+module.controller('UsuarioCtrl_Edit', ['$scope', '$rootScope', 'UsuarioSrv', '$state', 'MessageSrv', 'rolesResponse', 'usuarioResponse', 'tiposDocResponse',
+    function ($scope, $rootScope, service, $state, message, rolesResponse, usuarioResponse, tiposDocResponse) {
     $scope.usuario = usuarioResponse.data;
-
     $scope.data = {
         disableFields: false,
         persistedOperation: $rootScope.persistedOperation || false,
         saved: false,
         roles: rolesResponse.data,
-        sendEmail: true
+        sendEmail: true,
+        tiposDoc: tiposDocResponse.data
     };
 
     $scope.save = function () {
