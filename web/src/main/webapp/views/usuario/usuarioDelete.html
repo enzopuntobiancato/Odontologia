@@ -1,16 +1,15 @@
-<md-dialog aria-label="Mango (Fruit)" ng-cloak>
+<md-dialog ng-cloak>
     <form name="deleteTrabajoPracticoForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>Dar de baja</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancelar()">
-                    <!--md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon-->
-                    <ng-md-icon icon="close" size="40" style="fill: white"></ng-md-icon>
+                    <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
                 </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content style="max-width:800px;max-height:810px; ">
+        <md-dialog-content>
             <div class="md-dialog-content">
                 <h2>Describa el motivo de la baja</h2>
                 <p>
@@ -31,10 +30,10 @@
                 </div>
             </div>
         </md-dialog-content>
-        <div class="md-actions" layout="row">
+        <md-dialog-actions layout="row">
             <span flex></span>
             <md-button ng-click="cancelar()">Cancelar</md-button>
-            <md-button type="submit" class="md-raised md-primary" ng-click="confirmar()">Aceptar</md-button>
-        </div>
+            <md-button type="submit" class="md-raised md-primary" ng-disabled="deleteTrabajoPracticoForm.$invalid" ng-click="confirmar()">Aceptar</md-button>
+        </md-dialog-actions>
     </form>
 </md-dialog>

@@ -1,5 +1,4 @@
-<div layout="row" layout-align="center center">
-  <div layout="column" flex="80">
+<md-content layout="column" layout-align="start center" class="md-main-content" flex>
           <form name="createAsignacionForm" novalidate ng-submit="save()">
               <md-card class="md-whiteframe-z5">
                   <md-toolbar class="md-accent">
@@ -165,7 +164,7 @@
                                                 </div>
                                             </section>
                                         </md-content>
-                                    </md-sidenav>
+                       </md-sidenav>
                       <div flex="60" layout="column"> <!-- Principio panel derecho-->
                                             <md-whiteframe class="md-whiteframe-z1" layout="column" ng-show="asignacion.alumno != undefined">
                                                 <section id="asignacionAlumno">
@@ -270,5 +269,4 @@
                   </md-card-actions>
               </md-card>
           </form>
-  </div>
-</div>
+         </md-content>

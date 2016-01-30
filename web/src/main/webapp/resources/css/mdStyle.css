@@ -1,23 +1,11 @@
 .md-button-menu {
-    margin-top: 0;
-    margin-bottom: 0;
-    text-transform: capitalize;
+    text-transform: none !important;
 }
 
 .md-button-profile {
-    margin-top: 0;
-    margin-bottom: 0;
-    text-transform: lowercase;
+    text-transform: lowercase !important;
 }
 
-a {
-    text-decoration: none;
-    color: rgb(33, 33, 33);
-}
-
-md-input-container {
-    padding-bottom: 0
-}
 
 .muted {
     color: #bbb;
@@ -31,13 +19,6 @@ md-input-container {
     float: right !important;
 }
 
-md-card {
-    background-color: #fff;
-}
-
-h2:first-of-type {
-    margin-top: 0;
-}
 
 .landing-page {
     background-image: url('../img/bg.jpg');
@@ -59,23 +40,6 @@ md-content.md-default-theme {
     margin-right: 5px;
     border-radius: 50%;
     box-sizing: content-box;
-}
-
-.animate-show {
-    line-height: 20px;
-    opacity: 1;
-    padding: 10px;
-    background: white;
-}
-
-.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
-    transition: all linear 0.3s;
-}
-
-.animate-show.ng-hide {
-    line-height: 0;
-    opacity: 0;
-    padding: 0 10px;
 }
 
 .label-item-two-columns{
@@ -116,8 +80,6 @@ md-content.md-default-theme {
     opacity: 0.5;
 }
 
-.edit-icon {
-}
 .compact {
     padding-top: 8px;
     padding-bottom: 8px; }
@@ -128,3 +90,129 @@ md-whiteframe {
     margin-right: 10px;
     margin-left: 10px;
    }
+
+.md-icon-view{
+    margin-left: 22px;
+    margin-top: 22px;
+    width: 30;
+    height: 30;
+    opacity: 0.5;
+}
+
+.md-input-container-view-icon{
+    margin: 15px;
+}
+
+.md-input-container-view-icon input{
+   width: 230px;
+   max-width: 235px;
+}
+
+.md-input-container-view-offset{
+    margin-left: 70px;
+}
+
+md-datepicker {
+    max-width: 100px;
+    min-width: 80px;
+}
+
+md-select {
+    display: block;
+    margin: 10px 0 8px 0;
+    padding-bottom: 2px;
+    position: relative;
+    width: 130px;
+    max-width: 140px;
+}
+
+#content{
+    background-color:#cbcbcb;
+}
+
+.md-main-content {
+    background-color: inherit;
+    max-width: 100%;
+    max-height: calc(100% - 56px);
+    height: 100%;
+    margin: 0px;
+}
+.md-main-content md-card{
+    background-color: #fff;
+    width: calc(100% - 90px);
+    height: auto;
+}
+/* when hiding the thing */
+.ng-hide-add         {
+    -webkit-animation: slideOutUp 0.1s;
+    -moz-animation: slideOutUp 0.1s;
+    -ms-animation: slideOutUp 0.1s;
+    animation: slideOutUp 0.1s;
+}
+
+/* when showing the thing */
+.ng-hide-remove      {
+    -webkit-animation: slideInDown 0.1s;
+    -moz-animation: slideInDown 0.1s;
+    -ms-animation: slideInDown 0.1s;
+    animation: slideInDown 0.1s;
+}
+
+.md-avatar-big {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-right: 20px;
+    border-radius: 50%;
+    box-sizing: content-box;
+    height: 80px;
+    width: 80px;
+}
+
+.md-dialog-content {
+    max-width:800px;
+    max-height:810px
+}
+
+.user-main > img {
+    margin: 24px;
+    width: 33%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    border: solid 3px #FFF;
+    display: inline-block;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.25);
+}
+.user-main > div {
+    padding-bottom: 10px;
+    margin-left: 24px;
+}
+
+.user-main {
+    padding-bottom: 24px;
+    background-color: #03A9F4;
+    color : #eeeeee;
+    height: 225px;
+}
+
+
+
+.md-button-profile {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-transform: lowercase;}
+
+body{overflow: hidden;}
+
+.md-menu-item > ng-md-icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.md-menu-item > a {
+    margin-left: 10px;
+    margin-top: 20px;
+}

@@ -435,6 +435,9 @@ odontologiaApp.config(['$urlRouterProvider',
                 resolve: {
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
+                    }],
+                    tiposDocResponse:['loadMyModule', 'CommonsSrv', function(loadMyModule, service){
+                        return service.getTiposDocumento();
                     }]
                 }
             })
@@ -448,6 +451,9 @@ odontologiaApp.config(['$urlRouterProvider',
                     }],
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
+                    }],
+                    tiposDocResponse:['loadMyModule', 'CommonsSrv', function(loadMyModule, service){
+                        return service.getTiposDocumento();
                     }]
                 }
             })
@@ -456,12 +462,11 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/usuario/usuarioView.html',
                 resolve: {
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
-                        return service.findById($stateParams.id);
+                       return service.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, usuarioResponse) {
                     $scope.usuario = usuarioResponse.data;
-
                     $scope.goIndex = function () {
                         $state.go('^.index');
                     }
