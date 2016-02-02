@@ -1,8 +1,11 @@
 package com.utn.tesis.mapping.dto;
 
+import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.model.Rol;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +18,15 @@ public class UsuarioLogueadoDTO extends BaseDTO {
 
     public static final String PARAM_AUTH_ID = "auth-id";
     public static final String PARAM_AUTH_TOKEN = "auth-token";
+
+    public static final Map<String, Class<? extends PersonaDTO>> rolToPerson = ImmutableMap.<String, Class<? extends PersonaDTO>>builder()
+            .put(Rol.ADMIN, AdministradorDTO.class)
+            .put(Rol.ADMIN_ACADEMICO, AdministradorAcademicoDTO.class)
+            .put(Rol.ALUMNO, AlumnoDTO.class)
+            .put(Rol.AUTORIDAD, AutoridadDTO.class)
+            .put(Rol.PROFESOR, ProfesorDTO.class)
+            .put(Rol.RESPONSABLE_RECEPCION_PACIENTES, ResponsableRecepcionDTO.class)
+            .build();
 
     private String nombreUsuario;
     private String authToken;

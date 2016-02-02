@@ -1,5 +1,6 @@
 package com.utn.tesis.api.commons;
 
+import com.utn.tesis.api.ObjectMapperProvider;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPORuntimeException;
 import com.utn.tesis.exception.SAPOValidationException;
@@ -180,8 +181,9 @@ public abstract class BaseAPI<T extends EntityBase> {
         try {
             InputPart object = objects.get(0);
             String json = object.getBody(String.class, null);
-            ObjectMapper mapper = new ObjectMapper();
-            result = mapper.readValue(json, objectType);
+            ObjectMapperProvider omp = new ObjectMapperProvider();
+            ObjectMapper om = omp.getContext(ObjectMapper.class);
+            result = om.readValue(json, objectType);
         } catch (IOException e) {
             throw new SAPORuntimeException("An error happened");
         }
