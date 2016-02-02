@@ -2,7 +2,10 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.api.commons.BaseAPI;
+import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mapping.dto.ArchivoDTO;
 import com.utn.tesis.mapping.dto.PersonaDTO;
+import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.Administrador;
 import com.utn.tesis.model.Archivo;
@@ -20,6 +23,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -50,22 +54,21 @@ public class PersonaAPI extends BaseAPI<Persona> {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/saveUserRelatedData")
-    public Response save(MultipartFormDataInput input) {
+    public Response save(MultipartFormDataInput input) throws SAPOException {
         Map<String, List<InputPart>> form = input.getFormDataMap();
-//        PersonaDTO person = (PersonaDTO) retrieveObject(form, "persona", PersonaDTO.class);
-//        Usuario user = person.getUsuario();
-//        person.setUsuario(usuarioService.findByUsernameAndAuthToken(user.getNombreUsuario(), user.getAuthToken()));
+        UsuarioLogueadoDTO usuario = (UsuarioLogueadoDTO) retrieveObject(form, "usuario", UsuarioLogueadoDTO.class);
+        PersonaDTO person = (PersonaDTO) retrieveObject(form, "persona", UsuarioLogueadoDTO.rolToPerson.get(usuario.getRol().toUpperCase()));
+
         Map<String, Object> file = retrieveFile(form, "file");
+        ArchivoDTO imagenUsuario = null;
         if (file != null) {
-            Archivo archivo = new Archivo();
-            archivo.setExtension((FileExtension) file.get(EXTENSION));
-            archivo.setNombre((String) file.get(NAME));
-//            archivo.setFile((InputStream) file.get(FILE));
-//            person.getUsuario().setImagenUsuario(archivo);
+            imagenUsuario = new ArchivoDTO();
+            imagenUsuario.setFileExtension((FileExtension) file.get(EXTENSION));
+            imagenUsuario.setNombre((String) file.get(NAME));
+            imagenUsuario.setArchivo((InputStream) file.get(FILE));
         }
-        returningView = JsonMap.Public.class;
-//        return super.save(person);
-        return null;
+        personaService.update(person, imagenUsuario);
+        return Response.status(Response.Status.OK).build();
     }
 
     @Path("/findByUser")

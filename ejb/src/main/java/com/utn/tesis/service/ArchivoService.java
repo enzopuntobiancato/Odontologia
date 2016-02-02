@@ -5,6 +5,8 @@ import com.utn.tesis.data.daos.ArchivoDao;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPORuntimeException;
+import com.utn.tesis.mapping.dto.ArchivoDTO;
+import com.utn.tesis.mapping.mapper.ArchivoMapper;
 import com.utn.tesis.model.Archivo;
 import com.utn.tesis.model.FileExtension;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,8 @@ public class ArchivoService extends BaseService<Archivo> {
     private ArchivoDao archivoDao;
     @Inject
     private Validator validator;
+    @Inject
+    private ArchivoMapper archivoMapper;
 
     @Override
     DaoBase<Archivo> getDao() {
@@ -43,10 +47,11 @@ public class ArchivoService extends BaseService<Archivo> {
         return this.validator;
     }
 
-    @Override
-    public Archivo save(Archivo entity) throws SAPOException {
-        saveToDisk(entity);
-        return super.save(entity);
+    public Archivo save(ArchivoDTO dto) throws SAPOException {
+        Archivo archivo = dto.getId() != null ? this.findById(dto.getId()) : new Archivo();
+        archivoMapper.updateFromDTO(dto, archivo);
+        archivo.setRuta(this.saveToDisk(dto.getArchivo(), dto.getFileExtension()));
+        return this.save(archivo);
     }
 
     public String saveToDisk(@Nonnull InputStream uploadedInputStream, @Nonnull FileExtension extension) throws SAPORuntimeException {
@@ -73,9 +78,13 @@ public class ArchivoService extends BaseService<Archivo> {
         }
     }
 
-    public Archivo saveToDisk(@Nonnull Archivo archivo) {
-        Preconditions.checkNotNull(archivo);
-//        archivo.setRuta(this.saveToDisk(archivo.getFile(), archivo.getExtension()));
-        return archivo;
+    public ArchivoDTO findArchivo(Long id) throws FileNotFoundException {
+        Archivo entity = this.findById(id);
+        ArchivoDTO dto = null;
+        if (entity != null) {
+            dto = archivoMapper.toDTO(entity);
+            dto.setArchivo(new FileInputStream(entity.getRuta()));
+        }
+        return dto;
     }
 }

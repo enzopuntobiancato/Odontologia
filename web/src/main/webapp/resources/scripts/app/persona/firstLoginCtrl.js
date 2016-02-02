@@ -25,8 +25,8 @@ module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope', '$state', '
         function save() {
             Upload.upload({
                 url: 'api/persona/saveUserRelatedData',
-                data: {file: vm.file, persona: Upload.json(vm.persona)}
-            }).then(function (response) {
+                data: {file: vm.file, usuario: Upload.json(vm.usuario), persona: Upload.json(vm.persona)}
+            }).then(function () {
                     vm.usuario.firstLogin = false;
                     authFactory.setAuthData(vm.usuario);
                     authFactory.communicateAuthChanged();

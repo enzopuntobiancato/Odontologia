@@ -3,7 +3,10 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.PersonaDao;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mapping.dto.*;
+import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.Persona;
+import com.utn.tesis.model.Usuario;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,13 +22,19 @@ import java.util.Calendar;
 public class PersonaService extends BaseService<Persona> {
 
     @Inject
-    PersonaDao dao;
+    private PersonaDao dao;
 
     @Inject
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
     @Inject
-    Validator validator;
+    private Validator validator;
+
+    @Inject
+    private PersonaMapper personaMapper;
+
+    @Inject
+    private ArchivoService archivoService;
 
     @Override
     DaoBase<Persona> getDao() {
@@ -43,4 +52,13 @@ public class PersonaService extends BaseService<Persona> {
         entity.setFechaCarga(Calendar.getInstance());
         return super.create(entity);
     }
+
+    public void update(PersonaDTO persona, ArchivoDTO imagen) throws SAPOException {
+        Persona personaEntity = this.findById(persona.getId());
+        personaMapper.updateFromDTO(persona, personaEntity);
+
+        personaEntity.getUsuario().setImagen(archivoService.save(imagen));
+        this.save(personaEntity);
+    }
+
 }
