@@ -13,8 +13,14 @@ import java.util.Calendar;
  * Date: 19/05/15
  * Time: 23:13
  */
+@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Persona extends EntityBase {
+public abstract class Persona extends SuperEntityBase {
+
+    @TableGenerator(name = "PERSON_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "PERSON_GEN")
+    private Long id;
 
     @Size(max = 75, message = "El apellido no puede ser mayor a 75 caracteres.")
     @NotNull(message = "Debe ingresar un apellido.")
@@ -31,7 +37,6 @@ public abstract class Persona extends EntityBase {
     private Documento documento;
 
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "Debe ingresar una fecha de nacimiento.")
     private Calendar fechaNacimiento;
 
     @ManyToOne
@@ -46,6 +51,15 @@ public abstract class Persona extends EntityBase {
     private Sexo sexo;
 
     public Persona() {
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getApellido() {

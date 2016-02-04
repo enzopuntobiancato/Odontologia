@@ -18,9 +18,11 @@
 </head>
 <body ng-controller="AppController" layout="column">
 <div layout="row" flex>
-    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"  md-is-locked-open="$mdMedia('gt-sm')">
+    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')">
         <div flex="initial" class="user-main">
-            <img ng-src="https://s3-eu-west-1.amazonaws.com/vegebase/codepen/img/monkey_avatar_portrait_small.jpeg" alt="avatar" class="md-avatar">
+            <img ng-src="https://s3-eu-west-1.amazonaws.com/vegebase/codepen/img/monkey_avatar_portrait_small.jpeg"
+                 alt="avatar" class="md-avatar">
 
             <div>S.A.P.O.</div>
         </div>
@@ -31,16 +33,16 @@
                     <md-button ui-sref="materia.index">Materia</md-button>
                 </md-list-item>
                 <md-list-item class="md-menu-item">
-                                <ng-md-icon icon="work"></ng-md-icon>
-                                <md-button ui-sref="trabajoPractico.index">Trabajo práctico</md-button>
+                    <ng-md-icon icon="work"></ng-md-icon>
+                    <md-button ui-sref="trabajoPractico.index">Trabajo práctico</md-button>
                 </md-list-item>
                 <md-list-item class="md-menu-item">
-                                <ng-md-icon icon="person"></ng-md-icon>
-                                <md-button ui-sref="usuario.index">Usuario</md-button>
+                    <ng-md-icon icon="person"></ng-md-icon>
+                    <md-button ui-sref="usuario.index">Usuario</md-button>
                 </md-list-item>
                 <md-list-item class="md-menu-item">
-                                <ng-md-icon icon="account_balance"></ng-md-icon>
-                                <md-button ui-sref="catedra.index">Cátedra</md-button>
+                    <ng-md-icon icon="account_balance"></ng-md-icon>
+                    <md-button ui-sref="catedra.index">Cátedra</md-button>
                 </md-list-item>
             </md-list>
         </md-content>
@@ -53,7 +55,8 @@
                 </md-button>
                 <span>S.A.P.O.</span>
                 <span flex></span>
-                <img ng-src="http://www.emotiyou.es/galerie/films/action/batman/201101191527UNP.gif" class="md-avatar-login">
+                <img ng-src="http://www.emotiyou.es/galerie/films/action/batman/201101191527UNP.gif"
+                     class="md-avatar-login">
                 <md-menu>
                     <!-- Trigger element is a md-button with an icon -->
                     <md-button ng-click="$mdOpenMenu($event)" class="md-button-profile">
@@ -62,20 +65,20 @@
                     <md-menu-content width="4">
                         <md-menu-item>
                             <md-button>
-                                <ng-md-icon icon="edit" ></ng-md-icon>
+                                <ng-md-icon icon="edit"></ng-md-icon>
                                 Editar perfil
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
                             <md-button>
-                                <ng-md-icon icon="security" ></ng-md-icon>
+                                <ng-md-icon icon="security"></ng-md-icon>
                                 Cambiar contraseña
                             </md-button>
                         </md-menu-item>
                         <md-menu-divider></md-menu-divider>
                         <md-menu-item>
                             <md-button>
-                                <ng-md-icon icon="logout" ></ng-md-icon>
+                                <ng-md-icon icon="logout"></ng-md-icon>
                                 Cerrar sesión
                             </md-button>
                         </md-menu-item>
@@ -93,7 +96,8 @@
 <!--LIBRARIES-->
 <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-animate.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-animate.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-messages.js"></script>
@@ -122,6 +126,14 @@
 <script type="text/javascript" src="resources/scripts/app/ngutils/directives.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/services.js"></script>
 <script type="text/javascript" src="resources/scripts/app.js"></script>
+
+<script type="text/ng-template" id="error-messages">
+    <div ng-message="required">Es obligatorio.</div>
+    <div ng-message="email">No tiene formato de e-mail.</div>
+    <div ng-message="valid">No tiene formato de fecha.</div>
+    <div ng-message="md-maxlength">Ingresó más caracteres de los permitidos.</div>
+    <div ng-message="pattern">Solo se permiten números.</div>
+</script>
 </body>
 
 

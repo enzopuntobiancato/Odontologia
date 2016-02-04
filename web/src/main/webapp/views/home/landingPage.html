@@ -1,6 +1,6 @@
 <md-content layout-fill flex layout="row" class="landing-page"
             layout-align="center center">
-    <form ng-submit="vm.login(vm.user, loginForm.$valid)" name="loginForm" novalidate="true">
+    <form ng-submit="vm.login(loginForm)" name="loginForm" novalidate="true">
         <md-card class="md-whiteframe-z5">
             <md-toolbar class="md-tall md-accent">
                 <h2 class="md-toolbar-tools">
@@ -12,16 +12,16 @@
                     <label>Usuario</label>
                     <input required type="text" name="username" ng-model="vm.user.username">
 
-                    <div ng-messages="loginForm.username.$error">
-                        <div ng-message="required">El nombre de usuario es obligatorio.</div>
+                    <div ng-messages="loginForm.username.$error" ng-show="loginForm.username.$touched">
+                        <div ng-messages-include="error-messages"></div>
                     </div>
                 </md-input-container>
                 <md-input-container>
                     <label>Contraseña</label>
                     <input required name="password" type="password" ng-model="vm.user.password">
 
-                    <div ng-messages="loginForm.password.$error">
-                        <div ng-message="required">La contraseña es obligatoria.</div>
+                    <div ng-messages="loginForm.password.$error" ng-show="loginForm.password.$touched">
+                        <div ng-messages-include="error-messages"></div>
                     </div>
                 </md-input-container>
                 <md-input-container>

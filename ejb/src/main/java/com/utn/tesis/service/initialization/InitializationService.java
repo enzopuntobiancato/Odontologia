@@ -10,6 +10,7 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class InitializationService {
     private UsuarioService usuarioService;
     @Inject
     private RolService rolService;
+    @Inject
+    private PersonaService personaService;
 
     private final ArrayList<GrupoPracticaOdontologica> grupoPracticaOdontologicasList = new ArrayList<GrupoPracticaOdontologica>();
     private final ArrayList<PracticaOdontologica> PracticaOdontologicasList = new ArrayList<PracticaOdontologica>();
@@ -229,6 +232,42 @@ public class InitializationService {
         tp6.setPracticaOdontologica(PracticaOdontologicasList.get(3));
 
         trabajoPracticoService.create(tp6);
+    }
+
+    @RunOnInit(order = 5)
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    private void cargarPersonaAUsuario() throws SAPOException {
+        Usuario usuario = usuarioService.findById(1L);
+
+        Persona persona = new Administrador();
+        persona.setNombre("Enzo");
+        persona.setApellido("Biancato");
+        persona.setFechaCarga(Calendar.getInstance());
+        persona.setDocumento(new Documento("34880696", TipoDocumento.DNI));
+        persona.setUsuario(usuario);
+
+        personaService.create(persona);
+
+        Usuario usuario2 = usuarioService.findById(2L);
+
+        Persona persona2 = new Administrador();
+        persona2.setNombre("Carlos");
+        persona2.setApellido("Bianchi");
+        persona2.setFechaCarga(Calendar.getInstance());
+        persona2.setDocumento(new Documento("11116591", TipoDocumento.DNI));
+        persona2.setUsuario(usuario2);
+
+        personaService.create(persona2);
+
+        Alumno persona3 = new Alumno();
+        persona3.setNombre("Carlos");
+        persona3.setApellido("Biancato");
+        persona3.setFechaCarga(Calendar.getInstance());
+        persona3.setDocumento(new Documento("11116591", TipoDocumento.DNI));
+        persona3.setUsuario(usuario2);
+        persona3.setLegajo("54452");
+
+        personaService.create(persona3);
     }
 
 }

@@ -2,7 +2,7 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.Bajeable;
-import com.utn.tesis.model.EntityBase;
+import com.utn.tesis.model.SuperEntityBase;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public abstract class DaoBase<E extends EntityBase> {
+public abstract class DaoBase<E extends SuperEntityBase> {
 
 
     @PersistenceContext(unitName = "primary")

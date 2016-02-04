@@ -1,14 +1,11 @@
 package com.utn.tesis.api;
 
-import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.ArchivoDTO;
 import com.utn.tesis.mapping.dto.PersonaDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
-import com.utn.tesis.model.Administrador;
-import com.utn.tesis.model.Archivo;
 import com.utn.tesis.model.FileExtension;
 import com.utn.tesis.model.Persona;
 import com.utn.tesis.service.BaseService;
@@ -24,7 +21,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +59,7 @@ public class PersonaAPI extends BaseAPI<Persona> {
         ArchivoDTO imagenUsuario = null;
         if (file != null) {
             imagenUsuario = new ArchivoDTO();
-            imagenUsuario.setFileExtension((FileExtension) file.get(EXTENSION));
+            imagenUsuario.setExtension((FileExtension) file.get(EXTENSION));
             imagenUsuario.setNombre((String) file.get(NAME));
             imagenUsuario.setArchivo((InputStream) file.get(FILE));
         }
@@ -76,13 +72,7 @@ public class PersonaAPI extends BaseAPI<Persona> {
     @Produces(MediaType.APPLICATION_JSON)
     public PersonaDTO findByUser(@QueryParam("username") String username,
                                  @QueryParam("authToken") String authToken) {
-
-        Administrador administrador = new Administrador();
-        administrador.setNombre("Enzo");
-        administrador.setApellido("Biancato");
-        Calendar c = Calendar.getInstance();
-        c.set(1989, Calendar.AUGUST, 9);
-        administrador.setFechaNacimiento(c);
-        return personaMapper.adminToDTO(administrador);
+        Persona persona = personaService.findById(1L);
+        return personaMapper.toDTO(persona);
     }
 }

@@ -1,9 +1,11 @@
 package com.utn.tesis.mapping.mapper;
 
+import com.utn.tesis.mapping.dto.UsuarioDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.model.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 
 /**
@@ -21,4 +23,10 @@ public interface UsuarioMapper {
             @Mapping(target = "firstLogin", expression = "java(usuario.getUltimaConexion() == null)")
     })
     UsuarioLogueadoDTO toUsuarioLogueadoDTO(Usuario usuario);
+
+    Usuario fromDTO(UsuarioDTO usuarioDTO);
+
+    UsuarioDTO toDTO(Usuario usuario);
+
+    void updateFromDTO(UsuarioDTO dto, @MappingTarget Usuario usuario);
 }

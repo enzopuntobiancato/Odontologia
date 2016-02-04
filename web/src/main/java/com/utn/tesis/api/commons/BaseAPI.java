@@ -5,8 +5,8 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPORuntimeException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.Bajeable;
-import com.utn.tesis.model.EntityBase;
 import com.utn.tesis.model.FileExtension;
+import com.utn.tesis.model.SuperEntityBase;
 import com.utn.tesis.service.BaseService;
 import com.utn.tesis.util.MappingUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ import java.util.*;
  * Time: 17:07
  */
 @Slf4j
-public abstract class BaseAPI<T extends EntityBase> {
+public abstract class BaseAPI<T extends SuperEntityBase> {
 
     public static final String FILE = "file";
     public static final String NAME = "name";

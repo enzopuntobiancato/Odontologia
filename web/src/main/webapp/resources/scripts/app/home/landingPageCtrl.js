@@ -14,10 +14,11 @@ loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'M
 
         // Methods
         vm.login = login;
+        var performSubmit = $scope.$parent.performSubmit;
 
-        function login(user, valid) {
-            if (valid) {
-                authFactory.login(user)
+        function login(form) {
+            performSubmit(function () {
+                authFactory.login(vm.user)
                     .success(function (data) {
                         if (data) {
                             authFactory.setAuthData(data);
@@ -34,7 +35,7 @@ loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'M
                     .error(function () {
                         messageSrv.errorMessage('Ocurrió un error. Intente nuevamente');
                     });
-            }
+            }, form);
         };
     }]);
 

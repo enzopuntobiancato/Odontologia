@@ -1,5 +1,6 @@
 package com.utn.tesis.model;
 
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
  * Time: 18:23
  * To change this template use File | Settings | File Templates.
  */
+@Entity
 public class Autoridad extends Persona {
     private static final long serialVersionUID = 1L;
 

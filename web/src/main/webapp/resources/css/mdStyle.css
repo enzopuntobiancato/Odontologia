@@ -6,7 +6,6 @@
     text-transform: lowercase !important;
 }
 
-
 .muted {
     color: #bbb;
     font-weight: 500;
@@ -18,7 +17,6 @@
     margin-bottom: -28px;
     float: right !important;
 }
-
 
 .landing-page {
     background-image: url('../img/bg.jpg');
@@ -42,7 +40,7 @@ md-content.md-default-theme {
     box-sizing: content-box;
 }
 
-.label-item-two-columns{
+.label-item-two-columns {
     box-sizing: border-box;
     padding: 14px 0;
     max-width: 190px;
@@ -52,12 +50,14 @@ md-content.md-default-theme {
     float: left;
     width: 50%;
 }
+
 .label-item-two-columns h3 {
     margin: 0 !important;
     padding: 0;
-    line-height: 1.2em !important; }
+    line-height: 1.2em !important;
+}
 
-.label-item-three-columns{
+.label-item-three-columns {
     box-sizing: border-box;
     padding: 0;
     max-width: 210px;
@@ -67,13 +67,14 @@ md-content.md-default-theme {
     float: left;
     width: 33%;
 }
+
 .label-item-three-columns h4 {
     margin: 0 !important;
     padding: 0;
-    line-height: 1.2em !important; }
+    line-height: 1.2em !important;
+}
 
-
-.md-2-line ng-md-icon{
+.md-2-line ng-md-icon {
     margin-top: 15px;
     margin-left: 10px;
     margin-right: 10px;
@@ -82,16 +83,17 @@ md-content.md-default-theme {
 
 .compact {
     padding-top: 8px;
-    padding-bottom: 8px; }
+    padding-bottom: 8px;
+}
 
 md-whiteframe {
     background: #fff;
     margin-top: 10px;
     margin-right: 10px;
     margin-left: 10px;
-   }
+}
 
-.md-icon-view{
+.md-icon-view {
     margin-left: 22px;
     margin-top: 22px;
     width: 30;
@@ -99,16 +101,16 @@ md-whiteframe {
     opacity: 0.5;
 }
 
-.md-input-container-view-icon{
+.md-input-container-view-icon {
     margin: 15px;
 }
 
-.md-input-container-view-icon input{
-   width: 230px;
-   max-width: 235px;
+.md-input-container-view-icon input {
+    width: 230px;
+    max-width: 235px;
 }
 
-.md-input-container-view-offset{
+.md-input-container-view-offset {
     margin-left: 70px;
 }
 
@@ -117,33 +119,35 @@ md-datepicker {
     min-width: 80px;
 }
 
-md-select {
-    display: block;
-    margin: 10px 0 8px 0;
-    padding-bottom: 2px;
-    position: relative;
-    width: 130px;
-    max-width: 140px;
-}
+/*md-select {*/
+/*display: block;*/
+/*margin: 10px 0 8px 0;*/
+/*padding-bottom: 2px;*/
+/*position: relative;*/
+/*width: 130px;*/
+/*max-width: 140px;*/
+/*}*/
 
-#content{
-    background-color:#cbcbcb;
+#content {
+    background-color: #cbcbcb;
 }
 
 .md-main-content {
     background-color: inherit;
     max-width: 100%;
-    max-height: calc(100% - 56px);
+    max-height: calc(100% -56px);
     height: 100%;
     margin: 0px;
 }
-.md-main-content md-card{
+
+.md-main-content md-card {
     background-color: #fff;
-    width: calc(100% - 90px);
+    width: calc(100% -90px);
     height: auto;
 }
+
 /* when hiding the thing */
-.ng-hide-add         {
+.ng-hide-add {
     -webkit-animation: slideOutUp 0.1s;
     -moz-animation: slideOutUp 0.1s;
     -ms-animation: slideOutUp 0.1s;
@@ -151,7 +155,7 @@ md-select {
 }
 
 /* when showing the thing */
-.ng-hide-remove      {
+.ng-hide-remove {
     -webkit-animation: slideInDown 0.1s;
     -moz-animation: slideInDown 0.1s;
     -ms-animation: slideInDown 0.1s;
@@ -169,8 +173,8 @@ md-select {
 }
 
 .md-dialog-content {
-    max-width:800px;
-    max-height:810px
+    max-width: 800px;
+    max-height: 810px
 }
 
 .user-main > img {
@@ -181,9 +185,10 @@ md-select {
     border-radius: 50%;
     border: solid 3px #FFF;
     display: inline-block;
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.25);
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
 }
+
 .user-main > div {
     padding-bottom: 10px;
     margin-left: 24px;
@@ -192,18 +197,19 @@ md-select {
 .user-main {
     padding-bottom: 24px;
     background-color: #03A9F4;
-    color : #eeeeee;
+    color: #eeeeee;
     height: 225px;
 }
-
-
 
 .md-button-profile {
     margin-top: 0;
     margin-bottom: 0;
-    text-transform: lowercase;}
+    text-transform: lowercase;
+}
 
-body{overflow: hidden;}
+body {
+    overflow: hidden;
+}
 
 .md-menu-item > ng-md-icon {
     width: 30px;
@@ -215,4 +221,20 @@ body{overflow: hidden;}
 .md-menu-item > a {
     margin-left: 10px;
     margin-top: 20px;
+}
+
+.validation-messages {
+    font-size: 12px;
+    color: rgb(221, 44, 0);
+    margin: 0px 0 0 25px;
+}
+
+.user-image {
+    width: 350px;
+    height: 350px;
+    border-radius: 175px;
+    -webkit-border-radius: 175px;
+    -moz-border-radius: 175px;
+    background-position: 50% 50%;
+    /*background-size: 250px auto;*/
 }

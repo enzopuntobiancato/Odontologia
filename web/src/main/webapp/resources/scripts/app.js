@@ -50,7 +50,7 @@ odontologiaApp.config(['$urlRouterProvider',
         });
 
         function convertDateStringsToDates(input) {
-            var dateRX = /^\d{4}-\d{1,2}-\d{1,2}T\d{2}:\d{2}Z$/;
+            var dateRX = /^\d{4}-\d{1,2}-\d{1,2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
             // Ignore things that aren't objects.
             if (typeof input !== "object") return input;
             for (var key in input) {
@@ -442,7 +442,7 @@ odontologiaApp.config(['$urlRouterProvider',
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
                     }],
-                    tiposDocResponse:['loadMyModule', 'CommonsSrv', function(loadMyModule, service){
+                    tiposDocResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, service) {
                         return service.getTiposDocumento();
                     }]
                 }
@@ -458,7 +458,7 @@ odontologiaApp.config(['$urlRouterProvider',
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
                     }],
-                    tiposDocResponse:['loadMyModule', 'CommonsSrv', function(loadMyModule, service){
+                    tiposDocResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, service) {
                         return service.getTiposDocumento();
                     }]
                 }
@@ -468,7 +468,7 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/usuario/usuarioView.html',
                 resolve: {
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
-                       return service.findById($stateParams.id);
+                        return service.findById($stateParams.id);
                     }]
                 },
                 controller: function ($scope, $state, usuarioResponse) {
@@ -627,7 +627,9 @@ angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
 
 
-odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {
+odontologiaApp.controller('AppController', ['$scope', '$state', '$timeout', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, $timeout, authFactory, $filter, $mdSidenav) {
+
+    $scope.performSubmit = performSubmit;
 
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
@@ -714,5 +716,18 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         });
         authFactory.setMenu(resultMenu);
         return resultMenu;
+    }
+
+    function performSubmit(toExecute, form) {
+        if (form.$valid) {
+            toExecute();
+        } else {
+            angular.forEach(form.$error, function (field) {
+                angular.forEach(field, function (errorField) {
+                    errorField.$setTouched();
+                })
+            });
+            $timeout
+        }
     }
 }]);

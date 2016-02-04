@@ -1,90 +1,75 @@
-<md-content layout="row" layout-align="center start">
-    <div flex="80">
-        <form name="form" ng-submit="vm.save()" novalidate>
-            <md-card>
-                <md-toolbar class="md-accent">
-                    <div class="md-toolbar-tools">
-                        <span>¿Primera vez en S.A.P.O.?</span>
-                    </div>
-                </md-toolbar>
-                <md-card-content>
-                    <p>Por favor, complete los siguientes datos para terminar el registro de su usuario.</p>
+<md-content layout="row" layout-align="center start" class="md-main-content" flex>
+    <md-card>
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools">
+                <span>¿Primera vez en S.A.P.O.?</span>
+            </div>
+        </md-toolbar>
+        <form name="form" ng-submit="vm.save(form)" novalidate>
+            <md-card-content>
+                <p>Por favor, complete los siguientes datos para terminar el registro de su usuario.</p>
 
-                    <ng-include src="'views/persona/persona.html'"></ng-include>
-                    <ng-include ng-if="vm.usuario.alumno" src="'views/persona/alumno.html'"></ng-include>
-                    <ng-include ng-if="vm.usuario.profesor" src="'views/persona/profesor.html'"></ng-include>
-                    <ng-include ng-if="vm.usuario.autoridad" src="'views/persona/autoridad.html'"></ng-include>
-                    <!--<section>-->
-                    <!--<div layout-gt-sm="row">-->
-                    <!--<md-input-container class="md-block" flex-gt-sm flex="30">-->
-                    <!--<label>Provincia</label>-->
-                    <!--<md-select required ng-model="persona.provincia" name="provincia">-->
-                    <!--<md-option ng-repeat="provincia in data.provincias" ng-value="persona.provincia">-->
-                    <!--{{ provincia.nombre }}-->
-                    <!--</md-option>-->
-                    <!--</md-select>-->
-                    <!--<div class="errors" ng-messages="firstLoginForm.provincia.$error" ng-if="firstLoginForm.$dirty">-->
-                    <!--<div ng-message="required">La provincia es un dato requerido.</div>-->
-                    <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container class="md-block" flex-gt-sm flex="30">-->
-                    <!--<label>Ciudad</label>-->
-                    <!--<md-select required ng-model="persona.ciudad" name="ciudad">-->
-                    <!--<md-option ng-repeat="ciudad in data.ciudades" ng-value="persona.ciudad">-->
-                    <!--{{ ciudad.nombre }}-->
-                    <!--</md-option>-->
-                    <!--</md-select>-->
-                    <!--<div class="errors" ng-messages="firstLoginForm.ciudad.$error" ng-if="firstLoginForm.$dirty">-->
-                    <!--<div ng-message="required">La ciudad es un dato requerido.</div>-->
-                    <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container class="md-block" flex-gt-sm flex="30">-->
-                    <!--<label>Barrio</label>-->
-                    <!--<md-select required ng-model="persona.barrio" name="barrio">-->
-                    <!--<md-option ng-repeat="barrio in data.barrios" ng-value="persona.barrio">-->
-                    <!--{{ barrio.nombre }}-->
-                    <!--</md-option>-->
-                    <!--</md-select>-->
-                    <!--<div class="errors" ng-messages="firstLoginForm.provincia.$error" ng-if="firstLoginForm.$dirty">-->
-                    <!--<div ng-message="required">El barrio es un dato requerido.</div>-->
-                    <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--</div>-->
-                    <!--<div layout-gt-sm="row">-->
-                    <!--<md-input-container class="md-block" flex-gt-sm flex="30">-->
-                    <!--<label>Calle</label>-->
-                    <!--<input  name="calle" ng-model="persona.calle"-->
-                    <!--required md-maxlength="100">-->
-                    <!--<div ng-messages="firstLoginForm.calle.$error" role="alert" multiple>-->
-                    <!--<div ng-message="required" class="my-message">La calle es un campo requerido.</div>-->
-                    <!--<div ng-message="md-maxlength" class="my-message">-->
-                    <!--La calle no puede tener màs de 100 caracteres.-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container class="md-block" flex-gt-sm flex="30">-->
-                    <!--<label>Número</label>-->
-                    <!--<input name="numero" ng-model="persona.numero"-->
-                    <!--required md-maxlength="6">-->
-                    <!--<div ng-messages="firstLoginForm.numero.$error" role="alert" multiple>-->
-                    <!--<div ng-message="required" class="my-message">El número es un campo requerido.</div>-->
-                    <!--<div ng-message="md-maxlength" class="my-message">-->
-                    <!--El número no puede tener màs de 6 caracteres.-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container class="md-block" flex-gt-sm flex="30">-->
-                    <!--<label>Depto.</label>-->
-                    <!--<input name="depto" ng-model="persona.depto" >-->
-                    <!--</md-input-container>-->
-                    <!--</div>-->
-                    <!--</section>-->
-                </md-card-content>
-                <md-card-actions layout="row" layout-align="end center">
-                    <md-button>Cancelar</md-button>
-                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-                </md-card-actions>
-            </md-card>
+                <ng-include src="'views/persona/persona.html'"></ng-include>
+                <ng-include ng-if="vm.usuario.alumno" src="'views/persona/alumno.html'"></ng-include>
+                <ng-include ng-if="vm.usuario.profesor" src="'views/persona/profesor.html'"></ng-include>
+                <ng-include ng-if="vm.usuario.autoridad" src="'views/persona/autoridad.html'"></ng-include>
+
+                <md-subheader class="md-primary">Datos de usuario</md-subheader>
+                <div layout-gt-sm="row" layout-margin>
+                    <div flex-gt-sm="33" layout="column">
+                        <md-input-container flex class="md-block">
+                            <label>Nombre de usuario</label>
+                            <input md-maxlength="75" required name="nombreUsuario"
+                                   ng-model="vm.persona.usuario.nombreUsuario">
+
+                            <div ng-messages="form.nombreUsuario.$error" ng-show="form.nombreUsuario.$touched">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex class="md-block">
+                            <label>Correo electrónico</label>
+                            <input type="email" required name="email" ng-model="vm.persona.usuario.email">
+
+                            <div ng-messages="form.email.$error" ng-show="form.email.$touched">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex class="md-block">
+                            <label>Contraseña</label>
+                            <input id="password" type="password" md-maxlength="50" required name="password"
+                                   ng-model="vm.persona.usuario.password">
+
+                            <div ng-messages="form.password.$error" ng-show="form.password.$touched">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex class="md-block">
+                            <label>Repetir contraseña</label>
+                            <input pw-check="password" ng-pattern="vm.persona.usuario.contrasenia"
+                                   ng-model="vm.repeatPassword" type="password" md-maxlength="50" name="repeatPassword">
+
+                            <div ng-messages="form.repeatPassword.$error">
+                                <div ng-message="pwmatch">Las contraseñas no coinciden.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div flex-gt-sm="66" layout="row" layout-align="center center ">
+                        <md-button ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"
+                                   accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
+                            <img class="user-image" ng-if="vm.isFileSelected()" ngf-src="vm.file"
+                                 ngf-resize="{width: 250, height: 250}">
+                            <img class="user-image" ng-if="!vm.isFileSelected()"
+                                 src="http://www.riskid.nl/assets/testimonials/user-3995d1ed5f9b6ea6ef9c7bc9ead47415.jpg"/>
+                        </md-button>
+                    </div>
+                </div>
+
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button>Cancelar</md-button>
+                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+            </md-card-actions>
         </form>
-    </div>
+    </md-card>
+
 </md-content>

@@ -17,6 +17,7 @@ public abstract class PersonaDTO extends BaseDTO {
     private DocumentoDTO documento;
     private Calendar fechaNacimiento;
     private EnumDTO sexo;
+    private UsuarioDTO usuario;
 
     public Long getId() {
         return id;
@@ -64,5 +65,13 @@ public abstract class PersonaDTO extends BaseDTO {
 
     public void setSexo(EnumDTO sexo) {
         this.sexo = sexo;
+    }
+
+    public UsuarioDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
     }
 }

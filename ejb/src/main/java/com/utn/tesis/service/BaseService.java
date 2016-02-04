@@ -4,7 +4,7 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.Bajeable;
-import com.utn.tesis.model.EntityBase;
+import com.utn.tesis.model.SuperEntityBase;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 /**
  * Created by enzo on 09/02/2015.
  */
-public abstract class BaseService<T extends EntityBase> {
+public abstract class BaseService<T extends SuperEntityBase> {
 
     abstract DaoBase<T> getDao();
 

@@ -17,7 +17,7 @@ public class ArchivoDTO extends BaseDTO {
     private String nombre;
     private String descripcion;
     private InputStream archivo;
-    private FileExtension fileExtension;
+    private FileExtension extension;
 
     public Long getId() {
         return id;
@@ -51,11 +51,11 @@ public class ArchivoDTO extends BaseDTO {
         this.archivo = archivo;
     }
 
-    public FileExtension getFileExtension() {
-        return fileExtension;
+    public FileExtension getExtension() {
+        return extension;
     }
 
-    public void setFileExtension(FileExtension fileExtension) {
-        this.fileExtension = fileExtension;
+    public void setExtension(FileExtension extension) {
+        this.extension = extension;
     }
 }

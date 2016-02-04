@@ -21,20 +21,31 @@ module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope', '$state', '
         }
 
         vm.save = save;
+        vm.isFileSelected = isFileSelected;
+        var performSubmit = $scope.$parent.performSubmit;
 
-        function save() {
-            Upload.upload({
-                url: 'api/persona/saveUserRelatedData',
-                data: {file: vm.file, usuario: Upload.json(vm.usuario), persona: Upload.json(vm.persona)}
-            }).then(function () {
-                    vm.usuario.firstLogin = false;
-                    authFactory.setAuthData(vm.usuario);
-                    authFactory.communicateAuthChanged();
-                    $state.go('home');
-                }, function () {
-                    message.errorMessage("Error guardando los datos")
-                });
+        function save(form) {
+            performSubmit(function () {
+                Upload.upload({
+                    url: 'api/persona/saveUserRelatedData',
+                    data: {file: vm.file, usuario: Upload.json(vm.usuario), persona: Upload.json(vm.persona)}
+                }).then(function () {
+                        vm.usuario.firstLogin = false;
+                        authFactory.setAuthData(vm.usuario);
+                        authFactory.communicateAuthChanged();
+                        $state.go('home');
+                    }, function () {
+                        message.errorMessage("Error guardando los datos")
+                    });
+            }, form);
         }
+
+        function isFileSelected() {
+            return vm.file &&
+                angular.isDefined(vm.file) &&
+                vm.file != null
+        }
+
 
 //        $scope.goIndex = function () {
 //            $state.go('landingPage', {execQuery: $scope.data.persistedOperation});
