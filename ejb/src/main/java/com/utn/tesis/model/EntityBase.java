@@ -1,27 +1,18 @@
 package com.utn.tesis.model;
 
-import com.utn.tesis.annotation.JsonMap;
-import com.utn.tesis.interfaces.Validator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public abstract class EntityBase implements Serializable, Validator {
+public abstract class EntityBase extends SuperEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Version
-    private Integer version;
-
-    //GETTERS AND SETTERS
-    @JsonMap(view = JsonMap.Public.class)
+    @Override
     public Long getId() {
         return id;
     }
@@ -30,17 +21,8 @@ public abstract class EntityBase implements Serializable, Validator {
         this.id = id;
     }
 
-    @JsonMap(view = JsonMap.Internal.class)
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
     public boolean isNew() {
-        if (id == null && version == null) {
+        if (id == null && super.isNew()) {
             return true;
         }
         return false;
@@ -50,7 +32,6 @@ public abstract class EntityBase implements Serializable, Validator {
     public int hashCode() {
         int hash = 5;
         hash = 73 * hash + (this.id != null ? this.id.hashCode() : 0);
-        hash = 73 * hash + (this.version != null ? this.version.hashCode() : 0);
         return hash;
     }
 
@@ -64,9 +45,6 @@ public abstract class EntityBase implements Serializable, Validator {
         }
         final EntityBase other = (EntityBase) obj;
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
-            return false;
-        }
-        if (this.version != other.version && (this.version == null || !this.version.equals(other.version))) {
             return false;
         }
         return true;

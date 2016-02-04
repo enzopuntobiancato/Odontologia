@@ -8,7 +8,6 @@ import com.utn.tesis.model.QPracticaOdontologica;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Enzo
  * Date: 07/04/15
  * Time: 21:06

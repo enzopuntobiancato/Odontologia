@@ -1,9 +1,6 @@
 package com.utn.tesis.model;
 
-import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.exception.SAPOValidationException;
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,19 +13,14 @@ import java.util.Calendar;
  * Date: 19/05/15
  * Time: 23:13
  */
-
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({@JsonSubTypes.Type(value = Alumno.class, name = "com.utn.tesis.Alumno"),
-        @JsonSubTypes.Type(value = Profesor.class, name = "com.utn.tesis.Profesor"),
-        @JsonSubTypes.Type(value = ResponsableRecepcion.class, name = "com.utn.tesis.ResponsableRecepcion"),
-        @JsonSubTypes.Type(value = Autoridad.class, name = "com.utn.tesis.Autoridad"),
-        @JsonSubTypes.Type(value = Persona.class, name = "com.utn.tesis.Persona")})
+@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Persona extends EntityBase {
-    private static final long serialVersionUID = 1L;
+public abstract class Persona extends SuperEntityBase {
 
-    @Transient
-    private String type;
+    @TableGenerator(name = "PERSON_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "PERSON_GEN")
+    private Long id;
 
     @Size(max = 75, message = "El apellido no puede ser mayor a 75 caracteres.")
     @NotNull(message = "Debe ingresar un apellido.")
@@ -45,7 +37,6 @@ public abstract class Persona extends EntityBase {
     private Documento documento;
 
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "Debe ingresar una fecha de nacimiento.")
     private Calendar fechaNacimiento;
 
     @ManyToOne
@@ -59,22 +50,18 @@ public abstract class Persona extends EntityBase {
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Domicilio domicilio;
-
-
     public Persona() {
     }
 
-    public String getType() {
-        return type;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public String getApellido() {
         return apellido;
     }
@@ -83,7 +70,6 @@ public abstract class Persona extends EntityBase {
         this.apellido = apellido;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public String getNombre() {
         return nombre;
     }
@@ -92,7 +78,6 @@ public abstract class Persona extends EntityBase {
         this.nombre = nombre;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public Documento getDocumento() {
         return documento;
     }
@@ -101,7 +86,6 @@ public abstract class Persona extends EntityBase {
         this.documento = documento;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public Calendar getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -110,7 +94,6 @@ public abstract class Persona extends EntityBase {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    @JsonMap(view = JsonMap.Internal.class)
     public Usuario getUsuario() {
         return usuario;
     }
@@ -119,7 +102,6 @@ public abstract class Persona extends EntityBase {
         this.usuario = usuario;
     }
 
-    @JsonMap(view = JsonMap.Public.class)
     public Calendar getFechaCarga() {
         return fechaCarga;
     }
@@ -133,6 +115,14 @@ public abstract class Persona extends EntityBase {
              */
     public Integer getEdad() {
         return fechaNacimiento == null ? null : Calendar.getInstance().get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
+    }
+
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
     }
 
     @Override

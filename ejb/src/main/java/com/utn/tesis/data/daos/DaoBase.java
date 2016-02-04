@@ -2,7 +2,7 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.Bajeable;
-import com.utn.tesis.model.EntityBase;
+import com.utn.tesis.model.SuperEntityBase;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public abstract class DaoBase<E extends EntityBase> {
+public abstract class DaoBase<E extends SuperEntityBase> {
 
 
     @PersistenceContext(unitName = "primary")
@@ -44,9 +44,13 @@ public abstract class DaoBase<E extends EntityBase> {
         em.merge(entity);
     }
 
-    public <S extends E> S save(S entity) {
-        em.persist(entity);
-        return (S) entity;
+    public E save(E entity) {
+        if (entity.isNew()) {
+            em.persist(entity);
+        } else {
+            em.merge(entity);
+        }
+        return entity;
     }
 
     public JPAQuery paginar(JPAQuery query, Long page, Long pageSize) {

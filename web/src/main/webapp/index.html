@@ -7,145 +7,108 @@
     <link rel="stylesheet" href="resources/css/commons.css"/>
     <link rel="stylesheet" href="components/angular-loading-bar/build/loading-bar.css">
     <!--Local version -->
-    <!--link rel="stylesheet" href="components/angular-material/angular-material.css"/-->
+    <link rel="stylesheet" href="components/angular-material/angular-material.css"/>
     <!--CDN version -->
     <!--link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css"-->
     <!--MASTER version -->
-    <link rel="stylesheet" href="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.css">
+    <!--link rel="stylesheet" href="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.css"-->
     <link rel="stylesheet" href="components/angular-animate/animate.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
 
 </head>
 <body ng-controller="AppController" layout="column">
-<md-toolbar class="md-primary">
-    <div class="md-toolbar-tools">
-        <md-button ng-click="toggleSidenav('left')">
-            <ng-md-icon icon="menu" style="fill: pink"></ng-md-icon>
-        </md-button>
-        <span>S.A.P.O.</span>
-        <span flex></span>
-    </div>
-</md-toolbar>
-<!--md-content layout-fill flex layout="row" layout-align="center center"-->
-<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
-    <md-toolbar class="md-tall md-hue-2">
-        <span flex></span>
+<div layout="row" flex>
+    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')">
+        <div flex="initial" class="user-main">
+            <img ng-src="https://s3-eu-west-1.amazonaws.com/vegebase/codepen/img/monkey_avatar_portrait_small.jpeg"
+                 alt="avatar" class="md-avatar">
 
-        <div layout="column" class="md-toolbar-tools-bottom inset">
-            <span></span>
-
-            <div>Ignacio López</div>
-            <div>ilopezarzuaga@gmail.com</div>
+            <div>S.A.P.O.</div>
         </div>
-    </md-toolbar>
-    <md-list class="nav navbar-nav">
-        <md-item>
-            <a>
-                <md-item-content md-ink-ripple layout="row" layout-align="start center">
-                    <div class="inset">
-                        <ng-md-icon icon=""></ng-md-icon>
-                    </div>
-                    <div class="inset">
-                        <md-button ui-sref="materiaAdmin"> Materia</md-button>
-                    </div>
-                </md-item-content>
-            </a>
-        </md-item>
-        <md-item>
-            <a>
-                <md-item-content md-ink-ripple layout="row" layout-align="start center">
-                    <div class="inset">
-                        <ng-md-icon icon=""></ng-md-icon>
-                    </div>
-                    <div class="inset">
-                        <md-button ui-sref="practicaOdontologica.index"> Práctica</md-button>
-                    </div>
-                </md-item-content>
-            </a>
-        </md-item>
-        <md-item>
-            <a>
-                <md-item-content md-ink-ripple layout="row" layout-align="start center">
-                    <div class="inset">
-                        <ng-md-icon icon=""></ng-md-icon>
-                    </div>
-                    <div class="inset">
-                        <md-button ui-sref="trabajoPractico.index"> Trabajo práctico</md-button>
-                    </div>
-                </md-item-content>
-            </a>
-        </md-item>
-        <md-item>
-            <a>
-                <md-item-content md-ink-ripple layout="row" layout-align="start center">
-                    <div class="inset">
-                        <ng-md-icon icon=""></ng-md-icon>
-                    </div>
-                    <div class="inset">
-                        <md-button ui-sref="catedra.index"> Cátedra</md-button>
-                    </div>
-                </md-item-content>
-            </a>
-        </md-item>
-        <md-item>
-            <a>
-                <md-item-content md-ink-ripple layout="row" layout-align="start center">
-                    <div class="inset">
-                        <ng-md-icon icon=""></ng-md-icon>
-                    </div>
-                    <div class="inset">
-                        <md-button ui-sref="usuario.index"> Usuario</md-button>
-                    </div>
-                </md-item-content>
-            </a>
-        </md-item>
-        <md-item>
-            <a>
-                <md-item-content md-ink-ripple layout="row" layout-align="start center">
-                    <div class="inset">
-                        <ng-md-icon icon=""></ng-md-icon>
-                    </div>
-                    <div class="inset">
-                        <md-button ui-sref="usuarioMaster"> UsuarioTest</md-button>
-                    </div>
-                </md-item-content>
-            </a>
-        </md-item>
+        <md-content>
+            <md-list>
+                <md-list-item class="md-menu-item">
+                    <ng-md-icon icon="school"></ng-md-icon>
+                    <md-button ui-sref="materia.index">Materia</md-button>
+                </md-list-item>
+                <md-list-item class="md-menu-item">
+                    <ng-md-icon icon="work"></ng-md-icon>
+                    <md-button ui-sref="trabajoPractico.index">Trabajo práctico</md-button>
+                </md-list-item>
+                <md-list-item class="md-menu-item">
+                    <ng-md-icon icon="person"></ng-md-icon>
+                    <md-button ui-sref="usuario.index">Usuario</md-button>
+                </md-list-item>
+                <md-list-item class="md-menu-item">
+                    <ng-md-icon icon="account_balance"></ng-md-icon>
+                    <md-button ui-sref="catedra.index">Cátedra</md-button>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </md-sidenav>
+    <div layout="column" flex id="content">
+        <md-toolbar layout="row" md-scroll-shrink>
+            <div class="md-toolbar-tools">
+                <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+                    <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
+                </md-button>
+                <span>S.A.P.O.</span>
+                <span flex></span>
+                <img ng-src="http://www.emotiyou.es/galerie/films/action/batman/201101191527UNP.gif"
+                     class="md-avatar-login">
+                <md-menu>
+                    <!-- Trigger element is a md-button with an icon -->
+                    <md-button ng-click="$mdOpenMenu($event)" class="md-button-profile">
+                        ilopeza
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button>
+                                <ng-md-icon icon="edit"></ng-md-icon>
+                                Editar perfil
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button>
+                                <ng-md-icon icon="security"></ng-md-icon>
+                                Cambiar contraseña
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button>
+                                <ng-md-icon icon="logout"></ng-md-icon>
+                                Cerrar sesión
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </md-toolbar>
+        <ui-view>
 
-    </md-list>
-</md-sidenav>
-<md-content style="
-    background-color: #e4e4e4;
-">
-    <div layout-fill>
-        <ui-view></ui-view>
+        </ui-view>
     </div>
-</md-content>
+</div>
 
-
-<!--footer layout-gt-sm="row" layout-align-gt-sm="center end">
-    <md-toolbar class="md-accent">
-        <div class="md-toolbar-tools">
-            <span flex></span>
-        </div>
-    </md-toolbar>
-</footer-->
 
 <!--LIBRARIES-->
 <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-animate.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-animate.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-messages.js"></script>
 <!--Local version -->
-<!--script type="text/javascript" src="components/angular-material/angular-material.js"></script-->
+<script type="text/javascript" src="components/angular-material/angular-material.js"></script>
 
 <!--CDN version -->
 <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script-->
 
-<!--From master-->
-<script type="text/javascript" src="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.js"></script>
+<!--From master>
+<script type="text/javascript" src="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.js"></script-->
 
 <!-- Auxiliares -->
 <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -155,6 +118,7 @@
 <script type="text/javascript" src="components/angular-loading-bar/build/loading-bar.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/11.1.1/ng-file-upload.js"></script>
 
 <!--OURS JS-->
 <script type="text/javascript" src="resources/scripts/app/ngutils/authentication.js"></script>
@@ -162,6 +126,14 @@
 <script type="text/javascript" src="resources/scripts/app/ngutils/directives.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/services.js"></script>
 <script type="text/javascript" src="resources/scripts/app.js"></script>
+
+<script type="text/ng-template" id="error-messages">
+    <div ng-message="required">Es obligatorio.</div>
+    <div ng-message="email">No tiene formato de e-mail.</div>
+    <div ng-message="valid">No tiene formato de fecha.</div>
+    <div ng-message="md-maxlength">Ingresó más caracteres de los permitidos.</div>
+    <div ng-message="pattern">Solo se permiten números.</div>
+</script>
 </body>
 
 

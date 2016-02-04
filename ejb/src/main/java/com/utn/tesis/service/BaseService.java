@@ -4,7 +4,7 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.Bajeable;
-import com.utn.tesis.model.EntityBase;
+import com.utn.tesis.model.SuperEntityBase;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -18,10 +18,16 @@ import java.util.logging.Logger;
 /**
  * Created by enzo on 09/02/2015.
  */
-public abstract class BaseService<T extends EntityBase> {
+public abstract class BaseService<T extends SuperEntityBase> {
 
     abstract DaoBase<T> getDao();
+
     abstract Validator getValidator();
+
+    public T save(T entity) throws SAPOException {
+        validate(entity, getValidator());
+        return getDao().save(entity);
+    }
 
     public T findById(Long id) {
         return getDao().findById(id);
@@ -39,14 +45,14 @@ public abstract class BaseService<T extends EntityBase> {
 
     public T remove(Long id, String motivoBaja) throws SAPOException {
         T entity = getDao().findById(id);
-        ((Bajeable)entity).darDeBaja(motivoBaja);
+        ((Bajeable) entity).darDeBaja(motivoBaja);
         getDao().deleteLogical(entity);
         return entity;
     }
 
     public void restore(Long id) {
         T entity = getDao().findById(id);
-        ((Bajeable)entity).darDeAlta();
+        ((Bajeable) entity).darDeAlta();
         getDao().update(entity);
     }
 
@@ -61,13 +67,11 @@ public abstract class BaseService<T extends EntityBase> {
         try {
             constraintValidation(entity, validator);
             bussinessValidation(entity);
-        }
-        catch (ConstraintViolationException cve) {
+        } catch (ConstraintViolationException cve) {
             throw new SAPOException(cve);
         } catch (SAPOValidationException sve) {
             throw new SAPOException(sve);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Logger.getLogger(BaseService.class.getName()).log(Level.SEVERE, e.getMessage(), e);
             throw new SAPOException(e);
         }

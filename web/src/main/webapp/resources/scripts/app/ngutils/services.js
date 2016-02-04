@@ -1,16 +1,51 @@
 var services = angular.module('sapo.services', []);
 
+services.controller('ToastCtrl', function ($scope, $mdToast) {
+    $scope.closeToast = function () {
+        $mdToast.hide();
+    };
+});
 
-services.factory('MessageSrv', ['$mdToast', function($mdToast){
-   var service = {};
-   service.showMessage = function(msg){
-       $mdToast.show(
-           $mdToast.simple()
-               .content(msg)
-               .position('top right')
-               .hideDelay(3000)
-       );
-   };
+services.factory('MessageSrv', ['$mdToast', function ($mdToast) {
+    var service = {};
+
+    service.successMessage = function (msg, position, hideDelay) {
+        $mdToast.show({
+            controller: 'ToastCtrl',
+            template: '<md-toast>\
+                <span flex>' + msg + '</span>\
+                <md-button class="md-highlight" ng-click="closeToast()">\
+                Aceptar</md-button>\
+                </md-toast>',
+            hideDelay: hideDelay ? hideDelay : 3000,
+            position: position ? position : 'top right'
+        });
+    };
+
+    service.errorMessage = function (msg, position, hideDelay) {
+        $mdToast.show({
+            controller: 'ToastCtrl',
+            template: '<md-toast>\
+                <span flex>' + msg + '</span>\
+                <md-button class="md-highlight md-warn" ng-click="closeToast()">\
+                Aceptar</md-button>\
+                </md-toast>',
+            hideDelay: hideDelay ? hideDelay : 3000,
+            position: position ? position : 'top right'
+        });
+    }
+    service.showMessage = function (msg, position, hideDelay) {
+        $mdToast.show({
+            controller: 'ToastCtrl',
+            template: '<md-toast>\
+                <span flex>' + msg + '</span>\
+                <md-button ng-click="closeToast()">\
+                Aceptar</md-button>\
+                </md-toast>',
+            hideDelay: hideDelay ? hideDelay : 3000,
+            position: position ? position : 'top right'
+        });
+    };
 
     return service;
 }]);
@@ -55,7 +90,7 @@ services
             })
         };
 
-        service.getTiposDocumento = function() {
+        service.getTiposDocumento = function () {
             return $http({
                 url: 'api/commons/getTiposDocumento',
                 method: 'GET',
@@ -63,7 +98,7 @@ services
             })
         };
 
-        service.savePerson = function(persona) {
+        service.savePerson = function (persona) {
             return $http({
                 url: 'api/persona/save',
                 method: 'POST',
@@ -76,6 +111,14 @@ services
                 url: 'api/commons/initializeData',
                 method: 'POST'
             })
+        }
+
+        service.getSexos = function () {
+            return $http.get('api/commons/getSexos', {});
+        }
+
+        service.getCargos = function () {
+            return $http.get('api/commons/getCargos', {});
         }
 
         return service;

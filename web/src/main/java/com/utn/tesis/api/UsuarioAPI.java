@@ -20,11 +20,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Enzo
  * Date: 30/06/15
  * Time: 22:04
- * To change this template use File | Settings | File Templates.
  */
 @Path("/usuario")
 @RequestScoped

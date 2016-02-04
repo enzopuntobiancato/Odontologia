@@ -1,32 +1,68 @@
-<md-content layout="row" layout-align="center start">
-    <div layout="column" flex="80">
-        <md-card>
-            <md-toolbar class="md-medium-tall md-accent">
-                <div class="md-toolbar-tools">
-                    <span>Editar usuario</span>
-                </div>
-            </md-toolbar>
-            <md-card-content>
-                <form name="usuarioEditForm" novalidate>
-                        <div>
-                        <p>Complete los datos para editar el usuario.</p>
-                        <md-input-container>
+        <md-content layout="column" layout-align="start center" class="md-main-content" flex>
+            <md-card>
+                <form name="usuarioForm" novalidate ng-submit="save()">
+                <md-toolbar class="md-accent">
+                    <div class="md-toolbar-tools">
+                        <span>Editar usuario</span>
+                    </div>
+                </md-toolbar>
+                <md-card-content>
+                    <p>Complete los datos para editar el usuario.</p>
+                    <div layout="row">
+                        <ng-md-icon icon="person" class="md-icon-view"></ng-md-icon>
+                        <md-input-container class="md-input-container-view-icon">
                             <label>Nombre</label>
-                            <input name="nombre" ng-model="usuario.nombreUsuario"
+                            <input name="nombre"  ng-model="usuario.nombre"
                                    required md-maxlength="100">
-                            <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
+                            <div ng-messages="usuarioForm.nombre.$error" role="alert" multiple>
                                 <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
                                 <div ng-message="md-maxlength" class="my-message">
                                     El nombre no puede tener màs de 100 caracteres.
                                 </div>
                             </div>
                         </md-input-container>
-                        <md-input-container>
-                            <label>E-mail</label>
-                            <input name="email" ng-model="usuario.email"
+                        <md-input-container class="md-input-container-view-icon">
+                            <label>Apellido</label>
+                            <input name="apellido"  ng-model="usuario.apellido"
                                    required md-maxlength="100">
-                            <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
-                                <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                            <div ng-messages="usuarioForm.apellido.$error" role="alert" multiple>
+                                <div ng-message="required" class="my-message">El apellido es un campo requerido.</div>
+                                <div ng-message="md-maxlength" class="my-message">
+                                    El apellido no puede tener màs de 100 caracteres.
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-input-container-view-icon">
+                            <label>Tipo doc.</label>
+                            <md-select ng-model="usuario.documento.tipoDoc" name="tipoDoc" required>
+                                <md-option ng-repeat="tipo in data.tiposDoc" ng-value="tipo">
+                                    {{ tipo.nombre }}
+                                </md-option>
+                            </md-select>
+                            <div class="errors" ng-messages="usuarioForm.tipoDoc.$error">
+                                <div ng-message="required">El tipo de documento es un campo requerido.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-input-container-view-icon">
+                            <label>Nro. documento</label>
+                            <input name="nroDocumento"  ng-model="usuario.documento.nroDocumento"
+                                   required md-maxlength="10">
+                            <div ng-messages="usuarioForm.nroDocumento.$error" role="alert" multiple>
+                                <div ng-message="required" class="my-message">El documento es un campo requerido.</div>
+                                <div ng-message="md-maxlength" class="my-message">
+                                    El documento no puede tener màs de 8 caracteres.
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <ng-md-icon icon="email" class="md-icon-view"></ng-md-icon>
+                        <md-input-container class="md-input-container-view-icon">
+                            <label>E-mail</label>
+                            <input name="email" ng-model="usuario.email" type="email"
+                                   required md-maxlength="100">
+                            <div ng-messages="usuarioForm.email.$error" role="alert" multiple>
+                                <div ng-message="required" class="my-message">El e-mail es un campo requerido.</div>
                                 <div ng-message="md-maxlength" class="my-message">
                                     El e-mail no puede tener màs de 100 caracteres.
                                 </div>
@@ -35,61 +71,60 @@
                                 </div>
                             </div>
                         </md-input-container>
-                        </div>
-                        <div>
-                            <md-input-container>
-                                <label>Contraseña</label>
-                                <input name="password" ng-model="usuario.contrasenia"
-                                       required md-maxlength="50" type="password">
-
-                                <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
-                                    <div ng-message="required" class="my-message">La contraseña es un campo requerido.
-                                    </div>
-                                    <div ng-message="md-maxlength" class="my-message">
-                                        La contraseña no puede tener màs de 50 caracteres.
-                                    </div>
+                    </div>
+                    <div layout="row">
+                        <ng-md-icon icon="security" class="md-icon-view"></ng-md-icon>
+                        <md-input-container class="md-input-container-view-icon">
+                            <label>Contraseña</label>
+                            <input name="password" ng-model="usuario.contrasenia"
+                                   required md-maxlength="50" type="password">
+                            <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
+                                <div ng-message="required" class="my-message">La contraseña es un campo requerido.
                                 </div>
-                            </md-input-container>
-                            <md-input-container>
-                                <label>Confirmar contraseña</label>
-                                <input ng-model="usuario.confirmacionContrasenia" name="confirmPassword"
-                                       required md-maxlength="50" type="password" same-as="usuario.contrasenia">
-
-                                <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
-                                    <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
-                                    <div ng-message="md-maxlength" class="my-message">
-                                        El nombre no puede tener màs de 50 caracteres.
-                                    </div>
-                                    <div ng-message="sameAs" class="my-message">
-                                        Los dos campos deben coincidir.
-                                    </div>
+                                <div ng-message="md-maxlength" class="my-message">
+                                    La contraseña no puede tener màs de 50 caracteres.
                                 </div>
-                            </md-input-container>
-                        </div>
-                        <div>
-                            <md-input-container>
-                                <label>Rol</label>
-                                <md-select required ng-model="usuario.roles" name="rol">
-                                    <md-option ng-repeat="rol in data.roles" ng-value="rol">
-                                        {{ rol.nombre }}
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                        </div>
-                        <div>
-                            <md-input-container>
-                                <md-checkbox ng-model="data.sendEmail" aria-label="Notificar al usuario por e-mail">
-                                    Notificar al usuario por e-mail
-                                </md-checkbox>
-                            </md-input-container>
-                        </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-input-container-view-icon">
+                            <label>Confirmar contraseña</label>
+                            <input ng-model="usuario.confirmacionContrasenia" name="confirmPassword"
+                                   required md-maxlength="50" type="password" same-as="usuario.contrasenia">
+                            <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
+                                <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
+                                <div ng-message="md-maxlength" class="my-message">
+                                    El nombre no puede tener màs de 50 caracteres.
+                                </div>
+                                <div ng-message="sameAs" class="my-message">
+                                    Los dos campos deben coincidir.
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-input-container-view-icon">
+                            <label>Rol</label>
+                            <md-select required ng-model="usuario.rol" name="rol" required>
+                                <md-option ng-repeat="rol in data.roles" ng-value="rol">
+                                    {{ rol.nombre }}
+                                </md-option>
+                            </md-select>
+                            <div class="errors" ng-messages="usuarioForm.rol.$error" ng-if="usuarioForm.$dirty">
+                                <div ng-message="required">Required</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div>
+                        <md-input-container>
+                            <md-checkbox ng-model="data.sendEmail" aria-label="Notificar al usuario por e-mail">
+                                Notificar al usuario por e-mail
+                            </md-checkbox>
+                        </md-input-container>
+                    </div>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-click="goIndex()">Cancelar</md-button>
+                    <md-button type="submit" class="md-raised md-primary" ng-disabled="usuarioForm.$invalid">Aceptar</md-button>
+                </md-card-actions>
                 </form>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="goIndex()">Cancelar</md-button>
-                <md-button type="submit" class="md-raised md-primary" ng-click="save()">Aceptar</md-button>
-            </md-card-actions>
-        </md-card>
-    </div>
-</md-content>
+            </md-card>
+        </md-content>
 

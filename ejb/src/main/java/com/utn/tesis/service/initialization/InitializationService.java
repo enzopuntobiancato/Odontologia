@@ -10,6 +10,7 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,15 +25,19 @@ import java.util.List;
 @Slf4j
 public class InitializationService {
     @Inject
-    GrupoPracticaOdontologicaService grupoPracticaOdontologicaService;
+    private GrupoPracticaOdontologicaService grupoPracticaOdontologicaService;
     @Inject
-    MateriaService materiaService;
+    private MateriaService materiaService;
     @Inject
-    TrabajoPracticoService trabajoPracticoService;
+    private TrabajoPracticoService trabajoPracticoService;
     @Inject
-    PracticaOdontologicaService practicaOdontologicaService;
+    private PracticaOdontologicaService practicaOdontologicaService;
     @Inject
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
+    @Inject
+    private RolService rolService;
+    @Inject
+    private PersonaService personaService;
 
     private final ArrayList<GrupoPracticaOdontologica> grupoPracticaOdontologicasList = new ArrayList<GrupoPracticaOdontologica>();
     private final ArrayList<PracticaOdontologica> PracticaOdontologicasList = new ArrayList<PracticaOdontologica>();
@@ -62,7 +67,7 @@ public class InitializationService {
                     initMethod.getMethod().invoke(this);
                 } catch (Exception e) {
                     someError = true;
-                    log.error("Error durante la inicialización de los datos en {}. Causa: {}", initMethod.getMethod().getName(), e.getCause().toString());
+                    log.error("Error durante la inicialización de los datos en {}.", initMethod.getMethod().getName(), e);
                 }
             }
             InitVariables.getInstance().setInitializationRunned(true);
@@ -80,6 +85,42 @@ public class InitializationService {
 //        usuario.setRol();
 //        usuarioService.create(usuario);
 //    }
+
+    @RunOnInit(order = 1)
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    private void cargarRoles() throws Exception {
+        Rol rol = Rol.builder()
+                .nombre(Rol.ADMIN)
+                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+                .build();
+        Rol rol1 = Rol.builder()
+                .nombre(Rol.ADMIN_ACADEMICO)
+                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+                .build();
+        Rol rol2 = Rol.builder()
+                .nombre(Rol.ALUMNO)
+                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+                .build();
+        Rol rol3 = Rol.builder()
+                .nombre(Rol.AUTORIDAD)
+                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+                .build();
+        Rol rol4 = Rol.builder()
+                .nombre(Rol.PROFESOR)
+                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+                .build();
+        Rol rol5 = Rol.builder()
+                .nombre(Rol.RESPONSABLE_RECEPCION_PACIENTES)
+                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+                .build();
+
+        rolService.create(rol);
+        rolService.create(rol1);
+        rolService.create(rol2);
+        rolService.create(rol3);
+        rolService.create(rol4);
+        rolService.create(rol5);
+    }
 
     @RunOnInit(order = 1)
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -191,6 +232,42 @@ public class InitializationService {
         tp6.setPracticaOdontologica(PracticaOdontologicasList.get(3));
 
         trabajoPracticoService.create(tp6);
+    }
+
+    @RunOnInit(order = 5)
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    private void cargarPersonaAUsuario() throws SAPOException {
+        Usuario usuario = usuarioService.findById(1L);
+
+        Persona persona = new Administrador();
+        persona.setNombre("Enzo");
+        persona.setApellido("Biancato");
+        persona.setFechaCarga(Calendar.getInstance());
+        persona.setDocumento(new Documento("34880696", TipoDocumento.DNI));
+        persona.setUsuario(usuario);
+
+        personaService.create(persona);
+
+        Usuario usuario2 = usuarioService.findById(2L);
+
+        Persona persona2 = new Administrador();
+        persona2.setNombre("Carlos");
+        persona2.setApellido("Bianchi");
+        persona2.setFechaCarga(Calendar.getInstance());
+        persona2.setDocumento(new Documento("11116591", TipoDocumento.DNI));
+        persona2.setUsuario(usuario2);
+
+        personaService.create(persona2);
+
+        Alumno persona3 = new Alumno();
+        persona3.setNombre("Carlos");
+        persona3.setApellido("Biancato");
+        persona3.setFechaCarga(Calendar.getInstance());
+        persona3.setDocumento(new Documento("11116591", TipoDocumento.DNI));
+        persona3.setUsuario(usuario2);
+        persona3.setLegajo("54452");
+
+        personaService.create(persona3);
     }
 
 }

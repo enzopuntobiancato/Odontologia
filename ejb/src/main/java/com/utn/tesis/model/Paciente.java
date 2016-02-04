@@ -63,6 +63,9 @@ public class Paciente extends Persona {
     @ManyToOne
     private Trabajo trabajo;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Domicilio domicilio;
+
     @ManyToOne
     private HistoriaClinica historiaClinica;
 
@@ -187,5 +190,13 @@ public class Paciente extends Persona {
 
     public void setHistoriaClinica(HistoriaClinica historiaClinica) {
         this.historiaClinica = historiaClinica;
+    }
+
+    public Domicilio getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(Domicilio domicilio) {
+        this.domicilio = domicilio;
     }
 }

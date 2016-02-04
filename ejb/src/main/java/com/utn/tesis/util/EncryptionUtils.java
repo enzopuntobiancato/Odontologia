@@ -14,6 +14,17 @@ import java.security.NoSuchAlgorithmException;
  */
 public class EncryptionUtils {
 
+    public static String encryptMD5A(String string) {
+        String encryptedString;
+
+        try {
+            encryptedString = encryptMD5A1(string);
+        } catch (NoSuchAlgorithmException e) {
+            encryptedString = encryptMD5A2(string);
+        }
+        return encryptedString;
+    }
+
     public static String encryptMD5A1(String string) throws NoSuchAlgorithmException {
         String encryptedString = null;
 

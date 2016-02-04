@@ -1,49 +1,64 @@
-<div layout layout-sm="column">
-    <md-input-container flex>
-        <label>Apellido</label>
-        <input ng-disabled="vm.data.disableFields" name="apellido" ng-model="vm.persona.apellido"
-               type="text" md-maxlength="50" required="true">
-
-        <div ng-messages="userRelatedDataForm.apellido.$error">
-            <div ng-message="required">El apellido es un campo obligatorio.</div>
-            <div ng-message="md-maxlength">El apellido debe contener menos de 50 caractéres.</div>
-        </div>
-    </md-input-container>
-    <md-input-container flex>
+<md-subheader class="md-primary">Datos personales</md-subheader>
+<div layout-gt-sm="row" layout-margin>
+    <md-input-container flex-gt-sm="33">
         <label>Nombre</label>
-        <input type="text" md-maxlength="50" required ng-disabled="vm.data.disableFields" name="nombre"
-               ng-model="vm.persona.nombre"/>
+        <input md-maxlength="75" required name="nombre" ng-model="vm.persona.nombre">
 
-        <div ng-messages="userRelatedDataForm.nombre.$error">
-            <div ng-message="required">El nombre es un campo obligatorio.</div>
-            <div ng-message="md-maxlength">El nombre debe contener menos de 50 caractéres.</div>
+        <div ng-messages="form.nombre.$error" ng-show="form.nombre.$touched">
+            <div ng-messages-include="error-messages"></div>
         </div>
     </md-input-container>
-</div>
-<div layout="row" layout-sm="column">
-    <md-input-container>
-        <md-select name="tipoDocumento" ng-model="vm.persona.documento.tipoDocumento" required>
-            <md-option ng-repeat="item in vm.data.tiposDocumento" placeholder="Select a state">{{ item.nombre }}
+    <md-input-container flex-gt-sm="33" class="md-block">
+        <label>Apellido</label>
+        <input md-maxlength="10" required name="apellido" ng-model="vm.persona.apellido">
+
+        <div ng-messages="form.apellido.$error" ng-show="form.apellido.$touched">
+            <div ng-messages-include="error-messages"></div>
+        </div>
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-sm="33">
+        <label>Sexo</label>
+        <md-select required ng-model="vm.persona.sexo" ng-model-options="{trackBy: '$value.key'}"
+                   name="sexo">
+            <md-option ng-repeat="sexo in vm.data.sexos" ng-value="sexo">
+                {{ sexo.nombre }}
             </md-option>
         </md-select>
-        <div class="errors" ng-messages="userRelatedDataForm.tipoDocumento.$error">
-            <div ng-message="required">El tipo de documento es obligatorio</div>
-        </div>
-    </md-input-container>
-    <md-input-container flex>
-        <label>Número</label>
-        <input md-maxlength="10" required="true" name="numeroDocumento" ng-model="vm.persona.documento.numero">
-
-        <div ng-messages="userRelatedDataForm.numeroDocumento.$error">
-            <div ng-message="required">El número es un campo obligatorio.</div>
+        <div ng-messages="form.sexo.$error" ng-show="form.sexo.$touched">
+            <div ng-messages-include="error-messages"></div>
         </div>
     </md-input-container>
 </div>
-<div layout layout-sm="column">
-    <md-datepicker ng-model="vm.persona.fechaNacimiento" md-placeholder="Fecha de nacimiento" name="fechaNacimiento"
-                   md-min-date="01/01/1950" required="true">
-    </md-datepicker>
-    <div ng-messages="userRelatedDataForm.numeroDocumento.$error">
-        <div ng-message="required">El número es un campo obligatorio.</div>
+
+<div layout-gt-sm="row" layout-margin>
+    <md-input-container class="md-block" flex-gt-sm="33">
+        <label>Tipo documento</label>
+        <md-select required ng-model="vm.persona.documento.tipoDocumento"
+                   ng-model-options="{trackBy: '$value.key'}"
+                   name="tipoDocumento">
+            <md-option ng-repeat="tipo in vm.data.tiposDocumento" ng-value="tipo">
+                {{ tipo.nombre }}
+            </md-option>
+        </md-select>
+        <div ng-messages="form.tipoDocumento.$error" ng-show="form.tipoDocumento.$touched">
+            <div ng-messages-include="error-messages"></div>
+        </div>
+    </md-input-container>
+    <md-input-container class="md-block" flex-gt-sm="33">
+        <label>Número documento</label>
+        <input ng-pattern="/^\d+$/" md-maxlength="10" required name="numeroDocumento"
+               ng-model="vm.persona.documento.numero">
+
+        <div ng-messages="form.numeroDocumento.$error" ng-show="form.numeroDocumento.$touched">
+            <div ng-messages-include="error-messages"></div>
+        </div>
+    </md-input-container>
+    <div flex-gt-sm="33">
+        <md-datepicker name="nacimiento" ng-model="vm.persona.fechaNacimiento"
+                       md-placeholder="Fecha de nacimiento"
+                       required></md-datepicker>
+        <div class="validation-messages" ng-messages="form.nacimiento.$error" ng-show="form.nacimiento.$touched">
+            <div ng-messages-include="error-messages"></div>
+        </div>
     </div>
 </div>
