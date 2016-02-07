@@ -51,14 +51,14 @@ public class PersonaService extends BaseService<Persona> {
     }
 
     public void update(PersonaDTO persona, ArchivoDTO imagen) throws SAPOException {
-        Persona personaEntity = this.findById(persona.getId());
+       /* Persona personaEntity = this.findById(persona.getId());
         personaMapper.updateFromDTO(persona, personaEntity);
 
         String encryptedPassword = EncryptionUtils.encryptMD5A(persona.getUsuario().getPassword());
         personaEntity.getUsuario().setContrasenia(encryptedPassword);
         personaEntity.getUsuario().setImagen(archivoService.save(imagen));
         personaEntity.getUsuario().setUltimaConexion(Calendar.getInstance());
-        this.save(personaEntity);
+        this.save(personaEntity);*/
     }
 
 }

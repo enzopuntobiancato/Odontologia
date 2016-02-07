@@ -36,7 +36,8 @@
                         <div layout="row">
                             <md-input-container class="md-input-container-view-icon md-input-container-view-offset">
                                 <label>Tipo doc.</label>
-                                <md-select ng-model="usuario.documento.tipoDoc" name="tipoDoc" required>
+                                <md-select ng-model="usuario.documento.tipoDoc" ng-model-options="{trackBy: '$value.key'}"
+                                           name="tipoDoc" required>
                                     <md-option ng-repeat="tipo in data.tiposDoc" ng-value="tipo">
                                         {{ tipo.nombre }}
                                     </md-option>
@@ -78,13 +79,13 @@
                         <ng-md-icon icon="security" class="md-icon-view"></ng-md-icon>
                         <md-input-container class="md-input-container-view-icon">
                             <label>Rol</label>
-                            <md-select required ng-model="usuario.rol" name="rol" required>
-                                <md-option ng-repeat="rol in data.roles" ng-value="rol">
+                            <md-select required ng-model="usuario.rol" name="rol">
+                                <md-option ng-repeat="rol in data.roles" ng-value="rol" ng-model-options="{trackBy: 'rol.id'}">
                                     {{ rol.nombre }}
                                 </md-option>
                             </md-select>
                             <div class="errors" ng-messages="usuarioForm.rol.$error" ng-if="usuarioForm.$dirty">
-                                <div ng-message="required">Required</div>
+                                <!--div ng-message="required">Required</div-->
                             </div>
                         </md-input-container>
                     </div>

@@ -3,7 +3,7 @@ var module = angular.module('usuarioModule');
 
 module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '$state', 'MessageSrv', 'rolesResponse', 'tiposDocResponse', '$mdDialog',
     function ($scope, $rootScope, service, $state, message, rolesResponse, tiposDocResponse) {
-    $scope.usuario = {};
+    $scope.usuario = {nombreUsuario : "Juan"};
 
     $scope.data = {
         disableFields: false,
@@ -24,7 +24,8 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
                 $scope.goIndex();
             })
             .error(function (data, status) {
-                Console.log(status);
+                console.log(status);
+                console.log(data);
                 message.showMessage('No se pudo crear el usuario ' + $scope.usuario.nombreUsuario);
             })
     };

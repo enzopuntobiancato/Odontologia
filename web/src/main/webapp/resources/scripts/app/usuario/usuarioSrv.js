@@ -4,11 +4,12 @@ module.
     factory('UsuarioSrv', ['$http', function ($http) {
         var service = {};
 
-        service.save = function (entity) {
+        service.save = function (dto) {
+            console.log("UsuarioSrv save")
             return $http({
                 method: 'POST',
-                url: 'api/usuario/save',
-                data: angular.toJson(entity)
+                url: 'api/usuario/saveUsuario',
+                data: angular.toJson(dto)
             })
         }
 
