@@ -26,9 +26,6 @@ public class PersonaService extends BaseService<Persona> {
     private PersonaDao dao;
 
     @Inject
-    private UsuarioService usuarioService;
-
-    @Inject
     private Validator validator;
 
     @Inject
@@ -49,7 +46,6 @@ public class PersonaService extends BaseService<Persona> {
 
     @Override
     public Persona create(Persona entity) throws SAPOException {
-        usuarioService.update(entity.getUsuario());
         entity.setFechaCarga(Calendar.getInstance());
         return super.create(entity);
     }

@@ -3,8 +3,10 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
+import com.utn.tesis.util.RandomStringGenerator;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -29,6 +31,8 @@ public class UsuarioService extends BaseService<Usuario> {
     private RolService rolService;
     @Inject
     private ArchivoService archivoService;
+    @Inject
+    private PersonaService personaService;
 
     @Override
     DaoBase<Usuario> getDao() {
@@ -68,6 +72,26 @@ public class UsuarioService extends BaseService<Usuario> {
 
     public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
         return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
+    }
+
+    public boolean saveUsuario(Persona persona, Usuario usuario) {
+        try {
+            String password = RandomStringGenerator.generateRandomString(5, RandomStringGenerator.Mode.ALPHANUMERIC);
+            //TODO: enzo
+            //Consulta: Se deberia en este momento disparar el mail informando el usuario y la contraseña??
+            //despues de este punto creo que se pierde la contraseña desencriptada y no se puede recuperar para enviarla despues
+            usuario.setContrasenia(password);
+            usuario = create(usuario);
+            persona.setUsuario(usuario);
+            persona = personaService.create(persona);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public Persona findPersonaByUsuario(Usuario usuario) {
+        return dao.findPersonaByUsuario(usuario);
     }
 }
 

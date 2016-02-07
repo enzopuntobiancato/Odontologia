@@ -1,10 +1,7 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.utn.tesis.model.Bajeable;
-import com.utn.tesis.model.QRol;
-import com.utn.tesis.model.QUsuario;
-import com.utn.tesis.model.Usuario;
+import com.utn.tesis.model.*;
 
 import java.util.List;
 
@@ -52,5 +49,19 @@ public class UsuarioDao extends DaoBase<Usuario> {
         query.where(usuario.nombreUsuario.eq(nombreUsuario).and(usuario.authToken.eq(authToken)));
 
         return query.uniqueResult(usuario);
+    }
+
+    public Persona findPersonaByUsuario(Usuario usuario) {
+        if (usuario == null) return null;
+        Persona p = null;
+
+        JPAQuery query = new JPAQuery(em).from(QAlumno.alumno, QAutoridad.autoridad,
+                QResponsableRecepcion.responsableRecepcion, QProfesor.profesor)
+                .where((QAlumno.alumno.usuario.id.eq(usuario.getId()))
+                        .or(QAutoridad.autoridad.usuario.id.eq(usuario.getId()))
+                        .or(QProfesor.profesor.usuario.id.eq(usuario.getId()))
+                        .or(QResponsableRecepcion.responsableRecepcion.usuario.id.eq(usuario.getId())));
+
+        return query.uniqueResult(QPersona.persona);
     }
 }
