@@ -12,18 +12,19 @@ public class UsuarioDTO {
     private String email;
     private RolDTO rol;
     private Long id;
-    private String contrasenia;
+    // Diferente nombre para no mapear la contraseña
+    private String password;
 
     public UsuarioDTO() {
     }
 
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {

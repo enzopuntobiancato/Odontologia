@@ -3,6 +3,7 @@ package com.utn.tesis.mapping.mapper;
 import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.model.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 /**
@@ -24,6 +25,19 @@ public abstract class PersonaMapper {
     public abstract AdministradorAcademicoDTO adminAcademicoToDTO(AdministradorAcademico source);
 
     public abstract AdministradorDTO adminToDTO(Administrador source);
+
+    @Mapping(source = "legajo", target = "legajo", defaultValue = "-1")
+    public abstract Alumno alumnoFromDTO(AlumnoDTO source);
+
+    public abstract Autoridad autoridadFromDTO(AutoridadDTO source);
+
+    public abstract Profesor profesorFromDTO(ProfesorDTO source);
+
+    public abstract ResponsableRecepcion responsableFromDTO(ResponsableRecepcionDTO source);
+
+    public abstract AdministradorAcademico adminAcademicoFromDTO(AdministradorAcademicoDTO source);
+
+    public abstract Administrador adminFromDTO(AdministradorDTO source);
 
     public abstract void updateAlumnoFromDTO(AlumnoDTO source, @MappingTarget Alumno target);
 
@@ -52,6 +66,23 @@ public abstract class PersonaMapper {
             return this.adminToDTO((Administrador)source);
         }
         return null;
+    }
+
+    public Persona fromDTO(PersonaDTO source){
+       if (source instanceof AlumnoDTO){
+           return this.alumnoFromDTO((AlumnoDTO) source);
+       }else if (source instanceof AutoridadDTO){
+           return this.autoridadFromDTO((AutoridadDTO) source);
+       } else if(source instanceof ResponsableRecepcionDTO){
+           return this.responsableFromDTO((ResponsableRecepcionDTO) source);
+        }else if(source instanceof ProfesorDTO){
+           return this.profesorFromDTO((ProfesorDTO) source);
+       }else if(source instanceof AdministradorAcademicoDTO){
+           return this.adminAcademicoFromDTO((AdministradorAcademicoDTO) source);
+       }else if(source instanceof AdministradorDTO){
+           return this.adminFromDTO((AdministradorDTO)source);
+       }
+       return null;
     }
 
     public void updateFromDTO(PersonaDTO source, Persona target) {

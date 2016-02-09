@@ -36,8 +36,6 @@ public class UsuarioService extends BaseService<Usuario> {
     private ArchivoService archivoService;
     @Inject
     private PersonaService personaService;
-    @Inject
-    private UsuarioMapper usuarioMapper;
 
     @Override
     DaoBase<Usuario> getDao() {

@@ -3,10 +3,16 @@ package com.utn.tesis.api;
 import com.utn.tesis.annotation.JsonMap;
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.mapping.dto.UsuarioDTO;
+import com.utn.tesis.mail.Alumno;
+import com.utn.tesis.mapping.dto.*;
+import com.utn.tesis.mapping.mapper.PersonaMapper;
+import com.utn.tesis.mapping.mapper.UsuarioConsultaMapper;
 import com.utn.tesis.mapping.mapper.UsuarioMapper;
+import com.utn.tesis.model.Persona;
+import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.BaseService;
+import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.UsuarioService;
 import com.utn.tesis.util.EncryptionUtils;
 import com.utn.tesis.util.MappingUtil;
@@ -17,6 +23,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +41,12 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
     UsuarioService usuarioService;
     @Inject
     UsuarioMapper usuarioMapper;
+    @Inject
+    PersonaMapper personaMapper;
+    @Inject
+    CommonsService commonsService;
+    @Inject
+    UsuarioConsultaMapper usuarioConsultaMapper;
 
     @Override
     public BaseService<Usuario> getEjbInstance() {
@@ -43,27 +56,38 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
     @Path("/find")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UsuarioDTO> findByFilters(@QueryParam("nombreUsuario") String nombreUsuario,
+    public List<UsuarioConsultaDTO> findByFilters(@QueryParam("nombreUsuario") String nombreUsuario,
                                        @QueryParam("email") String email,
                                        @QueryParam("rolId") Long rolId,
                                        @QueryParam("dadosBaja") boolean dadosBaja,
                                        @QueryParam("pageNumber") Long pageNumber,
                                        @QueryParam("pageSize") Long pageSize) {
-        List<UsuarioDTO> result = usuarioService.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
-
+        List<UsuarioConsultaDTO> result = new ArrayList<UsuarioConsultaDTO>();
+        List<Usuario> usuarios = usuarioService.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
+        for (Usuario usuario : usuarios){
+            UsuarioConsultaDTO usuarioConsultaDTO = usuarioConsultaMapper.personaToUsuarioConsultaDTO(usuarioService.findPersonaByUsuario(usuario));
+            result.add(usuarioConsultaDTO);
+        }
         return result;
-    }
-
-    @Override
-    public Usuario findById(@QueryParam("id") Long id) {
-        return (Usuario) MappingUtil.serializeWithView(super.findById(id), JsonMap.Public.class);
     }
 
     @Path("/findById")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public UsuarioDTO findUsuarioById(@QueryParam("id") Long id){
-        UsuarioDTO usuarioDTO = usuarioService.findUsuarioById(id);
+    public UsuarioConsultaDTO findUsuarioById(@QueryParam("id") Long id){
+        Usuario usuario = usuarioService.findById(id);
+        Persona persona = usuarioService.findPersonaByUsuario(usuario);
+        UsuarioConsultaDTO usuarioDTO = usuarioConsultaMapper.personaToUsuarioConsultaDTO(persona);
+        return usuarioDTO;
+    }
+
+    @Path("/findPersona")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public PersonaDTO findPersonaById(@QueryParam("id") Long id){
+        Usuario usuario = usuarioService.findById(id);
+        Persona persona = usuarioService.findPersonaByUsuario(usuario);
+        PersonaDTO usuarioDTO = personaMapper.toDTO(persona);
         return usuarioDTO;
     }
 
@@ -72,20 +96,21 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/saveUsuario")
-    public Response save(UsuarioDTO usuarioDTO) {
+    public Response save(PersonaDTO personaDTO) {
+        //Usuario
+        UsuarioDTO usuarioDTO = personaDTO.getUsuario();
+        Usuario entityUsuario = usuarioMapper.fromUsuarioDTO(usuarioDTO);
         try {
-            if (usuarioDTO.getId() == 0){
-                usuarioService.create(usuarioDTO);
+            if (entityUsuario.isNew()){
+                Rol rol =  commonsService.findRolById(usuarioDTO.getRol().getId());
+                entityUsuario.setRol(rol);
+                Persona entityPersona = personaMapper.fromDTO(personaDTO);
+                entityUsuario.setNombreUsuario(personaDTO.getDocumento().getNumero()); //Por defaulr, el nombre de usuario es el numero de documento.
+                usuarioService.saveUsuario(entityPersona, entityUsuario);
             }
             else {
                 this.update(usuarioDTO);
             }
-           /* if (entity.isNew()) {
-                entity = getEjbInstance().create(entity);
-            } else {
-                this.update(entity);
-            }
-            entity = (Usuario) MappingUtil.serializeWithView(entity, JsonMap.Public.class);*/
             return Response.ok(usuarioDTO).build();
         } catch (SAPOException se) {
             return persistenceRequest(se);
@@ -96,19 +121,20 @@ public class UsuarioAPI extends BaseAPI<Usuario> {
     }
 
     private void update(UsuarioDTO usuarioDTO) throws SAPOException {
-        Usuario persistedEntity = getEjbInstance().findById(usuarioDTO.getId());
-
+        Usuario persistedEntity = usuarioService.findById(usuarioDTO.getId());
         persistedEntity.setNombreUsuario(usuarioDTO.getNombreUsuario());
         persistedEntity.setEmail(usuarioDTO.getEmail());
 
-        if (usuarioDTO.getContrasenia() != null) {
+        if (usuarioDTO.getPassword() != null) {
             try {
-                persistedEntity.setContrasenia(EncryptionUtils.encryptMD5A1(usuarioDTO.getContrasenia()));
+                persistedEntity.setContrasenia(EncryptionUtils.encryptMD5A1(usuarioDTO.getPassword()));
             } catch (NoSuchAlgorithmException e) {
-                persistedEntity.setContrasenia(EncryptionUtils.encryptMD5A2(usuarioDTO.getContrasenia()));
+                persistedEntity.setContrasenia(EncryptionUtils.encryptMD5A2(usuarioDTO.getPassword()));
             }
         }
 
-        getEjbInstance().update(persistedEntity);
+        usuarioService.update(persistedEntity);
     }
+
+
 }

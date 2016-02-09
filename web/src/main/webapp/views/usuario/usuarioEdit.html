@@ -1,5 +1,5 @@
         <md-content layout="column" layout-align="start center" class="md-main-content" flex>
-            <md-card>
+            <md-card class="md-whiteframe-z5 md-main-content-card">
                 <form name="usuarioForm" novalidate ng-submit="save()">
                 <md-toolbar class="md-accent">
                     <div class="md-toolbar-tools">
@@ -8,12 +8,12 @@
                 </md-toolbar>
                 <md-card-content>
                     <p>Complete los datos para editar el usuario.</p>
-                    <div layout="row">
+                    <!--div layout="row">
                         <ng-md-icon icon="person" class="md-icon-view"></ng-md-icon>
-                        <md-input-container class="md-input-container-view-icon">
+                        <md-input-container class="md-input-container-view-icon muted" ng-disabled>
                             <label>Nombre</label>
-                            <input name="nombre"  ng-model="usuario.nombre"
-                                   required md-maxlength="100">
+                            <input name="nombre"  ng-model="personaDTO.nombre"
+                                   md-maxlength="100"  ng-disabled="true">
                             <div ng-messages="usuarioForm.nombre.$error" role="alert" multiple>
                                 <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
                                 <div ng-message="md-maxlength" class="my-message">
@@ -21,10 +21,10 @@
                                 </div>
                             </div>
                         </md-input-container>
-                        <md-input-container class="md-input-container-view-icon">
+                        <md-input-container class="md-input-container-view-icon" ng-disabled>
                             <label>Apellido</label>
-                            <input name="apellido"  ng-model="usuario.apellido"
-                                   required md-maxlength="100">
+                            <input name="apellido"  ng-model="personaDTO.apellido"
+                                   md-maxlength="100" ng-disabled="true" class="muted">
                             <div ng-messages="usuarioForm.apellido.$error" role="alert" multiple>
                                 <div ng-message="required" class="my-message">El apellido es un campo requerido.</div>
                                 <div ng-message="md-maxlength" class="my-message">
@@ -32,10 +32,10 @@
                                 </div>
                             </div>
                         </md-input-container>
-                        <md-input-container class="md-input-container-view-icon">
+                        <md-input-container class="md-input-container-view-icon muted" ng-disabled>
                             <label>Tipo doc.</label>
-                            <md-select ng-model="usuario.documento.tipoDoc" name="tipoDoc" required>
-                                <md-option ng-repeat="tipo in data.tiposDoc" ng-value="tipo">
+                            <md-select ng-model="personaDTO.documento.tipoDocumento" name="tipoDoc"  ng-disabled="true" class="muted">
+                                <md-option ng-repeat="tipo in data.tiposDoc" ng-value="tipo" ng-model-options="{trackBy: '$value.key'}">
                                     {{ tipo.nombre }}
                                 </md-option>
                             </md-select>
@@ -43,9 +43,9 @@
                                 <div ng-message="required">El tipo de documento es un campo requerido.</div>
                             </div>
                         </md-input-container>
-                        <md-input-container class="md-input-container-view-icon">
+                        <md-input-container class="md-input-container-view-icon muted" ng-disabled>
                             <label>Nro. documento</label>
-                            <input name="nroDocumento"  ng-model="usuario.documento.nroDocumento"
+                            <input name="nroDocumento"  ng-model="personaDTO.documento.numero"
                                    required md-maxlength="10">
                             <div ng-messages="usuarioForm.nroDocumento.$error" role="alert" multiple>
                                 <div ng-message="required" class="my-message">El documento es un campo requerido.</div>
@@ -54,21 +54,22 @@
                                 </div>
                             </div>
                         </md-input-container>
-                    </div>
+                    </div-->
                     <div layout="row">
                         <ng-md-icon icon="email" class="md-icon-view"></ng-md-icon>
                         <md-input-container class="md-input-container-view-icon">
                             <label>E-mail</label>
-                            <input name="email" ng-model="usuario.email" type="email"
+                            <input name="email" ng-model="personaDTO.usuario.email" type="email"
                                    required md-maxlength="100">
-                            <div ng-messages="usuarioForm.email.$error" role="alert" multiple>
-                                <div ng-message="required" class="my-message">El e-mail es un campo requerido.</div>
-                                <div ng-message="md-maxlength" class="my-message">
-                                    El e-mail no puede tener màs de 100 caracteres.
-                                </div>
-                                <div ng-message="email">
-                                    El formato del e-mail ingresado es incorrecto.
-                                </div>
+                            <div ng-messages="usuarioForm.email.$error" ng-show="usuarioForm.email.$touched">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-input-container-view-icon">
+                            <label>Nombre de usuario</label>
+                            <input name="nombreUsuario" ng-model="personaDTO.usuario.nombreUsuario" required md-maxlength="100">
+                            <div ng-messages="usuarioForm.nombreUsuario.$error" ng-show="usuarioForm.nombreUsuario.$touched">
+                                <div ng-messages-include="error-messages"></div>
                             </div>
                         </md-input-container>
                     </div>
@@ -76,39 +77,29 @@
                         <ng-md-icon icon="security" class="md-icon-view"></ng-md-icon>
                         <md-input-container class="md-input-container-view-icon">
                             <label>Contraseña</label>
-                            <input name="password" ng-model="usuario.contrasenia"
+                            <input name="password" ng-model="personaDTO.usuario.contrasenia"
                                    required md-maxlength="50" type="password">
-                            <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
-                                <div ng-message="required" class="my-message">La contraseña es un campo requerido.
-                                </div>
-                                <div ng-message="md-maxlength" class="my-message">
-                                    La contraseña no puede tener màs de 50 caracteres.
-                                </div>
+                            <div ng-messages="usuarioForm.password.$error" ng-show="usuarioForm.password.$touched">
+                                <div ng-messages-include="error-messages"></div>
                             </div>
                         </md-input-container>
                         <md-input-container class="md-input-container-view-icon">
                             <label>Confirmar contraseña</label>
-                            <input ng-model="usuario.confirmacionContrasenia" name="confirmPassword"
-                                   required md-maxlength="50" type="password" same-as="usuario.contrasenia">
-                            <div ng-messages="usuarioEditForm.nombre.$error" role="alert" multiple>
-                                <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
-                                <div ng-message="md-maxlength" class="my-message">
-                                    El nombre no puede tener màs de 50 caracteres.
-                                </div>
-                                <div ng-message="sameAs" class="my-message">
-                                    Los dos campos deben coincidir.
-                                </div>
+                            <input ng-model="personaDTO.confirmacionContrasenia" name="confirmPassword"
+                                   required md-maxlength="50" type="password" same-as="personaDTO.usuario.contrasenia">
+                            <div ng-messages="usuarioForm.confirmPassword.$error" ng-show="usuarioForm.confirmPassword.$touched">
+                                <div ng-messages-include="error-messages"></div>
                             </div>
                         </md-input-container>
                         <md-input-container class="md-input-container-view-icon">
                             <label>Rol</label>
-                            <md-select required ng-model="usuario.rol" name="rol" required>
-                                <md-option ng-repeat="rol in data.roles" ng-value="rol">
+                            <md-select required ng-model="personaDTO.usuario.rol" name="rol" required ng-model-options="{trackBy: 'rol.id'}">
+                                <md-option ng-repeat="rol in data.roles" ng-value="rol" >
                                     {{ rol.nombre }}
                                 </md-option>
                             </md-select>
-                            <div class="errors" ng-messages="usuarioForm.rol.$error" ng-if="usuarioForm.$dirty">
-                                <div ng-message="required">Required</div>
+                            <div ng-messages="usuarioForm.rol.$error" ng-show="usuarioForm.rol.$touched">
+                                <div ng-messages-include="error-messages"></div>
                             </div>
                         </md-input-container>
                     </div>
@@ -122,7 +113,7 @@
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
                     <md-button ng-click="goIndex()">Cancelar</md-button>
-                    <md-button type="submit" class="md-raised md-primary" ng-disabled="usuarioForm.$invalid">Aceptar</md-button>
+                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
                 </md-card-actions>
                 </form>
             </md-card>

@@ -1,5 +1,5 @@
-    <md-content layout="column" layout-align="start center" md-scroll-y flex class="md-main-content">
-            <md-card>
+    <md-content layout="column" layout-align="start center" flex class="md-main-content">
+            <md-card class="md-whiteframe-z5 md-main-content-card">
                 <md-toolbar class="md-accent">
                     <div class="md-toolbar-tools">
                         <span>Consultar usuario</span>
@@ -65,19 +65,19 @@
                                           ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
                                 <img ng-src="{{ item.img }}" class="md-avatar"/>
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{item.apellido}}, {{ item.nombre }}</h3>
-                                    <h4>{{item.documento.tipoDocumento.nombre }}:{{item.documento.nroDocumento }}</h4>
-                                    <p>{{ item.email }}</p>
+                                    <h3>{{item.nombreUsuario }}-{{item.apellido}}, {{ item.nombre }}</h3>
+                                    <h4>{{item.tipoDocumento }}:{{item.numero }}</h4>
+                                    <p>{{item.email }}</p>
                                 </div>
                                 <div ng-show="item.showAction">
-                                    <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.id)"
+                                    <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.idUsuario)"
                                                 ng-attr-style="fill: {{colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
                                                 ng-mouseleave="colorMouseLeave(3)">
                                         <md-tooltip>
                                             Editar
                                         </md-tooltip>
                                     </ng-md-icon>
-                                    <ng-md-icon icon="visibility" size="24" ng-click="viewDetail(item.id)"
+                                    <ng-md-icon icon="visibility" size="24" ng-click="viewDetail(item.idUsuario)"
                                                 ng-attr-style="fill: {{colorIcon[4]}}" ng-Mouseover="colorMouseOver(4)"
                                                 ng-mouseleave="colorMouseLeave(4)">
                                         <md-tooltip>

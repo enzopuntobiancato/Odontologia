@@ -4,12 +4,12 @@ module.
     factory('UsuarioSrv', ['$http', function ($http) {
         var service = {};
 
-        service.save = function (dto) {
+        service.save = function (nuevoUsuarioDTO) {
             console.log("UsuarioSrv save")
             return $http({
                 method: 'POST',
                 url: 'api/usuario/saveUsuario',
-                data: angular.toJson(dto)
+                data: angular.toJson(nuevoUsuarioDTO)
             })
         }
 
@@ -37,6 +37,14 @@ module.
                 url: 'api/usuario/findById',
                 method: 'GET',
                 params: {id: id}
+            })
+        }
+
+        service.findPersona = function(id){
+            return $http({
+                url:'api/usuario/findPersona',
+                method:'GET',
+                params:{id: id}
             })
         }
 

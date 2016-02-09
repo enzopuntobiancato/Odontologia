@@ -51,6 +51,10 @@ public class CommonsService {
         return result;
     }
 
+    public Rol findRolById(long id){
+        return rolDao.findById(id);
+    }
+
     public List<EnumDTO> findAllTiposDocumento() {
         List<TipoDocumento> tipoDocumentoList = Arrays.asList(TipoDocumento.values());
         return enumMapper.tipoDocumentoListToDTOList(tipoDocumentoList);

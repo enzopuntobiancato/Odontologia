@@ -7,8 +7,8 @@ package com.utn.tesis.mapping.dto;
  * Time: 17:43
  * To change this template use File | Settings | File Templates.
  */
-public class RolDTO {
-    private long id;
+public class RolDTO extends BaseDTO{
+    private Long id;
     private String nombre;
 
     public RolDTO() {

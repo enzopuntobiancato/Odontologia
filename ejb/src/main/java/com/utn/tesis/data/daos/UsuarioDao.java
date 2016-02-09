@@ -55,13 +55,17 @@ public class UsuarioDao extends DaoBase<Usuario> {
         if (usuario == null) return null;
         Persona p = null;
 
-        JPAQuery query = new JPAQuery(em).from(QAlumno.alumno, QAutoridad.autoridad,
+        /*JPAQuery query = new JPAQuery(em).from(QAlumno.alumno, QAutoridad.autoridad,
                 QResponsableRecepcion.responsableRecepcion, QProfesor.profesor)
                 .where((QAlumno.alumno.usuario.id.eq(usuario.getId()))
                         .or(QAutoridad.autoridad.usuario.id.eq(usuario.getId()))
                         .or(QProfesor.profesor.usuario.id.eq(usuario.getId()))
-                        .or(QResponsableRecepcion.responsableRecepcion.usuario.id.eq(usuario.getId())));
+                        .or(QResponsableRecepcion.responsableRecepcion.usuario.id.eq(usuario.getId())));*/
 
-        return query.uniqueResult(QPersona.persona);
+        QPersona persona = QPersona.persona;
+        JPAQuery query1 = new JPAQuery(em).from(persona)
+                .where(persona.usuario.id.eq(usuario.getId()));
+
+        return query1.uniqueResult(QPersona.persona);
     }
 }

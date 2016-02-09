@@ -444,6 +444,9 @@ odontologiaApp.config(['$urlRouterProvider',
                     }],
                     tiposDocResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, service) {
                         return service.getTiposDocumento();
+                    }],
+                    sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getSexos();
                     }]
                 }
             })
@@ -456,7 +459,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         return service.getRoles();
                     }],
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
-                        return service.findById($stateParams.id);
+                        return service.findPersona($stateParams.id);
                     }],
                     tiposDocResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, service) {
                         return service.getTiposDocumento();

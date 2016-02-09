@@ -25,8 +25,6 @@ public interface UsuarioMapper {
 
     UsuarioDTO fromUsuario(Usuario usuario);
 
-    @Mappings({
-            @Mapping(source = "id", target = "id", defaultValue = "-1")
-    })
+
     Usuario fromUsuarioDTO(UsuarioDTO usuarioDTO);
 }

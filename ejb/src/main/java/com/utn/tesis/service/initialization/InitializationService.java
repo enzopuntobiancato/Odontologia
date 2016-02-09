@@ -67,6 +67,7 @@ public class InitializationService {
                     initMethod.getMethod().invoke(this);
                 } catch (Exception e) {
                     someError = true;
+                    System.out.println("e.getMessage() = " + e.getMessage());
                     log.error("Error durante la inicialización de los datos en {}.", initMethod.getMethod().getName(), e);
                 }
             }
@@ -125,7 +126,7 @@ public class InitializationService {
     @RunOnInit(order = 1)
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarMaterias() throws SAPOException {
-        /*Materia m1 = new Materia();
+        Materia m1 = new Materia();
         m1.setNombre("Prostodoncia");
         m1.setNivel(Nivel.PRIMERO);
         m1.setDescripcion("Materia de primer año donde se adquieren los conocimientos iniciales relacionados.");
@@ -160,13 +161,13 @@ public class InitializationService {
         materiaService.create(m3);
         materiaService.create(m4);
         materiaService.create(m5);
-        materiaService.create(m6);*/
+        materiaService.create(m6);
     }
 
     @RunOnInit(order = 2)
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarGrupoPracticaOdontologica() throws SAPOException {
-        /*grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("OPERATORIA DENTAL")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("OPERATORIA DENTAL")));
         grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("ENDODONCIA SIN OBTURACIÓN")));
         grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("PRÓTESIS")));
         grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("ODONTOLOGÍA PREVENTIVA")));
@@ -175,23 +176,23 @@ public class InitializationService {
         grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("PERIODONCIA")));
         grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("PROSTODONCIA")));
         grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("RADIOLOGÍA")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("CIRUGÍA BUCAL")));*/
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("CIRUGÍA BUCAL")));
     }
 
     @RunOnInit(order = 3)
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarPracticaOdontologica() throws SAPOException {
 
-/*        PracticaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "EXAMEN DIAGNÓSTICO, FICHADO Y PLAN DE TRATAMIENTO", "Se considera primera consulta al examen, diagnóstico, fichado y plan de tratamiento. Como consecuencia del exámen, el fichado deberá reflejar el estado actual de la boca, previo al tratamiento.")));
+        PracticaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "EXAMEN DIAGNÓSTICO, FICHADO Y PLAN DE TRATAMIENTO", "Se considera primera consulta al examen, diagnóstico, fichado y plan de tratamiento. Como consecuencia del exámen, el fichado deberá reflejar el estado actual de la boca, previo al tratamiento.")));
         PracticaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "VISITA A DOMICILIO", "Se considera consulta domiciliaria a la atención de pacientes impedidos de trasladarse al consultorio del odontólogo.")));
         PracticaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "CONSULTA DE URGENCIA", "Se considera consulta de urgencia a toda prestación que no constituye paso intermedio y/o final de tratamiento. Importante establecer el motivo de la misma.")));
-        PracticaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "OBTURACIÓN CON AMALGAMA - CAVIDAD SIMPLE", "Se reconocerá como obturación simple de amalgama a aquellas en las que se haya practicado un adecuado tallado de la cavidad.")));*/
+        PracticaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "OBTURACIÓN CON AMALGAMA - CAVIDAD SIMPLE", "Se reconocerá como obturación simple de amalgama a aquellas en las que se haya practicado un adecuado tallado de la cavidad.")));
     }
 
     @RunOnInit(order = 4)
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarTrabajoPracticos() throws SAPOException {
-        /*TrabajoPractico tp1 = new TrabajoPractico();
+        TrabajoPractico tp1 = new TrabajoPractico();
         tp1.setNombre("TP 1 - Diagnostico");
         tp1.setDescripcion("diagnosticar bla bla bla");
         tp1.setPracticaOdontologica(PracticaOdontologicasList.get(0));
@@ -231,7 +232,7 @@ public class InitializationService {
         tp6.setDescripcion("Duis sapien sapien, tincidunt ut viverra at, tempor nec nisl. Nullam vel massa nec urna consectetur ultricies ut non nunc. Morbi vitae aliquet turpis");
         tp6.setPracticaOdontologica(PracticaOdontologicasList.get(3));
 
-        trabajoPracticoService.create(tp6);*/
+        trabajoPracticoService.create(tp6);
     }
 
     @RunOnInit(order = 5)
