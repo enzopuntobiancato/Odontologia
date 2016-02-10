@@ -3,7 +3,7 @@ var module = angular.module('usuarioModule');
 
 module.controller('UsuarioCtrl_Edit', ['$scope', '$rootScope', 'UsuarioSrv', '$state', 'MessageSrv', 'rolesResponse', 'usuarioResponse', 'tiposDocResponse',
     function ($scope, $rootScope, service, $state, message, rolesResponse, usuarioResponse, tiposDocResponse) {
-    $scope.usuario = usuarioResponse.data;
+    $scope.personaDTO = usuarioResponse.data;
     $scope.data = {
         disableFields: false,
         persistedOperation: $rootScope.persistedOperation || false,
@@ -14,16 +14,17 @@ module.controller('UsuarioCtrl_Edit', ['$scope', '$rootScope', 'UsuarioSrv', '$s
     };
 
     $scope.save = function () {
-        service.save($scope.usuario)
+        $scope.personaDTO.nombreRol = $scope.personaDTO.usuario.rol.nombre;
+        service.save($scope.personaDTO)
             .success(function (data) {
                 $scope.data.persistedOperation = true;
                 $scope.data.disableFields = true;
                 $scope.data.saved = true;
-                message.showMessage("Usuario " + $scope.usuario.nombreUsuario + " modificado con éxito!");
+                message.showMessage("Usuario " + $scope.personaDTO.usuario.nombreUsuario + " modificado con éxito!");
                 $scope.goIndex();
             })
             .error(function (data) {
-                message.showMessage("Error al modificar " + $scope.usuario.nombreUsuario);
+                message.showMessage("Error al modificar " + $scope.personaDTO.usuario.nombreUsuario);
             })
     };
 

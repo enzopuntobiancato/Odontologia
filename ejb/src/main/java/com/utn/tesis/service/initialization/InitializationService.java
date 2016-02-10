@@ -67,6 +67,7 @@ public class InitializationService {
                     initMethod.getMethod().invoke(this);
                 } catch (Exception e) {
                     someError = true;
+                    System.out.println("e.getMessage() = " + e.getMessage());
                     log.error("Error durante la inicialización de los datos en {}.", initMethod.getMethod().getName(), e);
                 }
             }

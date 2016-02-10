@@ -2,18 +2,30 @@ package com.utn.tesis.mapping.dto;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 3/02/16
- * Time: 22:29
+ * User: Usuario
+ * Date: 4/02/16
+ * Time: 17:41
+ * To change this template use File | Settings | File Templates.
  */
-public class UsuarioDTO extends BaseDTO {
-    private static final long serialVersionUID = -8451608534035229702L;
-
-    private Long id;
+public class UsuarioDTO {
     private String nombreUsuario;
     private String email;
+    private RolDTO rol;
+    private Long id;
     // Diferente nombre para no mapear la contraseña
     private String password;
+
+    public UsuarioDTO() {
+    }
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -39,11 +51,11 @@ public class UsuarioDTO extends BaseDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public RolDTO getRol() {
+        return rol;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRol(RolDTO rolDTO) {
+        this.rol = rolDTO;
     }
 }

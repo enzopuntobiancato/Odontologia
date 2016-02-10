@@ -5,7 +5,6 @@ import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.model.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 
 /**
@@ -14,7 +13,7 @@ import org.mapstruct.Mappings;
  * Date: 24/01/16
  * Time: 13:39
  */
-@Mapper(componentModel = "cdi", uses = PrivilegioMapper.class)
+@Mapper(componentModel = "cdi", uses = {PrivilegioMapper.class, RollMapper.class})
 public interface UsuarioMapper {
 
     @Mappings({
@@ -24,9 +23,8 @@ public interface UsuarioMapper {
     })
     UsuarioLogueadoDTO toUsuarioLogueadoDTO(Usuario usuario);
 
-    Usuario fromDTO(UsuarioDTO usuarioDTO);
+    UsuarioDTO fromUsuario(Usuario usuario);
 
-    UsuarioDTO toDTO(Usuario usuario);
 
-    void updateFromDTO(UsuarioDTO dto, @MappingTarget Usuario usuario);
+    Usuario fromUsuarioDTO(UsuarioDTO usuarioDTO);
 }

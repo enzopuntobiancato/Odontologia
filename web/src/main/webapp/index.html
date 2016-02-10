@@ -19,7 +19,7 @@
 <body ng-controller="AppController" layout="column">
 <div layout="row" flex>
     <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-sm')">
+                md-is-locked-open="$mdMedia('gt-sm')" ng-cloak>
         <div flex="initial" class="user-main">
             <img ng-src="https://s3-eu-west-1.amazonaws.com/vegebase/codepen/img/monkey_avatar_portrait_small.jpeg"
                  alt="avatar" class="md-avatar">
@@ -47,7 +47,7 @@
             </md-list>
         </md-content>
     </md-sidenav>
-    <div layout="column" flex id="content">
+    <div layout="column" flex id="content" ng-cloak>
         <md-toolbar layout="row" md-scroll-shrink>
             <div class="md-toolbar-tools">
                 <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">

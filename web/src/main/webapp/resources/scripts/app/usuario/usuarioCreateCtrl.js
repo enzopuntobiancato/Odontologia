@@ -1,33 +1,43 @@
 var module = angular.module('usuarioModule');
 
 
-module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '$state', 'MessageSrv', 'rolesResponse', 'tiposDocResponse', '$mdDialog',
-    function ($scope, $rootScope, service, $state, message, rolesResponse, tiposDocResponse) {
-    $scope.usuario = {};
+module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '$state', 'MessageSrv', 'rolesResponse', 'tiposDocResponse','sexosResponse', '$mdDialog',
+    function ($scope, $rootScope, service, $state, message, rolesResponse, tiposDocResponse,sexosResponse) {
 
+    $scope.personaDTO ={};
+    var performSubmit = $scope.$parent.performSubmit;
     $scope.data = {
         disableFields: false,
         persistedOperation: $rootScope.persistedOperation || false,
         saved: false,
         roles: rolesResponse.data,
         tiposDoc: tiposDocResponse.data,
+        sexos: sexosResponse.data,
         sendEmail: true
     };
 
-    $scope.save = function () {
-        service.save($scope.usuario)
-            .success(function (data) {
-                $scope.data.persistedOperation = true;
-                $scope.data.disableFields = true;
-                $scope.data.saved = true;
-                message.showMessage('Usuario ' + $scope.usuario.nombreUsuario +' creado');
-                $scope.goIndex();
-            })
-            .error(function (data, status) {
-                Console.log(status);
-                message.showMessage('No se pudo crear el usuario ' + $scope.usuario.nombreUsuario);
-            })
-    };
+
+        $scope.save = save;
+        function save(form) {
+            performSubmit(function () {
+                $scope.personaDTO.nombreRol = $scope.personaDTO.usuario.rol.nombre;
+                service.save($scope.personaDTO)
+                    .success(function (data) {
+                        $scope.data.persistedOperation = true;
+                        $scope.data.disableFields = true;
+                        $scope.data.saved = true;
+                        message.showMessage('Usuario'+ $scope.personaDTO.apellido +', '+ $scope.personaDTO.nombre +' creado');
+                        $scope.goIndex();
+                    })
+                    .error(function (data, status) {
+                        console.log(status);
+                        console.log(data);
+                        message.showMessage('No se pudo crear el usuario');
+                    })
+
+            }, form);
+        };
+
 
     $scope.goIndex = function () {
         $state.go('^.index', {execQuery: $scope.data.persistedOperation});

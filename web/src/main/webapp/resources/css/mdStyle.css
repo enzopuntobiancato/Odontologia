@@ -135,14 +135,13 @@ md-datepicker {
 .md-main-content {
     background-color: inherit;
     max-width: 100%;
-    max-height: calc(100% -56px);
     height: 100%;
     margin: 0px;
 }
 
-.md-main-content md-card {
+.md-main-content-card {
     background-color: #fff;
-    width: calc(100% -90px);
+    width: calc(100% - 88px);
     height: auto;
 }
 

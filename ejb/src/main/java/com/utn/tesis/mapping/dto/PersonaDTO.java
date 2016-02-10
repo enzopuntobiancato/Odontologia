@@ -1,6 +1,7 @@
 package com.utn.tesis.mapping.dto;
-
-
+import com.utn.tesis.model.Rol;
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import java.util.Calendar;
 
 /**
@@ -9,6 +10,13 @@ import java.util.Calendar;
  * Date: 24/01/16
  * Time: 17:18
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "nombreRol")
+@JsonSubTypes({@JsonSubTypes.Type(value = AlumnoDTO.class, name= Rol.ALUMNO),
+        @JsonSubTypes.Type(value = ProfesorDTO.class, name=Rol.PROFESOR),
+        @JsonSubTypes.Type(value = ResponsableRecepcionDTO.class, name=Rol.RESPONSABLE_RECEPCION_PACIENTES),
+        @JsonSubTypes.Type(value = AutoridadDTO.class, name=Rol.AUTORIDAD),
+        @JsonSubTypes.Type(value = AdministradorAcademicoDTO.class, name=Rol.ADMIN_ACADEMICO),
+        @JsonSubTypes.Type(value = AdministradorDTO.class, name=Rol.ADMIN)})
 public abstract class PersonaDTO extends BaseDTO {
 
     private Long id;
@@ -18,6 +26,16 @@ public abstract class PersonaDTO extends BaseDTO {
     private Calendar fechaNacimiento;
     private EnumDTO sexo;
     private UsuarioDTO usuario;
+    private String nombreRol;
+
+
+    public String getNombreRol() {
+        return nombreRol;
+    }
+
+    public void setNombreRol(String nombreRol) {
+        this.nombreRol = nombreRol;
+    }
 
     public Long getId() {
         return id;
