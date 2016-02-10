@@ -1,5 +1,5 @@
-<md-dialog aria-label="Mango (Fruit)" ng-cloak>
-    <form name="deleteMateriaForm">
+<md-dialog ng-cloak>
+    <form name="deleteMateriaForm" novalidate ng-submit="confirmar(deleteMateriaForm)">
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>Dar de baja</h2>
@@ -12,19 +12,12 @@
         <md-dialog-content style="max-width:800px;max-height:810px; ">
             <div class="md-dialog-content">
                 <h2>Describa el motivo de la baja</h2>
-                <p>
-                    Para dar de baja la materia por favor, escriba el motivo.
-                </p>
                 <div layout="row">
                     <md-input-container flex="100">
                         <label>Motivo de la baja </label>
-                        <textarea ng-model="motivoBaja" columns="5" md-maxlength="400" name="motivo"
-                                  required="true"></textarea>
-                        <div ng-messages="deleteMateriaForm.motivo.$error" role="alert" multiple>
-                            <div ng-message="required" class="my-message">La descripcion es un campo requerido.</div>
-                            <div ng-message="md-maxlength" class="my-message">
-                                La descripción no puede tener màs de 400 caracteres.
-                            </div>
+                        <textarea ng-model="motivoBaja" columns="5" md-maxlength="400" name="motivo"></textarea>
+                        <div ng-messages="deleteMateriaForm.motivo.$error" ng-show="deleteMateriaForm.motivo.$touched">
+                            <div ng-messages-include="error-messages"></div>
                         </div>
                     </md-input-container>
                 </div>
@@ -33,7 +26,7 @@
         <div class="md-actions" layout="row">
             <span flex></span>
             <md-button ng-click="cancelar()">Cancelar</md-button>
-            <md-button type="submit" class="md-raised md-primary" ng-click="confirmar()">Aceptar</md-button>
+            <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
         </div>
     </form>
 </md-dialog>

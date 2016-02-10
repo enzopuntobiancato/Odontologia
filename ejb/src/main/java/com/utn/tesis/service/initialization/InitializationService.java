@@ -258,17 +258,17 @@ public class InitializationService {
         persona2.setDocumento(new Documento("11116591", TipoDocumento.DNI));
         persona2.setUsuario(usuario2);
 
-        personaService.create(persona2);
-
-        Alumno persona3 = new Alumno();
-        persona3.setNombre("Carlos");
-        persona3.setApellido("Biancato");
-        persona3.setFechaCarga(Calendar.getInstance());
-        persona3.setDocumento(new Documento("11116591", TipoDocumento.DNI));
-        persona3.setUsuario(usuario2);
-        persona3.setLegajo("54452");
-
-        personaService.create(persona3);
+//        personaService.create(persona2);
+//
+//        Alumno persona3 = new Alumno();
+//        persona3.setNombre("Carlos");
+//        persona3.setApellido("Biancato");
+//        persona3.setFechaCarga(Calendar.getInstance());
+//        persona3.setDocumento(new Documento("11116591", TipoDocumento.DNI));
+//        persona3.setUsuario(usuario2);
+//        persona3.setLegajo("54452");
+//
+//        personaService.create(persona3);
     }
 
 }

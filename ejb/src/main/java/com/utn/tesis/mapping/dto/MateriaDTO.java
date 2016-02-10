@@ -7,7 +7,7 @@ public class MateriaDTO extends BaseDTO {
 
     private Long id;
     private String nombre;
-    private String nivel;
+    private EnumDTO nivel;
     private String descripcion;
     private String motivoBaja;
     private Calendar fechaBaja;
@@ -28,11 +28,11 @@ public class MateriaDTO extends BaseDTO {
         this.nombre = nombre;
     }
 
-    public String getNivel() {
+    public EnumDTO getNivel() {
         return nivel;
     }
 
-    public void setNivel(String nivel) {
+    public void setNivel(EnumDTO nivel) {
         this.nivel = nivel;
     }
 

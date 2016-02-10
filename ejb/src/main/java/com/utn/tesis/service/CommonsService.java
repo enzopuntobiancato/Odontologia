@@ -1,10 +1,10 @@
 package com.utn.tesis.service;
 
-import com.utn.tesis.data.daos.GrupoPracticaOdontologicaDao;
-import com.utn.tesis.data.daos.RolDao;
 import com.utn.tesis.mapping.dto.EnumDTO;
+import com.utn.tesis.mapping.dto.GrupoPracticaOdontologicaDTO;
 import com.utn.tesis.mapping.dto.RolDTO;
 import com.utn.tesis.mapping.mapper.EnumMapper;
+import com.utn.tesis.mapping.mapper.GrupoPracticaOdontologicaMapper;
 import com.utn.tesis.mapping.mapper.RollMapper;
 import com.utn.tesis.model.*;
 
@@ -18,17 +18,18 @@ import java.util.List;
 public class CommonsService {
 
     @Inject
-    private GrupoPracticaOdontologicaDao grupoPracticaOdontologicaDao;
+    private GrupoPracticaOdontologicaService grupoPracticaOdontologicaService;
     @Inject
     private EnumMapper enumMapper;
     @Inject
-    private RollMapper rollMapper;
+    private RolService rolService;
     @Inject
-    RolDao rolDao;
+    private GrupoPracticaOdontologicaMapper grupoPracticaMapper;
+    @Inject
+    private RollMapper rollMapper;
 
-    public List<Nivel> findAllNiveles() {
-        List<Nivel> result = new ArrayList<Nivel>(Arrays.asList(Nivel.values()));
-        return result;
+    public List<EnumDTO> findAllNiveles() {
+        return enumMapper.nivelListToDTOList(Arrays.asList(Nivel.values()));
     }
 
     public List<Dia> findAllDias() {
@@ -36,15 +37,13 @@ public class CommonsService {
         return result;
     }
 
-    public List<GrupoPracticaOdontologica> findAllGruposPracticaOdontologica() {
-        List<GrupoPracticaOdontologica> result = grupoPracticaOdontologicaDao.findAll();
-
-        return result;
+    public List<GrupoPracticaOdontologicaDTO> findAllGruposPracticaOdontologica() {
+        return grupoPracticaMapper.toDTOList(grupoPracticaOdontologicaService.findAll());
     }
 
     public List<RolDTO> findAllRoles() {
         List<RolDTO> result = new ArrayList<RolDTO>();
-        List<Rol> roles = rolDao.findAll();
+        List<Rol> roles = rolService.findAll();
         for (Rol rol : roles){
              result.add(rollMapper.toRolDTO(rol));
         }
@@ -52,7 +51,7 @@ public class CommonsService {
     }
 
     public Rol findRolById(long id){
-        return rolDao.findById(id);
+        return rolService.findById(id);
     }
 
     public List<EnumDTO> findAllTiposDocumento() {

@@ -2,7 +2,10 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.MateriaDao;
+import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.mapping.dto.MateriaDTO;
+import com.utn.tesis.mapping.mapper.MateriaMapper;
 import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.Nivel;
 
@@ -22,6 +25,9 @@ public class MateriaService extends BaseService<Materia> {
     @Inject
     private Validator validator;
 
+    @Inject
+    private MateriaMapper materiaMapper;
+
     @Override
     DaoBase<Materia> getDao() {
         return dao;
@@ -32,8 +38,9 @@ public class MateriaService extends BaseService<Materia> {
         return validator;
     }
 
-    public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja, Long page, Long pageSize) {
-        return dao.findByFilters(nombre, nivel, dadosBaja, page, pageSize);
+    public List<MateriaDTO> findByFilters(String nombre, Nivel nivel, boolean dadosBaja, Long page, Long pageSize) {
+        List<Materia> result = dao.findByFilters(nombre, nivel, dadosBaja, page, pageSize);
+        return materiaMapper.toDTOList(result);
     }
 
     @Override
@@ -46,10 +53,11 @@ public class MateriaService extends BaseService<Materia> {
         if (executeNameValidation) {
             HashMap<String, Object> filter = new HashMap<String, Object>();
             filter.put("nombre", entity.getNombre());
+            filter.put("fechaBaja", null);
             List<Materia> result = dao.findBy(filter);
             if (!result.isEmpty()) {
                 HashMap<String, String> error = new HashMap<String, String>(1);
-                error.put("nombre", "El nombre ingresado para la materia ya existe.");
+                error.put("nombre", "El nombre " + entity.getNombre() + " ya se encuentra registrado.");
                 throw new SAPOValidationException(error);
             }
         }

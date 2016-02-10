@@ -1,13 +1,11 @@
-<div layout="row">
-    <md-input-container flex="30">
+<div layout-gt-sm="row" layout-margin>
+    <md-input-container flex="33">
         <label>Legajo</label>
         <input name="legajo" ng-model="vm.persona.legajo"
                type="text" ng-pattern="/^\d+$/" md-maxlength="10" required=>
 
-        <div ng-messages="form.legajo.$error">
-            <div ng-message="required">El legajo es un campo obligatorio.</div>
-            <div ng-message="md-maxlength">Máximo 10 caracteres.</div>
-            <div ng-message="pattern">Debe ser un número.</div>
+        <div ng-messages="form.legajo.$error" ng-show="form.legajo.$touched">
+            <div ng-messages-include="error-messages"></div>
         </div>
     </md-input-container>
 </div>

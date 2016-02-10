@@ -17,6 +17,7 @@ import java.util.HashMap;
  */
 @Entity
 public class Usuario extends Bajeable {
+    private static final long serialVersionUID = 4712822060350795922L;
 
     @NotNull(message = "El nombre de usuario no puede ser nulo.")
     @Size(max = 50, message = "El nombre de usuario debe tener entre 1 y 50 caracteres.")

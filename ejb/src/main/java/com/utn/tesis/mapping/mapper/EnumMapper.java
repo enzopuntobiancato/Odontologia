@@ -1,9 +1,7 @@
 package com.utn.tesis.mapping.mapper;
 
 import com.utn.tesis.mapping.dto.EnumDTO;
-import com.utn.tesis.model.Cargo;
-import com.utn.tesis.model.Sexo;
-import com.utn.tesis.model.TipoDocumento;
+import com.utn.tesis.model.*;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -25,11 +23,11 @@ public abstract class EnumMapper {
         return Sexo.valueOf(source.getKey());
     }
 
+    public abstract List<EnumDTO> sexoListToDTOList(List<Sexo> sexoList);
+
     public EnumDTO tipoDocumentoToDTO(TipoDocumento source) {
         return source != null ? new EnumDTO(source.name(), source.toString()) : null;
     }
-
-    public abstract List<EnumDTO> sexoListToDTOList(List<Sexo> sexoList);
 
     public TipoDocumento tipoDocumentoFromDTO(EnumDTO enumDTO) {
         return TipoDocumento.valueOf(enumDTO.getKey());
@@ -46,5 +44,25 @@ public abstract class EnumMapper {
     }
 
     public abstract List<EnumDTO> cargoListToDTOList(List<Cargo> list);
+
+    public EnumDTO nivelToDTO(Nivel source) {
+        return source != null ? new EnumDTO(source.name(), source.toString()) : null;
+    }
+
+    public Nivel nivelFromDTO(EnumDTO source) {
+        return Nivel.valueOf(source.getKey());
+    }
+
+    public abstract List<EnumDTO> nivelListToDTOList(List<Nivel> list);
+
+    public EnumDTO diaToDTO(Dia source) {
+        return source != null ? new EnumDTO(source.name(), source.toString()) : null;
+    }
+
+    public Dia diaFromDTO(EnumDTO source) {
+        return Dia.valueOf(source.getKey());
+    }
+
+    public abstract List<EnumDTO> diaListToDTOList(List<Dia> list);
 
 }

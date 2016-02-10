@@ -2,6 +2,7 @@
 
 var odontologiaApp = angular.module('odontologiaApp', [
     'ui.router',
+    'ngSanitize',
     'oc.lazyLoad',
     'Pagination',
     'sapo.directives',
@@ -44,7 +45,7 @@ odontologiaApp.config(['$urlRouterProvider',
 
         cfpLoadingBarProvider.loadingBarTemplate = '<div id="bar-container"></div><div id="loading-bar"><div class="bar"><div class="peg"></div></div></div></div>';
 
-        $httpProvider.defaults.transformResponse.push(function (responseData) {
+        $httpProvider.defaults.transformResponse.push(function (responseData, status) {
             convertDateStringsToDates(responseData);
             return responseData;
         });
@@ -114,6 +115,16 @@ odontologiaApp.config(['$urlRouterProvider',
                     }]
                 }
             })
+            .state('error', {
+                url: '/error',
+                params: {response: undefined},
+                template: '<md-card><div ng-bind-html="deliverHtml()"></div></md-card>',
+                controller: function($scope, $stateParams, $sce) {
+                    $scope.deliverHtml = function() {
+                        return $sce.trustAsHtml($stateParams.response);
+                    }
+                }
+            })
             .state('home', {
                 url: '/home',
                 templateUrl: 'views/home/home.html',
@@ -170,9 +181,6 @@ odontologiaApp.config(['$urlRouterProvider',
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
-                    }],
-                    materiasResponse: ['loadMyModule', 'MateriaSrv', function (loadMyModule, service) {
-                        return service.findAll();
                     }]
                 }
             })
@@ -231,7 +239,6 @@ odontologiaApp.config(['$urlRouterProvider',
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
-
                     }]
                 }
             })
@@ -630,9 +637,14 @@ angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
 
 
-odontologiaApp.controller('AppController', ['$scope', '$state', '$timeout', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, $timeout, authFactory, $filter, $mdSidenav) {
+odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {
 
     $scope.performSubmit = performSubmit;
+    $scope.handleError = handleError;
+    $scope.validationErrorFromServer = {
+        error: false,
+        data: {}
+    };
 
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
@@ -647,7 +659,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', '$timeout', 'aut
 //    $scope.menu = $scope.user ? buildMenu($scope.user.permisos) : authFactory.getMenu();
     $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {
-
+              $scope.validationErrorFromServer.error = false;
 //            if (authFactory.isAuthenticated()) {
 //                authFactory.updateExpiresTime();
 //            } else {
@@ -722,6 +734,8 @@ odontologiaApp.controller('AppController', ['$scope', '$state', '$timeout', 'aut
     }
 
     function performSubmit(toExecute, form) {
+        $scope.validationErrorFromServer.error = false;
+        $scope.validationErrorFromServer.data = {};
         if (form.$valid) {
             toExecute();
         } else {
@@ -730,7 +744,22 @@ odontologiaApp.controller('AppController', ['$scope', '$state', '$timeout', 'aut
                     errorField.$setTouched();
                 })
             });
-            $timeout
+        }
+    }
+
+    function handleError(data, status) {
+        if(status === 1000) {
+            // Our error response
+            $scope.validationErrorFromServer.error = true;
+            var message = [];
+            var msgs = Object.keys(data);
+            for (var i = 0; i < msgs.length; i++) {
+                message.push(data[msgs[i]]);
+            }
+            $scope.validationErrorFromServer.data = message;
+        } else {
+            // Other error, go to error page
+            $state.go('error', {response: data});
         }
     }
 }]);

@@ -1,17 +1,18 @@
 package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
+import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mapping.dto.PracticaOdontologicaDTO;
+import com.utn.tesis.mapping.mapper.PracticaOdontologicaMapper;
 import com.utn.tesis.model.PracticaOdontologica;
-import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.PracticaOdontologicaService;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -23,15 +24,13 @@ import java.util.List;
 
 @Path("/practicaOdontologica")
 @RequestScoped
-public class PracticaOdontologicaAPI extends BaseAPI<PracticaOdontologica> {
+@Slf4j
+public class PracticaOdontologicaAPI extends BaseAPI {
 
     @Inject
     private PracticaOdontologicaService practicaOdontologicaService;
-
-    @Override
-    public BaseService getEjbInstance() {
-            return practicaOdontologicaService;
-    }
+    @Inject
+    private PracticaOdontologicaMapper practicaMapper;
 
     @Path("/find")
     @GET
@@ -42,6 +41,63 @@ public class PracticaOdontologicaAPI extends BaseAPI<PracticaOdontologica> {
                                        @QueryParam("pageNumber") Long pageNumber,
                                        @QueryParam("pageSize") Long pageSize) {
         return practicaOdontologicaService.findByFilters(denominacion, idGrupoPractica, dadosBaja, pageNumber, pageSize);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/save")
+    public Response save(PracticaOdontologicaDTO dto) {
+        try {
+            PracticaOdontologica entity;
+            if (dto.getId() == null) {
+                entity = practicaMapper.fromDTO(dto);
+            } else {
+                entity = practicaOdontologicaService.findById(dto.getId());
+                practicaMapper.updateFromDTO(dto, entity);
+            }
+
+            dto = practicaMapper.toDTO(practicaOdontologicaService.save(entity));
+            return Response.ok(dto).build();
+        } catch (SAPOException se) {
+            return persistenceRequest(se);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Path("/remove")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(PracticaOdontologicaDTO dto) {
+        try {
+            PracticaOdontologica entity = practicaOdontologicaService.remove(dto.getId(), dto.getMotivoBaja());
+            dto = practicaMapper.toDTO(entity);
+        } catch (SAPOException se) {
+            return persistenceRequest(se);
+        }
+        return Response.ok(dto).build();
+    }
+
+    @Path("/restore")
+    @PUT
+    public void restore(@QueryParam("id") Long id) {
+        practicaOdontologicaService.restore(id);
+    }
+
+    @Path("/findById")
+    @GET
+    public PracticaOdontologicaDTO findById(@QueryParam("id") Long id) {
+        PracticaOdontologica entity = practicaOdontologicaService.findById(id);
+        return practicaMapper.toDTO(entity);
+    }
+
+    @Path("/findAll")
+    @GET
+    public List<PracticaOdontologicaDTO> findAll() {
+        return practicaMapper.toDTOList(practicaOdontologicaService.findAll());
     }
 
 }

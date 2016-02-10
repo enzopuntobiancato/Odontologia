@@ -51,7 +51,6 @@ public class Main {
         System.out.println(Alumno.class.getCanonicalName());
         System.out.println(Alumno.class.getSimpleName());
 
-
     }
     
 }

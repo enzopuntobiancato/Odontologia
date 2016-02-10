@@ -48,10 +48,14 @@ public class ArchivoService extends BaseService<Archivo> {
     }
 
     public Archivo save(ArchivoDTO dto) throws SAPOException {
-        Archivo archivo = dto.getId() != null ? this.findById(dto.getId()) : new Archivo();
-        archivoMapper.updateFromDTO(dto, archivo);
-        archivo.setRuta(this.saveToDisk(dto.getArchivo(), dto.getExtension()));
-        return this.save(archivo);
+        Archivo entity = null;
+        if (dto !=  null) {
+            Archivo archivo = dto.getId() != null ? this.findById(dto.getId()) : new Archivo();
+            archivoMapper.updateFromDTO(dto, archivo);
+            archivo.setRuta(this.saveToDisk(dto.getArchivo(), dto.getExtension()));
+            archivo = this.save(archivo);
+        }
+        return entity;
     }
 
     public String saveToDisk(@Nonnull InputStream uploadedInputStream, @Nonnull FileExtension extension) throws SAPORuntimeException {
