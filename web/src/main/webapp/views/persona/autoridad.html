@@ -1,5 +1,5 @@
-<div layout="row">
-    <md-input-container class="md-block" flex="30">
+<div layout-gt-sm="row" layout-margin>
+    <md-input-container flex="33">
         <label>Cargo</label>
         <md-select required ng-model="vm.persona.cargo" ng-model-options="{trackBy: '$value.key'}"
                    name="cargo">
@@ -7,8 +7,8 @@
                 {{ cargo.nombre }}
             </md-option>
         </md-select>
-        <div ng-messages="form.cargo.$error">
-            <div ng-message="required">El cargo es un dato requerido.</div>
+        <div ng-messages="form.cargo.$error" ng-show="form.cargo.$touched">
+            <div ng-messages-include="error-messages"></div>
         </div>
     </md-input-container>
 </div>

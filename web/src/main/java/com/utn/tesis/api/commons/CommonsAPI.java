@@ -1,6 +1,7 @@
 package com.utn.tesis.api.commons;
 
 import com.utn.tesis.mapping.dto.EnumDTO;
+import com.utn.tesis.mapping.dto.GrupoPracticaOdontologicaDTO;
 import com.utn.tesis.mapping.dto.RolDTO;
 import com.utn.tesis.model.Dia;
 import com.utn.tesis.model.GrupoPracticaOdontologica;
@@ -28,7 +29,7 @@ public class CommonsAPI {
     @Path("/getNiveles")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Nivel> findAllNiveles() {
+    public List<EnumDTO> findAllNiveles() {
         return commonsService.findAllNiveles();
     }
 
@@ -49,7 +50,7 @@ public class CommonsAPI {
     @Path("/getGruposPracticaOdontologica")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<GrupoPracticaOdontologica> findAllGruposPracticaOdontologica() {
+    public List<GrupoPracticaOdontologicaDTO> findAllGruposPracticaOdontologica() {
         return commonsService.findAllGruposPracticaOdontologica();
     }
 

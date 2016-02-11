@@ -1,28 +1,66 @@
 var module = angular.module('practicaOdontologicaModule');
 
 
-module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 'PracticaOdontologicaSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv', 'gruposPracticaResponse', 'PaginationService', '$mdDialog',
-    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, gruposPracticaResponse, pagination, $mdDialog) {
+module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 'PracticaOdontologicaSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv', 'gruposPracticaResponse', 'PaginationService', '$mdDialog', '$filter',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, gruposPracticaResponse, pagination, $mdDialog, $filter) {
 
         $scope.filter = {};
         $scope.result = [];
         $scope.gruposPractica = gruposPracticaResponse.data;
+        $scope.filterChips = [];
 
         var cache = $cacheFactory.get('practicaIndexCache') || $cacheFactory('practicaIndexCache');
 
         $scope.aux = {
-            showDadosBaja: false
+            showDadosBaja: false,
+            mostrarFiltros: true
         }
 
         pagination.config('api/practicaOdontologica/find');
 
         $scope.paginationData = pagination.paginationData;
-        executeQuery();
+
+        function updateFilterChips() {
+            $scope.filterChips = [];
+            $scope.filterChips.push(newFilterChip('dadosBaja', 'Dados de baja', $scope.filter.dadosBaja, $scope.filter.dadosBaja ? 'SI' : 'NO'));
+            if ($scope.filter.denominacion) {
+                $scope.filterChips.push(newFilterChip('denominacion', 'Nombre', $scope.filter.denominacion));
+            }
+            if ($scope.filter.idGrupoPractica) {
+                $scope.filterChips.push(newFilterChip('idGrupoPractica', 'Grupo', $scope.filter.idGrupoPractica,
+                    $filter('filter')($scope.gruposPractica, function(item) {
+                          return item.id === $scope.filter.idGrupoPractica;
+                    })[0].nombre)
+                );
+            }
+        }
+
+        $scope.$watchCollection('filterChips', function(newCol, oldCol) {
+            if (newCol.length < oldCol.length) {
+                $scope.filter = {};
+                angular.forEach(newCol, function(filterChip) {
+                    $scope.filter[filterChip.origin] = filterChip.value;
+                });
+                executeQuery();
+            }
+        });
+
+        function newFilterChip(origin, name, value, displayValue) {
+            var filterChip = {
+                origin: origin,
+                name: name,
+                value: value,
+                displayValue: displayValue ? displayValue : value
+            }
+            return filterChip;
+        }
+
         function executeQuery(pageNumber) {
             pagination.paginate($scope.filter, pageNumber).then(function (data) {
                 $scope.result = data;
                 $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
                 $scope.paginationData = pagination.getPaginationData();
+                updateFilterChips();
             }, function () {
             });
         }
@@ -39,12 +77,6 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
         $scope.previousPage = function () {
             if (!$scope.paginationData.firstPage) {
                 executeQuery(--$scope.paginationData.pageNumber);
-            }
-        }
-
-        $scope.keyboardOk = function (event) {
-            if (event.which == 13) {
-                executeQuery();
             }
         }
 
@@ -89,17 +121,14 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
                         .success(function (response) {
                             message.showMessage("Se ha dado de baja.");
                             executeQuery();
-                            Console.log(response);
                         })
                         .error(function (error) {
                             message.showMessage("Se ha registrado un error en la transacción.")
-                            Console.log(error);
                         })
                 },
                 function () {
                     //Failure
                     $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
                 });
         };
 
@@ -125,18 +154,15 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
                         .success(function (response) {
                             message.showMessage("Se ha dado de alta.");
                             executeQuery($scope.paginationData.pageNumber);
-                            Console.log(response);
                         })
                         .error(function (error) {
                             message.showMessage("Se ha registrado un error en la transacción.")
                             executeQuery($scope.paginationData.pageNumber);
-                            Console.log(error);
                         })
                 },
                 function () {
                     //Failure
                     $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
                 });
         };
 
@@ -148,9 +174,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
             item.showAction = false;
         };
 
-        $scope.mostrarFiltros = false;
-
-        $scope.clickIcon = 'expand_more';
+        $scope.clickIcon = 'expand_less';
         $scope.clickIconMorph = function () {
             if ($scope.clickIcon === 'expand_more') {
                 $scope.clickIcon = 'expand_less';
@@ -173,7 +197,8 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
             var data = {
                 filter: $scope.filter,
                 result: $scope.result,
-                aux: $scope.aux
+                aux: $scope.aux,
+                paginationData: $scope.paginationData
             }
             cache.put('data', data);
         }
@@ -184,6 +209,8 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
             $scope.filter = data.filter;
             $scope.result = data.result;
             $scope.aux = data.aux;
+            $scope.paginationData = data.paginationData;
+            updateFilterChips();
         }
 
         $scope.$on('$stateChangeStart',
@@ -191,7 +218,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
                 if (toState.name.startsWith('practicaOdontologica')) {
                     cacheData();
                 } else {
-                    cache.put('data', null);
+                    cache.destroy();
                 }
 
             });
@@ -207,7 +234,8 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
                     } else {
                         getCachedData();
                     }
-
+                } else {
+                    executeQuery();
                 }
 
             })

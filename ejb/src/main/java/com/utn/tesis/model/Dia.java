@@ -16,7 +16,7 @@ public enum Dia {
     MIERCOLES {
         @Override
         public String toString() {
-            return "Miercoles";
+            return "Miércoles";
         }
     },
     JUEVES {
@@ -34,7 +34,7 @@ public enum Dia {
     SABADO {
         @Override
         public String toString() {
-            return "Sabado";
+            return "Sábado";
         }
     },
     DOMINGO {

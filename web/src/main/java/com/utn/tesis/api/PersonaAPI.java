@@ -1,6 +1,7 @@
 package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
+import com.utn.tesis.api.commons.MultiPartFormHelper;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.ArchivoDTO;
 import com.utn.tesis.mapping.dto.PersonaDTO;
@@ -32,7 +33,7 @@ import java.util.Map;
 @Path("/persona")
 @RequestScoped
 @Slf4j
-public class PersonaAPI extends BaseAPI<Persona> {
+public class PersonaAPI {
 
     @Inject
     private PersonaService personaService;
@@ -40,11 +41,8 @@ public class PersonaAPI extends BaseAPI<Persona> {
     private UsuarioService usuarioService;
     @Inject
     private PersonaMapper personaMapper;
-
-    @Override
-    public BaseService<Persona> getEjbInstance() {
-        return this.personaService;
-    }
+    @Inject
+    private MultiPartFormHelper helper;
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -52,16 +50,16 @@ public class PersonaAPI extends BaseAPI<Persona> {
     @Path("/saveUserRelatedData")
     public Response save(MultipartFormDataInput input) throws SAPOException {
         Map<String, List<InputPart>> form = input.getFormDataMap();
-        UsuarioLogueadoDTO usuario = (UsuarioLogueadoDTO) retrieveObject(form, "usuario", UsuarioLogueadoDTO.class);
-        PersonaDTO person = (PersonaDTO) retrieveObject(form, "persona", UsuarioLogueadoDTO.rolToPerson.get(usuario.getRol().toUpperCase()));
+        UsuarioLogueadoDTO usuario = (UsuarioLogueadoDTO) helper.retrieveObject(form, "usuario", UsuarioLogueadoDTO.class);
+        PersonaDTO person = (PersonaDTO) helper.retrieveObject(form, "persona", UsuarioLogueadoDTO.rolToPerson.get(usuario.getRol().toUpperCase()));
 
-        Map<String, Object> file = retrieveFile(form, "file");
+        Map<String, Object> file = helper.retrieveFile(form, "file");
         ArchivoDTO imagenUsuario = null;
         if (file != null) {
             imagenUsuario = new ArchivoDTO();
-            imagenUsuario.setExtension((FileExtension) file.get(EXTENSION));
-            imagenUsuario.setNombre((String) file.get(NAME));
-            imagenUsuario.setArchivo((InputStream) file.get(FILE));
+            imagenUsuario.setExtension((FileExtension) file.get(helper.EXTENSION));
+            imagenUsuario.setNombre((String) file.get(helper.NAME));
+            imagenUsuario.setArchivo((InputStream) file.get(helper.FILE));
         }
         personaService.update(person, imagenUsuario);
         return Response.status(Response.Status.OK).build();

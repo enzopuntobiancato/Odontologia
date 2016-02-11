@@ -10,7 +10,7 @@
     </md-input-container>
     <md-input-container flex-gt-sm="33" class="md-block">
         <label>Apellido</label>
-        <input md-maxlength="10" required name="apellido" ng-model="vm.persona.apellido">
+        <input md-maxlength="75" required name="apellido" ng-model="vm.persona.apellido">
 
         <div ng-messages="form.apellido.$error" ng-show="form.apellido.$touched">
             <div ng-messages-include="error-messages"></div>

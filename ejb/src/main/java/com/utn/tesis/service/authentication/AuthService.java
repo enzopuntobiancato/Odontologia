@@ -26,10 +26,9 @@ import java.util.UUID;
 public class AuthService {
 
     @Inject
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
     @Inject
-    UsuarioMapper usuarioMapper;
-
+    private UsuarioMapper usuarioMapper;
 
     public UsuarioLogueadoDTO login(LoginDTO loginElement) {
         UsuarioLogueadoDTO usuarioLogueado = null;

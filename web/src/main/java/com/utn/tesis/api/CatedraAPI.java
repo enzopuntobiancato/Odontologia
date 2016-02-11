@@ -2,7 +2,6 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.model.Catedra;
-import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.CatedraService;
 
 import javax.enterprise.context.RequestScoped;
@@ -16,15 +15,10 @@ import java.util.List;
 
 @Path("/catedra")
 @RequestScoped
-public class CatedraAPI extends BaseAPI<Catedra> {
+public class CatedraAPI extends BaseAPI {
 
     @Inject
-    CatedraService catedraService;
-
-    @Override
-    public BaseService<Catedra> getEjbInstance() {
-        return catedraService;
-    }
+    private CatedraService catedraService;
 
     @Path("/find")
     @GET

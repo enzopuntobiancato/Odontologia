@@ -15,7 +15,7 @@ services.factory('MessageSrv', ['$mdToast', function ($mdToast) {
             template: '<md-toast>\
                 <span flex>' + msg + '</span>\
                 <md-button class="md-highlight" ng-click="closeToast()">\
-                Aceptar</md-button>\
+                Cerrar</md-button>\
                 </md-toast>',
             hideDelay: hideDelay ? hideDelay : 3000,
             position: position ? position : 'top right'
@@ -28,7 +28,7 @@ services.factory('MessageSrv', ['$mdToast', function ($mdToast) {
             template: '<md-toast>\
                 <span flex>' + msg + '</span>\
                 <md-button class="md-highlight md-warn" ng-click="closeToast()">\
-                Aceptar</md-button>\
+                Cerrar</md-button>\
                 </md-toast>',
             hideDelay: hideDelay ? hideDelay : 3000,
             position: position ? position : 'top right'
@@ -40,7 +40,7 @@ services.factory('MessageSrv', ['$mdToast', function ($mdToast) {
             template: '<md-toast>\
                 <span flex>' + msg + '</span>\
                 <md-button ng-click="closeToast()">\
-                Aceptar</md-button>\
+                Cerrar</md-button>\
                 </md-toast>',
             hideDelay: hideDelay ? hideDelay : 3000,
             position: position ? position : 'top right'

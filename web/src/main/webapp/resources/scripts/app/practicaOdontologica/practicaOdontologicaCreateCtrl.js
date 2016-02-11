@@ -12,18 +12,24 @@ module.controller('PracticaOdontologicaCtrl_Create', ['$scope', '$rootScope', 'P
             saved: false
         };
 
-        $scope.save = function () {
-            service.save($scope.practica)
-                .success(function (data) {
-                    $scope.data.persistedOperation = true;
-                    $scope.data.disableFields = true;
-                    $scope.data.saved = true;
-                    message.showMessage("Práctica creada con éxito");
-                    $scope.goIndex();
-                })
-                .error(function (data) {
-                    message.showMessage("Error al crear la práctica");
-                })
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+
+        $scope.save = function (form) {
+            performSubmit(function() {
+                service.save($scope.practica)
+                    .success(function () {
+                        $scope.data.persistedOperation = true;
+                        $scope.data.disableFields = true;
+                        $scope.data.saved = true;
+                        message.showMessage("Práctica creada con éxito");
+                        $scope.goIndex();
+                    })
+                    .error(function (data, status) {
+                        handleError(data, status);
+                    })
+            }, form);
         };
 
         $scope.goIndex = function () {

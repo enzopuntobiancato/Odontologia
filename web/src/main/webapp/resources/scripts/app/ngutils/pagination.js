@@ -26,13 +26,14 @@ var pagination = angular.module('Pagination',[]);
 
         service.paginate = function(params, pageNumber) {
             var deferred = $q.defer();
+            var parameters = angular.copy(params);
             service.paginationData.pageNumber = pageNumber || 0;
-            params.pageNumber = service.paginationData.pageNumber;
-            params.pageSize = service.paginationData.pageSize;
+            parameters.pageNumber = service.paginationData.pageNumber;
+            parameters.pageSize = service.paginationData.pageSize;
             $http({
                 url: service.url,
                 method: 'GET',
-                params: params
+                params: parameters
             })
                 .success(function(data) {
                     if (data.length > service.paginationData.pageSize) {

@@ -7,7 +7,9 @@ package com.utn.tesis.mapping.dto;
  * Time: 17:41
  * To change this template use File | Settings | File Templates.
  */
-public class UsuarioDTO {
+public class UsuarioDTO extends BaseDTO {
+    private static final long serialVersionUID = -4163955333854545006L;
+
     private String nombreUsuario;
     private String email;
     private RolDTO rol;

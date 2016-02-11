@@ -5,8 +5,11 @@ import com.utn.tesis.data.daos.PersonaDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.ArchivoDTO;
 import com.utn.tesis.mapping.dto.PersonaDTO;
+import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.Persona;
+import com.utn.tesis.model.Rol;
+import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
 
 import javax.ejb.Stateless;
@@ -53,12 +56,15 @@ public class PersonaService extends BaseService<Persona> {
     public void update(PersonaDTO persona, ArchivoDTO imagen) throws SAPOException {
         Persona personaEntity = this.findById(persona.getId());
         personaMapper.updateFromDTO(persona, personaEntity);
-
         String encryptedPassword = EncryptionUtils.encryptMD5A(persona.getUsuario().getPassword());
         personaEntity.getUsuario().setContrasenia(encryptedPassword);
         personaEntity.getUsuario().setImagen(archivoService.save(imagen));
         personaEntity.getUsuario().setUltimaConexion(Calendar.getInstance());
         this.save(personaEntity);
+    }
+
+    private PersonaDTO mapPersonByRol(PersonaDTO personaDTO, String rol) {
+        return UsuarioLogueadoDTO.rolToPerson.get(rol).cast(personaDTO);
     }
 
 }

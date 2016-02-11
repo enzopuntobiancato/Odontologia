@@ -3,6 +3,7 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.mapping.dto.BaseDTO;
 import com.utn.tesis.model.Bajeable;
 import com.utn.tesis.model.SuperEntityBase;
 
@@ -38,9 +39,9 @@ public abstract class BaseService<T extends SuperEntityBase> {
         return getDao().create(entity);
     }
 
-    public void update(T entity) throws SAPOException {
+    public T update(T entity) throws SAPOException {
         validate(entity, getValidator());
-        getDao().update(entity);
+        return getDao().update(entity);
     }
 
     public T remove(Long id, String motivoBaja) throws SAPOException {

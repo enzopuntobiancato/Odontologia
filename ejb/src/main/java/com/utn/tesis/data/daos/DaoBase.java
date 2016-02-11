@@ -32,8 +32,8 @@ public abstract class DaoBase<E extends SuperEntityBase> {
         return entity;
     }
 
-    public void update(E entity) {
-        em.merge(entity);
+    public E update(E entity) {
+        return em.merge(entity);
     }
 
     public void delete(Long id) {
@@ -91,7 +91,12 @@ public abstract class DaoBase<E extends SuperEntityBase> {
                     q.append(" LIKE ").append("'").append(((String) filter.get(column)).toUpperCase()).append("'");
                 } else {
                     q.append("e.").append(column);
-                    q.append(" = ").append(filter.get(column));
+                    if (filter.get(column) == null) {
+                        q.append(" IS NULL");
+                    } else {
+                        q.append(" = ").append(filter.get(column));
+                    }
+
                 }
                 if (i < filter.size()) {
                     q.append(" AND ");
