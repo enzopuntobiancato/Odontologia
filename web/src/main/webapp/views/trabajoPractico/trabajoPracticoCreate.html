@@ -1,23 +1,21 @@
-<md-content layout="column" layout-align="start center" class="md-main-content" flex>
-        <form name="createTrabajoPracticoForm" ng-submit="save()" novalidate>
-            <md-card class="md-whiteframe-z5 md-main-content-card">
+<md-content layout layout-align="center start" flex class="md-main-content">
+    <md-card class="md-whiteframe-z5 md-main-content-card">
+        <form name="createTrabajoPracticoForm" ng-submit="save(createTrabajoPracticoForm)" novalidate>
                 <md-toolbar class="md-accent">
                     <div class="md-toolbar-tools">
                         <span>Crear trabajo práctico</span>
                     </div>
                 </md-toolbar>
                 <md-card-content>
-                         <p>Complete los datos para crear un nuevo trabajo práctico</p>
-                        <div layout="row">
+                        <p>Complete los datos para crear un nuevo trabajo práctico</p>
+                    <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
+                        <div layout="row" layout-xs="column" layout-margin>
                             <md-input-container flex>
                                 <label>Nombre</label>
                                 <input name="nombre" ng-model="trabajoPractico.nombre"
                                        required md-maxlength="100">
-                                <div ng-messages="createTrabajoPracticoForm.nombre.$error" role="alert" multiple>
-                                    <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
-                                    <div ng-message="md-maxlength" class="my-message">
-                                        El nombre no puede tener màs de 100 caracteres.
-                                    </div>
+                                <div ng-messages="createTrabajoPracticoForm.nombre.$error" ng-show="createTrabajoPracticoForm.nombre.$touched">
+                                    <div ng-messages-include="error-messages"></div>
                                 </div>
                             </md-input-container>
                             <md-input-container flex>
@@ -30,26 +28,23 @@
                             </md-input-container>
                             <md-input-container flex>
                                 <label>Práctica</label>
-                                <md-select required ng-model="trabajoPractico.practicaOdontologica" name="practica">                                           >
+                                <md-select required ng-model="trabajoPractico.practicaOdontologica" name="practica">
                                     <md-option ng-repeat="practica in practicasSelect" ng-value="practica">
                                         {{ practica.denominacion }}
                                     </md-option>
                                 </md-select>
+                                <div ng-messages="createTrabajoPracticoForm.practica.$error" ng-show="createTrabajoPracticoForm.practica.$touched">
+                                    <div ng-messages-include="error-messages"></div>
+                                </div>
                             </md-input-container>
                         </div>
-                        <div layout="row">
+                        <div layout="row" layout-xs="column" layout-margin>
                             <md-input-container flex>
                                 <label>Descripción</label>
                                 <textarea ng-model="trabajoPractico.descripcion" columns="1" md-maxlength="400" required
                                           name="descripcion"></textarea>
-
-                                <div ng-messages="createTrabajoPracticoForm.descripcion.$error" role="alert" multiple>
-                                    <div ng-message="required" class="my-message">La descripcion es un campo
-                                        requerido.
-                                    </div>
-                                    <div ng-message="md-maxlength" class="my-message">
-                                        La descripción no puede tener màs de 400 caracteres.
-                                    </div>
+                                <div ng-messages="createTrabajoPracticoForm.descripcion.$error" ng-show="createTrabajoPracticoForm.descripcion.$touched">
+                                    <div ng-messages-include="error-messages"></div>
                                 </div>
                             </md-input-container>
                         </div>
@@ -63,7 +58,7 @@
                     <md-button ng-click="goIndex()">Cancelar</md-button>
                     <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
                 </md-card-actions>
-            </md-card>
         </form>
-    </md-content>
+            </md-card>
+</md-content>
 

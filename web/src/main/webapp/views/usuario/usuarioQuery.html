@@ -1,18 +1,19 @@
-    <md-content layout="column" layout-align="start center" flex class="md-main-content">
+    <md-content layout-align="center start" layout flex class="md-main-content">
             <md-card class="md-whiteframe-z5 md-main-content-card">
                 <md-toolbar class="md-accent">
                     <div class="md-toolbar-tools">
                         <span>Consultar usuario</span>
                     </div>
                 </md-toolbar>
-                <md-card-content layout="column">
-                        <div layout="row">
+                <md-card-content>
+                    <form name="form" novalidate ng-submit="consultar()">
+                        <div layout-gt-sm="row" layout-margin>
                             <md-input-container flex>
                                 <label>Nombre</label>
                                 <input ng-model="filter.nombreUsuario" name="nombre" ng-keypress="keyboardOk($event)">
                             </md-input-container>
-                            <div layout="row" layout-align="start center">
-                                <md-button ng-click="consultar()" type="button">
+                            <div layout="row" flex="50" layout-align="start center">
+                                <md-button type="submit">
                                     <md-tooltip>
                                         Buscar
                                     </md-tooltip>
@@ -39,13 +40,13 @@
                                 </md-button>
                             </div>
                         </div>
-                        <div ng-show="mostrarFiltros">
-                            <div layout="row" layout-sm="column">
-                                <md-input-container class="md-input-container-view-icon">
+                        <div ng-show="mostrarFiltros" layout="row" layout-sm="column" layout-margin>
+                            <div layout="row" layout-sm="column" layout-xs="column" layout-margin>
+                                <md-input-container>
                                     <label>E-mail</label>
                                     <input ng-model="filter.email" name="email">
                                 </md-input-container>
-                                <md-input-container class="md-input-container-view-icon">
+                                <md-input-container flex-gt-sm="15">
                                     <label>Rol</label>
                                     <md-select ng-model="filter.rolId" name="rol">
                                         <md-option ng-repeat="rol in roles" ng-value="{{ rol.id }}">
@@ -53,19 +54,28 @@
                                         </md-option>
                                     </md-select>
                                 </md-input-container>
+                                <md-input-container>
+                                    <md-checkbox ng-model="filter.dadosBaja" aria-label="Incluir dados de baja">
+                                        Incluir dados de baja
+                                    </md-checkbox>
+                                </md-input-container>
                             </div>
-                            <md-input-container class="md-input-container-view-icon">
-                                <md-checkbox ng-model="filter.dadosBaja" aria-label="Incluir dados de baja">
-                                    Incluir dados de baja
-                                </md-checkbox>
-                            </md-input-container>
                         </div>
+                    </form>
+                    <div class="query-chips" layout-gt-sm="row" ng-if="filterChips.length > 0" layout-margin>
+                        <md-chips ng-model="filterChips">
+                            <md-chip-template>
+                                <em>{{$chip.name}}</em>
+                                <strong>{{$chip.displayValue}}</strong>
+                            </md-chip-template>
+                        </md-chips>
+                    </div>
                         <md-list ng-show="result.length > 0">
                             <md-list-item class="md-3-line" ng-repeat="item in result"
                                           ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
-                                <img ng-src="{{ item.img }}" class="md-avatar"/>
+                                <img ng-src="{{ item.img }}" class="md-avatar" hide-xs/>
                                 <div class="md-list-item-text" layout="column">
-                                    <h3>{{item.nombreUsuario }}-{{item.apellido}}, {{ item.nombre }}</h3>
+                                    <h3 class="md-title"><a>{{item.nombreUsuario }} ({{item.apellido}}, {{ item.nombre }})</a></h3>
                                     <h4>{{item.tipoDocumento }}:{{item.numero }}</h4>
                                     <p>{{item.email }}</p>
                                 </div>
@@ -122,7 +132,7 @@
                         </md-list>
                     <div layout="column" layout-align="center center" ng-show="result.length == 0">
                         <h1 class="md-title">No hay resultados para mostrar.</h1>
-                        <img ng-src="https://s3.amazonaws.com/images.seroundtable.com/t-google-404-1299071983.jpg">
+                        <!--<img ng-src="https://s3.amazonaws.com/images.seroundtable.com/t-google-404-1299071983.jpg">-->
                     </div>
                 </md-card-content>
             </md-card>

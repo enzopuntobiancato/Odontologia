@@ -15,6 +15,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
 
         $scope.filter = {};
         $scope.result = [];
+        $scope.filterChips = [];
 
         $scope.data = {
             gruposPractica: gruposPracticaResponse.data,
@@ -28,7 +29,8 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         var cache = $cacheFactory.get('trabajoPracticoIndexCache') || $cacheFactory('trabajoPracticoIndexCache');
 
         $scope.aux = {
-            showDadosBaja: false
+            showDadosBaja: false,
+            mostrarFiltros: true
         }
 
         $scope.$watch('filter.grupoPracticaId', function (newValue, oldValue) {
@@ -49,6 +51,56 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             }
         })
 
+        function updateFilterChips() {
+            $scope.filterChips = [];
+            $scope.filterChips.push(newFilterChip('dadosBaja', 'Dados de baja', $scope.filter.dadosBaja, $scope.filter.dadosBaja ? 'SI' : 'NO'));
+            if ($scope.filter.practicaId) {
+                $scope.filterChips.push(newFilterChip('practicaId', 'Práctica', findPractica($scope.filter.practicaId)));
+            }
+            if ($scope.filter.nombre) {
+                $scope.filterChips.push(newFilterChip('nombre', 'Nombre', $scope.filter.nombre));
+            }
+        }
+
+
+       /* $scope.findPractica = function(practicaId){
+            for(var i=0; i < $scope.data.practicas.length; i++){
+                if($scope.data.practicas[i].id === practicaId)
+                return $scope.data.practicas[i].denominacion
+            }
+        }*/
+
+        function findPractica(practicaId){
+            var nombre;
+            for(var i=0; i < $scope.data.practicas.length; i++){
+                if($scope.data.practicas[i].id == practicaId){
+                    nombre =  $scope.data.practicas[i].denominacion;
+                    break;
+                }
+            }
+            return nombre;
+        }
+
+        $scope.$watchCollection('filterChips', function(newCol, oldCol) {
+            if (newCol.length < oldCol.length) {
+                $scope.filter = {};
+                angular.forEach(newCol, function(filterChip) {
+                    $scope.filter[filterChip.origin] = filterChip.value;
+                });
+                executeQuery();
+            }
+        });
+
+        function newFilterChip(origin, name, value, displayValue) {
+            var filterChip = {
+                origin: origin,
+                name: name,
+                value: value,
+                displayValue: displayValue ? displayValue : value
+            }
+            return filterChip;
+        }
+
         pagination.config('api/trabajoPractico/find');
 
         $scope.paginationData = pagination.paginationData;
@@ -58,6 +110,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
                 $scope.result = data;
                 $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
                 $scope.paginationData = pagination.getPaginationData();
+                updateFilterChips();
             }, function () {
             });
         }
@@ -87,7 +140,6 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         $scope.new = function () {
             $state.go('^.create');
         }
-
 
         $scope.openDeleteDialog = function (ev, trabajoPracticoId) {
             $mdDialog.show({
@@ -249,7 +301,5 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
                     }
 
                 }
-
             })
-
     }]);

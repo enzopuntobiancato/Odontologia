@@ -8,8 +8,9 @@
                 </md-toolbar>
                 <md-card-content>
                     <p>Complete los datos para crear un nuevo usuario.</p>
+                    <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
                         <div layout="row">
-                            <ng-md-icon icon="person" class="md-icon-view"></ng-md-icon>
+                            <!--<ng-md-icon icon="person" class="md-icon-view"></ng-md-icon>-->
                             <md-input-container class="md-input-container-view-icon">
                             <label>Nombre</label>
                             <input name="nombre"  ng-model="personaDTO.nombre"
@@ -28,7 +29,7 @@
                             </md-input-container>
                         </div>
                         <div layout="row">
-                            <md-input-container class="md-input-container-view-icon md-input-container-view-offset">
+                            <md-input-container class="md-input-container-view-icon">
                                 <label>Tipo doc.</label>
                                 <md-select ng-model="personaDTO.documento.tipoDocumento" ng-model-options="{trackBy: '$value.key'}"
                                            name="tipoDocumento" required>
@@ -62,7 +63,7 @@
                             </md-input-container>
                         </div>
                         <div layout="row">
-                            <ng-md-icon icon="email" class="md-icon-view"></ng-md-icon>
+                            <!--<ng-md-icon icon="email" class="md-icon-view"></ng-md-icon>-->
                             <md-input-container class="md-input-container-view-icon">
                                 <label>E-mail</label>
                                 <input name="email" ng-model="personaDTO.usuario.email" type="email"
@@ -73,7 +74,7 @@
                             </md-input-container>
                         </div>
                     <div layout="row">
-                        <ng-md-icon icon="security" class="md-icon-view"></ng-md-icon>
+                        <!--<ng-md-icon icon="security" class="md-icon-view"></ng-md-icon>-->
                         <md-input-container class="md-input-container-view-icon">
                             <label>Rol</label>
                             <md-select required ng-model="personaDTO.usuario.rol" name="rol">

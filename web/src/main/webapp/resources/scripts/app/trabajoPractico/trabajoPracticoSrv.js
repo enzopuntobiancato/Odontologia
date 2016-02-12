@@ -10,11 +10,11 @@ module
                     method: 'GET'
                 })
             },
-            save: function (trabajoPractico) {
+            save: function (trabajoPracticoDTO) {
                 return $http({
                     url: 'api/trabajoPractico/save',
                     method: 'POST',
-                    data: angular.toJson(trabajoPractico)
+                    data: trabajoPracticoDTO
                 })
             },
             remove: function (id, motivoBaja) {
