@@ -3,6 +3,7 @@ package com.utn.tesis.mapping.mapper;
 import com.utn.tesis.mapping.dto.TrabajoPracticoDTO;
 import com.utn.tesis.model.TrabajoPractico;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,4 +18,6 @@ public interface TrabajoPracticoMapper {
     TrabajoPracticoDTO toDTO(TrabajoPractico trabajoPractico);
 
     TrabajoPractico fromDTO(TrabajoPracticoDTO trabajoPracticoDTO);
+
+    void updateFromDTO(TrabajoPracticoDTO trabajoPracticoDTO, @MappingTarget TrabajoPractico trabajoPractico);
 }

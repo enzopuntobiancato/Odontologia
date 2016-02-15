@@ -13,6 +13,24 @@ public class TrabajoPracticoDTO extends BaseDTO {
     private String nombre;
     private PracticaOdontologicaDTO practicaOdontologica;
     private String descripcion;
+    private String motivoBaja;
+    private String fechaBaja;
+
+    public String getMotivoBaja() {
+        return motivoBaja;
+    }
+
+    public void setMotivoBaja(String motivoBaja) {
+        this.motivoBaja = motivoBaja;
+    }
+
+    public String getFechaBaja() {
+        return fechaBaja;
+    }
+
+    public void setFechaBaja(String fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

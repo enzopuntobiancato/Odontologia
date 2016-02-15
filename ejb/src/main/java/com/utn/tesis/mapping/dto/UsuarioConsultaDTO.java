@@ -22,6 +22,8 @@ public class UsuarioConsultaDTO extends BaseDTO {
     private Long id;
     private Long idUsuario;
 
+
+
     public Long getIdUsuario() {
         return idUsuario;
     }

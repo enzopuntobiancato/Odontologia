@@ -5,11 +5,10 @@ module.
         var service = {};
 
         service.save = function (nuevoUsuarioDTO) {
-            console.log("UsuarioSrv save")
             return $http({
                 method: 'POST',
                 url: 'api/usuario/saveUsuario',
-                data: angular.toJson(nuevoUsuarioDTO)
+                data: nuevoUsuarioDTO
             })
         }
 

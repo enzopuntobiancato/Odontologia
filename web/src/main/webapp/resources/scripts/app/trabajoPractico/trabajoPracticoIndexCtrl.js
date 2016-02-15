@@ -63,13 +63,6 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         }
 
 
-       /* $scope.findPractica = function(practicaId){
-            for(var i=0; i < $scope.data.practicas.length; i++){
-                if($scope.data.practicas[i].id === practicaId)
-                return $scope.data.practicas[i].denominacion
-            }
-        }*/
-
         function findPractica(practicaId){
             var nombre;
             for(var i=0; i < $scope.data.practicas.length; i++){
@@ -162,19 +155,19 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
                     //Success
                     service.remove(trabajoPracticoId, motivoBaja)
                         .success(function (response) {
-                            message.showMessage("Se ha dado de baja.");
+                            message.successMessage("El trabajo práctico fue dado de baja");
                             executeQuery();
-                            Console.log(response);
+                            console.log(response);
                         })
                         .error(function (error) {
-                            message.showMessage("Se ha registrado un error en la transacción.")
-                            Console.log(error);
+                            message("Se ha registrado un error en la transacción.")
+                            console.log(error);
                         })
                 },
                 function () {
                     //Failure
                     $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
+                    console.log(error);
                 });
         };
 
@@ -198,20 +191,20 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
                     //Success
                     service.restore(trabajoPracticoId)
                         .success(function (response) {
-                            message.showMessage("Se ha dado de alta.");
+                            message.successMessage("Se ha dado de alta.");
                             executeQuery($scope.paginationData.pageNumber);
-                            Console.log(response);
+                            console.log(response);
                         })
                         .error(function (error) {
                             message.showMessage("Se ha registrado un error en la transacción.")
                             executeQuery($scope.paginationData.pageNumber);
-                            Console.log(error);
+                            console.log(error);
                         })
                 },
                 function () {
                     //Failure
                     $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
+                    console.log(error);
                 });
         };
 

@@ -11,6 +11,9 @@ var module = angular.module('trabajoPracticoModule');
 module.controller('TrabajoPracticoCtrl_Edit', ['$scope', '$rootScope', 'TrabajoPracticoSrv', '$state', 'MessageSrv', 'gruposPracticaResponse', 'practicasResponse', '$filter', 'trabajoPracticoResponse',
     function ($scope, $rootScope, service, $state, message, gruposPracticaResponse, practicasResponse, $filter, trabajoPracticoResponse) {
     $scope.trabajoPractico = trabajoPracticoResponse.data;
+    var performSubmit = $scope.$parent.performSubmit;
+    var handleError = $scope.$parent.handleError;
+    $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
     $scope.data = {
         disableFields: false,
@@ -19,11 +22,15 @@ module.controller('TrabajoPracticoCtrl_Edit', ['$scope', '$rootScope', 'TrabajoP
         persistedOperation: $rootScope.persistedOperation || false,
         saved: false
     };
-    $scope.selectedGrupo = trabajoPracticoResponse.data.practicaOdontologica.grupo;
+
+        $scope.aux ={
+            selectedGrupo : $scope.trabajoPractico.practicaOdontologica.grupo
+        }
+//    $scope.selectedGrupo = $scope.trabajoPractico.practicaOdontologica.grupo;
     $scope.practicasSelect = $scope.data.practicas;
 
 
-    $scope.$watch('selectedGrupo', function (newValue, oldValue) {
+   /* $scope.$watch('selectedGrupo', function (newValue, oldValue) {
         if (!angular.equals(newValue, oldValue)) {
             delete $scope.trabajoPractico.practicaOdontologica;
             filterPracticas();
@@ -39,20 +46,22 @@ module.controller('TrabajoPracticoCtrl_Edit', ['$scope', '$rootScope', 'TrabajoP
                 })
             }
         }
-    })
+    })*/
 
-    $scope.save = function () {
-        service.save($scope.trabajoPractico)
-            .success(function (data) {
-                $scope.data.persistedOperation = true;
-                $scope.data.disableFields = true;
-                $scope.data.saved = true;
-                message.showMessage("Trabajo práctico modificado con éxito!");
-                $scope.goIndex();
-            })
-            .error(function (data) {
-                message.showMessage("Error al modificar " + $scope.trabajoPractico.nombre);
-            })
+    $scope.save = function (form) {
+        performSubmit(function(){
+            service.save($scope.trabajoPractico)
+                .success(function (data) {
+                    $scope.data.persistedOperation = true;
+                    $scope.data.disableFields = true;
+                    $scope.data.saved = true;
+                    message.successMessage($scope.trabajoPractico.nombre + " modificado con éxito!");
+                    $scope.goIndex();
+                })
+                .error(function (data, status) {
+                    handleError(data, status);
+                })
+        },form);
     };
 
     $scope.goIndex = function () {

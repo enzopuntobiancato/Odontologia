@@ -4,7 +4,9 @@ import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.TrabajoPracticoDTO;
 import com.utn.tesis.mapping.mapper.TrabajoPracticoMapper;
+import com.utn.tesis.model.PracticaOdontologica;
 import com.utn.tesis.model.TrabajoPractico;
+import com.utn.tesis.service.PracticaOdontologicaService;
 import com.utn.tesis.service.TrabajoPracticoService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +32,8 @@ public class TrabajoPracticoAPI extends BaseAPI {
     private TrabajoPracticoService trabajoPracticoService;
     @Inject
     private TrabajoPracticoMapper trabajoPracticoMapper;
+    @Inject
+    private PracticaOdontologicaService practicaOdontologicaService;
 
     @Path("/find")
     @GET
@@ -40,18 +44,30 @@ public class TrabajoPracticoAPI extends BaseAPI {
         return trabajoPracticoService.findByFilters(nombre, grupoPracticaId, practicaId, dadosBaja, pageNumber, pageSize);
     }
 
+    @Path("/findById")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public TrabajoPracticoDTO findById(@QueryParam("id") Long id){
+        return trabajoPracticoMapper.toDTO(trabajoPracticoService.findById(id));
+    }
+
+
     @Path("/save")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response save(TrabajoPracticoDTO dto){
         try{
+            TrabajoPractico entity;
             if (dto.getId() == null){
-                TrabajoPractico entity = trabajoPracticoMapper.fromDTO(dto);
-                trabajoPracticoService.save(entity);
+                entity = trabajoPracticoMapper.fromDTO(dto);
+                entity.setPracticaOdontologica(practicaOdontologicaService.findById(dto.getPracticaOdontologica().getId()));
+
             }else{
-                this.update(dto);
+                entity = trabajoPracticoService.findById(dto.getId());
+                trabajoPracticoMapper.updateFromDTO(dto,entity);
             }
+            trabajoPracticoService.save(entity);
             return Response.ok(dto).build();
         }   catch (SAPOException se){
             return persistenceRequest(se);
@@ -59,10 +75,31 @@ public class TrabajoPracticoAPI extends BaseAPI {
             log.error(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-
     }
 
-    private void update(TrabajoPracticoDTO dto) {
+    @Path("/remove")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(TrabajoPracticoDTO dto){
+        try{
+            TrabajoPractico entity = trabajoPracticoService.remove(dto.getId(),dto.getMotivoBaja());
+            dto = trabajoPracticoMapper.toDTO(entity);
+        }
+        catch (SAPOException se){
+            return persistenceRequest(se);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(dto).build();
     }
+
+    @Path("/restore")
+    @PUT
+    public void restore(@QueryParam("id") Long id){
+       trabajoPracticoService.restore(id);
+    }
+
 
 }

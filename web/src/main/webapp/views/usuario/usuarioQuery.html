@@ -40,13 +40,12 @@
                                 </md-button>
                             </div>
                         </div>
-                        <div ng-show="mostrarFiltros" layout="row" layout-sm="column" layout-margin>
-                            <div layout="row" layout-sm="column" layout-xs="column" layout-margin>
-                                <md-input-container>
+                        <div layout="row" layout-margin ng-show="mostrarFiltros" layout-xs="column" class="animated-div">
+                                <md-input-container flex="33">
                                     <label>E-mail</label>
                                     <input ng-model="filter.email" name="email">
                                 </md-input-container>
-                                <md-input-container flex-gt-sm="15">
+                                <md-input-container flex="33">
                                     <label>Rol</label>
                                     <md-select ng-model="filter.rolId" name="rol">
                                         <md-option ng-repeat="rol in roles" ng-value="{{ rol.id }}">
@@ -54,12 +53,11 @@
                                         </md-option>
                                     </md-select>
                                 </md-input-container>
-                                <md-input-container>
+                                <md-input-container flex="33">
                                     <md-checkbox ng-model="filter.dadosBaja" aria-label="Incluir dados de baja">
                                         Incluir dados de baja
                                     </md-checkbox>
                                 </md-input-container>
-                            </div>
                         </div>
                     </form>
                     <div class="query-chips" layout-gt-sm="row" ng-if="filterChips.length > 0" layout-margin>
@@ -71,9 +69,9 @@
                         </md-chips>
                     </div>
                         <md-list ng-show="result.length > 0">
-                            <md-list-item class="md-3-line" ng-repeat="item in result"
+                            <md-list-item class="md-3-line" ng-repeat="item in result" ng-class="{'deleted-item' : item.fechaBaja}"
                                           ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
-                                <img ng-src="{{ item.img }}" class="md-avatar" hide-xs/>
+                                <img ng-src="{{ item.imagen }}" class="md-avatar" hide-xs/>
                                 <div class="md-list-item-text" layout="column">
                                     <h3 class="md-title"><a>{{item.nombreUsuario }} ({{item.apellido}}, {{ item.nombre }})</a></h3>
                                     <h4>{{item.tipoDocumento }}:{{item.numero }}</h4>
@@ -130,10 +128,7 @@
                             </md-list-item>
 
                         </md-list>
-                    <div layout="column" layout-align="center center" ng-show="result.length == 0">
-                        <h1 class="md-title">No hay resultados para mostrar.</h1>
-                        <!--<img ng-src="https://s3.amazonaws.com/images.seroundtable.com/t-google-404-1299071983.jpg">-->
-                    </div>
+                    <ng-include ng-if="result.length == 0" src="'views/no-results.html'"></ng-include>
                 </md-card-content>
             </md-card>
     </md-content>

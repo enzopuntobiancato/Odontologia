@@ -122,19 +122,19 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
                 //Success
                 service.remove(usuarioId, motivoBaja)
                     .success(function (response) {
-                        message.showMessage("Se ha dado de baja el usuario.");
+                        message.successMessage("Se ha dado de baja el usuario.");
                         executeQuery();
-                        Console.log(response);
+                        console.log(response);
                     })
                     .error(function (error) {
                         message.showMessage("Se ha registrado un error en la transacción.")
-                        Console.log(error);
+                        console.log(error);
                     })
             },
             function (error) {
                 //Failure
                 $scope.status = 'You cancelled the dialog.';
-                Console.log(error);
+                console.log(error);
             });
     };
 
@@ -158,14 +158,14 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
                 //Success
                 service.restore(usuarioId)
                     .success(function (response) {
-                        message.showMessage("Se ha dado de alta el usuario.");
+                        message.successMessage("Se ha dado de alta el usuario.");
                         executeQuery($scope.paginationData.pageNumber);
-                        Console.log(response);
+                        console.log(response);
                     })
                     .error(function (error) {
                         message.showMessage("Se ha registrado un error en la transacción.")
                         executeQuery($scope.paginationData.pageNumber);
-                        Console.log(error);
+                        console.log(error);
                     })
             },
             function () {

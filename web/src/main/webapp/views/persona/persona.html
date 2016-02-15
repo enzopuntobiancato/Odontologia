@@ -56,7 +56,7 @@
     <div flex-gt-sm="33">
         <md-datepicker name="nacimiento" ng-model="vm.persona.fechaNacimiento"
                        md-placeholder="Fecha de nacimiento"
-                       required></md-datepicker>
+                       required class="md-date"></md-datepicker>
         <div class="validation-messages" ng-messages="form.nacimiento.$error" ng-show="form.nacimiento.$touched">
             <div ng-messages-include="error-messages"></div>
         </div>
