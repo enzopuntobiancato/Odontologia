@@ -14,6 +14,9 @@ module.controller('TrabajoPracticoCtrl_Create', ['$scope', '$rootScope', 'Trabaj
         saved: false
     };
     $scope.practicasSelect = $scope.data.practicas;
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
 
     $scope.$watch('selectedGrupo', function (newValue, oldValue) {
@@ -34,20 +37,20 @@ module.controller('TrabajoPracticoCtrl_Create', ['$scope', '$rootScope', 'Trabaj
         }
     })
 
-    $scope.save = function () {
-        service.save($scope.trabajoPractico)
-            .success(function (data) {
-                $scope.data.persistedOperation = true;
-                $scope.data.disableFields = true;
-                $scope.data.saved = true;
-                message.showMessage("Trabajo práctico creado con éxito.");
-                $scope.goIndex();
-            })
-            .error(function (data) {
-                message.showMessage("Ha habido un error al crear el TP")
-                Console.log(data);
-                $scope.goIndex();
-            })
+    $scope.save = function (form) {
+        performSubmit(function() {
+            service.save($scope.trabajoPractico)
+                .success(function () {
+                    $scope.data.persistedOperation = true;
+                    $scope.data.disableFields = true;
+                    $scope.data.saved = true;
+                    message.successMessage($scope.trabajoPractico.nombre + " creado con éxito");
+                    $scope.goIndex();
+                })
+                .error(function (data, status) {
+                    handleError(data, status);
+                })
+        }, form);
     };
 
     $scope.goIndex = function () {

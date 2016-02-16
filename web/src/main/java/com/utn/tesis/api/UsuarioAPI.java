@@ -12,6 +12,7 @@ import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.UsuarioService;
 import com.utn.tesis.util.EncryptionUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -31,6 +32,7 @@ import java.util.logging.Logger;
  */
 @Path("/usuario")
 @RequestScoped
+@Slf4j
 public class UsuarioAPI extends BaseAPI {
 
     @Inject
@@ -111,6 +113,28 @@ public class UsuarioAPI extends BaseAPI {
         }
     }
 
+    @Path("/remove")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(UsuarioConsultaDTO dto){
+        try {
+            Usuario entity = usuarioService.remove(dto.getId(), dto.getMotivoBaja());
+        } catch (SAPOException se) {
+            return persistenceRequest(se);
+        }  catch (Exception e){
+            log.error(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+       return Response.ok(dto).build();
+    }
+
+    @Path("/restore")
+    @PUT
+    public void restore(@QueryParam("id") Long id){
+        usuarioService.restore(id);
+    }
+
     private void update(UsuarioDTO usuarioDTO) throws SAPOException {
         Usuario persistedEntity = usuarioService.findById(usuarioDTO.getId());
         persistedEntity.setNombreUsuario(usuarioDTO.getNombreUsuario());
@@ -126,6 +150,8 @@ public class UsuarioAPI extends BaseAPI {
 
         usuarioService.update(persistedEntity);
     }
+
+
 
 
 }

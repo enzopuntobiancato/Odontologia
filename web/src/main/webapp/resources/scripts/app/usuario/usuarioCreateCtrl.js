@@ -5,7 +5,6 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
     function ($scope, $rootScope, service, $state, message, rolesResponse, tiposDocResponse,sexosResponse) {
 
     $scope.personaDTO ={};
-    var performSubmit = $scope.$parent.performSubmit;
     $scope.data = {
         disableFields: false,
         persistedOperation: $rootScope.persistedOperation || false,
@@ -16,6 +15,8 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
         sendEmail: true
     };
 
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
 
         $scope.save = save;
         function save(form) {
@@ -26,13 +27,13 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
                         $scope.data.persistedOperation = true;
                         $scope.data.disableFields = true;
                         $scope.data.saved = true;
-                        message.showMessage('Usuario'+ $scope.personaDTO.apellido +', '+ $scope.personaDTO.nombre +' creado');
+                        message.successMessage('Usuario para '+ $scope.personaDTO.apellido +', '+ $scope.personaDTO.nombre +' creado.');
                         $scope.goIndex();
                     })
                     .error(function (data, status) {
                         console.log(status);
                         console.log(data);
-                        message.showMessage('No se pudo crear el usuario');
+                        handleError(data, status);
                     })
 
             }, form);

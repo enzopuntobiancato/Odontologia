@@ -5,7 +5,8 @@ module
     .factory('MateriaSrv', ['$http', function ($http) {
         return {
             save: function (materia) {
-                return $http.post('api/materia/save', materia, {});
+                return $http.post('api/materia/save',
+                    materia, {});
             },
             find: function (nombre, nivel, dadosBaja) {
                 return $http({

@@ -1,4 +1,4 @@
-<md-content layout-align="center center" class="md-main-content" flex>
+<md-content layout-align="center start" layout class="md-main-content" flex>
     <md-card class="md-whiteframe-z5 md-main-content-card">
         <md-toolbar class="md-accent">
             <div class="md-toolbar-tools">
@@ -40,7 +40,7 @@
                         </md-button>
                     </div>
                 </div>
-                <div layout-gt-sm="row" layout-margin ng-show="aux.mostrarFiltros">
+                <div layout-gt-sm="row" layout-margin ng-show="aux.mostrarFiltros" class="animated-div">
                     <md-input-container flex-gt-sm="15">
                         <label>Nivel</label>
                         <md-select ng-model="filter.nivel" name="nivel">
@@ -68,14 +68,12 @@
                 <md-list-item class="md-3-line" ng-class="{'deleted-item' : item.fechaBaja}" ng-repeat="item in result"
                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
                     <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
-                         class="md-avatar"/>
-
+                         class="md-avatar" hide-xs/>
                     <div class="md-list-item-text" layout="column">
                         <h3 class="md-title">
                             <a>{{item.nombre}}</a>
                         </h3>
                         <h4>{{ item.nivel.nombre }} </h4>
-
                         <p class="muted">{{item.descripcion}}</p>
                     </div>
                     <div ng-show="item.showAction">
@@ -114,20 +112,18 @@
                 </md-list-item>
                 <md-divider></md-divider>
                 <md-list-item layout class="inset">
-                    <md-button layout layout-align="start center" flex ng-click="previousPage()"
+                    <md-button ng-click="previousPage()" flex layout layout-margin layout-align="start center"
                                ng-disabled="paginationData.firstPage">
                         <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
-                        Anterior
+                        <span hide-xs>Anterior</span>
                     </md-button>
-                    <md-button layout layout-align="start center" flex ng-click="nextPage()"
+                    <md-button layout layout-align="start center" layout-margin flex ng-click="nextPage()"
                                ng-disabled="!paginationData.morePages">
-                        Siguiente
+                        <span hide-xs>Siguiente</span>
                         <ng-md-icon icon="arrow_forward" style="fill: black"
                                     ng-disabled="!paginationData.morePages"></ng-md-icon>
                     </md-button>
-
                 </md-list-item>
-
             </md-list>
             <div ng-show="result.length == 0">
                 <h1 class="md-title">No hay resultados para mostrar.</h1>

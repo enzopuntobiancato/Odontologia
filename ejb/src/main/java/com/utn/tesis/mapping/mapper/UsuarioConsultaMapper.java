@@ -13,7 +13,7 @@ import org.mapstruct.Mappings;
  * Time: 19:51
  * To change this template use File | Settings | File Templates.
  */
- @Mapper(componentModel = "cdi", uses = RollMapper.class)
+ @Mapper(componentModel = "cdi", uses = {RollMapper.class})
 public interface UsuarioConsultaMapper{
 
     @Mappings({

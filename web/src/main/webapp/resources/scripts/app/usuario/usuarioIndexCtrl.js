@@ -7,22 +7,69 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
     $scope.filter = {};
     $scope.result = [];
     $scope.roles = rolesResponse.data;
+    $scope.filterChips = [];
 
     var cache = $cacheFactory.get('usuarioIndexCache') || $cacheFactory('usuarioIndexCache');
 
     $scope.aux = {
-        showDadosBaja: false
+        showDadosBaja: false,
+        mostrarFiltros: true
     }
 
     pagination.config('api/usuario/find');
 
     $scope.paginationData = pagination.paginationData;
 
+        function updateFilterChips() {
+            $scope.filterChips = [];
+            $scope.filterChips.push(newFilterChip('dadosBaja', 'Dados de baja', $scope.filter.dadosBaja, $scope.filter.dadosBaja ? 'SI' : 'NO'));
+            if ($scope.filter.email) {
+                $scope.filterChips.push(newFilterChip('email', 'Email', $scope.filter.email));
+            }
+            if ($scope.filter.nombreUsuario) {
+                $scope.filterChips.push(newFilterChip('nombreUsuario', 'Nombre', $scope.filter.nombreUsuario));
+            }
+            if ($scope.filter.rolId) {
+                $scope.filterChips.push(newFilterChip('rolId', 'Rol', findRol($scope.filter.rolId)));
+            }
+        }
+
+        $scope.$watchCollection('filterChips', function(newCol, oldCol) {
+            if (newCol.length < oldCol.length) {
+                $scope.filter = {};
+                angular.forEach(newCol, function(filterChip) {
+                    $scope.filter[filterChip.origin] = filterChip.value;
+                });
+                executeQuery();
+            }
+        });
+
+        function newFilterChip(origin, name, value, displayValue) {
+            var filterChip = {
+                origin: origin,
+                name: name,
+                value: value,
+                displayValue: displayValue ? displayValue : value
+            }
+            return filterChip;
+        }
+
+    function findRol(rolId){
+        var nombre;
+        for(var i=0; i < $scope.roles.length; i++){
+            if($scope.roles[i].id == rolId){
+                nombre =  $scope.roles[i].nombre;
+                break;
+            }
+        }
+        return nombre;
+    }
     function executeQuery(pageNumber) {
         pagination.paginate($scope.filter, pageNumber).then(function (data) {
             $scope.result = data;
             $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
             $scope.paginationData = pagination.getPaginationData();
+            updateFilterChips();
         }, function () {
         });
     }
@@ -75,19 +122,19 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
                 //Success
                 service.remove(usuarioId, motivoBaja)
                     .success(function (response) {
-                        message.showMessage("Se ha dado de baja el usuario.");
+                        message.successMessage("Se ha dado de baja el usuario.");
                         executeQuery();
-                        Console.log(response);
+                        console.log(response);
                     })
                     .error(function (error) {
                         message.showMessage("Se ha registrado un error en la transacción.")
-                        Console.log(error);
+                        console.log(error);
                     })
             },
             function (error) {
                 //Failure
                 $scope.status = 'You cancelled the dialog.';
-                Console.log(error);
+                console.log(error);
             });
     };
 
@@ -111,14 +158,14 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
                 //Success
                 service.restore(usuarioId)
                     .success(function (response) {
-                        message.showMessage("Se ha dado de alta el usuario.");
+                        message.successMessage("Se ha dado de alta el usuario.");
                         executeQuery($scope.paginationData.pageNumber);
-                        Console.log(response);
+                        console.log(response);
                     })
                     .error(function (error) {
                         message.showMessage("Se ha registrado un error en la transacción.")
                         executeQuery($scope.paginationData.pageNumber);
-                        Console.log(error);
+                        console.log(error);
                     })
             },
             function () {
