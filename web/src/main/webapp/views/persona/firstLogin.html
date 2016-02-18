@@ -14,7 +14,8 @@
                 <ng-include ng-if="vm.usuario.profesor" src="'views/persona/profesor.html'"></ng-include>
                 <ng-include ng-if="vm.usuario.autoridad" src="'views/persona/autoridad.html'"></ng-include>
 
-                <md-subheader class="md-primary">Datos de usuario</md-subheader>
+                <p class="subtitle-text">Datos de usuario</p>
+
                 <div layout-gt-sm="row" layout-margin>
                     <div flex-gt-sm="33" layout="column">
                         <md-input-container flex class="md-block">
@@ -22,7 +23,8 @@
                             <input md-maxlength="75" required name="nombreUsuario"
                                    ng-model="vm.persona.usuario.nombreUsuario">
 
-                            <div ng-messages="form.nombreUsuario.$error" ng-show="form.nombreUsuario.$touched">
+                            <div ng-messages="form.nombreUsuario.$error"
+                                 ng-show="form.nombreUsuario.$invalid && form.nombreUsuario.$touched">
                                 <div ng-messages-include="error-messages"></div>
                             </div>
                         </md-input-container>
@@ -30,7 +32,7 @@
                             <label>Correo electrónico</label>
                             <input type="email" required name="email" ng-model="vm.persona.usuario.email">
 
-                            <div ng-messages="form.email.$error" ng-show="form.email.$touched">
+                            <div ng-messages="form.email.$error" ng-show="form.email.$invalid && form.email.$touched">
                                 <div ng-messages-include="error-messages"></div>
                             </div>
                         </md-input-container>
@@ -39,7 +41,8 @@
                             <input id="password" type="password" md-maxlength="50" required name="password"
                                    ng-model="vm.persona.usuario.password">
 
-                            <div ng-messages="form.password.$error" ng-show="form.password.$touched">
+                            <div ng-messages="form.password.$error"
+                                 ng-show="form.password.$invalid && form.password.$touched">
                                 <div ng-messages-include="error-messages"></div>
                             </div>
                         </md-input-container>
@@ -48,16 +51,16 @@
                             <input pw-check="password" ng-pattern="vm.persona.usuario.contrasenia"
                                    ng-model="vm.repeatPassword" type="password" md-maxlength="50" name="repeatPassword">
 
-                            <div ng-messages="form.repeatPassword.$error">
+                            <div ng-messages="form.repeatPassword.$error" ng-show="form.repeatPassword.$invalid">
                                 <div ng-message="pwmatch">Las contraseñas no coinciden.</div>
                             </div>
                         </md-input-container>
                     </div>
-                    <div flex-gt-sm="66" layout="row" layout-align="center center ">
+                    <div flex-gt-sm="66" layout="row" layout-align="center center">
                         <md-button ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"
                                    accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
-                            <img class="user-image" ng-if="vm.isFileSelected()" ngf-src="vm.file"
-                                 ngf-resize="{width: 250, height: 250}">
+                            <img class="user-image" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
+                                 ngf-resize="{width: 300, height: auto}">
                             <img class="user-image" ng-if="!vm.isFileSelected()"
                                  src="http://www.riskid.nl/assets/testimonials/user-3995d1ed5f9b6ea6ef9c7bc9ead47415.jpg"/>
                         </md-button>

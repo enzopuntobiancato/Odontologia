@@ -3,6 +3,7 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
@@ -33,6 +34,12 @@ public class UsuarioService extends BaseService<Usuario> {
     private ArchivoService archivoService;
     @Inject
     private PersonaService personaService;
+
+    @Override
+    protected void bussinessValidation(Usuario entity) throws SAPOValidationException {
+
+        super.bussinessValidation(entity);
+    }
 
     @Override
     DaoBase<Usuario> getDao() {
@@ -77,7 +84,6 @@ public class UsuarioService extends BaseService<Usuario> {
     public boolean saveUsuario(Persona persona, Usuario usuario) {
         try {
             String password = RandomStringGenerator.generateRandomString(5, RandomStringGenerator.Mode.ALPHANUMERIC);
-            //TODO: enzo
             //Consulta: Se deberia en este momento disparar el mail informando el usuario y la contraseña??
             //despues de este punto creo que se pierde la contraseña desencriptada y no se puede recuperar para enviarla despues
             usuario.setContrasenia(password);

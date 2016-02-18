@@ -69,11 +69,13 @@
                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
                     <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
                          class="md-avatar" hide-xs/>
+
                     <div class="md-list-item-text" layout="column">
                         <h3 class="md-title">
                             <a>{{item.nombre}}</a>
                         </h3>
                         <h4>{{ item.nivel.nombre }} </h4>
+
                         <p class="muted">{{item.descripcion}}</p>
                     </div>
                     <div ng-show="item.showAction">
@@ -126,7 +128,7 @@
                 </md-list-item>
             </md-list>
             <div ng-show="result.length == 0">
-                <h1 class="md-title">No hay resultados para mostrar.</h1>
+                <ng-include src="'views/no-results.html'"/>
             </div>
         </md-card-content>
     </md-card>

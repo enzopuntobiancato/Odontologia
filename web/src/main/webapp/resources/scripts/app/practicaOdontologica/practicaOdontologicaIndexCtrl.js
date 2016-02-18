@@ -28,17 +28,17 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
             }
             if ($scope.filter.idGrupoPractica) {
                 $scope.filterChips.push(newFilterChip('idGrupoPractica', 'Grupo', $scope.filter.idGrupoPractica,
-                    $filter('filter')($scope.gruposPractica, function(item) {
-                          return item.id === $scope.filter.idGrupoPractica;
+                    $filter('filter')($scope.gruposPractica, function (item) {
+                        return item.id === $scope.filter.idGrupoPractica;
                     })[0].nombre)
                 );
             }
         }
 
-        $scope.$watchCollection('filterChips', function(newCol, oldCol) {
+        $scope.$watchCollection('filterChips', function (newCol, oldCol) {
             if (newCol.length < oldCol.length) {
                 $scope.filter = {};
-                angular.forEach(newCol, function(filterChip) {
+                angular.forEach(newCol, function (filterChip) {
                     $scope.filter[filterChip.origin] = filterChip.value;
                 });
                 executeQuery();
@@ -98,7 +98,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
             executeQuery();
         }
 
-        $scope.openDeleteDialog = function (ev, practicaId) {
+        $scope.openDeleteDialog = function (ev, practicaId, practicaNombre) {
             $mdDialog.show({
                 templateUrl: 'views/practicaOdontologica/practicaOdontologicaDelete.html',
                 parent: angular.element(document.body),
@@ -119,7 +119,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
                     //Success
                     service.remove(practicaId, motivoBaja)
                         .success(function (response) {
-                            message.showMessage("Se ha dado de baja.");
+                            message.showMessage(practicaNombre + " dada de baja.");
                             executeQuery();
                         })
                         .error(function (error) {
@@ -132,7 +132,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
                 });
         };
 
-        $scope.openRestoreDialog = function (ev, practicaId) {
+        $scope.openRestoreDialog = function (ev, practicaId, practicaNombre) {
             $mdDialog.show({
                 templateUrl: 'views/practicaOdontologica/practicaOdontologicaRestore.html',
                 parent: angular.element(document.body),
@@ -152,7 +152,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
                     //Success
                     service.restore(practicaId)
                         .success(function (response) {
-                            message.showMessage("Se ha dado de alta.");
+                            message.showMessage(practicaNombre + " dada de alta.");
                             executeQuery($scope.paginationData.pageNumber);
                         })
                         .error(function (error) {

@@ -1,5 +1,5 @@
-<md-content layout-align="center start" class="md-main-content" flex>
-    <md-card>
+<md-content layout-align="center start" layout class="md-main-content" flex>
+    <md-card class="md-whiteframe-z5 md-main-content-card">
         <md-toolbar class="md-accent">
             <div class="md-toolbar-tools">
                 <span>Consultar práctica odontológica</span>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div layout-gt-sm="row" layout-margin ng-if="aux.mostrarFiltros">
-                    <md-input-container flex-gt-sm="33">
+                    <md-input-container flex-gt-sm="40">
                         <label>Grupo práctica odontológica</label>
                         <md-select ng-model="filter.idGrupoPractica" name="grupo">
                             <md-option ng-repeat="grupo in gruposPractica" ng-value="grupo.id">
@@ -65,7 +65,7 @@
                 </md-chips>
             </div>
             <md-list ng-show="result.length > 0">
-                <md-list-item class="md-3-line" ng-repeat="item in result"
+                <md-list-item class="md-3-line" ng-class="{'deleted-item' : item.fechaBaja}" ng-repeat="item in result"
                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
                     <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
                          class="md-avatar"/>
@@ -74,7 +74,7 @@
                         <h3 class="md-title">
                             <a>{{item.denominacion}}</a>
                         </h3>
-                        <h4>{{ item.grupo.nombre }}</h4>
+                        <!--<h4>{{ item.grupo.nombre }}</h4>-->
 
                         <p>{{item.observaciones}}</p>
                     </div>
@@ -129,7 +129,7 @@
                 </md-list-item>
             </md-list>
             <div ng-show="!result.length">
-                <h1 class="md-title">No hay resultados para mostrar.</h1>
+                <ng-include src="'views/no-results.html'"/>
             </div>
         </md-card-content>
     </md-card>

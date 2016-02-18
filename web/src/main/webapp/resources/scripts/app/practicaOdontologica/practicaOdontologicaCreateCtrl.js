@@ -17,13 +17,13 @@ module.controller('PracticaOdontologicaCtrl_Create', ['$scope', '$rootScope', 'P
         $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
         $scope.save = function (form) {
-            performSubmit(function() {
+            performSubmit(function () {
                 service.save($scope.practica)
                     .success(function () {
                         $scope.data.persistedOperation = true;
                         $scope.data.disableFields = true;
                         $scope.data.saved = true;
-                        message.showMessage("Práctica creada con éxito");
+                        message.showMessage($scope.practica.denominacion + " creada con éxito");
                         $scope.goIndex();
                     })
                     .error(function (data, status) {
