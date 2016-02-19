@@ -55,20 +55,25 @@ module.controller('PacienteCtrl_Edit', ['$scope','$rootScope','PacienteSrv','$st
             persistedOperation: $rootScope.persistedOperation || false,
             saved: false
         }
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
+        $scope.save = save;
 
-        $scope.save = function () {
-            //service.save($scope.paciente)
-            //    .success(function (data) {
-            //        $scope.data.persistedOperation = true;
-            //        $scope.data.disableFields = true;
-            //        $scope.data.saved = true;
-            //        message.showMessage("Paciente " + $scope.paciente.apellido +", "+ $scope.paciente.nombre + " modificado  con éxito!");
-            //        $scope.goIndex();
-            //    })
-            //    .error(function (data) {
-            //        message.showMessage("Error al modificar "  + $scope.paciente.apellido +", "+ $scope.paciente.nombre);
-            //    })
-        }
+        function save(form){
+            performSubmit(function(){
+                service.save($scope.paciente)
+                    .success(function(data){
+                        $scope.data.persistedOperation = true;
+                        $scope.data.disableFields = true;
+                        $scope.data.saved = true;
+                        message.successMessage('Paciente'+ $scope.paciente.apellido +', '+ $scope.paciente.nombre +' creado.');
+                        $scope.goIndex();
+                    })
+                    .error(function(data,status){
+                        handleError(data,status);
+                    })
+            },form)
+        };
 
         $scope.goIndex = function () {
             $state.go('^.index', {execQuery: false, execQuerySamePage: $scope.data.persistedOperation});
@@ -78,6 +83,13 @@ module.controller('PacienteCtrl_Edit', ['$scope','$rootScope','PacienteSrv','$st
             $rootScope.persistedOperation = $scope.data.persistedOperation;
             $state.go($state.current, {}, {reload: true});
         }
+
+        $scope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                if (!angular.equals($state.current, toState)) {
+                    delete $rootScope.persistedOperation;
+                }
+            });
 
         //Adicionales
         $scope.secciones = [true,false,false,false,false];
@@ -112,11 +124,4 @@ module.controller('PacienteCtrl_Edit', ['$scope','$rootScope','PacienteSrv','$st
                 $scope.clickIcon = 'keyboard_arrow_right';
             }
         };
-
-        $scope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
-                if (!angular.equals($state.current, toState)) {
-                    delete $rootScope.persistedOperation;
-                }
-            });
     }]);

@@ -1,290 +1,275 @@
-<md-sidenav class="md-sidenav-left md-whiteframe-z2"  md-is-locked-open="true">
+<md-content layout="row" flex>
+    <md-sidenav layout="column" class="short-sidenav md-whiteframe-z1" md-is-locked-open="$mdMedia('gt-sm')" ng-cloak>
         <md-content>
             <md-list>
-                <md-list-item ng-Mouseover="mostrarSeccion(0, 'Datos personales')">
+                <md-list-item ng-click="mostrarSeccion(0, 'Datos personales')">
                     Datos personales
-                    <ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[0]}}"
+                    <!--<ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[0]}}"
                                 ng-Mouseover="colorMouseOver(0)" ng-mouseleave="colorMouseLeave(0)" ng-show="secciones[0]">
-                    </ng-md-icon>
+                    </ng-md-icon>-->
                     <md-divider></md-divider>
                 </md-list-item>
 
-                <md-list-item ng-Mouseover="mostrarSeccion(1, 'Domicilio y contacto')">
+                <md-list-item ng-click="mostrarSeccion(1, 'Domicilio y contacto')">
                     Domicilio y contacto
-                    <ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[1]}}"
+                   <!-- <ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[1]}}"
                                 ng-Mouseover="colorMouseOver(1)" ng-mouseleave="colorMouseLeave(1)" ng-show="secciones[1]">
-                    </ng-md-icon>
+                    </ng-md-icon>-->
                     <md-divider></md-divider>
                 </md-list-item>
-                <md-list-item ng-Mouseover="mostrarSeccion(2, 'Trabajo')">
+                <md-list-item ng-click="mostrarSeccion(2, 'Trabajo')">
                     Trabajo
-                    <ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[2]}}"
+                    <!--<ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[2]}}"
                                 ng-Mouseover="colorMouseOver(2)" ng-mouseleave="colorMouseLeave(2)" ng-show="secciones[2]">
-                    </ng-md-icon>
+                    </ng-md-icon>-->
                     <md-divider></md-divider>
                 </md-list-item>
-                <md-list-item  ng-Mouseover="mostrarSeccion(3, 'Datos médicos')">
+                <md-list-item ng-click="mostrarSeccion(3, 'Datos médicos')">
                     Datos médicos
-                    <ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[3]}}"
+                   <!-- <ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[3]}}"
                                 ng-Mouseover="colorMouseOver(3)" ng-mouseleave="colorMouseLeave(3)" ng-show="secciones[3]">
-                    </ng-md-icon>
+                    </ng-md-icon>-->
                     <md-divider></md-divider>
                 </md-list-item>
-                <md-list-item ng-Mouseover="mostrarSeccion(4, 'Otros datos')">
+                <md-list-item ng-click="mostrarSeccion(4, 'Otros datos')">
                     Otros datos
-                    <ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[4]}}"
+                    <!--<ng-md-icon icon="keyboard_arrow_right" size="30" ng-attr-style="fill: {{colorIcon[4]}}"
                                 ng-Mouseover="colorMouseOver(4)" ng-mouseleave="colorMouseLeave(4)" ng-show="secciones[4]">
-                    </ng-md-icon>
+                    </ng-md-icon>-->
                     <md-divider></md-divider>
                 </md-list-item>
             </md-list>
         </md-content>
     </md-sidenav>
-    <md-content layout="column" style="height: 400px;" flex="95" layout-margin>
-    <md-card>
-    <md-card-title>
-        <md-card-title-text>
-            <span class="md-headline">{{ tituloSeccion }}</span>
-        </md-card-title-text>
-    </md-card-title>
-    <md-card-content>
-    <section ng-show="secciones[0]" id="datosPersonales">
-        <div layout="row" layout-padding>
-            <md-input-container flex>
-                <label>Nombre (*)</label>
-                <input name="nombre" ng-model="paciente.nombre"
-                       required md-maxlength="75">
-                <div ng-messages="createPacienteForm.nombre.$error" role="alert" multiple>
-                    <div ng-message="required" class="my-message">El nombre es un campo requerido.</div>
-                    <div ng-message="md-maxlength" class="my-message">
-                        El nombre no puede tener màs de 75 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Apellido (*)</label>
-                <input name="apellido" ng-model="paciente.apellido"
-                       required md-maxlength="75">
-                <div ng-messages="createPacienteForm.apellido.$error" role="alert" multiple>
-                    <div ng-message="required" class="my-message">El apellido es un campo requerido.</div>
-                    <div ng-message="md-maxlength" class="my-message">
-                        El apellido no puede tener màs de 75 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-        </div>
-        <div layout="row" layout-padding>
-            <md-input-container>
-                <label>Tipo doc.(*)</label>
-                <md-select ng-model="paciente.tipoDocumento" name="tipoDocumento" required>
-                    <md-option ng-repeat="tipoDoc in data.tiposDocumento" ng-value="tipoDoc">
-                        {{ tipoDoc.nombre }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Número(*)</label>
-                <input name="nroDocumento" ng-model="paciente.nroDocumento"
-                       required md-maxlength="10">
-                <div ng-messages="createPacienteForm.nroDocumento.$error" role="alert" multiple>
-                    <div ng-message="required" class="my-message">El número de documento es un campo requerido.</div>
-                    <div ng-message="md-maxlength" class="my-message">
-                        El número de documento no puede tener màs de 10 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-        </div>
-        <div layout="row" layout-padding>
-            <md-input-container flex>
-                <label>Estado civil</label>
-                <md-select ng-model="paciente.estadoCivil" name="estadoCivil">
-                    <md-option ng-repeat="estado in data.estados" ng-value="estado">
-                        {{ estado.nombre }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Nacionalidad</label>
-                <input name="nacionalidad" ng-model="paciente.nacionalidad"
-                       md-maxlength="20">
-                <div ng-messages="createPacienteForm.nacionalidad.$error" role="alert">
-                    <div ng-message="md-maxlength" class="my-message">
-                        La nacionalidad no puede tener màs de 20 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Lugar de nacimiento</label>
-                <input name="nacimiento" ng-model="paciente.nacimiento"
-                       md-maxlength="20">
-                <div ng-messages="createPacienteForm.nacimiento.$error" role="alert">
-                    <div ng-message="md-maxlength" class="my-message">
-                        El lugar de nacimiento no puede tener màs de 20 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Provincia</label>
-                <input name="provincia" ng-model="paciente.provincia"
-                       md-maxlength="20">
-                <div ng-messages="createPacienteForm.provincia.$error" role="alert" multiple>
-                    <div ng-message="md-maxlength" class="my-message">
-                        La provincia no puede tener màs de 20 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-        </div>
-        <div layout="row" layout-padding>
-            <md-datepicker name="nacimiento" ng-model="paciente.fechaNacimiento" md-placeholder="Nacimiento"
-                           required></md-datepicker>
-        </div>
-    </section>
-    <section ng-show="secciones[1]" id="domicilioContacto">
-        <div layout="row" layout-padding>
-            <md-input-container flex>
-                <label>Calle</label>
-                <input name="calle" ng-model="paciente.calle"
-                       md-maxlength="20" required>
-                <div ng-messages="createPacienteForm.calle.$error" role="alert">
-                    <div ng-message="md-maxlength" class="my-message">
-                        La calle no puede tener màs de 20 caracteres.
-                    </div>
-                    <div ng-message="required" class="my-message">
-                        La calle es un campo requerido.
-                    </div>
-                </div>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Número</label>
-                <input name="numero" ng-model="paciente.numero"
-                       md-maxlength="10" required>
-                <div ng-messages="createPacienteForm.numero.$error" role="alert">
-                    <div ng-message="md-maxlength" class="my-message">
-                        El número no puede tener màs de 10 caracteres.
-                    </div>
-                    <div ng-message="required" class="my-message">
-                        El número es un campo requerido.
-                    </div>
-                </div>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Piso</label>
-                <input name="piso" ng-model="paciente.piso">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Depto.</label>
-                <input name="depto" ng-model="paciente.depto">
-            </md-input-container>
-        </div>
-        <div layout="row" layout-padding>
-            <md-input-container flex>
-                <label>Ciudad</label>
-                <md-select ng-model="paciente.ciudad" name="ciudad">
-                    <md-option ng-repeat="ciudad in data.ciudades" ng-value="ciudad">
-                        {{ ciudad.nombre }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Barrio</label>
-                <md-select ng-model="paciente.barrio" name="barrio">
-                    <md-option ng-repeat="barrio in data.barrios" ng-value="barrio">
-                        {{ barrio.nombre }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-        <div layout="row" layout-padding>
-            <md-input-container flex>
-                <label>Telefono</label>
-                <input name="telefono" ng-model="paciente.telefono">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Celular</label>
-                <input name="celular" ng-model="paciente.celular">
-            </md-input-container>
-        </div>
-    </section>
-    <section ng-show="secciones[2]"id="trabajo">
-        <div layout="row" layout-padding>
-            <md-input-container flex>
-                <label>Trabajo</label>
-                <input name="trabajo" ng-model="paciente.trabajo">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Estudios</label>
-                <md-select ng-model="paciente.estudios" name="estudios">
-                    <md-option ng-repeat="nivel in data.nivelesEstudio" ng-value="nivel">
-                        {{ nivel.nombre }}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-    </section>
-    <section ng-show="secciones[3]" id="datosMedicos">
-        <div layout="row" layout-padding>
-            <md-input-container flex>
-                <label>Obra social</label>
-                <input name="obraSocial" ng-model="paciente.obraSocial"
-                       md-maxlength="20">
-                <div ng-messages="createPacienteForm.obraSocial.$error" role="alert">
-                    <div ng-message="md-maxlength" class="my-message">
-                        La obra social no puede tener màs de 20 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Número</label>
-                <input name="numeroObraSocial" ng-model="paciente.numeroObraSocial"
-                       md-maxlength="10" >
-                <div ng-messages="createPacienteForm.numeroObraSocial.$error" role="alert">
-                    <div ng-message="md-maxlength" class="my-message">
-                        El número no puede tener màs de 10 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-        </div>
-        <div layout="row" layout-padding>
-            <md-input-container flex>
-                <label>Médico de cabecera</label>
-                <input name="medicoCabecera" ng-model="paciente.medicoCabecera">
-            </md-input-container>
-            <!--md-radio-group ng-model="paciente.tieneServicio">
-                <md-radio-button ng-value="Sí">
-                    Tiene servicio de emergencias
-                </md-radio-button>
-                <md-radio-button ng-value="No">
-                    No tiene servicio de emergencias
-                </md-radio-button>
-            </md-radio-group-->
-            <md-input-container flex>
-                <label>Cuál?</label>
-                <input name="servicio" ng-model="paciente.servicio">
-            </md-input-container>
-        </div>
-    </section>
-    <section ng-show="secciones[4]" id="otrosDatos">
-        <div layout="column" layout-padding>
-            <md-input-container>
-                <label>Religión</label>
-                <input name="religion" ng-model="paciente.religion"
-                       md-maxlength="20">
-                <div ng-messages="createPacienteForm.religion.$error" role="alert">
-                    <div ng-message="md-maxlength" class="my-message">
-                        La religión no puede tener màs de 20 caracteres.
-                    </div>
-                </div>
-            </md-input-container>
-            <md-checkbox ng-model="paciente.privadoLibertad" aria-label="Checkbox 1">
-                Privado de la libertad
-            </md-checkbox>
-            <md-input-container>
-                <label>Dónde?</label>
-                <input name="privadoLugar" ng-model="paciente.privadoLugar">
-            </md-input-container>
-        </div>
+    <div layout="column" ng-cloak>
+        <div layout-margin ng-show="secciones[0]" id="datosPersonales">
+            <md-subheader class="md-primary">{{ tituloSeccion }}</md-subheader>
+            <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                <md-input-container flex-gt-sm>
+                    <label>Nombre </label>
+                    <input name="nombre" ng-model="paciente.nombre"
+                           required md-maxlength="75">
 
-    </section>
-    </md-card-content>
-    </md-card>
-    </md-content>
+                    <div ng-messages="createPacienteForm.nombre.$error" ng-show="createPacienteForm.nombre.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Apellido </label>
+                    <input name="apellido" ng-model="paciente.apellido"
+                           required md-maxlength="75">
+
+                    <div ng-messages="createPacienteForm.apellido.$error" ng-show="createPacienteForm.apellido.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm="33">
+                    <label>Sexo</label>
+                    <md-select required ng-model="personaDTO.sexo" ng-model-options="{trackBy: '$value.key'}"
+                               name="sexo">
+                        <md-option ng-repeat="sexo in data.sexos" ng-value="sexo">
+                            {{ sexo.nombre }}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="usuarioForm.sexo.$error" ng-show="usuarioForm.sexo.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                <md-input-container flex-gt-sm="33">
+                    <label>Tipo doc.</label>
+                    <md-select ng-model="paciente.tipoDocumento" name="tipoDocumento" required>
+                        <md-option ng-repeat="tipoDoc in data.tiposDocumento" ng-value="tipoDoc">
+                            {{ tipoDoc.nombre }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex-gt-sm="33">
+                    <label>Número</label>
+                    <input name="nroDocumento" ng-model="paciente.nroDocumento"
+                           required md-maxlength="10">
+
+                    <div ng-messages="createPacienteForm.nroDocumento.$error"
+                         ng-show="createPacienteForm.nroDocumento.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Estado civil</label>
+                    <md-select ng-model="paciente.estadoCivil" name="estadoCivil">
+                        <md-option ng-repeat="estado in data.estados" ng-value="estado">
+                            {{ estado.nombre }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                <md-input-container flex-gt-sm>
+                    <label>Provincia de nacimiento</label>
+                    <input name="provincia" ng-model="paciente.provincia"
+                           md-maxlength="20">
+
+                    <div ng-messages="createPacienteForm.provincia.$error" ng-show="createPacienteForm.provincia.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Ciudad de nacimiento</label>
+                    <input name="nacimiento" ng-model="paciente.nacimiento"
+                           md-maxlength="20">
+
+                    <div ng-messages="createPacienteForm.nacimiento.$error" ng-show="createPacienteForm.nacimiento.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+                <md-datepicker name="nacimiento" ng-model="paciente.fechaNacimiento" md-placeholder="Fecha nac."
+                               required></md-datepicker>
+                <md-input-container flex-gt-sm>
+                    <label>Nacionalidad</label>
+                    <input name="nacionalidad" ng-model="paciente.nacionalidad"
+                           md-maxlength="20">
+
+                    <div ng-messages="createPacienteForm.nacionalidad.$error"
+                         ng-show="createPacienteForm.nacionalidad.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+
+            </div>
+        </div>
+        <div layout-margin ng-show="secciones[1]" id="domicilioContacto">
+            <md-subheader class="md-primary">{{ tituloSeccion }}</md-subheader>
+            <div layout-gt-sm="row" layout-margin>
+                <md-input-container flex-gt-sm>
+                    <label>Calle</label>
+                    <input name="calle" ng-model="paciente.calle"
+                           md-maxlength="20" required>
+                    <div ng-messages="createPacienteForm.calle.$error" ng-show="createPacienteForm.calle.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Número</label>
+                    <input name="numero" ng-model="paciente.numero" type="number"
+                           md-maxlength="10" required>
+                    <div ng-messages="createPacienteForm.numero.$error" ng-show="createPacienteForm.numero.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Piso</label>
+                    <input name="piso" ng-model="paciente.piso">
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Depto.</label>
+                    <input name="depto" ng-model="paciente.depto">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row" layout-margin>
+                <md-input-container flex-gt-sm="33">
+                    <label>Ciudad</label>
+                    <md-select ng-model="paciente.ciudad" name="ciudad">
+                        <md-option ng-repeat="ciudad in data.ciudades" ng-value="ciudad">
+                            {{ ciudad.nombre }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex-gt-sm="33">
+                    <label>Barrio</label>
+                    <md-select ng-model="paciente.barrio" name="barrio">
+                        <md-option ng-repeat="barrio in data.barrios" ng-value="barrio">
+                            {{ barrio.nombre }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row" layout-margin>
+                <md-input-container flex-gt-sm="33">
+                    <label>Telefono</label>
+                    <input name="telefono" ng-model="paciente.telefono">
+                </md-input-container>
+                <md-input-container flex-gt-sm="33">
+                    <label>Celular</label>
+                    <input name="celular" ng-model="paciente.celular">
+                </md-input-container>
+            </div>
+        </div>
+        <div layout-margin ng-show="secciones[2]" id="trabajo">
+            <md-subheader class="md-primary">{{ tituloSeccion }}</md-subheader>
+            <div layout-gt-sm="row" layout-margin>
+                <md-input-container flex-gt-sm>
+                    <label>Trabajo</label>
+                    <input name="trabajo" ng-model="paciente.trabajo">
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Estudios</label>
+                    <md-select ng-model="paciente.estudios" name="estudios">
+                        <md-option ng-repeat="nivel in data.nivelesEstudio" ng-value="nivel">
+                            {{ nivel.nombre }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <div layout-margin ng-show="secciones[3]" id="datosMedicos">
+            <md-subheader class="md-primary">{{ tituloSeccion }}</md-subheader>
+            <div layout-gt-sm="row" layout-margin>
+                <md-input-container flex-gt-sm>
+                    <label>Obra social</label>
+                    <input name="obraSocial" ng-model="paciente.obraSocial"
+                           md-maxlength="20">
+                    <div ng-messages="createPacienteForm.calle.$error" ng-show="createPacienteForm.obraSocial.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Número</label>
+                    <input name="numeroObraSocial" ng-model="paciente.numeroObraSocial"
+                           md-maxlength="10">
+                    <div ng-messages="createPacienteForm.calle.$error" ng-show="createPacienteForm.numeroObraSocial.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row" layout-margin>
+                <md-input-container flex-gt-sm="33">
+                    <label>Médico de cabecera</label>
+                    <input name="medicoCabecera" ng-model="paciente.medicoCabecera">
+                </md-input-container>
+                <md-input-container flex="33">
+                    <md-checkbox ng-model="paciente.tieneServicio" aria-label="Checkbox 1">
+                        ¿Tiene servicio de emergencia?
+                    </md-checkbox>
+                </md-input-container>
+                <md-input-container flex-gt-sm="33">
+                    <label>Cuál?</label>
+                    <input name="servicio" ng-model="paciente.servicio">
+                </md-input-container>
+            </div>
+        </div>
+        <div layout-margin ng-show="secciones[4]" id="otrosDatos">
+            <md-subheader class="md-primary">{{ tituloSeccion }}</md-subheader>
+            <div layout="row" layout-margin layout-xs="column">
+                <md-input-container flex-gt-sm>
+                    <label>Religión</label>
+                    <input name="religion" ng-model="paciente.religion" md-maxlength="20">
+                    <div ng-messages="createPacienteForm.calle.$error" ng-show="createPacienteForm.religion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-margin layout-xs="column">
+                <md-input-container flex-gt-sm="66">
+                    <md-checkbox ng-model="paciente.privadoLibertad" aria-label="Checkbox 1">
+                        Privado de la libertad
+                    </md-checkbox>
+                </md-input-container>
+                <md-input-container flex-gt-sm="33">
+                    <label>Dónde?</label>
+                    <input name="privadoLugar" ng-model="paciente.privadoLugar">
+                </md-input-container>
+            </div>
+        </div>
+    </div>
+</md-content>

@@ -12,8 +12,28 @@ module.controller('UsuarioCtrl_Edit', ['$scope', '$rootScope', 'UsuarioSrv', '$s
         sendEmail: true,
         tiposDoc: tiposDocResponse.data
     };
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
+        $scope.save = save;
 
-    $scope.save = function () {
+    function save(form){
+        performSubmit(function(){
+           service.save($scope.personaDTO)
+               .success(function(data){
+                   $scope.data.persistedOperation = true;
+                   $scope.data.disableFields = true;
+                   $scope.data.saved = true;
+                   message.successMessage('Usuario para '+ $scope.personaDTO.apellido +', '+ $scope.personaDTO.nombre +' creado.');
+                   $scope.goIndex();
+               })
+               .error(function(data, status){
+                   handleError(data,status);
+               })
+        }, form)
+    };
+
+
+    /*$scope.save = function () {
         $scope.personaDTO.nombreRol = $scope.personaDTO.usuario.rol.nombre;
         service.save($scope.personaDTO)
             .success(function (data) {
@@ -26,7 +46,7 @@ module.controller('UsuarioCtrl_Edit', ['$scope', '$rootScope', 'UsuarioSrv', '$s
             .error(function (data) {
                 message.showMessage("Error al modificar " + $scope.personaDTO.usuario.nombreUsuario);
             })
-    };
+    };*/
 
     $scope.goIndex = function () {
         $state.go('^.index', {execQuery: $scope.data.persistedOperation});

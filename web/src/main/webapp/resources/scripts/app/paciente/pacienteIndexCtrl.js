@@ -1,8 +1,8 @@
 var module = angular.module('pacienteModule');
 
 
-module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv',  'PaginationService', '$mdDialog','materiasResponse',
-    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,materiasResponse) {
+module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv',  'PaginationService', '$mdDialog','materiasResponse','practicasResponse',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,materiasResponse,practicasResponse) {
         $scope.result = [
             {
                 id: '1',
@@ -61,11 +61,15 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
                 img:                'http://www.rivermillonarios.com.ar/media/galeria/132/4/9/2/7/n_river_plate_idolos_millonarios_y_ex_river-1357294.jpg'
             }
         ];
-        //pacientes
         $scope.filter = {};
+        $scope.filterChips = [];
+        $scope.aux = {
+            showDadosBaja: false,
+            mostrarFiltros: true
+        };
         $scope.data = {
-            materias : materiasResponse.data
-            //practicas : practicasResponse.data
+            materias : materiasResponse.data,
+            practicas : practicasResponse.data
         };
 
         $scope.reload = function(){
@@ -73,19 +77,84 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
             $state.go($state.current, {}, {reload: true});
         };
 
-
-
+        $scope.paginationData = pagination.paginationData;
+        pagination.config('api/persona/find');
         //Consulta
-
+        function executeQuery(pageNumber){
+            pagination.paginate($scope.filter,pageNumber)
+                .then(function(data){
+                    $scope.result = data;
+                    $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
+                    $scope.paginationData = pagination.getPaginationData();
+                    updateFilterChips();
+                },function(){
+                });
+        };
+        
         $scope.consultar = function () {
-            // executeQuery();
+            executeQuery();
         }
 
         $scope.keyboardOk = function (event) {
             if (event.which == 13) {
-                //executeQuery();
+                executeQuery();
             }
         };
+        
+        //Chips
+        function updateFilterChips() {
+            $scope.filterChips = [];
+            $scope.filterChips.push(newFilterChip('dadosBaja', 'Dados de baja', $scope.filter.dadosBaja, $scope.filter.dadosBaja ? 'SI' : 'NO'));
+            if ($scope.filter.materia) {
+                $scope.filterChips.push(newFilterChip('materia', 'Materia', findMateria($scope.filter.materia)));
+            }
+            if ($scope.filter.nombre) {
+                $scope.filterChips.push(newFilterChip('nombre', 'Nombre', $scope.filter.nombre));
+            }
+            if ($scope.filter.practica) {
+                $scope.filterChips.push(newFilterChip('practica', 'Práctica', findPractica($scope.filter.practica)));
+            }
+        }
+
+        $scope.$watchCollection('filterChips', function(newCol, oldCol) {
+            if (newCol.length < oldCol.length) {
+                $scope.filter = {};
+                angular.forEach(newCol, function(filterChip) {
+                    $scope.filter[filterChip.origin] = filterChip.value;
+                });
+                executeQuery();
+            }
+        });
+
+        function newFilterChip(origin, name, value, displayValue) {
+            var filterChip = {
+                origin: origin,
+                name: name,
+                value: value,
+                displayValue: displayValue ? displayValue : value
+            }
+            return filterChip;
+        }
+        
+        function findMateria(idMateria){
+            var nombre;
+            for(var i = 0; i < $scope.data.materias.length; i++){
+                if($scope.data.materias[i].id == idMateria){
+                    nombre = $scope.data.materias[i].nombre;
+                }                
+            }
+            return nombre;
+        }
+
+        function findPractica(idPractica){
+            var nombre;
+            for(var i = 0; i < $scope.data.practicas.length; i++){
+                if($scope.data.practicas[i].id == idPractica){
+                    nombre = $scope.data.practicas[i].denominacion;
+                }
+            }
+            return nombre;
+        }
 
         //Caché
         function cacheData() {
@@ -108,12 +177,12 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         //Paginación
         $scope.nextPage = function () {
             if ($scope.paginationData.morePages) {
-                //executeQuery(++$scope.paginationData.pageNumber);
+                executeQuery(++$scope.paginationData.pageNumber);
             }
         };
         $scope.previousPage = function () {
             if (!$scope.paginationData.firstPage) {
-                //executeQuery(--$scope.paginationData.pageNumber);
+                executeQuery(--$scope.paginationData.pageNumber);
             }
         };
 
@@ -155,19 +224,19 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
                     //Success
                     service.remove(pacienteId, motivoBaja)
                         .success(function (response) {
-                            message.showMessage("Se ha dado de baja.");
-                            //executeQuery();
-                            Console.log(response);
+                            message.successMessage("Se ha dado de baja el paciente.");
+                            executeQuery();
+                            console.log(response);
                         })
                         .error(function (error) {
                             message.showMessage("Se ha registrado un error en la transacción.")
-                            Console.log(error);
+                            console.log(error);
                         })
                 },
                 function () {
                     //Failure
                     $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
+                    console.log(error);
                 });
         };
 
@@ -192,25 +261,24 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
                     //Success
                     service.restore(pacienteId)
                         .success(function (response) {
-                            message.showMessage("Se ha dado de alta.");
-                            //executeQuery($scope.paginationData.pageNumber);
-                            Console.log(response);
+                            message.successMessage("Se ha dado de alta.");
+                            executeQuery($scope.paginationData.pageNumber);
+                            console.log(response);
                         })
                         .error(function (error) {
                             message.showMessage("Se ha registrado un error en la transacción.")
-                            //executeQuery($scope.paginationData.pageNumber);
-                            Console.log(error);
+                            executeQuery($scope.paginationData.pageNumber);
+                            console.log(error);
                         })
                 },
                 function () {
                     //Failure
                     $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
+                    console.log(error);
                 });
         };
 
         //Métodos auxiliares
-        $scope.mostrarFiltros = false;
         $scope.clickIcon = 'expand_more';
         $scope.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
 
@@ -246,7 +314,7 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
 
         $scope.cleanFilters = function () {
             $scope.filter = {};
-            //executeQuery();
+            executeQuery();
         };
 
 

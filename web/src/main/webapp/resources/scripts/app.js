@@ -511,17 +511,83 @@ odontologiaApp.config(['$urlRouterProvider',
             .state('paciente.create', {
                 url: '/create',
                 templateUrl: 'views/paciente/pacienteCreate.html',
-                controller: 'PacienteCtrl_Create'
+                controller: 'PacienteCtrl_Create',
+                resolve:{
+                    /*provinciasResponse:[{id:"1", nombre:"Córdoba"},{id:"2", nombre:"Santa Fe"},{id:"3", nombre:"Buenos Aires"}],
+                    ciudadesResponse: [{id:"1", nombre:"Córdoba"},
+                        {id:"2", nombre:"Santa Fe"},
+                        {id:"3", nombre:"Capital Federal"}],
+                    barriosResponse: [{id:"1", nombre:"Capital Sur"},
+                        {id:"2", nombre:"Barrio Jardìn"},
+                        {id:"3", nombre:"Alberdi"}],
+                    estadoCivilResponse: [{id:"1", nombre:"Solter"},
+                        {id:"2", nombre:"Casado"},
+                        {id:"3", nombre:"Viudo"}],*/
+                   /* tiposDocumentoResponse: ['loadMyModule','CommonSrv', function(loadMyModule, service){
+                        return service.getTiposDocumento();
+                    }],
+                    nivelesEstudioResponse:['loadMyModule','CommonSrv', function(loadMyModule, service){
+                        return service.getNiveles();
+                    }]*/
+                    /*provinciasResponse:['loadMyModule', 'CommonSrv', function(loadMyModule, service){
+                        return service.getProvincias();
+                    }],
+                    ciudadesResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
+                        return service.getCiudades();
+                    }],
+                    barriosResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
+                        return service.getBarrios();
+                    }],
+                    estadosCivilResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
+                        return service.getEstados();
+                    }],
+                    tiposDocumentoResponse: ['loadMyModule','CommonSrv', function(loadMyModule, service){
+                        return service.getTiposDocumento();
+                    }],
+                    nivelesResponse:['loadMyModule','CommonSrv', function(loadMyModule, service){
+                        return service.getNiveles();
+                    }]*/
+                }
             })
             .state('paciente.edit', {
                 url: '/edit/:id',
                 templateUrl: 'views/paciente/pacienteEdit.html',
-                controller: 'PacienteCtrl_Edit'
+                controller: 'PacienteCtrl_Edit',
+                resolve:{
+                    provinciasResponse:['loadMyModule', 'CommonSrv', function(loadMyModule, service){
+                        return service.getProvincias();
+                    }],
+                    ciudadesResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
+                        return service.getCiudades();
+                    }],
+                    barriosResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
+                        return service.getBarrios();
+                    }],
+                    estadosCivilResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
+                        return service.getEstados();
+                    }],
+                    tiposDocumentoResponse: ['loadMyModule','CommonSrv', function(loadMyModule, service){
+                        return service.getTiposDocumento();
+                    }],
+                    nivelesEstudioResponse:['loadMyModule','CommonSrv', function(loadMyModule, service){
+                        return service.getNiveles();
+                    }]
+                }
             })
             .state('paciente.view', {
                 url: '/view/:id',
                 templateUrl: 'views/paciente/pacienteView.html',
-                controller: 'PacienteCtrl_View'
+                resolve: {
+                    pacienteResponse: {
+
+                    }
+                },
+                controller: function ($scope, $state, usuarioResponse) {
+                    $scope.usuario = usuarioResponse.data;
+                    $scope.goIndex = function () {
+                        $state.go('^.index');
+                    }
+                }
             })
             .state('asignacion', {
                 url: '/asignacion',

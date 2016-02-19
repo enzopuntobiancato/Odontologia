@@ -278,8 +278,20 @@ body {
 
 .subtitle-text {
     color: rgb(3, 169, 244)
+    color: #a94442!important;
+    background-color: #f2dede!important;
+    border-color: #ebccd1!important;
 }
-
+/*#md-card-tab {
+    height: 95%;
+}
+#md-card-tab-content{
+    height: 75%;
+}*/
+.short-sidenav {
+    min-width: 21%;
+    max-width: 22%;
+}
 .short-sidenav {
     min-width: 21%;
     max-width: 22%;

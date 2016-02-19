@@ -6,7 +6,6 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
 
     $scope.filter = {};
     $scope.result = [];
-    $scope.roles = rolesResponse.data;
     $scope.filterChips = [];
 
     var cache = $cacheFactory.get('usuarioIndexCache') || $cacheFactory('usuarioIndexCache');
@@ -16,8 +15,11 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
         mostrarFiltros: true
     }
 
-    pagination.config('api/usuario/find');
+    $scope.data = {
+        roles : rolesResponse.data
+    }
 
+    pagination.config('api/usuario/find');
     $scope.paginationData = pagination.paginationData;
 
         function updateFilterChips() {
@@ -65,7 +67,8 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
         return nombre;
     }
     function executeQuery(pageNumber) {
-        pagination.paginate($scope.filter, pageNumber).then(function (data) {
+        pagination.paginate($scope.filter, pageNumber)
+            .then(function (data) {
             $scope.result = data;
             $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
             $scope.paginationData = pagination.getPaginationData();

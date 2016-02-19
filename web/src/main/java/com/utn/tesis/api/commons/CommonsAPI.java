@@ -1,11 +1,7 @@
 package com.utn.tesis.api.commons;
 
-import com.utn.tesis.mapping.dto.EnumDTO;
-import com.utn.tesis.mapping.dto.GrupoPracticaOdontologicaDTO;
-import com.utn.tesis.mapping.dto.RolDTO;
-import com.utn.tesis.model.Dia;
-import com.utn.tesis.model.GrupoPracticaOdontologica;
-import com.utn.tesis.model.Nivel;
+import com.utn.tesis.mapping.dto.*;
+import com.utn.tesis.model.*;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.initialization.InitializationService;
 
@@ -86,7 +82,34 @@ public class CommonsAPI {
         return commonsService.findAllCargos();
     }
 
+    @Path("/getEstadosCivil")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EnumDTO> getEstadosCivil(){
+        return commonsService.findEstadosCivil();
+    }
 
+
+    @Path("/getProvincias")
+    @Produces(MediaType.APPLICATION_JSON)
+    @GET
+    public List<ProvinciaDTO> getProvincias(){
+        return commonsService.findAllProvincias();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getCiudades")
+    public List<CiudadDTO> getCiudades(){
+        return commonsService.findAllCiudades();
+    }
+
+    @GET
+    @Path("/getBarrios")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<BarrioDTO> getBarrios(){
+        return commonsService.findAllBarrios();
+    }
 
     @GET
     @Path("/{name}")

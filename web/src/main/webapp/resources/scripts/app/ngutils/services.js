@@ -56,7 +56,6 @@ services
 
         service.enumToJson = function (data) {
             var result = [];
-
             for (var i = 0; i < data.length; i++) {
                 var json = {};
                 json.id = i;
@@ -119,6 +118,22 @@ services
 
         service.getCargos = function () {
             return $http.get('api/commons/getCargos', {});
+        }
+
+        service.getProvincias = function(){
+            return $http.get('api/commons/getProvincias',{})
+        }
+
+        service.getCiudades = function(){
+            return $http.get('api/commons/getCiudades',{})
+        }
+
+        service.getBarrios = function(){
+            return $http.get('api/commons/getBarrios',{})
+        }
+
+        service.getEstadoCivil = function(){
+            return $http.get('api/commons/getEstadosCivil',{})
         }
 
         return service;

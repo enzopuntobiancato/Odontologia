@@ -1,8 +1,6 @@
 package com.utn.tesis.service;
 
-import com.utn.tesis.mapping.dto.EnumDTO;
-import com.utn.tesis.mapping.dto.GrupoPracticaOdontologicaDTO;
-import com.utn.tesis.mapping.dto.RolDTO;
+import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.mapping.mapper.EnumMapper;
 import com.utn.tesis.mapping.mapper.GrupoPracticaOdontologicaMapper;
 import com.utn.tesis.mapping.mapper.RollMapper;
@@ -66,5 +64,21 @@ public class CommonsService {
 
     public List<EnumDTO> findAllCargos() {
         return enumMapper.cargoListToDTOList(Arrays.asList(Cargo.values()));
+    }
+
+    public List<EnumDTO> findEstadosCivil() {
+        return null;  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public List<ProvinciaDTO> findAllProvincias() {
+        return null;
+    }
+
+    public List<CiudadDTO> findAllCiudades() {
+        return null;
+    }
+
+    public List<BarrioDTO> findAllBarrios() {
+        return null;  //To change body of created methods use File | Settings | File Templates.
     }
 }

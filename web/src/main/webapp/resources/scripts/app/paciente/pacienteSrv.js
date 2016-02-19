@@ -11,14 +11,14 @@ module.
     factory('PacienteSrv', ['$http', function ($http) {
         var service = {};
 
-      //  service.save = function (entity) {
-      //      return $http({
-      //          method: 'POST',
-      //          url: 'api/paciente/save',
-      //          data: angular.toJson(entity)
-      //      })
-      //  }
-      //
+        service.save = function (entity) {
+            return $http({
+                method: 'POST',
+                url: 'api/persona/save',
+                data: angular.toJson(entity)
+            })
+        }
+
       //  service.remove = function (id, motivoBaja) {
       //      var entity = {
       //          id: id,
@@ -37,6 +37,14 @@ module.
       //          params: {id: id}
       //      })
       //  }
+
+        service.find = function(nombre,materiaId, practicaId){
+            return $http({
+                method:'GET',
+                url:'api/persona/find',
+                params:{nombre: nombre, materia: materiaId, practica: practicaId}
+            })
+        }
 
         service.findById = function(id) {
             return $http({

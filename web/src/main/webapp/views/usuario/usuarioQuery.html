@@ -48,7 +48,7 @@
                                 <md-input-container flex="33">
                                     <label>Rol</label>
                                     <md-select ng-model="filter.rolId" name="rol">
-                                        <md-option ng-repeat="rol in roles" ng-value="{{ rol.id }}">
+                                        <md-option ng-repeat="rol in data.roles" ng-value="{{ rol.id }}">
                                             {{ rol.nombre }}
                                         </md-option>
                                     </md-select>
@@ -126,7 +126,6 @@
                                 </md-button>
 
                             </md-list-item>
-
                         </md-list>
                     <ng-include ng-if="result.length == 0" src="'views/no-results.html'"></ng-include>
                 </md-card-content>

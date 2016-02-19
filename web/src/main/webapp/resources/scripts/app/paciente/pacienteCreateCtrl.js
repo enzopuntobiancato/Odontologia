@@ -9,32 +9,45 @@ var module = angular.module('pacienteModule');
 
 module.controller('PacienteCtrl_Create', ['$scope', '$rootScope', 'PacienteSrv', '$state', 'MessageSrv',
     function ($scope, $rootScope, service, $state, message) {
+//        ,provinciasResponse,ciudadesResponse,barriosResponse,estadoCivilResponse,tiposDocumentoResponse,nivelesEstudioResponse
+//        ,'provinciasResponse','ciudadesResponse','barriosResponse','estadoCivilResponse','tiposDocumentoResponse','nivelesEstudioResponse'
         $scope.paciente={};
         $scope.data = {
-            provincias :[
-                {nombre: 'Córdoba'},{nombre: 'Buenos Aires'},{nombre: 'Santa Fe'},{nombre: 'San Luis'}
-            ],
-            ciudades : [
-                {nombre: 'Córdoba'},{nombre: 'Carlos Paz'},{nombre: 'Alta Gracia'},{nombre: 'La Falda'}
-            ],
-            barrios : [
-                {nombre: 'Capital Sur'},{nombre: 'Alberdi'},{nombre: 'Centro'},{nombre: 'Barrio Jardìn'}
-            ],
-            estados : [
-                {nombre: 'Soltero'},{nombre: 'Divorciado'},{nombre: 'Casado'},{nombre: 'Viudo'}
-            ],
-            tiposDocumento : [
-                {nombre: 'DNI'},{nombre: 'Pasaporte'},{nombre: 'LC'}
-            ],
-            nivelesEstudio : [
-                {nombre: 'Universitario'},{nombre: 'Terciario'},{nombre: 'Secundario'},{nombre: 'Primario'}
-            ]
+            provincias : [{id:"1", nombre:"Córdoba"},{id:"2", nombre:"Santa Fe"},{id:"3", nombre:"Buenos Aires"}],
+            ciudades : [{id:"1", nombre:"Córdoba"},
+                {id:"2", nombre:"Santa Fe"},
+                {id:"3", nombre:"Capital Federal"}],
+            barrios : [{id:"1", nombre:"Capital Sur"},
+                {id:"2", nombre:"Barrio Jardìn"},
+                {id:"3", nombre:"Alberdi"}],
+            estados : [{id:"1", nombre:"Solter"},
+                {id:"2", nombre:"Casado"},
+                {id:"3", nombre:"Viudo"}],
+            tiposDocumento : [{id:"1", nombre:"Solter"},
+                {id:"2", nombre:"Casado"},
+                {id:"3", nombre:"Viudo"}],
+            nivelesEstudio : [{id:"1", nombre:"Solter"},
+                {id:"2", nombre:"Casado"},
+                {id:"3", nombre:"Viudo"}]
         }
-
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
 
         //Guardar
-        $scope.save = function(){
-
+        $scope.save = function(form){
+            performSubmit(function(){
+                service.save(paciente)
+                    .success(function(data){
+                        $scope.data.persistedOperation = true;
+                        $scope.data.disableFields;
+                        $scope.data.saved = true;
+                        message.successMessage("Paciente " +$scope.paciente.apellido + ', ' + $scope.paciente.nombre + ' creado con éxito');
+                        $scope.goIndex();
+                    })
+                    .error(function(data, status){
+                        handleError(data, status);
+                    })
+            },form);
         }
 
 
