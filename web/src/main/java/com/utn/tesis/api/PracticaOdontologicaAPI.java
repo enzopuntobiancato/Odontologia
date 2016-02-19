@@ -35,12 +35,13 @@ public class PracticaOdontologicaAPI extends BaseAPI {
     @Path("/find")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PracticaOdontologica> findByFilters(@QueryParam("denominacion") String denominacion,
-                                       @QueryParam("idGrupoPractica") Long idGrupoPractica,
-                                       @QueryParam("dadosBaja") boolean dadosBaja,
-                                       @QueryParam("pageNumber") Long pageNumber,
-                                       @QueryParam("pageSize") Long pageSize) {
-        return practicaOdontologicaService.findByFilters(denominacion, idGrupoPractica, dadosBaja, pageNumber, pageSize);
+    public List<PracticaOdontologicaDTO> findByFilters(@QueryParam("denominacion") String denominacion,
+                                                       @QueryParam("idGrupoPractica") Long idGrupoPractica,
+                                                       @QueryParam("dadosBaja") boolean dadosBaja,
+                                                       @QueryParam("pageNumber") Long pageNumber,
+                                                       @QueryParam("pageSize") Long pageSize) {
+        List<PracticaOdontologica> entities = practicaOdontologicaService.findByFilters(denominacion, idGrupoPractica, dadosBaja, pageNumber, pageSize);
+        return practicaMapper.toDTOList(entities);
     }
 
     @POST
@@ -49,15 +50,7 @@ public class PracticaOdontologicaAPI extends BaseAPI {
     @Path("/save")
     public Response save(PracticaOdontologicaDTO dto) {
         try {
-            PracticaOdontologica entity;
-            if (dto.getId() == null) {
-                entity = practicaMapper.fromDTO(dto);
-            } else {
-                entity = practicaOdontologicaService.findById(dto.getId());
-                practicaMapper.updateFromDTO(dto, entity);
-            }
-
-            dto = practicaMapper.toDTO(practicaOdontologicaService.save(entity));
+            dto = practicaOdontologicaService.save(dto);
             return Response.ok(dto).build();
         } catch (SAPOException se) {
             return persistenceRequest(se);

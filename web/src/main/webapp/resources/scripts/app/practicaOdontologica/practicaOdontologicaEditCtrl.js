@@ -12,18 +12,24 @@ module.controller('PracticaOdontologicaCtrl_Edit', ['$scope', '$rootScope', 'Pra
             saved: false
         }
 
-        $scope.save = function () {
-            service.save($scope.practica)
-                .success(function (data) {
-                    $scope.data.persistedOperation = true;
-                    $scope.data.disableFields = true;
-                    $scope.data.saved = true;
-                    message.showMessage("Práctica odontológica " + $scope.practica.denominacion + " modificada  con éxito!");
-                    $scope.goIndex();
-                })
-                .error(function (data) {
-                    message.showMessage("Error al modificar " + $scope.practica.denominacion);
-                })
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+
+        $scope.save = function (form) {
+            performSubmit(function () {
+                service.save($scope.practica)
+                    .success(function () {
+                        $scope.data.persistedOperation = true;
+                        $scope.data.disableFields = true;
+                        $scope.data.saved = true;
+                        message.showMessage($scope.practica.denominacion + " modificada con éxito.");
+                        $scope.goIndex();
+                    })
+                    .error(function (data, status) {
+                        handleError(data, status);
+                    })
+            }, form);
         }
 
         $scope.goIndex = function () {

@@ -115,8 +115,8 @@ md-whiteframe {
 }
 
 /*md-datepicker {*/
-    /*max-width: 100px;*/
-    /*min-width: 80px;*/
+/*max-width: 100px;*/
+/*min-width: 80px;*/
 /*}*/
 
 /*md-select {*/
@@ -162,12 +162,13 @@ md-whiteframe {
     animation: slideInDown 0.1s;
 }*/
 
-.animated-div.ng-hide-add{
+.animated-div.ng-hide-add {
     -webkit-animation: slideOutUp 0.5s;
     -moz-animation: slideOutUp 0.5s;
     -ms-animation: slideOutUp 0.5s;
     animation: slideOutUp 0.5s;
 }
+
 .animated-div.ng-hide-remove {
     -webkit-animation: slideInDown 0.5s;
     -moz-animation: slideInDown 0.5s;
@@ -178,6 +179,7 @@ md-whiteframe {
     /*display:block!important;
     opacity:1;*/
 }
+
 /*.my-show-hide-animation.ng-hide {
     opacity:0;
 }*/
@@ -250,16 +252,18 @@ body {
 }
 
 .user-image {
-    width: 350px;
-    height: 350px;
-    border-radius: 175px;
-    -webkit-border-radius: 175px;
-    -moz-border-radius: 175px;
+    width: 300px;
+    height: 300px;
+    border-radius: 150px;
+    -webkit-border-radius: 150px;
+    -moz-border-radius: 150px;
     background-position: 50% 50%;
-    /*background-size: 250px auto;*/
+    background-size: 300px auto;
 }
 
-.query-chips .md-chips .md-chip-input-container > input { display: none; }
+.query-chips .md-chips .md-chip-input-container > input {
+    display: none;
+}
 
 .deleted-item {
     background-color: rgba(255, 0, 0, .2);
@@ -267,7 +271,11 @@ body {
 
 .val-error {
     /*background-color: rgba(255,0,0, .5)!important;*/
-    color: #a94442!important;
-    background-color: #f2dede!important;
-    border-color: #ebccd1!important;
+    color: #a94442 !important;
+    background-color: #f2dede !important;
+    border-color: #ebccd1 !important;
+}
+
+.subtitle-text {
+    color: rgb(3, 169, 244)
 }
