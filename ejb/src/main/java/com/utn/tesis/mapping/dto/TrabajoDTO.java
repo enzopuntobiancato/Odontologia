@@ -3,14 +3,13 @@ package com.utn.tesis.mapping.dto;
 /**
  * Created with IntelliJ IDEA.
  * User: Usuario
- * Date: 18/02/16
- * Time: 22:37
+ * Date: 6/03/16
+ * Time: 11:25
  * To change this template use File | Settings | File Templates.
  */
-public class CiudadDTO extends BaseDTO {
-    private Long id;
+public class TrabajoDTO extends BaseDTO {
     private String nombre;
-    private ProvinciaDTO provincia;
+    private Long id;
     private Integer version;
 
     public Integer getVersion() {
@@ -21,12 +20,12 @@ public class CiudadDTO extends BaseDTO {
         this.version = version;
     }
 
-    public ProvinciaDTO getProvincia() {
-        return provincia;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setProvincia(ProvinciaDTO provincia) {
-        this.provincia = provincia;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public Long getId() {
@@ -35,13 +34,5 @@ public class CiudadDTO extends BaseDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 }

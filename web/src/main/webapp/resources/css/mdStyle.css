@@ -40,22 +40,7 @@ md-content.md-default-theme {
     box-sizing: content-box;
 }
 
-.label-item-two-columns {
-    box-sizing: border-box;
-    padding: 14px 0;
-    max-width: 190px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    float: left;
-    width: 50%;
-}
 
-.label-item-two-columns h3 {
-    margin: 0 !important;
-    padding: 0;
-    line-height: 1.2em !important;
-}
 
 .label-item-three-columns {
     box-sizing: border-box;
@@ -277,7 +262,6 @@ body {
 }
 
 .subtitle-text {
-    color: rgb(3, 169, 244)
     color: #a94442!important;
     background-color: #f2dede!important;
     border-color: #ebccd1!important;

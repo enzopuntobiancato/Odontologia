@@ -92,6 +92,8 @@ public class MateriaAPI extends BaseAPI {
     @Path("/findAll")
     @GET
     public List<MateriaDTO> findAll() {
+        List<Materia> materias = materiaService.findAll();
+        List<MateriaDTO> materiaDTOs = materiaMapper.toDTOList(materias);
         return materiaMapper.toDTOList(materiaService.findAll());
     }
 

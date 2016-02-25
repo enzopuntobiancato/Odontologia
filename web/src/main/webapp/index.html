@@ -44,11 +44,19 @@
                     <ng-md-icon icon="account_balance"></ng-md-icon>
                     <md-button ui-sref="catedra.index">Cátedra</md-button>
                 </md-list-item>
+                <md-list-item class="md-menu-item">
+                    <ng-md-icon icon="local_hospital"></ng-md-icon>
+                    <md-button ui-sref="paciente.index">Pacientes</md-button>
+                </md-list-item>
+                <md-list-item class="md-menu-item">
+                    <ng-md-icon icon="settings"></ng-md-icon>
+                    <md-button ui-sref="practicaOdontologica.index">Práctica odontlógica</md-button>
+                </md-list-item>
             </md-list>
         </md-content>
     </md-sidenav>
     <div layout="column" flex id="content" ng-cloak>
-        <md-toolbar layout="row" md-scroll-shrink>
+        <md-toolbar layout="row" md-scroll-shrink class="md-whiteframe-10dp">
             <div class="md-toolbar-tools">
                 <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
                     <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
@@ -133,6 +141,7 @@
     <div ng-message="email">No tiene formato de e-mail.</div>
     <div ng-message="valid">No tiene formato de fecha.</div>
     <div ng-message="md-maxlength">Ingresó más caracteres de los permitidos.</div>
+    <div ng-message="minlength">Ingresó menos caracteres que los requeridos.</div>
     <div ng-message="pattern">Solo se permiten números.</div>
     <div ng-message="length">Es obligatorio</div>
 </script>

@@ -10,6 +10,16 @@ package com.utn.tesis.mapping.dto;
 public class BarrioDTO extends BaseDTO {
     private Long id;
     private String nombre;
+    private CiudadDTO ciudad;
+    private Integer version;
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     public Long getId() {
         return id;
@@ -25,5 +35,13 @@ public class BarrioDTO extends BaseDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public CiudadDTO getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(CiudadDTO ciudad) {
+        this.ciudad = ciudad;
     }
 }

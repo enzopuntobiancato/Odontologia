@@ -94,6 +94,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         //lazyload de un modulo
                         return $ocLazyLoad.load('sapo.login');
                     }],
+
                     initializeData: ['loadMyModule', '$http', '$q', function (loadMyModule, $http, $q) {
                         var deferred = $q.defer();
                         $http({
@@ -422,8 +423,6 @@ odontologiaApp.config(['$urlRouterProvider',
                     }
                 }
             })
-
-
             .state('usuario', {
                 url: '/usuario',
                 template: '<ui-view/>',
@@ -499,92 +498,118 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/paciente/pacienteQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'PacienteCtrl_Index',
+                controllerAs: 'vm',
                 resolve: {
-                    materiasResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
-                        return service.findAllMaterias();
+                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                        return commons.getTiposDocumento();
                     }],
-                    practicasResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
-                        return service.getPracticas();
+                    sexosResponse:["CommonsSrv", function(commons){
+                        return commons.getSexos();
                     }]
                 }
+            })
+            .state('paciente.odontograma',{
+                url:'/odontograma',
+                templateUrl: 'views/odontograma/odontograma.html'
             })
             .state('paciente.create', {
                 url: '/create',
                 templateUrl: 'views/paciente/pacienteCreate.html',
                 controller: 'PacienteCtrl_Create',
-                resolve:{
-                    /*provinciasResponse:[{id:"1", nombre:"Córdoba"},{id:"2", nombre:"Santa Fe"},{id:"3", nombre:"Buenos Aires"}],
-                    ciudadesResponse: [{id:"1", nombre:"Córdoba"},
-                        {id:"2", nombre:"Santa Fe"},
-                        {id:"3", nombre:"Capital Federal"}],
-                    barriosResponse: [{id:"1", nombre:"Capital Sur"},
-                        {id:"2", nombre:"Barrio Jardìn"},
-                        {id:"3", nombre:"Alberdi"}],
-                    estadoCivilResponse: [{id:"1", nombre:"Solter"},
-                        {id:"2", nombre:"Casado"},
-                        {id:"3", nombre:"Viudo"}],*/
-                   /* tiposDocumentoResponse: ['loadMyModule','CommonSrv', function(loadMyModule, service){
-                        return service.getTiposDocumento();
+                controllerAs: 'vm',
+                resolve: {
+                    nivelesResponse: ['CommonsSrv', function (commons) {
+                        return commons.getNiveles();
                     }],
-                    nivelesEstudioResponse:['loadMyModule','CommonSrv', function(loadMyModule, service){
-                        return service.getNiveles();
-                    }]*/
-                    /*provinciasResponse:['loadMyModule', 'CommonSrv', function(loadMyModule, service){
-                        return service.getProvincias();
+                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                        return commons.getTiposDocumento();
                     }],
-                    ciudadesResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
-                        return service.getCiudades();
+                    sexosResponse:["CommonsSrv", function(commons){
+                        return commons.getSexos();
                     }],
-                    barriosResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
-                        return service.getBarrios();
+                    provinciaResponse: ["CommonsSrv", function(commons){
+                        return commons.getProvincias();
                     }],
-                    estadosCivilResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
-                        return service.getEstados();
+                    ciudadesResponse: ['CommonsSrv', function(commons){
+                        return commons.getCiudades();
                     }],
-                    tiposDocumentoResponse: ['loadMyModule','CommonSrv', function(loadMyModule, service){
-                        return service.getTiposDocumento();
+                    barriosResponse: ['CommonsSrv', function(commons){
+                        return commons.getBarrios();
                     }],
-                    nivelesResponse:['loadMyModule','CommonSrv', function(loadMyModule, service){
-                        return service.getNiveles();
-                    }]*/
+                    estadosResponse: ['CommonsSrv', function(commons){
+                        return commons.getEstadosCivil();
+                    }],
+                    trabajosResponse: ['CommonsSrv', function(commons){
+                        return commons.getTrabajos();
+                    }],
+                    obrasSocialesResponse: ['CommonsSrv', function(commons){
+                        return commons.getObrasSociales();
+                    }],
+                    nivelesEstudioResponse: ['CommonsSrv', function(commons){
+                        return commons.getNivelesEstudio();
+                    }],
+                    nacionalidadesResponse: ['CommonsSrv', function(commons){
+                        return commons.getNacionalidaes();
+                    }]
                 }
             })
             .state('paciente.edit', {
                 url: '/edit/:id',
                 templateUrl: 'views/paciente/pacienteEdit.html',
                 controller: 'PacienteCtrl_Edit',
+                controllerAs: 'vm',
                 resolve:{
-                    provinciasResponse:['loadMyModule', 'CommonSrv', function(loadMyModule, service){
-                        return service.getProvincias();
+                    nivelesResponse: ['CommonsSrv', function (commons) {
+                        return commons.getNiveles();
                     }],
-                    ciudadesResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
-                        return service.getCiudades();
+                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                        return commons.getTiposDocumento();
                     }],
-                    barriosResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
-                        return service.getBarrios();
+                    sexosResponse:["CommonsSrv", function(commons){
+                        return commons.getSexos();
                     }],
-                    estadosCivilResponse: ['loadMyModule', 'CommonSrv', function(loadMyModule, service){
-                        return service.getEstados();
+                    provinciaResponse: ["CommonsSrv", function(commons){
+                        return commons.getProvincias();
                     }],
-                    tiposDocumentoResponse: ['loadMyModule','CommonSrv', function(loadMyModule, service){
-                        return service.getTiposDocumento();
+                    ciudadesResponse: ['CommonsSrv', function(commons){
+                        return commons.getCiudades();
                     }],
-                    nivelesEstudioResponse:['loadMyModule','CommonSrv', function(loadMyModule, service){
-                        return service.getNiveles();
+                    barriosResponse: ['CommonsSrv', function(commons){
+                        return commons.getBarrios();
+                    }],
+                    estadosResponse: ['CommonsSrv', function(commons){
+                        return commons.getEstadosCivil();
+                    }],
+                    trabajosResponse: ['CommonsSrv', function(commons){
+                        return commons.getTrabajos();
+                    }],
+                    obrasSocialesResponse: ['CommonsSrv', function(commons){
+                        return commons.getObrasSociales();
+                    }],
+                    nivelesEstudioResponse: ['CommonsSrv', function(commons){
+                        return commons.getNivelesEstudio();
+                    }],
+                    nacionalidadesResponse: ['CommonsSrv', function(commons){
+                        return commons.getNacionalidaes();
+                    }],
+                    pacienteResponse:['$stateParams','PacienteSrv', function($stateParams,service){
+                        return service.findById($stateParams.id);
                     }]
                 }
             })
             .state('paciente.view', {
                 url: '/view/:id',
                 templateUrl: 'views/paciente/pacienteView.html',
+                controllerAs: 'vm',
                 resolve: {
-                    pacienteResponse: {
-
-                    }
+                    pacienteResponse:['$stateParams','PacienteSrv',function($stateParams,service){
+                        return service.findById($stateParams.id);
+                    }]
                 },
-                controller: function ($scope, $state, usuarioResponse) {
-                    $scope.usuario = usuarioResponse.data;
-                    $scope.goIndex = function () {
+                controller: function ($scope, $state,pacienteResponse) {
+                    var vm = this;
+                    vm.paciente = pacienteResponse.data;
+                    vm.goIndex = function () {
                         $state.go('^.index');
                     }
                 }
@@ -674,8 +699,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         url('/paciente/pacienteSrv.js'),
                         url('/paciente/pacienteIndexCtrl.js'),
                         url('/paciente/pacienteCreateCtrl.js'),
-                        url('/paciente/pacienteEditCtrl.js'),
-                        url('/paciente/pacienteViewCtrl.js')
+                        url('/paciente/pacienteEditCtrl.js')
                     ]
                 },
                 {
@@ -701,6 +725,7 @@ angular.module('sapo.login', []);
 angular.module('personaModule', []);
 angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
+//angular.module('customDirectivesModule',[])
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {

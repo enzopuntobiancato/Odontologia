@@ -18,18 +18,20 @@ public class PacienteDao extends DaoBase<Paciente> {
     QPaciente paciente, $ = QPaciente.paciente;
 
     public List<Paciente> findByFilters(String nombre, String apellido, Documento documento,
-                                         Usuario usuario, Sexo sexo, Long page, Long pageSize) {
+                                         String usuarioNombre, Sexo sexo, Long page, Long pageSize) {
 
         JPAQuery query = new JPAQuery(em).from($);
         if (nombre != null)
             query.where($.nombre.containsIgnoreCase(nombre));
+        if(sexo != null)
+            query.where($.sexo.eq(sexo));
         if (apellido != null)
             query.where($.apellido.containsIgnoreCase(apellido));
         if (documento != null)
             query.where($.documento.numero.equalsIgnoreCase(documento.getNumero())
                     .and($.documento.tipoDocumento.eq(documento.getTipoDocumento())));
-        if (usuario != null)
-            query.where($.usuario.id.eq(usuario.getId()));
+        if (usuarioNombre != null)
+            query.where($.usuario.nombreUsuario.containsIgnoreCase(usuarioNombre));
 
         query = paginar(query, page, pageSize);
         return query.list($);

@@ -2,7 +2,10 @@ package com.utn.tesis.api.commons;
 
 import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.model.*;
+import com.utn.tesis.service.BarrioService;
+import com.utn.tesis.service.CiudadService;
 import com.utn.tesis.service.CommonsService;
+import com.utn.tesis.service.ProvinciaService;
 import com.utn.tesis.service.initialization.InitializationService;
 
 import javax.enterprise.context.RequestScoped;
@@ -15,12 +18,16 @@ import java.util.List;
 @Path("/commons")
 @RequestScoped
 public class CommonsAPI {
-
     @Inject
     private CommonsService commonsService;
-
     @Inject
     private InitializationService initService;
+    @Inject
+    private ProvinciaService provinciaService;
+    @Inject
+    private CiudadService ciudadService;
+    @Inject
+    private BarrioService barrioService;
 
     @Path("/getNiveles")
     @GET
@@ -85,30 +92,36 @@ public class CommonsAPI {
     @Path("/getEstadosCivil")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<EnumDTO> getEstadosCivil(){
-        return commonsService.findEstadosCivil();
+    public List<EnumDTO> findAllEstadosCivil(){
+        return commonsService.findAllEstadosCivil();
     }
 
-
-    @Path("/getProvincias")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getNivelesEstudio")
     @GET
-    public List<ProvinciaDTO> getProvincias(){
-        return commonsService.findAllProvincias();
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EnumDTO> findAllNivelesEstudio(){
+        return commonsService.findAllNivelesEstudio();
     }
 
+    @Path("/getObrasSociales")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getCiudades")
-    public List<CiudadDTO> getCiudades(){
-        return commonsService.findAllCiudades();
+    public List<ObraSocialDTO> findAllObrasSociales(){
+        return commonsService.findAllObrasSociales();
     }
 
+    @Path("/getTrabajos")
     @GET
-    @Path("/getBarrios")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BarrioDTO> getBarrios(){
-        return commonsService.findAllBarrios();
+    public List<TrabajoDTO> findAllTrabajos(){
+        return commonsService.findAllTrabajos();
+    }
+
+    @Path("/getNacionalidades")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EnumDTO> findAllNacionalidades(){
+        return commonsService.findAllNacionalidades();
     }
 
     @GET

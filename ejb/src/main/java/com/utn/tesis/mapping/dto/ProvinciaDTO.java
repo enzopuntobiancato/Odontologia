@@ -10,6 +10,7 @@ package com.utn.tesis.mapping.dto;
 public class ProvinciaDTO extends BaseDTO {
     private Long id;
     private String nombre;
+    private Integer version;
 
     public Long getId() {
         return id;
@@ -25,5 +26,13 @@ public class ProvinciaDTO extends BaseDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }
