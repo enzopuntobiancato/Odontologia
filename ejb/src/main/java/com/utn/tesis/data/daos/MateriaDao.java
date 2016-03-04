@@ -9,9 +9,10 @@ import java.util.List;
 
 public class MateriaDao extends DaoBase<Materia> {
 
+    QMateria materia = QMateria.materia;
+
     public List<Materia> findByFilters(String nombre, Nivel nivel, boolean dadosBaja,
                                        Long page, Long pageSize) {
-        QMateria materia = QMateria.materia;
 
         JPAQuery query = new JPAQuery(em).from(materia);
         if (nombre != null)
@@ -26,7 +27,6 @@ public class MateriaDao extends DaoBase<Materia> {
 
 
     public Materia findByNombre(String nombre) {
-        QMateria materia = QMateria.materia;
 
         JPAQuery query = new JPAQuery(em).from(materia);
         query.where(materia.nombre.equalsIgnoreCase(nombre));

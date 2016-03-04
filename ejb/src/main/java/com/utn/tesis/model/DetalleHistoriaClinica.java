@@ -281,6 +281,30 @@ public abstract class DetalleHistoriaClinica extends EntityBase {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DetalleHistoriaClinica)) return false;
+        if (!super.equals(o)) return false;
+
+        DetalleHistoriaClinica that = (DetalleHistoriaClinica) o;
+
+        if (grupo != null ? !grupo.equals(that.grupo) : that.grupo != null) return false;
+        if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
+        if (pregunta != null ? !pregunta.equals(that.pregunta) : that.pregunta != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
+        result = 31 * result + (grupo != null ? grupo.hashCode() : 0);
+        result = 31 * result + (pregunta != null ? pregunta.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public void validar() throws SAPOValidationException {
         //To change body of implemented methods use File | Settings | File Templates.
     }

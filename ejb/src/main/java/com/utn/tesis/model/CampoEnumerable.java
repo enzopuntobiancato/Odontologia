@@ -32,4 +32,23 @@ public class CampoEnumerable extends DetalleHistoriaClinica {
         this.checked = checked;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CampoEnumerable)) return false;
+        if (!super.equals(o)) return false;
+
+        CampoEnumerable that = (CampoEnumerable) o;
+
+        if (checked != null ? !checked.equals(that.checked) : that.checked != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (checked != null ? checked.hashCode() : 0);
+        return result;
+    }
 }

@@ -32,4 +32,23 @@ public class CampoSiNo extends DetalleHistoriaClinica {
         this.siNo = siNo;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CampoSiNo)) return false;
+        if (!super.equals(o)) return false;
+
+        CampoSiNo campoSiNo = (CampoSiNo) o;
+
+        if (siNo != null ? !siNo.equals(campoSiNo.siNo) : campoSiNo.siNo != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (siNo != null ? siNo.hashCode() : 0);
+        return result;
+    }
 }

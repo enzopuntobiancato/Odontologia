@@ -14,8 +14,9 @@ import java.util.List;
  */
 public class PracticaOdontologicaDao extends DaoBase<PracticaOdontologica> {
 
+    QPracticaOdontologica practica = QPracticaOdontologica.practicaOdontologica;
+
     public List<PracticaOdontologica> findByFilters(String denominacion, Long idGrupoPractica, boolean dadosBaja, Long page, Long pageSize) {
-        QPracticaOdontologica practica = QPracticaOdontologica.practicaOdontologica;
 
         JPAQuery query = new JPAQuery(em).from(practica);
         if (denominacion != null) {
