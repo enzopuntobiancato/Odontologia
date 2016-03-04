@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class UsuarioDao extends DaoBase<Usuario> {
 
-    public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
+    QUsuario usuario = QUsuario.usuario;
 
-        QUsuario usuario = QUsuario.usuario;
+    public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
 
         JPAQuery query = new JPAQuery(em).from(usuario);
         if (nombreUsuario != null)

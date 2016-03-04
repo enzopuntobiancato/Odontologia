@@ -9,8 +9,9 @@ import java.util.List;
 
 public class CatedraDao extends DaoBase<Catedra> {
 
+    QCatedra catedra = QCatedra.catedra;
+
     public List<Catedra> findByFilters(String denominacion, Long materiaId, boolean dadosBaja, Long pageNumber, Long pageSize) {
-        QCatedra catedra = QCatedra.catedra;
 
         JPAQuery query = new JPAQuery(em).from(catedra);
 

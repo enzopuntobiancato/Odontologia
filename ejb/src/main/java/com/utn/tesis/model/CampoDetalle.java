@@ -36,4 +36,23 @@ public class CampoDetalle extends DetalleHistoriaClinica {
         this.only_detalle = only_detalle;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CampoDetalle)) return false;
+        if (!super.equals(o)) return false;
+
+        CampoDetalle that = (CampoDetalle) o;
+
+        if (only_detalle != null ? !only_detalle.equals(that.only_detalle) : that.only_detalle != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (only_detalle != null ? only_detalle.hashCode() : 0);
+        return result;
+    }
 }

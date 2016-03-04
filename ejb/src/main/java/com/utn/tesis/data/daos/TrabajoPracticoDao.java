@@ -13,8 +13,9 @@ import java.util.List;
  */
 public class TrabajoPracticoDao extends DaoBase<TrabajoPractico> {
 
+    QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
+
     public List<TrabajoPractico> findByFilters(String nombre, Long grupoPracticaId, Long practicaId, boolean dadosBaja, Long pageNumber, Long pageSize) {
-        QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
 
         JPAQuery query = new JPAQuery(em).from(trabajoPractico);
         if (nombre != null) {
