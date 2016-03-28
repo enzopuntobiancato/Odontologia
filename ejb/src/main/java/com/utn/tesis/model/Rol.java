@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class Rol extends EntityBase {
     private String descripcion;
 
     public Rol() {
+        privilegios = new ArrayList<Privilegio>();
     }
 
     public Rol(String nombre) {
@@ -72,6 +74,25 @@ public class Rol extends EntityBase {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public boolean addPrivilegio(Privilegio p) {
+        if(p == null || privilegios == null) {
+            return false;
+        }
+        return this.privilegios.add(p);
+    }
+
+    public boolean removePrivilegio(Privilegio p) {
+        if(p == null || privilegios == null) {
+            return false;
+        }
+        return this.privilegios.remove(p);
+    }
+
+    public void clearPrivilegio() {
+        if(privilegios == null) return;
+        this.privilegios.clear();
     }
 
     @Override

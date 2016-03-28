@@ -1,28 +1,28 @@
 
 -- GRUPOS FUNCIONALIDAD (SERÁN ITEMS DEL MENÚ CON SUS CORRESPONDIENTES SUBITEMS)
-insert into GrupoFuncionalidad(id, version, nombre) values (1, 0, 'Soporte');
+-- insert into GrupoFuncionalidad(id, version, nombre) values (1, 0, 'Soporte');
 
-insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (1, 0, 'Materia', 'materia.index', 1);
-insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (2, 0, 'Practica odontologica', 'practicaOdontologica.index', 1);
-insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (3, 0, 'Trabajo practico', 'trabajoPractico.index', 1);
-insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (4, 0, 'Catedra', 'catedra.index', 1);
-insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (5, 0, 'Usuario', 'usuario.index', 1);
+--insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (1, 0, 'Materia', 'materia.index', 1);
+--insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (2, 0, 'Practica odontologica', 'practicaOdontologica.index', 1);
+--insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (3, 0, 'Trabajo practico', 'trabajoPractico.index', 1);
+--insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (4, 0, 'Catedra', 'catedra.index', 1);
+--insert into Funcionalidad(id, version, nombre, estadoAsociado, grupoFuncionalidadId) values (5, 0, 'Usuario', 'usuario.index', 1);
 
 -- ROLES
-insert into Rol(id, version, nombre, descripcion) values (1, 0, 'ADMINISTRADOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (2, 0, 'ALUMNO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (3, 0, 'PROFESOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (4, 0, 'RESPONSABLE DE RECEPCION DE PACIENTES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (5, 0, 'ADMINISTRADOR ACADEMICO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (6, 0, 'PACIENTE', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Rol(id, version, nombre, descripcion) values (7, 0, 'AUTORIDAD', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
-insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja, rolId) values (1, 0, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.com', 1, null, null, 1);
-insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja, rolId) values (2, 0, 'enzo', '202cb962ac59075b964b07152d234b70', 'enzo@enzo.com', 1, null, null, 1);
-insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (1, 0, 1, 1, 1);
-insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (2, 0, 2, 1, 1);
-insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (3, 0, 3, 1, 1);
-insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (4, 0, 4, 1, 1);
-insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (5, 0, 5, 1, 1);
+--insert into Rol(id, version, nombre, descripcion) values (1, 0, 'ADMINISTRADOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+--insert into Rol(id, version, nombre, descripcion) values (2, 0, 'ALUMNO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+--insert into Rol(id, version, nombre, descripcion) values (3, 0, 'PROFESOR', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+--insert into Rol(id, version, nombre, descripcion) values (4, 0, 'RESPONSABLE DE RECEPCION DE PACIENTES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+--insert into Rol(id, version, nombre, descripcion) values (5, 0, 'ADMINISTRADOR ACADEMICO', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+--insert into Rol(id, version, nombre, descripcion) values (6, 0, 'PACIENTE', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+--insert into Rol(id, version, nombre, descripcion) values (7, 0, 'AUTORIDAD', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua');
+--insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja, rolId) values (1, 0, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.com', 1, null, null, 1);
+--insert into Usuario(id, version, nombreUsuario, contrasenia, email, estadoAlta,fechaBaja,motivoBaja, rolId) values (2, 0, 'enzo', '202cb962ac59075b964b07152d234b70', 'enzo@enzo.com', 1, null, null, 1);
+--insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (1, 0, 1, 1, 1);
+--insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (2, 0, 2, 1, 1);
+--insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (3, 0, 3, 1, 1);
+--insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (4, 0, 4, 1, 1);
+--insert into Privilegio(id, version, funcionalidadId, esItemMenu, rol_id) values (5, 0, 5, 1, 1);
 
 
 -- insert into GrupoPracticaOdontologica(id, version, nombre) values (1, 0, 'CONSULTAS');

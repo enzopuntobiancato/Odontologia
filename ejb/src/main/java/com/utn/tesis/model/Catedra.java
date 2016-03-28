@@ -26,7 +26,7 @@ public class Catedra extends Bajeable {
 
     @NotNull(message = "Los horarios de la catedra no pueden ser nulos.")
     @OneToMany(cascade = CascadeType.ALL,
-            orphanRemoval = true, fetch = FetchType.LAZY)
+            orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "catedra")
     @Size(min = 1)
     private List<DiaHorario> horarios;
 
@@ -39,6 +39,7 @@ public class Catedra extends Bajeable {
 
     public Catedra() {
         horarios = new ArrayList<DiaHorario>();
+        trabajosPracticos = new ArrayList<TrabajoPractico>();
     }
 
     public String getDenominacion() {
@@ -61,18 +62,21 @@ public class Catedra extends Bajeable {
         return horarios;
     }
 
-    public void setHorarios(List<DiaHorario> horarios) {
-        this.horarios = horarios;
-    }
-
     public boolean addHorarios(DiaHorario dh) {
-        if (horarios == null) return false;
+        if (horarios == null || dh == null) return false;
+        if(dh.getCatedra() != this) {
+            dh.setCatedra(this);
+        }
         return horarios.add(dh);
     }
 
     public boolean removeHorarios(DiaHorario dh) {
-        if (horarios == null) return false;
-        return horarios.remove(dh);
+        if (horarios == null || dh == null) return false;
+        if (horarios.remove(dh)) {
+            dh.setCatedra(null);
+            return true;
+        }
+        return false;
     }
 
     public Materia getMateria() {

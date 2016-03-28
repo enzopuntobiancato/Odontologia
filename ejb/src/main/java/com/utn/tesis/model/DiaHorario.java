@@ -5,6 +5,7 @@ import com.utn.tesis.exception.SAPOValidationException;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 
@@ -22,6 +23,9 @@ public class DiaHorario extends EntityBase {
 
     @NotNull(message = "Debe ingresar hora hasta.")
     private Calendar horaHasta;
+
+    @ManyToOne
+    private Catedra catedra;
 
     public DiaHorario() {
     }
@@ -56,6 +60,15 @@ public class DiaHorario extends EntityBase {
         this.horaHasta = horaHasta;
     }
 
+    public Catedra getCatedra() {
+        return catedra;
+    }
+
+    public void setCatedra(Catedra catedra) {
+        this.catedra = catedra;
+        if(catedra != null && !catedra.getHorarios().contains(this))
+            catedra.getHorarios().add(this);
+    }
 
     @Override
     public void validar() throws SAPOValidationException {

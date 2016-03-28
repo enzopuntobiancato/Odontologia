@@ -1,6 +1,5 @@
 package com.utn.tesis.data.daos;
 
-
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.*;
 
@@ -10,15 +9,15 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: Maxi
- * Date: 20/01/16
- * Time: 13:19
+ * Date: 16/03/16
+ * Time: 18:23
  * To change this template use File | Settings | File Templates.
  */
-public class ResponsableRecepcionDao extends DaoBase<ResponsableRecepcion> {
+public class PacienteDao extends DaoBase<Paciente> {
 
-    QResponsableRecepcion responsableRecepcion, $ = QResponsableRecepcion.responsableRecepcion;
+    QPaciente paciente, $ = QPaciente.paciente;
 
-    public List<ResponsableRecepcion> findByFilters(String nombre, String apellido, Documento documento,
+    public List<Paciente> findByFilters(String nombre, String apellido, Documento documento,
                                          Usuario usuario, Sexo sexo, Long page, Long pageSize) {
 
         JPAQuery query = new JPAQuery(em).from($);
@@ -36,7 +35,7 @@ public class ResponsableRecepcionDao extends DaoBase<ResponsableRecepcion> {
         return query.list($);
     }
 
-    public List<ResponsableRecepcion> findByNombreApellido(String nombApp, Long page, Long pageSize) {
+    public List<Paciente> findByNombreApellido(String nombApp, Long page, Long pageSize) {
         JPAQuery query = new JPAQuery(em).from($);
         if (nombApp != null) {
             List<String> filtros = Arrays.asList(nombApp.split(" "));
@@ -50,7 +49,7 @@ public class ResponsableRecepcionDao extends DaoBase<ResponsableRecepcion> {
         return query.list($);
     }
 
-    public List<ResponsableRecepcion> findByRol(Rol rol, Long page, Long pageSize) {
+    public List<Paciente> findByRol(Rol rol, Long page, Long pageSize) {
         JPAQuery query = new JPAQuery(em).from($);
         if (rol != null)
             query.where($.usuario.rol.id.eq(rol.getId()));
@@ -58,5 +57,4 @@ public class ResponsableRecepcionDao extends DaoBase<ResponsableRecepcion> {
         query = paginar(query, page, pageSize);
         return query.list($);
     }
-
 }
