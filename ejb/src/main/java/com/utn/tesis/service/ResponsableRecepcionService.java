@@ -2,9 +2,7 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.ResponsableRecepcionDao;
-import com.utn.tesis.model.Documento;
-import com.utn.tesis.model.ResponsableRecepcion;
-import com.utn.tesis.model.Usuario;
+import com.utn.tesis.model.*;
 
 import javax.inject.Inject;
 import javax.validation.Validator;
@@ -35,7 +33,16 @@ public class ResponsableRecepcionService extends BaseService<ResponsableRecepcio
         return validator;
     }
 
-    public List<ResponsableRecepcion> findByFilters(String nombre, String apellido, Usuario usuario, Documento documento) {
-        return dao.findByFilters(nombre, apellido, usuario, documento);
+    public List<ResponsableRecepcion> findByFilters(String nombre, String apellido, Documento documento,
+                                        Usuario usuario, Sexo sexo, Long page, Long pageSize) {
+        return dao.findByFilters(nombre, apellido, documento, usuario, sexo, page, pageSize);
+    }
+
+    public List<ResponsableRecepcion> findByRol(Rol rol, Long page, Long pageSize) {
+        return dao.findByRol(rol, page, pageSize);
+    }
+
+    public List<ResponsableRecepcion> findByNombreApellido(String nombApp, Long page, Long pageSize) {
+        return dao.findByNombreApellido(nombApp, page, pageSize);
     }
 }

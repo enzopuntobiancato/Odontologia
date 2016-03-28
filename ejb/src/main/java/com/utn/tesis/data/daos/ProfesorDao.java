@@ -4,6 +4,7 @@ package com.utn.tesis.data.daos;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,30 +16,50 @@ import java.util.List;
  */
 public class ProfesorDao extends DaoBase<Profesor> {
 
-    QProfesor profesor = QProfesor.profesor;
+    QProfesor profesor, $ = QProfesor.profesor;
 
-    public List<Profesor> findByFilters(String nombre, String apellido, Integer legajo, Usuario usuario, Documento documento) {
-        JPAQuery query = new JPAQuery(em).from(profesor);
+    public List<Profesor> findByFilters(String nombre, String apellido, Documento documento,
+                                        Usuario usuario, Sexo sexo, Long page, Long pageSize) {
 
-        if(nombre != null) {
-            query.where(profesor.nombre.containsIgnoreCase(nombre));
-        }
-        if(apellido != null) {
-            query.where(profesor.apellido.containsIgnoreCase(apellido));
-        }
-        if(legajo != null) {
-            query.where(profesor.legajo.eq(legajo));
-        }
-        if(usuario != null) {
-            query.where(profesor.usuario.id.eq(usuario.getId()));
-        }
-        if(documento != null) {
-            query.where(profesor.documento.numero.eq(documento.getNumero())
-                    .and(profesor.documento.tipoDocumento.eq(documento.getTipoDocumento())));
-        }
+        JPAQuery query = new JPAQuery(em).from($);
+        if (nombre != null)
+            query.where($.nombre.containsIgnoreCase(nombre));
+        if (apellido != null)
+            query.where($.apellido.containsIgnoreCase(apellido));
+        if (documento != null)
+            query.where($.documento.numero.equalsIgnoreCase(documento.getNumero())
+                    .and($.documento.tipoDocumento.eq(documento.getTipoDocumento())));
+        if (usuario != null)
+            query.where($.usuario.id.eq(usuario.getId()));
 
-        return query.list(profesor);
+        query = paginar(query, page, pageSize);
+        return query.list($);
     }
+
+    public List<Profesor> findByNombreApellido(String nombApp, Long page, Long pageSize) {
+        JPAQuery query = new JPAQuery(em).from($);
+        if (nombApp != null) {
+            List<String> filtros = Arrays.asList(nombApp.split(" "));
+            for(String s: filtros) {
+                query.where($.nombre.containsIgnoreCase(s)
+                        .or($.apellido.containsIgnoreCase(s)));
+            }
+        }
+
+        query = paginar(query, page, pageSize);
+        return query.list($);
+    }
+
+    public List<Profesor> findByRol(Rol rol, Long page, Long pageSize) {
+        JPAQuery query = new JPAQuery(em).from($);
+        if (rol != null)
+            query.where($.usuario.rol.id.eq(rol.getId()));
+
+        query = paginar(query, page, pageSize);
+        return query.list($);
+    }
+
+
 
     public List<Profesor> findByCatedra(Catedra catedra){
         JPAQuery query = new JPAQuery(em).from(profesor);

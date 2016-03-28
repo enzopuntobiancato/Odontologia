@@ -8,8 +8,6 @@ import com.utn.tesis.mapping.dto.PersonaDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.Persona;
-import com.utn.tesis.model.Rol;
-import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
 
 import javax.ejb.Stateless;
@@ -67,4 +65,4 @@ public class PersonaService extends BaseService<Persona> {
         return UsuarioLogueadoDTO.rolToPerson.get(rol).cast(personaDTO);
     }
 
-}
+    }

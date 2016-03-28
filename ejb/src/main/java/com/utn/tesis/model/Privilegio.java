@@ -18,7 +18,7 @@ public class Privilegio extends EntityBase {
     private boolean esItemMenu;
 
     @ManyToOne
-    @JoinColumn(name = "rol_id", nullable = false)
+    @JoinColumn(name = "rol_id")
     private Rol rol;
 
     public Privilegio() {

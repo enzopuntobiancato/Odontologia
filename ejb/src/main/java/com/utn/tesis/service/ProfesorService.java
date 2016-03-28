@@ -2,9 +2,7 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.ProfesorDao;
-import com.utn.tesis.model.Documento;
-import com.utn.tesis.model.Profesor;
-import com.utn.tesis.model.Usuario;
+import com.utn.tesis.model.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -37,7 +35,16 @@ public class ProfesorService extends BaseService<Profesor> {
         return validator;
     }
 
-    public List<Profesor> findByFilters(String nombre, String apellido, Integer legajo, Usuario usuario, Documento documento) {
-        return dao.findByFilters(nombre, apellido, legajo, usuario, documento);
+    public List<Profesor> findByFilters(String nombre, String apellido, Documento documento,
+                                       Usuario usuario, Sexo sexo, Long page, Long pageSize) {
+        return dao.findByFilters(nombre, apellido, documento, usuario, sexo, page, pageSize);
+    }
+
+    public List<Profesor> findByRol(Rol rol, Long page, Long pageSize) {
+        return dao.findByRol(rol, page, pageSize);
+    }
+
+    public List<Profesor> findByNombreApellido(String nombApp, Long page, Long pageSize) {
+        return dao.findByNombreApellido(nombApp, page, pageSize);
     }
 }
