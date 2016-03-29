@@ -57,4 +57,15 @@ public class PacienteDao extends DaoBase<Paciente> {
         query = paginar(query, page, pageSize);
         return query.list($);
     }
+
+    /*
+    public List<Paciente> findByFilters(Materia m, TrabajoPractico tp, Diagnostico d, Long page, Long pageSize) {
+        JPAQuery query = new JPAQuery(em).from($);
+        if (d != null)
+           query.join(QHistoriaClinica.historiaClinica).join(QDiagnostico.diagnostico).where($.historiaClinica.diagnostico.any().eq(d));
+
+        query = paginar(query, page, pageSize);
+        return query.list($);
+    }
+    */
 }
