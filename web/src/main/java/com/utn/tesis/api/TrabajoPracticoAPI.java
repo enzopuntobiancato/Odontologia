@@ -38,10 +38,11 @@ public class TrabajoPracticoAPI extends BaseAPI {
     @Path("/find")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TrabajoPractico> findByFilters(@QueryParam("nombre") String nombre, @QueryParam("grupoPracticaId") Long grupoPracticaId,
+    public List<TrabajoPracticoDTO> findByFilters(@QueryParam("nombre") String nombre, @QueryParam("grupoPracticaId") Long grupoPracticaId,
                                                @QueryParam("practicaId") Long practicaId, @QueryParam("dadosBaja") boolean dadosBaja,
                                                @QueryParam("pageNumber") Long pageNumber, @QueryParam("pageSize") Long pageSize) {
-        return trabajoPracticoService.findByFilters(nombre, grupoPracticaId, practicaId, dadosBaja, pageNumber, pageSize);
+        List<TrabajoPractico> result = trabajoPracticoService.findByFilters(nombre, grupoPracticaId, practicaId, dadosBaja, pageNumber, pageSize);
+        return trabajoPracticoMapper.toDTOList(result);
     }
 
     @Path("/findById")

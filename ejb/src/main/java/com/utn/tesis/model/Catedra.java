@@ -12,8 +12,7 @@ import java.util.List;
 
 @Entity
 public class Catedra extends Bajeable {
-
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -5818525557076389498L;
 
     @NotNull(message = "La denominacion de la catedra no puede ser nula.")
     @Size(max = 10, message = "La denominacion de la catedra no puede ser mayor a 10 caracteres.")
@@ -34,7 +33,12 @@ public class Catedra extends Bajeable {
     @NotNull(message = "La materia a la cual pertenece la catedra no puede ser nula.")
     private Materia materia;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(name = "catedra_x_trabajo_practico",
+            joinColumns = {
+                    @JoinColumn(name = "catedra_id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "trabajo_practico_id")})
     private List<TrabajoPractico> trabajosPracticos;
 
     public Catedra() {
@@ -103,6 +107,15 @@ public class Catedra extends Bajeable {
     public boolean removeTrabajoPractico(TrabajoPractico tp) {
         if (trabajosPracticos == null) return false;
         return trabajosPracticos.remove(tp);
+    }
+
+    public void setHorarios(List<DiaHorario> horarios) {
+        if (this.horarios == null) {
+            this.horarios = new ArrayList<DiaHorario>();
+        }
+        for (DiaHorario horario: horarios) {
+            this.addHorarios(horario);
+        }
     }
 
     @Override

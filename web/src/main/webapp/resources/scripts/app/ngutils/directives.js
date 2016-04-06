@@ -48,6 +48,26 @@ directives.directive('pwCheck', [function () {
     }
 }]);
 
+directives.directive('validateLength', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+
+            scope.$watch(function () { return ngModel.$modelValue && ngModel.$modelValue.length; }, function() {
+                ngModel.$validate(); // validate again when array changes
+            });
+
+            ngModel.$validators.length = function() {
+                var arr = ngModel.$modelValue;
+                if(!arr) { return false; }
+
+                return arr.length > 0;
+            };
+
+        }
+    };
+});
+
 
 
 

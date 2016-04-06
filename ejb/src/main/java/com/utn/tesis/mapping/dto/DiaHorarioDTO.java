@@ -1,7 +1,5 @@
 package com.utn.tesis.mapping.dto;
 
-import com.utn.tesis.model.Dia;
-
 import java.util.Calendar;
 
 /**

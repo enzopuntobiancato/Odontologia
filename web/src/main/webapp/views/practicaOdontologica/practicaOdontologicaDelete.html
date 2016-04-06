@@ -17,8 +17,7 @@
                 <div layout="row">
                     <md-input-container flex>
                         <label>Motivo de la baja </label>
-                        <textarea ng-model="motivoBaja" columns="3" md-maxlength="150" name="motivo"
-                                  required="true"></textarea>
+                        <textarea ng-model="motivoBaja" columns="3" md-maxlength="150" name="motivo"></textarea>
 
                         <div ng-messages="form.motivo.$error" ng-show="form.motivo.$invalid && form.motivo.$touched">
                             <div ng-include="error-messages"></div>

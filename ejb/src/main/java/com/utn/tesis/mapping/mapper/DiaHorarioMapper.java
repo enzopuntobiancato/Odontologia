@@ -12,10 +12,10 @@ import java.util.List;
  * Date: 7/02/16
  * Time: 18:30
  */
-//@Mapper (componentModel = "cdi", uses = EnumMapper.class)
+@Mapper (componentModel = "cdi", uses = EnumMapper.class)
 public interface DiaHorarioMapper {
-//    DiaHorarioDTO toDTO(DiaHorario source);
-//    DiaHorario fromDTO(DiaHorarioDTO source);
-//    List<DiaHorario> fromDTOList(List<DiaHorarioDTO> list);
-//    List<DiaHorarioDTO> toDTOList(List<DiaHorario> list);
+    DiaHorarioDTO toDTO(DiaHorario source);
+    DiaHorario fromDTO(DiaHorarioDTO source);
+    List<DiaHorario> fromDTOList(List<DiaHorarioDTO> list);
+    List<DiaHorarioDTO> toDTOList(List<DiaHorario> list);
 }

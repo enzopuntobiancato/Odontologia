@@ -1,36 +1,71 @@
 'use strict';
 var module = angular.module('catedraModule');
 
-module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'MessageSrv', 'CatedraSrv', 'PaginationService',
-    'materiasResponse','$mdDialog',
-    function ($scope, $state, $cacheFactory, message, service, pagination,materiasResponse,$mdDialog) {
+module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'MessageSrv', 'CatedraSrv', 'PaginationService', 'materiasResponse', '$mdDialog', '$filter',
+    function ($scope, $state, $cacheFactory, message, service, pagination, materiasResponse, $mdDialog, $filter) {
 
         $scope.filter = {};
         $scope.result = [];
+        $scope.filterChips = [];
 
         var cache = $cacheFactory.get('catedraIndexCache') || $cacheFactory('catedraIndexCache');
 
         $scope.aux = {
-            showDadosBaja: false
+            showDadosBaja: false,
+            mostrarFiltros: true
+        }
+
+        $scope.data = {
+            materias: materiasResponse.data
         }
 
         pagination.config('api/catedra/find');
 
-        executeQuery();
-
         $scope.paginationData = pagination.paginationData;
+
+        function updateFilterChips() {
+            $scope.filterChips = [];
+            $scope.filterChips.push(newFilterChip('dadosBaja', 'Dados de baja', $scope.filter.dadosBaja, $scope.filter.dadosBaja ? 'SI' : 'NO'));
+            if ($scope.filter.materiaId) {
+                $scope.filterChips.push(newFilterChip('materiaId', 'Materia', $scope.filter.materiaId,
+                    $filter('filter')($scope.data.materias, function (materia) {
+                        return $scope.filter.materiaId === materia.id;
+                    })[0].nombre
+                ));
+            }
+            if ($scope.filter.denominacion) {
+                $scope.filterChips.push(newFilterChip('denominacion', 'Nombre', $scope.filter.denominacion));
+            }
+        }
+
+        $scope.$watchCollection('filterChips', function (newCol, oldCol) {
+            if (newCol.length < oldCol.length) {
+                $scope.filter = {};
+                angular.forEach(newCol, function (filterChip) {
+                    $scope.filter[filterChip.origin] = filterChip.value;
+                });
+                executeQuery();
+            }
+        });
+
+        function newFilterChip(origin, name, value, displayValue) {
+            var filterChip = {
+                origin: origin,
+                name: name,
+                value: value,
+                displayValue: displayValue ? displayValue : value
+            }
+            return filterChip;
+        }
 
         function executeQuery(pageNumber) {
             pagination.paginate($scope.filter, pageNumber).then(function (data) {
                 $scope.result = data;
                 $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
                 $scope.paginationData = pagination.getPaginationData();
+                updateFilterChips();
             }, function () {
             });
-        }
-
-        $scope.data= {
-            materias: materiasResponse.data
         }
 
         $scope.consultar = function () {
@@ -45,12 +80,6 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
         $scope.previousPage = function () {
             if (!$scope.paginationData.firstPage) {
                 executeQuery(--$scope.paginationData.pageNumber);
-            }
-        }
-
-        $scope.keyboardOk = function (event) {
-            if (event.which == 13) {
-                executeQuery();
             }
         }
 
@@ -69,13 +98,15 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
 
         $scope.cleanFilters = function () {
             $scope.filter = {};
+            executeQuery();
         }
 
         function cacheData() {
             var data = {
                 filter: $scope.filter,
                 result: $scope.result,
-                aux: $scope.aux
+                aux: $scope.aux,
+                paginationData: $scope.paginationData
             }
             cache.put('data', data);
         }
@@ -86,58 +117,54 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
             $scope.filter = data.filter;
             $scope.result = data.result;
             $scope.aux = data.aux;
+            $scope.paginationData = data.paginationData;
+            updateFilterChips();
         }
 
-        $scope.openDeleteDialog = function (ev, trabajoPracticoId) {
+        $scope.openDeleteDialog = function (ev, catedraId, catedraNombre) {
             $mdDialog.show({
-                templateUrl: 'views/trabajoPractico/trabajoPracticoDelete.html',
+                templateUrl: 'views/catedra/catedraDelete.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true,
-                locals: {id: trabajoPracticoId},
+                locals: {id: catedraId},
                 controller: function DialogController($scope, $mdDialog) {
                     $scope.motivoBaja;
                     $scope.cancelar = function () {
-                        // Easily hides most recent dialog shown...
-                        // no specific instance reference is needed.
                         $mdDialog.cancel();
                     };
-                    $scope.confirmar = function () {
-                        // Easily hides most recent dialog shown...
-                        // no specific instance reference is needed.
-                        $mdDialog.hide($scope.motivoBaja);
+                    $scope.confirmar = function (form) {
+                        if (form.$valid) {
+                            $mdDialog.hide($scope.motivoBaja);
+                        }
                     };
                 }
             })
                 .then(function (motivoBaja) {
                     //Success
-                    service.remove(trabajoPracticoId, motivoBaja)
-                        .success(function (response) {
-                            message.showMessage("Se ha dado de baja.");
-                            executeQuery();
-                            Console.log(response);
+                    service.remove(catedraId, motivoBaja)
+                        .success(function () {
+                            message.showMessage(catedraNombre + " dada de baja.");
+                            var execQuerySamePage = $scope.filter.dadosBaja || $scope.result.length > 1;
+                            executeQuery(execQuerySamePage ? $scope.paginationData.pageNumber : 0);
                         })
-                        .error(function (error) {
-                            message.showMessage("Se ha registrado un error en la transacción.")
-                            Console.log(error);
+                        .error(function () {
+                            message.showMessage("Error dando de baja " + catedraNombre)
                         })
                 },
                 function () {
-                    //Failure
                     $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
                 });
         };
 
 
-
-        $scope.openRestoreDialog = function (ev, trabajoPracticoId) {
+        $scope.openRestoreDialog = function (ev, catedraId, catedraNombre) {
             $mdDialog.show({
                 templateUrl: 'views/trabajoPractico/trabajoPracticoRestore.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true,
-                locals: {id: trabajoPracticoId},
+                locals: {id: catedraId},
                 controller: function DialogController($scope, $mdDialog) {
                     $scope.cancelar = function () {
                         $mdDialog.cancel();
@@ -148,23 +175,17 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
                 }
             })
                 .then(function () {
-                    //Success
-                    service.restore(trabajoPracticoId)
-                        .success(function (response) {
-                            message.showMessage("Se ha dado de alta.");
+                    service.restore(catedraId)
+                        .success(function () {
+                            message.showMessage(catedraNombre + " dada de alta.");
                             executeQuery($scope.paginationData.pageNumber);
-                            Console.log(response);
                         })
-                        .error(function (error) {
-                            message.showMessage("Se ha registrado un error en la transacción.")
-                            executeQuery($scope.paginationData.pageNumber);
-                            Console.log(error);
+                        .error(function () {
+                            message.showMessage("Error dando de alta " + catedraNombre);
                         })
                 },
                 function () {
-                    //Failure
                     $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
                 });
         };
 
@@ -176,9 +197,7 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
             item.showAction = false;
         }
 
-        $scope.mostrarFiltros = false;
-
-        $scope.clickIcon = 'expand_more';
+        $scope.clickIcon = 'expand_less';
         $scope.clickIconMorph = function () {
             if ($scope.clickIcon === 'expand_more') {
                 $scope.clickIcon = 'expand_less';
@@ -218,7 +237,8 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
                     } else {
                         getCachedData();
                     }
-
+                } else {
+                    executeQuery();
                 }
 
             })

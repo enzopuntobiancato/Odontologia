@@ -1,82 +1,112 @@
 <md-content layout="column" layout-align="start center" class="md-main-content" flex>
-        <md-card class="md-whiteframe-z5 md-main-content-card">
-            <md-toolbar class="md-medium-tall md-accent">
-                <div class="md-toolbar-tools">
-                    <span>Ver catedra</span>
-                </div>
-            </md-toolbar>
-            <md-card-content>
-                <div>
-                    <md-list>
-                        <md-list-item class="md-2-line">
-                            <img class="md-avatar" style="height:80px; width:80px"
-                                 ng-src="http://i.istockimg.com/file_thumbview_approve/48733948/5/stock-illustration-48733948-halloween-fangs-flat-icon-with-long-shadow-eps10.jpg"/>
+    <md-card class="md-whiteframe-z5 md-main-content-card">
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools">
+                <span>Ver catedra</span>
+            </div>
+        </md-toolbar>
+        <md-card-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab>
+                    <md-tab-label>
+                        <div layout layout-align="center center">
+                            General
+                        </div>
+                    </md-tab-label>
+                    <md-tab-body layout="column" class="md-padding">
+                        <md-list flex>
+                            <div layout-gt-sm="row">
+                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
+                                    <div class="md-list-item-text md-offset">
+                                        <h4>Nombre</h4>
 
-                            <div>
-                                <h2 class="md-headline">{{catedra.denominacion}}</h2>
+                                        <p>{{catedra.denominacion}}</p>
+                                    </div>
+                                </md-list-item>
+                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
+                                    <div class="md-list-item-text md-offset">
+                                        <h4>Materia</h4>
+
+                                        <p>{{catedra.materia.nombre}}</p>
+                                    </div>
+                                </md-list-item>
+                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="70">
+                                    <div class="md-list-item-text md-offset">
+                                        <h4>Descripción</h4>
+
+                                        <p>{{catedra.descripcion || 'Sin definir'}}</p>
+                                    </div>
+                                </md-list-item>
                             </div>
-                            <md-divider md-inset></md-divider>
-                        </md-list-item>
-                        <md-list-item class="md-2-line">
-                            <ng-md-icon icon="description" size="40" style="fill: grey" class="md-avatar"></ng-md-icon>
-                            <div class="md-list-item-text">
-                                <h3>
-                                    {{catedra.materia.nombre}}
-                                </h3>
+                            <md-list-item class="md-2-line md-long-text">
+                                <div class="md-list-item-text md-offset">
+                                    <h4>Horarios de atención</h4>
+                                    <md-chips ng-model="catedra.horarios" readonly="true">
+                                        <md-chip-template>
+                                            <strong>{{$chip.dia.nombre}}</strong>
+                                            <em>{{$chip.horaDesde | date:'HH:mm'}} - {{$chip.horaHasta |
+                                                date:'HH:mm'}}</em>
+                                        </md-chip-template>
+                                    </md-chips>
+                                </div>
+                            </md-list-item>
+                            <div layout-gt-sm="row" ng-if="catedra.fechaBaja">
+                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
+                                    <div class="md-list-item-text md-offset">
+                                        <h4>Fecha de baja</h4>
 
-                                <p>Grupo</p>
+                                        <p>{{catedra.fechaBaja | date:'dd/MM/yyyy' }}</p>
+                                    </div>
+                                </md-list-item>
+                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="70">
+                                    <div class="md-list-item-text md-offset">
+                                        <h4>Motivo de baja</h4>
+
+                                        <p>{{catedra.motivoBaja || 'Sin definir'}}</p>
+                                    </div>
+                                </md-list-item>
                             </div>
-                        </md-list-item>
-                        <md-list-item class="md-2-line">
+                        </md-list>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab>
+                    <md-tab-label>
+                        <div layout layout-align="center center">
+                            Trabajos prácticos
+                        </div>
+                    </md-tab-label>
+                    <md-tab-body class="md-padding">
+                        <md-list>
+                            <md-list-item class="md-3-line" ng-repeat="tp in catedra.trabajosPracticos">
+                                <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
+                                     class="md-avatar" hide-xs/>
 
-                            <div class="md-list-item-text md-offset">
-                                <h3>
-                                    {{catedra.descripcion}}
-                                </h3>
+                                <div class="md-list-item-text" layout="column">
+                                    <h3 class="md-title">
+                                        <a>
+                                            <small>Nombre</small>
+                                            {{tp.nombre}}</a>
+                                    </h3>
+                                    <h4>
+                                        <small>Práctica</small>
+                                        {{tp.practicaOdontologica.denominacion}}
+                                    </h4>
+                                    <p class="muted">
+                                        <small>Descripción</small>
+                                        {{tp.descripcion}}
+                                    </p>
+                                </div>
+                                <md-divider md-inset ng-if="!$last"></md-divider>
+                            </md-list-item>
+                        </md-list>
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
 
-                                <p>Descripción</p>
-                            </div>
-                        </md-list-item>
-                        <md-divider md-inset></md-divider>
-                        <md-list-item>
-                            <md-chips ng-model="catedra.trabajosPracticos" readonly="true">
-                                <md-chip-template>
-            <span>
-              <strong>{{$chip.nombre}}</strong>
-            </span>
-                                </md-chip-template>
-                            </md-chips>
-                        </md-list-item>
-                        <md-list-item>
-                            <md-chips ng-model="catedra.horarios" readonly="true">
-                                <md-chip-template>
-                                    <strong>{{$chip.dia}}</strong>
-                                    <em>{{$chip.horaDesde | date:'HH:mm'}} - {{$chip.horaHasta |
-                                        date:'HH:mm'}}</em>
-                                </md-chip-template>
-                            </md-chips>
-                        </md-list-item>
-                        <md-list-item class="md-2-line" ng-if="catedra.fechaBaja">
-                            <div class="md-list-item-text" ng-class="md-offset">
-                                <h3> {{catedra.fechaBaja | date:'dd/MM/yyyy'}} </h3>
-
-                                <p> Fecha de baja </p>
-                            </div>
-                        </md-list-item>
-                        <md-list-item class="md-2-line" ng-if="catedra.motivoBaja">
-                            <div class="md-list-item-text" ng-class="md-offset">
-                                <h3> {{catedra.motivoBaja || ''}} </h3>
-
-                                <p class="muted"> Motivo de baja </p>
-                            </div>
-                        </md-list-item>
-
-                    </md-list>
-                </div>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="goIndex()" class="md-raised md-primary" ng-class="md-offset">Aceptar</md-button>
-            </md-card-actions>
-        </md-card>
-    </md-content>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-click="goIndex()" class="md-primary">Volver</md-button>
+        </md-card-actions>
+    </md-card>
+</md-content>
 
