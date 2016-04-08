@@ -1,8 +1,8 @@
 'use strict';
 var module = angular.module('catedraModule');
 
-module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'CommonsSrv', 'MessageSrv', 'CatedraSrv', 'materiasResponse', 'diasResponse', 'gruposPracticaResponse', 'practicasResponse', '$filter', 'PaginationService',
-    function ($scope, $rootScope, $state, commons, message, service, materiasResponse, diasResponse, gruposPracticaResponse, practicasResponse, $filter, pagination) {
+module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'CommonsSrv', 'MessageSrv', 'CatedraSrv', 'materiasResponse', 'diasResponse', 'gruposPracticaResponse', 'practicasResponse', '$filter', 'PaginationService', '$timeout',
+    function ($scope, $rootScope, $state, commons, message, service, materiasResponse, diasResponse, gruposPracticaResponse, practicasResponse, $filter, pagination, $timeout) {
 
         $scope.catedra = {
             horarios: [],
@@ -12,9 +12,14 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
         $scope.data = {
             disableFields: false,
             materias: materiasResponse.data,
-            dias: commons.enumToJson(diasResponse.data),
+            dias: diasResponse.data,
             persistedOperation: $rootScope.persistedOperation || false,
             saved: false
+        }
+
+        $scope.errorHorario = {
+            show: false,
+            messase: ''
         }
 
         $scope.tpData = {
@@ -27,6 +32,9 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
                 practicas: practicasResponse.data
             }
         }
+
+        var handleError = $scope.$parent.handleError;
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
         $scope.addTPs = function (show) {
             $scope.tpData.editing = show;
@@ -50,7 +58,7 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
             }
         })
 
-        pagination.config('api/trabajoPractico/find');
+        pagination.config('api/trabajoPractico/find', 3);
 
         $scope.tpData.paginationData = pagination.paginationData;
 
@@ -59,14 +67,16 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
                 $scope.tpData.result = data;
                 for (var i = 0; i < $scope.tpData.result.length; i++) {
                     var indexInOtherList = findItemIndexInList($scope.tpData.result[i].id, $scope.catedra.trabajosPracticos);
-                    if (indexInOtherList > -1 && !$scope.catedra.trabajosPracticos[indexInOtherList].deleted) {
-                        $scope.tpData.result[i].added = true;
+                    if (indexInOtherList > -1) {
+                        $scope.tpData.result[i].selected = true;
                     }
                 }
                 $scope.paginationData = pagination.getPaginationData();
             }, function () {
             });
         }
+
+        executeQuery();
 
         $scope.tpData.consultar = function () {
             executeQuery();
@@ -94,17 +104,11 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
             }
         }
 
-        $scope.isSomethingSelected = function () {
-            return $filter('filter')($scope.tpData.result,function (item) {
-                return item.selected && !item.added;
-            }).length;
-        }
-
-       $scope.addTrabajo = function(tp){
-            if(tp.selected){
+        $scope.addTrabajo = function (tp) {
+            if (tp.selected) {
                 $scope.catedra.trabajosPracticos.push(tp);
-            }else{
-                $scope.removeTrabajoPractico(tp.id,1);
+            } else {
+                $scope.removeTrabajoPractico(tp.id, 1);
             }
         }
 
@@ -119,10 +123,10 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
             return index;
         }
 
-        function findItemById(id, list){
+        function findItemById(id, list) {
             var tp = {};
-            for(var i = 0; i < list.length; i++){
-                if(list[i].id === id){
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].id === id) {
                     tp = list[i];
                     break;
                 }
@@ -130,15 +134,15 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
             return tp;
         }
 
-        $scope.removeTrabajoPractico = function(id,band){
-            if(band === 1){
+        $scope.removeTrabajoPractico = function (id, band) {
+            $scope.tpForm.trabajosPracticos.$setTouched();
+            if (band === 1) {
                 var index = findItemIndexInList(id, $scope.catedra.trabajosPracticos);
-                $scope.catedra.trabajosPracticos.splice(index,1);
-            }else{
-                var tp = findItemById(id,$scope.tpData.result);
+                $scope.catedra.trabajosPracticos.splice(index, 1);
+            } else {
+                var tp = findItemById(id, $scope.tpData.result);
                 tp.selected = false;
             }
-
         }
         function newHour(hour, minutes) {
             var date = new Date();
@@ -158,20 +162,16 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
         };
 
         $scope.addHorario = function () {
-            if (!$scope.newHorario.horaDesde || !$scope.newHorario.horaHasta) {
-                message.showMessage('Debe seleccionar hora de inicio y finalización.');
-                return;
-            }
             var horaDesdeGTHoraHasta = $scope.newHorario.horaDesde >= $scope.newHorario.horaHasta;
             if (horaDesdeGTHoraHasta) {
-                message.showMessage('La hora de inicio debe ser menor a la hora de finalización.');
+                errorEnHorario('La hora de inicio debe ser menor a la hora de finalización.');
                 return;
             }
             var isAlreadyAdded = $filter('filter')($scope.catedra.horarios,function (horario) {
                 return angular.equals(horario, $scope.newHorario);
             }).length;
             if (isAlreadyAdded) {
-                message.showMessage('Día y horario ya agregado.');
+                errorEnHorario('Día y horario ya agregado.');
                 return;
             }
             var overlappingHours = $filter('filter')($scope.catedra.horarios,function (horario) {
@@ -182,46 +182,43 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
                 return sameDay && overlappingHours;
             }).length;
             if (overlappingHours) {
-                message.showMessage('El horario elegido se encuentra contenido en uno ya agregado.');
+                errorEnHorario('El horario elegido se encuentra contenido en uno ya agregado.');
                 return;
             }
+            $scope.errorHorario.show = false;
             $scope.catedra.horarios.push($scope.newHorario);
-            message.showMessage('Horario agregado');
             $scope.newHorario = {
                 horaDesde: newHour(8, 0),
                 horaHasta: newHour(18, 0)
             };
         }
 
-        $scope.deleteHorario = function (index) {
-            $scope.catedra.horarios.splice(index, 1);
+        function errorEnHorario(message) {
+            $scope.errorHorario.message = message;
+            $scope.errorHorario.show = true;
+            $timeout(function () {
+                $scope.errorHorario.show = false
+            }, 3000);
         }
 
-        function validateRequireList(errors, list, name) {
-            if (!list.length) {
-                errors.push('Debe ingresar ' + name);
+        $scope.deleteHorario = function () {
+            $scope.horariosForm.horarios.$setTouched();
+        }
+
+        $scope.save = function (form) {
+            if (form.$valid) {
+                service.save($scope.catedra)
+                    .success(function () {
+                        $scope.data.persistedOperation = true;
+                        $scope.data.disableFields = true;
+                        $scope.data.saved = true;
+                        message.showMessage("Cátedra " + $scope.catedra.materia.nombre + " " + $scope.catedra.denominacion + " creada.");
+                        $scope.goIndex();
+                    })
+                    .error(function (data, status) {
+                        handleError(data, status);
+                    })
             }
-        }
-
-        $scope.save = function () {
-            $scope.tpData.editing = false;
-
-            service.save($scope.catedra)
-                .success(function (data) {
-                    $scope.data.persistedOperation = true;
-                    $scope.data.disableFields = true;
-                    $scope.data.saved = true;
-                    message.showMessage("Cátedra " +$scope.catedra.nombre +" creada.");
-                    $scope.goIndex();
-
-                })
-                .error(function (response) {
-                    if (response.status === 1000) {
-                    } else {
-                        message.showMessage("La cátedra " +$scope.catedra.nombre +" no pudo ser creada.");
-                    }
-
-                })
         };
 
         function getTimeFromDate(date) {
@@ -275,4 +272,4 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
             $scope.colorIcon[icon] = '#00B0FF';
         };
 
-    }])
+    }]);

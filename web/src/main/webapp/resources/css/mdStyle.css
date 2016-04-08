@@ -279,3 +279,24 @@ body {
 .subtitle-text {
     color: rgb(3, 169, 244)
 }
+
+.short-sidenav {
+    min-width: 21%;
+    max-width: 22%;
+}
+
+.md-no-error ng-md-icon{
+    opacity: 0;
+}
+
+.md-has-error{
+    /*background-color: rgb(242, 210, 216);*/
+}
+
+.md-has-error ng-md-icon {
+    opacity: 1;
+    fill: #ef0300;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    size: 24;
+}

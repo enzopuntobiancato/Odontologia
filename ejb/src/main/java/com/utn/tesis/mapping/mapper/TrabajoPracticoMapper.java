@@ -5,6 +5,8 @@ import com.utn.tesis.model.TrabajoPractico;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Usuario
@@ -20,4 +22,6 @@ public interface TrabajoPracticoMapper {
     TrabajoPractico fromDTO(TrabajoPracticoDTO trabajoPracticoDTO);
 
     void updateFromDTO(TrabajoPracticoDTO trabajoPracticoDTO, @MappingTarget TrabajoPractico trabajoPractico);
+
+    List<TrabajoPracticoDTO> toDTOList(List<TrabajoPractico> sourceList);
 }

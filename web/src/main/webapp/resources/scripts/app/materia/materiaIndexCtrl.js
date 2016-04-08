@@ -100,17 +100,15 @@ module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv',
                 .then(function () {
                     //Success
                     service.restore(materiaId)
-                        .success(function (response) {
+                        .success(function () {
                             message.showMessage(materiaNombre + ' dada de alta.');
                             executeQuery($scope.paginationData.pageNumber);
                         })
-                        .error(function (error) {
+                        .error(function () {
                             message.showMessage('Error dando de alta ' + materiaNombre);
-                            executeQuery($scope.paginationData.pageNumber);
                         })
                 },
                 function () {
-                    //Failure
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
@@ -139,7 +137,8 @@ module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv',
                     service.remove(materiaId, motivoBaja)
                         .success(function (response) {
                             message.showMessage(nombreMateria + ' dada de baja.');
-                            executeQuery();
+                            var execQuerySamePage = $scope.filter.dadosBaja || $scope.result.length > 1;
+                            executeQuery(execQuerySamePage ? $scope.paginationData.pageNumber : 0);
                         })
                         .error(function (error) {
                             message.showMessage('Error dando de baja ' + nombreMateria);

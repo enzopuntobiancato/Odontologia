@@ -32,9 +32,9 @@ public class CommonsService {
         return enumMapper.nivelListToDTOList(Arrays.asList(Nivel.values()));
     }
 
-    public List<Dia> findAllDias() {
+    public List<EnumDTO> findAllDias() {
         List<Dia> result = new ArrayList<Dia>(Arrays.asList(Dia.values()));
-        return result;
+        return enumMapper.diaListToDTOList(result);
     }
 
     public List<GrupoPracticaOdontologicaDTO> findAllGruposPracticaOdontologica() {

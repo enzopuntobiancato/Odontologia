@@ -2,12 +2,10 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,8 +15,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 public class TrabajoPractico extends Bajeable {
-
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -6891546733104546655L;
 
     @NotNull(message = "Debe ingresar un nombre.")
     @Size(max = 100, message = "El nombre no puede ser mayor a 100 caracteres.")
@@ -34,6 +31,9 @@ public class TrabajoPractico extends Bajeable {
     @JoinColumn(name = "practicaOdontologicaId")
     @NotNull(message = "Debe seleccionar una práctica odontológica.")
     private PracticaOdontologica practicaOdontologica;
+
+    @ManyToMany(mappedBy = "trabajosPracticos")
+    private List<Catedra> catedras;
 
     @Override
     public void validar() throws SAPOValidationException {
@@ -62,6 +62,14 @@ public class TrabajoPractico extends Bajeable {
 
     public void setPracticaOdontologica(PracticaOdontologica practicaOdontologica) {
         this.practicaOdontologica = practicaOdontologica;
+    }
+
+    public List<Catedra> getCatedras() {
+        return catedras;
+    }
+
+    public void setCatedras(List<Catedra> catedras) {
+        this.catedras = catedras;
     }
 
     @Override

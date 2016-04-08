@@ -43,7 +43,7 @@ public class CommonsAPI {
     @Path("/getDias")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Dia> findAllDias() {
+    public List<EnumDTO> findAllDias() {
         return commonsService.findAllDias();
     }
 
