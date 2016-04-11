@@ -13,20 +13,41 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'ngAnimate',
     'ngMessages',
     'ngMdIcons',
-    'ngFileUpload'
+    'ngFileUpload',
+    'pascalprecht.translate'
 ]);
 
-
-odontologiaApp.config(['$urlRouterProvider',
-    '$stateProvider',
-    '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider', '$mdThemingProvider', '$mdIconProvider',
-    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider, $mdIconProvider) {
+odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
+    '$mdThemingProvider', '$mdIconProvider','$translateProvider',
+    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider,
+              $mdIconProvider,$translateProvider) {
+        var es = {
+            "CUAL" : "¿Cuál?",
+            "CUALES" : "¿Cuáles?",
+            "CUANDO" : "¿Cuando?",
+            "QUE" : "¿Que?",
+            "DESDE_CUANDO" : "¿Desde cuándo?",
+            "DE_QUE" : "¿De que?",
+            "FECHA" : "Fecha",
+            "TRATAMIENTO" : "Tratamiento",
+            "PORQUE" : "¿Por qué?",
+            "DONDE" : "¿Donde?",
+            "CANTIDAD_DIARIA" : "Cantidad diaria",
+            "OTROS" : "Otros"
+        };
 
         var customBlueMap = $mdThemingProvider.extendPalette('light-blue', {
             'contrastDefaultColor': 'light',
             'contrastDarkColors': ['50'],
             '50': 'ffffff'
         });
+        $translateProvider
+            .useStaticFilesLoader({
+                prefix: 'resources/i18n/locale-',
+                suffix: '.json'}
+            )
+            .preferredLanguage('es');
+
         $mdThemingProvider.definePalette('customBlue', customBlueMap);
         $mdThemingProvider.theme('default')
             .primaryPalette('customBlue', {
@@ -613,6 +634,10 @@ odontologiaApp.config(['$urlRouterProvider',
                         $state.go('^.index');
                     }
                 }
+            })
+            .state('paciente.historiaclinica', {
+                url:'/historiaclinica',
+                templateUrl:'views/historiaClinica/historiaClinicaView.html'
             })
             .state('asignacion', {
                 url: '/asignacion',
