@@ -1,33 +1,235 @@
-<md-content layout="column" layout-align="start center" class="md-main-content" flex>
-        <form name="createPacienteForm" novalidate ng-submit="save()">
-            <md-card class="md-whiteframe-z5 md-main-content-card">
-                <md-toolbar class="md-accent">
-                    <div class="md-toolbar-tools">
-                        <span>Crear paciente</span>
+<md-content layout="column" layout-align="start center" class="md-main-content">
+<md-card class="md-whiteframe-z5 md-main-content-card" id="md-card-tab">
+<form name="createHistoriaClinicaForm" novalidate ng-submit="vm.save(createHistoriaClinicaForm)">
+<md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+        <span>Crear historia clínica</span>
+    </div>
+</md-toolbar>
+<md-card-content id="md-card-tab-content">
+<ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
+<md-tabs md-dynamic-height md-border-bottom>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center" ng-class= "(vm.submitted && firstForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            {{ 'ANTECEDENTES' | translate }}
+            <ng-md-icon icon="error">
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="first">
+            <ng-form name="firstForm">
+                <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                    <div layout="column">
+                        <p> {{'G1P1' | translate }} </p>
+                        <md-radio-group ng-model="vm.hc.G1P1">
+                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+                        </md-radio-group>
                     </div>
-                </md-toolbar>
-                <md-card-content>
-                    <md-tabs md-dynamic-height md-border-bottom>
-                        <md-tab label="Datos personales">
+                    <validated-input label="{{ 'G1P2' | translate }}" name="G1P2" model="vm.hc.G1P2"
+                                     submitted="vm.submitted" max="75"
+                                     disabled="false"
+                                     form="createHistoriaClinicaForm.firstForm.nombre"
+                                     layout-margin>
+                    </validated-input>
+                    <div layout="column">
+                       <md-datepicker name="G1P3" ng-model="vm.hc.G1P3"
+                                      md-placeholder="{{ 'G1P3' | translate }}" required></md-datepicker>
+                       <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G1P3.$error"
+                            multiple class="errors">
+                           <div ng-messages-include="error-messages"></div>
+                       </div>
+                     </div>
+                </div>
+                <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                    <div layout="column">
+                        <p> {{'G2P1' | translate }} </p>
+                        <md-radio-group ng-model="vm.hc.G2P1">
+                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div layout="column">
+                        <p> {{'G2P2' | translate }} </p>
+                        <md-radio-group ng-model="vm.hc.G2P2">
+                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <validated-input label="{{ 'G2P3' | translate }}" name="G2P3" model="vm.hc.G2P3"
+                                     submitted="vm.submitted" max="75"
+                                     disabled="false"
+                                     form="createHistoriaClinicaForm.firstForm.G2P3"
+                                     layout-margin>
+                    </validated-input>
+                    <div layout="column">
+                        <md-datepicker name="G1P3" ng-model="vm.hc.G2P4"
+                                       md-placeholder="{{ 'G2P4' | translate }}" required></md-datepicker>
+                        <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G1P3.$error"
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </div>
+                </div>
+                <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                    <div layout="column">
+                        <p> {{'G2P1' | translate }} </p>
+                        <md-radio-group ng-model="vm.hc.G2P1">
+                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div layout="column">
+                        <p> {{'G2P2' | translate }} </p>
+                        <md-radio-group ng-model="vm.hc.G2P2">
+                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <validated-input label="{{ 'G2P3' | translate }}" name="G2P3" model="vm.hc.G2P3"
+                                     submitted="vm.submitted" max="75"
+                                     disabled="false"
+                                     form="createHistoriaClinicaForm.firstForm.G2P3"
+                                     layout-margin>
+                    </validated-input>
+                    <div layout="column">
+                        <md-datepicker name="G1P3" ng-model="vm.hc.G2P4"
+                                       md-placeholder="{{ 'G2P4' | translate }}" required></md-datepicker>
+                        <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G1P3.$error"
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <!--<validated-input label="Nombre" name="nombre" model="vm.paciente.nombre"
+                                     req="true" submitted="vm.submitted" max="75"
+                                     disabled="false"
+                                     form="createHistoriaClinicaForm.firstForm.nombre"
+                                     layout-margin>
+                    </validated-input>-->
 
-                        </md-tab>
-                        <md-tab label="Datos de la consulta">
-                            <md-content class="md-padding">
+                    <!--<md-input-container flex-gt-sm>
+                        <label>Tipo doc.</label>
+                        <md-select ng-model="vm.paciente.documento.tipoDocumento" name="tipoDocumento"
+                                   ng-required="true"  ng-model-options="{ trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.tiposDocumento" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="createHistoriaClinicaForm.firstForm.tipoDocumento.$error"
+                             ng-show="createHistoriaClinicaForm.firstForm.tipoDocumento.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.tipoDocumento.$invalid "
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>-->
+                   <!-- <validated-input label="Número" name="nroDocumento" model="vm.paciente.documento.numero"
+                                     req="true" submitted="vm.submitted" max="10"
+                                     disabled="false" pattern="^[0-9]+$"
+                                     form="createHistoriaClinicaForm.firstForm.nroDocumento"
+                                     layout-margin></validated-input>-->
 
-                            </md-content>
-                        </md-tab>
-                        <md-tab label="Diagnóstico">
-                            <md-content class="md-padding">
+                <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                   <!-- <md-input-container flex-gt-sm>
+                        <label>Sexo</label>
+                        <md-select ng-model="vm.paciente.sexo" name="sexo" ng-required="true">
+                            <md-option ng-repeat="item in vm.data.sexos" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="createHistoriaClinicaForm.firstForm.sexo.$error"
+                             ng-show="createHistoriaClinicaForm.firstForm.sexo.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.sexo.$invalid "
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>-->
 
-                            </md-content>
-                        </md-tab>
-                    </md-tabs>
-                </md-card-content>
-                <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="goIndex()">Cancelar</md-button>
-                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-                </md-card-actions>
-            </md-card>
-        </form>
-    </md-content>
+                </div>
+                <div layout-gt-sm="row" layout-margin flex-gt-sm>
+
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class= "(vm.submitted && domicilioContactoForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Domicilio y contacto
+            <ng-md-icon icon="error" >
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="domicilioContacto">
+            <ng-form name="domicilioContactoForm">
+
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"ng-class= "(vm.submitted && trabajoForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Trabajo
+            <ng-md-icon icon="error" >
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="trabajo">
+            <ng-form name="trabajoForm">
+                <div layout-gt-sm="row" layout-margin>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class= "(vm.submitted && datosMedicosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Datos médicos
+            <ng-md-icon icon="error" >
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="datosMedicos">
+            <ng-form name="datosMedicosForm">
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class= "(vm.submitted && otrosDatosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Otros datos
+            <ng-md-icon icon="error" >
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="otrosDatos">
+            <ng-form name="otrosDatosForm">
+
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+</md-tabs>
+</md-card-content>
+<md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="vm.goIndex()">Cancelar</md-button>
+    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+</md-card-actions>
+</form>
+</md-card>
+</md-content>
 

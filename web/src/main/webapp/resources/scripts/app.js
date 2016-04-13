@@ -635,9 +635,45 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     }
                 }
             })
-            .state('paciente.historiaclinica', {
-                url:'/historiaclinica',
-                templateUrl:'views/historiaClinica/historiaClinicaView.html'
+            .state('historiaClinica', {
+                url: '/historiaClinica',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('historiaClinicaModule')
+            })
+            .state('historiaClinica.index', {
+                url: '/',
+                templateUrl: 'views/historiaClinica/historiaClinicaQuery.html',
+                params: {execQuery: false, execQuerySamePage: false},
+                controller: 'HistoriaClinicaCtrl_Index',
+                controllerAs: 'vm',
+                resolve: {
+                }
+            })
+            .state('historiaClinica.create', {
+                url: '/create',
+                templateUrl: 'views/historiaClinica/historiaClinicaCreate.html',
+                controller: 'HistoriaClinicaCtrl_Create',
+                controllerAs: 'vm'
+            })
+            .state('historiaClinica.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/historiaClinica/historiaClinicaEdit.html',
+                controller: 'HistoriaClinicaCtrl_Edit',
+                controllerAs: 'vm'
+            })
+            .state('historiaClinica.view', {
+                url: '/view/:id',
+                templateUrl: 'views/historiaClinica/historiaClinicaView.html',
+                controllerAs: 'vm',
+                controller: function($scope,$state){
+                    var vm = this;
+                    vm.goIndex = goIndex();
+
+                    function goIndex(){
+                        $state.go('^.index');
+                    }
+                }
             })
             .state('asignacion', {
                 url: '/asignacion',
@@ -728,6 +764,15 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     ]
                 },
                 {
+                    name: 'historiaClinicaModule',
+                    files: [
+                        url('/historiaClinica/historiaClinicaSrv.js'),
+                        url('/historiaClinica/hitoriaClinicaIndexCtrl.js'),
+                        url('/historiaClinica/historiaClinicaCreateCtrl.js'),
+                        url('/historiaClinica/historiaClinicaEditCtrl.js')
+                    ]
+                },
+                {
                     name: 'asignacionModule',
                     files: [
                         url('/asignacion/asignacionSrv.js'),
@@ -750,7 +795,6 @@ angular.module('sapo.login', []);
 angular.module('personaModule', []);
 angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
-//angular.module('customDirectivesModule',[])
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {

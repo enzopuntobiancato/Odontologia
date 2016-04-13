@@ -11,6 +11,9 @@
     "DONDE":"¿Donde?",
     "CANTIDAD_DIARIA":"Cantidad diaria",
     "OTROS":"Otros",
+    "ANTECEDENTES" : "Antecedentes",
+    "SI" : "Sí",
+    "NO" : "No",
 
     "G1P1":"¿Tiene algun problema cardiaco?",
     "G1P2":"¿Cuál?",
