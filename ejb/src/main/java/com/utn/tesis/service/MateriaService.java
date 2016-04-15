@@ -54,6 +54,7 @@ public class MateriaService extends BaseService<Materia> {
             HashMap<String, Object> filter = new HashMap<String, Object>();
             filter.put("nombre", entity.getNombre());
             filter.put("fechaBaja", null);
+
             List<Materia> result = dao.findBy(filter);
             if (!result.isEmpty()) {
                 HashMap<String, String> error = new HashMap<String, String>(1);

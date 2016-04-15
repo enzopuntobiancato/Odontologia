@@ -30,14 +30,14 @@ module.controller('PacienteCtrl_Create',
             nacionalidades: nacionalidadesResponse.data
         }
         vm.selectedCiudad ={};
+
         var performSubmit = $scope.$parent.performSubmit;
         var handleError = $scope.$parent.handleError;
+        vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
         //Guardar
         vm.save = save;
         vm.goIndex = goIndex;
         vm.reload =reload;
-        //TrabajoSearch
-//        vm.trabajosSearch = queryTrabajosSearch();
 
         function goIndex(){
             $state.go('^.index',{execQuery: $scope.data.persistedOperation});
@@ -47,24 +47,25 @@ module.controller('PacienteCtrl_Create',
             $rootScope.persistedOperation = $scope.data.persistedOperation;
             $state.go($state.current, {}, {reload: true});
         }
+
         function save(form){
             vm.submitted = true;
-            if(!form.$invalid){
                 performSubmit(function(){
                     service.save(vm.paciente)
-                        .then(function successCallback(data){
+                        .success(function(){
                             vm.data.persistedOperation = true;
-                            vm.data.disableFields;
-                            vm.data.saved=true;
-                            message.successMessage("Paciente " +vm.paciente.apellido + ', ' + vm.paciente.nombre + ' creado con éxito');
+                            vm.data.disableFields = true;
+                            vm.data.saved = true;
+                            message.successMessage(vm.paciente.nombre + " creado con éxito");
                             vm.goIndex();
-                        }
-                        ,function errorCallback(data, status){
-                            handleError(data,status)
+                        }).error(function(data,status){
+                            vm.paciente.documento = "";
+                            handleError(data,status);
                         })
-                },form);
-            }
+                },form)
         }
+
+
         $scope.$watch(
             'vm.paciente.provinciaNacimiento',
             function(newValue, oldValue){
@@ -99,18 +100,6 @@ module.controller('PacienteCtrl_Create',
                 }
             })
 
-//        function queryTrabajosSearch(query){
-//            return query ?
-//                vm.data.trabajos.filter(crearFilterTrabajo(query))
-//                : vm.data.trabajos;
-//        }
-//
-//        function crearFilterTrabajo(query){
-//           var primeraLetra = angular.lowercase(query);
-//            return function filterTrabajos(trabajo){
-//                return (trabajo.nombre.indexOf(primeraLetra)===0);
-//            };
-//        }
 
         function goIndex(){
             $state.go('^.index');

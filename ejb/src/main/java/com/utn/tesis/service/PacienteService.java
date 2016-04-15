@@ -63,13 +63,13 @@ public class PacienteService extends BaseService<Paciente> {
         if(executeNameValidation){
             HashMap<String,Object> filter = new HashMap<String, Object>();
 
-           filter.put("numero",entity.getDocumento().getNumero());
-          /* List<Paciente> result = dao.findBy(filter);
+           filter.put("documento",entity.getDocumento());
+           List<Paciente> result = dao.findBy(filter);
             if(!result.isEmpty()){
                 HashMap<String,String> error = new HashMap<String, String>(1);
                 error.put("nombre","El paciente con documento " + entity.getDocumento().toString() + " ya está registrado");
                 throw new SAPOValidationException(error);
-            }*/
+            }
         }
        super.bussinessValidation(entity);
     }

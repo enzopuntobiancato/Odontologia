@@ -19,25 +19,25 @@
                                     <md-list-item class="md-2-line"  flex="25">
                                         <div class="md-list-item-text compact" >
                                             <h4> Apellido, nombre </h4>
-                                            <p class="muted">{{vm.paciente.apellido}}, {{vm.paciente.nombre }}  </p>
+                                            <p>{{vm.paciente.apellido}}, {{vm.paciente.nombre }}  </p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line" flex="25">
                                         <div class="md-list-item-text compact" >
                                             <h4> Tipo y numero documento</h4>
-                                            <p class="muted"> {{vm.paciente.documento.tipoDocumento.nombre}} {{ vm.paciente.documento.numero }} </p>
+                                            <p> {{vm.paciente.documento.tipoDocumento.nombre}} {{ vm.paciente.documento.numero }} </p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line " flex="25">
                                         <div class="md-list-item-text compact" >
                                             <h4> Sexo</h4>
-                                            <p class="muted">{{vm.paciente.sexo.nombre}} </p>
+                                            <p>{{vm.paciente.sexo.nombre}} </p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line"  flex="25">
                                         <div class="md-list-item-text compact" >
                                             <h4> Estado civil  </h4>
-                                            <p class="muted">{{vm.paciente.estadoCivil.nombre }} </p>
+                                            <p>{{vm.paciente.estadoCivil.nombre }} </p>
                                         </div>
                                     </md-list-item>
                                 </div>
@@ -45,19 +45,19 @@
                                     <md-list-item class="md-2-line"  flex="25">
                                         <div class="md-list-item-text compact" >
                                             <h4> Provincia de nacimiento </h4>
-                                            <p class="muted">{{vm.paciente.provinciaNacimiento.nombre  | noDefinido}}  </p>
+                                            <p>{{vm.paciente.provinciaNacimiento.nombre  | noDefinido}}  </p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line "  flex="25">
                                         <div class="md-list-item-text compact" >
                                             <h4>Ciudad de nacimiento </h4>
-                                            <p class="muted"> {{vm.paciente.lugarDeNacimiento.nombre | noDefinido}} </p>
+                                            <p> {{vm.paciente.lugarDeNacimiento.nombre | noDefinido}} </p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line "  flex="25">
                                         <div class="md-list-item-text compact" >
                                             <h4>Nacionalidad </h4>
-                                            <p class="muted"> {{vm.paciente.nacionalidad.nombre | noDefinido}} </p>
+                                            <p> {{vm.paciente.nacionalidad.nombre | noDefinido}} </p>
                                         </div>
                                     </md-list-item>
                                     <div flex-gt-sm></div>
@@ -76,40 +76,40 @@
                                     <div layout-gt-sm="row" layout-margin>
                                         <md-list-item class="md-2-line"  flex-gt-sm="25">
                                             <div class="md-list-item-text compact" >
-                                                <h4> {{vm.paciente.domicilio.calle | noDefinido}} {{ vm.paciente.domicilio.numeroCalle }} </h4>
-                                                <p class="muted"> Dirección </p>
+                                                <h4> Dirección </h4>
+                                                <p> {{vm.paciente.domicilio.calle | noDefinido}} {{ vm.paciente.domicilio.numeroCalle }} </p>
                                             </div>
                                         </md-list-item>
                                         <md-list-item class="md-2-line" flex-gt-sm="25">
                                             <div class="md-list-item-text compact" >
-                                                <h4> {{vm.paciente.domicilio.piso }} {{ vm.paciente.domicilio.departamento | noDefinido}} </h4>
-                                                <p class="muted"> Departamento </p>
+                                                <h4> Departamento</h4>
+                                                <p> {{vm.paciente.domicilio.piso }} {{ vm.paciente.domicilio.departamento | noDefinido}}  </p>
                                             </div>
                                         </md-list-item>
                                         <md-list-item class="md-2-line" flex-gt-sm="25">
                                             <div class="md-list-item-text compact" >
-                                                <h4> {{vm.paciente.domicilio.barrio.nombre | noDefinido}} </h4>
-                                                <p class="muted"> Barrio </p>
+                                                <h4>Barrio</h4>
+                                                <p>{{vm.paciente.domicilio.barrio.nombre | noDefinido}}</p>
                                             </div>
                                         </md-list-item>
                                         <md-list-item class="md-2-line " flex-gt-sm="25">
                                             <div class="md-list-item-text compact" >
-                                                <h4> {{vm.paciente.domicilio.barrio.ciudad.nombre | noDefinido}} </h4>
-                                                <p class="muted"> Ciudad </p>
+                                                <h4>Ciudad </h4>
+                                                <p>{{vm.paciente.domicilio.barrio.ciudad.nombre | noDefinido}}   </p>
                                             </div>
                                         </md-list-item>
                                     </div>
                                     <div layout-gt-sm="row" layout-margin>
                                         <md-list-item class="md-2-line " flex-gt-sm="25">
                                             <div class="md-list-item-text compact" >
-                                                <h4> {{vm.paciente.telefono | noDefinido}} </h4>
-                                                <p class="muted"> Teléfono </p>
+                                                <h4> Teléfono </h4>
+                                                <p>{{vm.paciente.telefono | noDefinido}}  </p>
                                             </div>
                                         </md-list-item>
                                         <md-list-item class="md-2-line " flex-gt-sm="25">
                                             <div class="md-list-item-text compact" >
-                                                <h4> {{vm.paciente.celular | noDefinido}}</h4>
-                                                <p class="muted"> Celular </p>
+                                                <h4>Celular</h4>
+                                                <p>{{vm.paciente.celular | noDefinido}} </p>
                                             </div>
                                         </md-list-item>
                                         <span flex></span>
@@ -128,14 +128,14 @@
                                 <div layout-gt-sm="row" layout-margin flex-gt-sm>
                                     <md-list-item class="md-2-line" flex-gt-sm="25">
                                         <div class="md-list-item-text compact" >
-                                            <h4> {{vm.paciente.trabajo.nombre | noDefinido}} </h4>
-                                            <p class="muted"> Trabajo </p>
+                                            <h4>Trabajo </h4>
+                                            <p> {{vm.paciente.trabajo.nombre | noDefinido}}  </p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line" flex-gt-sm="25" >
                                         <div class="md-list-item-text compact" >
-                                            <h4> {{vm.paciente.nivelEstudio.nombre | noDefinido}}</h4>
-                                            <p class="muted"> Nivel de estudios </p>
+                                            <h4>Nivel de estudios</h4>
+                                            <p>{{vm.paciente.nivelEstudio.nombre | noDefinido}}  </p>
                                         </div>
                                     </md-list-item>
                                 </div>
@@ -153,26 +153,26 @@
                                 <div layout-gt-sm="row" layout-margin flex-gt-sm>
                                     <md-list-item class="md-2-line" flex-gt-sm="25">
                                         <div class="md-list-item-text compact" >
-                                            <h4> {{vm.paciente.obraSocial.nombre | noDefinido}} </h4>
-                                            <p class="muted"> Obra social </p>
+                                            <h4> Obra social</h4>
+                                            <p>{{vm.paciente.obraSocial.nombre | noDefinido}}</p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line" flex-gt-sm="25">
                                         <div class="md-list-item-text compact" >
-                                            <h4> {{vm.paciente.numeroObraSocial  | noDefinido}}</h4>
-                                            <p class="muted"> Teléfono obra social</p>
+                                            <h4>Teléfono obra social</h4>
+                                            <p> {{vm.paciente.numeroObraSocial  | noDefinido}} </p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line" flex-gt-sm="25">
                                         <div class="md-list-item-text compact" >
-                                            <h4> {{vm.paciente.medicoCabecera  | noDefinido}}</h4>
-                                            <p class="muted"> Médico de cabecera</p>
+                                            <h4>Médico de cabecera</h4>
+                                            <p>{{vm.paciente.medicoCabecera  | noDefinido}}</p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line" flex-gt-sm="25">
                                         <div class="md-list-item-text compact" >
-                                            <h4> {{vm.paciente.servicioEmergencia  | noDefinido }}</h4>
-                                            <p class="muted"> Servicio de emergencia</p>
+                                            <h4> Servicio de emergencia</h4>
+                                            <p>{{vm.paciente.servicioEmergencia  | noDefinido }}</p>
                                         </div>
                                     </md-list-item>
                                 </div>
@@ -190,14 +190,14 @@
                                 <div layout-gt-sm="row" layout-margin flex-gt-sm>
                                     <md-list-item class="md-2-line" flex-gt-sm="25">
                                         <div class="md-list-item-text compact" >
-                                            <h4> {{vm.paciente.religion | noDefinido}} </h4>
-                                            <p class="muted"> Religión </p>
+                                            <h4> Religión </h4>
+                                            <p>{{vm.paciente.religion | noDefinido}}</p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line" ng-if="vm.paciente.privadoLugar" flex-gt-sm="25">
                                         <div class="md-list-item-text compact" >
-                                            <h4> {{vm.paciente.privadoLugar | noDefinido}}</h4>
-                                            <p class="muted"> Lugar de reclusión</p>
+                                            <h4>Lugar de reclusión</h4>
+                                            <p>{{vm.paciente.privadoLugar | noDefinido}}</p>
                                         </div>
                                     </md-list-item>
                                 </div>
