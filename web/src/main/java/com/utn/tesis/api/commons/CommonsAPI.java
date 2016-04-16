@@ -1,12 +1,11 @@
 package com.utn.tesis.api.commons;
 
-import com.utn.tesis.mapping.dto.EnumDTO;
-import com.utn.tesis.mapping.dto.GrupoPracticaOdontologicaDTO;
-import com.utn.tesis.mapping.dto.RolDTO;
-import com.utn.tesis.model.Dia;
-import com.utn.tesis.model.GrupoPracticaOdontologica;
-import com.utn.tesis.model.Nivel;
+import com.utn.tesis.mapping.dto.*;
+import com.utn.tesis.model.*;
+import com.utn.tesis.service.BarrioService;
+import com.utn.tesis.service.CiudadService;
 import com.utn.tesis.service.CommonsService;
+import com.utn.tesis.service.ProvinciaService;
 import com.utn.tesis.service.initialization.InitializationService;
 
 import javax.enterprise.context.RequestScoped;
@@ -19,12 +18,16 @@ import java.util.List;
 @Path("/commons")
 @RequestScoped
 public class CommonsAPI {
-
     @Inject
     private CommonsService commonsService;
-
     @Inject
     private InitializationService initService;
+    @Inject
+    private ProvinciaService provinciaService;
+    @Inject
+    private CiudadService ciudadService;
+    @Inject
+    private BarrioService barrioService;
 
     @Path("/getNiveles")
     @GET
@@ -86,7 +89,40 @@ public class CommonsAPI {
         return commonsService.findAllCargos();
     }
 
+    @Path("/getEstadosCivil")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EnumDTO> findAllEstadosCivil(){
+        return commonsService.findAllEstadosCivil();
+    }
 
+    @Path("/getNivelesEstudio")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EnumDTO> findAllNivelesEstudio(){
+        return commonsService.findAllNivelesEstudio();
+    }
+
+    @Path("/getObrasSociales")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ObraSocialDTO> findAllObrasSociales(){
+        return commonsService.findAllObrasSociales();
+    }
+
+    @Path("/getTrabajos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TrabajoDTO> findAllTrabajos(){
+        return commonsService.findAllTrabajos();
+    }
+
+    @Path("/getNacionalidades")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EnumDTO> findAllNacionalidades(){
+        return commonsService.findAllNacionalidades();
+    }
 
     @GET
     @Path("/{name}")

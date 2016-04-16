@@ -10,7 +10,6 @@
                     <p>Complete los datos para crear un nuevo usuario.</p>
                     <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
                         <div layout-gt-sm="row" layout-margin flex layout-xs="column">
-                            <!--<ng-md-icon icon="person" class="md-icon-view"></ng-md-icon>-->
                             <md-input-container flex-gt-sm="33">
                             <label>Nombre</label>
                             <input name="nombre"  ng-model="personaDTO.nombre"

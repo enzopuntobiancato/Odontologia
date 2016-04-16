@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,32 +79,37 @@ public abstract class DaoBase<E extends SuperEntityBase> {
         return result;
     }
 
+    /**
+     * Método que recibe un mapa de objetos para luego recorrerlo y armar una consulta JPA.
+     * @param filter Mapa de objetos,
+     * @return
+     */
     public List<E> findBy(HashMap<String, Object> filter) {
-        StringBuilder q = new StringBuilder("SELECT e FROM " + getGenericParameter().getSimpleName() + " e");
-        if (!filter.isEmpty()) {
-            int i = 0;
-            q.append(" where ");
-            for (String column : filter.keySet()) {
-                i++;
+        StringBuilder q = new StringBuilder("SELECT e FROM " + getGenericParameter().getSimpleName() + " e ");
+        if(!filter.isEmpty()){
+           q.append("WHERE ");
+           int i = 0;
+           for (String column : filter.keySet()){
+               i++;
+               if(filter.get(column) instanceof String){
+                   q.append(" e."+column + " = :" + column);
+               }else if(filter.get(column) == null){
+                   q.append(" e." + column + " IS NULL");
+               }else {
+                   q.append(column + "= :" + column);
+               }
 
-                if (filter.get(column) instanceof String) {
-                    q.append("UPPER(e.").append(column).append(")");
-                    q.append(" LIKE ").append("'").append(((String) filter.get(column)).toUpperCase()).append("'");
-                } else {
-                    q.append("e.").append(column);
-                    if (filter.get(column) == null) {
-                        q.append(" IS NULL");
-                    } else {
-                        q.append(" = ").append(filter.get(column));
-                    }
-
-                }
-                if (i < filter.size()) {
-                    q.append(" AND ");
-                }
-            }
+               if (i < filter.size()) {
+                   q.append(" AND ");
+               }
+           }
         }
         Query query = em.createQuery(q.toString());
+        for (String column : filter.keySet()){
+            if(filter.get(column) != null){
+                query.setParameter(column,filter.get(column));
+            }
+        }
         List<E> result = query.getResultList();
         return result;
     }

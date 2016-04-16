@@ -1,11 +1,7 @@
 package com.utn.tesis.service;
 
-import com.utn.tesis.mapping.dto.EnumDTO;
-import com.utn.tesis.mapping.dto.GrupoPracticaOdontologicaDTO;
-import com.utn.tesis.mapping.dto.RolDTO;
-import com.utn.tesis.mapping.mapper.EnumMapper;
-import com.utn.tesis.mapping.mapper.GrupoPracticaOdontologicaMapper;
-import com.utn.tesis.mapping.mapper.RollMapper;
+import com.utn.tesis.mapping.dto.*;
+import com.utn.tesis.mapping.mapper.*;
 import com.utn.tesis.model.*;
 
 import javax.ejb.Stateless;
@@ -24,9 +20,22 @@ public class CommonsService {
     @Inject
     private RolService rolService;
     @Inject
+    private ObraSocialService obraSocialService;
+    @Inject
+    private TrabajoService trabajoService;
+    @Inject
     private GrupoPracticaOdontologicaMapper grupoPracticaMapper;
     @Inject
     private RollMapper rollMapper;
+    @Inject
+    private TrabajoMapper trabajoMapper;
+    @Inject
+    private ObraSocialMapper obraSocialMapper;
+    @Inject
+    private BarrioService barrioService;
+    @Inject
+    private CiudadService ciudadService;
+
 
     public List<EnumDTO> findAllNiveles() {
         return enumMapper.nivelListToDTOList(Arrays.asList(Nivel.values()));
@@ -55,16 +64,42 @@ public class CommonsService {
     }
 
     public List<EnumDTO> findAllTiposDocumento() {
-        List<TipoDocumento> tipoDocumentoList = Arrays.asList(TipoDocumento.values());
-        return enumMapper.tipoDocumentoListToDTOList(tipoDocumentoList);
+        return enumMapper.tipoDocumentoListToDTOList(Arrays.asList(TipoDocumento.values()));
     }
 
     public List<EnumDTO> findAllSexos() {
-        List<Sexo> sexoList = Arrays.asList(Sexo.values());
-        return enumMapper.sexoListToDTOList(sexoList);
+        return enumMapper.sexoListToDTOList(Arrays.asList(Sexo.values()));
     }
 
     public List<EnumDTO> findAllCargos() {
         return enumMapper.cargoListToDTOList(Arrays.asList(Cargo.values()));
+    }
+
+    public List<EnumDTO> findAllEstadosCivil() {
+        return enumMapper.estadoCivilListToDTOList(Arrays.asList(EstadoCivil.values()));
+    }
+
+    public List<EnumDTO> findAllNivelesEstudio(){
+        return enumMapper.nivelEstudioListToDTOList(Arrays.asList(NivelEstudio.values()));
+    }
+
+    public List<ObraSocialDTO> findAllObrasSociales(){
+        return obraSocialMapper.toDTOList(obraSocialService.findAll());
+    }
+
+    public List<TrabajoDTO> findAllTrabajos(){
+        return trabajoMapper.toDTOList(trabajoService.findAll());
+    }
+
+    public List<EnumDTO> findAllNacionalidades() {
+        return enumMapper.nacionalidadListToDTOList(Arrays.asList(Nacionalidad.values()));
+    }
+
+    public Barrio findBarrioById(Long barrioId) {
+        return barrioService.findById(barrioId);
+    }
+
+    public Ciudad findCiudadById(Long id) {
+        return ciudadService.findById(id);  //To change body of created methods use File | Settings | File Templates.
     }
 }

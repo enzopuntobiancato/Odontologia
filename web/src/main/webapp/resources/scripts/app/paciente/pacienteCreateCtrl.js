@@ -7,77 +7,132 @@
  */
 var module = angular.module('pacienteModule');
 
-module.controller('PacienteCtrl_Create', ['$scope', '$rootScope', 'PacienteSrv', '$state', 'MessageSrv',
-    function ($scope, $rootScope, service, $state, message) {
-        $scope.paciente={};
-        $scope.data = {
-            provincias :[
-                {nombre: 'Córdoba'},{nombre: 'Buenos Aires'},{nombre: 'Santa Fe'},{nombre: 'San Luis'}
-            ],
-            ciudades : [
-                {nombre: 'Córdoba'},{nombre: 'Carlos Paz'},{nombre: 'Alta Gracia'},{nombre: 'La Falda'}
-            ],
-            barrios : [
-                {nombre: 'Capital Sur'},{nombre: 'Alberdi'},{nombre: 'Centro'},{nombre: 'Barrio Jardìn'}
-            ],
-            estados : [
-                {nombre: 'Soltero'},{nombre: 'Divorciado'},{nombre: 'Casado'},{nombre: 'Viudo'}
-            ],
-            tiposDocumento : [
-                {nombre: 'DNI'},{nombre: 'Pasaporte'},{nombre: 'LC'}
-            ],
-            nivelesEstudio : [
-                {nombre: 'Universitario'},{nombre: 'Terciario'},{nombre: 'Secundario'},{nombre: 'Primario'}
-            ]
+module.controller('PacienteCtrl_Create',
+    ['$scope', '$rootScope', '$filter','PacienteSrv', '$state', 'MessageSrv',
+        'tiposDocumentoResponse','sexosResponse','provinciaResponse', 'ciudadesResponse','barriosResponse','estadosResponse',
+        'trabajosResponse','obrasSocialesResponse','nivelesEstudioResponse','nacionalidadesResponse',
+    function ($scope, $rootScope, $filter, service, $state, message,
+              tiposDocumentoResponse,sexosResponse,provinciaResponse,ciudadesResponse,barriosResponse,estadosResponse,
+              trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse
+        ) {
+        var vm = this;
+        vm.paciente={};
+        vm.data = {
+            ciudades : ciudadesResponse.data,
+            barrios : barriosResponse.data,
+            estados : estadosResponse.data,
+            provincias : provinciaResponse.data,
+            tiposDocumento : tiposDocumentoResponse.data,
+            sexos: sexosResponse.data,
+            trabajos: trabajosResponse.data,
+            obrasSociales: obrasSocialesResponse.data,
+            nivelesEstudio: nivelesEstudioResponse.data,
+            nacionalidades: nacionalidadesResponse.data
         }
+        vm.selectedCiudad ={};
 
-
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
+        vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
         //Guardar
-        $scope.save = function(){
+        vm.save = save;
+        vm.goIndex = goIndex;
+        vm.reload =reload;
 
+        function goIndex(){
+            $state.go('^.index',{execQuery: $scope.data.persistedOperation});
         }
 
-
-        $scope.goIndex = function(){
-            $state.go('^.index', {execQuery: $scope.data.persistedOperation});
-        }
-
-        $scope.reload = function(){
+        function reload(){
             $rootScope.persistedOperation = $scope.data.persistedOperation;
             $state.go($state.current, {}, {reload: true});
         }
 
-        //Adicionales
-        $scope.secciones = [true,false,false,false,false];
-        $scope.tituloSeccion = 'Datos personales';
-        $scope.clickIcon = 'keyboard_arrow_right';
-        $scope.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
+        function save(form){
+            vm.submitted = true;
+                performSubmit(function(){
+                    service.save(vm.paciente)
+                        .success(function(){
+                            vm.data.persistedOperation = true;
+                            vm.data.disableFields = true;
+                            vm.data.saved = true;
+                            message.successMessage(vm.paciente.nombre + " creado con éxito");
+                            vm.goIndex();
+                        }).error(function(data,status){
+                            vm.paciente.documento = "";
+                            handleError(data,status);
+                        })
+                },form)
+        }
 
-        $scope.mostrarSeccion = function(idSeccion, titulo){
+
+        $scope.$watch(
+            'vm.paciente.provinciaNacimiento',
+            function(newValue, oldValue){
+                delete vm.paciente.ciudadNacimiento;
+                filterCiudades();
+            function filterCiudades(){
+               if(!vm.paciente.provinciaNacimiento || !angular.isDefined(vm.paciente.provinciaNacimiento.id)){
+                   vm.ciudadesNacSelect = vm.data.ciudades;
+               }else{
+                   vm.ciudadesNacSelect = $filter('filter')(vm.data.ciudades, function(value){
+                       return angular.equals(value.provincia.id,vm.paciente.provinciaNacimiento.id);
+                   })
+               }
+            }
+        })
+
+        $scope.$watch(
+            'vm.selectedCiudad',
+            function(newValue, oldValue){
+                if(vm.paciente.domicilio){
+                    delete vm.paciente.domicilio.barrio;
+                }
+                filterBarrios();
+                function filterBarrios(){
+                    if(!vm.selectedCiudad || !angular.isDefined(vm.selectedCiudad.id)){
+                        vm.barriosSelect = vm.data.barrios;
+                    }else{
+                        vm.barriosSelect = $filter('filter')(vm.data.barrios, function(value){
+                            return angular.equals(value.ciudad.id,vm.selectedCiudad.id);
+                        })
+                    }
+                }
+            })
+
+
+        function goIndex(){
+            $state.go('^.index');
+        }
+        //Adicionales
+        vm.secciones = [true,false,false,false,false];
+        vm.clickIcon = 'keyboard_arrow_right';
+        vm.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
+
+        vm.mostrarSeccion = function(idSeccion, titulo){
            for(var ind=0; ind < 5; ind++){
                if(ind == idSeccion){
-                   $scope.secciones[ind] = true;// true para la sección activa
+                   vm.secciones[ind] = true;// true para la sección activa
                }else{
-                   $scope.secciones[ind] = false;
+                   vm.secciones[ind] = false;
                }
            }
-            $scope.tituloSeccion = titulo;
         };
 
-        $scope.colorMouseOver = function (icon) {
-            $scope.colorIcon[icon] = '#E91E63';
+        vm.colorMouseOver = function (icon) {
+            vm.colorIcon[icon] = '#E91E63';
         };
 
-        $scope.colorMouseLeave = function (icon) {
-            $scope.colorIcon[icon] = '#00B0FF';
+        vm.colorMouseLeave = function (icon) {
+            vm.colorIcon[icon] = '#00B0FF';
         };
 
-        $scope.clickIconMorph = function () {
-            if ($scope.clickIcon === 'keyboard_arrow_right') {
-                $scope.clickIcon = 'expand_less';
+        vm.clickIconMorph = function () {
+            if (vm.clickIcon === 'keyboard_arrow_right') {
+                vm.clickIcon = 'expand_less';
             }
             else {
-                $scope.clickIcon = 'keyboard_arrow_right';
+                vm.clickIcon = 'keyboard_arrow_right';
             }
         };
 
@@ -87,5 +142,4 @@ module.controller('PacienteCtrl_Create', ['$scope', '$rootScope', 'PacienteSrv',
                     delete $rootScope.persistedOperation;
                 }
             })
-
     }]);

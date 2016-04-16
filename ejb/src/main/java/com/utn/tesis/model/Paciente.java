@@ -199,4 +199,5 @@ public class Paciente extends Persona {
     public void setDomicilio(Domicilio domicilio) {
         this.domicilio = domicilio;
     }
+
 }

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="piezaDental"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="diente.svg">
+  <defs
+     id="defs26" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.9454098"
+     inkscape:cx="64.773063"
+     inkscape:cy="998.72073"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:snap-grids="false"
+     inkscape:snap-to-guides="true"
+     showguides="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="706"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid6871"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.58229816;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="gBorde"
+       width="49.481613"
+       height="51.255856"
+       x="0.61964691"
+       y="0.60667533"
+       inkscape:label="gBorde" />
+    <rect
+       style="fill-opacity:1;stroke:#000000;stroke-width:0.57569408;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="caraCentral"
+       fill="{{pintar}}"
+       width="19.025984"
+       height="19.250549"
+       x="15.310581"
+       y="16.466009"
+       inkscape:label="#rect6869"
+       ng-click="seleccionarCara(4)">
+      <desc
+         id="desc6918">Cara central del diente</desc>
+    </rect>
+    <g
+       id="gCaraIzquierda"
+       inkscape:label="gCaraIzquierda"
+       transform="matrix(0.15463004,0,0,0.16017455,0.21094099,-0.31094415)">
+      <path
+         inkscape:label="cIzq"
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="caraIzquierda"
+         d="M 90.357132,227.00504 91.071422,101.29074 9.6428512,18.433612 8.2142855,312.71932 z"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1">
+        <desc
+           id="desc6930">Cara izquierda del diente</desc>
+      </path>
+      <path
+         d="m 66.670067,168.98378 c 0,8.08943 -7.236172,14.64721 -16.162441,14.64721 -8.92627,0 -16.162442,-6.55778 -16.162442,-14.64721 0,-8.08943 7.236172,-14.64721 16.162442,-14.64721 8.926269,0 16.162441,6.55778 16.162441,14.64721 z"
+         sodipodi:ry="14.647212"
+         sodipodi:rx="16.162441"
+         sodipodi:cy="168.98378"
+         sodipodi:cx="50.507626"
+         id="arregloIzq"
+         style="fill:#0000df;fill-opacity:1;stroke:#0000ff;stroke-width:3.70000005;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="gCaraDerecha"
+       inkscape:label="gCaraDerecha"
+       transform="matrix(0.15463004,0,0,0.16017455,-0.23247195,0.1483664)">
+      <path
+         inkscape:label="cDerecha"
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="caraDerecha"
+         d="m 228.57143,220.21932 0,-118.57144 89.28572,-84.999984 -2.14287,291.428564 z"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1">
+        <desc
+           id="desc6928">Cara derecha del diente
+</desc>
+      </path>
+      <path
+         d="m 66.670067,168.98378 c 0,8.08943 -7.236172,14.64721 -16.162441,14.64721 -8.92627,0 -16.162442,-6.55778 -16.162442,-14.64721 0,-8.08943 7.236172,-14.64721 16.162442,-14.64721 8.926269,0 16.162441,6.55778 16.162441,14.64721 z"
+         sodipodi:ry="14.647212"
+         sodipodi:rx="16.162441"
+         sodipodi:cy="168.98378"
+         sodipodi:cx="50.507626"
+         id="arregloDerecho"
+         style="fill:#0000df;fill-opacity:1;stroke:#0000ff;stroke-width:3.70000005;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         sodipodi:type="arc"
+         transform="translate(228.29447,0.50507807)" />
+    </g>
+    <g
+       id="gCaraSuperior"
+       inkscape:label="gCaraSuperior"
+       transform="matrix(0.15463004,0,0,0.16017455,0.100086,0.1483664)">
+      <path
+         inkscape:label="cSuperior"
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="caraSuperior"
+         d="M 97.615357,95.566661 224.04596,95.568714 314.52611,11.080007 10.955497,10.074286 z"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1">
+        <desc
+           id="desc6934">Cara superior del diente</desc>
+      </path>
+      <path
+         d="m 66.670067,168.98378 c 0,8.08943 -7.236172,14.64721 -16.162441,14.64721 -8.92627,0 -16.162442,-6.55778 -16.162442,-14.64721 0,-8.08943 7.236172,-14.64721 16.162442,-14.64721 8.926269,0 16.162441,6.55778 16.162441,14.64721 z"
+         sodipodi:ry="14.647212"
+         sodipodi:rx="16.162441"
+         sodipodi:cy="168.98378"
+         sodipodi:cx="50.507626"
+         id="arregloSuperior"
+         style="fill:#0000df;fill-opacity:1;stroke:#0000ff;stroke-width:3.70000005;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         sodipodi:type="arc"
+         transform="translate(111.11678,-117.68277)" />
+    </g>
+    <g
+       id="gCaraInferior"
+       inkscape:label="gCaraInferior"
+       transform="matrix(0.15463004,0,0,0.16017455,0.21094099,-0.19611669)">
+      <path
+         inkscape:label="cInferior"
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="caraInferior"
+         d="m 96.428571,228.79076 127.142859,-0.71429 90,90 -304.2857157,0 z"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1">
+        <desc
+           id="desc6932">Cara inferior del diente.</desc>
+      </path>
+      <path
+         d="m 66.670067,168.98378 c 0,8.08943 -7.236172,14.64721 -16.162441,14.64721 -8.92627,0 -16.162442,-6.55778 -16.162442,-14.64721 0,-8.08943 7.236172,-14.64721 16.162442,-14.64721 8.926269,0 16.162441,6.55778 16.162441,14.64721 z"
+         sodipodi:ry="14.647212"
+         sodipodi:rx="16.162441"
+         sodipodi:cy="168.98378"
+         sodipodi:cx="50.507626"
+         id="arregloInferior"
+         style="fill:#0000df;fill-opacity:1;stroke:#0000ff;stroke-width:3.70000005;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         sodipodi:type="arc"
+         transform="translate(112.12693,101.52033)" />
+    </g>
+  </g>
+</svg>

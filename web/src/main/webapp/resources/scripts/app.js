@@ -94,6 +94,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         //lazyload de un modulo
                         return $ocLazyLoad.load('sapo.login');
                     }],
+
                     initializeData: ['loadMyModule', '$http', '$q', function (loadMyModule, $http, $q) {
                         var deferred = $q.defer();
                         $http({
@@ -422,8 +423,6 @@ odontologiaApp.config(['$urlRouterProvider',
                     }
                 }
             })
-
-
             .state('usuario', {
                 url: '/usuario',
                 template: '<ui-view/>',
@@ -499,29 +498,121 @@ odontologiaApp.config(['$urlRouterProvider',
                 templateUrl: 'views/paciente/pacienteQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'PacienteCtrl_Index',
+                controllerAs: 'vm',
                 resolve: {
-                    materiasResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
-                        return service.findAllMaterias();
+                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                        return commons.getTiposDocumento();
                     }],
-                    practicasResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
-                        return service.getPracticas();
+                    sexosResponse:["CommonsSrv", function(commons){
+                        return commons.getSexos();
                     }]
                 }
+            })
+            .state('paciente.odontograma',{
+                url:'/odontograma',
+                templateUrl: 'views/odontograma/odontograma.html'
             })
             .state('paciente.create', {
                 url: '/create',
                 templateUrl: 'views/paciente/pacienteCreate.html',
-                controller: 'PacienteCtrl_Create'
+                controller: 'PacienteCtrl_Create',
+                controllerAs: 'vm',
+                resolve: {
+                    nivelesResponse: ['CommonsSrv', function (commons) {
+                        return commons.getNiveles();
+                    }],
+                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                        return commons.getTiposDocumento();
+                    }],
+                    sexosResponse:["CommonsSrv", function(commons){
+                        return commons.getSexos();
+                    }],
+                    provinciaResponse: ["CommonsSrv", function(commons){
+                        return commons.getProvincias();
+                    }],
+                    ciudadesResponse: ['CommonsSrv', function(commons){
+                        return commons.getCiudades();
+                    }],
+                    barriosResponse: ['CommonsSrv', function(commons){
+                        return commons.getBarrios();
+                    }],
+                    estadosResponse: ['CommonsSrv', function(commons){
+                        return commons.getEstadosCivil();
+                    }],
+                    trabajosResponse: ['CommonsSrv', function(commons){
+                        return commons.getTrabajos();
+                    }],
+                    obrasSocialesResponse: ['CommonsSrv', function(commons){
+                        return commons.getObrasSociales();
+                    }],
+                    nivelesEstudioResponse: ['CommonsSrv', function(commons){
+                        return commons.getNivelesEstudio();
+                    }],
+                    nacionalidadesResponse: ['CommonsSrv', function(commons){
+                        return commons.getNacionalidaes();
+                    }]
+                }
             })
             .state('paciente.edit', {
                 url: '/edit/:id',
                 templateUrl: 'views/paciente/pacienteEdit.html',
-                controller: 'PacienteCtrl_Edit'
+                controller: 'PacienteCtrl_Edit',
+                controllerAs: 'vm',
+                resolve:{
+                    nivelesResponse: ['CommonsSrv', function (commons) {
+                        return commons.getNiveles();
+                    }],
+                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                        return commons.getTiposDocumento();
+                    }],
+                    sexosResponse:["CommonsSrv", function(commons){
+                        return commons.getSexos();
+                    }],
+                    provinciaResponse: ["CommonsSrv", function(commons){
+                        return commons.getProvincias();
+                    }],
+                    ciudadesResponse: ['CommonsSrv', function(commons){
+                        return commons.getCiudades();
+                    }],
+                    barriosResponse: ['CommonsSrv', function(commons){
+                        return commons.getBarrios();
+                    }],
+                    estadosResponse: ['CommonsSrv', function(commons){
+                        return commons.getEstadosCivil();
+                    }],
+                    trabajosResponse: ['CommonsSrv', function(commons){
+                        return commons.getTrabajos();
+                    }],
+                    obrasSocialesResponse: ['CommonsSrv', function(commons){
+                        return commons.getObrasSociales();
+                    }],
+                    nivelesEstudioResponse: ['CommonsSrv', function(commons){
+                        return commons.getNivelesEstudio();
+                    }],
+                    nacionalidadesResponse: ['CommonsSrv', function(commons){
+                        return commons.getNacionalidaes();
+                    }],
+                    pacienteResponse:['$stateParams','PacienteSrv', function($stateParams,service){
+                        return service.findById($stateParams.id);
+                    }]
+                }
             })
             .state('paciente.view', {
                 url: '/view/:id',
                 templateUrl: 'views/paciente/pacienteView.html',
-                controller: 'PacienteCtrl_View'
+                controllerAs: 'vm',
+                resolve: {
+                    pacienteResponse:['$stateParams','PacienteSrv',function($stateParams,service){
+                        return service.findById($stateParams.id);
+                    }]
+                },
+                controller: function ($scope, $state,pacienteResponse) {
+                    var vm = this;
+                    vm.paciente = pacienteResponse.data;
+                    vm.goIndex = function () {
+                        $state.go('^.index');
+                    }
+                }
             })
             .state('asignacion', {
                 url: '/asignacion',
@@ -608,8 +699,7 @@ odontologiaApp.config(['$urlRouterProvider',
                         url('/paciente/pacienteSrv.js'),
                         url('/paciente/pacienteIndexCtrl.js'),
                         url('/paciente/pacienteCreateCtrl.js'),
-                        url('/paciente/pacienteEditCtrl.js'),
-                        url('/paciente/pacienteViewCtrl.js')
+                        url('/paciente/pacienteEditCtrl.js')
                     ]
                 },
                 {
@@ -635,6 +725,7 @@ angular.module('sapo.login', []);
 angular.module('personaModule', []);
 angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
+//angular.module('customDirectivesModule',[])
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {

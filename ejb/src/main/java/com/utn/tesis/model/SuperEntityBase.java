@@ -34,4 +34,26 @@ public abstract class SuperEntityBase implements Serializable, Validator {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 73 * hash + (this.getId() != null ? this.getId().hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SuperEntityBase other = (SuperEntityBase) obj;
+        if (this.getId() != other.getId() && (this.getId() == null || !this.getId().equals(other.getId()))) {
+            return false;
+        }
+        return true;
+    }
 }

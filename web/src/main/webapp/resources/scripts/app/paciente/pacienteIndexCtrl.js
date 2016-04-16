@@ -1,98 +1,128 @@
 var module = angular.module('pacienteModule');
 
 
-module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv',  'PaginationService', '$mdDialog','materiasResponse',
-    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,materiasResponse) {
-        $scope.result = [
-            {
-                id: '1',
-                apellido:           'Suárez',
-                nombre:             'Luis',
-                nroDocumento:       '45267892',
-                materia:            'Protodoncia',
-                trabajoPractico:    'Trabajo Practico 1',
-                img:                'http://laaficion.milenio.com/la_aficion_mundial/Suarez-mordida_de_Suarez-memes_de_Suarez-mordida_a_Chiellini_MILIMA20140624_0389_3.jpg'
-
-            },
-            {
-                id: '2',
-                apellido:           'Zárate',
-                nombre:             'Mauro',
-                nroDocumento:       '35938590',
-                materia:            'Ortodoncia',
-                trabajoPractico:    'Trabajo Practico 2',
-                img: 'http://diariomovil.com.ar/wp-content/uploads/2014/10/mauro_zarate.jpg'
-
-            },
-            {
-                id: '3',
-                apellido:           'Zanetti',
-                nombre:             'Pupi',
-                nroDocumento:       '12267892',
-                materia:            'Protodoncia',
-                trabajoPractico:    'Trabajo Practico 1',
-                img:                'http://www.cordobatimes.com/deportes/wp-content/uploads/2013/12/zanetti-mundial.jpg'
-            },
-            {
-                id: '4',
-                apellido:           'Crespo',
-                nombre:             'Hernán',
-                nroDocumento:       '45267892',
-                materia:            'Protodoncia',
-                trabajoPractico:    'Trabajo Practico 1',
-                img:                'http://www.apurogol.net/wp-content/uploads/2008/11/hernan-crespo-real-madrid.jpg'
-            },
-            {
-                id: '5',
-                apellido:           'Batistuta',
-                nombre:             'Gabriel Omar',
-                nroDocumento:       '31267892',
-                materia:            'Protodoncia',
-                trabajoPractico:    'Obstrucción',
-                img:                'http://image.tin247.com/bongdaso/100401192152-674-468.jpg'
-            },
-            {
-                id: '6',
-                apellido:           'Alonso',
-                nombre:             'Beto',
-                nroDocumento:       '32267892',
-                materia:            'Cirugía',
-                trabajoPractico:    'Extracción',
-                img:                'http://www.rivermillonarios.com.ar/media/galeria/132/4/9/2/7/n_river_plate_idolos_millonarios_y_ex_river-1357294.jpg'
-            }
-        ];
-        //pacientes
-        $scope.filter = {};
-        $scope.data = {
-            materias : materiasResponse.data
-            //practicas : practicasResponse.data
+module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv', '$state', '$stateParams', 'MessageSrv',
+    'CommonsSrv',  'PaginationService', '$mdDialog','sexosResponse','tiposDocumentoResponse',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,
+              sexosResponse,tiposDocumentoResponse) {
+        var vm = this;
+        vm.result = [];
+        vm.data = {
+            sexos : sexosResponse.data,
+            tiposDocumentos : tiposDocumentoResponse.data
         };
+        vm.aux ={
+            showDadosBaja: false,
+            isTipoDocumentoSelected: false,
+            mostrarFiltros: true
+        }
+        vm.filter = {};
+        vm.filterChips = [];
+        vm.consultar = consultar;
+        vm.openDeleteDialog = openDeleteDialog;
 
-        $scope.reload = function(){
-            $rootScope.persistedOperation = $scope.data.persistedOperation;
+
+
+        vm.reload = function(){
+            $rootScope.persistedOperation = vm.data.persistedOperation;
             $state.go($state.current, {}, {reload: true});
         };
 
-
-
+        vm.paginationData = pagination.paginationData;
+        pagination.config('api/paciente/find');
         //Consulta
-
-        $scope.consultar = function () {
-            // executeQuery();
+        function executeQuery(pageNumber){
+            pagination.paginate(vm.filter,pageNumber)
+                .then(function(data){
+                    vm.result = data;
+                    vm.aux.showDadosBaja = vm.filter.dadosBaja;
+                    vm.paginationData = pagination.getPaginationData();
+                    updateFilterChips();
+                },function(){
+                });
         }
 
-        $scope.keyboardOk = function (event) {
+        function consultar(form){
+            if(!form.$invalid){
+                executeQuery();
+            }
+        }
+
+        vm.keyboardOk = function (event) {
             if (event.which == 13) {
-                //executeQuery();
+                executeQuery();
             }
         };
+
+        //Chips
+        function updateFilterChips() {
+            vm.filterChips = [];
+            vm.filterChips.push(newFilterChip('dadosBaja', 'Dados de baja', vm.filter.dadosBaja, vm.filter.dadosBaja ? 'SI' : 'NO'));
+            if (vm.filter.apellido) {
+                vm.filterChips.push(newFilterChip('apellido', 'Apellido', vm.filter.apellido));
+            }
+            if (vm.filter.nombre) {
+                vm.filterChips.push(newFilterChip('nombre', 'Nombre', vm.filter.nombre));
+            }
+            if (vm.filter.nombreUsuario) {
+                vm.filterChips.push(newFilterChip('nombreUsuario', 'Usuario', vm.filter.nombreUsuario));
+            }
+            if (vm.filter.numeroDocumento) {
+                vm.filterChips.push(newFilterChip('numeroDocumento', 'Nro. doc.', vm.filter.numeroDocumento));
+            }
+            if (vm.filter.tipoDocumento) {
+                vm.filterChips.push(newFilterChip('tipoDocumento', 'Tipo doc.', findInColecction(vm.filter.tipoDocumento, vm.data.tiposDocumentos) ));
+            }
+            if (vm.filter.sexo) {
+                vm.filterChips.push(newFilterChip('sexo', 'Sexo', findInColecction(vm.filter.sexo, vm.data.sexos)));
+            }
+        }
+
+        $scope.$watchCollection('vm.filterChips', function(newCol, oldCol) {
+            if (newCol.length < oldCol.length) {
+                vm.filter = {};
+                angular.forEach(newCol, function(filterChip) {
+                    vm.filter[filterChip.origin] = filterChip.value;
+                });
+                executeQuery();
+            }
+        });
+
+        $scope.$watch('vm.filter.tipoDocumento',function(){
+            if(vm.filter.tipoDocumento != null && vm.filter.tipoDocumento != 'undefined'){
+                vm.aux.isTipoDocumentoSelected = true;
+            }else{
+                vm.aux.isTipoDocumentoSelected = false;
+            }
+        });
+
+        function newFilterChip(origin, name, value, displayValue) {
+            var filterChip = {
+                origin: origin,
+                name: name,
+                value: value,
+                displayValue: displayValue ? displayValue : value
+            }
+            return filterChip;
+        }
+
+        function findInColecction(id,collection){
+            for(var i = 0; i < collection.length;i++){
+                if(collection[i].key == id){
+                    return collection[i].nombre;
+                }
+            }
+            return "Sin definir";
+        }
+
+
 
         //Caché
         function cacheData() {
             var data = {
-                filter: $scope.filter,
-                result: $scope.result,
-                aux: $scope.aux
+                filter: vm.filter,
+                result: vm.result,
+                aux: vm.aux
             }
             cache.put('data', data);
         };
@@ -100,157 +130,108 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         function getCachedData() {
             var data = cache.get('data');
 
-            $scope.filter = data.filter;
-            $scope.result = data.result;
-            $scope.aux = data.aux;
+            vm.filter = data.filter;
+            vm.result = data.result;
+            vm.aux = data.aux;
         };
 
         //Paginación
-        $scope.nextPage = function () {
-            if ($scope.paginationData.morePages) {
-                //executeQuery(++$scope.paginationData.pageNumber);
+        vm.nextPage = function () {
+            if (vm.paginationData.morePages) {
+                executeQuery(++vm.paginationData.pageNumber);
             }
         };
-        $scope.previousPage = function () {
-            if (!$scope.paginationData.firstPage) {
-                //executeQuery(--$scope.paginationData.pageNumber);
+        vm.previousPage = function () {
+            if (!vm.paginationData.firstPage) {
+                executeQuery(--vm.paginationData.pageNumber);
             }
         };
-
 
         //Cambio de estado
-        $scope.new = function () {
+        vm.new = function () {
             $state.go('^.create');
         };
 
-        $scope.edit = function (pacienteId) {
+        vm.edit = function (pacienteId) {
             $state.go('^.edit', {id:pacienteId});
 
         };
 
-        $scope.viewDetail = function (pacienteId) {
+        vm.viewDetail = function (pacienteId) {
             $state.go('^.view', {id: pacienteId});
         };
 
-        //Diálogos
-        //Dar de baja
-        $scope.openDeleteDialog = function (ev, pacienteId) {
+        //TODO: Revisar este método. Paciente debe ser Bajeable.
+        //TODO: Implementar método para restore en caso de ser necesario.
+        function openDeleteDialog(ev,pacienteId){
             $mdDialog.show({
-                templateUrl: 'views/paciente/pacienteDelete.html',
+                templateUrl:'views/paciente/pacienteDelete.html',
                 parent: angular.element(document.body),
-                targetEvent: ev,
+                targetEvent:ev,
                 clickOutsideToClose: true,
-                locals: {id: pacienteId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.motivoBaja;
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide($scope.motivoBaja);
-                    };
-                }
-            })
-                .then(function (motivoBaja) {
-                    //Success
-                    service.remove(pacienteId, motivoBaja)
-                        .success(function (response) {
-                            message.showMessage("Se ha dado de baja.");
-                            //executeQuery();
-                            Console.log(response);
-                        })
-                        .error(function (error) {
-                            message.showMessage("Se ha registrado un error en la transacción.")
-                            Console.log(error);
-                        })
-                },
-                function () {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
+                controller: DialogController
+            }).then(
+                    function(){
+                       service.remove(pacienteId,motivoBaja)
+                           .then(function(response){
+                               message.showMessage('Dada de baja.');
+                               executeQuery();
+                               console.log(response);
+                           }, function(error){
+                               console.log(error);
+                           });
+                    },
+                function(error){
+                    message.showMessage('Error dando de baja ');
+                    console.log(error);
                 });
-        };
+        }
 
-        //Restaurar
-        $scope.openRestoreDialog = function (ev, pacienteId) {
-            $mdDialog.show({
-                templateUrl: 'views/paciente/pacienteRestore.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: pacienteId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide();
-                    };
+        function DialogController($scope,$mdDialog){
+            $scope.cancelar = function(){
+                $mdDialog.cancel();
+            }
+            $scope.confirmar = function(form){
+                if(form.$valid){
+                    $mdDialog.hide($scope.motivoBaja);
                 }
-            })
-                .then(function () {
-                    //Success
-                    service.restore(pacienteId)
-                        .success(function (response) {
-                            message.showMessage("Se ha dado de alta.");
-                            //executeQuery($scope.paginationData.pageNumber);
-                            Console.log(response);
-                        })
-                        .error(function (error) {
-                            message.showMessage("Se ha registrado un error en la transacción.")
-                            //executeQuery($scope.paginationData.pageNumber);
-                            Console.log(error);
-                        })
-                },
-                function () {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                    Console.log(error);
-                });
-        };
+            }
+        }
+
 
         //Métodos auxiliares
-        $scope.mostrarFiltros = false;
-        $scope.clickIcon = 'expand_more';
-        $scope.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
+        vm.clickIcon = 'expand_more';
+        vm.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
 
-        $scope.cleanFilters = function () {
-            $scope.filter = {};
-            //executeQuery();
+        vm.cleanFilters = function () {
+            vm.filter = {};
+            vm.filterChips = {};
         };
 
-        $scope.mostrarAcciones = function (item) {
+        vm.mostrarAcciones = function (item) {
             item.showAction = true;
         };
 
-        $scope.ocultarAcciones = function (item) {
+        vm.ocultarAcciones = function (item) {
             item.showAction = false;
         };
 
-        $scope.colorMouseOver = function (icon) {
-            $scope.colorIcon[icon] = '#E91E63';
+        vm.colorMouseOver = function (icon) {
+            vm.colorIcon[icon] = '#E91E63';
         };
 
-        $scope.colorMouseLeave = function (icon) {
-            $scope.colorIcon[icon] = '#00B0FF';
+        vm.colorMouseLeave = function (icon) {
+            vm.colorIcon[icon] = '#00B0FF';
         };
 
-        $scope.clickIconMorph = function () {
-            if ($scope.clickIcon === 'expand_more') {
-                $scope.clickIcon = 'expand_less';
+        vm.clickIconMorph = function () {
+            if (vm.clickIcon === 'expand_more') {
+                vm.clickIcon = 'expand_less';
             }
             else {
-                $scope.clickIcon = 'expand_more';
+                vm.clickIcon = 'expand_more';
             }
         };
-
-        $scope.cleanFilters = function () {
-            $scope.filter = {};
-            //executeQuery();
-        };
-
-
-
     }]);
 
 

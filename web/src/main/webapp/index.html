@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="components/angular-loading-bar/build/loading-bar.css">
     <!--Local version -->
     <link rel="stylesheet" href="components/angular-material/angular-material.css"/>
+    <link href="resources/img/git_avatar.png">
     <!--CDN version -->
     <!--link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css"-->
     <!--MASTER version -->
@@ -21,9 +22,8 @@
     <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')" ng-cloak>
         <div flex="initial" class="user-main">
-            <img ng-src="https://s3-eu-west-1.amazonaws.com/vegebase/codepen/img/monkey_avatar_portrait_small.jpeg"
+            <img ng-src="resources/img/git_avatar.png"
                  alt="avatar" class="md-avatar">
-
             <div>S.A.P.O.</div>
         </div>
         <md-content>
@@ -44,18 +44,26 @@
                     <ng-md-icon icon="account_balance"></ng-md-icon>
                     <md-button ui-sref="catedra.index">Cátedra</md-button>
                 </md-list-item>
+                <md-list-item class="md-menu-item">
+                    <ng-md-icon icon="local_hospital"></ng-md-icon>
+                    <md-button ui-sref="paciente.index">Pacientes</md-button>
+                </md-list-item>
+                <md-list-item class="md-menu-item">
+                    <ng-md-icon icon="settings"></ng-md-icon>
+                    <md-button ui-sref="practicaOdontologica.index">Práctica odontlógica</md-button>
+                </md-list-item>
             </md-list>
         </md-content>
     </md-sidenav>
     <div layout="column" flex id="content" ng-cloak>
-        <md-toolbar layout="row" md-scroll-shrink>
+        <md-toolbar layout="row" md-scroll-shrink class="md-whiteframe-10dp">
             <div class="md-toolbar-tools">
                 <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
                     <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
                 </md-button>
                 <span>S.A.P.O.</span>
                 <span flex></span>
-                <img ng-src="http://www.emotiyou.es/galerie/films/action/batman/201101191527UNP.gif"
+                <img ng-src="resources/img/git_avatar2.png"
                      class="md-avatar-login">
                 <md-menu>
                     <!-- Trigger element is a md-button with an icon -->
@@ -133,6 +141,7 @@
     <div ng-message="email">No tiene formato de e-mail.</div>
     <div ng-message="valid">No tiene formato de fecha.</div>
     <div ng-message="md-maxlength">Ingresó más caracteres de los permitidos.</div>
+    <div ng-message="minlength">Ingresó menos caracteres que los requeridos.</div>
     <div ng-message="pattern">Solo se permiten números.</div>
     <div ng-message="length">Es obligatorio</div>
 </script>

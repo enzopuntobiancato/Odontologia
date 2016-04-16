@@ -1,32 +1,391 @@
-<md-content layout="column" layout-align="start center" class="md-main-content" flex>
-        <form name="createPacienteForm" novalidate ng-submit="save()">
-            <md-card class="md-whiteframe-z5 md-main-content-card">
-                <md-toolbar class="md-accent">
-                    <div class="md-toolbar-tools">
-                        <span>Editar paciente</span>
+<md-content layout="column" layout-align="start center" class="md-main-content">
+<md-card class="md-whiteframe-z5 md-main-content-card" id="md-card-tab">
+<form name="editPacienteForm" novalidate ng-submit="vm.save(editPacienteForm)">
+<md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+        <span>Editar paciente</span>
+    </div>
+</md-toolbar>
+<md-card-content id="md-card-tab-content">
+<ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
+<md-tabs md-dynamic-height md-border-bottom>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center" ng-class= "(vm.submitted && datosPersonalesForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Datos personales
+            <ng-md-icon icon="error">
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="datosPersonales">
+            <ng-form name="datosPersonalesForm">
+                <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                    <validated-input label="Nombre" name="nombre" model="vm.paciente.nombre"
+                                     req="true" submitted="vm.submitted" max="75"
+                                     disabled="false"
+                                     form="editPacienteForm.datosPersonalesForm.nombre"
+                                     layout-margin>
+                    </validated-input>
+                    <validated-input label="Apellido" name="apellido" model="vm.paciente.apellido"
+                                     req="true" submitted="vm.submitted" max="75"
+                                     disabled="false"
+                                     form="editPacienteForm.datosPersonalesForm.apellido"
+                                     layout-margin>
+                    </validated-input>
+                    <md-input-container flex-gt-sm>
+                        <label>Tipo doc.</label>
+                        <md-select ng-model="vm.paciente.documento.tipoDocumento" name="tipoDocumento"
+                                   ng-required="true"  ng-model-options="{ trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.tiposDocumento" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="editPacienteForm.datosPersonalesForm.tipoDocumento.$error"
+                             ng-show="editPacienteForm.datosPersonalesForm.tipoDocumento.$touched 
+                             || vm.submitted && editPacienteForm.datosPersonalesForm.tipoDocumento.$invalid "
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <!--<validated-select label="Tipo doc." name="tipoDocumento"-->
+                    <!--model="vm.paciente.documento.tipoDocumento"-->
+                    <!--req="true" submitted="vm.submitted"-->
+                    <!--disabled="false"-->
+                    <!--items="vm.data.tiposDocumento"-->
+                    <!--form="editPacienteForm.datosPersonalesForm.tipoDocumento"-->
+                    <!--layout-margin layout="row" flex-gt-sm trackBy='true'>-->
+                    <!--</validated-select>-->
+                    <validated-input label="Número" name="nroDocumento" model="vm.paciente.documento.numero"
+                                     req="true" submitted="vm.submitted" max="10"
+                                     disabled="false" pattern="^[0-9]+$"
+                                     form="editPacienteForm.datosPersonalesForm.nroDocumento"
+                                     layout-margin></validated-input>
+                </div>
+                <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                    <md-input-container flex-gt-sm>
+                        <label>Sexo</label>
+                        <md-select ng-model="vm.paciente.sexo" name="sexo" ng-required="true"
+                                   ng-model-options="{ trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.sexos" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="editPacienteForm.datosPersonalesForm.sexo.$error"
+                             ng-show="editPacienteForm.datosPersonalesForm.sexo.$touched 
+                             || vm.submitted && editPacienteForm.datosPersonalesForm.sexo.$invalid "
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <!---->
+                    <!--<validated-select label="Sexo" name="sexo"-->
+                    <!--model="vm.paciente.sexo"-->
+                    <!--req="true" submitted="vm.submitted"-->
+                    <!--disabled="false"-->
+                    <!--items="vm.data.sexos"-->
+                    <!--form="editPacienteForm.datosPersonalesForm.sexo"-->
+                    <!--layout-margin flex-gt-sm="33" layout="row">-->
+                    <!--</validated-select>-->
+                    <md-input-container flex-gt-sm>
+                        <label>Estado civil</label>
+                        <md-select ng-model="vm.paciente.estadoCivil" name="estadoCivil" ng-model-options="{trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.estados" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row" layout-margin flex-gt-sm>
+                    <md-input-container flex-gt-sm>
+                        <label>Prov. de nacimiento</label>
+                        <md-select ng-model="vm.selectedProvincia" name="provinciaNacimiento" ng-required="true"
+                                   ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="item in vm.data.provincias" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="editPacienteForm.datosPersonalesForm.provinciaNacimiento.$error"
+                             ng-show="editPacienteForm.datosPersonalesForm.provinciaNacimiento.$touched 
+                             || vm.submitted && editPacienteForm.datosPersonalesForm.provinciaNacimiento.$invalid "
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <!--<validated-select label="Prov. de nacimiento" name="provinciaNacimiento"-->
+                    <!--model="vm.paciente.provinciaNacimiento"-->
+                    <!--disabled="false"-->
+                    <!--items="vm.data.provincias" layout-margin></validated-select>-->
+                    <!--<validated-select label="Ciud. de nacimiento" name="lugarDeNacimiento"-->
+                    <!--model="vm.paciente.lugarDeNacimiento"-->
+                    <!--disabled="false"-->
+                    <!--items="vm.ciudadesNacSelect"layout-margin> </validated-select>-->
+                    <md-input-container flex-gt-sm>
+                        <label>Ciud. de nacimiento</label>
+                        <md-select ng-model="vm.paciente.lugarDeNacimiento" name="lugarDeNacimiento" ng-required="true"
+                                   ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="item in vm.ciudadesNacSelect" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="editPacienteForm.datosPersonalesForm.lugarDeNacimiento.$error"
+                             ng-show="editPacienteForm.datosPersonalesForm.lugarDeNacimiento.$touched || 
+                             vm.submitted && editPacienteForm.datosPersonalesForm.lugarDeNacimiento.$invalid "
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <div layout="column">
+                        <md-datepicker name="nacimiento" ng-model="vm.paciente.fechaCarga"
+                                       md-placeholder="Fecha nac." required></md-datepicker>
+                        <div class="validation-messages" ng-messages="editPacienteForm.datosPersonalesForm.nacimiento.$error"
+                               multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
                     </div>
-                </md-toolbar>
-                <md-card-content>
-                    <md-tabs md-dynamic-height md-border-bottom>
-                        <md-tab label="Datos personales">
-                            <div layout="row" ng-include="'views/paciente/pacienteDatosPersonalesTab.html'"></div>
-                        </md-tab>
-                        <md-tab label="Datos de la consulta">
-                            <md-content class="md-padding">
-
-                            </md-content>
-                        </md-tab>
-                        <md-tab label="Diagnóstico">
-                            <md-content class="md-padding">
-
-                            </md-content>
-                        </md-tab>
-                    </md-tabs>
-                </md-card-content>
-                <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="goIndex()">Cancelar</md-button>
-                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-                </md-card-actions>
-            </md-card>
-        </form></md-content>
-
+                    <md-input-container flex-gt-sm>
+                        <label>Nacionalidad</label>
+                        <md-select ng-model="vm.paciente.nacionalidad" name="nacionalidad"
+                                   ng-model-options="{trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.nacionalidades" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <!--<validated-select label="Nacionalidad" name="nacionalidad"-->
+                    <!--model="vm.paciente.nacionalidad"-->
+                    <!--disabled="false"-->
+                    <!--items="vm.data.nacionalidades" layout-margin> </validated-select>-->
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class= "(vm.submitted && domicilioContactoForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Domicilio y contacto
+            <ng-md-icon icon="error" >
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="domicilioContacto">
+            <ng-form name="domicilioContactoForm">
+                <div layout-gt-sm="row" layout-margin>
+                    <validated-input label="Calle" name="calle" model="vm.paciente.domicilio.calle"
+                                     req="true" submitted="vm.submitted" max="20"
+                                     disabled="false"
+                                     form="editPacienteForm.domicilioContactoForm.calle"
+                                     layout-margin></validated-input>
+                    <validated-input label="Número" name="nroCalle" model="vm.paciente.domicilio.numeroCalle"
+                                     req="true" submitted="vm.submitted" max="5"
+                                     disabled="false" pattern="^[0-9]+$"
+                                     form="editPacienteForm.domicilioContactoForm.nroCalle"
+                                     layout-margin></validated-input>
+                    <md-input-container flex-gt-sm>
+                        <label>Piso</label>
+                        <input name="piso" ng-model="vm.paciente.domicilio.piso">
+                    </md-input-container>
+                    <md-input-container flex-gt-sm>
+                        <label>Depto.</label>
+                        <input name="departamento" ng-model="vm.paciente.domicilio.departamento">
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row" layout-margin>
+                    <md-input-container flex-gt-sm>
+                        <label>Ciudad</label>
+                        <md-select ng-model="vm.selectedCiudad" name="selectedCiudad" ng-required="true"
+                                   ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="item in vm.data.ciudades" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="editPacienteForm.domicilioContactoForm.selectedCiudad.$error"
+                             ng-show="editPacienteForm.domicilioContactoForm.selectedCiudad.$touched || 
+                             vm.submitted && editPacienteForm.domicilioContactoForm.selectedCiudad.$invalid "
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <!--<validated-select label="Ciudad" name="selectedCiudad"-->
+                    <!--model="vm.selectedCiudad"-->
+                    <!--req="true" submitted="vm.submitted"-->
+                    <!--disabled="false"-->
+                    <!--items="vm.data.ciudades"-->
+                    <!--form="editPacienteForm.domicilioContactoForm.selectedCiudad"-->
+                    <!--layout-margin flex-gt-sm="33" layout="row"></validated-select>-->
+                    <md-input-container flex-gt-sm>
+                        <label>Barrio</label>
+                        <md-select ng-model="vm.paciente.domicilio.barrio" name="barrio" ng-required="true"
+                                   ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="item in vm.barriosSelect" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="editPacienteForm.domicilioContactoForm.barrio.$error"
+                             ng-show="editPacienteForm.domicilioContactoForm.barrio.$touched || 
+                             vm.submitted && editPacienteForm.domicilioContactoForm.barrio.$invalid "
+                             multiple class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <!--<validated-select label="Barrio" name="barrio"-->
+                    <!--model="vm.paciente.domicilio.barrio"-->
+                    <!--req="true" submitted="vm.submitted"-->
+                    <!--disabled="false"-->
+                    <!--items="vm.barriosSelect"-->
+                    <!--form="editPacienteForm.domicilioContactoForm.barrio"-->
+                    <!--layout-margin flex-gt-sm="33" layout="row"></validated-select>-->
+                </div>
+                <div layout-gt-sm="row" layout-margin>
+                    <validated-input label="Tel." name="telefono" model="vm.paciente.telefono"
+                                     req="true" submitted="vm.submitted" max="10"
+                                     disabled="false" pattern="^[0-9]+$"
+                                     form="editPacienteForm.domicilioContactoForm.telefono"
+                                     layout-margin flex-gt-sm="33"></validated-input>
+                    <validated-input label="Celular" name="celular" model="vm.paciente.celular"
+                                     submitted="vm.submitted" max="12"
+                                     disabled="false" pattern="^[0-9]+$"
+                                     form="editPacienteForm.domicilioContactoForm.celular"
+                                     layout-margin flex-gt-sm="33"></validated-input>
+                    <validated-input label="Email" name="email" model="vm.paciente.email"
+                                     req="true" submitted="vm.submitted" max="50"
+                                     disabled="false" type="email"
+                                     form="editPacienteForm.domicilioContactoForm.email"
+                                     layout-margin  flex-gt-sm="33"></validated-input>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class= "(vm.submitted && trabajoForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Trabajo
+            <ng-md-icon icon="error" >
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="trabajo">
+            <ng-form name="trabajoForm">
+                <div layout-gt-sm="row" layout-margin>
+                    <md-input-container flex-gt-sm>
+                        <label>Trabajo</label>
+                        <md-select ng-model="vm.paciente.trabajo" name="trabajo">
+                            <md-option ng-repeat="trabajo in vm.data.trabajos" ng-value="trabajo"
+                                       ng-model-options="{trackBy: '$value.id'}">
+                                {{ trabajo.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex-gt-sm>
+                        <label>Estudios</label>
+                        <md-select ng-model="vm.paciente.nivelEstudio" name="estudios" ng-model-options="{trackBy: '$value.key'}">
+                            <md-option ng-repeat="nivel in vm.data.nivelesEstudio" ng-value="nivel">
+                                {{ nivel.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class= "(vm.submitted && datosMedicosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Datos médicos
+            <ng-md-icon icon="error" >
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="datosMedicos">
+            <ng-form name="datosMedicosForm">
+                <div layout-gt-sm="row" layout-margin>
+                    <md-input-container flex-gt-sm>
+                        <label>Obra social</label>
+                        <md-select ng-model="vm.paciente.obraSocial" name="obraSocial" ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="obraSocial in vm.data.obrasSociales" ng-value="obraSocial">
+                                {{ obraSocial.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <validated-input label="Número" name="numeroObraSocial" model="vm.paciente.numeroObraSocial"
+                                     submitted="vm.submitted" max="10"
+                                     disabled="false" pattern="^[0-9]+$"
+                                     form="editPacienteForm.datosMedicosForm.numeroObraSocial"
+                                     layout-margin flex-gt-sm></validated-input>
+                </div>
+                <div layout-gt-sm="row" layout-margin>
+                    <validated-input label="Médico de cabecera" name="medicoCabecera" model="vm.paciente.medicoCabecera"
+                                     submitted="vm.submitted" max="50"
+                                     disabled="false"
+                                     form="editPacienteForm.datosMedicosForm.medicoCabecera"
+                                     layout-margin flex-gt-sm="33"></validated-input>
+                    <md-input-container flex="33">
+                        <md-checkbox ng-model="vm.paciente.tieneServicio" aria-label="Checkbox 1">
+                            ¿Tiene servicio de emergencia?
+                        </md-checkbox>
+                    </md-input-container>
+                    <validated-input label="¿Cuál?" name="servicioEmergencia" model="vm.paciente.servicioEmergencia"
+                                     submitted="vm.submitted" max="30"
+                                     disabled="false"
+                                     form="editPacienteForm.datosMedicosForm.servicioEmergencia"
+                                     layout-margin flex-gt-sm="33"></validated-input>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class= "(vm.submitted && otrosDatosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Otros datos
+            <ng-md-icon icon="error" >
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="otrosDatos">
+            <ng-form name="otrosDatosForm">
+                <div layout="row" layout-margin layout-xs="column">
+                    <md-input-container flex-gt-sm>
+                        <label>Religión</label>
+                        <input name="religion" ng-model="vm.paciente.religion" md-maxlength="30">
+                        <div ng-messages="editPacienteForm.otrosDatosForm.religion.$error"
+                             ng-show="editPacienteForm.otrosDatosForm.religion.$touched" multiple>
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-margin layout-xs="column">
+                    <md-input-container flex-gt-sm="66">
+                        <md-checkbox ng-model="vm.paciente.privadoLibertad" aria-label="Checkbox 1">
+                            Privado de la libertad
+                        </md-checkbox>
+                    </md-input-container>
+                    <md-input-container flex-gt-sm="33">
+                        <label>Dónde?</label>
+                        <input name="privadoLugar" ng-model="vm.paciente.privadoLugar">
+                    </md-input-container>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+</md-tabs>
+</md-card-content>
+<md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="vm.goIndex()">Cancelar</md-button>
+    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+</md-card-actions>
+</form>
+</md-card>
+</md-content>
