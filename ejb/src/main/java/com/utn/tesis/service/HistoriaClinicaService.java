@@ -2,10 +2,13 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.HistoriaClinicaDao;
+import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mapping.dto.CatedraDTO;
 import com.utn.tesis.model.*;
 
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -39,4 +42,6 @@ public class HistoriaClinicaService extends BaseService<HistoriaClinica> {
                                                Long page, Long pageSize) {
         return dao.findByFilters(numero, fechaApertura, realizoHC, atencion, diagnostico, detalleHC, page, pageSize);
     }
+
+
 }

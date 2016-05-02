@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Created by enzo on 09/02/2015.
  */
-public abstract class BaseService<T extends SuperEntityBase> {
+public abstract class  BaseService<T extends SuperEntityBase> {
 
     abstract DaoBase<T> getDao();
 

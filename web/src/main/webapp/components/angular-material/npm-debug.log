@@ -1,0 +1,1614 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'angular-material' ]
+2 info using npm@2.11.3
+3 info using node@v0.12.7
+4 verbose config Skipping project config: C:\Users\Usuario/.npmrc. (matches userconfig)
+5 verbose install initial load of C:\Users\Usuario\package.json
+6 verbose installManyTop reading scoped package data from C:\Users\Usuario\node_modules\angular\package.json
+7 verbose installManyTop reading scoped package data from C:\Users\Usuario\node_modules\angular-animate\package.json
+8 verbose installManyTop reading scoped package data from C:\Users\Usuario\node_modules\angular-aria\package.json
+9 verbose installManyTop reading scoped package data from C:\Users\Usuario\node_modules\angular-material\package.json
+10 verbose installManyTop reading scoped package data from C:\Users\Usuario\node_modules\material-design-icons\package.json
+11 info package.json angular-material@0.11.0 No license field.
+12 verbose readDependencies loading dependencies from C:\Users\Usuario\package.json
+13 verbose install angular-material is installed as 0.11.0
+14 silly cache add args [ 'angular-material', null ]
+15 verbose cache add spec angular-material
+16 silly cache add parsed spec { raw: 'angular-material',
+16 silly cache add   scope: null,
+16 silly cache add   name: 'angular-material',
+16 silly cache add   rawSpec: '',
+16 silly cache add   spec: '*',
+16 silly cache add   type: 'range' }
+17 silly addNamed angular-material@*
+18 verbose addNamed "*" is a valid semver range for angular-material
+19 silly addNameRange { name: 'angular-material', range: '*', hasData: false }
+20 silly mapToRegistry name angular-material
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/angular-material
+24 verbose addNameRange registry:https://registry.npmjs.org/angular-material not in flight; fetching
+25 verbose request uri https://registry.npmjs.org/angular-material
+26 verbose request no auth needed
+27 info attempt registry request try #1 at 20:38:07
+28 verbose request id 212f87dadf75f83f
+29 verbose etag "COOX9WYBBREZRMNPP4I4TH3XX"
+30 http request GET https://registry.npmjs.org/angular-material
+31 http 200 https://registry.npmjs.org/angular-material
+32 silly get cb [ 200,
+32 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+32 silly get     etag: '"A6PXVDSRQGDQ3VMAW17JN0WQN"',
+32 silly get     'content-type': 'application/json',
+32 silly get     'cache-control': 'max-age=300',
+32 silly get     'content-length': '49573',
+32 silly get     'accept-ranges': 'bytes',
+32 silly get     date: 'Wed, 27 Apr 2016 23:38:03 GMT',
+32 silly get     via: '1.1 varnish',
+32 silly get     age: '0',
+32 silly get     connection: 'keep-alive',
+32 silly get     'x-served-by': 'cache-iad2141-IAD',
+32 silly get     'x-cache': 'HIT',
+32 silly get     'x-cache-hits': '1',
+32 silly get     'x-timer': 'S1461800283.216597,VS0,VE98',
+32 silly get     vary: 'Accept-Encoding' } ]
+33 verbose get saving angular-material to C:\Users\Usuario\AppData\Roaming\npm-cache\registry.npmjs.org\angular-material\.cache.json
+34 silly addNameRange number 2 { name: 'angular-material', range: '*', hasData: true }
+35 silly addNameRange versions [ 'angular-material',
+35 silly addNameRange   [ '0.7.1',
+35 silly addNameRange     '0.8.0',
+35 silly addNameRange     '0.8.1',
+35 silly addNameRange     '0.8.2',
+35 silly addNameRange     '0.8.3',
+35 silly addNameRange     '0.9.2',
+35 silly addNameRange     '0.9.3',
+35 silly addNameRange     '0.9.4',
+35 silly addNameRange     '0.9.5',
+35 silly addNameRange     '0.9.6',
+35 silly addNameRange     '0.9.7',
+35 silly addNameRange     '0.9.8',
+35 silly addNameRange     '0.10.0',
+35 silly addNameRange     '0.10.1',
+35 silly addNameRange     '0.11.0',
+35 silly addNameRange     '0.11.1',
+35 silly addNameRange     '0.11.2',
+35 silly addNameRange     '0.11.3',
+35 silly addNameRange     '0.11.4',
+35 silly addNameRange     '1.0.0',
+35 silly addNameRange     '1.0.1',
+35 silly addNameRange     '1.0.2',
+35 silly addNameRange     '1.0.4',
+35 silly addNameRange     '1.0.5',
+35 silly addNameRange     '1.0.6',
+35 silly addNameRange     '1.0.7' ] ]
+36 silly addNamed angular-material@1.0.7
+37 verbose addNamed "1.0.7" is a plain semver version for angular-material
+38 silly mapToRegistry name angular-material
+39 silly mapToRegistry using default registry
+40 silly mapToRegistry registry https://registry.npmjs.org/
+41 silly mapToRegistry uri https://registry.npmjs.org/angular-material
+42 verbose addRemoteTarball https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz not in flight; adding
+43 verbose addRemoteTarball [ 'https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz',
+43 verbose addRemoteTarball   'c8769b59c6a222d20576d0547b24603aa1722ea3' ]
+44 info retry fetch attempt 1 at 20:38:09
+45 info attempt registry request try #1 at 20:38:09
+46 http fetch GET https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz
+47 http fetch 200 https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz
+48 silly fetchAndShaCheck shasum c8769b59c6a222d20576d0547b24603aa1722ea3
+49 verbose addTmpTarball C:\Users\Usuario\AppData\Local\Temp\npm-6608-48f65c66\registry.npmjs.org\angular-material\-\angular-material-1.0.7.tgz not in flight; adding
+50 verbose addTmpTarball already have metadata; skipping unpack for angular-material@1.0.7
+51 silly cache afterAdd angular-material@1.0.7
+52 verbose afterAdd C:\Users\Usuario\AppData\Roaming\npm-cache\angular-material\1.0.7\package\package.json not in flight; writing
+53 verbose afterAdd C:\Users\Usuario\AppData\Roaming\npm-cache\angular-material\1.0.7\package\package.json written
+54 silly install resolved [ { name: 'angular-material',
+54 silly install resolved     version: '1.0.7',
+54 silly install resolved     main: 'index',
+54 silly install resolved     format: 'cjs',
+54 silly install resolved     registry: 'github',
+54 silly install resolved     peerDependencies:
+54 silly install resolved      { angular: '^1.5.0',
+54 silly install resolved        'angular-animate': '^1.5.0',
+54 silly install resolved        'angular-aria': '^1.5.0',
+54 silly install resolved        'angular-messages': '^1.5.0' },
+54 silly install resolved     jspm: { dependencies: [Object], shim: [Object], peerDependencies: {} },
+54 silly install resolved     homepage: 'https://material.angularjs.org',
+54 silly install resolved     repository: { type: 'git', url: 'git://github.com/angular/material.git' },
+54 silly install resolved     licenses: [ [Object] ],
+54 silly install resolved     keywords: [ 'angular', 'material', 'browser', 'client-side' ],
+54 silly install resolved     bugs: { url: 'https://github.com/angular/material/issues' },
+54 silly install resolved     gitHead: '8a7e717a542200a2d1fb0deafbc7598371690683',
+54 silly install resolved     description: 'This repo is for distribution on `npm` and `bower`. The source for this module is in the [main Angular Material repo](https://github.com/angular/material). Please file issues and pull requests against that repo.',
+54 silly install resolved     _id: 'angular-material@1.0.7',
+54 silly install resolved     scripts: {},
+54 silly install resolved     _shasum: 'c8769b59c6a222d20576d0547b24603aa1722ea3',
+54 silly install resolved     _from: 'angular-material@*',
+54 silly install resolved     _npmVersion: '3.6.0',
+54 silly install resolved     _nodeVersion: '5.6.0',
+54 silly install resolved     _npmUser: { name: 'angularcore', email: 'angular-core+npm@google.com' },
+54 silly install resolved     dist:
+54 silly install resolved      { shasum: 'c8769b59c6a222d20576d0547b24603aa1722ea3',
+54 silly install resolved        tarball: 'https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz' },
+54 silly install resolved     maintainers: [ [Object] ],
+54 silly install resolved     _npmOperationalInternal:
+54 silly install resolved      { host: 'packages-12-west.internal.npmjs.com',
+54 silly install resolved        tmp: 'tmp/angular-material-1.0.7.tgz_1459549439709_0.5092582132201642' },
+54 silly install resolved     directories: {},
+54 silly install resolved     _resolved: 'https://registry.npmjs.org/angular-material/-/angular-material-1.0.7.tgz' } ]
+55 info install angular-material@1.0.7 into C:\Users\Usuario
+56 info installOne angular-material@1.0.7
+57 verbose installOne of angular-material to C:\Users\Usuario not in flight; installing
+58 verbose lock using C:\Users\Usuario\AppData\Roaming\npm-cache\_locks\angular-material-f22c762e0ab0d5fa.lock for C:\Users\Usuario\node_modules\angular-material
+59 silly install write writing angular-material 1.0.7 to C:\Users\Usuario\node_modules\angular-material
+60 verbose unbuild node_modules\angular-material
+61 info preuninstall angular-material@0.11.0
+62 info uninstall angular-material@0.11.0
+63 verbose unbuild rmStuff angular-material@0.11.0 from C:\Users\Usuario\node_modules
+64 info postuninstall angular-material@0.11.0
+65 silly gentlyRm C:\Users\Usuario\node_modules\angular-material is being purged from base C:\Users\Usuario
+66 verbose gentlyRm don't care about contents; nuking C:\Users\Usuario\node_modules\angular-material
+67 silly vacuum-fs purging C:\Users\Usuario\node_modules\angular-material
+68 silly vacuum-fs quitting because other entries in C:\Users\Usuario\node_modules
+69 verbose tar unpack C:\Users\Usuario\AppData\Roaming\npm-cache\angular-material\1.0.7\package.tgz
+70 verbose tar unpacking to C:\Users\Usuario\node_modules\angular-material
+71 silly gentlyRm C:\Users\Usuario\node_modules\angular-material is being purged
+72 verbose gentlyRm don't care about contents; nuking C:\Users\Usuario\node_modules\angular-material
+73 silly gunzTarPerm modes [ '777', '666' ]
+74 silly gunzTarPerm extractEntry package.json
+75 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+76 silly gunzTarPerm extractEntry .npmignore
+77 silly gunzTarPerm modified mode [ '.npmignore', 420, 438 ]
+78 silly gunzTarPerm extractEntry README.md
+79 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+80 silly gunzTarPerm extractEntry LICENSE
+81 silly gunzTarPerm modified mode [ 'LICENSE', 420, 438 ]
+82 silly gunzTarPerm extractEntry angular-material-mocks.js
+83 silly gunzTarPerm modified mode [ 'angular-material-mocks.js', 420, 438 ]
+84 silly gunzTarPerm extractEntry index.js
+85 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+86 silly gunzTarPerm extractEntry angular-material.js
+87 silly gunzTarPerm modified mode [ 'angular-material.js', 420, 438 ]
+88 silly gunzTarPerm extractEntry angular-material.min.js
+89 silly gunzTarPerm modified mode [ 'angular-material.min.js', 420, 438 ]
+90 silly gunzTarPerm extractEntry CHANGELOG.md
+91 silly gunzTarPerm modified mode [ 'CHANGELOG.md', 420, 438 ]
+92 silly gunzTarPerm extractEntry angular-material.min.css
+93 silly gunzTarPerm modified mode [ 'angular-material.min.css', 420, 438 ]
+94 silly gunzTarPerm extractEntry bower.json
+95 silly gunzTarPerm modified mode [ 'bower.json', 420, 438 ]
+96 silly gunzTarPerm extractEntry core/services/layout/ie_fixes.css
+97 silly gunzTarPerm modified mode [ 'core/services/layout/ie_fixes.css', 420, 438 ]
+98 silly gunzTarPerm extractEntry core/services/layout/ie_fixes.min.css
+99 silly gunzTarPerm modified mode [ 'core/services/layout/ie_fixes.min.css', 420, 438 ]
+100 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/copy.svg
+101 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/copy.svg',
+101 silly gunzTarPerm   420,
+101 silly gunzTarPerm   438 ]
+102 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/copy2.svg
+103 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/copy2.svg',
+103 silly gunzTarPerm   420,
+103 silly gunzTarPerm   438 ]
+104 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/facebook.svg
+105 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/facebook.svg',
+105 silly gunzTarPerm   420,
+105 silly gunzTarPerm   438 ]
+106 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/hangout.svg
+107 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/hangout.svg',
+107 silly gunzTarPerm   420,
+107 silly gunzTarPerm   438 ]
+108 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/mail.svg
+109 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/mail.svg',
+109 silly gunzTarPerm   420,
+109 silly gunzTarPerm   438 ]
+110 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/message.svg
+111 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/message.svg',
+111 silly gunzTarPerm   420,
+111 silly gunzTarPerm   438 ]
+112 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/print.svg
+113 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/print.svg',
+113 silly gunzTarPerm   420,
+113 silly gunzTarPerm   438 ]
+114 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/share-arrow.svg
+115 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/share-arrow.svg',
+115 silly gunzTarPerm   420,
+115 silly gunzTarPerm   438 ]
+116 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/twitter.svg
+117 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/twitter.svg',
+117 silly gunzTarPerm   420,
+117 silly gunzTarPerm   438 ]
+118 silly gunzTarPerm extractEntry demos/bottomSheet/demoBasicUsage/img/icons/upload.svg
+119 silly gunzTarPerm modified mode [ 'demos/bottomSheet/demoBasicUsage/img/icons/upload.svg',
+119 silly gunzTarPerm   420,
+119 silly gunzTarPerm   438 ]
+120 silly gunzTarPerm extractEntry demos/chips/demoBasicUsage/style.scss
+121 silly gunzTarPerm modified mode [ 'demos/chips/demoBasicUsage/style.scss', 420, 438 ]
+122 silly gunzTarPerm extractEntry demos/chips/demoContactChips/style.scss
+123 silly gunzTarPerm modified mode [ 'demos/chips/demoContactChips/style.scss', 420, 438 ]
+124 silly gunzTarPerm extractEntry demos/gridList/demoBasicUsage/style.scss
+125 silly gunzTarPerm modified mode [ 'demos/gridList/demoBasicUsage/style.scss', 420, 438 ]
+126 silly gunzTarPerm extractEntry demos/gridList/demoDynamicTiles/style.scss
+127 silly gunzTarPerm modified mode [ 'demos/gridList/demoDynamicTiles/style.scss', 420, 438 ]
+128 silly gunzTarPerm extractEntry demos/gridList/demoResponsiveUsage/style.scss
+129 silly gunzTarPerm modified mode [ 'demos/gridList/demoResponsiveUsage/style.scss', 420, 438 ]
+130 silly gunzTarPerm extractEntry demos/icon/demoLoadSvgIconsFromUrl/img/icons/addShoppingCart.svg
+131 silly gunzTarPerm modified mode [ 'demos/icon/demoLoadSvgIconsFromUrl/img/icons/addShoppingCart.svg',
+131 silly gunzTarPerm   420,
+131 silly gunzTarPerm   438 ]
+132 silly gunzTarPerm extractEntry demos/icon/demoLoadSvgIconsFromUrl/img/icons/android.svg
+133 silly gunzTarPerm modified mode [ 'demos/icon/demoLoadSvgIconsFromUrl/img/icons/android.svg',
+133 silly gunzTarPerm   420,
+133 silly gunzTarPerm   438 ]
+134 silly gunzTarPerm extractEntry demos/icon/demoLoadSvgIconsFromUrl/img/icons/cake.svg
+135 silly gunzTarPerm modified mode [ 'demos/icon/demoLoadSvgIconsFromUrl/img/icons/cake.svg',
+135 silly gunzTarPerm   420,
+135 silly gunzTarPerm   438 ]
+136 silly gunzTarPerm extractEntry demos/icon/demoSvgIconSets/assets/cake.svg
+137 silly gunzTarPerm modified mode [ 'demos/icon/demoSvgIconSets/assets/cake.svg', 420, 438 ]
+138 silly gunzTarPerm extractEntry demos/icon/demoSvgIconSets/assets/core-icons.svg
+139 silly gunzTarPerm modified mode [ 'demos/icon/demoSvgIconSets/assets/core-icons.svg', 420, 438 ]
+140 silly gunzTarPerm extractEntry demos/icon/demoSvgIconSets/assets/social-icons.svg
+141 silly gunzTarPerm modified mode [ 'demos/icon/demoSvgIconSets/assets/social-icons.svg',
+141 silly gunzTarPerm   420,
+141 silly gunzTarPerm   438 ]
+142 silly gunzTarPerm extractEntry demos/icon/demoSvgIconsFromURL/img/icons/addShoppingCart.svg
+143 silly gunzTarPerm modified mode [ 'demos/icon/demoSvgIconsFromURL/img/icons/addShoppingCart.svg',
+143 silly gunzTarPerm   420,
+143 silly gunzTarPerm   438 ]
+144 silly gunzTarPerm extractEntry demos/icon/demoSvgIconsFromURL/img/icons/android.svg
+145 silly gunzTarPerm modified mode [ 'demos/icon/demoSvgIconsFromURL/img/icons/android.svg',
+145 silly gunzTarPerm   420,
+145 silly gunzTarPerm   438 ]
+146 silly gunzTarPerm extractEntry demos/icon/demoSvgIconsFromURL/img/icons/cake.svg
+147 silly gunzTarPerm modified mode [ 'demos/icon/demoSvgIconsFromURL/img/icons/cake.svg', 420, 438 ]
+148 silly gunzTarPerm extractEntry demos/icon/demoUsingTemplateCache/assets/android.svg
+149 silly gunzTarPerm modified mode [ 'demos/icon/demoUsingTemplateCache/assets/android.svg',
+149 silly gunzTarPerm   420,
+149 silly gunzTarPerm   438 ]
+150 silly gunzTarPerm extractEntry demos/icon/demoUsingTemplateCache/assets/cake.svg
+151 silly gunzTarPerm modified mode [ 'demos/icon/demoUsingTemplateCache/assets/cake.svg', 420, 438 ]
+152 silly gunzTarPerm extractEntry demos/icon/demoUsingTemplateCache/assets/core-icons.svg
+153 silly gunzTarPerm modified mode [ 'demos/icon/demoUsingTemplateCache/assets/core-icons.svg',
+153 silly gunzTarPerm   420,
+153 silly gunzTarPerm   438 ]
+154 silly gunzTarPerm extractEntry demos/input/demoIcons/icons/ic_email_24px.svg
+155 silly gunzTarPerm modified mode [ 'demos/input/demoIcons/icons/ic_email_24px.svg', 420, 438 ]
+156 silly gunzTarPerm extractEntry demos/input/demoIcons/icons/ic_person_24px.svg
+157 silly gunzTarPerm modified mode [ 'demos/input/demoIcons/icons/ic_person_24px.svg', 420, 438 ]
+158 silly gunzTarPerm extractEntry demos/input/demoIcons/icons/ic_phone_24px.svg
+159 silly gunzTarPerm modified mode [ 'demos/input/demoIcons/icons/ic_phone_24px.svg', 420, 438 ]
+160 silly gunzTarPerm extractEntry demos/input/demoIcons/icons/ic_place_24px.svg
+161 silly gunzTarPerm modified mode [ 'demos/input/demoIcons/icons/ic_place_24px.svg', 420, 438 ]
+162 silly gunzTarPerm extractEntry demos/input/demoIcons/style.scss
+163 silly gunzTarPerm modified mode [ 'demos/input/demoIcons/style.scss', 420, 438 ]
+164 silly gunzTarPerm extractEntry demos/list/demoListControls/img/100-0.jpeg
+165 silly gunzTarPerm modified mode [ 'demos/list/demoListControls/img/100-0.jpeg', 420, 438 ]
+166 silly gunzTarPerm extractEntry demos/list/demoListControls/img/100-1.jpeg
+167 silly gunzTarPerm modified mode [ 'demos/list/demoListControls/img/100-1.jpeg', 420, 438 ]
+168 silly gunzTarPerm extractEntry demos/list/demoListControls/img/100-2.jpeg
+169 silly gunzTarPerm modified mode [ 'demos/list/demoListControls/img/100-2.jpeg', 420, 438 ]
+170 silly gunzTarPerm extractEntry demos/tabs/demoDynamicHeight/style.scss
+171 silly gunzTarPerm modified mode [ 'demos/tabs/demoDynamicHeight/style.scss', 420, 438 ]
+172 silly gunzTarPerm extractEntry demos/tabs/demoDynamicTabs/style.scss
+173 silly gunzTarPerm modified mode [ 'demos/tabs/demoDynamicTabs/style.scss', 420, 438 ]
+174 silly gunzTarPerm extractEntry demos/tabs/demoStaticTabs/style.scss
+175 silly gunzTarPerm modified mode [ 'demos/tabs/demoStaticTabs/style.scss', 420, 438 ]
+176 silly gunzTarPerm extractEntry demos/toolbar/demoBasicUsage/img/icons/favorite.svg
+177 silly gunzTarPerm modified mode [ 'demos/toolbar/demoBasicUsage/img/icons/favorite.svg',
+177 silly gunzTarPerm   493,
+177 silly gunzTarPerm   511 ]
+178 silly gunzTarPerm extractEntry demos/toolbar/demoBasicUsage/img/icons/menu.svg
+179 silly gunzTarPerm modified mode [ 'demos/toolbar/demoBasicUsage/img/icons/menu.svg', 493, 511 ]
+180 silly gunzTarPerm extractEntry demos/toolbar/demoBasicUsage/img/icons/more_vert.svg
+181 silly gunzTarPerm modified mode [ 'demos/toolbar/demoBasicUsage/img/icons/more_vert.svg',
+181 silly gunzTarPerm   493,
+181 silly gunzTarPerm   511 ]
+182 silly gunzTarPerm extractEntry angular-material.css
+183 silly gunzTarPerm modified mode [ 'angular-material.css', 420, 438 ]
+184 silly gunzTarPerm extractEntry layouts/angular-material.layout-attributes.css
+185 silly gunzTarPerm modified mode [ 'layouts/angular-material.layout-attributes.css', 420, 438 ]
+186 silly gunzTarPerm extractEntry layouts/angular-material.layout-attributes.min.css
+187 silly gunzTarPerm modified mode [ 'layouts/angular-material.layout-attributes.min.css',
+187 silly gunzTarPerm   420,
+187 silly gunzTarPerm   438 ]
+188 silly gunzTarPerm extractEntry layouts/angular-material.layout-attributes.scss
+189 silly gunzTarPerm modified mode [ 'layouts/angular-material.layout-attributes.scss', 420, 438 ]
+190 silly gunzTarPerm extractEntry layouts/angular-material.layouts.css
+191 silly gunzTarPerm modified mode [ 'layouts/angular-material.layouts.css', 420, 438 ]
+192 silly gunzTarPerm extractEntry layouts/angular-material.layouts.min.css
+193 silly gunzTarPerm modified mode [ 'layouts/angular-material.layouts.min.css', 420, 438 ]
+194 silly gunzTarPerm extractEntry layouts/angular-material.layouts.scss
+195 silly gunzTarPerm modified mode [ 'layouts/angular-material.layouts.scss', 420, 438 ]
+196 silly gunzTarPerm extractEntry modules/closure/menu/menu.js
+197 silly gunzTarPerm modified mode [ 'modules/closure/menu/menu.js', 420, 438 ]
+198 silly gunzTarPerm extractEntry modules/closure/menu/menu.min.js
+199 silly gunzTarPerm modified mode [ 'modules/closure/menu/menu.min.js', 420, 438 ]
+200 silly gunzTarPerm extractEntry modules/closure/menu/menu-default-theme.css
+201 silly gunzTarPerm modified mode [ 'modules/closure/menu/menu-default-theme.css', 420, 438 ]
+202 silly gunzTarPerm extractEntry modules/closure/menu/menu-default-theme.min.css
+203 silly gunzTarPerm modified mode [ 'modules/closure/menu/menu-default-theme.min.css', 420, 438 ]
+204 silly gunzTarPerm extractEntry modules/closure/menu/menu.css
+205 silly gunzTarPerm modified mode [ 'modules/closure/menu/menu.css', 420, 438 ]
+206 silly gunzTarPerm extractEntry modules/closure/menu/menu.min.css
+207 silly gunzTarPerm modified mode [ 'modules/closure/menu/menu.min.css', 420, 438 ]
+208 silly gunzTarPerm extractEntry modules/closure/autocomplete/autocomplete.js
+209 silly gunzTarPerm modified mode [ 'modules/closure/autocomplete/autocomplete.js', 420, 438 ]
+210 silly gunzTarPerm extractEntry modules/closure/autocomplete/autocomplete.min.js
+211 silly gunzTarPerm modified mode [ 'modules/closure/autocomplete/autocomplete.min.js', 420, 438 ]
+212 silly gunzTarPerm extractEntry modules/closure/autocomplete/autocomplete-default-theme.css
+213 silly gunzTarPerm modified mode [ 'modules/closure/autocomplete/autocomplete-default-theme.css',
+213 silly gunzTarPerm   420,
+213 silly gunzTarPerm   438 ]
+214 silly gunzTarPerm extractEntry modules/closure/autocomplete/autocomplete-default-theme.min.css
+215 silly gunzTarPerm modified mode [ 'modules/closure/autocomplete/autocomplete-default-theme.min.css',
+215 silly gunzTarPerm   420,
+215 silly gunzTarPerm   438 ]
+216 silly gunzTarPerm extractEntry modules/closure/autocomplete/autocomplete.css
+217 silly gunzTarPerm modified mode [ 'modules/closure/autocomplete/autocomplete.css', 420, 438 ]
+218 silly gunzTarPerm extractEntry modules/closure/autocomplete/autocomplete.min.css
+219 silly gunzTarPerm modified mode [ 'modules/closure/autocomplete/autocomplete.min.css', 420, 438 ]
+220 silly gunzTarPerm extractEntry modules/closure/bottomSheet/bottomSheet.js
+221 silly gunzTarPerm modified mode [ 'modules/closure/bottomSheet/bottomSheet.js', 420, 438 ]
+222 silly gunzTarPerm extractEntry modules/closure/bottomSheet/bottomSheet.min.js
+223 silly gunzTarPerm modified mode [ 'modules/closure/bottomSheet/bottomSheet.min.js', 420, 438 ]
+224 silly gunzTarPerm extractEntry modules/closure/bottomSheet/bottomSheet-default-theme.css
+225 silly gunzTarPerm modified mode [ 'modules/closure/bottomSheet/bottomSheet-default-theme.css',
+225 silly gunzTarPerm   420,
+225 silly gunzTarPerm   438 ]
+226 silly gunzTarPerm extractEntry modules/closure/bottomSheet/bottomSheet-default-theme.min.css
+227 silly gunzTarPerm modified mode [ 'modules/closure/bottomSheet/bottomSheet-default-theme.min.css',
+227 silly gunzTarPerm   420,
+227 silly gunzTarPerm   438 ]
+228 silly gunzTarPerm extractEntry modules/closure/bottomSheet/bottomSheet.css
+229 silly gunzTarPerm modified mode [ 'modules/closure/bottomSheet/bottomSheet.css', 420, 438 ]
+230 silly gunzTarPerm extractEntry modules/closure/bottomSheet/bottomSheet.min.css
+231 silly gunzTarPerm modified mode [ 'modules/closure/bottomSheet/bottomSheet.min.css', 420, 438 ]
+232 silly gunzTarPerm extractEntry modules/closure/button/button.js
+233 silly gunzTarPerm modified mode [ 'modules/closure/button/button.js', 420, 438 ]
+234 silly gunzTarPerm extractEntry modules/closure/button/button.min.js
+235 silly gunzTarPerm modified mode [ 'modules/closure/button/button.min.js', 420, 438 ]
+236 silly gunzTarPerm extractEntry modules/closure/button/button-default-theme.css
+237 silly gunzTarPerm modified mode [ 'modules/closure/button/button-default-theme.css', 420, 438 ]
+238 silly gunzTarPerm extractEntry modules/closure/button/button-default-theme.min.css
+239 silly gunzTarPerm modified mode [ 'modules/closure/button/button-default-theme.min.css',
+239 silly gunzTarPerm   420,
+239 silly gunzTarPerm   438 ]
+240 silly gunzTarPerm extractEntry modules/closure/button/button.css
+241 silly gunzTarPerm modified mode [ 'modules/closure/button/button.css', 420, 438 ]
+242 silly gunzTarPerm extractEntry modules/closure/button/button.min.css
+243 silly gunzTarPerm modified mode [ 'modules/closure/button/button.min.css', 420, 438 ]
+244 silly gunzTarPerm extractEntry modules/closure/card/card.js
+245 silly gunzTarPerm modified mode [ 'modules/closure/card/card.js', 420, 438 ]
+246 silly gunzTarPerm extractEntry modules/closure/card/card.min.js
+247 silly gunzTarPerm modified mode [ 'modules/closure/card/card.min.js', 420, 438 ]
+248 silly gunzTarPerm extractEntry modules/closure/card/card-default-theme.css
+249 silly gunzTarPerm modified mode [ 'modules/closure/card/card-default-theme.css', 420, 438 ]
+250 silly gunzTarPerm extractEntry modules/closure/card/card-default-theme.min.css
+251 silly gunzTarPerm modified mode [ 'modules/closure/card/card-default-theme.min.css', 420, 438 ]
+252 silly gunzTarPerm extractEntry modules/closure/card/card.css
+253 silly gunzTarPerm modified mode [ 'modules/closure/card/card.css', 420, 438 ]
+254 silly gunzTarPerm extractEntry modules/closure/card/card.min.css
+255 silly gunzTarPerm modified mode [ 'modules/closure/card/card.min.css', 420, 438 ]
+256 silly gunzTarPerm extractEntry modules/closure/checkbox/checkbox.js
+257 silly gunzTarPerm modified mode [ 'modules/closure/checkbox/checkbox.js', 420, 438 ]
+258 silly gunzTarPerm extractEntry modules/closure/checkbox/checkbox.min.js
+259 silly gunzTarPerm modified mode [ 'modules/closure/checkbox/checkbox.min.js', 420, 438 ]
+260 silly gunzTarPerm extractEntry modules/closure/checkbox/checkbox-default-theme.css
+261 silly gunzTarPerm modified mode [ 'modules/closure/checkbox/checkbox-default-theme.css',
+261 silly gunzTarPerm   420,
+261 silly gunzTarPerm   438 ]
+262 silly gunzTarPerm extractEntry modules/closure/checkbox/checkbox-default-theme.min.css
+263 silly gunzTarPerm modified mode [ 'modules/closure/checkbox/checkbox-default-theme.min.css',
+263 silly gunzTarPerm   420,
+263 silly gunzTarPerm   438 ]
+264 silly gunzTarPerm extractEntry modules/closure/checkbox/checkbox.css
+265 silly gunzTarPerm modified mode [ 'modules/closure/checkbox/checkbox.css', 420, 438 ]
+266 silly gunzTarPerm extractEntry modules/closure/checkbox/checkbox.min.css
+267 silly gunzTarPerm modified mode [ 'modules/closure/checkbox/checkbox.min.css', 420, 438 ]
+268 silly gunzTarPerm extractEntry modules/closure/chips/chips.js
+269 silly gunzTarPerm modified mode [ 'modules/closure/chips/chips.js', 420, 438 ]
+270 silly gunzTarPerm extractEntry modules/closure/chips/chips.min.js
+271 silly gunzTarPerm modified mode [ 'modules/closure/chips/chips.min.js', 420, 438 ]
+272 silly gunzTarPerm extractEntry modules/closure/chips/chips-default-theme.css
+273 silly gunzTarPerm modified mode [ 'modules/closure/chips/chips-default-theme.css', 420, 438 ]
+274 silly gunzTarPerm extractEntry modules/closure/chips/chips-default-theme.min.css
+275 silly gunzTarPerm modified mode [ 'modules/closure/chips/chips-default-theme.min.css', 420, 438 ]
+276 silly gunzTarPerm extractEntry modules/closure/chips/chips.css
+277 silly gunzTarPerm modified mode [ 'modules/closure/chips/chips.css', 420, 438 ]
+278 silly gunzTarPerm extractEntry modules/closure/chips/chips.min.css
+279 silly gunzTarPerm modified mode [ 'modules/closure/chips/chips.min.css', 420, 438 ]
+280 silly gunzTarPerm extractEntry modules/closure/content/content.js
+281 silly gunzTarPerm modified mode [ 'modules/closure/content/content.js', 420, 438 ]
+282 silly gunzTarPerm extractEntry modules/closure/content/content.min.js
+283 silly gunzTarPerm modified mode [ 'modules/closure/content/content.min.js', 420, 438 ]
+284 silly gunzTarPerm extractEntry modules/closure/content/content-default-theme.css
+285 silly gunzTarPerm modified mode [ 'modules/closure/content/content-default-theme.css', 420, 438 ]
+286 silly gunzTarPerm extractEntry modules/closure/content/content-default-theme.min.css
+287 silly gunzTarPerm modified mode [ 'modules/closure/content/content-default-theme.min.css',
+287 silly gunzTarPerm   420,
+287 silly gunzTarPerm   438 ]
+288 silly gunzTarPerm extractEntry modules/closure/content/content.css
+289 silly gunzTarPerm modified mode [ 'modules/closure/content/content.css', 420, 438 ]
+290 silly gunzTarPerm extractEntry modules/closure/content/content.min.css
+291 silly gunzTarPerm modified mode [ 'modules/closure/content/content.min.css', 420, 438 ]
+292 silly gunzTarPerm extractEntry modules/closure/core/core.js
+293 silly gunzTarPerm modified mode [ 'modules/closure/core/core.js', 420, 438 ]
+294 silly gunzTarPerm extractEntry modules/closure/core/core.min.js
+295 silly gunzTarPerm modified mode [ 'modules/closure/core/core.min.js', 420, 438 ]
+296 silly gunzTarPerm extractEntry modules/closure/core/default-theme.js
+297 silly gunzTarPerm modified mode [ 'modules/closure/core/default-theme.js', 420, 438 ]
+298 silly gunzTarPerm extractEntry modules/closure/core/core.css
+299 silly gunzTarPerm modified mode [ 'modules/closure/core/core.css', 420, 438 ]
+300 silly gunzTarPerm extractEntry modules/closure/core/core.min.css
+301 silly gunzTarPerm modified mode [ 'modules/closure/core/core.min.css', 420, 438 ]
+302 silly gunzTarPerm extractEntry modules/closure/datepicker/datepicker.js
+303 silly gunzTarPerm modified mode [ 'modules/closure/datepicker/datepicker.js', 420, 438 ]
+304 silly gunzTarPerm extractEntry modules/closure/datepicker/datepicker.min.js
+305 silly gunzTarPerm modified mode [ 'modules/closure/datepicker/datepicker.min.js', 420, 438 ]
+306 silly gunzTarPerm extractEntry modules/closure/datepicker/datepicker-default-theme.css
+307 silly gunzTarPerm modified mode [ 'modules/closure/datepicker/datepicker-default-theme.css',
+307 silly gunzTarPerm   420,
+307 silly gunzTarPerm   438 ]
+308 silly gunzTarPerm extractEntry modules/closure/datepicker/datepicker-default-theme.min.css
+309 silly gunzTarPerm modified mode [ 'modules/closure/datepicker/datepicker-default-theme.min.css',
+309 silly gunzTarPerm   420,
+309 silly gunzTarPerm   438 ]
+310 silly gunzTarPerm extractEntry modules/closure/datepicker/datepicker.css
+311 silly gunzTarPerm modified mode [ 'modules/closure/datepicker/datepicker.css', 420, 438 ]
+312 silly gunzTarPerm extractEntry modules/closure/datepicker/datepicker.min.css
+313 silly gunzTarPerm modified mode [ 'modules/closure/datepicker/datepicker.min.css', 420, 438 ]
+314 silly gunzTarPerm extractEntry modules/closure/dialog/dialog.js
+315 silly gunzTarPerm modified mode [ 'modules/closure/dialog/dialog.js', 420, 438 ]
+316 silly gunzTarPerm extractEntry modules/closure/dialog/dialog.min.js
+317 silly gunzTarPerm modified mode [ 'modules/closure/dialog/dialog.min.js', 420, 438 ]
+318 silly gunzTarPerm extractEntry modules/closure/dialog/dialog-default-theme.css
+319 silly gunzTarPerm modified mode [ 'modules/closure/dialog/dialog-default-theme.css', 420, 438 ]
+320 silly gunzTarPerm extractEntry modules/closure/dialog/dialog-default-theme.min.css
+321 silly gunzTarPerm modified mode [ 'modules/closure/dialog/dialog-default-theme.min.css',
+321 silly gunzTarPerm   420,
+321 silly gunzTarPerm   438 ]
+322 silly gunzTarPerm extractEntry modules/closure/dialog/dialog.css
+323 silly gunzTarPerm modified mode [ 'modules/closure/dialog/dialog.css', 420, 438 ]
+324 silly gunzTarPerm extractEntry modules/closure/dialog/dialog.min.css
+325 silly gunzTarPerm modified mode [ 'modules/closure/dialog/dialog.min.css', 420, 438 ]
+326 silly gunzTarPerm extractEntry modules/closure/divider/divider.js
+327 silly gunzTarPerm modified mode [ 'modules/closure/divider/divider.js', 420, 438 ]
+328 silly gunzTarPerm extractEntry modules/closure/divider/divider.min.js
+329 silly gunzTarPerm modified mode [ 'modules/closure/divider/divider.min.js', 420, 438 ]
+330 silly gunzTarPerm extractEntry modules/closure/divider/divider-default-theme.css
+331 silly gunzTarPerm modified mode [ 'modules/closure/divider/divider-default-theme.css', 420, 438 ]
+332 silly gunzTarPerm extractEntry modules/closure/divider/divider-default-theme.min.css
+333 silly gunzTarPerm modified mode [ 'modules/closure/divider/divider-default-theme.min.css',
+333 silly gunzTarPerm   420,
+333 silly gunzTarPerm   438 ]
+334 silly gunzTarPerm extractEntry modules/closure/divider/divider.css
+335 silly gunzTarPerm modified mode [ 'modules/closure/divider/divider.css', 420, 438 ]
+336 silly gunzTarPerm extractEntry modules/closure/divider/divider.min.css
+337 silly gunzTarPerm modified mode [ 'modules/closure/divider/divider.min.css', 420, 438 ]
+338 silly gunzTarPerm extractEntry modules/closure/fabActions/fabActions.js
+339 silly gunzTarPerm modified mode [ 'modules/closure/fabActions/fabActions.js', 420, 438 ]
+340 silly gunzTarPerm extractEntry modules/closure/fabActions/fabActions.min.js
+341 silly gunzTarPerm modified mode [ 'modules/closure/fabActions/fabActions.min.js', 420, 438 ]
+342 silly gunzTarPerm extractEntry modules/closure/fabSpeedDial/fabSpeedDial.js
+343 silly gunzTarPerm modified mode [ 'modules/closure/fabSpeedDial/fabSpeedDial.js', 420, 438 ]
+344 silly gunzTarPerm extractEntry modules/closure/fabSpeedDial/fabSpeedDial.min.js
+345 silly gunzTarPerm modified mode [ 'modules/closure/fabSpeedDial/fabSpeedDial.min.js', 420, 438 ]
+346 silly gunzTarPerm extractEntry modules/closure/fabSpeedDial/fabSpeedDial.css
+347 silly gunzTarPerm modified mode [ 'modules/closure/fabSpeedDial/fabSpeedDial.css', 420, 438 ]
+348 silly gunzTarPerm extractEntry modules/closure/fabSpeedDial/fabSpeedDial.min.css
+349 silly gunzTarPerm modified mode [ 'modules/closure/fabSpeedDial/fabSpeedDial.min.css', 420, 438 ]
+350 silly gunzTarPerm extractEntry modules/closure/fabToolbar/fabToolbar.js
+351 silly gunzTarPerm modified mode [ 'modules/closure/fabToolbar/fabToolbar.js', 420, 438 ]
+352 silly gunzTarPerm extractEntry modules/closure/fabToolbar/fabToolbar.min.js
+353 silly gunzTarPerm modified mode [ 'modules/closure/fabToolbar/fabToolbar.min.js', 420, 438 ]
+354 silly gunzTarPerm extractEntry modules/closure/fabToolbar/fabToolbar.css
+355 silly gunzTarPerm modified mode [ 'modules/closure/fabToolbar/fabToolbar.css', 420, 438 ]
+356 silly gunzTarPerm extractEntry modules/closure/fabToolbar/fabToolbar.min.css
+357 silly gunzTarPerm modified mode [ 'modules/closure/fabToolbar/fabToolbar.min.css', 420, 438 ]
+358 silly gunzTarPerm extractEntry modules/closure/fabTrigger/fabTrigger.js
+359 silly gunzTarPerm modified mode [ 'modules/closure/fabTrigger/fabTrigger.js', 420, 438 ]
+360 silly gunzTarPerm extractEntry modules/closure/fabTrigger/fabTrigger.min.js
+361 silly gunzTarPerm modified mode [ 'modules/closure/fabTrigger/fabTrigger.min.js', 420, 438 ]
+362 silly gunzTarPerm extractEntry modules/closure/gridList/gridList.js
+363 silly gunzTarPerm modified mode [ 'modules/closure/gridList/gridList.js', 420, 438 ]
+364 silly gunzTarPerm extractEntry modules/closure/gridList/gridList.min.js
+365 silly gunzTarPerm modified mode [ 'modules/closure/gridList/gridList.min.js', 420, 438 ]
+366 silly gunzTarPerm extractEntry modules/closure/gridList/gridList-default-theme.css
+367 silly gunzTarPerm modified mode [ 'modules/closure/gridList/gridList-default-theme.css',
+367 silly gunzTarPerm   420,
+367 silly gunzTarPerm   438 ]
+368 silly gunzTarPerm extractEntry modules/closure/gridList/gridList.css
+369 silly gunzTarPerm modified mode [ 'modules/closure/gridList/gridList.css', 420, 438 ]
+370 silly gunzTarPerm extractEntry modules/closure/gridList/gridList.min.css
+371 silly gunzTarPerm modified mode [ 'modules/closure/gridList/gridList.min.css', 420, 438 ]
+372 silly gunzTarPerm extractEntry modules/closure/icon/icon.js
+373 silly gunzTarPerm modified mode [ 'modules/closure/icon/icon.js', 420, 438 ]
+374 silly gunzTarPerm extractEntry modules/closure/icon/icon.min.js
+375 silly gunzTarPerm modified mode [ 'modules/closure/icon/icon.min.js', 420, 438 ]
+376 silly gunzTarPerm extractEntry modules/closure/icon/icon-default-theme.css
+377 silly gunzTarPerm modified mode [ 'modules/closure/icon/icon-default-theme.css', 420, 438 ]
+378 silly gunzTarPerm extractEntry modules/closure/icon/icon-default-theme.min.css
+379 silly gunzTarPerm modified mode [ 'modules/closure/icon/icon-default-theme.min.css', 420, 438 ]
+380 silly gunzTarPerm extractEntry modules/closure/icon/icon.css
+381 silly gunzTarPerm modified mode [ 'modules/closure/icon/icon.css', 420, 438 ]
+382 silly gunzTarPerm extractEntry modules/closure/icon/icon.min.css
+383 silly gunzTarPerm modified mode [ 'modules/closure/icon/icon.min.css', 420, 438 ]
+384 silly gunzTarPerm extractEntry modules/closure/input/input.js
+385 silly gunzTarPerm modified mode [ 'modules/closure/input/input.js', 420, 438 ]
+386 silly gunzTarPerm extractEntry modules/closure/input/input.min.js
+387 silly gunzTarPerm modified mode [ 'modules/closure/input/input.min.js', 420, 438 ]
+388 silly gunzTarPerm extractEntry modules/closure/input/input-default-theme.css
+389 silly gunzTarPerm modified mode [ 'modules/closure/input/input-default-theme.css', 420, 438 ]
+390 silly gunzTarPerm extractEntry modules/closure/input/input-default-theme.min.css
+391 silly gunzTarPerm modified mode [ 'modules/closure/input/input-default-theme.min.css', 420, 438 ]
+392 silly gunzTarPerm extractEntry modules/closure/input/input.css
+393 silly gunzTarPerm modified mode [ 'modules/closure/input/input.css', 420, 438 ]
+394 silly gunzTarPerm extractEntry modules/closure/input/input.min.css
+395 silly gunzTarPerm modified mode [ 'modules/closure/input/input.min.css', 420, 438 ]
+396 silly gunzTarPerm extractEntry modules/closure/list/list.js
+397 silly gunzTarPerm modified mode [ 'modules/closure/list/list.js', 420, 438 ]
+398 silly gunzTarPerm extractEntry modules/closure/list/list.min.js
+399 silly gunzTarPerm modified mode [ 'modules/closure/list/list.min.js', 420, 438 ]
+400 silly gunzTarPerm extractEntry modules/closure/list/list-default-theme.css
+401 silly gunzTarPerm modified mode [ 'modules/closure/list/list-default-theme.css', 420, 438 ]
+402 silly gunzTarPerm extractEntry modules/closure/list/list-default-theme.min.css
+403 silly gunzTarPerm modified mode [ 'modules/closure/list/list-default-theme.min.css', 420, 438 ]
+404 silly gunzTarPerm extractEntry modules/closure/list/list.css
+405 silly gunzTarPerm modified mode [ 'modules/closure/list/list.css', 420, 438 ]
+406 silly gunzTarPerm extractEntry modules/closure/list/list.min.css
+407 silly gunzTarPerm modified mode [ 'modules/closure/list/list.min.css', 420, 438 ]
+408 silly gunzTarPerm extractEntry modules/closure/backdrop/backdrop.js
+409 silly gunzTarPerm modified mode [ 'modules/closure/backdrop/backdrop.js', 420, 438 ]
+410 silly gunzTarPerm extractEntry modules/closure/backdrop/backdrop.min.js
+411 silly gunzTarPerm modified mode [ 'modules/closure/backdrop/backdrop.min.js', 420, 438 ]
+412 silly gunzTarPerm extractEntry modules/closure/backdrop/backdrop-default-theme.css
+413 silly gunzTarPerm modified mode [ 'modules/closure/backdrop/backdrop-default-theme.css',
+413 silly gunzTarPerm   420,
+413 silly gunzTarPerm   438 ]
+414 silly gunzTarPerm extractEntry modules/closure/backdrop/backdrop-default-theme.min.css
+415 silly gunzTarPerm modified mode [ 'modules/closure/backdrop/backdrop-default-theme.min.css',
+415 silly gunzTarPerm   420,
+415 silly gunzTarPerm   438 ]
+416 silly gunzTarPerm extractEntry modules/closure/backdrop/backdrop.css
+417 silly gunzTarPerm modified mode [ 'modules/closure/backdrop/backdrop.css', 420, 438 ]
+418 silly gunzTarPerm extractEntry modules/closure/backdrop/backdrop.min.css
+419 silly gunzTarPerm modified mode [ 'modules/closure/backdrop/backdrop.min.css', 420, 438 ]
+420 silly gunzTarPerm extractEntry modules/closure/menuBar/menuBar.js
+421 silly gunzTarPerm modified mode [ 'modules/closure/menuBar/menuBar.js', 420, 438 ]
+422 silly gunzTarPerm extractEntry modules/closure/menuBar/menuBar.min.js
+423 silly gunzTarPerm modified mode [ 'modules/closure/menuBar/menuBar.min.js', 420, 438 ]
+424 silly gunzTarPerm extractEntry modules/closure/menuBar/menuBar-default-theme.css
+425 silly gunzTarPerm modified mode [ 'modules/closure/menuBar/menuBar-default-theme.css', 420, 438 ]
+426 silly gunzTarPerm extractEntry modules/closure/menuBar/menuBar-default-theme.min.css
+427 silly gunzTarPerm modified mode [ 'modules/closure/menuBar/menuBar-default-theme.min.css',
+427 silly gunzTarPerm   420,
+427 silly gunzTarPerm   438 ]
+428 silly gunzTarPerm extractEntry modules/closure/menuBar/menuBar.css
+429 silly gunzTarPerm modified mode [ 'modules/closure/menuBar/menuBar.css', 420, 438 ]
+430 silly gunzTarPerm extractEntry modules/closure/menuBar/menuBar.min.css
+431 silly gunzTarPerm modified mode [ 'modules/closure/menuBar/menuBar.min.css', 420, 438 ]
+432 silly gunzTarPerm extractEntry modules/closure/progressCircular/progressCircular.js
+433 silly gunzTarPerm modified mode [ 'modules/closure/progressCircular/progressCircular.js',
+433 silly gunzTarPerm   420,
+433 silly gunzTarPerm   438 ]
+434 silly gunzTarPerm extractEntry modules/closure/progressCircular/progressCircular.min.js
+435 silly gunzTarPerm modified mode [ 'modules/closure/progressCircular/progressCircular.min.js',
+435 silly gunzTarPerm   420,
+435 silly gunzTarPerm   438 ]
+436 silly gunzTarPerm extractEntry modules/closure/progressCircular/progressCircular-default-theme.css
+437 silly gunzTarPerm modified mode [ 'modules/closure/progressCircular/progressCircular-default-theme.css',
+437 silly gunzTarPerm   420,
+437 silly gunzTarPerm   438 ]
+438 silly gunzTarPerm extractEntry modules/closure/progressCircular/progressCircular-default-theme.min.css
+439 silly gunzTarPerm modified mode [ 'modules/closure/progressCircular/progressCircular-default-theme.min.css',
+439 silly gunzTarPerm   420,
+439 silly gunzTarPerm   438 ]
+440 silly gunzTarPerm extractEntry modules/closure/progressCircular/progressCircular.css
+441 silly gunzTarPerm modified mode [ 'modules/closure/progressCircular/progressCircular.css',
+441 silly gunzTarPerm   420,
+441 silly gunzTarPerm   438 ]
+442 silly gunzTarPerm extractEntry modules/closure/progressCircular/progressCircular.min.css
+443 silly gunzTarPerm modified mode [ 'modules/closure/progressCircular/progressCircular.min.css',
+443 silly gunzTarPerm   420,
+443 silly gunzTarPerm   438 ]
+444 silly gunzTarPerm extractEntry modules/closure/progressLinear/progressLinear.js
+445 silly gunzTarPerm modified mode [ 'modules/closure/progressLinear/progressLinear.js', 420, 438 ]
+446 silly gunzTarPerm extractEntry modules/closure/progressLinear/progressLinear.min.js
+447 silly gunzTarPerm modified mode [ 'modules/closure/progressLinear/progressLinear.min.js',
+447 silly gunzTarPerm   420,
+447 silly gunzTarPerm   438 ]
+448 silly gunzTarPerm extractEntry modules/closure/progressLinear/progressLinear-default-theme.css
+449 silly gunzTarPerm modified mode [ 'modules/closure/progressLinear/progressLinear-default-theme.css',
+449 silly gunzTarPerm   420,
+449 silly gunzTarPerm   438 ]
+450 silly gunzTarPerm extractEntry modules/closure/progressLinear/progressLinear-default-theme.min.css
+451 silly gunzTarPerm modified mode [ 'modules/closure/progressLinear/progressLinear-default-theme.min.css',
+451 silly gunzTarPerm   420,
+451 silly gunzTarPerm   438 ]
+452 silly gunzTarPerm extractEntry modules/closure/progressLinear/progressLinear.css
+453 silly gunzTarPerm modified mode [ 'modules/closure/progressLinear/progressLinear.css', 420, 438 ]
+454 silly gunzTarPerm extractEntry modules/closure/progressLinear/progressLinear.min.css
+455 silly gunzTarPerm modified mode [ 'modules/closure/progressLinear/progressLinear.min.css',
+455 silly gunzTarPerm   420,
+455 silly gunzTarPerm   438 ]
+456 silly gunzTarPerm extractEntry modules/closure/radioButton/radioButton.js
+457 silly gunzTarPerm modified mode [ 'modules/closure/radioButton/radioButton.js', 420, 438 ]
+458 silly gunzTarPerm extractEntry modules/closure/radioButton/radioButton.min.js
+459 silly gunzTarPerm modified mode [ 'modules/closure/radioButton/radioButton.min.js', 420, 438 ]
+460 silly gunzTarPerm extractEntry modules/closure/radioButton/radioButton-default-theme.css
+461 silly gunzTarPerm modified mode [ 'modules/closure/radioButton/radioButton-default-theme.css',
+461 silly gunzTarPerm   420,
+461 silly gunzTarPerm   438 ]
+462 silly gunzTarPerm extractEntry modules/closure/radioButton/radioButton-default-theme.min.css
+463 silly gunzTarPerm modified mode [ 'modules/closure/radioButton/radioButton-default-theme.min.css',
+463 silly gunzTarPerm   420,
+463 silly gunzTarPerm   438 ]
+464 silly gunzTarPerm extractEntry modules/closure/radioButton/radioButton.css
+465 silly gunzTarPerm modified mode [ 'modules/closure/radioButton/radioButton.css', 420, 438 ]
+466 silly gunzTarPerm extractEntry modules/closure/radioButton/radioButton.min.css
+467 silly gunzTarPerm modified mode [ 'modules/closure/radioButton/radioButton.min.css', 420, 438 ]
+468 silly gunzTarPerm extractEntry modules/closure/select/select.js
+469 silly gunzTarPerm modified mode [ 'modules/closure/select/select.js', 493, 511 ]
+470 silly gunzTarPerm extractEntry modules/closure/select/select.min.js
+471 silly gunzTarPerm modified mode [ 'modules/closure/select/select.min.js', 493, 511 ]
+472 silly gunzTarPerm extractEntry modules/closure/select/select-default-theme.css
+473 silly gunzTarPerm modified mode [ 'modules/closure/select/select-default-theme.css', 420, 438 ]
+474 silly gunzTarPerm extractEntry modules/closure/select/select-default-theme.min.css
+475 silly gunzTarPerm modified mode [ 'modules/closure/select/select-default-theme.min.css',
+475 silly gunzTarPerm   420,
+475 silly gunzTarPerm   438 ]
+476 silly gunzTarPerm extractEntry modules/closure/select/select.css
+477 silly gunzTarPerm modified mode [ 'modules/closure/select/select.css', 493, 511 ]
+478 silly gunzTarPerm extractEntry modules/closure/select/select.min.css
+479 silly gunzTarPerm modified mode [ 'modules/closure/select/select.min.css', 493, 511 ]
+480 silly gunzTarPerm extractEntry modules/closure/showHide/showHide.js
+481 silly gunzTarPerm modified mode [ 'modules/closure/showHide/showHide.js', 420, 438 ]
+482 silly gunzTarPerm extractEntry modules/closure/showHide/showHide.min.js
+483 silly gunzTarPerm modified mode [ 'modules/closure/showHide/showHide.min.js', 420, 438 ]
+484 silly gunzTarPerm extractEntry modules/closure/sidenav/sidenav.js
+485 silly gunzTarPerm modified mode [ 'modules/closure/sidenav/sidenav.js', 420, 438 ]
+486 silly gunzTarPerm extractEntry modules/closure/sidenav/sidenav.min.js
+487 silly gunzTarPerm modified mode [ 'modules/closure/sidenav/sidenav.min.js', 420, 438 ]
+488 silly gunzTarPerm extractEntry modules/closure/sidenav/sidenav-default-theme.css
+489 silly gunzTarPerm modified mode [ 'modules/closure/sidenav/sidenav-default-theme.css', 420, 438 ]
+490 silly gunzTarPerm extractEntry modules/closure/sidenav/sidenav-default-theme.min.css
+491 silly gunzTarPerm modified mode [ 'modules/closure/sidenav/sidenav-default-theme.min.css',
+491 silly gunzTarPerm   420,
+491 silly gunzTarPerm   438 ]
+492 silly gunzTarPerm extractEntry modules/closure/sidenav/sidenav.css
+493 silly gunzTarPerm modified mode [ 'modules/closure/sidenav/sidenav.css', 420, 438 ]
+494 silly gunzTarPerm extractEntry modules/closure/sidenav/sidenav.min.css
+495 silly gunzTarPerm modified mode [ 'modules/closure/sidenav/sidenav.min.css', 420, 438 ]
+496 silly gunzTarPerm extractEntry modules/closure/slider/slider.js
+497 silly gunzTarPerm modified mode [ 'modules/closure/slider/slider.js', 420, 438 ]
+498 silly gunzTarPerm extractEntry modules/closure/slider/slider.min.js
+499 silly gunzTarPerm modified mode [ 'modules/closure/slider/slider.min.js', 420, 438 ]
+500 silly gunzTarPerm extractEntry modules/closure/slider/slider-default-theme.css
+501 silly gunzTarPerm modified mode [ 'modules/closure/slider/slider-default-theme.css', 420, 438 ]
+502 silly gunzTarPerm extractEntry modules/closure/slider/slider-default-theme.min.css
+503 silly gunzTarPerm modified mode [ 'modules/closure/slider/slider-default-theme.min.css',
+503 silly gunzTarPerm   420,
+503 silly gunzTarPerm   438 ]
+504 silly gunzTarPerm extractEntry modules/closure/slider/slider.css
+505 silly gunzTarPerm modified mode [ 'modules/closure/slider/slider.css', 420, 438 ]
+506 silly gunzTarPerm extractEntry modules/closure/slider/slider.min.css
+507 silly gunzTarPerm modified mode [ 'modules/closure/slider/slider.min.css', 420, 438 ]
+508 silly gunzTarPerm extractEntry modules/closure/sticky/sticky.js
+509 silly gunzTarPerm modified mode [ 'modules/closure/sticky/sticky.js', 420, 438 ]
+510 silly gunzTarPerm extractEntry modules/closure/sticky/sticky.min.js
+511 silly gunzTarPerm modified mode [ 'modules/closure/sticky/sticky.min.js', 420, 438 ]
+512 silly gunzTarPerm extractEntry modules/closure/sticky/sticky.css
+513 silly gunzTarPerm modified mode [ 'modules/closure/sticky/sticky.css', 420, 438 ]
+514 silly gunzTarPerm extractEntry modules/closure/sticky/sticky.min.css
+515 silly gunzTarPerm modified mode [ 'modules/closure/sticky/sticky.min.css', 420, 438 ]
+516 silly gunzTarPerm extractEntry modules/closure/subheader/subheader.js
+517 silly gunzTarPerm modified mode [ 'modules/closure/subheader/subheader.js', 420, 438 ]
+518 silly gunzTarPerm extractEntry modules/closure/subheader/subheader.min.js
+519 silly gunzTarPerm modified mode [ 'modules/closure/subheader/subheader.min.js', 420, 438 ]
+520 silly gunzTarPerm extractEntry modules/closure/subheader/subheader-default-theme.css
+521 silly gunzTarPerm modified mode [ 'modules/closure/subheader/subheader-default-theme.css',
+521 silly gunzTarPerm   420,
+521 silly gunzTarPerm   438 ]
+522 silly gunzTarPerm extractEntry modules/closure/subheader/subheader-default-theme.min.css
+523 silly gunzTarPerm modified mode [ 'modules/closure/subheader/subheader-default-theme.min.css',
+523 silly gunzTarPerm   420,
+523 silly gunzTarPerm   438 ]
+524 silly gunzTarPerm extractEntry modules/closure/subheader/subheader.css
+525 silly gunzTarPerm modified mode [ 'modules/closure/subheader/subheader.css', 420, 438 ]
+526 silly gunzTarPerm extractEntry modules/closure/subheader/subheader.min.css
+527 silly gunzTarPerm modified mode [ 'modules/closure/subheader/subheader.min.css', 420, 438 ]
+528 silly gunzTarPerm extractEntry modules/closure/swipe/swipe.js
+529 silly gunzTarPerm modified mode [ 'modules/closure/swipe/swipe.js', 420, 438 ]
+530 silly gunzTarPerm extractEntry modules/closure/swipe/swipe.min.js
+531 silly gunzTarPerm modified mode [ 'modules/closure/swipe/swipe.min.js', 420, 438 ]
+532 silly gunzTarPerm extractEntry modules/closure/switch/switch.js
+533 silly gunzTarPerm modified mode [ 'modules/closure/switch/switch.js', 420, 438 ]
+534 silly gunzTarPerm extractEntry modules/closure/switch/switch.min.js
+535 silly gunzTarPerm modified mode [ 'modules/closure/switch/switch.min.js', 420, 438 ]
+536 silly gunzTarPerm extractEntry modules/closure/switch/switch-default-theme.css
+537 silly gunzTarPerm modified mode [ 'modules/closure/switch/switch-default-theme.css', 420, 438 ]
+538 silly gunzTarPerm extractEntry modules/closure/switch/switch-default-theme.min.css
+539 silly gunzTarPerm modified mode [ 'modules/closure/switch/switch-default-theme.min.css',
+539 silly gunzTarPerm   420,
+539 silly gunzTarPerm   438 ]
+540 silly gunzTarPerm extractEntry modules/closure/switch/switch.css
+541 silly gunzTarPerm modified mode [ 'modules/closure/switch/switch.css', 420, 438 ]
+542 silly gunzTarPerm extractEntry modules/closure/switch/switch.min.css
+543 silly gunzTarPerm modified mode [ 'modules/closure/switch/switch.min.css', 420, 438 ]
+544 silly gunzTarPerm extractEntry modules/closure/tabs/tabs.js
+545 silly gunzTarPerm modified mode [ 'modules/closure/tabs/tabs.js', 420, 438 ]
+546 silly gunzTarPerm extractEntry modules/closure/tabs/tabs.min.js
+547 silly gunzTarPerm modified mode [ 'modules/closure/tabs/tabs.min.js', 420, 438 ]
+548 silly gunzTarPerm extractEntry modules/closure/tabs/tabs-arrow.svg
+549 silly gunzTarPerm modified mode [ 'modules/closure/tabs/tabs-arrow.svg', 420, 438 ]
+550 silly gunzTarPerm extractEntry modules/closure/tabs/tabs-default-theme.css
+551 silly gunzTarPerm modified mode [ 'modules/closure/tabs/tabs-default-theme.css', 420, 438 ]
+552 silly gunzTarPerm extractEntry modules/closure/tabs/tabs-default-theme.min.css
+553 silly gunzTarPerm modified mode [ 'modules/closure/tabs/tabs-default-theme.min.css', 420, 438 ]
+554 silly gunzTarPerm extractEntry modules/closure/tabs/tabs.css
+555 silly gunzTarPerm modified mode [ 'modules/closure/tabs/tabs.css', 420, 438 ]
+556 silly gunzTarPerm extractEntry modules/closure/tabs/tabs.min.css
+557 silly gunzTarPerm modified mode [ 'modules/closure/tabs/tabs.min.css', 420, 438 ]
+558 silly gunzTarPerm extractEntry modules/closure/textField/textField.js
+559 silly gunzTarPerm modified mode [ 'modules/closure/textField/textField.js', 420, 438 ]
+560 silly gunzTarPerm extractEntry modules/closure/textField/textField-default-theme.css
+561 silly gunzTarPerm modified mode [ 'modules/closure/textField/textField-default-theme.css',
+561 silly gunzTarPerm   420,
+561 silly gunzTarPerm   438 ]
+562 silly gunzTarPerm extractEntry modules/closure/textField/textField.css
+563 silly gunzTarPerm modified mode [ 'modules/closure/textField/textField.css', 420, 438 ]
+564 silly gunzTarPerm extractEntry modules/closure/toast/toast.js
+565 silly gunzTarPerm modified mode [ 'modules/closure/toast/toast.js', 420, 438 ]
+566 silly gunzTarPerm extractEntry modules/closure/toast/toast.min.js
+567 silly gunzTarPerm modified mode [ 'modules/closure/toast/toast.min.js', 420, 438 ]
+568 silly gunzTarPerm extractEntry modules/closure/toast/toast-default-theme.css
+569 silly gunzTarPerm modified mode [ 'modules/closure/toast/toast-default-theme.css', 420, 438 ]
+570 silly gunzTarPerm extractEntry modules/closure/toast/toast-default-theme.min.css
+571 silly gunzTarPerm modified mode [ 'modules/closure/toast/toast-default-theme.min.css', 420, 438 ]
+572 silly gunzTarPerm extractEntry modules/closure/toast/toast.css
+573 silly gunzTarPerm modified mode [ 'modules/closure/toast/toast.css', 420, 438 ]
+574 silly gunzTarPerm extractEntry modules/closure/toast/toast.min.css
+575 silly gunzTarPerm modified mode [ 'modules/closure/toast/toast.min.css', 420, 438 ]
+576 silly gunzTarPerm extractEntry modules/closure/toolbar/toolbar.js
+577 silly gunzTarPerm modified mode [ 'modules/closure/toolbar/toolbar.js', 420, 438 ]
+578 silly gunzTarPerm extractEntry modules/closure/toolbar/toolbar.min.js
+579 silly gunzTarPerm modified mode [ 'modules/closure/toolbar/toolbar.min.js', 420, 438 ]
+580 silly gunzTarPerm extractEntry modules/closure/toolbar/toolbar-default-theme.css
+581 silly gunzTarPerm modified mode [ 'modules/closure/toolbar/toolbar-default-theme.css', 420, 438 ]
+582 silly gunzTarPerm extractEntry modules/closure/toolbar/toolbar-default-theme.min.css
+583 silly gunzTarPerm modified mode [ 'modules/closure/toolbar/toolbar-default-theme.min.css',
+583 silly gunzTarPerm   420,
+583 silly gunzTarPerm   438 ]
+584 silly gunzTarPerm extractEntry modules/closure/toolbar/toolbar.css
+585 silly gunzTarPerm modified mode [ 'modules/closure/toolbar/toolbar.css', 420, 438 ]
+586 silly gunzTarPerm extractEntry modules/closure/toolbar/toolbar.min.css
+587 silly gunzTarPerm modified mode [ 'modules/closure/toolbar/toolbar.min.css', 420, 438 ]
+588 silly gunzTarPerm extractEntry modules/closure/tooltip/tooltip.js
+589 silly gunzTarPerm modified mode [ 'modules/closure/tooltip/tooltip.js', 420, 438 ]
+590 silly gunzTarPerm extractEntry modules/closure/tooltip/tooltip.min.js
+591 silly gunzTarPerm modified mode [ 'modules/closure/tooltip/tooltip.min.js', 420, 438 ]
+592 silly gunzTarPerm extractEntry modules/closure/tooltip/tooltip-default-theme.css
+593 silly gunzTarPerm modified mode [ 'modules/closure/tooltip/tooltip-default-theme.css', 420, 438 ]
+594 silly gunzTarPerm extractEntry modules/closure/tooltip/tooltip-default-theme.min.css
+595 silly gunzTarPerm modified mode [ 'modules/closure/tooltip/tooltip-default-theme.min.css',
+595 silly gunzTarPerm   420,
+595 silly gunzTarPerm   438 ]
+596 silly gunzTarPerm extractEntry modules/closure/tooltip/tooltip.css
+597 silly gunzTarPerm modified mode [ 'modules/closure/tooltip/tooltip.css', 420, 438 ]
+598 silly gunzTarPerm extractEntry modules/closure/tooltip/tooltip.min.css
+599 silly gunzTarPerm modified mode [ 'modules/closure/tooltip/tooltip.min.css', 420, 438 ]
+600 silly gunzTarPerm extractEntry modules/closure/virtualRepeat/virtualRepeat.js
+601 silly gunzTarPerm modified mode [ 'modules/closure/virtualRepeat/virtualRepeat.js', 420, 438 ]
+602 silly gunzTarPerm extractEntry modules/closure/virtualRepeat/virtualRepeat.min.js
+603 silly gunzTarPerm modified mode [ 'modules/closure/virtualRepeat/virtualRepeat.min.js',
+603 silly gunzTarPerm   420,
+603 silly gunzTarPerm   438 ]
+604 silly gunzTarPerm extractEntry modules/closure/virtualRepeat/virtualRepeat.css
+605 silly gunzTarPerm modified mode [ 'modules/closure/virtualRepeat/virtualRepeat.css', 420, 438 ]
+606 silly gunzTarPerm extractEntry modules/closure/virtualRepeat/virtualRepeat.min.css
+607 silly gunzTarPerm modified mode [ 'modules/closure/virtualRepeat/virtualRepeat.min.css',
+607 silly gunzTarPerm   420,
+607 silly gunzTarPerm   438 ]
+608 silly gunzTarPerm extractEntry modules/closure/whiteframe/whiteframe.js
+609 silly gunzTarPerm modified mode [ 'modules/closure/whiteframe/whiteframe.js', 420, 438 ]
+610 silly gunzTarPerm extractEntry modules/closure/whiteframe/whiteframe.min.js
+611 silly gunzTarPerm modified mode [ 'modules/closure/whiteframe/whiteframe.min.js', 420, 438 ]
+612 silly gunzTarPerm extractEntry modules/closure/whiteframe/whiteframe.css
+613 silly gunzTarPerm modified mode [ 'modules/closure/whiteframe/whiteframe.css', 420, 438 ]
+614 silly gunzTarPerm extractEntry modules/closure/whiteframe/whiteframe.min.css
+615 silly gunzTarPerm modified mode [ 'modules/closure/whiteframe/whiteframe.min.css', 420, 438 ]
+616 silly gunzTarPerm extractEntry modules/css/angular-material-layout.css
+617 silly gunzTarPerm modified mode [ 'modules/css/angular-material-layout.css', 420, 438 ]
+618 silly gunzTarPerm extractEntry modules/css/angular-material-layouts.css
+619 silly gunzTarPerm modified mode [ 'modules/css/angular-material-layouts.css', 420, 438 ]
+620 silly gunzTarPerm extractEntry modules/js/menu/menu.js
+621 silly gunzTarPerm modified mode [ 'modules/js/menu/menu.js', 420, 438 ]
+622 silly gunzTarPerm extractEntry modules/js/menu/menu.min.js
+623 silly gunzTarPerm modified mode [ 'modules/js/menu/menu.min.js', 420, 438 ]
+624 silly gunzTarPerm extractEntry modules/js/menu/bower.json
+625 silly gunzTarPerm modified mode [ 'modules/js/menu/bower.json', 420, 438 ]
+626 silly gunzTarPerm extractEntry modules/js/menu/menu-default-theme.css
+627 silly gunzTarPerm modified mode [ 'modules/js/menu/menu-default-theme.css', 420, 438 ]
+628 silly gunzTarPerm extractEntry modules/js/menu/menu-default-theme.min.css
+629 silly gunzTarPerm modified mode [ 'modules/js/menu/menu-default-theme.min.css', 420, 438 ]
+630 silly gunzTarPerm extractEntry modules/js/menu/menu.css
+631 silly gunzTarPerm modified mode [ 'modules/js/menu/menu.css', 420, 438 ]
+632 silly gunzTarPerm extractEntry modules/js/menu/menu.min.css
+633 silly gunzTarPerm modified mode [ 'modules/js/menu/menu.min.css', 420, 438 ]
+634 silly gunzTarPerm extractEntry modules/js/autocomplete/autocomplete.js
+635 silly gunzTarPerm modified mode [ 'modules/js/autocomplete/autocomplete.js', 420, 438 ]
+636 silly gunzTarPerm extractEntry modules/js/autocomplete/autocomplete.min.js
+637 silly gunzTarPerm modified mode [ 'modules/js/autocomplete/autocomplete.min.js', 420, 438 ]
+638 silly gunzTarPerm extractEntry modules/js/autocomplete/autocomplete-default-theme.css
+639 silly gunzTarPerm modified mode [ 'modules/js/autocomplete/autocomplete-default-theme.css',
+639 silly gunzTarPerm   420,
+639 silly gunzTarPerm   438 ]
+640 silly gunzTarPerm extractEntry modules/js/autocomplete/autocomplete-default-theme.min.css
+641 silly gunzTarPerm modified mode [ 'modules/js/autocomplete/autocomplete-default-theme.min.css',
+641 silly gunzTarPerm   420,
+641 silly gunzTarPerm   438 ]
+642 silly gunzTarPerm extractEntry modules/js/autocomplete/autocomplete.css
+643 silly gunzTarPerm modified mode [ 'modules/js/autocomplete/autocomplete.css', 420, 438 ]
+644 silly gunzTarPerm extractEntry modules/js/autocomplete/autocomplete.min.css
+645 silly gunzTarPerm modified mode [ 'modules/js/autocomplete/autocomplete.min.css', 420, 438 ]
+646 silly gunzTarPerm extractEntry modules/js/autocomplete/bower.json
+647 silly gunzTarPerm modified mode [ 'modules/js/autocomplete/bower.json', 420, 438 ]
+648 silly gunzTarPerm extractEntry modules/js/bottomSheet/bottomSheet.js
+649 silly gunzTarPerm modified mode [ 'modules/js/bottomSheet/bottomSheet.js', 420, 438 ]
+650 silly gunzTarPerm extractEntry modules/js/bottomSheet/bottomSheet.min.js
+651 silly gunzTarPerm modified mode [ 'modules/js/bottomSheet/bottomSheet.min.js', 420, 438 ]
+652 silly gunzTarPerm extractEntry modules/js/bottomSheet/bottomSheet-default-theme.css
+653 silly gunzTarPerm modified mode [ 'modules/js/bottomSheet/bottomSheet-default-theme.css',
+653 silly gunzTarPerm   420,
+653 silly gunzTarPerm   438 ]
+654 silly gunzTarPerm extractEntry modules/js/bottomSheet/bottomSheet-default-theme.min.css
+655 silly gunzTarPerm modified mode [ 'modules/js/bottomSheet/bottomSheet-default-theme.min.css',
+655 silly gunzTarPerm   420,
+655 silly gunzTarPerm   438 ]
+656 silly gunzTarPerm extractEntry modules/js/bottomSheet/bottomSheet.css
+657 silly gunzTarPerm modified mode [ 'modules/js/bottomSheet/bottomSheet.css', 420, 438 ]
+658 silly gunzTarPerm extractEntry modules/js/bottomSheet/bottomSheet.min.css
+659 silly gunzTarPerm modified mode [ 'modules/js/bottomSheet/bottomSheet.min.css', 420, 438 ]
+660 silly gunzTarPerm extractEntry modules/js/bottomSheet/bower.json
+661 silly gunzTarPerm modified mode [ 'modules/js/bottomSheet/bower.json', 420, 438 ]
+662 silly gunzTarPerm extractEntry modules/js/button/button.js
+663 silly gunzTarPerm modified mode [ 'modules/js/button/button.js', 420, 438 ]
+664 silly gunzTarPerm extractEntry modules/js/button/button.min.js
+665 silly gunzTarPerm modified mode [ 'modules/js/button/button.min.js', 420, 438 ]
+666 silly gunzTarPerm extractEntry modules/js/button/bower.json
+667 silly gunzTarPerm modified mode [ 'modules/js/button/bower.json', 420, 438 ]
+668 silly gunzTarPerm extractEntry modules/js/button/button-default-theme.css
+669 silly gunzTarPerm modified mode [ 'modules/js/button/button-default-theme.css', 420, 438 ]
+670 silly gunzTarPerm extractEntry modules/js/button/button-default-theme.min.css
+671 silly gunzTarPerm modified mode [ 'modules/js/button/button-default-theme.min.css', 420, 438 ]
+672 silly gunzTarPerm extractEntry modules/js/button/button.css
+673 silly gunzTarPerm modified mode [ 'modules/js/button/button.css', 420, 438 ]
+674 silly gunzTarPerm extractEntry modules/js/button/button.min.css
+675 silly gunzTarPerm modified mode [ 'modules/js/button/button.min.css', 420, 438 ]
+676 silly gunzTarPerm extractEntry modules/js/card/card.js
+677 silly gunzTarPerm modified mode [ 'modules/js/card/card.js', 420, 438 ]
+678 silly gunzTarPerm extractEntry modules/js/card/card.min.js
+679 silly gunzTarPerm modified mode [ 'modules/js/card/card.min.js', 420, 438 ]
+680 silly gunzTarPerm extractEntry modules/js/card/bower.json
+681 silly gunzTarPerm modified mode [ 'modules/js/card/bower.json', 420, 438 ]
+682 silly gunzTarPerm extractEntry modules/js/card/card-default-theme.css
+683 silly gunzTarPerm modified mode [ 'modules/js/card/card-default-theme.css', 420, 438 ]
+684 silly gunzTarPerm extractEntry modules/js/card/card-default-theme.min.css
+685 silly gunzTarPerm modified mode [ 'modules/js/card/card-default-theme.min.css', 420, 438 ]
+686 silly gunzTarPerm extractEntry modules/js/card/card.css
+687 silly gunzTarPerm modified mode [ 'modules/js/card/card.css', 420, 438 ]
+688 silly gunzTarPerm extractEntry modules/js/card/card.min.css
+689 silly gunzTarPerm modified mode [ 'modules/js/card/card.min.css', 420, 438 ]
+690 silly gunzTarPerm extractEntry modules/js/checkbox/checkbox.js
+691 silly gunzTarPerm modified mode [ 'modules/js/checkbox/checkbox.js', 420, 438 ]
+692 silly gunzTarPerm extractEntry modules/js/checkbox/checkbox.min.js
+693 silly gunzTarPerm modified mode [ 'modules/js/checkbox/checkbox.min.js', 420, 438 ]
+694 silly gunzTarPerm extractEntry modules/js/checkbox/bower.json
+695 silly gunzTarPerm modified mode [ 'modules/js/checkbox/bower.json', 420, 438 ]
+696 silly gunzTarPerm extractEntry modules/js/checkbox/checkbox-default-theme.css
+697 silly gunzTarPerm modified mode [ 'modules/js/checkbox/checkbox-default-theme.css', 420, 438 ]
+698 silly gunzTarPerm extractEntry modules/js/checkbox/checkbox-default-theme.min.css
+699 silly gunzTarPerm modified mode [ 'modules/js/checkbox/checkbox-default-theme.min.css',
+699 silly gunzTarPerm   420,
+699 silly gunzTarPerm   438 ]
+700 silly gunzTarPerm extractEntry modules/js/checkbox/checkbox.css
+701 silly gunzTarPerm modified mode [ 'modules/js/checkbox/checkbox.css', 420, 438 ]
+702 silly gunzTarPerm extractEntry modules/js/checkbox/checkbox.min.css
+703 silly gunzTarPerm modified mode [ 'modules/js/checkbox/checkbox.min.css', 420, 438 ]
+704 silly gunzTarPerm extractEntry modules/js/chips/chips.js
+705 silly gunzTarPerm modified mode [ 'modules/js/chips/chips.js', 420, 438 ]
+706 silly gunzTarPerm extractEntry modules/js/chips/chips.min.js
+707 silly gunzTarPerm modified mode [ 'modules/js/chips/chips.min.js', 420, 438 ]
+708 silly gunzTarPerm extractEntry modules/js/chips/bower.json
+709 silly gunzTarPerm modified mode [ 'modules/js/chips/bower.json', 420, 438 ]
+710 silly gunzTarPerm extractEntry modules/js/chips/chips-default-theme.css
+711 silly gunzTarPerm modified mode [ 'modules/js/chips/chips-default-theme.css', 420, 438 ]
+712 silly gunzTarPerm extractEntry modules/js/chips/chips-default-theme.min.css
+713 silly gunzTarPerm modified mode [ 'modules/js/chips/chips-default-theme.min.css', 420, 438 ]
+714 silly gunzTarPerm extractEntry modules/js/chips/chips.css
+715 silly gunzTarPerm modified mode [ 'modules/js/chips/chips.css', 420, 438 ]
+716 silly gunzTarPerm extractEntry modules/js/chips/chips.min.css
+717 silly gunzTarPerm modified mode [ 'modules/js/chips/chips.min.css', 420, 438 ]
+718 silly gunzTarPerm extractEntry modules/js/content/content.js
+719 silly gunzTarPerm modified mode [ 'modules/js/content/content.js', 420, 438 ]
+720 silly gunzTarPerm extractEntry modules/js/content/content.min.js
+721 silly gunzTarPerm modified mode [ 'modules/js/content/content.min.js', 420, 438 ]
+722 silly gunzTarPerm extractEntry modules/js/content/bower.json
+723 silly gunzTarPerm modified mode [ 'modules/js/content/bower.json', 420, 438 ]
+724 silly gunzTarPerm extractEntry modules/js/content/content-default-theme.css
+725 silly gunzTarPerm modified mode [ 'modules/js/content/content-default-theme.css', 420, 438 ]
+726 silly gunzTarPerm extractEntry modules/js/content/content-default-theme.min.css
+727 silly gunzTarPerm modified mode [ 'modules/js/content/content-default-theme.min.css', 420, 438 ]
+728 silly gunzTarPerm extractEntry modules/js/content/content.css
+729 silly gunzTarPerm modified mode [ 'modules/js/content/content.css', 420, 438 ]
+730 silly gunzTarPerm extractEntry modules/js/content/content.min.css
+731 silly gunzTarPerm modified mode [ 'modules/js/content/content.min.css', 420, 438 ]
+732 silly gunzTarPerm extractEntry modules/js/core/core.js
+733 silly gunzTarPerm modified mode [ 'modules/js/core/core.js', 420, 438 ]
+734 silly gunzTarPerm extractEntry modules/js/core/core.min.js
+735 silly gunzTarPerm modified mode [ 'modules/js/core/core.min.js', 420, 438 ]
+736 silly gunzTarPerm extractEntry modules/js/core/default-theme.js
+737 silly gunzTarPerm modified mode [ 'modules/js/core/default-theme.js', 420, 438 ]
+738 silly gunzTarPerm extractEntry modules/js/core/bower.json
+739 silly gunzTarPerm modified mode [ 'modules/js/core/bower.json', 420, 438 ]
+740 silly gunzTarPerm extractEntry modules/js/core/core.css
+741 silly gunzTarPerm modified mode [ 'modules/js/core/core.css', 420, 438 ]
+742 silly gunzTarPerm extractEntry modules/js/core/core.min.css
+743 silly gunzTarPerm modified mode [ 'modules/js/core/core.min.css', 420, 438 ]
+744 silly gunzTarPerm extractEntry modules/js/datepicker/datepicker.js
+745 silly gunzTarPerm modified mode [ 'modules/js/datepicker/datepicker.js', 420, 438 ]
+746 silly gunzTarPerm extractEntry modules/js/datepicker/datepicker.min.js
+747 silly gunzTarPerm modified mode [ 'modules/js/datepicker/datepicker.min.js', 420, 438 ]
+748 silly gunzTarPerm extractEntry modules/js/datepicker/bower.json
+749 silly gunzTarPerm modified mode [ 'modules/js/datepicker/bower.json', 420, 438 ]
+750 silly gunzTarPerm extractEntry modules/js/datepicker/datepicker-default-theme.css
+751 silly gunzTarPerm modified mode [ 'modules/js/datepicker/datepicker-default-theme.css',
+751 silly gunzTarPerm   420,
+751 silly gunzTarPerm   438 ]
+752 silly gunzTarPerm extractEntry modules/js/datepicker/datepicker-default-theme.min.css
+753 silly gunzTarPerm modified mode [ 'modules/js/datepicker/datepicker-default-theme.min.css',
+753 silly gunzTarPerm   420,
+753 silly gunzTarPerm   438 ]
+754 silly gunzTarPerm extractEntry modules/js/datepicker/datepicker.css
+755 silly gunzTarPerm modified mode [ 'modules/js/datepicker/datepicker.css', 420, 438 ]
+756 silly gunzTarPerm extractEntry modules/js/datepicker/datepicker.min.css
+757 silly gunzTarPerm modified mode [ 'modules/js/datepicker/datepicker.min.css', 420, 438 ]
+758 silly gunzTarPerm extractEntry modules/js/dialog/dialog.js
+759 silly gunzTarPerm modified mode [ 'modules/js/dialog/dialog.js', 420, 438 ]
+760 silly gunzTarPerm extractEntry modules/js/dialog/dialog.min.js
+761 silly gunzTarPerm modified mode [ 'modules/js/dialog/dialog.min.js', 420, 438 ]
+762 silly gunzTarPerm extractEntry modules/js/dialog/bower.json
+763 silly gunzTarPerm modified mode [ 'modules/js/dialog/bower.json', 420, 438 ]
+764 silly gunzTarPerm extractEntry modules/js/dialog/dialog-default-theme.css
+765 silly gunzTarPerm modified mode [ 'modules/js/dialog/dialog-default-theme.css', 420, 438 ]
+766 silly gunzTarPerm extractEntry modules/js/dialog/dialog-default-theme.min.css
+767 silly gunzTarPerm modified mode [ 'modules/js/dialog/dialog-default-theme.min.css', 420, 438 ]
+768 silly gunzTarPerm extractEntry modules/js/dialog/dialog.css
+769 silly gunzTarPerm modified mode [ 'modules/js/dialog/dialog.css', 420, 438 ]
+770 silly gunzTarPerm extractEntry modules/js/dialog/dialog.min.css
+771 silly gunzTarPerm modified mode [ 'modules/js/dialog/dialog.min.css', 420, 438 ]
+772 silly gunzTarPerm extractEntry modules/js/divider/divider.js
+773 silly gunzTarPerm modified mode [ 'modules/js/divider/divider.js', 420, 438 ]
+774 silly gunzTarPerm extractEntry modules/js/divider/divider.min.js
+775 silly gunzTarPerm modified mode [ 'modules/js/divider/divider.min.js', 420, 438 ]
+776 silly gunzTarPerm extractEntry modules/js/divider/bower.json
+777 silly gunzTarPerm modified mode [ 'modules/js/divider/bower.json', 420, 438 ]
+778 silly gunzTarPerm extractEntry modules/js/divider/divider-default-theme.css
+779 silly gunzTarPerm modified mode [ 'modules/js/divider/divider-default-theme.css', 420, 438 ]
+780 silly gunzTarPerm extractEntry modules/js/divider/divider-default-theme.min.css
+781 silly gunzTarPerm modified mode [ 'modules/js/divider/divider-default-theme.min.css', 420, 438 ]
+782 silly gunzTarPerm extractEntry modules/js/divider/divider.css
+783 silly gunzTarPerm modified mode [ 'modules/js/divider/divider.css', 420, 438 ]
+784 silly gunzTarPerm extractEntry modules/js/divider/divider.min.css
+785 silly gunzTarPerm modified mode [ 'modules/js/divider/divider.min.css', 420, 438 ]
+786 silly gunzTarPerm extractEntry modules/js/fabActions/fabActions.js
+787 silly gunzTarPerm modified mode [ 'modules/js/fabActions/fabActions.js', 420, 438 ]
+788 silly gunzTarPerm extractEntry modules/js/fabActions/fabActions.min.js
+789 silly gunzTarPerm modified mode [ 'modules/js/fabActions/fabActions.min.js', 420, 438 ]
+790 silly gunzTarPerm extractEntry modules/js/fabActions/bower.json
+791 silly gunzTarPerm modified mode [ 'modules/js/fabActions/bower.json', 420, 438 ]
+792 silly gunzTarPerm extractEntry modules/js/fabSpeedDial/fabSpeedDial.js
+793 silly gunzTarPerm modified mode [ 'modules/js/fabSpeedDial/fabSpeedDial.js', 420, 438 ]
+794 silly gunzTarPerm extractEntry modules/js/fabSpeedDial/fabSpeedDial.min.js
+795 silly gunzTarPerm modified mode [ 'modules/js/fabSpeedDial/fabSpeedDial.min.js', 420, 438 ]
+796 silly gunzTarPerm extractEntry modules/js/fabSpeedDial/bower.json
+797 silly gunzTarPerm modified mode [ 'modules/js/fabSpeedDial/bower.json', 420, 438 ]
+798 silly gunzTarPerm extractEntry modules/js/fabSpeedDial/fabSpeedDial.css
+799 silly gunzTarPerm modified mode [ 'modules/js/fabSpeedDial/fabSpeedDial.css', 420, 438 ]
+800 silly gunzTarPerm extractEntry modules/js/fabSpeedDial/fabSpeedDial.min.css
+801 silly gunzTarPerm modified mode [ 'modules/js/fabSpeedDial/fabSpeedDial.min.css', 420, 438 ]
+802 silly gunzTarPerm extractEntry modules/js/fabToolbar/fabToolbar.js
+803 silly gunzTarPerm modified mode [ 'modules/js/fabToolbar/fabToolbar.js', 420, 438 ]
+804 silly gunzTarPerm extractEntry modules/js/fabToolbar/fabToolbar.min.js
+805 silly gunzTarPerm modified mode [ 'modules/js/fabToolbar/fabToolbar.min.js', 420, 438 ]
+806 silly gunzTarPerm extractEntry modules/js/fabToolbar/bower.json
+807 silly gunzTarPerm modified mode [ 'modules/js/fabToolbar/bower.json', 420, 438 ]
+808 silly gunzTarPerm extractEntry modules/js/fabToolbar/fabToolbar.css
+809 silly gunzTarPerm modified mode [ 'modules/js/fabToolbar/fabToolbar.css', 420, 438 ]
+810 silly gunzTarPerm extractEntry modules/js/fabToolbar/fabToolbar.min.css
+811 silly gunzTarPerm modified mode [ 'modules/js/fabToolbar/fabToolbar.min.css', 420, 438 ]
+812 silly gunzTarPerm extractEntry modules/js/fabTrigger/fabTrigger.js
+813 silly gunzTarPerm modified mode [ 'modules/js/fabTrigger/fabTrigger.js', 420, 438 ]
+814 silly gunzTarPerm extractEntry modules/js/fabTrigger/fabTrigger.min.js
+815 silly gunzTarPerm modified mode [ 'modules/js/fabTrigger/fabTrigger.min.js', 420, 438 ]
+816 silly gunzTarPerm extractEntry modules/js/fabTrigger/bower.json
+817 silly gunzTarPerm modified mode [ 'modules/js/fabTrigger/bower.json', 420, 438 ]
+818 silly gunzTarPerm extractEntry modules/js/gridList/gridList.js
+819 silly gunzTarPerm modified mode [ 'modules/js/gridList/gridList.js', 420, 438 ]
+820 silly gunzTarPerm extractEntry modules/js/gridList/gridList.min.js
+821 silly gunzTarPerm modified mode [ 'modules/js/gridList/gridList.min.js', 420, 438 ]
+822 silly gunzTarPerm extractEntry modules/js/gridList/bower.json
+823 silly gunzTarPerm modified mode [ 'modules/js/gridList/bower.json', 420, 438 ]
+824 silly gunzTarPerm extractEntry modules/js/gridList/gridList.css
+825 silly gunzTarPerm modified mode [ 'modules/js/gridList/gridList.css', 420, 438 ]
+826 silly gunzTarPerm extractEntry modules/js/gridList/gridList.min.css
+827 silly gunzTarPerm modified mode [ 'modules/js/gridList/gridList.min.css', 420, 438 ]
+828 silly gunzTarPerm extractEntry modules/js/icon/icon.js
+829 silly gunzTarPerm modified mode [ 'modules/js/icon/icon.js', 420, 438 ]
+830 silly gunzTarPerm extractEntry modules/js/icon/icon.min.js
+831 silly gunzTarPerm modified mode [ 'modules/js/icon/icon.min.js', 420, 438 ]
+832 silly gunzTarPerm extractEntry modules/js/icon/bower.json
+833 silly gunzTarPerm modified mode [ 'modules/js/icon/bower.json', 420, 438 ]
+834 silly gunzTarPerm extractEntry modules/js/icon/icon-default-theme.css
+835 silly gunzTarPerm modified mode [ 'modules/js/icon/icon-default-theme.css', 420, 438 ]
+836 silly gunzTarPerm extractEntry modules/js/icon/icon-default-theme.min.css
+837 silly gunzTarPerm modified mode [ 'modules/js/icon/icon-default-theme.min.css', 420, 438 ]
+838 silly gunzTarPerm extractEntry modules/js/icon/icon.css
+839 silly gunzTarPerm modified mode [ 'modules/js/icon/icon.css', 420, 438 ]
+840 silly gunzTarPerm extractEntry modules/js/icon/icon.min.css
+841 silly gunzTarPerm modified mode [ 'modules/js/icon/icon.min.css', 420, 438 ]
+842 silly gunzTarPerm extractEntry modules/js/input/input.js
+843 silly gunzTarPerm modified mode [ 'modules/js/input/input.js', 420, 438 ]
+844 silly gunzTarPerm extractEntry modules/js/input/input.min.js
+845 silly gunzTarPerm modified mode [ 'modules/js/input/input.min.js', 420, 438 ]
+846 silly gunzTarPerm extractEntry modules/js/input/bower.json
+847 silly gunzTarPerm modified mode [ 'modules/js/input/bower.json', 420, 438 ]
+848 silly gunzTarPerm extractEntry modules/js/input/input-default-theme.css
+849 silly gunzTarPerm modified mode [ 'modules/js/input/input-default-theme.css', 420, 438 ]
+850 silly gunzTarPerm extractEntry modules/js/input/input-default-theme.min.css
+851 silly gunzTarPerm modified mode [ 'modules/js/input/input-default-theme.min.css', 420, 438 ]
+852 silly gunzTarPerm extractEntry modules/js/input/input.css
+853 silly gunzTarPerm modified mode [ 'modules/js/input/input.css', 420, 438 ]
+854 silly gunzTarPerm extractEntry modules/js/input/input.min.css
+855 silly gunzTarPerm modified mode [ 'modules/js/input/input.min.css', 420, 438 ]
+856 silly gunzTarPerm extractEntry modules/js/list/list.js
+857 silly gunzTarPerm modified mode [ 'modules/js/list/list.js', 420, 438 ]
+858 silly gunzTarPerm extractEntry modules/js/list/list.min.js
+859 silly gunzTarPerm modified mode [ 'modules/js/list/list.min.js', 420, 438 ]
+860 silly gunzTarPerm extractEntry modules/js/list/bower.json
+861 silly gunzTarPerm modified mode [ 'modules/js/list/bower.json', 420, 438 ]
+862 silly gunzTarPerm extractEntry modules/js/list/list-default-theme.css
+863 silly gunzTarPerm modified mode [ 'modules/js/list/list-default-theme.css', 420, 438 ]
+864 silly gunzTarPerm extractEntry modules/js/list/list-default-theme.min.css
+865 silly gunzTarPerm modified mode [ 'modules/js/list/list-default-theme.min.css', 420, 438 ]
+866 silly gunzTarPerm extractEntry modules/js/list/list.css
+867 silly gunzTarPerm modified mode [ 'modules/js/list/list.css', 420, 438 ]
+868 silly gunzTarPerm extractEntry modules/js/list/list.min.css
+869 silly gunzTarPerm modified mode [ 'modules/js/list/list.min.css', 420, 438 ]
+870 silly gunzTarPerm extractEntry modules/js/backdrop/backdrop.js
+871 silly gunzTarPerm modified mode [ 'modules/js/backdrop/backdrop.js', 420, 438 ]
+872 silly gunzTarPerm extractEntry modules/js/backdrop/backdrop.min.js
+873 silly gunzTarPerm modified mode [ 'modules/js/backdrop/backdrop.min.js', 420, 438 ]
+874 silly gunzTarPerm extractEntry modules/js/backdrop/backdrop-default-theme.css
+875 silly gunzTarPerm modified mode [ 'modules/js/backdrop/backdrop-default-theme.css', 420, 438 ]
+876 silly gunzTarPerm extractEntry modules/js/backdrop/backdrop-default-theme.min.css
+877 silly gunzTarPerm modified mode [ 'modules/js/backdrop/backdrop-default-theme.min.css',
+877 silly gunzTarPerm   420,
+877 silly gunzTarPerm   438 ]
+878 silly gunzTarPerm extractEntry modules/js/backdrop/backdrop.css
+879 silly gunzTarPerm modified mode [ 'modules/js/backdrop/backdrop.css', 420, 438 ]
+880 silly gunzTarPerm extractEntry modules/js/backdrop/backdrop.min.css
+881 silly gunzTarPerm modified mode [ 'modules/js/backdrop/backdrop.min.css', 420, 438 ]
+882 silly gunzTarPerm extractEntry modules/js/backdrop/bower.json
+883 silly gunzTarPerm modified mode [ 'modules/js/backdrop/bower.json', 420, 438 ]
+884 silly gunzTarPerm extractEntry modules/js/menuBar/menuBar.js
+885 silly gunzTarPerm modified mode [ 'modules/js/menuBar/menuBar.js', 420, 438 ]
+886 silly gunzTarPerm extractEntry modules/js/menuBar/menuBar.min.js
+887 silly gunzTarPerm modified mode [ 'modules/js/menuBar/menuBar.min.js', 420, 438 ]
+888 silly gunzTarPerm extractEntry modules/js/menuBar/bower.json
+889 silly gunzTarPerm modified mode [ 'modules/js/menuBar/bower.json', 420, 438 ]
+890 silly gunzTarPerm extractEntry modules/js/menuBar/menuBar-default-theme.css
+891 silly gunzTarPerm modified mode [ 'modules/js/menuBar/menuBar-default-theme.css', 420, 438 ]
+892 silly gunzTarPerm extractEntry modules/js/menuBar/menuBar-default-theme.min.css
+893 silly gunzTarPerm modified mode [ 'modules/js/menuBar/menuBar-default-theme.min.css', 420, 438 ]
+894 silly gunzTarPerm extractEntry modules/js/menuBar/menuBar.css
+895 silly gunzTarPerm modified mode [ 'modules/js/menuBar/menuBar.css', 420, 438 ]
+896 silly gunzTarPerm extractEntry modules/js/menuBar/menuBar.min.css
+897 silly gunzTarPerm modified mode [ 'modules/js/menuBar/menuBar.min.css', 420, 438 ]
+898 silly gunzTarPerm extractEntry modules/js/progressCircular/progressCircular.js
+899 silly gunzTarPerm modified mode [ 'modules/js/progressCircular/progressCircular.js', 420, 438 ]
+900 silly gunzTarPerm extractEntry modules/js/progressCircular/progressCircular.min.js
+901 silly gunzTarPerm modified mode [ 'modules/js/progressCircular/progressCircular.min.js',
+901 silly gunzTarPerm   420,
+901 silly gunzTarPerm   438 ]
+902 silly gunzTarPerm extractEntry modules/js/progressCircular/bower.json
+903 silly gunzTarPerm modified mode [ 'modules/js/progressCircular/bower.json', 420, 438 ]
+904 silly gunzTarPerm extractEntry modules/js/progressCircular/progressCircular-default-theme.css
+905 silly gunzTarPerm modified mode [ 'modules/js/progressCircular/progressCircular-default-theme.css',
+905 silly gunzTarPerm   420,
+905 silly gunzTarPerm   438 ]
+906 silly gunzTarPerm extractEntry modules/js/progressCircular/progressCircular-default-theme.min.css
+907 silly gunzTarPerm modified mode [ 'modules/js/progressCircular/progressCircular-default-theme.min.css',
+907 silly gunzTarPerm   420,
+907 silly gunzTarPerm   438 ]
+908 silly gunzTarPerm extractEntry modules/js/progressCircular/progressCircular.css
+909 silly gunzTarPerm modified mode [ 'modules/js/progressCircular/progressCircular.css', 420, 438 ]
+910 silly gunzTarPerm extractEntry modules/js/progressCircular/progressCircular.min.css
+911 silly gunzTarPerm modified mode [ 'modules/js/progressCircular/progressCircular.min.css',
+911 silly gunzTarPerm   420,
+911 silly gunzTarPerm   438 ]
+912 silly gunzTarPerm extractEntry modules/js/progressLinear/progressLinear.js
+913 silly gunzTarPerm modified mode [ 'modules/js/progressLinear/progressLinear.js', 420, 438 ]
+914 silly gunzTarPerm extractEntry modules/js/progressLinear/progressLinear.min.js
+915 silly gunzTarPerm modified mode [ 'modules/js/progressLinear/progressLinear.min.js', 420, 438 ]
+916 silly gunzTarPerm extractEntry modules/js/progressLinear/bower.json
+917 silly gunzTarPerm modified mode [ 'modules/js/progressLinear/bower.json', 420, 438 ]
+918 silly gunzTarPerm extractEntry modules/js/progressLinear/progressLinear-default-theme.css
+919 silly gunzTarPerm modified mode [ 'modules/js/progressLinear/progressLinear-default-theme.css',
+919 silly gunzTarPerm   420,
+919 silly gunzTarPerm   438 ]
+920 silly gunzTarPerm extractEntry modules/js/progressLinear/progressLinear-default-theme.min.css
+921 silly gunzTarPerm modified mode [ 'modules/js/progressLinear/progressLinear-default-theme.min.css',
+921 silly gunzTarPerm   420,
+921 silly gunzTarPerm   438 ]
+922 silly gunzTarPerm extractEntry modules/js/progressLinear/progressLinear.css
+923 silly gunzTarPerm modified mode [ 'modules/js/progressLinear/progressLinear.css', 420, 438 ]
+924 silly gunzTarPerm extractEntry modules/js/progressLinear/progressLinear.min.css
+925 silly gunzTarPerm modified mode [ 'modules/js/progressLinear/progressLinear.min.css', 420, 438 ]
+926 silly gunzTarPerm extractEntry modules/js/radioButton/radioButton.js
+927 silly gunzTarPerm modified mode [ 'modules/js/radioButton/radioButton.js', 420, 438 ]
+928 silly gunzTarPerm extractEntry modules/js/radioButton/radioButton.min.js
+929 silly gunzTarPerm modified mode [ 'modules/js/radioButton/radioButton.min.js', 420, 438 ]
+930 silly gunzTarPerm extractEntry modules/js/radioButton/bower.json
+931 silly gunzTarPerm modified mode [ 'modules/js/radioButton/bower.json', 420, 438 ]
+932 silly gunzTarPerm extractEntry modules/js/radioButton/radioButton-default-theme.css
+933 silly gunzTarPerm modified mode [ 'modules/js/radioButton/radioButton-default-theme.css',
+933 silly gunzTarPerm   420,
+933 silly gunzTarPerm   438 ]
+934 silly gunzTarPerm extractEntry modules/js/radioButton/radioButton-default-theme.min.css
+935 silly gunzTarPerm modified mode [ 'modules/js/radioButton/radioButton-default-theme.min.css',
+935 silly gunzTarPerm   420,
+935 silly gunzTarPerm   438 ]
+936 silly gunzTarPerm extractEntry modules/js/radioButton/radioButton.css
+937 silly gunzTarPerm modified mode [ 'modules/js/radioButton/radioButton.css', 420, 438 ]
+938 silly gunzTarPerm extractEntry modules/js/radioButton/radioButton.min.css
+939 silly gunzTarPerm modified mode [ 'modules/js/radioButton/radioButton.min.css', 420, 438 ]
+940 silly gunzTarPerm extractEntry modules/js/select/select.js
+941 silly gunzTarPerm modified mode [ 'modules/js/select/select.js', 493, 511 ]
+942 silly gunzTarPerm extractEntry modules/js/select/select.min.js
+943 silly gunzTarPerm modified mode [ 'modules/js/select/select.min.js', 493, 511 ]
+944 silly gunzTarPerm extractEntry modules/js/select/bower.json
+945 silly gunzTarPerm modified mode [ 'modules/js/select/bower.json', 420, 438 ]
+946 silly gunzTarPerm extractEntry modules/js/select/select-default-theme.css
+947 silly gunzTarPerm modified mode [ 'modules/js/select/select-default-theme.css', 420, 438 ]
+948 silly gunzTarPerm extractEntry modules/js/select/select-default-theme.min.css
+949 silly gunzTarPerm modified mode [ 'modules/js/select/select-default-theme.min.css', 420, 438 ]
+950 silly gunzTarPerm extractEntry modules/js/select/select.css
+951 silly gunzTarPerm modified mode [ 'modules/js/select/select.css', 493, 511 ]
+952 silly gunzTarPerm extractEntry modules/js/select/select.min.css
+953 silly gunzTarPerm modified mode [ 'modules/js/select/select.min.css', 493, 511 ]
+954 silly gunzTarPerm extractEntry modules/js/showHide/showHide.js
+955 silly gunzTarPerm modified mode [ 'modules/js/showHide/showHide.js', 420, 438 ]
+956 silly gunzTarPerm extractEntry modules/js/showHide/showHide.min.js
+957 silly gunzTarPerm modified mode [ 'modules/js/showHide/showHide.min.js', 420, 438 ]
+958 silly gunzTarPerm extractEntry modules/js/showHide/bower.json
+959 silly gunzTarPerm modified mode [ 'modules/js/showHide/bower.json', 420, 438 ]
+960 silly gunzTarPerm extractEntry modules/js/sidenav/sidenav.js
+961 silly gunzTarPerm modified mode [ 'modules/js/sidenav/sidenav.js', 420, 438 ]
+962 silly gunzTarPerm extractEntry modules/js/sidenav/sidenav.min.js
+963 silly gunzTarPerm modified mode [ 'modules/js/sidenav/sidenav.min.js', 420, 438 ]
+964 silly gunzTarPerm extractEntry modules/js/sidenav/bower.json
+965 silly gunzTarPerm modified mode [ 'modules/js/sidenav/bower.json', 420, 438 ]
+966 silly gunzTarPerm extractEntry modules/js/sidenav/sidenav-default-theme.css
+967 silly gunzTarPerm modified mode [ 'modules/js/sidenav/sidenav-default-theme.css', 420, 438 ]
+968 silly gunzTarPerm extractEntry modules/js/sidenav/sidenav-default-theme.min.css
+969 silly gunzTarPerm modified mode [ 'modules/js/sidenav/sidenav-default-theme.min.css', 420, 438 ]
+970 silly gunzTarPerm extractEntry modules/js/sidenav/sidenav.css
+971 silly gunzTarPerm modified mode [ 'modules/js/sidenav/sidenav.css', 420, 438 ]
+972 silly gunzTarPerm extractEntry modules/js/sidenav/sidenav.min.css
+973 silly gunzTarPerm modified mode [ 'modules/js/sidenav/sidenav.min.css', 420, 438 ]
+974 silly gunzTarPerm extractEntry modules/js/slider/slider.js
+975 silly gunzTarPerm modified mode [ 'modules/js/slider/slider.js', 420, 438 ]
+976 silly gunzTarPerm extractEntry modules/js/slider/slider.min.js
+977 silly gunzTarPerm modified mode [ 'modules/js/slider/slider.min.js', 420, 438 ]
+978 silly gunzTarPerm extractEntry modules/js/slider/bower.json
+979 silly gunzTarPerm modified mode [ 'modules/js/slider/bower.json', 420, 438 ]
+980 silly gunzTarPerm extractEntry modules/js/slider/slider-default-theme.css
+981 silly gunzTarPerm modified mode [ 'modules/js/slider/slider-default-theme.css', 420, 438 ]
+982 silly gunzTarPerm extractEntry modules/js/slider/slider-default-theme.min.css
+983 silly gunzTarPerm modified mode [ 'modules/js/slider/slider-default-theme.min.css', 420, 438 ]
+984 silly gunzTarPerm extractEntry modules/js/slider/slider.css
+985 silly gunzTarPerm modified mode [ 'modules/js/slider/slider.css', 420, 438 ]
+986 silly gunzTarPerm extractEntry modules/js/slider/slider.min.css
+987 silly gunzTarPerm modified mode [ 'modules/js/slider/slider.min.css', 420, 438 ]
+988 silly gunzTarPerm extractEntry modules/js/sticky/sticky.js
+989 silly gunzTarPerm modified mode [ 'modules/js/sticky/sticky.js', 420, 438 ]
+990 silly gunzTarPerm extractEntry modules/js/sticky/sticky.min.js
+991 silly gunzTarPerm modified mode [ 'modules/js/sticky/sticky.min.js', 420, 438 ]
+992 silly gunzTarPerm extractEntry modules/js/sticky/bower.json
+993 silly gunzTarPerm modified mode [ 'modules/js/sticky/bower.json', 420, 438 ]
+994 silly gunzTarPerm extractEntry modules/js/sticky/sticky.css
+995 silly gunzTarPerm modified mode [ 'modules/js/sticky/sticky.css', 420, 438 ]
+996 silly gunzTarPerm extractEntry modules/js/sticky/sticky.min.css
+997 silly gunzTarPerm modified mode [ 'modules/js/sticky/sticky.min.css', 420, 438 ]
+998 silly gunzTarPerm extractEntry modules/js/subheader/subheader.js
+999 silly gunzTarPerm modified mode [ 'modules/js/subheader/subheader.js', 420, 438 ]
+1000 silly gunzTarPerm extractEntry modules/js/subheader/subheader.min.js
+1001 silly gunzTarPerm modified mode [ 'modules/js/subheader/subheader.min.js', 420, 438 ]
+1002 silly gunzTarPerm extractEntry modules/js/subheader/bower.json
+1003 silly gunzTarPerm modified mode [ 'modules/js/subheader/bower.json', 420, 438 ]
+1004 silly gunzTarPerm extractEntry modules/js/subheader/subheader-default-theme.css
+1005 silly gunzTarPerm modified mode [ 'modules/js/subheader/subheader-default-theme.css', 420, 438 ]
+1006 silly gunzTarPerm extractEntry modules/js/subheader/subheader-default-theme.min.css
+1007 silly gunzTarPerm modified mode [ 'modules/js/subheader/subheader-default-theme.min.css',
+1007 silly gunzTarPerm   420,
+1007 silly gunzTarPerm   438 ]
+1008 silly gunzTarPerm extractEntry modules/js/subheader/subheader.css
+1009 silly gunzTarPerm modified mode [ 'modules/js/subheader/subheader.css', 420, 438 ]
+1010 silly gunzTarPerm extractEntry modules/js/subheader/subheader.min.css
+1011 silly gunzTarPerm modified mode [ 'modules/js/subheader/subheader.min.css', 420, 438 ]
+1012 silly gunzTarPerm extractEntry modules/js/swipe/swipe.js
+1013 silly gunzTarPerm modified mode [ 'modules/js/swipe/swipe.js', 420, 438 ]
+1014 silly gunzTarPerm extractEntry modules/js/swipe/swipe.min.js
+1015 silly gunzTarPerm modified mode [ 'modules/js/swipe/swipe.min.js', 420, 438 ]
+1016 silly gunzTarPerm extractEntry modules/js/swipe/bower.json
+1017 silly gunzTarPerm modified mode [ 'modules/js/swipe/bower.json', 420, 438 ]
+1018 silly gunzTarPerm extractEntry modules/js/switch/switch.js
+1019 silly gunzTarPerm modified mode [ 'modules/js/switch/switch.js', 420, 438 ]
+1020 silly gunzTarPerm extractEntry modules/js/switch/switch.min.js
+1021 silly gunzTarPerm modified mode [ 'modules/js/switch/switch.min.js', 420, 438 ]
+1022 silly gunzTarPerm extractEntry modules/js/switch/bower.json
+1023 silly gunzTarPerm modified mode [ 'modules/js/switch/bower.json', 420, 438 ]
+1024 silly gunzTarPerm extractEntry modules/js/switch/switch-default-theme.css
+1025 silly gunzTarPerm modified mode [ 'modules/js/switch/switch-default-theme.css', 420, 438 ]
+1026 silly gunzTarPerm extractEntry modules/js/switch/switch-default-theme.min.css
+1027 silly gunzTarPerm modified mode [ 'modules/js/switch/switch-default-theme.min.css', 420, 438 ]
+1028 silly gunzTarPerm extractEntry modules/js/switch/switch.css
+1029 silly gunzTarPerm modified mode [ 'modules/js/switch/switch.css', 420, 438 ]
+1030 silly gunzTarPerm extractEntry modules/js/switch/switch.min.css
+1031 silly gunzTarPerm modified mode [ 'modules/js/switch/switch.min.css', 420, 438 ]
+1032 silly gunzTarPerm extractEntry modules/js/tabs/tabs.js
+1033 silly gunzTarPerm modified mode [ 'modules/js/tabs/tabs.js', 420, 438 ]
+1034 silly gunzTarPerm extractEntry modules/js/tabs/tabs.min.js
+1035 silly gunzTarPerm modified mode [ 'modules/js/tabs/tabs.min.js', 420, 438 ]
+1036 silly gunzTarPerm extractEntry modules/js/tabs/bower.json
+1037 silly gunzTarPerm modified mode [ 'modules/js/tabs/bower.json', 420, 438 ]
+1038 silly gunzTarPerm extractEntry modules/js/tabs/tabs-default-theme.css
+1039 silly gunzTarPerm modified mode [ 'modules/js/tabs/tabs-default-theme.css', 420, 438 ]
+1040 silly gunzTarPerm extractEntry modules/js/tabs/tabs-default-theme.min.css
+1041 silly gunzTarPerm modified mode [ 'modules/js/tabs/tabs-default-theme.min.css', 420, 438 ]
+1042 silly gunzTarPerm extractEntry modules/js/tabs/tabs.css
+1043 silly gunzTarPerm modified mode [ 'modules/js/tabs/tabs.css', 420, 438 ]
+1044 silly gunzTarPerm extractEntry modules/js/tabs/tabs.min.css
+1045 silly gunzTarPerm modified mode [ 'modules/js/tabs/tabs.min.css', 420, 438 ]
+1046 silly gunzTarPerm extractEntry modules/js/textField/textField.js
+1047 silly gunzTarPerm modified mode [ 'modules/js/textField/textField.js', 420, 438 ]
+1048 silly gunzTarPerm extractEntry modules/js/textField/textField.min.js
+1049 silly gunzTarPerm modified mode [ 'modules/js/textField/textField.min.js', 420, 438 ]
+1050 silly gunzTarPerm extractEntry modules/js/textField/bower.json
+1051 silly gunzTarPerm modified mode [ 'modules/js/textField/bower.json', 420, 438 ]
+1052 silly gunzTarPerm extractEntry modules/js/textField/textField-default-theme.css
+1053 silly gunzTarPerm modified mode [ 'modules/js/textField/textField-default-theme.css', 420, 438 ]
+1054 silly gunzTarPerm extractEntry modules/js/textField/textField-default-theme.min.css
+1055 silly gunzTarPerm modified mode [ 'modules/js/textField/textField-default-theme.min.css',
+1055 silly gunzTarPerm   420,
+1055 silly gunzTarPerm   438 ]
+1056 silly gunzTarPerm extractEntry modules/js/textField/textField.css
+1057 silly gunzTarPerm modified mode [ 'modules/js/textField/textField.css', 420, 438 ]
+1058 silly gunzTarPerm extractEntry modules/js/textField/textField.min.css
+1059 silly gunzTarPerm modified mode [ 'modules/js/textField/textField.min.css', 420, 438 ]
+1060 silly gunzTarPerm extractEntry modules/js/toast/toast.js
+1061 silly gunzTarPerm modified mode [ 'modules/js/toast/toast.js', 420, 438 ]
+1062 silly gunzTarPerm extractEntry modules/js/toast/toast.min.js
+1063 silly gunzTarPerm modified mode [ 'modules/js/toast/toast.min.js', 420, 438 ]
+1064 silly gunzTarPerm extractEntry modules/js/toast/bower.json
+1065 silly gunzTarPerm modified mode [ 'modules/js/toast/bower.json', 420, 438 ]
+1066 silly gunzTarPerm extractEntry modules/js/toast/toast-default-theme.css
+1067 silly gunzTarPerm modified mode [ 'modules/js/toast/toast-default-theme.css', 420, 438 ]
+1068 silly gunzTarPerm extractEntry modules/js/toast/toast-default-theme.min.css
+1069 silly gunzTarPerm modified mode [ 'modules/js/toast/toast-default-theme.min.css', 420, 438 ]
+1070 silly gunzTarPerm extractEntry modules/js/toast/toast.css
+1071 silly gunzTarPerm modified mode [ 'modules/js/toast/toast.css', 420, 438 ]
+1072 silly gunzTarPerm extractEntry modules/js/toast/toast.min.css
+1073 silly gunzTarPerm modified mode [ 'modules/js/toast/toast.min.css', 420, 438 ]
+1074 silly gunzTarPerm extractEntry modules/js/toolbar/toolbar.js
+1075 silly gunzTarPerm modified mode [ 'modules/js/toolbar/toolbar.js', 420, 438 ]
+1076 silly gunzTarPerm extractEntry modules/js/toolbar/toolbar.min.js
+1077 silly gunzTarPerm modified mode [ 'modules/js/toolbar/toolbar.min.js', 420, 438 ]
+1078 silly gunzTarPerm extractEntry modules/js/toolbar/bower.json
+1079 silly gunzTarPerm modified mode [ 'modules/js/toolbar/bower.json', 420, 438 ]
+1080 silly gunzTarPerm extractEntry modules/js/toolbar/toolbar-default-theme.css
+1081 silly gunzTarPerm modified mode [ 'modules/js/toolbar/toolbar-default-theme.css', 420, 438 ]
+1082 silly gunzTarPerm extractEntry modules/js/toolbar/toolbar-default-theme.min.css
+1083 silly gunzTarPerm modified mode [ 'modules/js/toolbar/toolbar-default-theme.min.css', 420, 438 ]
+1084 silly gunzTarPerm extractEntry modules/js/toolbar/toolbar.css
+1085 silly gunzTarPerm modified mode [ 'modules/js/toolbar/toolbar.css', 420, 438 ]
+1086 silly gunzTarPerm extractEntry modules/js/toolbar/toolbar.min.css
+1087 silly gunzTarPerm modified mode [ 'modules/js/toolbar/toolbar.min.css', 420, 438 ]
+1088 silly gunzTarPerm extractEntry modules/js/tooltip/tooltip.js
+1089 silly gunzTarPerm modified mode [ 'modules/js/tooltip/tooltip.js', 420, 438 ]
+1090 silly gunzTarPerm extractEntry modules/js/tooltip/tooltip.min.js
+1091 silly gunzTarPerm modified mode [ 'modules/js/tooltip/tooltip.min.js', 420, 438 ]
+1092 silly gunzTarPerm extractEntry modules/js/tooltip/bower.json
+1093 silly gunzTarPerm modified mode [ 'modules/js/tooltip/bower.json', 420, 438 ]
+1094 silly gunzTarPerm extractEntry modules/js/tooltip/tooltip-default-theme.css
+1095 silly gunzTarPerm modified mode [ 'modules/js/tooltip/tooltip-default-theme.css', 420, 438 ]
+1096 silly gunzTarPerm extractEntry modules/js/tooltip/tooltip-default-theme.min.css
+1097 silly gunzTarPerm modified mode [ 'modules/js/tooltip/tooltip-default-theme.min.css', 420, 438 ]
+1098 silly gunzTarPerm extractEntry modules/js/tooltip/tooltip.css
+1099 silly gunzTarPerm modified mode [ 'modules/js/tooltip/tooltip.css', 420, 438 ]
+1100 silly gunzTarPerm extractEntry modules/js/tooltip/tooltip.min.css
+1101 silly gunzTarPerm modified mode [ 'modules/js/tooltip/tooltip.min.css', 420, 438 ]
+1102 silly gunzTarPerm extractEntry modules/js/virtualRepeat/virtualRepeat.js
+1103 silly gunzTarPerm modified mode [ 'modules/js/virtualRepeat/virtualRepeat.js', 420, 438 ]
+1104 silly gunzTarPerm extractEntry modules/js/virtualRepeat/virtualRepeat.min.js
+1105 silly gunzTarPerm modified mode [ 'modules/js/virtualRepeat/virtualRepeat.min.js', 420, 438 ]
+1106 silly gunzTarPerm extractEntry modules/js/virtualRepeat/bower.json
+1107 silly gunzTarPerm modified mode [ 'modules/js/virtualRepeat/bower.json', 420, 438 ]
+1108 silly gunzTarPerm extractEntry modules/js/virtualRepeat/virtualRepeat.css
+1109 silly gunzTarPerm modified mode [ 'modules/js/virtualRepeat/virtualRepeat.css', 420, 438 ]
+1110 silly gunzTarPerm extractEntry modules/js/virtualRepeat/virtualRepeat.min.css
+1111 silly gunzTarPerm modified mode [ 'modules/js/virtualRepeat/virtualRepeat.min.css', 420, 438 ]
+1112 silly gunzTarPerm extractEntry modules/js/whiteframe/whiteframe.js
+1113 silly gunzTarPerm modified mode [ 'modules/js/whiteframe/whiteframe.js', 420, 438 ]
+1114 silly gunzTarPerm extractEntry modules/js/whiteframe/whiteframe.min.js
+1115 silly gunzTarPerm modified mode [ 'modules/js/whiteframe/whiteframe.min.js', 420, 438 ]
+1116 silly gunzTarPerm extractEntry modules/js/whiteframe/bower.json
+1117 silly gunzTarPerm modified mode [ 'modules/js/whiteframe/bower.json', 420, 438 ]
+1118 silly gunzTarPerm extractEntry modules/js/whiteframe/whiteframe.css
+1119 silly gunzTarPerm modified mode [ 'modules/js/whiteframe/whiteframe.css', 420, 438 ]
+1120 silly gunzTarPerm extractEntry modules/js/whiteframe/whiteframe.min.css
+1121 silly gunzTarPerm modified mode [ 'modules/js/whiteframe/whiteframe.min.css', 420, 438 ]
+1122 silly gunzTarPerm extractEntry angular-material.scss
+1123 silly gunzTarPerm modified mode [ 'angular-material.scss', 420, 438 ]
+1124 verbose write writing to C:\Users\Usuario\node_modules\angular-material\package.json
+1125 info preinstall angular-material@1.0.7
+1126 verbose readDependencies loading dependencies from C:\Users\Usuario\node_modules\angular-material\package.json
+1127 silly prepareForInstallMany adding angular@^1.5.0 from angular-material peerDependencies
+1128 silly prepareForInstallMany adding angular-animate@^1.5.0 from angular-material peerDependencies
+1129 silly prepareForInstallMany adding angular-aria@^1.5.0 from angular-material peerDependencies
+1130 silly prepareForInstallMany adding angular-messages@^1.5.0 from angular-material peerDependencies
+1131 warn peerDependencies The peer dependency angular@^1.5.0 included from angular-material will no
+1132 warn peerDependencies longer be automatically installed to fulfill the peerDependency
+1133 warn peerDependencies in npm 3+. Your application will need to depend on it explicitly.
+1134 warn peerDependencies The peer dependency angular-animate@^1.5.0 included from angular-material will no
+1135 warn peerDependencies longer be automatically installed to fulfill the peerDependency
+1136 warn peerDependencies in npm 3+. Your application will need to depend on it explicitly.
+1137 warn peerDependencies The peer dependency angular-aria@^1.5.0 included from angular-material will no
+1138 warn peerDependencies longer be automatically installed to fulfill the peerDependency
+1139 warn peerDependencies in npm 3+. Your application will need to depend on it explicitly.
+1140 warn peerDependencies The peer dependency angular-messages@^1.5.0 included from angular-material will no
+1141 warn peerDependencies longer be automatically installed to fulfill the peerDependency
+1142 warn peerDependencies in npm 3+. Your application will need to depend on it explicitly.
+1143 verbose readDependencies loading dependencies from C:\Users\Usuario\node_modules\angular-material\package.json
+1144 silly install resolved []
+1145 verbose about to build C:\Users\Usuario\node_modules\angular-material
+1146 info build C:\Users\Usuario\node_modules\angular-material
+1147 info linkStuff angular-material@1.0.7
+1148 silly linkStuff angular-material@1.0.7 has C:\Users\Usuario\node_modules as its parent node_modules
+1149 verbose linkBins angular-material@1.0.7
+1150 verbose linkMans angular-material@1.0.7
+1151 verbose rebuildBundles angular-material@1.0.7
+1152 info install angular-material@1.0.7
+1153 info postinstall angular-material@1.0.7
+1154 verbose readDependencies loading dependencies from C:\Users\Usuario\package.json
+1155 verbose targetResolver reading package data from C:\Users\Usuario\node_modules\angular\package.json
+1156 verbose targetResolver reading package data from C:\Users\Usuario\node_modules\angular-animate\package.json
+1157 verbose targetResolver reading package data from C:\Users\Usuario\node_modules\angular-aria\package.json
+1158 verbose targetResolver reading package data from C:\Users\Usuario\node_modules\angular-material\package.json
+1159 verbose targetResolver reading package data from C:\Users\Usuario\node_modules\material-design-icons\package.json
+1160 verbose already installed skipping angular-animate@^1.5.0 C:\Users\Usuario
+1161 verbose already installed skipping angular-aria@^1.5.0 C:\Users\Usuario
+1162 silly cache add args [ 'angular-messages@^1.5.0', null ]
+1163 verbose cache add spec angular-messages@^1.5.0
+1164 silly cache add parsed spec { raw: 'angular-messages@^1.5.0',
+1164 silly cache add   scope: null,
+1164 silly cache add   name: 'angular-messages',
+1164 silly cache add   rawSpec: '^1.5.0',
+1164 silly cache add   spec: '>=1.5.0 <2.0.0',
+1164 silly cache add   type: 'range' }
+1165 silly addNamed angular-messages@>=1.5.0 <2.0.0
+1166 verbose addNamed ">=1.5.0 <2.0.0" is a valid semver range for angular-messages
+1167 silly addNameRange { name: 'angular-messages',
+1167 silly addNameRange   range: '>=1.5.0 <2.0.0',
+1167 silly addNameRange   hasData: false }
+1168 silly mapToRegistry name angular-messages
+1169 silly mapToRegistry using default registry
+1170 silly mapToRegistry registry https://registry.npmjs.org/
+1171 silly mapToRegistry uri https://registry.npmjs.org/angular-messages
+1172 verbose addNameRange registry:https://registry.npmjs.org/angular-messages not in flight; fetching
+1173 verbose already installed skipping angular@^1.5.0 C:\Users\Usuario
+1174 verbose request uri https://registry.npmjs.org/angular-messages
+1175 verbose request no auth needed
+1176 info attempt registry request try #1 at 20:38:20
+1177 http request GET https://registry.npmjs.org/angular-messages
+1178 http 200 https://registry.npmjs.org/angular-messages
+1179 silly get cb [ 200,
+1179 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+1179 silly get     etag: '"747G2PD6XRRI51P1MR0DKEY78"',
+1179 silly get     'content-type': 'application/json',
+1179 silly get     'content-encoding': 'gzip',
+1179 silly get     'cache-control': 'max-age=300',
+1179 silly get     'content-length': '8660',
+1179 silly get     'accept-ranges': 'bytes',
+1179 silly get     date: 'Wed, 27 Apr 2016 23:38:16 GMT',
+1179 silly get     via: '1.1 varnish',
+1179 silly get     age: '199',
+1179 silly get     connection: 'keep-alive',
+1179 silly get     'x-served-by': 'cache-iad2144-IAD',
+1179 silly get     'x-cache': 'HIT',
+1179 silly get     'x-cache-hits': '1',
+1179 silly get     'x-timer': 'S1461800296.490981,VS0,VE0',
+1179 silly get     vary: 'Accept-Encoding' } ]
+1180 verbose get saving angular-messages to C:\Users\Usuario\AppData\Roaming\npm-cache\registry.npmjs.org\angular-messages\.cache.json
+1181 silly addNameRange number 2 { name: 'angular-messages',
+1181 silly addNameRange   range: '>=1.5.0 <2.0.0',
+1181 silly addNameRange   hasData: true }
+1182 silly addNameRange versions [ 'angular-messages',
+1182 silly addNameRange   [ '1.3.0-rc.5',
+1182 silly addNameRange     '1.3.0',
+1182 silly addNameRange     '1.3.1',
+1182 silly addNameRange     '1.3.2',
+1182 silly addNameRange     '1.3.3',
+1182 silly addNameRange     '1.3.4',
+1182 silly addNameRange     '1.3.5',
+1182 silly addNameRange     '1.3.6',
+1182 silly addNameRange     '1.3.7',
+1182 silly addNameRange     '1.3.8',
+1182 silly addNameRange     '1.4.0-beta.0',
+1182 silly addNameRange     '1.3.9',
+1182 silly addNameRange     '1.3.10',
+1182 silly addNameRange     '1.4.0-beta.1',
+1182 silly addNameRange     '1.4.0-beta.2',
+1182 silly addNameRange     '1.3.11',
+1182 silly addNameRange     '1.4.0-beta.3',
+1182 silly addNameRange     '1.3.12',
+1182 silly addNameRange     '1.3.13',
+1182 silly addNameRange     '1.4.0-beta.4',
+1182 silly addNameRange     '1.3.14',
+1182 silly addNameRange     '1.4.0-beta.5',
+1182 silly addNameRange     '1.4.0-beta.6',
+1182 silly addNameRange     '1.3.15',
+1182 silly addNameRange     '1.4.0-rc.0',
+1182 silly addNameRange     '1.4.0-rc.1',
+1182 silly addNameRange     '1.4.0-rc.2',
+1182 silly addNameRange     '1.4.0',
+1182 silly addNameRange     '1.3.16',
+1182 silly addNameRange     '1.4.1',
+1182 silly addNameRange     '1.4.2',
+1182 silly addNameRange     '1.3.17',
+1182 silly addNameRange     '1.4.3',
+1182 silly addNameRange     '1.4.4',
+1182 silly addNameRange     '1.3.18',
+1182 silly addNameRange     '1.4.5',
+1182 silly addNameRange     '1.3.19',
+1182 silly addNameRange     '1.4.6',
+1182 silly addNameRange     '1.5.0-beta.0',
+1182 silly addNameRange     '1.3.20',
+1182 silly addNameRange     '1.4.7',
+1182 silly addNameRange     '1.5.0-beta.2',
+1182 silly addNameRange     '1.4.8',
+1182 silly addNameRange     '1.5.0-rc.0',
+1182 silly addNameRange     '1.5.0-rc.1',
+1182 silly addNameRange     '1.4.9',
+1182 silly addNameRange     '1.5.0-rc.2',
+1182 silly addNameRange     '1.5.0',
+1182 silly addNameRange     '1.5.1',
+1182 silly addNameRange     '1.4.10',
+1182 silly addNameRange     '1.5.2',
+1182 silly addNameRange     '1.5.3',
+1182 silly addNameRange     '1.5.5' ] ]
+1183 silly addNamed angular-messages@1.5.5
+1184 verbose addNamed "1.5.5" is a plain semver version for angular-messages
+1185 silly mapToRegistry name angular-messages
+1186 silly mapToRegistry using default registry
+1187 silly mapToRegistry registry https://registry.npmjs.org/
+1188 silly mapToRegistry uri https://registry.npmjs.org/angular-messages
+1189 verbose addRemoteTarball https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz not in flight; adding
+1190 verbose addRemoteTarball [ 'https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz',
+1190 verbose addRemoteTarball   '2a126d34e90580c45212aeb4d04152147771e6af' ]
+1191 info retry fetch attempt 1 at 20:38:22
+1192 info attempt registry request try #1 at 20:38:22
+1193 http fetch GET https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz
+1194 http fetch 200 https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz
+1195 silly fetchAndShaCheck shasum 2a126d34e90580c45212aeb4d04152147771e6af
+1196 verbose addTmpTarball C:\Users\Usuario\AppData\Local\Temp\npm-6608-48f65c66\registry.npmjs.org\angular-messages\-\angular-messages-1.5.5.tgz not in flight; adding
+1197 verbose addTmpTarball already have metadata; skipping unpack for angular-messages@1.5.5
+1198 silly cache afterAdd angular-messages@1.5.5
+1199 verbose afterAdd C:\Users\Usuario\AppData\Roaming\npm-cache\angular-messages\1.5.5\package\package.json not in flight; writing
+1200 verbose afterAdd C:\Users\Usuario\AppData\Roaming\npm-cache\angular-messages\1.5.5\package\package.json written
+1201 silly install resolved [ { name: 'angular-messages',
+1201 silly install resolved     version: '1.5.5',
+1201 silly install resolved     description: 'AngularJS module that provides enhanced support for displaying messages within templates',
+1201 silly install resolved     main: 'index.js',
+1201 silly install resolved     scripts: { test: 'echo "Error: no test specified" && exit 1' },
+1201 silly install resolved     repository:
+1201 silly install resolved      { type: 'git',
+1201 silly install resolved        url: 'git+https://github.com/angular/angular.js.git' },
+1201 silly install resolved     keywords: [ 'angular', 'framework', 'browser', 'client-side' ],
+1201 silly install resolved     author:
+1201 silly install resolved      { name: 'Angular Core Team',
+1201 silly install resolved        email: 'angular-core+npm@google.com' },
+1201 silly install resolved     license: 'MIT',
+1201 silly install resolved     bugs: { url: 'https://github.com/angular/angular.js/issues' },
+1201 silly install resolved     homepage: 'http://angularjs.org',
+1201 silly install resolved     gitHead: 'd83ee89bf667cd6dc5453c1f42e2e639fa765f85',
+1201 silly install resolved     _id: 'angular-messages@1.5.5',
+1201 silly install resolved     _shasum: '2a126d34e90580c45212aeb4d04152147771e6af',
+1201 silly install resolved     _from: 'angular-messages@>=1.5.0 <2.0.0',
+1201 silly install resolved     _npmVersion: '2.15.1',
+1201 silly install resolved     _nodeVersion: '4.4.3',
+1201 silly install resolved     _npmUser: { name: 'angularcore', email: 'angular-core+npm@google.com' },
+1201 silly install resolved     dist:
+1201 silly install resolved      { shasum: '2a126d34e90580c45212aeb4d04152147771e6af',
+1201 silly install resolved        tarball: 'https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz' },
+1201 silly install resolved     maintainers: [ [Object], [Object] ],
+1201 silly install resolved     _npmOperationalInternal:
+1201 silly install resolved      { host: 'packages-16-east.internal.npmjs.com',
+1201 silly install resolved        tmp: 'tmp/angular-messages-1.5.5.tgz_1460972990401_0.7499208080116659' },
+1201 silly install resolved     directories: {},
+1201 silly install resolved     _resolved: 'https://registry.npmjs.org/angular-messages/-/angular-messages-1.5.5.tgz' } ]
+1202 info install angular-messages@1.5.5 into C:\Users\Usuario
+1203 info installOne angular-messages@1.5.5
+1204 verbose installOne of angular-messages to C:\Users\Usuario not in flight; installing
+1205 verbose lock using C:\Users\Usuario\AppData\Roaming\npm-cache\_locks\angular-messages-a2b042cf53f5f657.lock for C:\Users\Usuario\node_modules\angular-messages
+1206 silly install write writing angular-messages 1.5.5 to C:\Users\Usuario\node_modules\angular-messages
+1207 verbose unbuild node_modules\angular-messages
+1208 silly gentlyRm C:\Users\Usuario\node_modules\angular-messages is being purged from base C:\Users\Usuario
+1209 verbose gentlyRm don't care about contents; nuking C:\Users\Usuario\node_modules\angular-messages
+1210 verbose tar unpack C:\Users\Usuario\AppData\Roaming\npm-cache\angular-messages\1.5.5\package.tgz
+1211 verbose tar unpacking to C:\Users\Usuario\node_modules\angular-messages
+1212 silly gentlyRm C:\Users\Usuario\node_modules\angular-messages is being purged
+1213 verbose gentlyRm don't care about contents; nuking C:\Users\Usuario\node_modules\angular-messages
+1214 silly gunzTarPerm modes [ '777', '666' ]
+1215 silly gunzTarPerm extractEntry package.json
+1216 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+1217 silly gunzTarPerm extractEntry README.md
+1218 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+1219 silly gunzTarPerm extractEntry angular-messages.js
+1220 silly gunzTarPerm modified mode [ 'angular-messages.js', 420, 438 ]
+1221 silly gunzTarPerm extractEntry angular-messages.min.js
+1222 silly gunzTarPerm modified mode [ 'angular-messages.min.js', 420, 438 ]
+1223 silly gunzTarPerm extractEntry index.js
+1224 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+1225 silly gunzTarPerm extractEntry angular-messages.min.js.map
+1226 silly gunzTarPerm modified mode [ 'angular-messages.min.js.map', 420, 438 ]
+1227 silly gunzTarPerm extractEntry bower.json
+1228 silly gunzTarPerm modified mode [ 'bower.json', 420, 438 ]
+1229 verbose write writing to C:\Users\Usuario\node_modules\angular-messages\package.json
+1230 info preinstall angular-messages@1.5.5
+1231 verbose readDependencies loading dependencies from C:\Users\Usuario\node_modules\angular-messages\package.json
+1232 verbose readDependencies loading dependencies from C:\Users\Usuario\node_modules\angular-messages\package.json
+1233 silly install resolved []
+1234 verbose about to build C:\Users\Usuario\node_modules\angular-messages
+1235 info build C:\Users\Usuario\node_modules\angular-messages
+1236 info linkStuff angular-messages@1.5.5
+1237 silly linkStuff angular-messages@1.5.5 has C:\Users\Usuario\node_modules as its parent node_modules
+1238 verbose linkBins angular-messages@1.5.5
+1239 verbose linkMans angular-messages@1.5.5
+1240 verbose rebuildBundles angular-messages@1.5.5
+1241 info install angular-messages@1.5.5
+1242 info postinstall angular-messages@1.5.5
+1243 verbose unlock done using C:\Users\Usuario\AppData\Roaming\npm-cache\_locks\angular-messages-a2b042cf53f5f657.lock for C:\Users\Usuario\node_modules\angular-messages
+1244 verbose unlock done using C:\Users\Usuario\AppData\Roaming\npm-cache\_locks\angular-material-f22c762e0ab0d5fa.lock for C:\Users\Usuario\node_modules\angular-material
+1245 verbose validateInstall loading C:\Users\Usuario\package.json for validation
+1246 verbose stack Error: The package angular does not satisfy its siblings' peerDependencies requirements!
+1246 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:125:32
+1246 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:267:7
+1246 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:138:5
+1246 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:251:14
+1246 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+1246 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:251:14
+1246 verbose stack     at asyncMap (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:27:18)
+1246 verbose stack     at next (C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:222:5)
+1246 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:163:12
+1246 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:345:5
+1247 verbose cwd C:\Users\Usuario\Desktop\Proyecto Final\SAPO\Odontologia\web\src\main\webapp\components\angular-material
+1248 error Windows_NT 6.1.7601
+1249 error argv "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "angular-material"
+1250 error node v0.12.7
+1251 error npm  v2.11.3
+1252 error code EPEERINVALID
+1253 error peerinvalid The package angular does not satisfy its siblings' peerDependencies requirements!
+1253 error peerinvalid Peer angular-material@1.0.7 wants angular@^1.5.0
+1254 verbose exit [ 1, true ]

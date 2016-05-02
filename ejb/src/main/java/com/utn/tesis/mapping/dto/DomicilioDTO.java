@@ -14,6 +14,26 @@ public class DomicilioDTO extends BaseDTO{
     private int codigoPostal;
     private int piso;
     private String departamento;
+    private Long id;
+    private Integer version;
+
+    //GETTER AND SETTERS
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     public BarrioDTO getBarrio() {
         return barrio;

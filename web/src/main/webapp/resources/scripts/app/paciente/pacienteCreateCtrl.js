@@ -29,7 +29,6 @@ module.controller('PacienteCtrl_Create',
             nivelesEstudio: nivelesEstudioResponse.data,
             nacionalidades: nacionalidadesResponse.data
         }
-        vm.selectedCiudad ={};
 
         var performSubmit = $scope.$parent.performSubmit;
         var handleError = $scope.$parent.handleError;

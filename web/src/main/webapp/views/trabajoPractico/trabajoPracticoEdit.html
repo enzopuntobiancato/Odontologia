@@ -1,69 +1,139 @@
-<md-content layout layout-align="center start" flex class="md-main-content">
-    <md-card class="md-whiteframe-z5 md-main-content-card">
-        <md-toolbar class="md-accent">
-            <div class="md-toolbar-tools">
-                <span>Editar trabajo práctico</span>
+<div layout="column">
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="column" layout-fill layout-padding>
+            <div>
+                <div layout="row" layout-align="center center">
+                    <md-card flex-gt-sm>
+                        <form name="editTrabajoPracticoForm" ng-submit="save(editTrabajoPracticoForm)" novalidate>
+                            <md-toolbar class="md-accent">
+                                <div class="md-toolbar-tools">
+                                    <span>{{ 'MOD_TP' | translate }}</span>
+                                </div>
+                            </md-toolbar>
+                            <md-card-content>
+                                <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
+                                <div layout="row" layout-xs="column" layout-margin>
+                                    <md-input-container flex>
+                                        <label>{{ 'NOMBRE' | translate }}</label>
+                                        <input name="nombre" ng-model="trabajoPractico.nombre"
+                                               required md-maxlength="100">
+                                        <div ng-messages="editTrabajoPracticoForm.nombre.$error" ng-show="editTrabajoPracticoForm.nombre.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <label>{{ 'GRUPO_ODONT' | translate }}</label>
+                                        <md-select ng-model="selectedGrupo" name="grupoPractica" >
+                                            <md-option ng-repeat="grupo in data.gruposPractica" ng-value="grupo">
+                                                {{ grupo.nombre }}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container flex>
+                                        <label>{{ 'PRACTICA_ODONT' | translate }}</label>
+                                        <md-select required ng-model="trabajoPractico.practicaOdontologica" name="practica">
+                                            <md-option ng-repeat="practica in practicasSelect" ng-value="practica">
+                                                {{ practica.denominacion }}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="editTrabajoPracticoForm.practica.$error" ng-show="editTrabajoPracticoForm.practica.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row" layout-xs="column" layout-margin>
+                                    <md-input-container flex>
+                                        <label>{{ 'DESCRIPCION' | translate }}</label>
+                                        <textarea ng-model="trabajoPractico.descripcion" columns="1" md-maxlength="400" required
+                                                  name="descripcion"></textarea>
+                                        <div ng-messages="editTrabajoPracticoForm.descripcion.$error" ng-show="editTrabajoPracticoForm.descripcion.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout-xs="column" layout-margin layout="column" ng-if="trabajoPractico.practicaOdontologica">
+                                    <h2 class="md-title">Descripción práctica</h2>
+                                    <p>{{trabajoPractico.practicaOdontologica.observaciones}}
+                                    </p>
+                                </div>
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="goIndex()">Cancelar</md-button>
+                                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                            </md-card-actions>
+                        </form>
+                    </md-card>
+                </div>
             </div>
-        </md-toolbar>
-        <form name="editTrabajoPracticoForm" ng-submit="save(editTrabajoPracticoForm)" novalidate>
-            <md-card-content>
-                <p>Complete los datos para editar el trabajo práctico</p>
-                <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
-                <div layout="row" layout-xs="column" layout-margin>
-                    <md-input-container flex>
-                        <label>Nombre</label>
-                        <input name="nombre" ng-model="trabajoPractico.nombre"
-                               required md-maxlength="100">
-                        <div ng-messages="editTrabajoPracticoForm.nombre.$error"
-                             ng-show="editTrabajoPracticoForm.nombre.$touched">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Grupo</label>
-                        <md-select ng-model="aux.selectedGrupo" name="grupoPractica" ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-repeat="grupo in data.gruposPractica" ng-value="grupo">
-                                {{ grupo.nombre }}
-                            </md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Práctica</label>
-                        <md-select required ng-model="trabajoPractico.practicaOdontologica" name="practica"
-                                   ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-repeat="practica in practicasSelect" ng-value="practica">
-                                {{ practica.denominacion }}
-                            </md-option>
-                        </md-select>
-                        <div ng-messages="editTrabajoPracticoForm.practica.$error"
-                             ng-show="editTrabajoPracticoForm.practica.$touched">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </md-input-container>
-                </div>
-                <div layout="row" layout-xs="column" layout-margin>
-                    <md-input-container flex>
-                        <label>Descripción</label>
-                        <textarea ng-model="trabajoPractico.descripcion" columns="5" md-maxlength="400" required
-                                  name="descripcion"></textarea>
-                        <div ng-messages="editTrabajoPracticoForm.descripcion.$error"
-                             ng-show="editTrabajoPracticoForm.descripcion.$touched">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </md-input-container>
-                </div>
-                <div layout-xs="column" layout-margin layout="column" ng-if="trabajoPractico.practicaOdontologica">
-                    <h2 class="md-title">Descripción práctica</h2>
-                    <p>{{trabajoPractico.practicaOdontologica.observaciones}}
-                    </p>
-                </div>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="goIndex()">Cancelar</md-button>
-                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-            </md-card-actions>
-        </form>
-    </md-card>
-    </div>
-</md-content>
+        </div>
+    </md-content>
+</div>
+<!--<md-content layout layout-align="center start" flex class="md-main-content">-->
+    <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
+        <!--<md-toolbar class="md-accent">-->
+            <!--<div class="md-toolbar-tools">-->
+                <!--<span>Editar trabajo práctico</span>-->
+            <!--</div>-->
+        <!--</md-toolbar>-->
+        <!--<form name="editTrabajoPracticoForm" ng-submit="save(editTrabajoPracticoForm)" novalidate>-->
+            <!--<md-card-content>-->
+                <!--<p>Complete los datos para editar el trabajo práctico</p>-->
+                <!--<ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>-->
+                <!--<div layout="row" layout-xs="column" layout-margin>-->
+                    <!--<md-input-container flex>-->
+                        <!--<label>Nombre</label>-->
+                        <!--<input name="nombre" ng-model="trabajoPractico.nombre"-->
+                               <!--required md-maxlength="100">-->
+                        <!--<div ng-messages="editTrabajoPracticoForm.nombre.$error"-->
+                             <!--ng-show="editTrabajoPracticoForm.nombre.$touched">-->
+                            <!--<div ng-messages-include="error-messages"></div>-->
+                        <!--</div>-->
+                    <!--</md-input-container>-->
+                    <!--<md-input-container flex>-->
+                        <!--<label>Grupo</label>-->
+                        <!--<md-select ng-model="aux.selectedGrupo" name="grupoPractica" ng-model-options="{trackBy: '$value.id'}">-->
+                            <!--<md-option ng-repeat="grupo in data.gruposPractica" ng-value="grupo">-->
+                                <!--{{ grupo.nombre }}-->
+                            <!--</md-option>-->
+                        <!--</md-select>-->
+                    <!--</md-input-container>-->
+                    <!--<md-input-container flex>-->
+                        <!--<label>Práctica</label>-->
+                        <!--<md-select required ng-model="trabajoPractico.practicaOdontologica" name="practica"-->
+                                   <!--ng-model-options="{trackBy: '$value.id'}">-->
+                            <!--<md-option ng-repeat="practica in practicasSelect" ng-value="practica">-->
+                                <!--{{ practica.denominacion }}-->
+                            <!--</md-option>-->
+                        <!--</md-select>-->
+                        <!--<div ng-messages="editTrabajoPracticoForm.practica.$error"-->
+                             <!--ng-show="editTrabajoPracticoForm.practica.$touched">-->
+                            <!--<div ng-messages-include="error-messages"></div>-->
+                        <!--</div>-->
+                    <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div layout="row" layout-xs="column" layout-margin>-->
+                    <!--<md-input-container flex>-->
+                        <!--<label>Descripción</label>-->
+                        <!--<textarea ng-model="trabajoPractico.descripcion" columns="5" md-maxlength="400" required-->
+                                  <!--name="descripcion"></textarea>-->
+                        <!--<div ng-messages="editTrabajoPracticoForm.descripcion.$error"-->
+                             <!--ng-show="editTrabajoPracticoForm.descripcion.$touched">-->
+                            <!--<div ng-messages-include="error-messages"></div>-->
+                        <!--</div>-->
+                    <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<div layout-xs="column" layout-margin layout="column" ng-if="trabajoPractico.practicaOdontologica">-->
+                    <!--<h2 class="md-title">Descripción práctica</h2>-->
+                    <!--<p>{{trabajoPractico.practicaOdontologica.observaciones}}-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</md-card-content>-->
+            <!--<md-card-actions layout="row" layout-align="end center">-->
+                <!--<md-button ng-click="goIndex()">Cancelar</md-button>-->
+                <!--<md-button type="submit" class="md-raised md-primary">Aceptar</md-button>-->
+            <!--</md-card-actions>-->
+        <!--</form>-->
+    <!--</md-card>-->
+    <!--</div>-->
+<!--</md-content>-->
 

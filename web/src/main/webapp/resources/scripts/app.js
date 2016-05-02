@@ -13,20 +13,27 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'ngAnimate',
     'ngMessages',
     'ngMdIcons',
-    'ngFileUpload'
+    'ngFileUpload',
+    'pascalprecht.translate'
 ]);
 
-
-odontologiaApp.config(['$urlRouterProvider',
-    '$stateProvider',
-    '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider', '$mdThemingProvider', '$mdIconProvider',
-    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider, $mdIconProvider) {
+odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
+    '$mdThemingProvider', '$mdIconProvider','$translateProvider',
+    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider,
+              $mdIconProvider,$translateProvider) {
 
         var customBlueMap = $mdThemingProvider.extendPalette('light-blue', {
             'contrastDefaultColor': 'light',
             'contrastDarkColors': ['50'],
             '50': 'ffffff'
         });
+        $translateProvider
+            .useStaticFilesLoader({
+                prefix: 'resources/i18n/locale-',
+                suffix: '.json'}
+            )
+            .preferredLanguage('es');
+
         $mdThemingProvider.definePalette('customBlue', customBlueMap);
         $mdThemingProvider.theme('default')
             .primaryPalette('customBlue', {
@@ -614,6 +621,46 @@ odontologiaApp.config(['$urlRouterProvider',
                     }
                 }
             })
+            .state('historiaClinica', {
+                url: '/historiaClinica',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('historiaClinicaModule')
+            })
+            .state('historiaClinica.index', {
+                url: '/',
+                templateUrl: 'views/historiaClinica/historiaClinicaQuery.html',
+                params: {execQuery: false, execQuerySamePage: false},
+                controller: 'HistoriaClinicaCtrl_Index',
+                controllerAs: 'vm',
+                resolve: {
+                }
+            })
+            .state('historiaClinica.create', {
+                url: '/create',
+                templateUrl: 'views/historiaClinica/historiaClinicaCreate.html',
+                controller: 'HistoriaClinicaCtrl_Create',
+                controllerAs: 'vm'
+            })
+            .state('historiaClinica.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/historiaClinica/historiaClinicaEdit.html',
+                controller: 'HistoriaClinicaCtrl_Edit',
+                controllerAs: 'vm'
+            })
+            .state('historiaClinica.view', {
+                url: '/view/:id',
+                templateUrl: 'views/historiaClinica/historiaClinicaView.html',
+                controllerAs: 'vm',
+                controller: function($scope,$state){
+                    var vm = this;
+                    vm.goIndex = goIndex();
+
+                    function goIndex(){
+                        $state.go('^.index');
+                    }
+                }
+            })
             .state('asignacion', {
                 url: '/asignacion',
                 template: '<ui-view/>',
@@ -703,6 +750,15 @@ odontologiaApp.config(['$urlRouterProvider',
                     ]
                 },
                 {
+                    name: 'historiaClinicaModule',
+                    files: [
+                        url('/historiaClinica/historiaClinicaSrv.js'),
+                        url('/historiaClinica/hitoriaClinicaIndexCtrl.js'),
+                        url('/historiaClinica/historiaClinicaCreateCtrl.js'),
+                        url('/historiaClinica/historiaClinicaEditCtrl.js')
+                    ]
+                },
+                {
                     name: 'asignacionModule',
                     files: [
                         url('/asignacion/asignacionSrv.js'),
@@ -725,7 +781,7 @@ angular.module('sapo.login', []);
 angular.module('personaModule', []);
 angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
-//angular.module('customDirectivesModule',[])
+angular.module('historiaClinicaModule',[]);
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {
@@ -736,6 +792,39 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         error: false,
         data: {}
     };
+
+    $scope.activity = [
+        {
+            what: 'Brunch this weekend?',
+            who: 'Ali Conners',
+            when: '3:08PM',
+            notes: " I'll be in your neighborhood doing errands"
+        },
+        {
+            what: 'Summer BBQ',
+            who: 'to Alex, Scott, Jennifer',
+            when: '3:08PM',
+            notes: "Wish I could come out but I'm out of town this weekend"
+        },
+        {
+            what: 'Oui Oui',
+            who: 'Sandra Adams',
+            when: '3:08PM',
+            notes: "Do you have Paris recommendations? Have you ever been?"
+        },
+        {
+            what: 'Birthday Gift',
+            who: 'Trevor Hansen',
+            when: '3:08PM',
+            notes: "Have any ideas of what we should get Heidi for her birthday?"
+        },
+        {
+            what: 'Recipe to try',
+            who: 'Brian Holt',
+            when: '3:08PM',
+            notes: "We should eat this: Grapefruit, Squash, Corn, and Tomatillo tacos"
+        },
+    ];
 
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();

@@ -1,145 +1,166 @@
-<md-content layout-align="center start" layout class="md-main-content" flex>
-        <md-card class="md-whiteframe-z5 md-main-content-card">
-            <md-toolbar class="md-accent">
-                <div class="md-toolbar-tools">
-                    <span>Consultar trabajo práctico</span>
+<div layout="column">
+    <md-button class="md-fab md-fab-bottom-right" ng-click="new()">
+        <md-tooltip>
+            Nuevo
+        </md-tooltip>
+        <ng-md-icon icon="add" size="24" style="fill: white"></ng-md-icon>
+    </md-button>
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="column" layout-fill layout-padding>
+            <div>
+                <div layout="row" layout-align="center center">
+                    <md-card flex-gt-sm>
+                        <md-toolbar class="md-accent">
+                            <div class="md-toolbar-tools">
+                                <span>{{ 'CONS_TP' | translate }}</span>
+                            </div>
+                        </md-toolbar>
+                        <md-card-content>
+                            <form name="form" ng-submit="consultar()" novalidate>
+                                <div layout="row" class="md-accent" layout-margin>
+                                    <md-input-container flex>
+                                        <label>Nombre</label>
+                                        <input ng-model="filter.nombre" name="nombre" ng-keypress="keyboardOk($event)">
+                                    </md-input-container>
+                                    <div flex="50" layout="row" layout-align="start center">
+                                        <md-button type="submit">
+                                            <md-tooltip>
+                                                Buscar
+                                            </md-tooltip>
+                                            <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{colorIcon[0]}}"
+                                                        ng-Mouseover="colorMouseOver(0)"
+                                                        ng-mouseleave="colorMouseLeave(0)"></ng-md-icon>
+                                        </md-button>
+                                        <md-button type="button" ng-click="mostrarFiltros = !mostrarFiltros">
+                                            <md-tooltip>
+                                                Ver filtros
+                                            </md-tooltip>
+                                            <ng-md-icon icon="{{clickIcon}}" size="40" ng-attr-style="fill: {{colorIcon[1]}}"
+                                                        ng-Mouseover="colorMouseOver(1)" ng-mouseleave="colorMouseLeave(1)"
+                                                        options='{"duration": 375, "rotation": "none"}'
+                                                        ng-click="clickIconMorph()"></ng-md-icon>
+                                        </md-button>
+                                        <md-button ng-click="cleanFilters()" type="button">
+                                            <md-tooltip>
+                                                Limpiar filtros
+                                            </md-tooltip>
+                                            <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{colorIcon[2]}}"
+                                                        ng-Mouseover="colorMouseOver(2)"
+                                                        ng-mouseleave="colorMouseLeave(2)"></ng-md-icon>
+                                        </md-button>
+                                    </div>
+                                </div>
+                                <div layout="row" layout-margin ng-show="mostrarFiltros" layout-xs="column" class="animated-div">
+                                    <md-input-container flex="33">
+                                        <label>{{ 'GRUPO_ODONT' | translate }}</label>
+                                        <md-select ng-model="filter.grupoPracticaId" name="grupoPractica">
+                                            <md-option ng-repeat="grupo in data.gruposPractica" ng-value="{{ grupo.id }}">
+                                                {{ grupo.nombre }}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container flex="33">
+                                        <label>{{ 'PRACTICA_ODONT' | translate }}</label>
+                                        <md-select ng-model="filter.practicaId" name="practica">
+                                            <md-option ng-repeat="practica in select.practicas" value="{{practica.id}}">
+                                                {{ practica.denominacion }}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container flex="33">
+                                        <md-checkbox ng-model="filter.dadosBaja" aria-label="Incluir dados de baja">
+                                            Incluir dados de baja
+                                        </md-checkbox>
+                                    </md-input-container>
+                                </div>
+                            </form>
+                            <div class="query-chips" layout-gt-sm="row" ng-if="filterChips.length > 0" layout-margin>
+                                <md-chips ng-model="filterChips">
+                                    <md-chip-template>
+                                        <em>{{$chip.name}}</em>
+                                        <strong>{{$chip.displayValue}}</strong>
+                                    </md-chip-template>
+                                </md-chips>
+                            </div>
+                            <md-list ng-show="result.length > 0">
+                                <md-list-item class="md-3-line" ng-repeat="item in result" ng-class="{'deleted-item' : item.fechaBaja}"
+                                              ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
+                                    <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
+                                         class="md-avatar" hide-xs/>
+                                    <div class="md-list-item-text" layout="column">
+                                        <h3 class="md-title">
+                                            <a>{{item.nombre}}</a>
+                                        </h3>
+                                        <h4>{{ item.practicaOdontologica.grupo.nombre }}</h4>
+                                        <p class="muted">{{item.practicaOdontologica.denominacion}}</p>
+                                    </div>
+                                    <div ng-show="item.showAction">
+                                        <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.id)"
+                                                    ng-attr-style="fill: {{colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
+                                                    ng-mouseleave="colorMouseLeave(3)">
+                                            <md-tooltip>
+                                                Editar
+                                            </md-tooltip>
+                                        </ng-md-icon>
+                                        <ng-md-icon icon="visibility" size="24" ng-click="viewDetail(item.id)"
+                                                    ng-attr-style="fill: {{colorIcon[4]}}" ng-Mouseover="colorMouseOver(4)"
+                                                    ng-mouseleave="colorMouseLeave(4)">
+                                            <md-tooltip>
+                                                Ver
+                                            </md-tooltip>
+                                        </ng-md-icon>
+                                        <ng-md-icon ng-show="!item.fechaBaja" icon="delete" size="24"
+                                                    ng-click="openDeleteDialog($event,item.id)"
+                                                    ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
+                                                    ng-mouseleave="colorMouseLeave(5)">
+                                            <md-tooltip>
+                                                Dar de baja
+                                            </md-tooltip>
+                                        </ng-md-icon>
+                                        <ng-md-icon ng-show="item.fechaBaja" icon="restore" size="24"
+                                                    ng-click="openRestoreDialog($event,item.id)"
+                                                    ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
+                                                    ng-mouseleave="colorMouseLeave(5)">
+                                            <md-tooltip>
+                                                Dar de alta
+                                            </md-tooltip>
+                                        </ng-md-icon>
+                                    </div>
+                                    <md-divider md-inset ng-if="!$last"></md-divider>
+                                </md-list-item>
+                                <md-divider></md-divider>
+                                <md-list-item layout class="inset">
+                                    <md-button ng-click="previousPage()" flex layout layout-margin layout-align="start center"
+                                               ng-disabled="paginationData.firstPage">
+                                        <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
+                                        <span hide-xs>Anterior</span>
+                                    </md-button>
+                                    <md-button layout layout-align="start center" layout-margin flex ng-click="nextPage()"
+                                               ng-disabled="!paginationData.morePages">
+                                        <span hide-xs>Siguiente</span>
+                                        <ng-md-icon icon="arrow_forward" style="fill: black"
+                                                    ng-disabled="!paginationData.morePages"></ng-md-icon>
+                                    </md-button>
+                                </md-list-item>
+                            </md-list>
+                            <ng-include ng-if="result.length == 0" src="'views/no-results.html'"></ng-include>
+                        </md-card-content>
+                    </md-card>
                 </div>
-            </md-toolbar>
-            <md-card-content>
-                <form name="form" ng-submit="consultar()" novalidate>
-                <div layout="row" class="md-accent" layout-margin>
-                        <md-input-container flex>
-                            <label>Nombre</label>
-                            <input ng-model="filter.nombre" name="nombre" ng-keypress="keyboardOk($event)">
-                        </md-input-container>
-                    <div flex="50" layout="row" layout-align="start center">
-                        <md-button type="submit">
-                            <md-tooltip>
-                                Buscar
-                            </md-tooltip>
-                            <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{colorIcon[0]}}"
-                                        ng-Mouseover="colorMouseOver(0)"
-                                        ng-mouseleave="colorMouseLeave(0)"></ng-md-icon>
-                        </md-button>
-                        <md-button type="button" ng-click="mostrarFiltros = !mostrarFiltros">
-                            <md-tooltip>
-                                Ver filtros
-                            </md-tooltip>
-                            <ng-md-icon icon="{{clickIcon}}" size="40" ng-attr-style="fill: {{colorIcon[1]}}"
-                                        ng-Mouseover="colorMouseOver(1)" ng-mouseleave="colorMouseLeave(1)"
-                                        options='{"duration": 375, "rotation": "none"}'
-                                        ng-click="clickIconMorph()"></ng-md-icon>
-                        </md-button>
-                        <md-button ng-click="cleanFilters()" type="button">
-                            <md-tooltip>
-                                Limpiar filtros
-                            </md-tooltip>
-                            <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{colorIcon[2]}}"
-                                        ng-Mouseover="colorMouseOver(2)"
-                                        ng-mouseleave="colorMouseLeave(2)"></ng-md-icon>
-                        </md-button>
-                    </div>
-                </div>
-                    <div layout="row" layout-margin ng-show="mostrarFiltros" layout-xs="column" class="animated-div">
-                        <md-input-container flex="33">
-                            <label>Grupo</label>
-                            <md-select ng-model="filter.grupoPracticaId" name="grupoPractica">
-                                <md-option ng-repeat="grupo in data.gruposPractica" ng-value="{{ grupo.id }}">
-                                    {{ grupo.nombre }}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                        <md-input-container flex="33">
-                            <label>Práctica</label>
-                            <md-select ng-model="filter.practicaId" name="practica">
-                                <md-option ng-repeat="practica in select.practicas" value="{{practica.id}}">
-                                    {{ practica.denominacion }}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                        <md-input-container flex="33">
-                            <md-checkbox ng-model="filter.dadosBaja" aria-label="Incluir dados de baja">
-                                Incluir dados de baja
-                            </md-checkbox>
-                        </md-input-container>
-                    </div>
-                </form>
-                <div class="query-chips" layout-gt-sm="row" ng-if="filterChips.length > 0" layout-margin>
-                    <md-chips ng-model="filterChips">
-                        <md-chip-template>
-                            <em>{{$chip.name}}</em>
-                            <strong>{{$chip.displayValue}}</strong>
-                        </md-chip-template>
-                    </md-chips>
-                </div>
-                <md-list ng-show="result.length > 0">
-                    <md-list-item class="md-3-line" ng-repeat="item in result" ng-class="{'deleted-item' : item.fechaBaja}"
-                                  ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
-                        <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
-                             class="md-avatar" hide-xs/>
-                        <div class="md-list-item-text" layout="column">
-                            <h3 class="md-title">
-                                <a>{{item.nombre}}</a>
-                            </h3>
-                            <h4>{{ item.practicaOdontologica.grupo.nombre }}</h4>
-                            <p class="muted">{{item.practicaOdontologica.denominacion}}</p>
-                        </div>
-                        <div ng-show="item.showAction">
-                            <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.id)"
-                                        ng-attr-style="fill: {{colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
-                                        ng-mouseleave="colorMouseLeave(3)">
-                                <md-tooltip>
-                                    Editar
-                                </md-tooltip>
-                            </ng-md-icon>
-                            <ng-md-icon icon="visibility" size="24" ng-click="viewDetail(item.id)"
-                                        ng-attr-style="fill: {{colorIcon[4]}}" ng-Mouseover="colorMouseOver(4)"
-                                        ng-mouseleave="colorMouseLeave(4)">
-                                <md-tooltip>
-                                    Ver
-                                </md-tooltip>
-                            </ng-md-icon>
-                            <ng-md-icon ng-show="!item.fechaBaja" icon="delete" size="24"
-                                        ng-click="openDeleteDialog($event,item.id)"
-                                        ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
-                                        ng-mouseleave="colorMouseLeave(5)">
-                                <md-tooltip>
-                                    Dar de baja
-                                </md-tooltip>
-                            </ng-md-icon>
-                            <ng-md-icon ng-show="item.fechaBaja" icon="restore" size="24"
-                                        ng-click="openRestoreDialog($event,item.id)"
-                                        ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
-                                        ng-mouseleave="colorMouseLeave(5)">
-                                <md-tooltip>
-                                    Dar de alta
-                                </md-tooltip>
-                            </ng-md-icon>
-                        </div>
-                        <md-divider md-inset ng-if="!$last"></md-divider>
-                    </md-list-item>
-                    <md-divider></md-divider>
-                    <md-list-item layout class="inset">
-                        <md-button ng-click="previousPage()" flex layout layout-margin layout-align="start center"
-                                   ng-disabled="paginationData.firstPage">
-                            <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
-                            <span hide-xs>Anterior</span>
-                        </md-button>
-                        <md-button layout layout-align="start center" layout-margin flex ng-click="nextPage()"
-                                   ng-disabled="!paginationData.morePages">
-                            <span hide-xs>Siguiente</span>
-                            <ng-md-icon icon="arrow_forward" style="fill: black"
-                                        ng-disabled="!paginationData.morePages"></ng-md-icon>
-                        </md-button>
-                    </md-list-item>
-                </md-list>
-                <ng-include ng-if="result.length == 0" src="'views/no-results.html'"></ng-include>
-            </md-card-content>
-        </md-card>
+            </div>
+        </div>
     </md-content>
-<md-button class="md-fab md-fab-bottom-right" ng-click="new()">
-    <md-tooltip>
-        Nuevo
-    </md-tooltip>
-    <ng-md-icon icon="add" size="24" style="fill: white"></ng-md-icon>
-</md-button>
+</div>
+<!--<md-content layout-align="center start" layout class="md-main-content" flex>-->
+        <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
+            <!--<md-toolbar class="md-accent">-->
+                <!--<div class="md-toolbar-tools">-->
+                    <!--<span>Consultar trabajo práctico</span>-->
+                <!--</div>-->
+            <!--</md-toolbar>-->
+            <!--<md-card-content>-->
+               <!---->
+            <!--</md-card-content>-->
+        <!--</md-card>-->
+    <!--</md-content>-->
+

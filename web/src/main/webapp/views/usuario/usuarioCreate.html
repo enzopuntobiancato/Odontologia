@@ -1,96 +1,197 @@
-<md-content layout="column" layout-align="start center" flex flex-xs class="md-main-content">
-            <md-card class="md-whiteframe-z5 md-main-content-card">
-                <form name="usuarioForm" novalidate ng-submit="save(usuarioForm)">
-                <md-toolbar class="md-accent">
-                    <div class="md-toolbar-tools">
-                        <span>Crear usuario</span>
-                    </div>
-                </md-toolbar>
-                <md-card-content>
-                    <p>Complete los datos para crear un nuevo usuario.</p>
-                    <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
-                        <div layout-gt-sm="row" layout-margin flex layout-xs="column">
-                            <md-input-container flex-gt-sm="33">
-                            <label>Nombre</label>
-                            <input name="nombre"  ng-model="personaDTO.nombre"
-                                   required md-maxlength="100">
-                                <div ng-messages="usuarioForm.nombre.$error" ng-show="usuarioForm.nombre.$touched">
-                                    <div ng-messages-include="error-messages"></div>
-                                </div>
-                        </md-input-container>
-                        <md-input-container flex-gt-sm="33">
-                                <label>Apellido</label>
-                                <input name="apellido"  ng-model="personaDTO.apellido"
-                                       required md-maxlength="100">
-                            <div ng-messages="usuarioForm.apellido.$error" ng-show="usuarioForm.apellido.$touched">
-                                <div ng-messages-include="error-messages"></div>
+<div layout="column">
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="column" layout-fill layout-padding>
+            <div>
+                <div layout="row" layout-align="center center">
+                    <md-card flex-gt-sm>
+                        <form name="usuarioForm" novalidate ng-submit="save(usuarioForm)">
+                        <md-toolbar class="md-accent">
+                            <div class="md-toolbar-tools">
+                                <span>{{ 'CREAR_USUARIO' | translate }}</span>
                             </div>
-                            </md-input-container>
-                            <md-input-container flex-gt-sm="33">
-                                <label>Sexo</label>
-                                <md-select required ng-model="personaDTO.sexo" ng-model-options="{trackBy: '$value.key'}"
-                                           name="sexo">
-                                    <md-option ng-repeat="sexo in data.sexos" ng-value="sexo">
-                                        {{ sexo.nombre }}
-                                    </md-option>
-                                </md-select>
-                                <div ng-messages="usuarioForm.sexo.$error" ng-show="usuarioForm.sexo.$touched">
-                                    <div ng-messages-include="error-messages"></div>
-                                </div>
-                            </md-input-container>
-                        </div>
-                        <div layout-gt-sm layout-margin>
-                            <md-input-container flex-gt-sm="33">
-                                <label>Tipo doc.</label>
-                                <md-select ng-model="personaDTO.documento.tipoDocumento" ng-model-options="{trackBy: '$value.key'}"
-                                           name="tipoDocumento" required>
-                                    <md-option ng-repeat="tipo in data.tiposDoc" ng-value="tipo">
-                                        {{ tipo.nombre }}
-                                    </md-option>
-                                </md-select>
-                                <div ng-messages="usuarioForm.tipoDocumento.$error" ng-show="usuarioForm.tipoDocumento.$touched">
-                                    <div ng-messages-include="error-messages"></div>
-                                </div>
-                            </md-input-container>
-                            <md-input-container flex-gt-sm="33">
-                                <label>Nro. documento</label>
-                                <input name="nroDocumento"  ng-model="personaDTO.documento.numero"
-                                       required md-maxlength="10">
-                                <div ng-messages="usuarioForm.nroDocumento.$error" ng-show="usuarioForm.nroDocumento.$touched">
-                                    <div ng-messages-include="error-messages"></div>
-                                </div>
-                            </md-input-container>
-                            <span flex></span>
-                        </div>
-                        <div layout-gt-sm="row" layout-margin flex layout-xs="column">
-                            <!--<ng-md-icon icon="email" class="md-icon-view"></ng-md-icon>-->
-                            <md-input-container flex-gt-sm="33">
-                                <label>E-mail</label>
-                                <input name="email" ng-model="personaDTO.usuario.email" type="email"
-                                       required md-maxlength="100">
-                                <div ng-messages="usuarioForm.email.$error" ng-show="usuarioForm.email.$touched">
-                                    <div ng-messages-include="error-messages"></div>
-                                </div>
-                            </md-input-container>
-                            <md-input-container flex-gt-sm="33">
-                                <label>Rol</label>
-                                <md-select required ng-model="personaDTO.usuario.rol" name="rol">
-                                    <md-option ng-repeat="rol in data.roles" ng-value="rol" ng-model-options="{trackBy: 'rol.id'}">
-                                        {{ rol.nombre }}
-                                    </md-option>
-                                </md-select>
-                                <div ng-messages="usuarioForm.rol.$error" ng-show="usuarioForm.rol.$touched">
-                                    <div ng-messages-include="error-messages"></div>
-                                </div>
-                            </md-input-container>
-                        </div>
-                </md-card-content>
-                <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="goIndex()">Cancelar</md-button>
-                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-                </md-card-actions>
-                </form>
-            </md-card>
-</md-content>
+                        </md-toolbar>
+                        <md-card-content>
+                            <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
+                            <div layout-gt-sm="row" layout-margin flex layout-xs="column">
+                                <md-input-container flex-gt-sm="33">
+                                    <label>{{ 'NOMBRE' | translate }}</label>
+                                    <input name="nombre"  ng-model="personaDTO.nombre"
+                                           required md-maxlength="100">
+                                    <div ng-messages="usuarioForm.nombre.$error" ng-show="usuarioForm.nombre.$touched">
+                                        <div ng-messages-include="error-messages"></div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex-gt-sm="33">
+                                    <label>{{ 'APELLIDO' | translate }}</label>
+                                    <input name="apellido"  ng-model="personaDTO.apellido"
+                                           required md-maxlength="100">
+                                    <div ng-messages="usuarioForm.apellido.$error" ng-show="usuarioForm.apellido.$touched">
+                                        <div ng-messages-include="error-messages"></div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex-gt-sm="33">
+                                    <label>{{ 'SEXO' | translate }}</label>
+                                    <md-select required ng-model="personaDTO.sexo" ng-model-options="{trackBy: '$value.key'}"
+                                               name="sexo">
+                                        <md-option ng-repeat="sexo in data.sexos" ng-value="sexo">
+                                            {{ sexo.nombre }}
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="usuarioForm.sexo.$error" ng-show="usuarioForm.sexo.$touched">
+                                        <div ng-messages-include="error-messages"></div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div layout-gt-sm layout-margin>
+                                <md-input-container flex-gt-sm="33">
+                                    <label>{{ 'TIPO_DOC' | translate }}</label>
+                                    <md-select ng-model="personaDTO.documento.tipoDocumento" ng-model-options="{trackBy: '$value.key'}"
+                                               name="tipoDocumento" required>
+                                        <md-option ng-repeat="tipo in data.tiposDoc" ng-value="tipo">
+                                            {{ tipo.nombre }}
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="usuarioForm.tipoDocumento.$error" ng-show="usuarioForm.tipoDocumento.$touched">
+                                        <div ng-messages-include="error-messages"></div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex-gt-sm="33">
+                                    <label>{{ 'NUM_DOC' | translate }}</label>
+                                    <input name="nroDocumento"  ng-model="personaDTO.documento.numero"
+                                           required md-maxlength="10">
+                                    <div ng-messages="usuarioForm.nroDocumento.$error" ng-show="usuarioForm.nroDocumento.$touched">
+                                        <div ng-messages-include="error-messages"></div>
+                                    </div>
+                                </md-input-container>
+                                <span flex></span>
+                            </div>
+                            <div layout-gt-sm="row" layout-margin flex layout-xs="column">
+                                <!--<ng-md-icon icon="email" class="md-icon-view"></ng-md-icon>-->
+                                <md-input-container flex-gt-sm="33">
+                                    <label>{{ 'EMAIL' | translate }}</label>
+                                    <input name="email" ng-model="personaDTO.usuario.email" type="email"
+                                           required md-maxlength="100">
+                                    <div ng-messages="usuarioForm.email.$error" ng-show="usuarioForm.email.$touched">
+                                        <div ng-messages-include="error-messages"></div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex-gt-sm="33">
+                                    <label>{{ 'ROL' | translate }}</label>
+                                    <md-select required ng-model="personaDTO.usuario.rol" name="rol">
+                                        <md-option ng-repeat="rol in data.roles" ng-value="rol" ng-model-options="{trackBy: 'rol.id'}">
+                                            {{ rol.nombre }}
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="usuarioForm.rol.$error" ng-show="usuarioForm.rol.$touched">
+                                        <div ng-messages-include="error-messages"></div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                        </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="goIndex()">Cancelar</md-button>
+                                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                            </md-card-actions>
+                            </form>
+                    </md-card>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</div>
+
+<!--<md-content layout="column" layout-align="start center" flex flex-xs class="md-main-content">-->
+            <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
+                <!--<form name="usuarioForm" novalidate ng-submit="save(usuarioForm)">-->
+                <!--<md-toolbar class="md-accent">-->
+                    <!--<div class="md-toolbar-tools">-->
+                        <!--<span>Crear usuario</span>-->
+                    <!--</div>-->
+                <!--</md-toolbar>-->
+                <!--<md-card-content>-->
+                    <!--<p>Complete los datos para crear un nuevo usuario.</p>-->
+                    <!--<ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>-->
+                        <!--<div layout-gt-sm="row" layout-margin flex layout-xs="column">-->
+                            <!--<md-input-container flex-gt-sm="33">-->
+                            <!--<label>Nombre</label>-->
+                            <!--<input name="nombre"  ng-model="personaDTO.nombre"-->
+                                   <!--required md-maxlength="100">-->
+                                <!--<div ng-messages="usuarioForm.nombre.$error" ng-show="usuarioForm.nombre.$touched">-->
+                                    <!--<div ng-messages-include="error-messages"></div>-->
+                                <!--</div>-->
+                        <!--</md-input-container>-->
+                        <!--<md-input-container flex-gt-sm="33">-->
+                                <!--<label>Apellido</label>-->
+                                <!--<input name="apellido"  ng-model="personaDTO.apellido"-->
+                                       <!--required md-maxlength="100">-->
+                            <!--<div ng-messages="usuarioForm.apellido.$error" ng-show="usuarioForm.apellido.$touched">-->
+                                <!--<div ng-messages-include="error-messages"></div>-->
+                            <!--</div>-->
+                            <!--</md-input-container>-->
+                            <!--<md-input-container flex-gt-sm="33">-->
+                                <!--<label>Sexo</label>-->
+                                <!--<md-select required ng-model="personaDTO.sexo" ng-model-options="{trackBy: '$value.key'}"-->
+                                           <!--name="sexo">-->
+                                    <!--<md-option ng-repeat="sexo in data.sexos" ng-value="sexo">-->
+                                        <!--{{ sexo.nombre }}-->
+                                    <!--</md-option>-->
+                                <!--</md-select>-->
+                                <!--<div ng-messages="usuarioForm.sexo.$error" ng-show="usuarioForm.sexo.$touched">-->
+                                    <!--<div ng-messages-include="error-messages"></div>-->
+                                <!--</div>-->
+                            <!--</md-input-container>-->
+                        <!--</div>-->
+                        <!--<div layout-gt-sm layout-margin>-->
+                            <!--<md-input-container flex-gt-sm="33">-->
+                                <!--<label>Tipo doc.</label>-->
+                                <!--<md-select ng-model="personaDTO.documento.tipoDocumento" ng-model-options="{trackBy: '$value.key'}"-->
+                                           <!--name="tipoDocumento" required>-->
+                                    <!--<md-option ng-repeat="tipo in data.tiposDoc" ng-value="tipo">-->
+                                        <!--{{ tipo.nombre }}-->
+                                    <!--</md-option>-->
+                                <!--</md-select>-->
+                                <!--<div ng-messages="usuarioForm.tipoDocumento.$error" ng-show="usuarioForm.tipoDocumento.$touched">-->
+                                    <!--<div ng-messages-include="error-messages"></div>-->
+                                <!--</div>-->
+                            <!--</md-input-container>-->
+                            <!--<md-input-container flex-gt-sm="33">-->
+                                <!--<label>Nro. documento</label>-->
+                                <!--<input name="nroDocumento"  ng-model="personaDTO.documento.numero"-->
+                                       <!--required md-maxlength="10">-->
+                                <!--<div ng-messages="usuarioForm.nroDocumento.$error" ng-show="usuarioForm.nroDocumento.$touched">-->
+                                    <!--<div ng-messages-include="error-messages"></div>-->
+                                <!--</div>-->
+                            <!--</md-input-container>-->
+                            <!--<span flex></span>-->
+                        <!--</div>-->
+                        <!--<div layout-gt-sm="row" layout-margin flex layout-xs="column">-->
+                            <!--<md-input-container flex-gt-sm="33">-->
+                                <!--<label>E-mail</label>-->
+                                <!--<input name="email" ng-model="personaDTO.usuario.email" type="email"-->
+                                       <!--required md-maxlength="100">-->
+                                <!--<div ng-messages="usuarioForm.email.$error" ng-show="usuarioForm.email.$touched">-->
+                                    <!--<div ng-messages-include="error-messages"></div>-->
+                                <!--</div>-->
+                            <!--</md-input-container>-->
+                            <!--<md-input-container flex-gt-sm="33">-->
+                                <!--<label>Rol</label>-->
+                                <!--<md-select required ng-model="personaDTO.usuario.rol" name="rol">-->
+                                    <!--<md-option ng-repeat="rol in data.roles" ng-value="rol" ng-model-options="{trackBy: 'rol.id'}">-->
+                                        <!--{{ rol.nombre }}-->
+                                    <!--</md-option>-->
+                                <!--</md-select>-->
+                                <!--<div ng-messages="usuarioForm.rol.$error" ng-show="usuarioForm.rol.$touched">-->
+                                    <!--<div ng-messages-include="error-messages"></div>-->
+                                <!--</div>-->
+                            <!--</md-input-container>-->
+                        <!--</div>-->
+                <!--</md-card-content>-->
+                <!--<md-card-actions layout="row" layout-align="end center">-->
+                    <!--<md-button ng-click="goIndex()">Cancelar</md-button>-->
+                    <!--<md-button type="submit" class="md-raised md-primary">Aceptar</md-button>-->
+                <!--</md-card-actions>-->
+                <!--</form>-->
+            <!--</md-card>-->
+<!--</md-content>-->
 
 

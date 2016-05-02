@@ -32,12 +32,18 @@ module.controller('PacienteCtrl_Edit',
         vm.selectedCiudad ={};
         vm.selectedProvincia = vm.paciente.lugarDeNacimiento != null &&  angular.isDefined(vm.paciente.lugarDeNacimiento)
             ?  vm.paciente.lugarDeNacimiento.provincia : null;
+        vm.selectedCiudad =   vm.paciente.domicilio != null &&  angular.isDefined(vm.paciente.domicilio)
+            ?  vm.paciente.domicilio.barrio.ciudad : null;
+        vm.paciente.tieneServicioEmergencia = vm.paciente.servicioEmergencia != null
+            && angular.isDefined(vm.paciente.servicioEmergencia) ?  true : false;
+
         var performSubmit = $scope.$parent.performSubmit;
         var handleError = $scope.$parent.handleError;
         //Guardar
         vm.save = save;
         vm.goIndex = goIndex;
         vm.reload =reload;
+        vm.deleteServicioEmergencia = deleteServicioEmergencia;
 
         function goIndex(){
             $state.go('^.index',{execQuery: $scope.data.persistedOperation});
@@ -66,6 +72,12 @@ module.controller('PacienteCtrl_Edit',
                 },form);
             }
         }
+
+        function deleteServicioEmergencia(){
+            if(vm.paciente.tieneServicioEmergencia == false){
+                delete vm.paciente.servicioEmergencia;
+            }
+        }
         $scope.$watch(
             'vm.selectedProvincia',
             function(newValue, oldValue){
@@ -85,9 +97,9 @@ module.controller('PacienteCtrl_Edit',
         $scope.$watch(
             'vm.selectedCiudad',
             function(newValue, oldValue){
-                if(vm.paciente.domicilio){
+                /*if(!vm.paciente.domicilio){
                     delete vm.paciente.domicilio.barrio;
-                }
+                }*/
                 filterBarrios();
                 function filterBarrios(){
                     if(!vm.selectedCiudad || !angular.isDefined(vm.selectedCiudad.id)){
@@ -99,19 +111,6 @@ module.controller('PacienteCtrl_Edit',
                     }
                 }
             })
-
-//        function queryTrabajosSearch(query){
-//            return query ?
-//                vm.data.trabajos.filter(crearFilterTrabajo(query))
-//                : vm.data.trabajos;
-//        }
-//
-//        function crearFilterTrabajo(query){
-//           var primeraLetra = angular.lowercase(query);
-//            return function filterTrabajos(trabajo){
-//                return (trabajo.nombre.indexOf(primeraLetra)===0);
-//            };
-//        }
 
         function goIndex(){
             $state.go('^.index');

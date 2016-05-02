@@ -87,6 +87,8 @@ public class PacienteAPI extends BaseAPI{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PacienteDTO findById(@QueryParam("id") Long id){
+        Paciente paciente = pacienteService.findById(id);
+        PacienteDTO auxpaciente = pacienteMapper.toDTO(pacienteService.findById(id));
         return pacienteMapper.toDTO(pacienteService.findById(id));
     }
 
