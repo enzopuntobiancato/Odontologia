@@ -72,7 +72,7 @@ directives.directive('validateLength', function() {
 var templateInput =
     '<md-input-container flex-gt-sm> ' +
         '<label> {{ ctrl.label }} </label>'+
-        '<input name="{{ ctrl.name }}" ng-model="ctrl.model"  ng-required="{{ ctrl.req }}" md-maxlength="{{ ctrl.max }}" ng-pattern="ctrl.pat" minlength="{{ ctrl.min }}" ng-disabled="{{ ctrl.disabled }}" type="{{ ctrl.type }}" aria-label="{{ ctrl.label }}">'+
+        '<input name="{{ ctrl.name }}" ng-model="ctrl.model"  ng-required="{{ ctrl.req }}" md-maxlength="{{ ctrl.max }}" ng-pattern="ctrl.pat" minlength="{{ ctrl.min }}" ng-disabled="ctrl.disabled" type="{{ ctrl.type }}" aria-label="{{ ctrl.label }}">'+
         '<div ng-messages="ctrl.form.$error" ng-show="ctrl.form.$touched ||  ctrl.submitted  && ctrl.form.$invalid" multiple> ' +
               '<div ng-messages-include="error-messages"></div>' +
 //            '<div ng-message="required">Es obligatorio.</div>'+
@@ -109,7 +109,7 @@ var directiveInput = function(){
             max: '@',
             min: '@',
             pattern: '@',
-            disabled: '@',
+            disabled: '=',
             form: '=',
             submitted: '=',
             type: '@'

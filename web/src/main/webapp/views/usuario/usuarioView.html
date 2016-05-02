@@ -1,8 +1,8 @@
-<md-content layout="column" layout-align="start center" class="md-main-content" flex>
+<md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
         <md-card class="md-whiteframe-z5 md-main-content-card">
             <md-toolbar class="md-accent">
                 <div class="md-toolbar-tools">
-                    <span>Ver usuario</span>
+                    <span>{{ 'VER_USUARIO' | translate }}</span>
                 </div>
             </md-toolbar>
             <md-card-content>
@@ -21,12 +21,8 @@
                             <ng-md-icon icon="person" size="24">
                             </ng-md-icon>
                             <div class="md-list-item-text">
-                                <h3>
-                                    {{usuario.nombreUsuario}}
-                                </h3>
-                                <p>
-                                    Nombre de usuario
-                                </p>
+                                <h3> {{ 'NOMBRE_USUARIO' | translate }} </h3>
+                                <p> {{usuario.nombreUsuario}} </p>
                             </div>
                             <md-divider md-inset></md-divider>
                         </md-list-item>
@@ -34,12 +30,9 @@
                             <ng-md-icon icon="email" size="24">
                             </ng-md-icon>
                             <div class="md-list-item-text">
-                                <h3>
-                                    {{usuario.email}}
+                                <h3> {{ 'EMAIL' | translate }}
                                 </h3>
-                                <p>
-                                    Email
-                                </p>
+                                <p> {{usuario.email}}</p>
                             </div>
                             <md-divider md-inset></md-divider>
                         </md-list-item>
@@ -47,12 +40,9 @@
                             <ng-md-icon icon="security" size="24">
                             </ng-md-icon>
                             <div class="md-list-item-text">
-                                <h3>
-                                    {{usuario.rol.nombre}}
+                                <h3>  {{ 'ROL' | translate }}
                                 </h3>
-                                <p>
-                                    Rol
-                                </p>
+                                <p>{{usuario.rol.nombre}}</p>
                             </div>
                             <md-divider md-inset></md-divider>
                         </md-list-item>
@@ -61,14 +51,14 @@
                             <md-list-item class="md-2-line label-item-two-columns">
                                 <ng-md-icon icon="today" size="20"></ng-md-icon>
                                 <div class="md-list-item-text compact">
-                                    <h3>{{usuario.fechaBaja | date:'dd/MM/yyyy'}}</h3>
-                                    <p>Fecha de baja</p>
+                                    <h3>{{ 'FECHA_BAJA' | translate }}</h3>
+                                    <p>{{usuario.fechaBaja | date:'dd/MM/yyyy'}}</p>
                                 </div>
                             </md-list-item>
                         <md-list-item class="md-2-line label-item-two-columns">
                             <div class="md-list-item-text compact">
-                                <h3>{{usuario.motivoBaja || ''}}</h3>
-                                <p>Motivo de baja</p>
+                                <h3>{{ 'MOTIVO_BAJA' | translate }}</h3>
+                                <p>{{usuario.motivoBaja || ''}}</p>
                             </div>
                         </md-list-item>
                         </section>

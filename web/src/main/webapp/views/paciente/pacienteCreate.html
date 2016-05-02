@@ -1,17 +1,22 @@
-<md-content layout="column" layout-align="start center" class="md-main-content">
-<md-card class="md-whiteframe-z5 md-main-content-card" id="md-card-tab">
-<form name="createPacienteForm" novalidate ng-submit="vm.save(createPacienteForm)">
+<div layout="column">
+<md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+<div layout="column" layout-fill layout-padding>
+
+<div>
+<div layout="row" layout-align="center center">
+<md-card flex-gt-sm>
 <md-toolbar class="md-accent">
     <div class="md-toolbar-tools">
         <span>Crear paciente</span>
     </div>
 </md-toolbar>
-<md-card-content id="md-card-tab-content">
+<md-card-content>
 <ng-include ng-if="vm.validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
 <md-tabs md-dynamic-height md-border-bottom>
 <md-tab>
     <md-tab-label>
-        <div layout layout-align="center center" ng-class= "(vm.submitted && datosPersonalesForm.$invalid)? 'md-has-error': 'md-no-error' ">
+        <div layout layout-align="center center"
+             ng-class="(vm.submitted && datosPersonalesForm.$invalid)? 'md-has-error': 'md-no-error' ">
             Datos personales
             <ng-md-icon icon="error">
             </ng-md-icon>
@@ -33,10 +38,10 @@
                                      form="createPacienteForm.datosPersonalesForm.apellido"
                                      layout-margin>
                     </validated-input>
-                    <md-input-container flex-gt-sm>
+                    <md-input-container flex-gt-sm layout-margin>
                         <label>Tipo doc.</label>
                         <md-select ng-model="vm.paciente.documento.tipoDocumento" name="tipoDocumento"
-                                   ng-required="true"  ng-model-options="{ trackBy: '$value.key'}">
+                                   ng-required="true" ng-model-options="{ trackBy: '$value.key'}">
                             <md-option ng-repeat="item in vm.data.tiposDocumento" ng-value="item">
                                 {{ item.nombre }}
                             </md-option>
@@ -98,7 +103,8 @@
                 <div layout-gt-sm="row" layout-margin flex-gt-sm>
                     <md-input-container flex-gt-sm>
                         <label>Prov. de nacimiento</label>
-                        <md-select ng-model="vm.paciente.provinciaNacimiento" name="provinciaNacimiento" ng-required="true">
+                        <md-select ng-model="vm.paciente.provinciaNacimiento" name="provinciaNacimiento"
+                                   ng-required="true">
                             <md-option ng-repeat="item in vm.data.provincias" ng-value="item">
                                 {{ item.nombre }}
                             </md-option>
@@ -120,7 +126,8 @@
                     <!--items="vm.ciudadesNacSelect"layout-margin> </validated-select>-->
                     <md-input-container flex-gt-sm>
                         <label>Ciud. de nacimiento</label>
-                        <md-select ng-model="vm.paciente.lugarDeNacimiento" name="lugarDeNacimiento" ng-required="true">
+                        <md-select ng-model="vm.paciente.lugarDeNacimiento" name="lugarDeNacimiento" ng-required="true"
+                                   ng-disabled="!vm.paciente.provinciaNacimiento">
                             <md-option ng-repeat="item in vm.ciudadesNacSelect" ng-value="item">
                                 {{ item.nombre }}
                             </md-option>
@@ -135,7 +142,8 @@
                     <div layout="column">
                         <md-datepicker name="nacimiento" ng-model="vm.paciente.fechaNacimiento"
                                        md-placeholder="Fecha nac." required></md-datepicker>
-                        <div class="validation-messages" ng-messages="editPacienteForm.datosPersonalesForm.nacimiento.$error"
+                        <div class="validation-messages"
+                             ng-messages="editPacienteForm.datosPersonalesForm.nacimiento.$error"
                              multiple class="errors">
                             <div ng-messages-include="error-messages"></div>
                         </div>
@@ -148,10 +156,6 @@
                             </md-option>
                         </md-select>
                     </md-input-container>
-                    <!--<validated-select label="Nacionalidad" name="nacionalidad"-->
-                    <!--model="vm.paciente.nacionalidad"-->
-                    <!--disabled="false"-->
-                    <!--items="vm.data.nacionalidades" layout-margin> </validated-select>-->
                 </div>
             </ng-form>
         </div>
@@ -160,9 +164,9 @@
 <md-tab>
     <md-tab-label>
         <div layout layout-align="center center"
-             ng-class= "(vm.submitted && domicilioContactoForm.$invalid)? 'md-has-error': 'md-no-error' ">
+             ng-class="(vm.submitted && domicilioContactoForm.$invalid)? 'md-has-error': 'md-no-error' ">
             Domicilio y contacto
-            <ng-md-icon icon="error" >
+            <ng-md-icon icon="error">
             </ng-md-icon>
         </div>
     </md-tab-label>
@@ -190,7 +194,7 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout-margin>
-                    <md-input-container flex-gt-sm>
+                    <md-input-container flex-gt-sm layout-margin>
                         <label>Ciudad</label>
                         <md-select ng-model="vm.selectedCiudad" name="selectedCiudad" ng-required="true">
                             <md-option ng-repeat="item in vm.data.ciudades" ng-value="item">
@@ -204,16 +208,10 @@
                             <div ng-messages-include="error-messages"></div>
                         </div>
                     </md-input-container>
-                    <!--<validated-select label="Ciudad" name="selectedCiudad"-->
-                    <!--model="vm.selectedCiudad"-->
-                    <!--req="true" submitted="vm.submitted"-->
-                    <!--disabled="false"-->
-                    <!--items="vm.data.ciudades"-->
-                    <!--form="createPacienteForm.domicilioContactoForm.selectedCiudad"-->
-                    <!--layout-margin flex-gt-sm="33" layout="row"></validated-select>-->
-                    <md-input-container flex-gt-sm>
+                    <md-input-container flex-gt-sm layout-margin>
                         <label>Barrio</label>
-                        <md-select ng-model="vm.paciente.domicilio.barrio" name="barrio" ng-required="true">
+                        <md-select ng-model="vm.paciente.domicilio.barrio" name="barrio" ng-required="true"
+                                   ng-disabled="!vm.selectedCiudad">
                             <md-option ng-repeat="item in vm.barriosSelect" ng-value="item">
                                 {{ item.nombre }}
                             </md-option>
@@ -225,13 +223,6 @@
                             <div ng-messages-include="error-messages"></div>
                         </div>
                     </md-input-container>
-                    <!--<validated-select label="Barrio" name="barrio"-->
-                    <!--model="vm.paciente.domicilio.barrio"-->
-                    <!--req="true" submitted="vm.submitted"-->
-                    <!--disabled="false"-->
-                    <!--items="vm.barriosSelect"-->
-                    <!--form="createPacienteForm.domicilioContactoForm.barrio"-->
-                    <!--layout-margin flex-gt-sm="33" layout="row"></validated-select>-->
                 </div>
                 <div layout-gt-sm="row" layout-margin>
                     <validated-input label="Tel." name="telefono" model="vm.paciente.telefono"
@@ -248,7 +239,7 @@
                                      req="true" submitted="vm.submitted" max="50"
                                      disabled="false" type="email"
                                      form="createPacienteForm.domicilioContactoForm.email"
-                                     layout-margin  flex-gt-sm="33"></validated-input>
+                                     layout-margin flex-gt-sm="33"></validated-input>
                 </div>
             </ng-form>
         </div>
@@ -256,9 +247,10 @@
 </md-tab>
 <md-tab>
     <md-tab-label>
-        <div layout layout-align="center center"ng-class= "(vm.submitted && trabajoForm.$invalid)? 'md-has-error': 'md-no-error' ">
+        <div layout layout-align="center center"
+             ng-class="(vm.submitted && trabajoForm.$invalid)? 'md-has-error': 'md-no-error' ">
             Trabajo
-            <ng-md-icon icon="error" >
+            <ng-md-icon icon="error">
             </ng-md-icon>
         </div>
     </md-tab-label>
@@ -266,15 +258,16 @@
         <div layout-margin id="trabajo">
             <ng-form name="trabajoForm">
                 <div layout-gt-sm="row" layout-margin>
-                    <md-input-container flex-gt-sm>
+                    <md-input-container flex-gt-sm layout-margin>
                         <label>Trabajo</label>
                         <md-select ng-model="vm.paciente.trabajo" name="trabajo">
-                            <md-option ng-repeat="trabajo in vm.data.trabajos" ng-value="trabajo">
+                            <md-option ng-repeat="trabajo in vm.data.trabajos" ng-value="trabajo"
+                                       ng-model-options="{ trackBy: '$value.id'}">
                                 {{ trabajo.nombre }}
                             </md-option>
                         </md-select>
                     </md-input-container>
-                    <md-input-container flex-gt-sm>
+                    <md-input-container flex-gt-sm layout-margin>
                         <label>Estudios</label>
                         <md-select ng-model="vm.paciente.nivelEstudio" name="estudios">
                             <md-option ng-repeat="nivel in vm.data.nivelesEstudio" ng-value="nivel">
@@ -290,9 +283,9 @@
 <md-tab>
     <md-tab-label>
         <div layout layout-align="center center"
-             ng-class= "(vm.submitted && datosMedicosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+             ng-class="(vm.submitted && datosMedicosForm.$invalid)? 'md-has-error': 'md-no-error' ">
             Datos médicos
-            <ng-md-icon icon="error" >
+            <ng-md-icon icon="error">
             </ng-md-icon>
         </div>
     </md-tab-label>
@@ -300,7 +293,7 @@
         <div layout-margin id="datosMedicos">
             <ng-form name="datosMedicosForm">
                 <div layout-gt-sm="row" layout-margin>
-                    <md-input-container flex-gt-sm>
+                    <md-input-container flex-gt-sm layout-margin>
                         <label>Obra social</label>
                         <md-select ng-model="vm.paciente.obraSocial" name="obraSocial">
                             <md-option ng-repeat="obraSocial in vm.data.obrasSociales" ng-value="obraSocial">
@@ -321,13 +314,13 @@
                                      form="createPacienteForm.datosMedicosForm.medicoCabecera"
                                      layout-margin flex-gt-sm="33"></validated-input>
                     <md-input-container flex="33">
-                        <md-checkbox ng-model="vm.paciente.tieneServicio" aria-label="Checkbox 1">
+                        <md-checkbox ng-model="vm.paciente.tieneServicio" aria-label="¿Tiene servicio de emergencia?">
                             ¿Tiene servicio de emergencia?
                         </md-checkbox>
                     </md-input-container>
                     <validated-input label="¿Cuál?" name="servicioEmergencia" model="vm.paciente.servicioEmergencia"
                                      submitted="vm.submitted" max="30"
-                                     disabled="false"
+                                     disabled="!vm.paciente.tieneServicio" required="vm.paciente.tieneServicio"
                                      form="createPacienteForm.datosMedicosForm.servicioEmergencia"
                                      layout-margin flex-gt-sm="33"></validated-input>
                 </div>
@@ -338,9 +331,9 @@
 <md-tab>
     <md-tab-label>
         <div layout layout-align="center center"
-             ng-class= "(vm.submitted && otrosDatosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+             ng-class="(vm.submitted && otrosDatosForm.$invalid)? 'md-has-error': 'md-no-error' ">
             Otros datos
-            <ng-md-icon icon="error" >
+            <ng-md-icon icon="error">
             </ng-md-icon>
         </div>
     </md-tab-label>
@@ -351,6 +344,7 @@
                     <md-input-container flex-gt-sm>
                         <label>Religión</label>
                         <input name="religion" ng-model="vm.paciente.religion" md-maxlength="30">
+
                         <div ng-messages="createPacienteForm.otrosDatosForm.religion.$error"
                              ng-show="createPacienteForm.otrosDatosForm.religion.$touched" multiple>
                             <div ng-messages-include="error-messages"></div>
@@ -365,7 +359,8 @@
                     </md-input-container>
                     <md-input-container flex-gt-sm="33">
                         <label>Dónde?</label>
-                        <input name="privadoLugar" ng-model="vm.paciente.privadoLugar">
+                        <input name="privadoLugar" ng-model="vm.paciente.privadoLugar"
+                               ng-disabled="!vm.paciente.privadoLibertad">
                     </md-input-container>
                 </div>
             </ng-form>
@@ -378,6 +373,14 @@
     <md-button ng-click="vm.goIndex()">Cancelar</md-button>
     <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
 </md-card-actions>
-</form>
 </md-card>
+</div>
+</div>
+</div>
 </md-content>
+</div>
+
+
+
+
+

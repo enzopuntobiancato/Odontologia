@@ -10,151 +10,1503 @@
 <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
 <md-tabs md-dynamic-height md-border-bottom>
 <md-tab>
-    <md-tab-label>
-        <div layout layout-align="center center" ng-class= "(vm.submitted && firstForm.$invalid)? 'md-has-error': 'md-no-error' ">
-            {{ 'ANTECEDENTES' | translate }}
-            <ng-md-icon icon="error">
-            </ng-md-icon>
+<md-tab-label>
+    <div layout layout-align="center center" ng-class= "(vm.submitted && firstForm.$invalid)? 'md-has-error': 'md-no-error' ">
+        {{ 'ANTECEDENTES' | translate }}
+        <ng-md-icon icon="error">
+        </ng-md-icon>
+    </div>
+</md-tab-label>
+<md-tab-body>
+<md-content style="height: 60%">
+<div layout-margin id="first" >
+<ng-form name="firstForm">
+<section>
+    <md-subheader class="md-primary">Unread Messages</md-subheader>
+    <md-list layout-padding>
+        <md-list-item>
+            <md-radio-group ng-model="vm.hc.G1P1">
+                <div layout="row" layout-margin>
+                    <!--<p> {{'G1P1' | translate }} </p>-->
+                    <md-radio-button value="si" class="md-primary">{{'G1P1' | translate }}</md-radio-button>
+                    <md-radio-button value="no"> {{'G1P11' | translate }} </md-radio-button>
+                </div>
+            </md-radio-group>
+        </md-list-item>
+        <md-list-item>
+            <validated-input label="{{ 'G1P2' | translate }}" name="G1P2" model="vm.hc.G1P2"
+                             submitted="vm.submitted" max="75"
+                             disabled="false"
+                             form="createHistoriaClinicaForm.firstForm.nombre"
+                             layout-margin>
+            </validated-input>
+            <div layout="column">
+                <md-datepicker name="G1P3" ng-model="vm.hc.G1P3"
+                               md-placeholder="{{ 'G1P3' | translate }}" required></md-datepicker>
+                <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G1P3.$error"
+                     multiple class="errors">
+                    <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </md-list-item>
+    </md-list>
+    <!--<div layout-gt-sm="column" layout-margin flex-gt-sm>-->
+        <!---->
+        <!--<div layout="row" >-->
+            <!---->
+        <!--</div>-->
+    <!--</div>-->
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G2P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G2P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
         </div>
-    </md-tab-label>
-    <md-tab-body>
-        <div layout-margin id="first">
-            <ng-form name="firstForm">
-                <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                    <div layout="column">
-                        <p> {{'G1P1' | translate }} </p>
-                        <md-radio-group ng-model="vm.hc.G1P1">
-                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
-                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
-                        </md-radio-group>
-                    </div>
-                    <validated-input label="{{ 'G1P2' | translate }}" name="G1P2" model="vm.hc.G1P2"
-                                     submitted="vm.submitted" max="75"
-                                     disabled="false"
-                                     form="createHistoriaClinicaForm.firstForm.nombre"
-                                     layout-margin>
-                    </validated-input>
-                    <div layout="column">
-                       <md-datepicker name="G1P3" ng-model="vm.hc.G1P3"
-                                      md-placeholder="{{ 'G1P3' | translate }}" required></md-datepicker>
-                       <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G1P3.$error"
-                            multiple class="errors">
-                           <div ng-messages-include="error-messages"></div>
-                       </div>
-                     </div>
-                </div>
-                <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                    <div layout="column">
-                        <p> {{'G2P1' | translate }} </p>
-                        <md-radio-group ng-model="vm.hc.G2P1">
-                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
-                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
-                        </md-radio-group>
-                    </div>
-                    <div layout="column">
-                        <p> {{'G2P2' | translate }} </p>
-                        <md-radio-group ng-model="vm.hc.G2P2">
-                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
-                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
-                        </md-radio-group>
-                    </div>
-                    <validated-input label="{{ 'G2P3' | translate }}" name="G2P3" model="vm.hc.G2P3"
-                                     submitted="vm.submitted" max="75"
-                                     disabled="false"
-                                     form="createHistoriaClinicaForm.firstForm.G2P3"
-                                     layout-margin>
-                    </validated-input>
-                    <div layout="column">
-                        <md-datepicker name="G1P3" ng-model="vm.hc.G2P4"
-                                       md-placeholder="{{ 'G2P4' | translate }}" required></md-datepicker>
-                        <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G1P3.$error"
-                             multiple class="errors">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </div>
-                </div>
-                <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                    <div layout="column">
-                        <p> {{'G2P1' | translate }} </p>
-                        <md-radio-group ng-model="vm.hc.G2P1">
-                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
-                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
-                        </md-radio-group>
-                    </div>
-                    <div layout="column">
-                        <p> {{'G2P2' | translate }} </p>
-                        <md-radio-group ng-model="vm.hc.G2P2">
-                            <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
-                            <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
-                        </md-radio-group>
-                    </div>
-                    <validated-input label="{{ 'G2P3' | translate }}" name="G2P3" model="vm.hc.G2P3"
-                                     submitted="vm.submitted" max="75"
-                                     disabled="false"
-                                     form="createHistoriaClinicaForm.firstForm.G2P3"
-                                     layout-margin>
-                    </validated-input>
-                    <div layout="column">
-                        <md-datepicker name="G1P3" ng-model="vm.hc.G2P4"
-                                       md-placeholder="{{ 'G2P4' | translate }}" required></md-datepicker>
-                        <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G1P3.$error"
-                             multiple class="errors">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </div>
-                </div>
-                    
-                    <!--<validated-input label="Nombre" name="nombre" model="vm.paciente.nombre"
-                                     req="true" submitted="vm.submitted" max="75"
-                                     disabled="false"
-                                     form="createHistoriaClinicaForm.firstForm.nombre"
-                                     layout-margin>
-                    </validated-input>-->
-
-                    <!--<md-input-container flex-gt-sm>
-                        <label>Tipo doc.</label>
-                        <md-select ng-model="vm.paciente.documento.tipoDocumento" name="tipoDocumento"
-                                   ng-required="true"  ng-model-options="{ trackBy: '$value.key'}">
-                            <md-option ng-repeat="item in vm.data.tiposDocumento" ng-value="item">
-                                {{ item.nombre }}
-                            </md-option>
-                        </md-select>
-                        <div ng-messages="createHistoriaClinicaForm.firstForm.tipoDocumento.$error"
-                             ng-show="createHistoriaClinicaForm.firstForm.tipoDocumento.$touched
-                             || vm.submitted && createHistoriaClinicaForm.firstForm.tipoDocumento.$invalid "
-                             multiple class="errors">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </md-input-container>-->
-                   <!-- <validated-input label="Número" name="nroDocumento" model="vm.paciente.documento.numero"
-                                     req="true" submitted="vm.submitted" max="10"
-                                     disabled="false" pattern="^[0-9]+$"
-                                     form="createHistoriaClinicaForm.firstForm.nroDocumento"
-                                     layout-margin></validated-input>-->
-
-                <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                   <!-- <md-input-container flex-gt-sm>
-                        <label>Sexo</label>
-                        <md-select ng-model="vm.paciente.sexo" name="sexo" ng-required="true">
-                            <md-option ng-repeat="item in vm.data.sexos" ng-value="item">
-                                {{ item.nombre }}
-                            </md-option>
-                        </md-select>
-                        <div ng-messages="createHistoriaClinicaForm.firstForm.sexo.$error"
-                             ng-show="createHistoriaClinicaForm.firstForm.sexo.$touched
-                             || vm.submitted && createHistoriaClinicaForm.firstForm.sexo.$invalid "
-                             multiple class="errors">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </md-input-container>-->
-
-                </div>
-                <div layout-gt-sm="row" layout-margin flex-gt-sm>
-
-                </div>
-            </ng-form>
+        <div layout="column">
+            <p> {{'G2P2' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G2P2">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
         </div>
-    </md-tab-body>
+        <validated-input label="{{ 'G2P3' | translate }}" name="G2P3" model="vm.hc.G2P3"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G2P3"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G1P3" ng-model="vm.hc.G2P4"
+                           md-placeholder="{{ 'G2P4' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G1P3.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">
+        Hipertensión
+    </md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G3P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G3P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G3P2' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G3P2">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G3P3' | translate }}" name="G3P3" model="vm.hc.G3P3"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G3P3"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G3P4" ng-model="vm.hc.G3P4"
+                           md-placeholder="{{ 'G3P4' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G3P4.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <validated-input label="{{ 'G3P5' | translate }}" name="G3P5" model="vm.hc.G3P5"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G3P5"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G3P6' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G3P6">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G3P7' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G3P7">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G3P8' | translate }}" name="G3P8" model="vm.hc.G3P8"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G3P8"
+                         layout-margin>
+        </validated-input>
+        <validated-input label="{{ 'G3P9' | translate }}" name="G3P9" model="vm.hc.G3P9"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G3P9"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G3P10" ng-model="vm.hc.G3P10"
+                           md-placeholder="{{ 'G3P10' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G3P10.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <div layout="column">
+            <p> {{'G3P11' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G3P11">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary"> Fiebre reumática</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G4P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G4P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G4P2' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G4P2">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G4P3' | translate }}" name="G4P3" model="vm.hc.G4P3"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G4P3"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G4P4" ng-model="vm.hc.G4P4"
+                           md-placeholder="{{ 'G4P4' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G4P4.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Riñones</md-subheader>
+    <div layout-gt-sm="column" layout-margin flex-gt-sm>
+        <div layout="row">
+            <p> {{'G5P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G5P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="row">
+            <validated-input label="{{ 'G5P2' | translate }}" name="G5P2" model="vm.hc.G5P2"
+                             submitted="vm.submitted" max="75"
+                             disabled="false"
+                             form="createHistoriaClinicaForm.firstForm.G5P2"
+                             layout-margin>
+            </validated-input>
+            <div layout="column">
+                <md-datepicker name="G5P3" ng-model="vm.hc.G5P3"
+                               md-placeholder="{{ 'G5P3' | translate }}" required></md-datepicker>
+                <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G5P3.$error"
+                     multiple class="errors">
+                    <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G5P4' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G5P4">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G5P5' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G5P5">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <md-datepicker name="G5P7" ng-model="vm.hc.G5P7"
+                           md-placeholder="{{ 'G5P7' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G5P7.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G5P8' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G5P8">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <md-datepicker name="G5P9" ng-model="vm.hc.G5P9"
+                           md-placeholder="{{ 'G5P9' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G5P9.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Resfrío y alergias</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G6P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G6P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G6P2' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G6P2">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G6P3' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G6P3">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G6P4' | translate }}" name="G6P4" model="vm.hc.G6P4"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G6P4"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G8P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G8P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>Medicamentos?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Asma</md-subheader>
+</section>
+<section>
+    <md-subheader class="md-primary">Intervenciones quirúrgicas</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G9P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G9P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G9P2' | translate }}" name="G9P2" model="vm.hc.G9P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G9P2"
+                         layout-margin>
+        </validated-input>
+        <md-input-container flex-gt-sm>
+            <label>{{'G9P3' | translate }}</label>
+            <md-select ng-model="vm.hc.G9P3" name="G9P3">
+                <md-option>
+                    Opcion 1
+                </md-option>
+                <md-option>
+                    Opcion 2
+                </md-option>
+                <md-option>
+                    Opcion 3
+                </md-option>
+            </md-select>
+            <div ng-messages="createHistoriaClinicaForm.firstForm.G9P3.$error"
+                 ng-show="createHistoriaClinicaForm.firstForm.G9P3.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.G9P3.$invalid "
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Hepatitis</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G10P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G10P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <md-input-container flex-gt-sm>
+            <label>{{'G10P2' | translate }}</label>
+            <md-select ng-model="vm.hc.G10P2" name="G10P2">
+                <md-option>
+                    Opcion 1
+                </md-option>
+                <md-option>
+                    Opcion 2
+                </md-option>
+                <md-option>
+                    Opcion 3
+                </md-option>
+            </md-select>
+            <div ng-messages="createHistoriaClinicaForm.firstForm.G10P2.$error"
+                 ng-show="createHistoriaClinicaForm.firstForm.G10P2.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.G10P2.$invalid "
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+        <div layout="column">
+            <md-datepicker name="G10P3" ng-model="vm.hc.G10P3"
+                           md-placeholder="{{ 'G10P3' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G10P3.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <div layout="column">
+            <p> {{'G10P4' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G10P4">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G10P5' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G10P5">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G10P5' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G10P5">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G10P6' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G10P6">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G10P7' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G10P7">
+                <md-radio-button value="antes" class="md-primary">{{'ANTES' | translate }}</md-radio-button>
+                <md-radio-button value="despues"> {{'DESPUES' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G10P8' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G10P8">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G10P9' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G10P9">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Articulaciones</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G11P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G11P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>Cuáles?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G11P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G11P3' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+        <div layout="column">
+            <p> {{'G11P4' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G11P4">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G11P5' | translate }}" name="G11P5" model="vm.hc.G11P5"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G4P3"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G11P6" ng-model="vm.hc.G11P6"
+                           md-placeholder="{{ 'G11P6' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G11P6.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary"></md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G12P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G12P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G12P2' | translate }}" name="G12P2" model="vm.hc.G12P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G12P2"
+                         layout-margin>
+        </validated-input>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Convulsiones</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G13P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G13P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <md-datepicker name="G13P2" ng-model="vm.hc.G13P2"
+                           md-placeholder="{{ 'G13P2' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G13P2.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <validated-input label="{{ 'G13P3' | translate }}" name="G13P3" model="vm.hc.G13P3"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G13P3"
+                         layout-margin>
+        </validated-input>
+        <validated-input label="{{ 'G13P4' | translate }}" name="G13P4" model="vm.hc.G13P4"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G13P4"
+                         layout-margin>
+        </validated-input>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Pérdida de sensibilidad</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G14P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G14P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <md-input-container flex-gt-sm>
+            <label>{{'G14P2' | translate }}</label>
+            <md-select ng-model="vm.hc.G14P2" name="G14P2">
+                <md-option>
+                    Opcion 1
+                </md-option>
+                <md-option>
+                    Opcion 2
+                </md-option>
+                <md-option>
+                    Opcion 3
+                </md-option>
+            </md-select>
+            <div ng-messages="createHistoriaClinicaForm.firstForm.G14P2.$error"
+                 ng-show="createHistoriaClinicaForm.firstForm.G14P2.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.G14P2.$invalid "
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+        <div layout="column">
+            <md-datepicker name="G14P3" ng-model="vm.hc.G14P3"
+                           md-placeholder="{{ 'G14P3' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G14P3.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <validated-input label="{{ 'G14P4' | translate }}" name="G14P4" model="vm.hc.G14P4"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G14P4"
+                         layout-margin>
+        </validated-input>
+
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Epilepsia</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G15P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G15P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G15P2' | translate }}" name="G15P2" model="vm.hc.G15P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G15P2"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G15P3' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G15P3">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G15P4' | translate }}" name="G15P4" model="vm.hc.G15P4"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G15P4"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G15P5' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G15P5">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G15P6' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G15P6">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G15P7' | translate }}" name="G15P7" model="vm.hc.G15P7"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G15P7"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G15P8" ng-model="vm.hc.G15P8"
+                           md-placeholder="{{ 'G15P8' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G15P8.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <md-input-container flex-gt-sm>
+            <label>{{'G15P9' | translate }}</label>
+            <md-select ng-model="vm.hc.G15P9" name="G15P9">
+                <md-option>
+                    Opcion 1
+                </md-option>
+                <md-option>
+                    Opcion 2
+                </md-option>
+                <md-option>
+                    Opcion 3
+                </md-option>
+            </md-select>
+            <div ng-messages="createHistoriaClinicaForm.firstForm.G15P9.$error"
+                 ng-show="createHistoriaClinicaForm.firstForm.G15P9.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.G15P9.$invalid "
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G15P10' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G15P10">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G15P11' | translate }}" name="G15P11" model="vm.hc.G15P11"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G15P11"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G15P12" ng-model="vm.hc.G15P12"
+                           md-placeholder="{{ 'G15P12' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G15P12.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <validated-input label="{{ 'G15P13' | translate }}" name="G15P13" model="vm.hc.G15P13"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G15P13"
+                         layout-margin>
+        </validated-input>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Problemas de piel</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G16P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G16P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G16P2' | translate }}" name="G16P2" model="vm.hc.G16P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G16P2"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G16P3" ng-model="vm.hc.G16P3"
+                           md-placeholder="{{ 'G16P3' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G16P3.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Transfusiones sanguíneas</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G17P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G17P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G17P2' | translate }}" name="G17P2" model="vm.hc.G17P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G17P2"
+                         layout-margin>
+        </validated-input>
+        <validated-input label="{{ 'G17P3' | translate }}" name="G17P3" model="vm.hc.G17P3"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G17P3"
+                         layout-margin>
+        </validated-input>
+        <validated-input label="{{ 'G17P4' | translate }}" name="G17P4" model="vm.hc.G17P4"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G17P4"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G17P5' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G17P5">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <md-datepicker name="G17P6" ng-model="vm.hc.G17P6"
+                           md-placeholder="{{ 'G17P6' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G17P6.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <validated-input label="{{ 'G17P7' | translate }}" name="G17P7" model="vm.hc.G17P7"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G17P7"
+                         layout-margin>
+        </validated-input>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Cáncer</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G18P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G18P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <md-input-container flex-gt-sm>
+            <label>{{'G18P2' | translate }}</label>
+            <md-select ng-model="vm.hc.G18P2" name="G18P2">
+                <md-option>
+                    Opcion 1
+                </md-option>
+                <md-option>
+                    Opcion 2
+                </md-option>
+                <md-option>
+                    Opcion 3
+                </md-option>
+            </md-select>
+            <div ng-messages="createHistoriaClinicaForm.firstForm.G18P2.$error"
+                 ng-show="createHistoriaClinicaForm.firstForm.G18P2.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.G18P2.$invalid "
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+        <fieldset class="standard" >
+            <legend>Tratamientos</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G18P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G18P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G18P5' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Enfermedades en la sangre</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G19P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G19P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G19P2' | translate }}" name="G19P2" model="vm.hc.G19P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G19P2"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <md-datepicker name="G19P3" ng-model="vm.hc.G19P3"
+                           md-placeholder="{{ 'G19P3' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G19P3.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <validated-input label="{{ 'G19P4' | translate }}" name="G19P4" model="vm.hc.G19P4"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G19P4"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G19P5' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G19P5">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G19P6' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G19P6">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>{{ 'G19P7' | translate }}?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+        <fieldset class="standard" >
+            <legend>{{ 'G19P9' | translate }}?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Sólo mujeres</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G20P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G20P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G20P2' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G20P2">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>{{ 'G20P3' | translate }}?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+        <div layout="column">
+            <md-datepicker name="G20P4" ng-model="vm.hc.G20P4"
+                           md-placeholder="{{ 'G20P4' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G20P4.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G20P5' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G20P5">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G20P6' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G20P6">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>{{ 'G20P10' | translate }}?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+        <validated-input label="{{ 'G20P11' | translate }}" name="G20P11" model="vm.hc.G20P11"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G20P11"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G20P8' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G20P8">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G20P9' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G20P9">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>{{ 'G20P10' | translate }}?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+        <fieldset class="standard" >
+            <legend>{{ 'G20P11' | translate }}?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G20P12' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G20P12">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G20P13' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G20P13">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>{{ 'G20P14' | translate }}?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Diabetes</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G21P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G21P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <md-datepicker name="G21P2" ng-model="vm.hc.G21P2"
+                           md-placeholder="{{ 'G21P2' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G21P2.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <md-input-container flex-gt-sm>
+            <label>{{'G21P3' | translate }}</label>
+            <md-select ng-model="vm.hc.G21P3" name="G21P3">
+                <md-option>
+                    Opcion 1
+                </md-option>
+                <md-option>
+                    Opcion 2
+                </md-option>
+                <md-option>
+                    Opcion 3
+                </md-option>
+            </md-select>
+            <div ng-messages="createHistoriaClinicaForm.firstForm.G9P3.$error"
+                 ng-show="createHistoriaClinicaForm.firstForm.G9P3.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.G9P3.$invalid "
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G21P4' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G21P4">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G21P5' | translate }}" name="G21P5" model="vm.hc.G21P5"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G21P5"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <p> {{'G21P6' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G21P6">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <md-input-container flex-gt-sm>
+            <label>{{'G21P7' | translate }}</label>
+            <md-select ng-model="vm.hc.G21P7" name="G21P7">
+                <md-option>
+                    Opcion 1
+                </md-option>
+                <md-option>
+                    Opcion 2
+                </md-option>
+                <md-option>
+                    Opcion 3
+                </md-option>
+            </md-select>
+            <div ng-messages="createHistoriaClinicaForm.firstForm.G21P7.$error"
+                 ng-show="createHistoriaClinicaForm.firstForm.G21P7.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.G21P7.$invalid "
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+        <validated-input label="{{ 'G21P8' | translate }}" name="G21P8" model="vm.hc.G21P8"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G21P8"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <validated-input label="{{ 'G21P9' | translate }}" name="G21P9" model="vm.hc.G21P9"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G21P9"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <md-datepicker name="G21P10" ng-model="vm.hc.G19P3"
+                           md-placeholder="{{ 'G21P10' | translate }}" required></md-datepicker>
+            <div class="validation-messages" ng-messages="createHistoriaClinicaForm.firstForm.G21P10.$error"
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </div>
+        <validated-input label="{{ 'G21P11' | translate }}" name="G21P11" model="vm.hc.G21P11"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G21P11"
+                         layout-margin>
+        </validated-input>
+        <validated-input label="{{ 'G21P12' | translate }}" name="G21P12" model="vm.hc.G21P12"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G21P12"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <p> {{'G21P13' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G21P13">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Transplantes</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G22P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G21P4">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G22P2' | translate }}" name="G22P2" model="vm.hc.G22P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G22P2"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <p> {{'G22P3' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G22P3">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <md-input-container flex-gt-sm>
+            <label>{{'G22P4' | translate }}</label>
+            <md-select ng-model="vm.hc.G22P4" name="G22P4">
+                <md-option>
+                    Opcion 1
+                </md-option>
+                <md-option>
+                    Opcion 2
+                </md-option>
+                <md-option>
+                    Opcion 3
+                </md-option>
+            </md-select>
+            <div ng-messages="createHistoriaClinicaForm.firstForm.G22P4.$error"
+                 ng-show="createHistoriaClinicaForm.firstForm.G22P4.$touched
+                             || vm.submitted && createHistoriaClinicaForm.firstForm.G22P4.$invalid "
+                 multiple class="errors">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+        <validated-input label="{{ 'G22P5' | translate }}" name="G22P5" model="vm.hc.G22P5"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G22P5"
+                         layout-margin>
+        </validated-input>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary"> Varios</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G23P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G23P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G23P2' | translate }}" name="G23P2" model="vm.hc.G23P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G23P2"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G24P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G24P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G24P2' | translate }}" name="G24P2" model="vm.hc.G24P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G24P2"
+                         layout-margin>
+        </validated-input>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G25P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G25P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>{{ 'G25P2' | translate }}?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G8P2' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P5' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G8P6' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+        <fieldset class="standard" >
+            <legend>Cómo?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G25P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G25P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G25P5' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G26P1' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G26P1">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <div layout="column">
+            <p> {{'G26P2' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G26P2">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <validated-input label="{{ 'G27P1' | translate }}" name="G27P1" model="vm.hc.G27P1"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G27P1"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <p> {{'G27P2' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G27P2">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <validated-input label="{{ 'G27P3' | translate }}" name="G27P3" model="vm.hc.G27P3"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G27P3"
+                         layout-margin>
+        </validated-input>
+        <validated-input label="{{ 'G27P4' | translate }}" name="G27P4" model="vm.hc.G27P4"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G27P4"
+                         layout-margin>
+        </validated-input>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Última visita al médico</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <validated-input label="{{ 'G28P1' | translate }}" name="G28P1" model="vm.hc.G28P1"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G28P1"
+                         layout-margin>
+        </validated-input>
+        <validated-input label="{{ 'G28P2' | translate }}" name="G28P2" model="vm.hc.G28P2"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G28P2"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <p> {{'G28P3' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G28P3">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>{{'G28P4' | translate }}</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G25P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G25P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G25P5' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <div layout="column">
+            <p> {{'G28P5' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G28P5">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>{{'G28P6' | translate }}</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G25P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G25P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G25P5' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+</section>
+<section>
+    <md-subheader class="md-primary">Otros</md-subheader>
+    <div layout-gt-sm="row" layout-margin flex-gt-sm>
+        <validated-input label="{{ 'G29P1' | translate }}" name="G29P1" model="vm.hc.G29P1"
+                         submitted="vm.submitted" max="75"
+                         disabled="false"
+                         form="createHistoriaClinicaForm.firstForm.G29P1"
+                         layout-margin>
+        </validated-input>
+        <div layout="column">
+            <p> {{'G29P2' | translate }} </p>
+            <md-radio-group ng-model="vm.hc.G29P2">
+                <md-radio-button value="si" class="md-primary">{{'SI' | translate }}</md-radio-button>
+                <md-radio-button value="no"> {{'NO' | translate }} </md-radio-button>
+            </md-radio-group>
+        </div>
+        <fieldset class="standard" >
+            <legend>Cuál?</legend>
+            <div layout="row" layout-wrap flex>
+                <md-checkbox>
+                    {{'G29P3' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G29P4' | translate }}
+                </md-checkbox>
+                <md-checkbox>
+                    {{'G29P5' | translate }}
+                </md-checkbox>
+            </div>
+        </fieldset>
+    </div>
+</section>
+</ng-form>
+</div>
+</md-content>
+
+</md-tab-body>
 </md-tab>
 <md-tab>
     <md-tab-label>

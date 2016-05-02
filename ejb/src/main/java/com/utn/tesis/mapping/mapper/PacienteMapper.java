@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Mapper(componentModel = "cdi", uses = {EnumMapper.class,
         TrabajoMapper.class,ObraSocialMapper.class, CiudadMapper.class,
-        DocumentoMapper.class, DomicilioMapper.class}, nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
+        DocumentoMapper.class, DomicilioMapper.class, BarrioMapper.class}, nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface PacienteMapper {
 
 
