@@ -30,10 +30,10 @@ public class CatedraAPI extends BaseAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<CatedraConsultaDTO> findByFilters(@QueryParam("denominacion") String denominacion,
-                                       @QueryParam("materiaId") Long materiaId,
-                                       @QueryParam("dadosBaja") boolean dadosBaja,
-                                       @QueryParam("pageNumber") Long pageNumber,
-                                       @QueryParam("pageSize") Long pageSize) {
+                                                  @QueryParam("materiaId") Long materiaId,
+                                                  @QueryParam("dadosBaja") boolean dadosBaja,
+                                                  @QueryParam("pageNumber") Long pageNumber,
+                                                  @QueryParam("pageSize") Long pageSize) {
         List<Catedra> result = catedraService.findByFilters(denominacion, materiaId, dadosBaja, pageNumber, pageSize);
         return catedraMapper.toConsultaDTOList(result);
     }
@@ -65,14 +65,9 @@ public class CatedraAPI extends BaseAPI {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(CatedraDTO dto) {
-        CatedraConsultaDTO response;
-        try {
-            Catedra entity = catedraService.remove(dto.getId(), dto.getMotivoBaja());
-            response = catedraMapper.toConsultaDTO(entity);
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
+    public Response remove(CatedraDTO dto) throws SAPOException {
+        Catedra entity = catedraService.remove(dto.getId(), dto.getMotivoBaja());
+        CatedraConsultaDTO response = catedraMapper.toConsultaDTO(entity);
         return Response.ok(response).build();
     }
 

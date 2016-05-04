@@ -2,7 +2,9 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.mapping.dto.*;
+import com.utn.tesis.mapping.dto.PersonaDTO;
+import com.utn.tesis.mapping.dto.UsuarioConsultaDTO;
+import com.utn.tesis.mapping.dto.UsuarioDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.mapping.mapper.UsuarioConsultaMapper;
 import com.utn.tesis.mapping.mapper.UsuarioMapper;
@@ -22,8 +24,6 @@ import javax.ws.rs.core.Response;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * User: Enzo
@@ -50,14 +50,14 @@ public class UsuarioAPI extends BaseAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<UsuarioConsultaDTO> findByFilters(@QueryParam("nombreUsuario") String nombreUsuario,
-                                       @QueryParam("email") String email,
-                                       @QueryParam("rolId") Long rolId,
-                                       @QueryParam("dadosBaja") boolean dadosBaja,
-                                       @QueryParam("pageNumber") Long pageNumber,
-                                       @QueryParam("pageSize") Long pageSize) {
+                                                  @QueryParam("email") String email,
+                                                  @QueryParam("rolId") Long rolId,
+                                                  @QueryParam("dadosBaja") boolean dadosBaja,
+                                                  @QueryParam("pageNumber") Long pageNumber,
+                                                  @QueryParam("pageSize") Long pageSize) {
         List<UsuarioConsultaDTO> result = new ArrayList<UsuarioConsultaDTO>();
         List<Usuario> usuarios = usuarioService.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
-        for (Usuario usuario : usuarios){
+        for (Usuario usuario : usuarios) {
             UsuarioConsultaDTO usuarioConsultaDTO = usuarioConsultaMapper.personaToUsuarioConsultaDTO(usuarioService.findPersonaByUsuario(usuario));
             result.add(usuarioConsultaDTO);
         }
@@ -67,7 +67,7 @@ public class UsuarioAPI extends BaseAPI {
     @Path("/findById")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public UsuarioConsultaDTO findUsuarioById(@QueryParam("id") Long id){
+    public UsuarioConsultaDTO findUsuarioById(@QueryParam("id") Long id) {
         Usuario usuario = usuarioService.findById(id);
         Persona persona = usuarioService.findPersonaByUsuario(usuario);
         UsuarioConsultaDTO usuarioDTO = usuarioConsultaMapper.personaToUsuarioConsultaDTO(persona);
@@ -77,7 +77,7 @@ public class UsuarioAPI extends BaseAPI {
     @Path("/findPersona")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PersonaDTO findPersonaById(@QueryParam("id") Long id){
+    public PersonaDTO findPersonaById(@QueryParam("id") Long id) {
         Usuario usuario = usuarioService.findById(id);
         Persona persona = usuarioService.findPersonaByUsuario(usuario);
         PersonaDTO usuarioDTO = personaMapper.toDTO(persona);
@@ -89,49 +89,33 @@ public class UsuarioAPI extends BaseAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/saveUsuario")
-    public Response save(PersonaDTO personaDTO) {
-        //Usuario
+    public Response save(PersonaDTO personaDTO) throws SAPOException {
         UsuarioDTO usuarioDTO = personaDTO.getUsuario();
         Usuario entityUsuario = usuarioMapper.fromUsuarioDTO(usuarioDTO);
-        try {
-            if (entityUsuario.isNew()){
-                Rol rol =  commonsService.findRolById(usuarioDTO.getRol().getId());
-                entityUsuario.setRol(rol);
-                Persona entityPersona = personaMapper.fromDTO(personaDTO);
-                entityUsuario.setNombreUsuario(personaDTO.getDocumento().getNumero()); //Por defaulr, el nombre de usuario es el numero de documento.
-                usuarioService.saveUsuario(entityPersona, entityUsuario);
-            }
-            else {
-                this.update(usuarioDTO);
-            }
-            return Response.ok(usuarioDTO).build();
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        } catch (Exception e) {
-            Logger.getLogger(BaseAPI.class.getName()).log(Level.SEVERE, e.getMessage(), e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        if (entityUsuario.isNew()) {
+            Rol rol = commonsService.findRolById(usuarioDTO.getRol().getId());
+            entityUsuario.setRol(rol);
+            Persona entityPersona = personaMapper.fromDTO(personaDTO);
+            entityUsuario.setNombreUsuario(personaDTO.getDocumento().getNumero()); //Por defaulr, el nombre de usuario es el numero de documento.
+            usuarioService.saveUsuario(entityPersona, entityUsuario);
+        } else {
+            this.update(usuarioDTO);
         }
+        return Response.ok(usuarioDTO).build();
     }
 
     @Path("/remove")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(UsuarioConsultaDTO dto){
-        try {
-            Usuario entity = usuarioService.remove(dto.getId(), dto.getMotivoBaja());
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }  catch (Exception e){
-            log.error(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-       return Response.ok(dto).build();
+    public Response remove(UsuarioConsultaDTO dto) throws SAPOException {
+        Usuario entity = usuarioService.remove(dto.getId(), dto.getMotivoBaja());
+        return Response.ok(dto).build();
     }
 
     @Path("/restore")
     @PUT
-    public void restore(@QueryParam("id") Long id){
+    public void restore(@QueryParam("id") Long id) {
         usuarioService.restore(id);
     }
 
@@ -150,8 +134,6 @@ public class UsuarioAPI extends BaseAPI {
 
         usuarioService.update(persistedEntity);
     }
-
-
 
 
 }

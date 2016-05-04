@@ -174,6 +174,32 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     }]
                 }
             })
+            .state('persona.datosUsuario', {
+                url: '/datosUsuario',
+                templateUrl: 'views/persona/datosUsuario.html',
+                controller: 'PersonaCtrl_DatosUsuario',
+                controllerAs: 'vm',
+                resolve: {
+                    personaResponse: ['loadMyModule', 'authFactory', 'PersonaSrv', function (loadMyModule, authFactory, personaSrv) {
+                        var user = authFactory.getAuthData();
+                        return personaSrv.findByUser(user.nombreUsuario, user.authToken);
+                    }],
+                    imageResponse: ['loadMyModule', 'personaResponse', 'PersonaSrv', function(loadMyModule, personaResponse, service){
+                        var person = personaResponse.data;
+                        return service.findUserImage(person.usuario.imagenId);
+                    }],
+                    tiposDocumentoResponse: ['loadMyModule', 'imageResponse', 'CommonsSrv', function (loadMyModule, imageResponse, commons) {
+                        var h = imageResponse;
+                        return commons.getTiposDocumento();
+                    }],
+                    sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getSexos();
+                    }],
+                    cargosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getCargos();
+                    }]
+                }
+            })
             .state('materia', {
                 url: '/materia',
                 template: '<ui-view/>',
@@ -737,7 +763,8 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     name: 'personaModule',
                     files: [
                         url('/persona/firstLoginCtrl.js'),
-                        url('/persona/personaSrv.js')
+                        url('/persona/personaSrv.js'),
+                        url('/persona/datosUsuarioCtrl.js')
                     ]
                 },
                 {
@@ -792,6 +819,19 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         error: false,
         data: {}
     };
+    $scope.session = {};
+
+    retrieveSession();
+
+    function retrieveSession() {
+        $scope.session.user = authFactory.getAuthData();
+        $scope.session.image = authFactory.getImage();
+        if ($scope.session.user && !angular.isDefined($scope.session.image) && $scope.session.user.imagenId) {
+            authFactory.lookForImage($scope.session.user.imagenId).then(function(response) {
+                $scope.session.image = response.data;
+            });
+        }
+    }
 
     $scope.activity = [
         {
@@ -834,8 +874,6 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
     $scope.showFilters = function () {
         $scope.show = true;
     };
-
-    $scope.user = authFactory.getAuthData();
 //    $scope.menu = $scope.user ? buildMenu($scope.user.permisos) : authFactory.getMenu();
     $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {
@@ -862,14 +900,22 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         });
 
     $scope.$on('authChanged', function () {
-        $scope.user = authFactory.getAuthData();
-        $scope.menu = buildMenu($scope.user.permission);
+        retrieveSession();
+        buildMenu($scope.session.user.permisos)
     });
 
+    $scope.userHasImage = function() {
+        var file = $scope.session.image;
+        return file &&
+            angular.isDefined(file) &&
+            file != null &&
+            file.size > 0
+    }
+
     $scope.logOut = function () {
-        $scope.user = authFactory.logout();
+        $scope.session = authFactory.logout();
         $scope.menu = [];
-        $state.go('home');
+        $state.go('landingPage');
     }
 
     function buildMenu(permissions) {

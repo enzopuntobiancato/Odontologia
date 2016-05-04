@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,9 +38,10 @@ public class HistoriaClinicaService extends BaseService<HistoriaClinica> {
         return validator;
     }
 
-    public List<HistoriaClinica> findByFilters(Integer numero, Calendar fechaApertura, Usuario realizoHC,
+    public List<HistoriaClinica> findByFilters(Integer numero, Date fechaApertura, Usuario realizoHC,
                                                Atencion atencion, Diagnostico diagnostico, DetalleHistoriaClinica detalleHC,
                                                Long page, Long pageSize) {
+
         return dao.findByFilters(numero, fechaApertura, realizoHC, atencion, diagnostico, detalleHC, page, pageSize);
     }
 

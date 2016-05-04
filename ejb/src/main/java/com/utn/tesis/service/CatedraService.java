@@ -7,6 +7,7 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.CatedraDTO;
 import com.utn.tesis.mapping.mapper.CatedraMapper;
 import com.utn.tesis.model.Catedra;
+import com.utn.tesis.model.DiaHorario;
 import com.utn.tesis.model.TrabajoPractico;
 import com.utn.tesis.util.Collections;
 
@@ -67,6 +68,9 @@ public class CatedraService extends BaseService<Catedra> {
              practicos.add(trabajoPracticoService.findById(practico.getId()));
         }
         entity.setTrabajosPracticos(practicos);
+        for (DiaHorario horario: entity.getHorarios()) {
+             horario.setCatedra(entity);
+        }
         this.save(entity);
         return catedraMapper.toDTO(entity);
     }

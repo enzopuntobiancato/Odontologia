@@ -10,12 +10,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 28/05/15
- * Time: 22:15
- */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Slf4j
@@ -42,6 +36,7 @@ public class InitializationService {
     private PrivilegioService privilegioService;
     @Inject
     private CatedraService catedraService;
+    private InitVariables initVariables = InitVariables.getInstance();
 
 
     private ArrayList<GrupoPracticaOdontologica> grupoPracticaOdontologicasList = new ArrayList<GrupoPracticaOdontologica>();
@@ -56,31 +51,34 @@ public class InitializationService {
 
 
     public boolean initializeData() throws SAPOException {
-        try {
+        if (!initVariables.isInitializationRunned()) {
+            try {
+                //Materia
+                this.cargarMaterias();
+                this.cargarGrupoPracticaOdontologica();
+                this.cargarPracticaOdontologica();
+                this.cargarTrabajoPracticos();
+                this.cargarCatedra();
 
-        //Materia
-        this.cargarMaterias();
-        this.cargarGrupoPracticaOdontologica();
-        this.cargarPracticaOdontologica();
-        this.cargarTrabajoPracticos();
-        this.cargarCatedra();
+                //Perfiles
+                this.cargarGrupoFuncionalidad();
+                this.cargarFuncionalidad();
+                this.cargarPrivilegio();
+                this.cargarRoles();
 
-        //Perfiles
-        this.cargarGrupoFuncionalidad();
-        this.cargarFuncionalidad();
-        this.cargarPrivilegio();
-        this.cargarRoles();
+                //Usuarios y personas
+                this.cargarUsuarios(); //admin enzo
+                this.cargarPersonaAUsuario();
 
-        //Usuarios y personas
-        this.cargarUsuarios(); //admin enzo
-        this.cargarPersonaAUsuario();
-
-            return true;
-        } catch (SAPOException e) {
-            log.error("EXCEPCION: " + e.getException());
-            log.error("EXCEPCION: " + e.getMessage());
-            throw new SAPOException(e);
+                initVariables.setInitializationRunned(Boolean.TRUE);
+                return true;
+            } catch (SAPOException e) {
+                log.error("EXCEPCION: " + e.getException());
+                log.error("EXCEPCION: " + e.getMessage());
+                throw new SAPOException(e);
+            }
         }
+        return false;
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -206,8 +204,8 @@ public class InitializationService {
         Catedra c1 = new Catedra();
         c1.setDenominacion("A");
         c1.setMateria(materiaList.get(0));
-        c1.addHorarios(new DiaHorario(Dia.LUNES, Calendar.getInstance(), Calendar.getInstance()));
-        c1.addHorarios(new DiaHorario(Dia.MARTES, Calendar.getInstance(), Calendar.getInstance()));
+        c1.addHorario(new DiaHorario(Dia.LUNES, Calendar.getInstance(), Calendar.getInstance()));
+        c1.addHorario(new DiaHorario(Dia.MARTES, Calendar.getInstance(), Calendar.getInstance()));
         c1.addTrabajoPractico(trabajoPracticoList.get(0));
         c1.addTrabajoPractico(trabajoPracticoList.get(1));
         catedraList.add(catedraService.save(c1));
@@ -215,8 +213,8 @@ public class InitializationService {
         Catedra c2 = new Catedra();
         c2.setDenominacion("A");
         c2.setMateria(materiaList.get(1));
-        c2.addHorarios(new DiaHorario(Dia.MIERCOLES, Calendar.getInstance(), Calendar.getInstance()));
-        c2.addHorarios(new DiaHorario(Dia.JUEVES, Calendar.getInstance(), Calendar.getInstance()));
+        c2.addHorario(new DiaHorario(Dia.MIERCOLES, Calendar.getInstance(), Calendar.getInstance()));
+        c2.addHorario(new DiaHorario(Dia.JUEVES, Calendar.getInstance(), Calendar.getInstance()));
         c2.addTrabajoPractico(trabajoPracticoList.get(2));
         c2.addTrabajoPractico(trabajoPracticoList.get(3));
         catedraList.add(catedraService.save(c2));

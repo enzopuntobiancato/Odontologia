@@ -1,15 +1,18 @@
 var module = angular.module('personaModule');
 
-module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope', '$state', 'authFactory', 'MessageSrv', 'Upload', 'personaResponse', 'tiposDocumentoResponse', 'sexosResponse', 'cargosResponse', '$timeout',
-    function ($scope, $rootScope, $state, authFactory, message, Upload, personaResponse, tiposDocumentoResponse, sexosResponse, cargosResponse, $timeout) {
+module.controller('PersonaCtrl_DatosUsuario', ['$scope', '$rootScope', '$state', 'authFactory', 'MessageSrv', 'Upload', 'personaResponse', 'tiposDocumentoResponse', 'sexosResponse', 'cargosResponse', 'imageResponse', '$timeout',
+    function ($scope, $rootScope, $state, authFactory, message, Upload, personaResponse, tiposDocumentoResponse, sexosResponse, cargosResponse, imageResponse, $timeout) {
 
         var vm = this;
         vm.persona = personaResponse.data ? personaResponse.data : {};
         vm.usuario = authFactory.getAuthData();
+        vm.file = imageResponse.data;
         vm.data = {
             tiposDocumento: tiposDocumentoResponse.data,
             sexos: sexosResponse.data,
-            cargos: cargosResponse.data
+            cargos: cargosResponse.data,
+            showChangePassword: false,
+            wrongImageFormat: false
         }
 
         vm.save = save;
@@ -19,10 +22,9 @@ module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope', '$state', '
         vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
         vm.fileChanged = fileChanged;
         vm.deleteImage = deleteImage;
+        vm.cancel = cancel;
 
         function save(form) {
-            vm.persona.usuario.changePassword = true;
-            vm.persona.usuario.fromFirstLogin = true;
             performSubmit(function () {
                 Upload.upload({
                     url: 'api/persona/saveUserRelatedData',
@@ -32,7 +34,7 @@ module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope', '$state', '
                         authFactory.communicateAuthChanged();
                         $state.go('home');
                     }, function (response) {
-                        handleError(response.data, response.status)
+                        handleError(response.data, response.status);
                     });
             }, form);
         }
@@ -40,7 +42,8 @@ module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope', '$state', '
         function isFileSelected() {
             return vm.file &&
                 angular.isDefined(vm.file) &&
-                vm.file != null
+                vm.file != null &&
+                vm.file.size > 0
         }
 
         function fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
@@ -68,32 +71,7 @@ module.controller('PersonaCtrl_FirstLogin', ['$scope', '$rootScope', '$state', '
             vm.colorIcon[icon] = '#00B0FF';
         };
 
-//        $scope.goIndex = function () {
-//            $state.go('landingPage', {execQuery: $scope.data.persistedOperation});
-//        }
-//
-//        $scope.reload = function () {
-//            $rootScope.persistedOperation = $scope.data.persistedOperation;
-//            $state.go($state.current, {}, {reload: true});
-//        }
-
-//        $scope.$on('$stateChangeStart',
-//            function (event, toState, toParams, fromState, fromParams) {
-//                if (!angular.equals($state.current, toState)) {
-//                    delete $rootScope.persistedOperation;
-//                }
-//            })
-
-//        // Changing actual state
-//        $scope.$on('$stateChangeStart',
-//            function (event, toState) {
-//                var user = authFactory.getAuthData();
-//                if (user) {
-//                    if (toState.name != $state.$current.name && user.firstLogin) {
-//                        event.preventDefault();
-//                        $scope.user = authFactory.logout();
-//                        $state.go('home');
-//                    }
-//                }
-//            });
+        function cancel() {
+            $state.go('home');
+        }
     }]);

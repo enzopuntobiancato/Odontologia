@@ -57,42 +57,27 @@ public class TrabajoPracticoAPI extends BaseAPI {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response save(TrabajoPracticoDTO dto){
-        try{
-            TrabajoPractico entity;
-            if (dto.getId() == null){
-                entity = trabajoPracticoMapper.fromDTO(dto);
-                entity.setPracticaOdontologica(practicaOdontologicaService.findById(dto.getPracticaOdontologica().getId()));
+    public Response save(TrabajoPracticoDTO dto) throws SAPOException {
+        TrabajoPractico entity;
+        if (dto.getId() == null){
+            entity = trabajoPracticoMapper.fromDTO(dto);
+            entity.setPracticaOdontologica(practicaOdontologicaService.findById(dto.getPracticaOdontologica().getId()));
 
-            }else{
-                entity = trabajoPracticoService.findById(dto.getId());
-                trabajoPracticoMapper.updateFromDTO(dto,entity);
-            }
-            trabajoPracticoService.save(entity);
-            return Response.ok(dto).build();
-        }   catch (SAPOException se){
-            return persistenceRequest(se);
-        }   catch (Exception e){
-            log.error(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }else{
+            entity = trabajoPracticoService.findById(dto.getId());
+            trabajoPracticoMapper.updateFromDTO(dto,entity);
         }
+        trabajoPracticoService.save(entity);
+        return Response.ok(dto).build();
     }
 
     @Path("/remove")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(TrabajoPracticoDTO dto){
-        try{
-            TrabajoPractico entity = trabajoPracticoService.remove(dto.getId(),dto.getMotivoBaja());
-            dto = trabajoPracticoMapper.toDTO(entity);
-        }
-        catch (SAPOException se){
-            return persistenceRequest(se);
-        } catch (Exception e){
-            log.error(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response remove(TrabajoPracticoDTO dto) throws SAPOException {
+        TrabajoPractico entity = trabajoPracticoService.remove(dto.getId(),dto.getMotivoBaja());
+        dto = trabajoPracticoMapper.toDTO(entity);
         return Response.ok(dto).build();
     }
 

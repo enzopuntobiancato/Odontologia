@@ -241,9 +241,7 @@ body {
 }
 
 .subtitle-text {
-    color: #a94442!important;
-    background-color: #f2dede!important;
-    border-color: #ebccd1!important;
+    color: rgb(3, 169, 244)
 }
 /*#md-card-tab {
     height: 95%;

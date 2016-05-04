@@ -48,29 +48,18 @@ public class PracticaOdontologicaAPI extends BaseAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/save")
-    public Response save(PracticaOdontologicaDTO dto) {
-        try {
-            dto = practicaOdontologicaService.save(dto);
-            return Response.ok(dto).build();
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response save(PracticaOdontologicaDTO dto) throws SAPOException {
+        dto = practicaOdontologicaService.save(dto);
+        return Response.ok(dto).build();
     }
 
     @Path("/remove")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(PracticaOdontologicaDTO dto) {
-        try {
-            PracticaOdontologica entity = practicaOdontologicaService.remove(dto.getId(), dto.getMotivoBaja());
-            dto = practicaMapper.toDTO(entity);
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
+    public Response remove(PracticaOdontologicaDTO dto) throws SAPOException {
+        PracticaOdontologica entity = practicaOdontologicaService.remove(dto.getId(), dto.getMotivoBaja());
+        dto = practicaMapper.toDTO(entity);
         return Response.ok(dto).build();
     }
 

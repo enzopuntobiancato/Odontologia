@@ -181,28 +181,25 @@
             </md-button>
             <span>S.A.P.O.</span>
             <span flex></span>
-            <img ng-src="resources/img/git_avatar2.png"
-                 class="md-avatar-login">
-            <md-menu>
+            <div ng-if="session.user">
+                <img ng-if="userHasImage()" ngf-thumbnail="session.image" class="md-avatar-login">
+                <img ng-if="!userHasImage()" src="resources/img/image_user.jpg" class="md-avatar-login">
+            </div>
+
+            <md-menu ng-if="session.user">
                 <md-button ng-click="$mdOpenMenu($event)" class="md-button-profile">
-                    ilopeza
+                    {{session.user.nombreUsuario}}
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button>
+                        <md-button ui-sref="persona.datosUsuario">
                             <ng-md-icon icon="edit"></ng-md-icon>
-                            Editar perfil
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button>
-                            <ng-md-icon icon="security"></ng-md-icon>
-                            Cambiar contraseña
+                            Mis datos
                         </md-button>
                     </md-menu-item>
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item>
-                        <md-button>
+                        <md-button ng-click="logOut()">
                             <ng-md-icon icon="logout"></ng-md-icon>
                             Cerrar sesión
                         </md-button>
@@ -211,7 +208,7 @@
             </md-menu>
         </div>
     </md-toolbar>
-    <div ui-view>
+    <div id="main-content" ui-view>
 
     </div>
     <!--<div layout="column">

@@ -2,12 +2,11 @@
     <md-card class="md-whiteframe-z5 md-main-content-card">
         <md-toolbar class="md-accent">
             <div class="md-toolbar-tools">
-                <span>¿Primera vez en S.A.P.O.?</span>
+                <span>Mis datos</span>
             </div>
         </md-toolbar>
         <form name="form" ng-submit="vm.save(form)" novalidate>
             <md-card-content>
-                <p>Por favor, complete los siguientes datos para terminar el registro de su usuario.</p>
                 <ng-include ng-if="vm.validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
                 <ng-include src="'views/persona/persona.html'"></ng-include>
                 <ng-include ng-if="vm.usuario.alumno" src="'views/persona/alumno.html'"></ng-include>
@@ -18,10 +17,9 @@
 
                 <div layout-gt-sm="row" layout-margin>
                     <div flex-gt-sm="33" layout="column">
-                        <p>Escriba un nombre de usuario. Una vez elegido no podrá modificarlo.</p>
                         <md-input-container flex class="md-block">
                             <label>Nombre de usuario</label>
-                            <input md-maxlength="75" required name="nombreUsuario"
+                            <input disabled md-maxlength="75" required name="nombreUsuario"
                                    ng-model="vm.persona.usuario.nombreUsuario">
 
                             <div ng-messages="form.nombreUsuario.$error"
@@ -38,8 +36,25 @@
                             </div>
                         </md-input-container>
                         <md-input-container flex class="md-block">
+                            <md-checkbox ng-model="vm.persona.usuario.changePassword">
+                                Cambiar contraseña
+                            </md-checkbox>
+                        </md-input-container>
+                        <md-input-container flex class="md-block">
+                            <label>Contraseña actual</label>
+                            <input ng-disabled="!vm.persona.usuario.changePassword" type="password"
+                                   md-maxlength="50" ng-required="vm.persona.usuario.changePassword" name="oldPassword"
+                                   ng-model="vm.persona.usuario.currentPassword">
+
+                            <div ng-messages="form.oldPassword.$error"
+                                 ng-show="form.oldPassword.$invalid && form.oldPassword.$touched">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex class="md-block">
                             <label>Contraseña</label>
-                            <input id="password" type="password" md-maxlength="50" required name="password"
+                            <input ng-disabled="!vm.persona.usuario.changePassword" id="password" type="password"
+                                   md-maxlength="50" ng-required="vm.persona.usuario.changePassword" name="password"
                                    ng-model="vm.persona.usuario.password">
 
                             <div ng-messages="form.password.$error"
@@ -49,7 +64,8 @@
                         </md-input-container>
                         <md-input-container flex class="md-block">
                             <label>Repetir contraseña</label>
-                            <input pw-check="password" ng-pattern="vm.persona.usuario.contrasenia"
+                            <input ng-disabled="!vm.persona.usuario.changePassword" pw-check="password"
+                                   ng-pattern="vm.persona.usuario.contrasenia"
                                    ng-model="vm.repeatPassword" type="password" md-maxlength="50" name="repeatPassword">
 
                             <div ng-messages="form.repeatPassword.$error" ng-show="form.repeatPassword.$invalid">
@@ -61,11 +77,11 @@
                         <md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"
                                    ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
                                    ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"
-                                   accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
+                                   ngf-accept="'.jpg,.png,.bmp'" ngf-max-size="20MB" ngf-min-height="100">
                             <img class="user-image" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
                                  ngf-resize="{width: 300, height: auto}">
                             <img class="user-image" ng-if="!vm.isFileSelected()"
-                                 src="http://www.riskid.nl/assets/testimonials/user-3995d1ed5f9b6ea6ef9c7bc9ead47415.jpg"/>
+                                 src="resources/img/image_user.jpg"/>
                         </md-button>
                         <ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"
                                     ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
@@ -82,7 +98,7 @@
 
             </md-card-content>
             <md-card-actions layout="row" layout-align="end center">
-                <md-button>Cancelar</md-button>
+                <md-button ng-click="vm.cancel()">Cancelar</md-button>
                 <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
             </md-card-actions>
         </form>

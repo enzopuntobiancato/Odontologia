@@ -66,7 +66,7 @@ public class Catedra extends Bajeable {
         return horarios;
     }
 
-    public boolean addHorarios(DiaHorario dh) {
+    public boolean addHorario(DiaHorario dh) {
         if (horarios == null || dh == null) return false;
         if(dh.getCatedra() != this) {
             dh.setCatedra(this);
@@ -110,12 +110,7 @@ public class Catedra extends Bajeable {
     }
 
     public void setHorarios(List<DiaHorario> horarios) {
-        if (this.horarios == null) {
-            this.horarios = new ArrayList<DiaHorario>();
-        }
-        for (DiaHorario horario: horarios) {
-            this.addHorarios(horario);
-        }
+        this.horarios = horarios;
     }
 
     @Override
