@@ -3,16 +3,9 @@ package com.utn.tesis.mapping.dto;
 import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.model.Rol;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 02/06/15
- * Time: 22:43
- */
 public class UsuarioLogueadoDTO extends BaseDTO {
     private static final long serialVersionUID = -998155527497569957L;
 
@@ -33,6 +26,7 @@ public class UsuarioLogueadoDTO extends BaseDTO {
     private String rol;
     private List<PrivilegioDTO> permisos;
     private boolean firstLogin;
+    private Long imagenId;
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -96,5 +90,13 @@ public class UsuarioLogueadoDTO extends BaseDTO {
 
     public boolean isResponsable() {
         return rol.equalsIgnoreCase(Rol.RESPONSABLE_RECEPCION_PACIENTES);
+    }
+
+    public Long getImagenId() {
+        return imagenId;
+    }
+
+    public void setImagenId(Long imagenId) {
+        this.imagenId = imagenId;
     }
 }

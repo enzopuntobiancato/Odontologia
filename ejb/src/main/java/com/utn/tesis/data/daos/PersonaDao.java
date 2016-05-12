@@ -62,4 +62,17 @@ public class PersonaDao extends DaoBase<Persona> {
         query = paginar(query, page, pageSize);
         return query.list($);
     }
+
+    public Persona findByUserByUsernameAndAuthtoken(String username, String authToken) {
+        JPAQuery query = new JPAQuery(em).from($);
+        return query.where($.usuario.nombreUsuario.eq(username)
+                .and($.usuario.authToken.eq(authToken))).singleResult($);
+    }
+
+    public List<Usuario> findUserByUsername(String username) {
+        QUsuario usuario = QUsuario.usuario;
+        JPAQuery query = new JPAQuery(em).from(usuario);
+        query.where(usuario.nombreUsuario.equalsIgnoreCase(username));
+        return query.list(usuario);
+    }
 }

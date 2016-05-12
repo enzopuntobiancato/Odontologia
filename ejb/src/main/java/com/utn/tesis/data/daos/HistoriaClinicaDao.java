@@ -4,6 +4,7 @@ import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.*;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,15 +18,18 @@ public class HistoriaClinicaDao extends DaoBase<HistoriaClinica> {
 
     QHistoriaClinica historiaClinica = QHistoriaClinica.historiaClinica;
 
-    public List<HistoriaClinica> findByFilters(Integer numero, Calendar fechaApertura, Usuario realizoHC,
+    public List<HistoriaClinica> findByFilters(Integer numero, Date fechaApertura, Usuario realizoHC,
                                                Atencion atencion, Diagnostico diagnostico, DetalleHistoriaClinica detalleHC,
                                                Long page, Long pageSize) {
 
         JPAQuery query = new JPAQuery(em).from(historiaClinica);
         if (numero != null)
             query.where(historiaClinica.numero.eq(numero));
-        if (fechaApertura != null)
-            query.where(historiaClinica.fechaApertura.eq(fechaApertura));
+        if (fechaApertura != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fechaApertura);
+            query.where(historiaClinica.fechaApertura.eq(calendar));
+        }
         if (realizoHC != null)
             query.where(historiaClinica.realizoHistoriaClinica.id.eq(realizoHC.getId()));
         if (atencion != null)

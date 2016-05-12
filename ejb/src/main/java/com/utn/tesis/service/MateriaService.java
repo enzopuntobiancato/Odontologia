@@ -53,7 +53,6 @@ public class MateriaService extends BaseService<Materia> {
         if (executeNameValidation) {
             HashMap<String, Object> filter = new HashMap<String, Object>();
             filter.put("nombre", entity.getNombre());
-            filter.put("fechaBaja", null);
 
             List<Materia> result = dao.findBy(filter);
             if (!result.isEmpty()) {

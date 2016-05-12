@@ -19,11 +19,6 @@ import javax.validation.Validator;
 import java.io.*;
 import java.util.UUID;
 
-/**
- * User: Enzo
- * Date: 8/11/15
- * Time: 23:26
- */
 @Stateless
 @LocalBean
 @Slf4j
@@ -49,11 +44,11 @@ public class ArchivoService extends BaseService<Archivo> {
 
     public Archivo save(ArchivoDTO dto) throws SAPOException {
         Archivo entity = null;
-        if (dto !=  null) {
-            Archivo archivo = dto.getId() != null ? this.findById(dto.getId()) : new Archivo();
-            archivoMapper.updateFromDTO(dto, archivo);
-            archivo.setRuta(this.saveToDisk(dto.getArchivo(), dto.getExtension()));
-            archivo = this.save(archivo);
+        if (dto !=  null && dto.getExtension() != FileExtension.NONE) {
+            entity = dto.getId() != null ? this.findById(dto.getId()) : new Archivo();
+            archivoMapper.updateFromDTO(dto, entity);
+            entity.setRuta(this.saveToDisk(dto.getArchivo(), dto.getExtension()));
+            this.save(entity);
         }
         return entity;
     }
@@ -82,13 +77,28 @@ public class ArchivoService extends BaseService<Archivo> {
         }
     }
 
-    public ArchivoDTO findArchivo(Long id) throws FileNotFoundException {
+    public ArchivoDTO findArchivo(Long id) {
         Archivo entity = this.findById(id);
         ArchivoDTO dto = null;
         if (entity != null) {
             dto = archivoMapper.toDTO(entity);
-            dto.setArchivo(new FileInputStream(entity.getRuta()));
         }
         return dto;
     }
+
+    public byte[] findFile(Long id) throws IOException {
+        Archivo entity = this.findById(id);
+        File f = new File(entity.getRuta());
+        InputStream inputStream = new FileInputStream(f);
+        byte[] buff = new byte[(int) f.length()];
+        inputStream.read(buff, 0, (int) f.length());
+
+        byte[] fileContent;
+        ByteArrayInputStream buffer = new ByteArrayInputStream(buff);
+        fileContent = new byte[buffer.available()];
+        buffer.read(fileContent, 0, buffer.available());
+        return fileContent;
+    }
+
+
 }

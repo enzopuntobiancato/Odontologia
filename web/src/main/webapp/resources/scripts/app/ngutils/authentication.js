@@ -2,22 +2,56 @@
 
 var auth = angular.module('auth.services', ['ngCookies']);
 
-auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootScope, $http, $cookies) {
+auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function ($rootScope, $http, $cookies, $q) {
 
     var SESSION_COOKIE = 'SESSION';
     var MENU_COOKIE = 'MENU';
 
     var authFactory = {
-        authData: undefined
+        session: {
+            user: undefined,
+            image: undefined
+        }
     };
 
     authFactory.login = function (user) {
-        return $http({
+        var deferred = $q.defer();
+        $http({
             url: 'api/auth/login',
             method: 'POST',
             data: user
-        });
+        }).then(function (response) {
+                var authData = response.data;
+                if (authData.imagenId) {
+                  lookForImage(authData.imagenId)
+                      .then(function(response) {
+                          deferred.resolve({user: authData, image: response.data});
+                    });
+                } else {
+                    deferred.resolve({user: authData});
+                }
+            });
+        return deferred.promise;
     };
+
+    authFactory.fetchUser = function() {
+        var current = this.session.user;
+
+    }
+
+    function lookForImage(imageId) {
+        return $http({
+            method: 'GET',
+            params: {id: imageId},
+            url: 'api/file/image',
+            headers: {'Content-Type': 'application/json'},
+            responseType: 'blob'
+        });
+    }
+
+    authFactory.lookForImage = function(imageId) {
+        return lookForImage(imageId);
+    }
 
     function getExpiresDate() {
         var now = new Date();
@@ -25,9 +59,10 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
         return now;
     }
 
-    authFactory.setAuthData = function (authData) {
-        this.authData = authData;
-        $cookies.putObject(SESSION_COOKIE, this.authData, {expires: getExpiresDate()});
+    authFactory.setAuthData = function (user, image) {
+        this.session.user = user;
+        this.session.image = image;
+        $cookies.putObject(SESSION_COOKIE, this.session.user, {expires: getExpiresDate()});
     };
 
     authFactory.communicateAuthChanged = function () {
@@ -35,22 +70,52 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', function ($rootS
     }
 
     authFactory.getAuthData = function () {
-        return $cookies.getObject(SESSION_COOKIE);
+        if (this.session.user) {
+           return this.session.user;
+        } else {
+            this.session.user = $cookies.getObject(SESSION_COOKIE);
+        }
+        return this.session.user;
     };
 
+    authFactory.setImage = function(image) {
+        this.session.image = image;
+    }
+
+    authFactory.getImage = function() {
+        if (this.session.image) {
+            return this.session.image;
+        }
+        return undefined;
+    }
+
+    authFactory.getSession = function() {
+        var deferred = $q.defer();
+        this.session.user = this.getAuthData();
+        if (this.session.user && !this.session.image && this.session.user.imagenId) {
+           this.lookForImage().then(function(response) {
+               deferred.resolve(this.loadImage(response.data));
+           });
+        } else {
+            deferred.resolve(this.session);
+        }
+        return deferred.promise;
+    }
+
     authFactory.isAuthenticated = function () {
-        return !angular.isUndefined(this.getAuthData());
+        var user = this.getAuthData();
+        return !user && !angular.isUndefined(user) && user != null;
     };
 
     authFactory.updateExpiresTime = function () {
-        this.authData = this.getAuthData();
-        $cookies.putObject(SESSION_COOKIE, this.authData, {expires: getExpiresDate()});
+        this.session = this.getAuthData();
+        $cookies.putObject(SESSION_COOKIE, this.session.user, {expires: getExpiresDate()});
     };
 
     authFactory.logout = function () {
         $cookies.remove(SESSION_COOKIE);
         $cookies.remove(MENU_COOKIE);
-        return this.authData = undefined;
+        return this.session = {};
     };
 
     authFactory.setMenu = function (menu) {

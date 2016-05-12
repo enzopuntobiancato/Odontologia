@@ -4,12 +4,6 @@ import com.utn.tesis.model.FileExtension;
 
 import java.io.InputStream;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 1/02/16
- * Time: 16:42
- */
 public class ArchivoDTO extends BaseDTO {
     private static final long serialVersionUID = 1907406119567098502L;
 

@@ -42,23 +42,16 @@ public class PacienteAPI extends BaseAPI{
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response save(PacienteDTO pacienteDTO){
+    public Response save(PacienteDTO pacienteDTO) throws SAPOException {
         Paciente entity = pacienteMapper.fromDTO(pacienteDTO);
-        try {
-            if (entity.isNew()){
-                entity.setFechaCarga(Calendar.getInstance());
-            }
-            else {
-                  pacienteMapper.updataFromDTO(pacienteDTO,entity);
-            }
-            pacienteService.save(entity);
-            return Response.ok(pacienteDTO).build();
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        } catch (Exception e) {
-            Logger.getLogger(BaseAPI.class.getName()).log(Level.SEVERE, e.getMessage(), e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        if (entity.isNew()){
+            entity.setFechaCarga(Calendar.getInstance());
         }
+        else {
+            pacienteMapper.updataFromDTO(pacienteDTO,entity);
+        }
+        pacienteService.save(entity);
+        return Response.ok(pacienteDTO).build();
     }
 
     @Path("/find")
@@ -97,13 +90,9 @@ public class PacienteAPI extends BaseAPI{
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(PacienteDTO dto) {
-        try {
-            Paciente entity = pacienteService.remove(dto.getId(), "Baja");
-            dto = pacienteMapper.toDTO(entity);
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
+    public Response remove(PacienteDTO dto) throws SAPOException {
+        Paciente entity = pacienteService.remove(dto.getId(), "Baja");
+        dto = pacienteMapper.toDTO(entity);
         return Response.ok(dto).build();
     }
 

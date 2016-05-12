@@ -1,6 +1,5 @@
 package com.utn.tesis.api;
 
-import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.api.commons.MultiPartFormHelper;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.ArchivoDTO;
@@ -9,7 +8,6 @@ import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.FileExtension;
 import com.utn.tesis.model.Persona;
-import com.utn.tesis.service.BaseService;
 import com.utn.tesis.service.PersonaService;
 import com.utn.tesis.service.UsuarioService;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +60,8 @@ public class PersonaAPI {
             imagenUsuario.setArchivo((InputStream) file.get(helper.FILE));
         }
         personaService.update(person, imagenUsuario);
-        return Response.status(Response.Status.OK).build();
+        UsuarioLogueadoDTO updatedUser = usuarioService.fetchUser(person.getUsuario().getId());
+        return Response.ok(updatedUser).build();
     }
 
     @Path("/findByUser")
@@ -70,7 +69,7 @@ public class PersonaAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public PersonaDTO findByUser(@QueryParam("username") String username,
                                  @QueryParam("authToken") String authToken) {
-        Persona persona = personaService.findById(1L);
+        Persona persona = personaService.findByUserByUsernameAndAuthtoken(username, authToken);
         return personaMapper.toDTO(persona);
     }
 }

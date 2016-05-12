@@ -15,12 +15,6 @@ import java.util.Calendar;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 02/06/15
- * Time: 22:42
- */
 @Stateless
 @Slf4j
 public class AuthService {
@@ -60,6 +54,4 @@ public class AuthService {
             return false;
         }
     }
-
-
 }

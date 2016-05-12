@@ -1,12 +1,5 @@
 package com.utn.tesis.mapping.dto;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 4/02/16
- * Time: 17:41
- * To change this template use File | Settings | File Templates.
- */
 public class UsuarioDTO extends BaseDTO {
     private static final long serialVersionUID = -4163955333854545006L;
 
@@ -15,11 +8,11 @@ public class UsuarioDTO extends BaseDTO {
     private RolDTO rol;
     private Long id;
     // Diferente nombre para no mapear la contraseña
+    private String currentPassword;
     private String password;
-
-    public UsuarioDTO() {
-    }
-
+    private boolean changePassword;
+    private boolean fromFirstLogin;
+    private Long imagenId;
 
     public String getPassword() {
         return password;
@@ -59,5 +52,37 @@ public class UsuarioDTO extends BaseDTO {
 
     public void setRol(RolDTO rolDTO) {
         this.rol = rolDTO;
+    }
+
+    public Long getImagenId() {
+        return imagenId;
+    }
+
+    public void setImagenId(Long imagenId) {
+        this.imagenId = imagenId;
+    }
+
+    public String getCurrentPassword() {
+        return currentPassword;
+    }
+
+    public void setCurrentPassword(String currentPassword) {
+        this.currentPassword = currentPassword;
+    }
+
+    public boolean isChangePassword() {
+        return changePassword;
+    }
+
+    public void setChangePassword(boolean changePassword) {
+        this.changePassword = changePassword;
+    }
+
+    public boolean isFromFirstLogin() {
+        return fromFirstLogin;
+    }
+
+    public void setFromFirstLogin(boolean fromFirstLogin) {
+        this.fromFirstLogin = fromFirstLogin;
     }
 }

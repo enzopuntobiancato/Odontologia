@@ -14,15 +14,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 1/05/16
- * Time: 20:31
- * To change this template use File | Settings | File Templates.
- */
 @Path("/historiaClinica")
 @RequestScoped
 @Slf4j
@@ -36,7 +30,7 @@ public class HistoriaClinicaAPI extends BaseAPI{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<HistoriaClinicaDTO> findByFilters(@QueryParam("numero") Integer numero,
-                                                  @QueryParam("fechaApertura") Calendar fechaApertura,
+                                                  @QueryParam("fechaApertura") Date fechaApertura,
                                                   @QueryParam("realizoHC") String realizoHC,
                                                   @QueryParam("atencion") String atencion,
                                                   @QueryParam("diagnostico") String diagnostico,
@@ -52,17 +46,10 @@ public class HistoriaClinicaAPI extends BaseAPI{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/save")
-    public Response save(HistoriaClinicaDTO dto) {
-        try {
-            HistoriaClinica entity = historiaClinicaMapper.fromDTO(dto);
-            historiaClinicaService.save(entity);
-            return Response.ok(dto).build();
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response save(HistoriaClinicaDTO dto) throws SAPOException {
+        HistoriaClinica entity = historiaClinicaMapper.fromDTO(dto);
+        historiaClinicaService.save(entity);
+        return Response.ok(dto).build();
     }
 
     @Path("/findById")
@@ -76,14 +63,9 @@ public class HistoriaClinicaAPI extends BaseAPI{
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(HistoriaClinicaDTO dto) {
-        HistoriaClinicaDTO response;
-        try {
-            HistoriaClinica entity = historiaClinicaService.remove(Long.getLong("1"),"Lala");
-            response = historiaClinicaMapper.toDTO(entity);
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
+    public Response remove(HistoriaClinicaDTO dto) throws SAPOException {
+        HistoriaClinica entity = historiaClinicaService.remove(Long.getLong("1"),"Lala");
+        HistoriaClinicaDTO response = historiaClinicaMapper.toDTO(entity);
         return Response.ok(response).build();
     }
 

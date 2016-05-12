@@ -14,14 +14,14 @@ import java.util.List;
  * Time: 20:35
  * To change this template use File | Settings | File Templates.
  */
-@Mapper(componentModel = "cdi")
-public interface DetalleHistoriaClinicaMapper {
-
-    public DetalleHistoriaClinicaDTO toDTO(DetalleHistoriaClinica entity);
-
-    public DetalleHistoriaClinica fromDTO(DetalleHistoriaClinicaDTO dto);
-
-    public List<DetalleHistoriaClinicaDTO> toDTOList(List<DetalleHistoriaClinicaDTO> entities);
-
-    public void updateFromDTO(DetalleHistoriaClinicaDTO source, @MappingTarget DetalleHistoriaClinica target);
-}
+//@Mapper(componentModel = "cdi")
+//public interface DetalleHistoriaClinicaMapper {
+//
+//    public DetalleHistoriaClinicaDTO toDTO(DetalleHistoriaClinica entity);
+//
+//    public DetalleHistoriaClinica fromDTO(DetalleHistoriaClinicaDTO dto);
+//
+//    public List<DetalleHistoriaClinicaDTO> toDTOList(List<DetalleHistoriaClinicaDTO> entities);
+//
+//    public void updateFromDTO(DetalleHistoriaClinicaDTO source, @MappingTarget DetalleHistoriaClinica target);
+//}

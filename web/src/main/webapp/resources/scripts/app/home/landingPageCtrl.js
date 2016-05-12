@@ -19,10 +19,10 @@ loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'M
         function login(form) {
             performSubmit(function () {
                 authFactory.login(vm.user)
-                    .success(function (data) {
-                        if (data) {
-                            authFactory.setAuthData(data);
-                            if (data.firstLogin) {
+                    .then(function (response) {
+                        if (response.user) {
+                            authFactory.setAuthData(response.user, response.image);
+                            if (response.user.firstLogin) {
                                 $state.go('persona.firstLogin');
                             } else {
                                 authFactory.communicateAuthChanged();
@@ -31,8 +31,7 @@ loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'M
                         } else {
                             messageSrv.errorMessage('Usuario y/o contraseña incorrectos');
                         }
-                    })
-                    .error(function () {
+                    }, function () {
                         messageSrv.errorMessage('Ocurrió un error. Intente nuevamente');
                     });
             }, form);

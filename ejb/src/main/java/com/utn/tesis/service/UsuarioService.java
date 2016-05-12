@@ -4,6 +4,8 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
+import com.utn.tesis.mapping.mapper.UsuarioMapper;
 import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
@@ -15,12 +17,6 @@ import javax.validation.Validator;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 03/06/15
- * Time: 22:03
- */
 @Stateless
 public class UsuarioService extends BaseService<Usuario> {
 
@@ -34,10 +30,11 @@ public class UsuarioService extends BaseService<Usuario> {
     private ArchivoService archivoService;
     @Inject
     private PersonaService personaService;
+    @Inject
+    private UsuarioMapper usuarioMapper;
 
     @Override
     protected void bussinessValidation(Usuario entity) throws SAPOValidationException {
-
         super.bussinessValidation(entity);
     }
 
@@ -98,6 +95,11 @@ public class UsuarioService extends BaseService<Usuario> {
 
     public Persona findPersonaByUsuario(Usuario usuario) {
         return dao.findPersonaByUsuario(usuario);
+    }
+
+    public UsuarioLogueadoDTO fetchUser(Long id) {
+        Usuario user = findById(id);
+        return usuarioMapper.toUsuarioLogueadoDTO(user);
     }
 }
 

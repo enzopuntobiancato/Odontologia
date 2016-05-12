@@ -42,37 +42,26 @@ public class MateriaAPI extends BaseAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/save")
-    public Response save(MateriaDTO dto) {
-        try {
-            Materia entity;
-            if (dto.getId() == null) {
-                entity = materiaMapper.fromDTO(dto);
-            } else {
-                entity = materiaService.findById(dto.getId());
-                materiaMapper.updateFromDTO(dto, entity);
-            }
-
-            dto = materiaMapper.toDTO(materiaService.save(entity));
-            return Response.ok(dto).build();
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+    public Response save(MateriaDTO dto) throws SAPOException {
+        Materia entity;
+        if (dto.getId() == null) {
+            entity = materiaMapper.fromDTO(dto);
+        } else {
+            entity = materiaService.findById(dto.getId());
+            materiaMapper.updateFromDTO(dto, entity);
         }
+
+        dto = materiaMapper.toDTO(materiaService.save(entity));
+        return Response.ok(dto).build();
     }
 
     @Path("/remove")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(MateriaDTO dto) {
-        try {
-            Materia entity = materiaService.remove(dto.getId(), dto.getMotivoBaja());
-            dto = materiaMapper.toDTO(entity);
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        }
+    public Response remove(MateriaDTO dto) throws SAPOException {
+        Materia entity = materiaService.remove(dto.getId(), dto.getMotivoBaja());
+        dto = materiaMapper.toDTO(entity);
         return Response.ok(dto).build();
     }
 
@@ -92,8 +81,6 @@ public class MateriaAPI extends BaseAPI {
     @Path("/findAll")
     @GET
     public List<MateriaDTO> findAll() {
-        List<Materia> materias = materiaService.findAll();
-        List<MateriaDTO> materiaDTOs = materiaMapper.toDTOList(materias);
         return materiaMapper.toDTOList(materiaService.findAll());
     }
 
