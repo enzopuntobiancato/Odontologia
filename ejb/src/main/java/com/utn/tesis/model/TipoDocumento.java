@@ -1,11 +1,5 @@
 package com.utn.tesis.model;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 19/05/15
- * Time: 23:16
- */
 public enum TipoDocumento {
 
     DNI {

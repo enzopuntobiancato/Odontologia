@@ -4,12 +4,15 @@ import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 // TABLA DEFINIDA. NO HAY ABM. SE MANTIENE POR DB.
 @Entity
+@Table(name = "grupos_practica_odontologica")
 public class GrupoPracticaOdontologica extends EntityBase {
+    private static final long serialVersionUID = -2936660790337725419L;
 
     @NotNull(message = "El nombre del grupo de practica odontologica no puede ser nulo.")
     @Size(max = 50, message = "El nombre del grupo de la practica odontologica debe tener entre 0 y 50 caracteres.")

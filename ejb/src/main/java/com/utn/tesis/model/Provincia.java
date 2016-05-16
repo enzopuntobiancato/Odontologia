@@ -4,19 +4,14 @@ import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 07/01/16
- * Time: 10:00
- * To change this template use File | Settings | File Templates.
- */
-
 @Entity
+@Table(name = "provincias")
 public class Provincia extends EntityBase {
+    private static final long serialVersionUID = -8093704971951493483L;
 
     @NotNull
     @Size(max = 50, message = "El nombre de la provincia no puede ser mayor a 50 caracteres")

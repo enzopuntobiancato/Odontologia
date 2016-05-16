@@ -7,12 +7,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 19/05/15
- * Time: 23:13
- */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Persona extends SuperEntityBase {
@@ -37,14 +31,16 @@ public abstract class Persona extends SuperEntityBase {
     private Documento documento;
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_nacimiento")
     private Calendar fechaNacimiento;
 
     @ManyToOne
-    @JoinColumn(name = "usuarioId")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @NotNull(message = "La fecha de carga no puede ser nula.")
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_carga")
     private Calendar fechaCarga;
 
     @Enumerated(EnumType.STRING)

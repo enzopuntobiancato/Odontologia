@@ -8,19 +8,14 @@ import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 14/01/16
- * Time: 13:28
- * To change this template use File | Settings | File Templates.
- */
-
 @Entity
+@Table(name = "diagnosticos")
 public class Diagnostico extends EntityBase {
+    private static final long serialVersionUID = -1966730195163804698L;
 
     @NotNull(message = "La fecha de creacion del diagnostico no puede ser nula.")
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_creacion")
     private Calendar fechaCreacion;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -32,6 +27,7 @@ public class Diagnostico extends EntityBase {
     private String observaciones;
 
     @NotNull
+    @Column(name = "practica_odontologica_id")
     private PracticaOdontologica practicaOdontologica;
 
     public Diagnostico() {

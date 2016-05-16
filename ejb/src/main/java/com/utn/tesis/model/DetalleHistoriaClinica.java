@@ -10,12 +10,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * @author Maxi
- */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "detalle_historia_clinica")
 public abstract class DetalleHistoriaClinica extends EntityBase {
 
     @Column(name = "nombre", length = 255)

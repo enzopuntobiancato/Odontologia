@@ -7,13 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 11/05/15
- * Time: 22:08
- */
 @Entity
+@Table(name = "trabajos_practicos")
 public class TrabajoPractico extends Bajeable {
     private static final long serialVersionUID = -6891546733104546655L;
 
@@ -28,7 +23,7 @@ public class TrabajoPractico extends Bajeable {
     private String descripcion;
 
     @ManyToOne
-    @JoinColumn(name = "practicaOdontologicaId")
+    @JoinColumn(name = "practica_odontologica_id")
     @NotNull(message = "Debe seleccionar una práctica odontológica.")
     private PracticaOdontologica practicaOdontologica;
 

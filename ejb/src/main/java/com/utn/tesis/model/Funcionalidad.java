@@ -2,26 +2,22 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
-/**
- * Created by cids on 23/06/2015.
- */
 @Entity
+@Table(name = "funcionalidades")
 public class Funcionalidad extends EntityBase {
+    private static final long serialVersionUID = 4356415656347544709L;
 
     @Column(length = 255)
     private String nombre;
 
     // El estado asociado es el nombre del state de angular.
-    @Column(length = 255)
+    @Column(length = 255, name = "estado_asociado")
     private String estadoAsociado;
 
     @ManyToOne
-    @JoinColumn(name = "grupoFuncionalidadId")
+    @JoinColumn(name = "grupo_funcionalidad_id")
     private GrupoFuncionalidad grupoFuncionalidad;
 
     public Funcionalidad() {

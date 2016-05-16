@@ -7,22 +7,17 @@ import lombok.Builder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 03/06/15
- * Time: 21:58
- */
 @Entity
-@Builder
-@AllArgsConstructor
+@Table(name = "roles")
 public class Rol extends EntityBase {
+    private static final long serialVersionUID = 2562846295039018053L;
 
     public static final String ADMIN = "ADMINISTRADOR";
     public static final String ALUMNO = "ALUMNO";

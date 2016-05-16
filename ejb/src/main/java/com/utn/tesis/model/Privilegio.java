@@ -2,19 +2,17 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
-/**
- * Created by cids on 23/06/2015.
- */
 @Entity
+@Table(name = "privilegios")
 public class Privilegio extends EntityBase {
+    private static final long serialVersionUID = 7366318752748840729L;
 
     @ManyToOne
-    @JoinColumn(name = "funcionalidadId")
+    @JoinColumn(name = "funcionalidad_id")
     private Funcionalidad funcionalidad;
+    @Column(name = "es_item_menu")
     private boolean esItemMenu;
 
     @ManyToOne

@@ -20,8 +20,8 @@ import java.util.Set;
  * Date: 7/05/16
  * Time: 16:48
  */
-@Provider
 @Slf4j
+@Provider
 public class APIExceptionMapper implements ExceptionMapper<Exception> {
     @Override
     public Response toResponse(Exception exception) {

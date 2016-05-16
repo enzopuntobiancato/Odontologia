@@ -1,12 +1,5 @@
 package com.utn.tesis.model;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 11/01/16
- * Time: 11:10
- * To change this template use File | Settings | File Templates.
- */
 public enum Cargo {
 
     BEDEL {

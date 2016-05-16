@@ -9,19 +9,14 @@ import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.HashMap;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 02/06/15
- * Time: 22:50
- */
 @Entity
+@Table(name = "usuarios")
 public class Usuario extends Bajeable {
     private static final long serialVersionUID = 4712822060350795922L;
 
     @NotNull(message = "El nombre de usuario no puede ser nulo.")
     @Size(max = 50, message = "El nombre de usuario debe tener entre 1 y 50 caracteres.")
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, name = "nombre_usuario")
     private String nombreUsuario;
 
     @NotNull(message = "La contraseña de usuario no puede ser nula.")
@@ -35,18 +30,20 @@ public class Usuario extends Bajeable {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "rolId")
+    @JoinColumn(name = "rol_id")
     @NotNull(message = "El rol de usuario no puede ser nulo.")
     private Rol rol;
 
     @ManyToOne
-    @JoinColumn(name = "archivoId")
+    @JoinColumn(name = "archivo_imagen_id")
     private Archivo imagen;
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "ultima_conexion")
     private Calendar ultimaConexion;
 
     // UUID que se genera cdo un usuario inicia sesión
+    @Column(name = "auth_token")
     private String authToken;
 
     @Override

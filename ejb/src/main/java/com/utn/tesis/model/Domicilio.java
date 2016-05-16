@@ -5,19 +5,14 @@ import com.utn.tesis.exception.SAPOValidationException;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 06/01/16
- * Time: 11:09
- * To change this template use File | Settings | File Templates.
- */
-
 @Entity
+@Table(name = "domicilios")
 public class Domicilio extends EntityBase {
+    private static final long serialVersionUID = 118449969034704193L;
 
     @NotNull(message = "El barrio no puede ser nulo.")
     @ManyToOne

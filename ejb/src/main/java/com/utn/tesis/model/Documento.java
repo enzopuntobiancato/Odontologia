@@ -10,14 +10,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 19/05/15
- * Time: 23:39
- */
 @Embeddable
 public class Documento implements Serializable {
+    private static final long serialVersionUID = 2966946409679631185L;
 
     @Size(max = 10, message = "El número de documento no puede ser mayor a 10 caracteres.")
     @NotNull(message = "Ingrese el número de documento.")
@@ -26,6 +21,7 @@ public class Documento implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "El tipo de documento no puede ser nulo.")
+    @Column(name = "tipo_documento")
     private TipoDocumento tipoDocumento;
 
     public Documento() {

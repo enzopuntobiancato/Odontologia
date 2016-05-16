@@ -2,11 +2,6 @@ package com.utn.tesis.model;
 
 import lombok.Getter;
 
-/**
- * User: Enzo
- * Date: 9/11/15
- * Time: 22:49
- */
 @Getter
 public enum FileExtension {
     JPG("jpg", "image/jpeg") {

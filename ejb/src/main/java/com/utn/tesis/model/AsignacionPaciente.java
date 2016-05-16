@@ -8,47 +8,46 @@ import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 14/01/16
- * Time: 13:10
- * To change this template use File | Settings | File Templates.
- */
-
 @Entity
+@Table(name = "asignaciones_paciente")
 public class AsignacionPaciente extends EntityBase {
-
+    private static final long serialVersionUID = -678479853171993357L;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "alumno_id")
     @NotNull(message = "El alumno de la asignacion no puede ser nulo.")
     private Alumno alumno;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "autorizado_por_id")
     private Profesor autorizadoPor;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diagnostico_id")
     @NotNull(message = "El diagnostico de la asignacion no puede ser nulo.")
     private Diagnostico diagnostico;
 
     @NotNull(message = "La fecha de asignacion no puede ser nula.")
+    @Column(name = "fecha_asignacion")
     @Temporal(TemporalType.DATE)
     private Calendar fechaAsignacion;
 
     @NotNull(message = "La fecha de creacion de la asignacion no puede ser nula.")
+    @Column(name = "fecha_creacion")
     @Temporal(TemporalType.DATE)
     private Calendar fechaCreacion;
 
     @Size(max = 300, message = "El motivo de cancelacion no puede tener mas de 300 caracteres.")
-    @Column(length = 300)
+    @Column(length = 300, name = "motivo_cancelacion")
     private String motivoCancelacion;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asignacionPaciente_id")
+    @JoinColumn(name = "asignacion_paciente_id")
     @NotNull(message = "El movimiento de asignacion no puede ser nulo.")
     private List<MovimientoAsignacionPaciente> movimientoAsignacionPaciente;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trabajo_practico_id")
     @NotNull(message = "El trabajo practico de la asignacion no puede ser nulo.")
     private TrabajoPractico trabajoPractico;
 

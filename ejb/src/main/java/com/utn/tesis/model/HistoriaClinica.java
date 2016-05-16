@@ -8,44 +8,39 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 14/01/16
- * Time: 11:00
- * To change this template use File | Settings | File Templates.
- */
 @Entity
+@Table(name = "historias_clinicas")
 public class HistoriaClinica extends EntityBase {
-
+    private static final long serialVersionUID = -8797692234912388646L;
 
     @NotNull(message = "El numero de historia clinica no puede ser nulo.")
     private int numero;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     @NotNull(message = "La fecha de apertura de historia clinica no puede ser nula.")
+    @Column(name = "fecha_apertura")
     private Calendar fechaApertura;
 
     //se tiene que definir la persona que va  aca.
     @ManyToOne
-    @JoinColumn(name = "usuarioRealizoHC_id")
+    @JoinColumn(name = "usuario_realizo_hc_id")
     private Usuario realizoHistoriaClinica;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "historiaclinica_id")
+    @JoinColumn(name = "historia_clinica_id")
     private List<Atencion> atencion;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "historiaclinica_id")
+    @JoinColumn(name = "historia_clinica_id")
     private List<Diagnostico> diagnostico;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "historiaClinicaDocumentacion_id")
+    @JoinColumn(name = "historia_clinica_id")
     private List<Archivo> documentacion;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull(message = "Error en generacion de historia clinica. Imposible guardar historia clinica vacia.")
-    @JoinColumn(name = "historiaClinica_id")
+    @JoinColumn(name = "historia_clinica_id")
     private List<DetalleHistoriaClinica> detallesHC;
 
     //CONSTRUCTORS
