@@ -3,16 +3,10 @@ package com.utn.tesis.model;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 13/01/16
- * Time: 13:01
- * To change this template use File | Settings | File Templates.
- */
-
 @Entity
+@Table(name = "pacientes")
 public class Paciente extends Persona {
+    private static final long serialVersionUID = -836105309387103995L;
 
     @Size(max = 30, message = "El celular no puede tener mas de 30 caracteres.")
     @Column(length = 30)
@@ -23,25 +17,31 @@ public class Paciente extends Persona {
     private String email;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "estado_civil")
     private EstadoCivil estadoCivil;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "archivo_imagen_id")
     private Archivo imagen;
 
     @ManyToOne
+    @JoinColumn(name = "lugar_nacimiento_ciudad_id")
     private Ciudad lugarDeNacimiento;
 
     @Size(max = 50, message = "El nombre del medico de cabecera no puede tener mas de 50 caracteres.")
-    @Column(length = 50)
+    @Column(length = 50, name = "medico_cabecera")
     private String medicoCabecera;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "nacionalidad")
     private Nacionalidad nacionalidad;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "nivel_estudio")
     private NivelEstudio nivelEstudio;
 
     @ManyToOne
+    @JoinColumn(name = "obra_social_id")
     private ObraSocial obraSocial;
 
     @Size(max = 30, message = "El campo religion no puede tener mas de 30 caracteres.")
@@ -49,7 +49,7 @@ public class Paciente extends Persona {
     private String religion;
 
     @Size(max = 30, message = "El servicio de emergencia no puede tener mas de 30 caracteres.")
-    @Column(length = 30)
+    @Column(length = 30, name = "servicio_emergencia")
     private String servicioEmergencia;
 
     @Size(max = 30, message = "El telefono no puede tener mas de 30 caracteres.")
@@ -57,16 +57,19 @@ public class Paciente extends Persona {
     private String telefono;
 
     @Size(max = 30, message = "El telefono del medico de cabecera no puede tener mas de 30 caracteres.")
-    @Column(length = 30)
+    @Column(length = 30, name = "medico_cabecera_telefono")
     private String telefonoMedicoCabecera;
 
     @ManyToOne
+    @JoinColumn(name = "trabajo_id")
     private Trabajo trabajo;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "domicilio_id")
     private Domicilio domicilio;
 
     @ManyToOne
+    @JoinColumn(name = "historia_clinica_id")
     private HistoriaClinica historiaClinica;
 
     public Paciente() {

@@ -9,9 +9,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
-/**
- * @author Maxi
- */
 @Entity
 @DiscriminatorValue(value = "CAMPODETALLE")
 public class CampoDetalle extends DetalleHistoriaClinica {

@@ -11,6 +11,7 @@ import java.util.List;
 
 
 @Entity
+@Table(name = "catedras")
 public class Catedra extends Bajeable {
     private static final long serialVersionUID = -5818525557076389498L;
 
@@ -31,10 +32,11 @@ public class Catedra extends Bajeable {
 
     @ManyToOne
     @NotNull(message = "La materia a la cual pertenece la catedra no puede ser nula.")
+    @JoinColumn(name = "materia_id")
     private Materia materia;
 
     @ManyToMany
-    @JoinTable(name = "catedra_x_trabajo_practico",
+    @JoinTable(name = "catedras_x_trabajo_practicos",
             joinColumns = {
                     @JoinColumn(name = "catedra_id")},
             inverseJoinColumns = {

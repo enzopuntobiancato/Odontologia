@@ -7,9 +7,6 @@ package com.utn.tesis.model;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-/**
- * @author Maxi
- */
 @Entity
 @DiscriminatorValue(value = "CAMPOENUMERABLE")
 public class CampoEnumerable extends DetalleHistoriaClinica {

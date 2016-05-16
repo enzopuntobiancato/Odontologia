@@ -9,22 +9,22 @@ import com.utn.tesis.util.FechaUtils;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.HashMap;
 
-/**
- * @author Maxi
- */
 @MappedSuperclass
 public abstract class Bajeable extends EntityBase {
 
     private int estadoAlta = ALTA;
 
-    @Size(max = 150, message = "El motivoBaja de baja debe tener entre 0 y 150 caracteres.")
-    @Column(length = 150)
+    @Size(max = 150, message = "El motivo de baja debe tener entre 0 y 150 caracteres.")
+    @Column(length = 150, name = "motivo_baja")
     private String motivoBaja;
-
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_baja")
     private Calendar fechaBaja;
 
     public static int ALTA = 1;

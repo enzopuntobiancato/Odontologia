@@ -1,12 +1,5 @@
 package com.utn.tesis.model;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 13/01/16
- * Time: 11:02
- * To change this template use File | Settings | File Templates.
- */
 public enum EstadoAsignacionPaciente {
 
     PENDIENTE {

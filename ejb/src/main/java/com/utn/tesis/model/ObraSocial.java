@@ -4,18 +4,14 @@ import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 14/01/16
- * Time: 10:47
- * To change this template use File | Settings | File Templates.
- */
 @Entity
+@Table(name = "obras_sociales")
 public class ObraSocial extends EntityBase {
+    private static final long serialVersionUID = 8939343733653761443L;
 
     @NotNull(message = "El nombre de la obra social no puede ser nulo.")
     @Size(max = 50, message = "El nombre de la obra social no puede superar los 50 caracteres")

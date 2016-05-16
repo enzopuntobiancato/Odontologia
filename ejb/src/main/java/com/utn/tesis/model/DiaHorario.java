@@ -2,46 +2,46 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 
-
 @Entity
+@Table(name = "dias_horarios")
 public class DiaHorario extends EntityBase {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1368287238397612789L;
 
     @NotNull(message = "Debe seleccionar un día de la semana.")
     @Enumerated(EnumType.STRING)
-    private Dia dia;
+    private Dia diaSemana;
 
     @NotNull(message = "Debe ingresar hora desde.")
+    @Column(name = "hora_desde")
     private Calendar horaDesde;
 
     @NotNull(message = "Debe ingresar hora hasta.")
+    @Column(name = "hora_hasta")
     private Calendar horaHasta;
 
     @ManyToOne
+    @JoinColumn(name = "catedra_id")
     private Catedra catedra;
 
     public DiaHorario() {
     }
 
-    public DiaHorario(Dia dia, Calendar horaDesde, Calendar horaHasta) {
-        this.dia = dia;
+    public DiaHorario(Dia diaSemana, Calendar horaDesde, Calendar horaHasta) {
+        this.diaSemana = diaSemana;
         this.horaDesde = horaDesde;
         this.horaHasta = horaHasta;
     }
 
-    public Dia getDia() {
-        return dia;
+    public Dia getDiaSemana() {
+        return diaSemana;
     }
 
-    public void setDia(Dia dia) {
-        this.dia = dia;
+    public void setDiaSemana(Dia diaSemana) {
+        this.diaSemana = diaSemana;
     }
 
     public Calendar getHoraDesde() {
@@ -82,7 +82,7 @@ public class DiaHorario extends EntityBase {
 
         DiaHorario that = (DiaHorario) o;
 
-        if (dia != that.dia) return false;
+        if (diaSemana != that.diaSemana) return false;
         if (!horaDesde.equals(that.horaDesde)) return false;
         if (!horaHasta.equals(that.horaHasta)) return false;
 
@@ -92,7 +92,7 @@ public class DiaHorario extends EntityBase {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + dia.hashCode();
+        result = 31 * result + diaSemana.hashCode();
         result = 31 * result + horaDesde.hashCode();
         result = 31 * result + horaHasta.hashCode();
         return result;

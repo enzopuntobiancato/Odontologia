@@ -2,22 +2,15 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashMap;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 03/06/15
- * Time: 21:58
- */
 @Entity
+@Table(name = "archivos")
 public class Archivo extends EntityBase {
+    private static final long serialVersionUID = -1564724278808557651L;
 
     @NotNull(message = "Debe ingresar un nombre del archivo.")
     @Size(max = 50, message = "El nombre debe tener entre 0 y 50 caracteres.")

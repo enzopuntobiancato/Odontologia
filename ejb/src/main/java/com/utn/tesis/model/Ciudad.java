@@ -2,25 +2,18 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 07/01/16
- * Time: 10:06
- * To change this template use File | Settings | File Templates.
- */
-
 @Entity
+@Table(name = "ciudades")
 public class Ciudad extends EntityBase {
+    private static final long serialVersionUID = 1734556255119839802L;
 
     @NotNull(message = "La provincia no puede ser nula.")
     @ManyToOne
+    @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 
     @NotNull(message = "El nombre de la ciudad no puede ser nulo.")

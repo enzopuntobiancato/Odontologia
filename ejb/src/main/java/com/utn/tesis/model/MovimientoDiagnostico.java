@@ -6,18 +6,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 14/01/16
- * Time: 13:59
- * To change this template use File | Settings | File Templates.
- */
-
 @Entity
+@Table(name = "movimientos_diagnostico")
 public class MovimientoDiagnostico extends EntityBase {
+    private static final long serialVersionUID = -5842583073152945171L;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "atencion_id")
     private Atencion atencion;
 
     @NotNull(message = "El estado del movimiento diagnostico no puede ser nulo.")
@@ -26,11 +21,15 @@ public class MovimientoDiagnostico extends EntityBase {
 
     @NotNull(message = "La fecha del movimiento diagnostico no puede ser nula.")
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_movimiento")
     private Calendar fechaMovimiento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "El usuario que genera el movimiento diagnostico no puede ser nulo.")
+    @JoinColumn(name = "generado_por_id")
     private Usuario generadoPor;
+
+    //agregar diagnostico
 
     public MovimientoDiagnostico() {
         this.fechaMovimiento = Calendar.getInstance();
