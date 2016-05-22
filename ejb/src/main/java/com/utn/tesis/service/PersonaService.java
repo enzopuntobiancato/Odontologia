@@ -10,21 +10,16 @@ import com.utn.tesis.mapping.dto.PersonaDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.Persona;
-import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
-/**
- * User: Enzo
- * Date: 29/08/15
- * Time: 18:12
- */
 @Stateless
 public class PersonaService extends BaseService<Persona> {
 
@@ -58,9 +53,6 @@ public class PersonaService extends BaseService<Persona> {
 
     public void update(PersonaDTO persona, ArchivoDTO imagen) throws SAPOException {
         Persona personaEntity = this.findById(persona.getId());
-        if (persona.getUsuario().isFromFirstLogin()) {
-            personaEntity.getUsuario().setUltimaConexion(Calendar.getInstance());
-        }
         String encryptedPassword;
         if (persona.getUsuario().isChangePassword()) {
             if (!persona.getUsuario().isFromFirstLogin()) {
@@ -71,6 +63,9 @@ public class PersonaService extends BaseService<Persona> {
             encryptedPassword = personaEntity.getUsuario().getContrasenia();
         }
         personaMapper.updateFromDTO(persona, personaEntity);
+        if (persona.getUsuario().isFromFirstLogin()) {
+            personaEntity.getUsuario().setUltimaConexion(Calendar.getInstance());
+        }
         personaEntity.getUsuario().setContrasenia(encryptedPassword);
         personaEntity.getUsuario().setImagen(archivoService.save(imagen));
         this.save(personaEntity);
@@ -94,9 +89,9 @@ public class PersonaService extends BaseService<Persona> {
 
     @Override
     protected void bussinessValidation(Persona entity) throws SAPOValidationException {
-        List<Usuario> userWithSameUsername = dao.findUserByUsername(entity.getUsuario().getNombreUsuario());
-        if (!userWithSameUsername.isEmpty() && !userWithSameUsername.get(0).getId().equals(entity.getUsuario().getId())) {
-            throw new SAPOValidationException(ImmutableMap.of("nombreUsuario","El nombre de usuario no está disponible."));
+        List<? extends Persona> sameDocumentPersons = dao.validateByDocument(entity);
+        if (!sameDocumentPersons.isEmpty()) {
+            throw new SAPOValidationException(ImmutableMap.of("documento", "Número y tipo de documento ya registrado."));
         }
         super.bussinessValidation(entity);
     }

@@ -1,20 +1,16 @@
 package com.utn.tesis.data.daos;
 
 
+import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 20/01/16
- * Time: 13:19
- * To change this template use File | Settings | File Templates.
- */
-public class AlumnoDao extends DaoBase<Alumno> {
+public class AlumnoDao extends DaoBase<Alumno> implements PersonaDaoQueryResolver {
 
     QAlumno alumno, $ = QAlumno.alumno;
 
@@ -59,4 +55,17 @@ public class AlumnoDao extends DaoBase<Alumno> {
         return query.list($);
     }
 
+    @Override
+    public boolean supports(String rol) {
+        return Rol.ALUMNO.equalsIgnoreCase(rol);
+    }
+
+    @Override
+    public List<Alumno> validateByDocument(Persona entity) {
+        BooleanBuilder expression = new BooleanBuilder($.documento.eq(entity.getDocumento()));
+        if (entity.getId() !=  null) {
+            expression.and($.id.ne(entity.getId()));
+        }
+       return new JPAQuery(em).from($).where(expression).list($);
+    }
 }

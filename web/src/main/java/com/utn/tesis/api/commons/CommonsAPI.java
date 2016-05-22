@@ -1,7 +1,7 @@
 package com.utn.tesis.api.commons;
 
+import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.mapping.dto.*;
-import com.utn.tesis.model.*;
 import com.utn.tesis.service.BarrioService;
 import com.utn.tesis.service.CiudadService;
 import com.utn.tesis.service.CommonsService;
@@ -10,10 +10,14 @@ import com.utn.tesis.service.initialization.InitializationService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 
 @Path("/commons")
 @RequestScoped
@@ -124,25 +128,14 @@ public class CommonsAPI {
         return commonsService.findAllNacionalidades();
     }
 
+    @Path("/getPersonaEnums")
     @GET
-    @Path("/{name}")
-    @Produces("image/jpeg")
-    public byte[] get(@PathParam("name") String name) {
-
-//        Monitor m = Monitor.getMonitor(name);
-//
-//        if (m == null) {
-//            return null;
-//        }
-//
-//        ByteArrayOutputStream bo = new ByteArrayOutputStream(2048);
-//        try {
-//            ImageIO.write(m.getImage(),"jpeg",bo);
-//        } catch (IOException ex) {
-//            return null;
-//        }
-//
-//        return bo.toByteArray();
-        return null;
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, List<EnumDTO>> findPersonaEnums() {
+        return ImmutableMap.of(
+                "sexos", findAllSexos(),
+                "cargos", findAllCargos(),
+                "tiposDocumento", findAllTiposDocumento()
+        );
     }
 }

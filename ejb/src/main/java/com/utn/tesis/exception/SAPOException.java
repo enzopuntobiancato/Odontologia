@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.ejb.ApplicationException;
 import java.io.Serializable;
 
 /**
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ApplicationException(rollback = true)
 public class SAPOException extends Exception implements Serializable {
     private static final long serialVersionUID = 796770993296843510L;
 

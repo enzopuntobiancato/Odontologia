@@ -34,7 +34,7 @@ public abstract class Persona extends SuperEntityBase {
     @Column(name = "fecha_nacimiento")
     private Calendar fechaNacimiento;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 

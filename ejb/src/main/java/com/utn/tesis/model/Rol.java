@@ -1,8 +1,6 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

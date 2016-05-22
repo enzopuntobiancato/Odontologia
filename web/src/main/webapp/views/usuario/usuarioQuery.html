@@ -31,7 +31,7 @@
                                                         ng-Mouseover="colorMouseOver(0)"
                                                         ng-mouseleave="colorMouseLeave(0)"></ng-md-icon>
                                         </md-button>
-                                        <md-button type="button" ng-click="mostrarFiltros = !mostrarFiltros">
+                                        <md-button type="button" ng-click="aux.mostrarFiltros = !aux.mostrarFiltros">
                                             <md-tooltip>
                                                 Ver filtros
                                             </md-tooltip>
@@ -50,7 +50,7 @@
                                         </md-button>
                                     </div>
                                 </div>
-                                <div layout="row" layout-margin ng-show="mostrarFiltros" layout-xs="column" class="animated-div">
+                                <div layout="row" layout-margin ng-show="aux.mostrarFiltros" layout-xs="column" class="animated-div">
                                     <md-input-container flex="33">
                                         <label>{{ 'EMAIL' | translate }}</label>
                                         <input ng-model="filter.email" name="email">
@@ -81,7 +81,7 @@
                             <md-list ng-show="result.length > 0">
                                 <md-list-item class="md-3-line" ng-repeat="item in result" ng-class="{'deleted-item' : item.fechaBaja}"
                                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
-                                    <img ng-src="{{ item.imagen }}" class="md-avatar" hide-xs/>
+                                    <img src="resources/img/image_user.jpg" class="md-avatar" hide-xs/>
                                     <div class="md-list-item-text" layout="column">
                                         <h3 class="md-title"><a>{{item.nombreUsuario }} ({{item.apellido}}, {{ item.nombre }})</a></h3>
                                         <h4>{{item.tipoDocumento }}:{{item.numero }}</h4>
@@ -103,7 +103,7 @@
                                             </md-tooltip>
                                         </ng-md-icon>
                                         <ng-md-icon ng-show="!item.fechaBaja" icon="delete" size="24"
-                                                    ng-click="openDeleteDialog($event,item.id)"
+                                                    ng-click="openDeleteDialog($event,item.id, item.nombreUsuario)"
                                                     ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
                                                     ng-mouseleave="colorMouseLeave(5)">
                                             <md-tooltip>
@@ -111,7 +111,7 @@
                                             </md-tooltip>
                                         </ng-md-icon>
                                         <ng-md-icon ng-show="item.fechaBaja" icon="restore" size="24"
-                                                    ng-click="openRestoreDialog($event,item.id)"
+                                                    ng-click="openRestoreDialog($event,item.id, item.nombreUsuario)"
                                                     ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
                                                     ng-mouseleave="colorMouseLeave(5)">
                                             <md-tooltip>
@@ -123,12 +123,12 @@
                                 </md-list-item>
                                 <md-divider></md-divider>
                                 <md-list-item layout class="inset">
-                                    <md-button layout layout-align="start center" flex ng-click="previousPage()"
+                                    <md-button layout layout-align="center center" flex ng-click="previousPage()"
                                                ng-disabled="paginationData.firstPage">
                                         <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
                                         Anterior
                                     </md-button>
-                                    <md-button layout layout-align="start center" flex ng-click="nextPage()"
+                                    <md-button layout layout-align="center center" flex ng-click="nextPage()"
                                                ng-disabled="!paginationData.morePages">
                                         Siguiente
                                         <ng-md-icon icon="arrow_forward" style="fill: black"
@@ -145,15 +145,4 @@
         </div>
     </md-content>
 </div>
-
-    <!--<md-content layout-align="center start" layout flex class="md-main-content">-->
-            <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
-                <!--<md-toolbar class="md-accent">-->
-                    <!--<div class="md-toolbar-tools">-->
-                        <!--<span>Consultar usuario</span>-->
-                    <!--</div>-->
-                <!--</md-toolbar>-->
-               <!---->
-            <!--</md-card>-->
-    <!--</md-content>-->
 

@@ -1,5 +1,7 @@
 package com.utn.tesis.mapping.dto;
 
+import java.util.Calendar;
+
 public class UsuarioDTO extends BaseDTO {
     private static final long serialVersionUID = -4163955333854545006L;
 
@@ -13,6 +15,9 @@ public class UsuarioDTO extends BaseDTO {
     private boolean changePassword;
     private boolean fromFirstLogin;
     private Long imagenId;
+    private Calendar ultimaConexion;
+    private Calendar fechaBaja;
+    private String motivoBaja;
 
     public String getPassword() {
         return password;
@@ -84,5 +89,29 @@ public class UsuarioDTO extends BaseDTO {
 
     public void setFromFirstLogin(boolean fromFirstLogin) {
         this.fromFirstLogin = fromFirstLogin;
+    }
+
+    public Calendar getUltimaConexion() {
+        return ultimaConexion;
+    }
+
+    public void setUltimaConexion(Calendar ultimaConexion) {
+        this.ultimaConexion = ultimaConexion;
+    }
+
+    public Calendar getFechaBaja() {
+        return fechaBaja;
+    }
+
+    public void setFechaBaja(Calendar fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+
+    public String getMotivoBaja() {
+        return motivoBaja;
+    }
+
+    public void setMotivoBaja(String motivoBaja) {
+        this.motivoBaja = motivoBaja;
     }
 }

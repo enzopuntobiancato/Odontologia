@@ -5,6 +5,7 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.PersonaDTO;
 import com.utn.tesis.mapping.dto.UsuarioConsultaDTO;
 import com.utn.tesis.mapping.dto.UsuarioDTO;
+import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.mapping.mapper.UsuarioConsultaMapper;
 import com.utn.tesis.mapping.mapper.UsuarioMapper;
@@ -36,15 +37,15 @@ import java.util.List;
 public class UsuarioAPI extends BaseAPI {
 
     @Inject
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
     @Inject
-    UsuarioMapper usuarioMapper;
+    private UsuarioMapper usuarioMapper;
     @Inject
-    PersonaMapper personaMapper;
+    private PersonaMapper personaMapper;
     @Inject
-    CommonsService commonsService;
+    private CommonsService commonsService;
     @Inject
-    UsuarioConsultaMapper usuarioConsultaMapper;
+    private UsuarioConsultaMapper usuarioConsultaMapper;
 
     @Path("/find")
     @GET
@@ -135,5 +136,14 @@ public class UsuarioAPI extends BaseAPI {
         usuarioService.update(persistedEntity);
     }
 
+    @Path("/findByIdAsUsuarioLogueadoBean")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public UsuarioLogueadoDTO findById(@QueryParam("id") Long id) {
+        Usuario usuario = usuarioService.findById(id);
+        usuario.getRol().setPrivilegios(null);
+        usuario.setAuthToken(null);
+        return usuarioMapper.toUsuarioLogueadoDTO(usuario);
+    }
 
 }

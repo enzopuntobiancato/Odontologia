@@ -3,7 +3,6 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
-import com.utn.tesis.mapping.dto.BaseDTO;
 import com.utn.tesis.model.Bajeable;
 import com.utn.tesis.model.SuperEntityBase;
 
@@ -61,8 +60,11 @@ public abstract class  BaseService<T extends SuperEntityBase> {
         return getDao().findAll();
     }
 
-    /*
-    Template method que llama a las validaciones de restricciones de modelo y a las validaciones de negocio.
+    /**
+     * Template method que llama a las validaciones de restricciones de modelo y a las validaciones de negocio.
+     * @param entity
+     * @param validator
+     * @throws SAPOException
      */
     void validate(T entity, Validator validator) throws SAPOException {
         try {
@@ -79,8 +81,11 @@ public abstract class  BaseService<T extends SuperEntityBase> {
 
     }
 
-    /*
-    Validación de las restricciones definidas sobre la entity.
+    /**
+     * Validación de las restricciones definidas sobre la entity.
+     * @param entity Entidad sobre la que se ejecutan las validaciones definidas de acuerdo a las @Annotation en sus campos
+     * @param validator Validador
+     * @throws ConstraintViolationException
      */
     private void constraintValidation(T entity, Validator validator) throws ConstraintViolationException {
         Set<ConstraintViolation<T>> violations = validator.validate(entity);
@@ -90,8 +95,10 @@ public abstract class  BaseService<T extends SuperEntityBase> {
         }
     }
 
-    /*
-    Validaciones de negocio (se definen en las clases hijas). Si alguna restricción de negocio no se cumple lanzar ValidationException.
+    /**
+     * Validaciones de negocio (se definen en las clases hijas). Si alguna restricción de negocio no se cumple lanzar ValidationException.
+     * @param entity Entidad sobre la que se ejecutan las validaciones
+     * @throws SAPOValidationException
      */
     protected void bussinessValidation(T entity) throws SAPOValidationException {
         entity.validar();

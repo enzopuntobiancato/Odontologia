@@ -59,6 +59,23 @@ module.
             })
         }
 
+        service.findByIdAsUsuarioLogueadoBean = function(id) {
+            return $http({
+                method: 'GET',
+                url: 'api/usuario/findByIdAsUsuarioLogueadoBean',
+                params: {id: id}
+            })
+        }
+
+        service.findUserImage = function(imageId) {
+            return $http({
+                method: 'GET',
+                params: {id: imageId},
+                url: 'api/file/image',
+                headers: {'Content-Type': 'application/json'},
+                responseType: 'blob'
+            });
+        }
 
         return service;
     }]);

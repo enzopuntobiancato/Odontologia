@@ -1,6 +1,8 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.EntityPath;
+import com.mysema.query.types.Predicate;
 import com.utn.tesis.model.Bajeable;
 import com.utn.tesis.model.SuperEntityBase;
 
@@ -8,13 +10,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 
 public abstract class DaoBase<E extends SuperEntityBase> {
-
 
     @PersistenceContext(unitName = "primary")
     protected EntityManager em;
@@ -61,6 +61,11 @@ public abstract class DaoBase<E extends SuperEntityBase> {
             query.limit(pageSize + 1);
         }
         return query;
+    }
+
+    public List<E> performQuery(EntityPath<E> from, Predicate restrictions) {
+        JPAQuery query = new JPAQuery(em).from(from).where(restrictions);
+        return query.list(from);
     }
 
     /**

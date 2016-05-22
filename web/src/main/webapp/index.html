@@ -17,102 +17,14 @@
     <link rel="stylesheet" href="components/angular-animate/animate.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
     <style>
-
     </style>
-
 </head>
 <body ng-controller="AppController" layout="row">
-<!--<div layout="row" flex>
-    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-sm')" ng-cloak>
-        <div flex="initial" class="user-main">
-            <img ng-src="resources/img/git_avatar.png"
-                 alt="avatar" class="md-avatar">
-            <div>S.A.P.O.</div>
-        </div>
-        <md-content>
-            <md-list>
-                <md-list-item class="md-menu-item">
-                    <ng-md-icon icon="school"></ng-md-icon>
-                    <md-button ui-sref="materia.index">Materia</md-button>
-                </md-list-item>
-                <md-list-item class="md-menu-item">
-                    <ng-md-icon icon="work"></ng-md-icon>
-                    <md-button ui-sref="trabajoPractico.index">Trabajo práctico</md-button>
-                </md-list-item>
-                <md-list-item class="md-menu-item">
-                    <ng-md-icon icon="person"></ng-md-icon>
-                    <md-button ui-sref="usuario.index">Usuario</md-button>
-                </md-list-item>
-                <md-list-item class="md-menu-item">
-                    <ng-md-icon icon="account_balance"></ng-md-icon>
-                    <md-button ui-sref="catedra.index">Cátedra</md-button>
-                </md-list-item>
-                <md-list-item class="md-menu-item">
-                    <ng-md-icon icon="local_hospital"></ng-md-icon>
-                    <md-button ui-sref="paciente.index">Pacientes</md-button>
-                </md-list-item>
-                <md-list-item class="md-menu-item">
-                    <ng-md-icon icon="settings"></ng-md-icon>
-                    <md-button ui-sref="practicaOdontologica.index">Práctica odontlógica</md-button>
-                </md-list-item>
-                <md-list-item class="md-menu-item">
-                    <ng-md-icon icon="school"></ng-md-icon>
-                    <md-button ui-sref="historiaClinica.index">Historia clínica</md-button>
-                </md-list-item>
-            </md-list>
-        </md-content>
-    </md-sidenav>
-    <div layout="column" flex id="content" ng-cloak>
-        <md-toolbar layout="row" md-scroll-shrink class="md-whiteframe-10dp">
-            <div class="md-toolbar-tools">
-                <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
-                    <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
-                </md-button>
-                <span>S.A.P.O.</span>
-                <span flex></span>
-                <img ng-src="resources/img/git_avatar2.png"
-                     class="md-avatar-login">
-                <md-menu>
-                    &lt;!&ndash; Trigger element is a md-button with an icon &ndash;&gt;
-                    <md-button ng-click="$mdOpenMenu($event)" class="md-button-profile">
-                        ilopeza
-                    </md-button>
-                    <md-menu-content width="4">
-                        <md-menu-item>
-                            <md-button>
-                                <ng-md-icon icon="edit"></ng-md-icon>
-                                Editar perfil
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item>
-                            <md-button>
-                                <ng-md-icon icon="security"></ng-md-icon>
-                                Cambiar contraseña
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-divider></md-menu-divider>
-                        <md-menu-item>
-                            <md-button>
-                                <ng-md-icon icon="logout"></ng-md-icon>
-                                Cerrar sesión
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu>
-            </div>
-        </md-toolbar>
-        <ui-view>
-
-            </ui-view>
-    </div>
-</div>-->
-
-
-
-<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+<md-sidenav ng-cloak layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
+            md-is-locked-open="$mdMedia('gt-md')">
     <md-toolbar class="md-tall md-hue-2">
         <span flex></span>
+
         <div layout="row" layout-align="start center">
             <!--<md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>-->
             <img ng-src="resources/img/git_avatar.png"
@@ -120,6 +32,7 @@
             <span flex></span>
         </div>
         <span flex></span>
+
         <div class="md-body-2">Firstname Lastname</div>
         <div class="md-body-1">email@domainname.com</div>
 
@@ -173,7 +86,7 @@
     </md-content>
 
 </md-sidenav>
-<div layout="column" class="relative" layout-fill role="main">
+<div ng-cloak layout="column" class="relative" layout-fill role="main">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
@@ -181,6 +94,7 @@
             </md-button>
             <span>S.A.P.O.</span>
             <span flex></span>
+
             <div ng-if="session.user">
                 <img ng-if="userHasImage()" ngf-thumbnail="session.image" class="md-avatar-login">
                 <img ng-if="!userHasImage()" src="resources/img/image_user.jpg" class="md-avatar-login">
@@ -206,61 +120,12 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
+            <md-button ng-if="!session.user" ui-sref="landingPage">Iniciar sesión</md-button>
         </div>
     </md-toolbar>
-    <div id="main-content" ui-view>
-
+    <div ng-cloak id="main-content" ui-view>
     </div>
-    <!--<div layout="column">
-        <md-button class="md-fab md-fab-bottom-right" aria-label="Add">
-            <ng-md-icon icon="add"></ng-md-icon>
-        </md-button>
-        <md-content flex md-scroll-y layout-fill flex-gt-sm="85" flex-gt-xs="85">
-            <div layout="column" layout-fill layout-padding>
-                <div>
-                    <div layout="row" layout-align="center center">
-                        <md-card flex-gt-sm>
-                            <md-toolbar class="md-accent">
-                                <div class="md-toolbar-tools">
-                                    <span>Crear paciente</span>
-                                </div>
-                            </md-toolbar>
-                            <md-card-content>
-                                <md-list>
-                                    <md-item ng-repeat="item in activity">
-                                        <md-item-content>
-                                            <div class="md-tile-left inset" hide-sm>
-                                                <user-avatar></user-avatar>
-                                            </div>
-                                            <div class="md-tile-content">
-                                                <h3>{{item.what}}</h3>
-                                                <h4>{{item.who}}</h4>
-                                                <p>
-                                                    {{item.notes}}
-                                                </p>
-                                            </div>
-                                        </md-item-content>
-                                        <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
-                                        <md-divider hide-gt-sm ng-if="!$last"></md-divider>
-                                    </md-item>
-                                    <md-divider></md-divider>
-                                    <md-item layout class="inset">
-                                        <md-button layout layout-align="start center" flex class="md-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg> More
-                                        </md-button>
-                                    </md-item>
-                                </md-list>
-                            </md-card-content>
-                        </md-card>
-                    </div>
-                </div>
-            </div>
-        </md-content>
-    </div>-->
-
 </div>
-
-
 <!--LIBRARIES-->
 <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
@@ -290,7 +155,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/11.1.1/ng-file-upload.js"></script>
-<script type="text/javascript" src="components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script type="text/javascript"
+        src="components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 
 <!--OURS JS-->
 <script type="text/javascript" src="resources/scripts/app/ngutils/authentication.js"></script>
@@ -309,6 +175,4 @@
     <div ng-message="length">Es obligatorio</div>
 </script>
 </body>
-
-
 </html>
