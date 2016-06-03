@@ -13,7 +13,7 @@ public class DiaHorario extends EntityBase {
 
     @NotNull(message = "Debe seleccionar un día de la semana.")
     @Enumerated(EnumType.STRING)
-    private Dia diaSemana;
+    private Dia dia;
 
     @NotNull(message = "Debe ingresar hora desde.")
     @Column(name = "hora_desde")
@@ -30,18 +30,18 @@ public class DiaHorario extends EntityBase {
     public DiaHorario() {
     }
 
-    public DiaHorario(Dia diaSemana, Calendar horaDesde, Calendar horaHasta) {
-        this.diaSemana = diaSemana;
+    public DiaHorario(Dia dia, Calendar horaDesde, Calendar horaHasta) {
+        this.dia = dia;
         this.horaDesde = horaDesde;
         this.horaHasta = horaHasta;
     }
 
-    public Dia getDiaSemana() {
-        return diaSemana;
+    public Dia getDia() {
+        return dia;
     }
 
-    public void setDiaSemana(Dia diaSemana) {
-        this.diaSemana = diaSemana;
+    public void setDia(Dia dia) {
+        this.dia = dia;
     }
 
     public Calendar getHoraDesde() {
@@ -82,7 +82,7 @@ public class DiaHorario extends EntityBase {
 
         DiaHorario that = (DiaHorario) o;
 
-        if (diaSemana != that.diaSemana) return false;
+        if (dia != that.dia) return false;
         if (!horaDesde.equals(that.horaDesde)) return false;
         if (!horaHasta.equals(that.horaHasta)) return false;
 
@@ -92,7 +92,7 @@ public class DiaHorario extends EntityBase {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + diaSemana.hashCode();
+        result = 31 * result + dia.hashCode();
         result = 31 * result + horaDesde.hashCode();
         result = 31 * result + horaHasta.hashCode();
         return result;
