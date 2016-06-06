@@ -1,6 +1,10 @@
 package com.utn.tesis.data.daos;
 
+import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.Predicate;
+import com.mysema.query.types.PredicateOperation;
+import com.mysema.query.types.expr.BooleanExpression;
 import com.utn.tesis.model.*;
 
 import java.util.List;
@@ -67,5 +71,21 @@ public class UsuarioDao extends DaoBase<Usuario> {
                 .where(persona.usuario.id.eq(usuario.getId()));
 
         return query1.uniqueResult(QPersona.persona);
+    }
+
+    public List<Usuario> validateByUsername(String username, Long id) {
+        BooleanBuilder queryBuilder = new BooleanBuilder(usuario.nombreUsuario.equalsIgnoreCase(username));
+        if (id != null) {
+            queryBuilder.and(usuario.id.ne(id));
+        }
+        return performQuery(usuario, queryBuilder);
+    }
+
+    public List<Usuario> validateByEmail(String email, Long id) {
+        BooleanBuilder queryBuilder = new BooleanBuilder(usuario.email.equalsIgnoreCase(email));
+        if (id != null) {
+            queryBuilder.and(usuario.id.ne(id));
+        }
+        return performQuery(usuario, queryBuilder);
     }
 }

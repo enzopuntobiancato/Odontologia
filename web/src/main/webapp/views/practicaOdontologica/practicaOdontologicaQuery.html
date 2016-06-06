@@ -123,12 +123,12 @@
                                 </md-list-item>
                                 <md-divider></md-divider>
                                 <md-list-item layout class="inset">
-                                    <md-button layout layout-align="start center" flex ng-click="previousPage()"
+                                    <md-button layout layout-align="center center" flex ng-click="previousPage()"
                                                ng-disabled="paginationData.firstPage">
                                         <ng-md-icon icon="arrow_back" ng-disabled="paginationData.firstPage"></ng-md-icon>
                                         {{ 'ANTERIOR' | translate }}
                                     </md-button>
-                                    <md-button layout layout-align="start center" flex ng-click="nextPage()"
+                                    <md-button layout layout-align="center center" flex ng-click="nextPage()"
                                                ng-disabled="!paginationData.morePages">
                                         {{ 'SIGUIENTE' | translate }}
                                         <ng-md-icon icon="arrow_forward" style="fill: black"
@@ -147,21 +147,6 @@
         </div>
     </md-content>
 </div>
-
-
-<!--<md-content layout-align="center start" layout class="md-main-content" flex>-->
-    <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
-        <!--<md-toolbar class="md-accent">-->
-            <!--<div class="md-toolbar-tools">-->
-                <!--<span>Consultar práctica odontológica</span>-->
-            <!--</div>-->
-        <!--</md-toolbar>-->
-        <!--<md-card-content>-->
-           <!---->
-        <!--</md-card-content>-->
-    <!--</md-card>-->
-<!--</md-content>-->
-
 
 
 

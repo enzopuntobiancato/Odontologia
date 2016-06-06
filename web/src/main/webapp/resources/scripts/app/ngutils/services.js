@@ -105,53 +105,57 @@ services
                 method: 'POST',
                 data: persona
             })
-        }
+        };
 
         service.initializeData = function () {
             return $http({
                 url: 'api/commons/initializeData',
                 method: 'POST'
             })
-        }
+        };
 
         service.getSexos = function () {
             return $http.get('api/commons/getSexos', {});
-        }
+        };
 
         service.getCargos = function () {
             return $http.get('api/commons/getCargos', {});
-        }
+        };
 
         service.getProvincias = function(){
             return $http.get('api/location/getProvincias',{});
-        }
+        };
 
        service.getCiudades = function(){
             return $http.get('api/location/getCiudades',{});
-        }
+        };
 
         service.getBarrios = function(){
             return $http.get('api/location/getBarrios',{});
-        }
+        };
 
         service.getEstadosCivil = function(){
             return $http.get('api/commons/getEstadosCivil',{});
-        }
+        };
 
         service.getTrabajos = function(){
             return $http.get('api/commons/getTrabajos',{});
-        }
+        };
 
         service.getObrasSociales = function(){
             return $http.get('api/commons/getObrasSociales',{});
-        }
+        };
 
         service.getNivelesEstudio = function(){
             return $http.get('api/commons/getNivelesEstudio',{});
-        }
+        };
 
         service.getNacionalidaes = function(){
             return $http.get('api/commons/getNacionalidades',{});
+        };
+
+        service.getPersonaEnums = function() {
+            return $http.get('api/commons/getPersonaEnums', {});
         }
 
         return service;

@@ -59,7 +59,9 @@
     "APELLIDO" : "Apellido",
     "ROL": "Rol",
     "SEXO" : "Sexo",
-    "EMAIL": "E-mail",
+    "EMAIL": "Correo electrónico",
+    "DOCUMENTO": "Documento",
+    "FECHA_NAC": "Fecha de nac.",
 
     "CREAR_USUARIO": "Crear usuario",
     "VER_USUARIO": "Ver usuario",
@@ -69,6 +71,12 @@
     "REST_USUARIO": "Restaurar usuario",
     "USUARIO" : "Trabajo usuario",
     "NOMBRE_USUARIO":"Nombre de usuario",
+    "ENVIAR_NOTIFICACION": "Enviar notificación por correo electrónico",
+    "ULTIMA_CONEXION": "Última conexión",
+    "LEGAJO": "Legajo",
+    "CARGO": "Cargo",
+    "MATRICULA": "Matrícula profesional",
+    "PROFESION": "Profesión",
 
 
 

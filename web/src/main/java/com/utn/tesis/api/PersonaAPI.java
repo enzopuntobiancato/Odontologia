@@ -23,11 +23,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-/**
- * User: Enzo
- * Date: 29/08/15
- * Time: 18:18
- */
 @Path("/persona")
 @RequestScoped
 @Slf4j

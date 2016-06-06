@@ -1,19 +1,20 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.*;
 
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 29/08/15
- * Time: 18:11
- * To change this template use File | Settings | File Templates.
- */
 public class PersonaDao extends DaoBase<Persona> {
+
+    @Inject @Any
+    private Instance<PersonaDaoQueryResolver> personaDaoQueryResolvers;
 
     QPersona $ = QPersona.persona;
 
@@ -74,5 +75,15 @@ public class PersonaDao extends DaoBase<Persona> {
         JPAQuery query = new JPAQuery(em).from(usuario);
         query.where(usuario.nombreUsuario.equalsIgnoreCase(username));
         return query.list(usuario);
+    }
+
+    public List<? extends Persona> validateByDocument(Persona entity) {
+        String rol = entity.getUsuario().getRol().getNombre();
+        for (PersonaDaoQueryResolver queryResolver : personaDaoQueryResolvers) {
+            if (queryResolver.supports(rol)) {
+                return queryResolver.validateByDocument(entity);
+            }
+        }
+        return Arrays.asList();
     }
 }

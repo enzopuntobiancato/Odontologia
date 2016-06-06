@@ -188,8 +188,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                         var person = personaResponse.data;
                         return service.findUserImage(person.usuario.imagenId);
                     }],
-                    tiposDocumentoResponse: ['loadMyModule', 'imageResponse', 'CommonsSrv', function (loadMyModule, imageResponse, commons) {
-                        var h = imageResponse;
+                    tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
                     }],
                     sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
@@ -493,15 +492,20 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 url: '/edit/:id',
                 templateUrl: 'views/usuario/usuarioEdit.html',
                 controller: 'UsuarioCtrl_Edit',
+                controllerAs: 'vm',
                 resolve: {
-                    rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
-                        return service.getRoles();
-                    }],
-                    usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
+                    personaResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
                         return service.findPersona($stateParams.id);
                     }],
-                    tiposDocResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, service) {
-                        return service.getTiposDocumento();
+                    imageResponse: ['loadMyModule', 'personaResponse', 'UsuarioSrv', function(loadMyModule, personaResponse, service) {
+                        var person = personaResponse.data;
+                        return service.findUserImage(person.usuario.imagenId);
+                    }],
+                    usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function(loadMyModule, $stateParams, service) {
+                         return service.findByIdAsUsuarioLogueadoBean($stateParams.id);
+                    }],
+                    personaEmumsResponse: ['loadMyModule', 'CommonsSrv', function(loadMyModule, commons) {
+                         return commons.getPersonaEnums();
                     }]
                 }
             })
@@ -509,14 +513,30 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 url: '/view/:id',
                 templateUrl: 'views/usuario/usuarioView.html',
                 resolve: {
+                    personaResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
+                        return service.findPersona($stateParams.id);
+                    }],
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
-                        return service.findById($stateParams.id);
+                        return service.findByIdAsUsuarioLogueadoBean($stateParams.id);
+                    }],
+                    imageResponse: ['loadMyModule', 'personaResponse', 'UsuarioSrv', function(loadMyModule, personaResponse, service) {
+                        var person = personaResponse.data;
+                        return service.findUserImage(person.usuario.imagenId);
                     }]
                 },
-                controller: function ($scope, $state, usuarioResponse) {
+                controller: function ($scope, $state, personaResponse, usuarioResponse, imageResponse) {
+                    $scope.persona = personaResponse.data;
                     $scope.usuario = usuarioResponse.data;
+                    $scope.image = imageResponse.data;
                     $scope.goIndex = function () {
                         $state.go('^.index');
+                    }
+                    $scope.hasFile = function() {
+                        var img = $scope.image;
+                        return img &&
+                            angular.isDefined(img) &&
+                            img != null &&
+                            img.size > 0;
                     }
                 }
             })

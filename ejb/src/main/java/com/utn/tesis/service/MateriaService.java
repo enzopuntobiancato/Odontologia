@@ -2,7 +2,6 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.MateriaDao;
-import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.mapping.dto.MateriaDTO;
 import com.utn.tesis.mapping.mapper.MateriaMapper;

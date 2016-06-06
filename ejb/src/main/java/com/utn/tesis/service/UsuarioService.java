@@ -1,5 +1,6 @@
 package com.utn.tesis.service;
 
+import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
@@ -10,8 +11,11 @@ import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
 import com.utn.tesis.util.RandomStringGenerator;
+import org.apache.commons.lang.RandomStringUtils;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.security.NoSuchAlgorithmException;
@@ -36,6 +40,14 @@ public class UsuarioService extends BaseService<Usuario> {
     @Override
     protected void bussinessValidation(Usuario entity) throws SAPOValidationException {
         super.bussinessValidation(entity);
+        List<Usuario> usuarios = dao.validateByUsername(entity.getNombreUsuario(), entity.getId());
+        if (!usuarios.isEmpty()) {
+            throw new SAPOValidationException(ImmutableMap.of("nombreUsuario", "Nombre de usuario no disponible."));
+        }
+        usuarios = dao.validateByEmail(entity.getEmail(), entity.getId());
+        if (!usuarios.isEmpty()) {
+            throw new SAPOValidationException(ImmutableMap.of("email", "E-mail ya registrado."));
+        }
     }
 
     @Override
@@ -78,19 +90,12 @@ public class UsuarioService extends BaseService<Usuario> {
         return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
     }
 
-    public boolean saveUsuario(Persona persona, Usuario usuario) {
-        try {
-            String password = RandomStringGenerator.generateRandomString(5, RandomStringGenerator.Mode.ALPHANUMERIC);
-            //Consulta: Se deberia en este momento disparar el mail informando el usuario y la contraseña??
-            //despues de este punto creo que se pierde la contraseña desencriptada y no se puede recuperar para enviarla despues
-            usuario.setContrasenia(password);
-            usuario = create(usuario);
-            persona.setUsuario(usuario);
-            persona = personaService.create(persona);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    public void saveUsuario(Persona persona, Usuario usuario) throws SAPOException {
+        String password = RandomStringUtils.randomAlphanumeric(5);
+        usuario.setContrasenia(password);
+        usuario = create(usuario);
+        persona.setUsuario(usuario);
+        personaService.create(persona);
     }
 
     public Persona findPersonaByUsuario(Usuario usuario) {

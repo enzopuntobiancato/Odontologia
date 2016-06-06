@@ -17,8 +17,28 @@
                 <p class="subtitle-text">Datos de usuario</p>
 
                 <div layout-gt-sm="row" layout-margin>
-                    <div flex-gt-sm="33" layout="column">
-                        <p>Escriba un nombre de usuario. Una vez elegido no podrá modificarlo.</p>
+                    <div flex-gt-sm="60" layout="column" layout-align="center center">
+                        <md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"
+                                   ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+                                   ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"
+                                   accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
+                            <img class="user-image" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
+                                 ngf-resize="{width: 300, height: auto}">
+                            <img class="user-image" ng-if="!vm.isFileSelected()"
+                                 src="http://www.riskid.nl/assets/testimonials/user-3995d1ed5f9b6ea6ef9c7bc9ead47415.jpg"/>
+                        </md-button>
+                        <ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"
+                                    ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
+                                    ng-mouseleave="colorMouseLeave(3)">
+                            <md-tooltip>
+                                Quitar
+                            </md-tooltip>
+                        </ng-md-icon>
+                        <div class="validation-messages" ng-if="vm.data.wrongImageFormat">
+                            <div>El formato debe ser: .jpg, .png o .bmp</div>
+                        </div>
+                    </div>
+                    <div flex-gt-sm="40" layout="column" layout-margin>
                         <md-input-container flex class="md-block">
                             <label>Nombre de usuario</label>
                             <input md-maxlength="75" required name="nombreUsuario"
@@ -28,6 +48,9 @@
                                  ng-show="form.nombreUsuario.$invalid && form.nombreUsuario.$touched">
                                 <div ng-messages-include="error-messages"></div>
                             </div>
+                            <md-tooltip md-direction="top">
+                                Modifique su nombre de usuario si lo desea. Este será definitivo.
+                            </md-tooltip>
                         </md-input-container>
                         <md-input-container flex class="md-block">
                             <label>Correo electrónico</label>
@@ -56,27 +79,6 @@
                                 <div ng-message="pwmatch">Las contraseñas no coinciden.</div>
                             </div>
                         </md-input-container>
-                    </div>
-                    <div flex-gt-sm="66" layout="column" layout-align="center center">
-                        <md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"
-                                   ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
-                                   ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"
-                                   accept="image/*" ngf-max-size="20MB" ngf-min-height="100">
-                            <img class="user-image" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
-                                 ngf-resize="{width: 300, height: auto}">
-                            <img class="user-image" ng-if="!vm.isFileSelected()"
-                                 src="http://www.riskid.nl/assets/testimonials/user-3995d1ed5f9b6ea6ef9c7bc9ead47415.jpg"/>
-                        </md-button>
-                        <ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"
-                                    ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
-                                    ng-mouseleave="colorMouseLeave(3)">
-                            <md-tooltip>
-                                Quitar
-                            </md-tooltip>
-                        </ng-md-icon>
-                        <div class="validation-messages" ng-if="vm.data.wrongImageFormat">
-                            <div>El formato debe ser: .jpg, .png o .bmp</div>
-                        </div>
                     </div>
                 </div>
 

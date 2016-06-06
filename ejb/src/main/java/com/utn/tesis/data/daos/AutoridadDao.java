@@ -1,18 +1,15 @@
 package com.utn.tesis.data.daos;
 
+import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 7/02/16
- * Time: 17:16
- */
-public class AutoridadDao extends DaoBase<Autoridad> {
+public class AutoridadDao extends DaoBase<Autoridad> implements PersonaDaoQueryResolver {
     QAutoridad autoridad, $ = QAutoridad.autoridad;
 
     public List<Autoridad> findByFilters(String nombre, String apellido, Documento documento,
@@ -54,5 +51,19 @@ public class AutoridadDao extends DaoBase<Autoridad> {
 
         query = paginar(query, page, pageSize);
         return query.list($);
+    }
+
+    @Override
+    public boolean supports(String rol) {
+        return Rol.AUTORIDAD.equalsIgnoreCase(rol);
+    }
+
+    @Override
+    public List<? extends Persona> validateByDocument(Persona entity) {
+        BooleanBuilder expression = new BooleanBuilder($.documento.eq(entity.getDocumento()));
+        if (entity.getId() !=  null) {
+            expression.and($.id.ne(entity.getId()));
+        }
+        return new JPAQuery(em).from($).where(expression).list($);
     }
 }
