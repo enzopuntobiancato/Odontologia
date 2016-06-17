@@ -50,8 +50,6 @@ public class PacienteService extends BaseService<Paciente> {
         return dao.findByNombreApellido(nombApp, page, pageSize);
     }
 
-    //TODO: Corregir este método que tira error.
-    /*org.hibernate.QueryException: could not resolve property: numero of: com.utn.tesis.model.Paciente [SELECT e FROM com.utn.tesis.model.Paciente e where UPPER(e.numero) LIKE '34']*/
     @Override
     protected void bussinessValidation(Paciente entity) throws SAPOValidationException {
 

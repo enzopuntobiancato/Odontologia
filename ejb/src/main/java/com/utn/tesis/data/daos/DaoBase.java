@@ -4,12 +4,18 @@ import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.EntityPath;
 import com.mysema.query.types.Predicate;
 import com.utn.tesis.model.Bajeable;
+import com.utn.tesis.model.EntityBase;
 import com.utn.tesis.model.SuperEntityBase;
+import com.utn.tesis.util.Collections;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -172,5 +178,40 @@ public abstract class DaoBase<E extends SuperEntityBase> {
      return Collections.reload(entity, depth);
      }
      */
+    public <S extends E> S findOne(Long id) {
+//        String className = ((Class<E>)(((ParameterizedType)
+//                (((Class<E>) getClass()).getGenericSuperclass())).getActualTypeArguments()[0])).getName();
+        Class genericParameter0OfThisClass =
+                     (Class<E>)
+                         ((ParameterizedType)
+                             getClass()
+                        .getGenericSuperclass())
+                            .getActualTypeArguments()[0];
+        String className =   genericParameter0OfThisClass.getName();
 
+        String q = "SELECT e FROM " + className +" e WHERE e.id = "+ id;
+        Query query = em.createQuery(q);
+        return (S) query.getSingleResult();
+    }
+
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public <S extends E> S reload(S entity, int depth) {
+
+        if (entity instanceof EntityBase) {
+            entity = (S) findOne(((EntityBase) entity).getId());
+        } else {
+            entity = (S) save(entity);
+        }
+        return Collections.reload(entity, depth);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public <S extends E> List<S> reloadList(List<S> entities, int depth){
+        List<S> result = new ArrayList<S>();
+        for (S entity : entities) {
+            result.add(reload(entity,depth));
+        }
+        return result;
+    }
 }

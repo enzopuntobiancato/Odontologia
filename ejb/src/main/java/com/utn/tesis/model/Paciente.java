@@ -1,5 +1,7 @@
 package com.utn.tesis.model;
 
+import io.github.benas.randombeans.annotation.Exclude;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -20,10 +22,12 @@ public class Paciente extends Persona {
     @Column(name = "estado_civil")
     private EstadoCivil estadoCivil;
 
+    @Exclude
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "archivo_imagen_id")
     private Archivo imagen;
 
+    @Exclude
     @ManyToOne
     @JoinColumn(name = "lugar_nacimiento_ciudad_id")
     private Ciudad lugarDeNacimiento;
@@ -40,6 +44,7 @@ public class Paciente extends Persona {
     @Column(name = "nivel_estudio")
     private NivelEstudio nivelEstudio;
 
+    @Exclude
     @ManyToOne
     @JoinColumn(name = "obra_social_id")
     private ObraSocial obraSocial;
@@ -60,14 +65,17 @@ public class Paciente extends Persona {
     @Column(length = 30, name = "medico_cabecera_telefono")
     private String telefonoMedicoCabecera;
 
+    @Exclude
     @ManyToOne
     @JoinColumn(name = "trabajo_id")
     private Trabajo trabajo;
 
+    @Exclude
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "domicilio_id")
     private Domicilio domicilio;
 
+    @Exclude
     @ManyToOne
     @JoinColumn(name = "historia_clinica_id")
     private HistoriaClinica historiaClinica;

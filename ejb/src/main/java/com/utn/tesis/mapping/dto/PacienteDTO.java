@@ -22,6 +22,7 @@ public class PacienteDTO extends BaseDTO {
     private DocumentoDTO documento;
     private DomicilioDTO domicilio;
     private Calendar fechaNacimiento;
+    private Long historiaClinicaId;
 
     //Domicilio y contacto
     private String celular;
@@ -42,6 +43,8 @@ public class PacienteDTO extends BaseDTO {
     private Calendar fechaCarga;
     //Baja
     private String motivoBaja;
+    //Historia clínica
+    private HistoriaClinicaDTO historiaClinicaDTO;
 
     //CONSTRUCTOR
 
@@ -49,6 +52,14 @@ public class PacienteDTO extends BaseDTO {
     }
 
     //GETTERS AND SETTERS
+    public HistoriaClinicaDTO getHistoriaClinicaDTO() {
+        return historiaClinicaDTO;
+    }
+
+    public void setHistoriaClinicaDTO(HistoriaClinicaDTO historiaClinicaDTO) {
+        this.historiaClinicaDTO = historiaClinicaDTO;
+    }
+
     public Calendar getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -231,5 +242,13 @@ public class PacienteDTO extends BaseDTO {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public Long getHistoriaClinicaId() {
+        return historiaClinicaId;
+    }
+
+    public void setHistoriaClinicaId(Long historiaClinicaId) {
+        this.historiaClinicaId = historiaClinicaId;
     }
 }

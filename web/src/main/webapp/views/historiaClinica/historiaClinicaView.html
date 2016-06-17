@@ -1,30 +1,1544 @@
-<md-content layout="column" layout-align="start center" class="md-main-content" flex>
-            <md-card class="md-whiteframe-z5 md-main-content-card">
-               <md-toolbar class="md-accent">
-                   <div class="md-toolbar-tools">
-                       <span>Ver historia clínica</span>
-                   </div>
-               </md-toolbar>
-                <md-card-content>
-                    <md-tabs md-dynamic-height md-border-bottom>
-                        <md-tab label="Datos personales">
+<div layout="column">
+<md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+<div layout="column" layout-fill layout-padding>
+<div>
+<div layout="row" layout-align="center center">
+<md-card flex-gt-sm>
+<form name="editHistoriaClinicaForm" novalidate ng-submit="vm.save(editHistoriaClinicaForm)">
+<md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+        <span>{{ 'VER_HC' | translate }}</span>
+    </div>
+</md-toolbar>
+<md-card-content>
+<ng-include ng-if="validationErrorFromServer.error"
+            src="'views/validation-error.html'"></ng-include>
+<md-tabs md-dynamic-height md-border-bottom>
+<md-tab label="Datos personales">
+<md-list>
+<section>
+    <md-subheader class="md-primary">{{ 'ANTECEDENTES' | translate }}</md-subheader>     
+    <md-divider></md-divider>    
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g1p1"
+                 campodetalle="vm.hc.g1p2"
+                 campofecha="vm.hc.g1p3">
+        </detalle>
+        <detalle camposino="vm.hc.g2p1">
+        </detalle>
+        <detalle camposino="vm.hc.g2p2"
+                 campodetalle="vm.hc.g2p3"
+                 campofecha="vm.hc.g2p4">
+        </detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary">{{ 'HIPERTENSION' | translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row">
+        <detalle camposino="vm.hc.g3p1">
+        </detalle>
+        <detalle camposino="vm.hc.g3p2"
+                 campodetalle="vm.hc.g3p3"
+                 campofecha="vm.hc.g3p4">
+        </detalle>
+        <md-list-item class='md-3-line' flex-gt-sm="33">
+            <div class='md-list-item-text'>
+                <h4> {{ vm.hc.g3p5.nombre }} : {{vm.hc.g3p5.only_detalle }}</h4>
+                <h4>Min: 11 | Máx: 12</h4>
+                <p>{{ vm.hc.g3p10.nombre }}: {{ vm.hc.g3p10.fecha | date:'MM/dd/yyyy' }}</p>
+            </div>
+        </md-list-item>
+    </div>
+    <div layout="row">
+        <detalle camposino="vm.hc.g3p11">
+        </detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'FIEBRE_REUM'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g4p1">
+        </detalle>
+        <detalle camposino="vm.hc.g4p2"
+                 campodetalle="vm.hc.g4p3"
+                 campofecha="vm.hc.g4p4">
+        </detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'RINONES'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g5p1"
+                 campodetalle="vm.hc.g5p2"
+                 campofecha="vm.hc.g5p3">
+        </detalle>
+        <detalle camposino="vm.hc.g5p4">
+        </detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g5p5"
+                 campodetalle="vm.hc.g5p6"
+                 campofecha="vm.hc.g5p7">
+        </detalle>
+        <detalle camposino="vm.hc.g5p8"
+                 campofecha="vm.hc.g5p9"></detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'ALERGIAS'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g6p1">
+        </detalle>
+        <detalle camposino="vm.hc.g6p2">
+        </detalle>
+        <detalle camposino="vm.hc.g6p3">
+        </detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g6p4"></detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'INT_QUIRURGICA'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g9p1"
+                 campodetalle="vm.hc.g9p2">
+        </detalle>
+        <detalle camposino="vm.hc.g9p3"
+                 campodetalle="vm.hc.g9p4">
+        </detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'HEPATITIS'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g10p1"
+                 campodetalle="vm.hc.g10p2"
+                 campofecha="vm.hc.g10p3">
+        </detalle>
+        <detalle camposino="vm.hc.g10p4">
+        </detalle>
+        <detalle camposino="vm.hc.g10p5">
+        </detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g10p6"
+                 campodetalle="vm.hc.g10p7"></detalle>
+        <detalle camposino="vm.hc.g10p8">
+        </detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g10p9">
+        </detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'ARTICULACIONES'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g11p1">
+        </detalle>
+        <detalle camposino="vm.hc.g11p5"
+                 campodetalle="vm.hc.g11p6"></detalle>
+        <detalle camposino="vm.hc.g11p4"
+                 campodetalle="vm.hc.g11p5"
+                 campofecha="vm.hc.g11p6">
+        </detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> Revisar tìtulo</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g12p1"
+                 campodetalle="vm.hc.g12p2"></detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'CONVULSIONES'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g13p1"
+                 campodetalle="vm.hc.g13p3"
+                 campofecha="vm.hc.g13p2"></detalle>
+        <detalle camposino="vm.hc.g13p4">
+        </detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'PERDIDA_SENS'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <md-list-item  class='md-3-line md-long-text' flex-gt-sm='33'>
+            <div class='md-list-item-text compact'>
+                <h4>¿Pérdida de sensibilidad en el cuerpo? {{ vm.hc.g14p2.siNo | siNo  }}</h4>
+                <h4 ng-if='vm.hc.g14p1.siNo == true && vm.hc.g14p2 != null'>
+                    ¿Cuál? {{ vm.hc.g14p2.only_detalle }}</h4>
+                <p ng-if='vm.hc.g14p1.siNo == true && vm.hc.g14p3 != null'>
+                    {{ vm.hc.g14p3.nombre }} {{ vm.hc.g14p3.fecha | date:'MM/dd/yyyy' }}</p>
+            </div>
+        </md-list-item>
+        <md-list-item  class='md-2-line md-long-text' flex-gt-sm='66' ng-if='vm.hc.g14p4 != null'>
+            <div class='md-list-item-text compact'>
+                <h4>{{ vm.hc.g14p4.nombre }}</h4>
+                <p>{{ vm.hc.g14p4.only_detalle }}</p>
+            </div>
+        </md-list-item>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'EPILEPSIA'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g15p1"
+                 campodetalle="vm.hc.g15p2"></detalle>
+        <detalle camposino="vm.hc.g15p3"
+                 campodetalle="vm.hc.g15p4"></detalle>
+        <detalle camposino="vm.hc.g15p5"></detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g15p6"
+                 campodetalle="vm.hc.g15p7"
+                 campofecha="vm.hc.g15p8"></detalle>
+        <detalle camposino="vm.hc.g15p10"
+                 campodetalle="vm.hc.g15p11"
+                 campofecha="vm.hc.g15p12">
+        </detalle>
+        <md-list-item  class='md-2-line md-long-text' ng-if="vm.hc.g15p13 != null" flex-gt-sm>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g15p13.nombre }}</h4>
+                <p ng-if='vm.hc.g15p13 != null'>{{ vm.hc.g15p13.only_detalle }}</p>
+            </div>
+        </md-list-item>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary">
+        {{ 'PROBLEMAS_PIEL' | translate }}
+    </md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g16p1"
+                 campodetalle="vm.hc.g16p2"
+                 campofecha="vm.hc.g16p3"></detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'TRANSFUSIONES'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g17p1"
+                 campodetalle="vm.hc.g17p2"></detalle>
+        <!--<md-list-item  class='md-2-line md-long-text' flex-gt-sm>-->
+            <!--<div class='md-list-item-text compact'>-->
+                <!--<h4> {{ vm.hc.g17p1.nombre }} {{ vm.hc.g17p1.siNo | siNo }}</h4>-->
+                <!--<p ng-if="vm.hc.g17p1 == true && vm.hc.g17p2 != null">-->
+                    <!--{{ vm.hc.g17p2.nombre }} {{ vm.hc.g17p2.only_detalle }} </p>-->
+            <!--</div>-->
+        <!--</md-list-item>-->
+        <md-list-item  class='md-2-line md-long-text' flex-gt-sm>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g17p3.nombre }} {{ vm.hc.g17p3.only_detalle}}</h4>
+                <p ng-if='vm.hc.g17p1 == true && vm.hc.g17p4 != null'>
+                    {{ vm.hc.g17p4.nombre }} {{ vm.hc.g17p4.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <!--<detalle campodetalle="vm.hc.g17p3">-->
+        <!--</detalle>-->
+        <!--<detalle campodetalle="vm.hc.g17p4">-->
+        <!--</detalle>-->
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g17p5"
+                 campodetalle="vm.hc.g17p7"
+                 campofecha="vm.hc.g17p6"></detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'CANCER'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g18p1"
+                 campodetalle="vm.hc.g18p2"></detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'ENFERMEDADES_SANGRE'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <md-list-item  class='md-3-line md-long-text' flex-gt-sm>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g19p1.nombre }} {{ vm.hc.g19p1.siNo | siNo  }}</h4>
+                <h4 ng-if='vm.hc.g19p1.siNo == true && vm.hc.g19p2 != null'>
+                    {{ vm.hc.g19p2.nombre }} {{ vm.hc.g19p2.only_detalle }}</h4>
+                <p ng-if='vm.hc.g19p1.siNo == true && vm.hc.g19p3 != null'>
+                    {{ vm.hc.g19p3.nombre }} {{ vm.hc.g19p3.fecha | date : 'MM/dd/yyyy' }}</p>
+            </div>
+        </md-list-item>
+        <detalle camposino="vm.hc.g19p4">
+        </detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g19p5">
+        </detalle>
+        <md-list-item  class='md-3-line md-long-text'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g19p6.nombre }} {{ vm.hc.g19p6.siNo | siNo  }}</h4>
+                <h4 ng-if='vm.hc.g19p6.siNo == true && vm.hc.g19p7 != null'>
+                    ¿Cuál? {{ vm.hc.g19p7.only_detalle }}</h4>
+                <p ng-if='vm.hc.g19p6.siNo == true && vm.hc.g19p9 != null'>
+                    {{ vm.hc.g19p9.nombre }} {{ vm.hc.g19p9.only_detalle }}</p>
+            </div>
+        </md-list-item>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'SOLO_MUJERES'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g20p1">
+        </detalle>
+        <detalle camposino="vm.hc.g20p2"
+                 campodetalle="vm.hc.g20p3"
+                 campofecha="vm.hc.g20p4"></detalle>
+        <detalle camposino="vm.hc.g20p5">
+        </detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <!--<detalle camposino="vm.hc.g20p6"-->
+                 <!--campodetalle="vm.hc.g20p7">-->
+        <!--</detalle>-->
+        <!--<detalle camposino="vm.hc.g20p8"></detalle>-->
+        <md-list-item  class='md-3-line md-long-text'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g20p6.nombre }} {{ vm.hc.g20p6.siNo | siNo  }}</h4>
+                <h4 ng-if='vm.hc.g20p6.siNo == true && vm.hc.g20p7 != null'>
+                    {{ vm.hc.g20p7.nombre }} {{ vm.hc.g20p7.only_detalle }}</h4>
+                <p ng-if='vm.hc.g20p6.siNo == true && vm.hc.g20p8 != null'>
+                    {{ vm.hc.g20p8.nombre }} {{ vm.hc.g20p8.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <md-list-item  class='md-3-line md-long-text'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g20p9.nombre }} {{ vm.hc.g20p9.siNo | siNo  }}</h4>
+                <h4 ng-if='vm.hc.g20p9.siNo == true && vm.hc.g20p10 != null'>
+                    ¿Cuál? {{ vm.hc.g20p10.only_detalle }}</h4>
+                <p ng-if='vm.hc.g20p9.siNo == true && vm.hc.g20p11 != null'>
+                    {{ vm.hc.g20p11.nombre }} {{ vm.hc.g20p11.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <!--<detalle camposino="vm.hc.g20p9"-->
+                 <!--campodetalle="vm.hc.g20p10">-->
+        <!--</detalle>-->
+    </div>
+    <!--<div layout="row" layout-margin flex-gt-sm>-->
 
-                        </md-tab>
-                        <md-tab label="Datos de la consulta">
-                            <md-content class="md-padding">
+        <!--<detalle campodetalle="vm.hc.g20p11">-->
+        <!--</detalle>-->
+        <!--<detalle camposino="vm.hc.g20p2"-->
+                 <!--campodetalle="vm.hc.g20p3"-->
+                 <!--campofecha="vm.hc.g20p4"></detalle>-->
+        <!--<detalle camposino="vm.hc.g20p5">-->
+        <!--</detalle>-->
+    <!--</div>-->
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'DIABETES'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g21p1"
+                 campofecha="vm.hc.g21p2"></detalle>
+        <detalle camposino="vm.hc.g21p3"></detalle>
+        <detalle camposino="vm.hc.g21p4"
+                 campodetalle="vm.hc.g21p5"></detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <md-list-item  class='md-3-line md-long-text'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g21p6.nombre }} {{ vm.hc.g21p6.siNo | siNo  }}</h4>
+                <h4 ng-if='vm.hc.g21p6.siNo == true && vm.hc.g21p7 != null'>
+                    ¿Cuál? {{ vm.hc.g21p7.only_detalle }}</h4>
+                <p ng-if='vm.hc.g21p6.siNo == true && vm.hc.g21p8 != null'>
+                    {{ vm.hc.g21p8.nombre }} {{ vm.hc.g21p8.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <md-list-item  class='md-3-line md-long-text'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g21p9.nombre }}</h4>
+                <p ng-if='vm.hc.g21p6.siNo == true && vm.hc.g21p9 != null'>
+                    {{ vm.hc.g21p9.only_detalle }}</p>
+            </div>
+        </md-list-item>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <md-list-item  class='md-3-line md-long-text'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g21p10.nombre }} {{ vm.hc.g21p10.fecha | date:'MM/dd/yyyy'  }}</h4>
+                <h4 ng-if='vm.hc.g21p11 != null'>
+                    ¿Cuál? {{ vm.hc.g21p11.only_detalle }}</h4>
+                <p ng-if='vm.hc.g21p12 != null'>
+                    {{ vm.hc.g21p12.nombre }} {{ vm.hc.g21p12.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <detalle camposino="vm.hc.g21p13"></detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'TRANSPLANTES'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g22p1"
+                 campodetalle="vm.hc.g22p2"></detalle>
+        <md-list-item  class='md-3-line md-long-text' flex-gt-sm='33'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g22p3.nombre }} {{ vm.hc.g22p3.siNo | siNo  }}</h4>
+                <h4 ng-if='vm.hc.g22p3.siNo == true && vm.hc.g22p4 != null'>
+                    ¿Cuál? {{ vm.hc.g22p4.only_detalle }}</h4>
+                <p ng-if='vm.hc.g22p3.siNo == true && vm.hc.g22p5 != null'>
+                    {{ vm.hc.g22p5.nombre }} {{ vm.hc.g22p5.only_detalle }}</p>
+            </div>
+        </md-list-item>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'VARIOS'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <md-list-item  class='md-2-line md-long-text' flex-gt-sm='33'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g23p1.nombre }} {{ vm.hc.g23p1.siNo | siNo  }}</h4>
+                <p ng-if='vm.hc.g23p1.siNo == true && vm.hc.g23p2 != null'>
+                    {{ vm.hc.g23p2.nombre }} {{ vm.hc.g23p2.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <md-list-item  class='md-3-line md-long-text' flex-gt-sm='33'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g24p1.nombre }} {{ vm.hc.g24p1.siNo | siNo  }}</h4>
+                <p ng-if='vm.hc.g24p1.siNo == true && vm.hc.g24p2 != null'>
+                    {{ vm.hc.g24p2.nombre }} {{ vm.hc.g24p2.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <detalle camposino="vm.hc.g25p1"
+                 campodetalle="vm.hc.g25p2"></detalle>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g26p1"></detalle>
+        <detalle camposino="vm.hc.g26p2"></detalle>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'ENFERMEDADES_SANGRE'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <detalle camposino="vm.hc.g27p1"></detalle>
+        <md-list-item  class='md-3-line md-long-text' flex-gt-sm='33'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g27p2.nombre }} {{ vm.hc.g27p2.siNo | siNo  }}</h4>
+                <h4 ng-if='vm.hc.g27p2.siNo == true && vm.hc.g27p3 != null'>
+                    {{ vm.hc.g27p3.nombre }} {{ vm.hc.g27p3.only_detalle }}</h4>
+                <p ng-if='vm.hc.g27p2.siNo == true && vm.hc.g27p4 != null'>
+                    {{ vm.hc.g27p4.nombre }} {{ vm.hc.g27p4.only_detalle }}</p>
+            </div>
+        </md-list-item>
+    </div>
+</section><md-divider></md-divider>
+<section>
+    <md-subheader class="md-primary"> {{ 'ULTIMA_VISITA'|translate }}</md-subheader>     <md-divider></md-divider>
+    <div layout="row" layout-margin flex-gt-sm>
+        <md-list-item  class='md-2-line md-long-text' flex-gt-sm='33'>
+            <div class='md-list-item-text compact'>
+                <h4> Fecha última visita  {{ vm.hc.g28p1.fecha |  date:'MM/dd/yyyy' }}</h4>
+                <p ng-if='vm.hc.g28p2 != null'>
+                    Motivo {{ vm.hc.g28p2.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <md-list-item  class='md-2-line md-long-text' flex-gt-sm='33'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g28p3.nombre }} {{ vm.hc.g28p3.siNo | siNo  }}</h4>
+                <p ng-if='vm.hc.g28p3.siNo == true && vm.hc.g28p4 != null'>
+                    {{ vm.hc.g28p4.nombre }} {{ vm.hc.g28p4.only_detalle }}</p>
+            </div>
+        </md-list-item>
+        <md-list-item  class='md-2-line md-long-text' flex-gt-sm='33'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g28p5.nombre }} {{ vm.hc.g28p5.siNo | siNo  }}</h4>
+                <p ng-if='vm.hc.g28p5.siNo == true && vm.hc.g28p6 != null'>
+                    {{ vm.hc.g28p6.nombre }} {{ vm.hc.g28p6.only_detalle }}</p>
+            </div>
+        </md-list-item>
+    </div>
+    <div layout="row" layout-margin flex-gt-sm>
+        <md-list-item  class='md-3-line md-long-text'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g29p1.nombre }} {{ vm.hc.g29p1.siNo | siNo }}</h4>
+            </div>
+        </md-list-item>
+        <md-list-item  class='md-3-line md-long-text'>
+            <div class='md-list-item-text compact'>
+                <h4> {{ vm.hc.g29p2.nombre }} {{ vm.hc.g29p2.siNo |  siNo }}</h4>
+            </div>
+        </md-list-item>
+        <!--<detalle camposino="vm.hc.g29p1"></detalle>-->
+        <!--<detalle camposino="vm.hc.g29p2"></detalle>-->
+    </div>
+</section><md-divider></md-divider>
+</md-list>
+<!--<section>-->
+<!--<ng-form name="G13">-->
+<!--<md-subheader class="md-primary">Convulsiones</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G13P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g13p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column" ng-if="vm.hc.g13p1.siNo == true">-->
+<!--<md-datepicker name="G13P2" ng-model="vm.hc.g13p2.fecha"-->
+<!--md-placeholder="{{ 'G13P2' | translate }}"-->
+<!--ng-required="vm.hc.g13p1.siNo == true"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G13.G13P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g13p1.siNo == true">-->
+<!--<label> {{ 'G13P3' | translate }} </label>-->
+<!--<input name="G13P3" ng-model="vm.hc.g13p3.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g13p1.siNo == true"-->
+<!--aria-label="{{ 'G13P3' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G13.G13P3"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g13p1.siNo == true">-->
+<!--<label> {{ 'G13P4' | translate }} </label>-->
+<!--<input name="G13P4" ng-model="vm.hc.g13p4.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g13p1.siNo == true"-->
+<!--aria-label="{{ 'G13P4' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G13.G13P4"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G14">-->
+<!--<md-subheader class="md-primary">Pérdida de sensibilidad</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G14P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g14p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column" ng-if="vm.hc.g14p1.siNo == true">-->
+<!--<md-datepicker name="G14P3" ng-model="vm.hc.g14p3.fecha"-->
+<!--md-placeholder="{{ 'G14P3' | translate }}"-->
+<!--ng-required="vm.hc.g14p1.siNo == true"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G14.G14P3"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm ng-if="vm.hc.g14p1.siNo == true">-->
+<!--<md-input-container flex-gt-sm>-->
+<!--<label>{{'G14P2' | translate }}</label>-->
+<!--<md-select ng-model="vm.hc.g14p2.checked" name="G14P2">-->
+<!--<md-option>-->
+<!--Opcion 1-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 2-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 3-->
+<!--</md-option>-->
+<!--</md-select>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g14p1.siNo == true">-->
+<!--<label> {{ 'G14P4' | translate }} </label>-->
+<!--<input name="G14P4" ng-model="vm.hc.g14p4.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G14P4' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G14.G14P4"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G15">-->
+<!--<md-subheader class="md-primary">Epilepsia</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G15P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g15p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g15p1.siNo == true">-->
+<!--<label> {{ 'G15P2' | translate }} </label>-->
+<!--<input name="G15P2" ng-model="vm.hc.g15p2.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G15P2' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G15.G15P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G15P3' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g15p3.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g15p3.siNo == true">-->
+<!--<label> {{ 'G15P4' | translate }} </label>-->
+<!--<input name="G15P4" ng-model="vm.hc.g15p4.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G15P4' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G15.G15P4"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G15P5' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g15p5.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column">-->
+<!--<p> {{'G15P6' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g15p6.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g15p6.siNo == true">-->
+<!--<label> {{ 'G15P7' | translate }} </label>-->
+<!--<input name="G15P7" ng-model="vm.hc.g15p7.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g15p6.siNo == true"-->
+<!--aria-label="{{ 'G15P7' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G15.G15P7"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm ng-if="vm.hc.g15p6.siNo == true">-->
+<!--<div layout="column">-->
+<!--<md-datepicker name="G15P8" ng-model="vm.hc.g15p8.fecha"-->
+<!--md-placeholder="{{ 'G15P8' | translate }}"-->
+<!--ng-required="vm.hc.g15p6.siNo == true"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G15.G15P8"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g15p6.siNo == true">-->
+<!--<label>{{'G15P9' | translate }}</label>-->
+<!--<md-select ng-model="vm.hc.g15p9" name="G15P9">-->
+<!--<md-option>-->
+<!--Opcion 1-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 2-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 3-->
+<!--</md-option>-->
+<!--</md-select>-->
+<!--<error-messages form="editHistoriaClinicaForm.G15.G15P9"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G15P10' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g15p10.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g15p10.siNo == true">-->
+<!--<label> {{ 'G15P11' | translate }} </label>-->
+<!--<input name="G15P11" ng-model="vm.hc.g15p11.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g15p10.siNo == true"-->
+<!--aria-label="{{ 'G15P11' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G15.G15P11"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<div layout="column" ng-if="vm.hc.g15p10.siNo == true">-->
+<!--<md-datepicker name="G15P12" ng-model="vm.hc.g15p12.fecha"-->
+<!--md-placeholder="{{ 'G15P12' | translate }}"-->
+<!--ng-required="vm.hc.g15p10.siNo == true"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G15.G15P12"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g15p10.siNo == true">-->
+<!--<label> {{ 'G15P13' | translate }} </label>-->
+<!--<input name="G15P13" ng-model="vm.hc.g15p13.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g15p10.siNo == true"-->
+<!--aria-label="{{ 'G11P5' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G15.G15P13"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G16">-->
+<!--<md-subheader class="md-primary">Problemas de piel</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G16P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g16p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g16p1.siNo == true">-->
+<!--<label> {{ 'G16P2' | translate }} </label>-->
+<!--<input name="G16P2" ng-model="vm.hc.g16p2.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g16p1.siNo == true"-->
+<!--aria-label="{{ 'G16P2' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G16.G16P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<div layout="column" ng-if="vm.hc.g16p1.siNo == true">-->
+<!--<md-datepicker name="G16P3" ng-model="vm.hc.g16p3.fecha"-->
+<!--md-placeholder="{{ 'G16P3' | translate }}"-->
+<!--ng-required="vm.hc.g16p1.siNo == true"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G16.G11P3"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G17">-->
+<!--<md-subheader class="md-primary">Transfusiones sanguíneas</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G17P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g17p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g17p1.siNo == true">-->
+<!--<label> {{ 'G17P2' | translate }} </label>-->
+<!--<input name="G17P2" ng-model="vm.hc.g17p2.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g17p1.siNo == true"-->
+<!--aria-label="{{ 'G16P2' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G17.G17P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g17p1.siNo == true">-->
+<!--<label> {{ 'G17P3' | translate }} </label>-->
+<!--<input name="G17P3" ng-model="vm.hc.g17p3.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g17p1.siNo == true"-->
+<!--aria-label="{{ 'G17P3' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G17.G17P3"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g17p1.siNo == true">-->
+<!--<label> {{ 'G17P4' | translate }} </label>-->
+<!--<input name="G17P4" ng-model="vm.hc.g17p4.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g17p1.siNo == true"-->
+<!--aria-label="{{ 'G17P4' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G17.G17P4"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G17P5' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g17p5.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column" ng-if="vm.hc.g17p5.siNo == true">-->
+<!--<md-datepicker name="G17P6" ng-model="vm.hc.g17p6.fecha"-->
+<!--md-placeholder="{{ 'G17P6' | translate }}"-->
+<!--ng-required="vm.hc.g17p5.siNo == true"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G17.G17P6"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g17p5.siNo == true">-->
+<!--<label> {{ 'G17P7' | translate }} </label>-->
+<!--<input name="G17P7" ng-model="vm.hc.g17p7.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g17p5.siNo == true"-->
+<!--aria-label="{{ 'G17P7' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G17.G17P7"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G18">-->
+<!--<md-subheader class="md-primary">Cáncer</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G18P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g18p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g18p1.siNo == true">-->
+<!--<label>{{'G18P2' | translate }}</label>-->
+<!--<md-select ng-model="vm.hc.g18p2.checked" name="G18P2">-->
+<!--<md-option>-->
+<!--Opcion 1-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 2-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 3-->
+<!--</md-option>-->
+<!--</md-select>-->
+<!--</md-input-container>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g18p1.siNo == true">-->
+<!--<legend>Tratamientos</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox ng-model="vm.hc.g18p3.checked">-->
+<!--{{'G18P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox ng-model="vm.hc.g18p4.checked">-->
+<!--{{'G18P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox ng-model="vm.hc.g18p5.checked">-->
+<!--{{'G18P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G19">-->
+<!--<md-subheader class="md-primary">Enfermedades en la sangre</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G19P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g19p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g19p1.siNo == true">-->
+<!--<label> {{ 'G19P2' | translate }} </label>-->
+<!--<input name="G19P2" ng-model="vm.hc.g19p2.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g19p1.siNo == true"-->
+<!--aria-label="{{ 'G19P2' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G19.G19P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<div layout="column" ng-if="vm.hc.g19p1.siNo == true">-->
+<!--<md-datepicker name="G19P3" ng-model="vm.hc.g19p3.fecha"-->
+<!--md-placeholder="{{ 'G19P3' | translate }}"-->
+<!--ng-required="vm.hc.g19p1.siNo == true"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G19.G19P3"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g19p1.siNo == true">-->
+<!--<label> {{ 'G19P4' | translate }} </label>-->
+<!--<input name="G19P4" ng-model="vm.hc.g19p4.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G19P4' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G19.G19P4"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G19P5' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g19p5.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column">-->
+<!--<p> {{'G19P6' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g19p6.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g19p6.siNo == true">-->
+<!--<legend>{{ 'G19P7' | translate }}?</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G8P2' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P6' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g19p6.siNo == true">-->
+<!--<legend>{{ 'G19P9' | translate }}?</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G8P2' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P6' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G20">-->
+<!--<md-subheader class="md-primary">Sólo mujeres</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G20P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g20p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column">-->
+<!--<p> {{'G20P2' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g20p2.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g20p2.siNo == true">-->
+<!--<legend>{{ 'G20P3' | translate }}?</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G8P2' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P6' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--<div layout="column" ng-if="vm.hc.g20p2.siNo == true">-->
+<!--<md-datepicker name="G20P4" ng-model="vm.hc.g20p4.fecha"-->
+<!--md-placeholder="{{ 'G20P4' | translate }}"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G20.G20P4"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G20P5' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g20p5.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column">-->
+<!--<p> {{'G20P6' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g20p6.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--&lt;!&ndash;<fieldset class="standard"  ng-if="vm.hc.g20p6.siNo == true" >&ndash;&gt;-->
+<!--&lt;!&ndash;<legend>{{ 'G20P10' | translate }}?</legend>&ndash;&gt;-->
+<!--&lt;!&ndash;<div layout="row" layout-wrap flex>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P2' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P3' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P4' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P5' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P6' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</fieldset>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-input-container flex-gt-sm ng-if="vm.hc.g20p6.siNo == true">&ndash;&gt;-->
+<!--&lt;!&ndash;<label> {{ 'G20P11' | translate }} </label>&ndash;&gt;-->
+<!--&lt;!&ndash;<input name="G20P11" ng-model="vm.hc.g20p11.only_detalle"&ndash;&gt;-->
+<!--&lt;!&ndash;md-maxlength="75"&ndash;&gt;-->
+<!--&lt;!&ndash;ng-required="vm.hc.g20p6.siNo == true"&ndash;&gt;-->
+<!--&lt;!&ndash;aria-label="{{ 'G20P11' | translate }}">&ndash;&gt;-->
+<!--&lt;!&ndash;<error-messages form="editHistoriaClinicaForm.G20.G20P11"&ndash;&gt;-->
+<!--&lt;!&ndash;submitted="vm.submitted"></error-messages>&ndash;&gt;-->
+<!--&lt;!&ndash;</md-input-container>&ndash;&gt;-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G20P8' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g20p8.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column">-->
+<!--<p> {{'G20P9' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g20p9.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--&lt;!&ndash;<fieldset class="standard"  ng-if="vm.hc.g20p9.siNo == true" >&ndash;&gt;-->
+<!--&lt;!&ndash;<legend>{{ 'G20P10' | translate }}?</legend>&ndash;&gt;-->
+<!--&lt;!&ndash;<div layout="row" layout-wrap flex>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P2' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P3' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P4' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P5' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P6' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</fieldset>&ndash;&gt;-->
+<!--&lt;!&ndash;<fieldset class="standard"  ng-if="vm.hc.g20p9.siNo == true">&ndash;&gt;-->
+<!--&lt;!&ndash;<legend>{{ 'G20P11' | translate }}?</legend>&ndash;&gt;-->
+<!--&lt;!&ndash;<div layout="row" layout-wrap flex>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P2' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P3' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P4' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P5' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;<md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;{{'G8P6' | translate }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</fieldset>&ndash;&gt;-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G20P12' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g20p12.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column">-->
+<!--<p> {{'G20P13' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g20p13.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g20p13.siNo == true">-->
+<!--<legend>{{ 'G20P14' | translate }}?</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G8P2' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P6' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G21">-->
+<!--<md-subheader class="md-primary">Diabetes</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G21P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g21p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column" ng-if="vm.hc.g21p1.siNo == true">-->
+<!--<md-datepicker name="G21P2" ng-model="vm.hc.g21p2.fecha"-->
+<!--md-placeholder="{{ 'G21P2' | translate }}"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G21.G21P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g21p1.siNo == true">-->
+<!--<label>{{'G21P3' | translate }}</label>-->
+<!--<md-select ng-model="vm.hc.g21p3" name="G21P3">-->
+<!--<md-option>-->
+<!--Opcion 1-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 2-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 3-->
+<!--</md-option>-->
+<!--</md-select>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm ng-if="vm.hc.g21p1.siNo == true">-->
+<!--<div layout="column">-->
+<!--<p> {{'G21P4' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g21p4.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g21p4.siNo == true">-->
+<!--<label> {{ 'G21P5' | translate }} </label>-->
+<!--<input name="G21P5" ng-model="vm.hc.g21p5.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g21p4.siNo == true"-->
+<!--aria-label="{{ 'G21P5' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G21.G21P5"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<div layout="column">-->
+<!--<p> {{'G21P6' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g21p6.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g21p6.siNo == true">-->
+<!--<label>{{'G21P7' | translate }}</label>-->
+<!--<md-select ng-model="vm.hc.g21p7" name="G21P7">-->
+<!--<md-option>-->
+<!--Opcion 1-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 2-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 3-->
+<!--</md-option>-->
+<!--</md-select>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g21p6.siNo == true">-->
+<!--<label> {{ 'G21P8' | translate }} </label>-->
+<!--<input name="G21P8" ng-model="vm.hc.g21p8.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--ng-required="vm.hc.g21p4.siNo == true"-->
+<!--aria-label="{{ 'G21P8' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G21.G21P8"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm ng-if="vm.hc.g21p1.siNo == true">-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g21p1.siNo == true">-->
+<!--<label> {{ 'G21P9' | translate }} </label>-->
+<!--<input name="G21P9" ng-model="vm.hc.g21p9.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G21P9' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G21.G21P9"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<div layout="column">-->
+<!--<md-datepicker name="G21P10" ng-model="vm.hc.g21p10.fecha"-->
+<!--md-placeholder="{{ 'G21P10' | translate }}"></md-datepicker>-->
+<!--<error-messages form="editHistoriaClinicaForm.G21.G21P10"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm ng-if="vm.hc.g21p1.siNo == true">-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g21p1.siNo == true">-->
+<!--<label> {{ 'G21P11' | translate }} </label>-->
+<!--<input name="G21P11" ng-model="vm.hc.g21p11.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G21P11' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G21.G21P11"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g21p1.siNo == true">-->
+<!--<label> {{ 'G21P12' | translate }} </label>-->
+<!--<input name="G21P12" ng-model="vm.hc.g21p12.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G21P12' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G21.G21P12"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G21P13' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g21p13.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G22">-->
+<!--<md-subheader class="md-primary">Transplantes</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G22P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g22p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g22p1.siNo == true">-->
+<!--<label> {{ 'G22P2' | translate }} </label>-->
+<!--<input name="G22P2" ng-model="vm.hc.g22p2.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G22P2' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G22.G22P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<div layout="column">-->
+<!--<p> {{'G22P3' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g22p3.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g22p3.siNo == true">-->
+<!--<label>{{'G22P4' | translate }}</label>-->
+<!--<md-select ng-model="vm.hc.g22p4.checked" name="G22P4">-->
+<!--<md-option>-->
+<!--Opcion 1-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 2-->
+<!--</md-option>-->
+<!--<md-option>-->
+<!--Opcion 3-->
+<!--</md-option>-->
+<!--</md-select>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g22p3.siNo == true">-->
+<!--<label> {{ 'G22P5' | translate }} </label>-->
+<!--<input name="G22P5" ng-model="vm.hc.g22p5.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G22P5' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G22.G22P5"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--&lt;!&ndash;<validated-input label="{{ 'G22P5' | translate }}" name="G22P5" model="vm.hc.g22p5"&ndash;&gt;-->
+<!--&lt;!&ndash;submitted="vm.submitted" max="75"&ndash;&gt;-->
+<!--&lt;!&ndash;disabled="false"&ndash;&gt;-->
+<!--&lt;!&ndash;form="editHistoriaClinicaForm.firstForm.G22P5"&ndash;&gt;-->
+<!--&lt;!&ndash;layout-margin>&ndash;&gt;-->
+<!--&lt;!&ndash;</validated-input>&ndash;&gt;-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G23">-->
+<!--<md-subheader class="md-primary"> Varios</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G23P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g23p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g23p1.siNo == true">-->
+<!--<label> {{ 'G23P2' | translate }} </label>-->
+<!--<input name="G23P2" ng-model="vm.hc.g23p2.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G23P2' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G23.G23P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<div layout="column">-->
+<!--<p> {{'G24P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g24p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g24p1.siNo == true">-->
+<!--<label> {{ 'G24P2' | translate }} </label>-->
+<!--<input name="G24P2" ng-model="vm.hc.g24p2.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G24P2' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G24.G24P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G25P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g25p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g25p1.siNo == true">-->
+<!--<legend>{{ 'G25P2' | translate }}?</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G8P2' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G8P6' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g25p1.siNo == true">-->
+<!--<legend>Cómo?</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G25P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G25P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G25P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G26P1' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g26p1.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<div layout="column">-->
+<!--<p> {{'G26P2' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g26p2.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<md-subheader class="md-primary"> REVISAR TÍTULO</md-subheader>     <md-divider></md-divider>-->
+<!--<ng-form name="G27">-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--&lt;!&ndash;<md-input-container flex-gt-sm>&ndash;&gt;-->
+<!--&lt;!&ndash;<label> {{ 'G21P12' | translate }} </label>&ndash;&gt;-->
+<!--&lt;!&ndash;<input name="G27P1" ng-model="vm.hc.g27p1.only_detalle"&ndash;&gt;-->
+<!--&lt;!&ndash;md-maxlength="75"&ndash;&gt;-->
+<!--&lt;!&ndash;aria-label="{{ 'G27P1' | translate }}">&ndash;&gt;-->
+<!--&lt;!&ndash;<error-messages form="editHistoriaClinicaForm.G27.G27P1"&ndash;&gt;-->
+<!--&lt;!&ndash;submitted="vm.submitted"></error-messages>&ndash;&gt;-->
+<!--&lt;!&ndash;</md-input-container>&ndash;&gt;-->
+<!--<div layout="column">-->
+<!--<p> {{'G27P2' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g27p2.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g27p2.siNo == true">-->
+<!--<label> {{ 'G21P12' | translate }} </label>-->
+<!--<input name="G27P3" ng-model="vm.hc.g27p3.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G27P3' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G27.G27P3"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm ng-if="vm.hc.g27p2.siNo == true">-->
+<!--<label> {{ 'G27P4' | translate }} </label>-->
+<!--<input name="G27P4" ng-model="vm.hc.g27p4.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G27P4' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G27.G27P4"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<ng-form name="G28">-->
+<!--<md-subheader class="md-primary">Última visita al médico</md-subheader>     <md-divider></md-divider>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<md-input-container flex-gt-sm>-->
+<!--<label> {{ 'G28P1' | translate }} </label>-->
+<!--<input name="G28P1" ng-model="vm.hc.g28p1.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G28P1' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G28.G28P1"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--<md-input-container flex-gt-sm>-->
+<!--<label> {{ 'G28P2' | translate }} </label>-->
+<!--<input name="G28P2" ng-model="vm.hc.g28p2.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G28P2' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G28.G28P2"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G28P3' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g28p3.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g28p3.siNo == true">-->
+<!--<legend>{{'G28P4' | translate }}</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G25P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G25P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G25P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G28P5' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g28p5.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g28p5.siNo == true">-->
+<!--<legend>{{'G28P6' | translate }}</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G25P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G25P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G25P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+<!--<section>-->
+<!--<md-subheader class="md-primary">Otros</md-subheader>     <md-divider></md-divider>-->
+<!--<ng-form name="G29">-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<div layout="column">-->
+<!--<p> {{'G29P2' | translate }} </p>-->
+<!--<md-radio-group ng-model="vm.hc.g29p2.siNo">-->
+<!--<md-radio-button ng-value="true" class="md-primary">{{'SI' | translate }}</md-radio-button>-->
+<!--<md-radio-button ng-value="false"> {{'NO' | translate }}</md-radio-button>-->
+<!--</md-radio-group>-->
+<!--</div>-->
+<!--<fieldset class="standard" ng-if="vm.hc.g29p2.siNo == true">-->
+<!--<legend>Cuál?</legend>-->
+<!--<div layout="row" layout-wrap flex>-->
+<!--<md-checkbox>-->
+<!--{{'G29P3' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G29P4' | translate }}-->
+<!--</md-checkbox>-->
+<!--<md-checkbox>-->
+<!--{{'G29P5' | translate }}-->
+<!--</md-checkbox>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--</div>-->
+<!--<div layout-gt-sm="row" layout-margin flex-gt-sm>-->
+<!--<md-input-container flex-gt-sm>-->
+<!--<label> {{ 'G29P1' | translate }} </label>-->
+<!--<input name="G29P1" ng-model="vm.hc.g29p1.only_detalle"-->
+<!--md-maxlength="75"-->
+<!--aria-label="{{ 'G29P1' | translate }}">-->
+<!--<error-messages form="editHistoriaClinicaForm.G29.G29P1"-->
+<!--submitted="vm.submitted"></error-messages>-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--</ng-form>-->
+<!--</section><md-divider></md-divider>-->
+</md-tab>
+<md-tab label="Datos de la consulta">
+    <md-content class="md-padding">
 
-                            </md-content>
-                        </md-tab>
-                        <md-tab label="Diagnóstico">
-                            <md-content class="md-padding">
+    </md-content>
+</md-tab>
+<md-tab label="Diagnóstico">
+    <md-content class="md-padding">
 
-                            </md-content>
-                        </md-tab>
-                    </md-tabs>
-                </md-card-content>
-                <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="vm.goIndex()">Cancelar</md-button>
-                    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-                </md-card-actions>
-            </md-card></md-content>
+    </md-content>
+</md-tab>
+</md-tabs>
+
+</md-card-content>
+<md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="vm.goIndex()">Cancelar</md-button>
+    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+</md-card-actions>
+</form>
+</md-card>
+</div>
+</div>
+</div>
+</md-content>
+</div>
+
 
