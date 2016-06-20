@@ -116,7 +116,7 @@ var directiveInput = function(){
 //    "</div>"
 var templateDetalleHC = "<md-list-item class='md-3-line md-long-text' flex-gt-sm>" +
     "<div class='md-list-item-text compact'>" +
-    "<h4> {{ camposino.nombre }} {{ camposino.siNo | siNo}} </h4>" +
+    "<div layout='row'> <h4 style='font-weight: bold'> {{ camposino.nombre }}</h4> <h4>{{ camposino.siNo | siNo}} </h4> </div>"+
     "<h4 ng-if='camposino.siNo == true && campodetalle != null'> {{ campodetalle.nombre }} {{ campodetalle.only_detalle }}</h4>" +
     "<p ng-if='camposino.siNo == true && campofecha != null'>{{ campofecha.nombre }} {{ campofecha.fecha |  date:'MM/dd/yyyy' }}</p>" +
     "</div>" +

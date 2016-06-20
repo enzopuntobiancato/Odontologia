@@ -505,7 +505,7 @@
         </ng-form>
     </section>
 </md-tab>
-<md-tab label="{{ 'SOLO_MUJERES' | translate }}">
+<md-tab label="{{ 'SOLO_MUJERES' | translate }}" ng-if="vm.paciente.sexo.key == 'FEMENINO'">
     <section>
         <ng-form name="G20">
             <md-subheader class="md-primary">{{'SOLO_MUJERES' | translate }}</md-subheader>

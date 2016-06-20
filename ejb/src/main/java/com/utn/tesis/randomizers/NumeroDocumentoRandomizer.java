@@ -44,7 +44,7 @@ public class NumeroDocumentoRandomizer implements Randomizer<String> {
     @Override
     public String getRandomValue() {
         Random r = new Random();
-        int valorDado = r.nextInt(30)+1;  // Entre 0 y 5, más 1.
-        return elementos.get(valorDado);  //To change body of implemented methods use File | Settings | File Templates.
+        long randomLong = r.nextInt(999999999 - 10) + 10;
+        return "" + randomLong;
     }
 }

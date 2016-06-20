@@ -82,6 +82,8 @@ public class InitializationService {
                 //Usuarios y personas
                 this.cargarUsuarios(); //admin enzo
                 this.cargarPersonaAUsuario();
+        this.cargarHistoriasClinicas();
+        this.cargarPacientes();
 
                 initVariables.setInitializationRunned(Boolean.TRUE);
                 return true;

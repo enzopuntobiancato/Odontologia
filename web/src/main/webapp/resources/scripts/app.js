@@ -731,7 +731,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 }]},
                 controller: function($scope,$state,historiaClinicaResponse){
                     var vm = this;
-                    vm.hc = historiaClinicaResponse.data;
+                    vm.paciente = historiaClinicaResponse.data;
                     vm.goIndex = function () {
                         $state.go('^.index');
                     }
