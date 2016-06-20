@@ -43,4 +43,10 @@ public class HistoriaClinicaDao extends DaoBase<HistoriaClinica> {
         return query.list(historiaClinica);
     }
 
+    public HistoriaClinica findByPaciente(Paciente paciente){
+        JPAQuery query = new JPAQuery(em).from(historiaClinica);
+        query.where(historiaClinica.eq(paciente.getHistoriaClinica()));
+        return query.singleResult(historiaClinica);
+    }
+
 }

@@ -5,6 +5,9 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.randomizers.GrupoRandomizer;
+import com.utn.tesis.randomizers.PreguntaRandomizer;
+import io.github.benas.randombeans.annotation.Randomizer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,9 +24,11 @@ public abstract class DetalleHistoriaClinica extends EntityBase {
     @NotNull
     private String nombre;
 
+    @Randomizer(GrupoRandomizer.class)
     @NotNull
     private Integer grupo;
 
+    @Randomizer(PreguntaRandomizer.class)
     @NotNull
     private Integer pregunta;
 

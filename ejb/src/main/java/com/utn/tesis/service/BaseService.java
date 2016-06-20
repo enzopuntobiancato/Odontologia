@@ -4,8 +4,12 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.Bajeable;
+import com.utn.tesis.model.EntityBase;
 import com.utn.tesis.model.SuperEntityBase;
+import com.utn.tesis.util.Collections;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -65,6 +69,28 @@ public abstract class  BaseService<T extends SuperEntityBase> {
      * @param entity
      * @param validator
      * @throws SAPOException
+
+    public <S extends T> S findOne(Long id) {
+        return (S) getDao().findOne(id);
+    }
+
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public <S extends T> S reload(S entity, int depth) {
+        if (entity instanceof EntityBase) {
+            entity = (S) findOne(((EntityBase) entity).getId());
+        } else {
+            try {
+                entity = (S)save(entity);
+            } catch (SAPOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        return Collections.reload(entity, depth);
+    }
+
+    /*
+    Template method que llama a las validaciones de restricciones de modelo y a las validaciones de negocio.
      */
     void validate(T entity, Validator validator) throws SAPOException {
         try {
@@ -78,7 +104,6 @@ public abstract class  BaseService<T extends SuperEntityBase> {
             Logger.getLogger(BaseService.class.getName()).log(Level.SEVERE, e.getMessage(), e);
             throw new SAPOException(e);
         }
-
     }
 
     /**

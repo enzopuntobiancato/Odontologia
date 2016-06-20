@@ -10,12 +10,9 @@ import com.utn.tesis.mapping.mapper.UsuarioMapper;
 import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.util.EncryptionUtils;
-import com.utn.tesis.util.RandomStringGenerator;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.security.NoSuchAlgorithmException;

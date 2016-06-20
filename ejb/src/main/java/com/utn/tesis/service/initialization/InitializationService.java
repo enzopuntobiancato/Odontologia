@@ -3,12 +3,19 @@ package com.utn.tesis.service.initialization;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.*;
 import com.utn.tesis.service.*;
+import io.github.benas.randombeans.EnhancedRandomBuilder;
+import io.github.benas.randombeans.api.EnhancedRandom;
+import io.github.benas.randombeans.randomizers.BooleanRandomizer;
+import io.github.benas.randombeans.randomizers.CalendarRandomizer;
+import io.github.benas.randombeans.randomizers.StringRandomizer;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.ejb.*;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -36,6 +43,10 @@ public class InitializationService {
     private PrivilegioService privilegioService;
     @Inject
     private CatedraService catedraService;
+    @Inject
+    private PacienteService pacienteService;
+    @Inject
+    private HistoriaClinicaService historiaClinicaService;
     private InitVariables initVariables = InitVariables.getInstance();
 
 
@@ -48,6 +59,8 @@ public class InitializationService {
     private ArrayList<Materia> materiaList = new ArrayList<Materia>();
     private ArrayList<TrabajoPractico> trabajoPracticoList = new ArrayList<TrabajoPractico>();
     private ArrayList<Catedra> catedraList = new ArrayList<Catedra>();
+    private ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
+    private ArrayList<HistoriaClinica> historiaClinicas = new ArrayList<HistoriaClinica>();
 
 
     public boolean initializeData() throws SAPOException {
@@ -69,6 +82,8 @@ public class InitializationService {
                 //Usuarios y personas
                 this.cargarUsuarios(); //admin enzo
                 this.cargarPersonaAUsuario();
+        this.cargarHistoriasClinicas();
+        this.cargarPacientes();
 
                 initVariables.setInitializationRunned(Boolean.TRUE);
                 return true;
@@ -321,13 +336,48 @@ public class InitializationService {
         log.info("CargarRoles FINAL");
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    private void cargarHistoriasClinicas() throws SAPOException {
+        log.info("CARGA HISTORIAS CLINICAS INICIO");
+        for (int i = 0; i < 10; i++) {
+            Random r = new Random();
+            int numero = r.nextInt(10000)+1;  // Entre 0 y 5, más 1.
+            HistoriaClinica hc = HistoriaClinica.createDefault();
+            hc.setNumero(numero);
 
+            for(DetalleHistoriaClinica detalle : hc.getDetallesHC()){
+                if(detalle instanceof CampoDetalle){
+                    String randomString = StringRandomizer.aNewStringRandomizer().getRandomValue();
+                    ((CampoDetalle) detalle).setOnly_detalle(randomString);
+                } else if(detalle instanceof CampoSiNo){
+                    Boolean randomBoolean = BooleanRandomizer.aNewBooleanRandomizer().getRandomValue();
+                    ((CampoSiNo) detalle).setSiNo(true);
+                } else if (detalle instanceof CampoFecha){
+                    Calendar fecha = CalendarRandomizer.aNewCalendarRandomizer().getRandomValue();
+                    ((CampoFecha) detalle).setFecha(fecha);
+                } else if (detalle instanceof CampoEnumerable){
+                    Boolean randomBoolean = BooleanRandomizer.aNewBooleanRandomizer().getRandomValue();
+                    ((CampoEnumerable) detalle).setChecked(randomBoolean);
+                }
+            }
+            historiaClinicas.add(historiaClinicaService.save(hc));
+        }
+        log.info("CARGA HISTORIAS CLINICAS FIN");
+    }
 
-
-
-
-
-
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    private void cargarPacientes() throws SAPOException {
+        log.info("CARGA PACIENTES INICIO");
+            EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+                    .scanClasspathForConcreteTypes(true)
+                    .build();
+        for (int i = 0; i < 10; i++) {
+            Paciente p = enhancedRandom.nextObject(Paciente.class);
+            p.setHistoriaClinica(historiaClinicas.get(i));
+            pacientes.add(pacienteService.save(p));
+        }
+        log.info("CARGA PACIENTES FIN");
+    }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarUsuarios() throws SAPOException {

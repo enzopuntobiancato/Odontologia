@@ -1,6 +1,5 @@
 package com.utn.tesis.mapping.mapper;
 
-import com.utn.tesis.mapping.dto.PacienteConsultaDTO;
 import com.utn.tesis.mapping.dto.PacienteDTO;
 import com.utn.tesis.model.Paciente;
 import org.mapstruct.*;
@@ -22,6 +21,7 @@ public interface PacienteMapper {
 
     Paciente fromDTO(PacienteDTO pacienteDTO);
 
+    @Mapping(source = "paciente.historiaClinica.id", target = "historiaClinicaId")
     PacienteDTO toDTO(Paciente paciente);
 
     void updataFromDTO(PacienteDTO pacienteDTO, @MappingTarget Paciente paciente);

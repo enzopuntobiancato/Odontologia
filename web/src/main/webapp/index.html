@@ -9,6 +9,9 @@
     <!--Local version -->
     <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">-->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.css">
+    <!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc4/angular-material.min.css"/>-->
+    <link rel="stylesheet" href="https://material.angularjs.org/1.1.0-rc4/docs.css"/>
+
     <link href="resources/img/git_avatar.png">
     <!--CDN version -->
     <!--link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css"-->
@@ -20,8 +23,8 @@
     </style>
 </head>
 <body ng-controller="AppController" layout="row">
-<md-sidenav ng-cloak layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
-            md-is-locked-open="$mdMedia('gt-md')">
+
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
     <md-toolbar class="md-tall md-hue-2">
         <span flex></span>
 
@@ -126,18 +129,20 @@
     <div ng-cloak id="main-content" ui-view>
     </div>
 </div>
+
 <!--LIBRARIES-->
 <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-animate.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-messages.js"></script>
 <!--Local version -->
 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.js"></script>
-
+<!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc4/angular-material.js"/>-->
+<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc4/angular-material.min.js"></script>-->
 <!--CDN version -->
 <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script-->
 

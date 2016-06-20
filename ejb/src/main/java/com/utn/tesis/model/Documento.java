@@ -1,6 +1,8 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.annotation.JsonMap;
+import com.utn.tesis.randomizers.NumeroDocumentoRandomizer;
+import io.github.benas.randombeans.annotation.Randomizer;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -14,6 +16,7 @@ import java.io.Serializable;
 public class Documento implements Serializable {
     private static final long serialVersionUID = 2966946409679631185L;
 
+    @Randomizer(NumeroDocumentoRandomizer.class)
     @Size(max = 10, message = "El número de documento no puede ser mayor a 10 caracteres.")
     @NotNull(message = "Ingrese el número de documento.")
     @Column(nullable = false, length = 10)

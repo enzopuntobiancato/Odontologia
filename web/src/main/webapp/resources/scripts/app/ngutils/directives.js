@@ -68,20 +68,13 @@ directives.directive('validateLength', function() {
     };
 });
 
-// CUSTOM INPUTS DIRECTIVES
+// CUSTOM INPUT DIRECTIVES
 var templateInput =
-    '<md-input-container flex-gt-sm> ' +
+    '<md-input-container> ' +
         '<label> {{ ctrl.label }} </label>'+
-        '<input name="{{ ctrl.name }}" ng-model="ctrl.model"  ng-required="{{ ctrl.req }}" md-maxlength="{{ ctrl.max }}" ng-pattern="ctrl.pat" minlength="{{ ctrl.min }}" ng-disabled="ctrl.disabled" type="{{ ctrl.type }}" aria-label="{{ ctrl.label }}">'+
+        '<input name="{{ ctrl.name }}" ng-model="ctrl.model"  ng-required="{{ ctrl.req }}" md-maxlength="{{ ctrl.max }}" ng-pattern="ctrl.pat" minlength="{{ ctrl.min }}" ng-disabled="{{ ctrl.disabled }}" type="{{ ctrl.type }}" aria-label="{{ ctrl.label }}">'+
         '<div ng-messages="ctrl.form.$error" ng-show="ctrl.form.$touched ||  ctrl.submitted  && ctrl.form.$invalid" multiple> ' +
               '<div ng-messages-include="error-messages"></div>' +
-//            '<div ng-message="required">Es obligatorio.</div>'+
-//            '<div ng-message="email">No tiene formato de e-mail.</div> '+
-//            '<div ng-message="valid">No tiene formato de fecha.</div>'+
-//            '<div ng-message="md-maxlength">Ingresó más caracteres de los permitidos.</div>'+
-//            '<div ng-message="minlength">Ingresó menos caracteres que los requeridos.</div>'+
-//            '<div ng-if="{{ ctrl.pat.toString() == 'zzz/([a-zA-Z ]+)/ }}" ng-message="pattern">Solo se permiten números.</div>'+
-//            '<div ng-if="ctrl.pat.toString() == ([a-zA-Z ]+) " ng-message="pattern">Solo se permiten letras.</div>'+
         '</div> ' +
         '</md-input-container>' ;
 var inputController = function(){
@@ -90,10 +83,8 @@ var inputController = function(){
     function init(){
         if(ctrl.pattern != 'undefined'){
             ctrl.pat = new RegExp(ctrl.pattern);
-//            alert(ctrl.pat.toString());
         }
     }
-
     init();
 };
 
@@ -109,100 +100,102 @@ var directiveInput = function(){
             max: '@',
             min: '@',
             pattern: '@',
-            disabled: '=',
+            disabled: '@',
             form: '=',
             submitted: '=',
             type: '@'
         },
         controller: inputController,
         controllerAs: 'ctrl',
-        bindToController: true,
-        link: function(scope, element, attrs){
+        bindToController: true
+    };
+};
+//"<div layout='row'>" +
+//    "<ng-md-icon icon='{{ camposino.siNo == true ? 'check_box' : 'close' }}'></ng-md-icon>"+
+//
+//    "</div>"
+var templateDetalleHC = "<md-list-item class='md-3-line md-long-text' flex-gt-sm>" +
+    "<div class='md-list-item-text compact'>" +
+    "<div layout='row'> <h4 style='font-weight: bold'> {{ camposino.nombre }}</h4> <h4>{{ camposino.siNo | siNo}} </h4> </div>"+
+    "<h4 ng-if='camposino.siNo == true && campodetalle != null'> {{ campodetalle.nombre }} {{ campodetalle.only_detalle }}</h4>" +
+    "<p ng-if='camposino.siNo == true && campofecha != null'>{{ campofecha.nombre }} {{ campofecha.fecha |  date:'MM/dd/yyyy' }}</p>" +
+    "</div>" +
+    "</md-list-item>";
+var detalle = function(){
+    return {
+        restrict: 'E',
+        template: templateDetalleHC,
+        replace: true,
+        scope: {
+            camposino : "=",
+            campodetalle : "=",
+            campofecha : "=",
+            exp: "@"
         }
     };
 };
 
-var templateSelect =
-        '<md-input-container flex-gt-sm>'+
-            '<label> {{ label }}</label>'+
-            '<md-select ng-model="model" name="{{ name }}" ng-required="{{ req }}" aria-label="{{ label }}" ng-disabled="{{ disabled }}" ng-attr-ng-model-options="{{ trackBy }}">'+
-               '<md-option ng-repeat="item in items" ng-value="item"> {{ item.nombre }}</md-option>'+
-            '</md-select>'+
-            '<div ng-messages="form.$error" ng-show="form.$touched || submitted && form.$invalid " multiple class="errors">'+
-                '<div ng-messages-include="error-messages"></div>' +
-            '</div>'+
-        '</md-input-container>';
-
-
-var directiveSelect = function($compile){
-    return {
-        restrict: 'E',
-        template: templateSelect,
+var errorMessages = function(){
+    return{
+        restrict: 'AE',
+        template: '<div class="validation-messages" ng-messages="form.$error" ng-show="form.$touched ||  submitted  && form.$invalid" multiple> ' +
+                    '<div ng-messages-include="error-messages"></div>' +
+                   '</div> ',
         scope: {
-            label: '@',
-            name: '@',
-            model: '=',
-            trackBy:'@',
-            req: '@',
-            items: '=',
-            disabled: '@',
             form: '=',
             submitted: '='
-        },
-        link: function(scope, elem, attrs){
-            var container = angular.element(elem.children()[0]);
-            var select = angular.element(container.children()[1]);
-//            scope.$watch('trackBy', function(){
-//                select.attr('ng-model-options','{trackBy: \'$value.id\'}');
-//            });
-        }
-    };
-};
-
-//var selectController = function(){
-//    var ctrl = this;
-//    function init(){
-//        if(angular.isDefined(ctrl.trackBy)){
-//            ctrl.trackBy = '{trackBy: \'$value.'+ctrl.trackBy +'\'}';
-//        }else{
-//            ctrl.trackBy = '{}';
-//        }
-//    }
-//    init();
-//};
-
-directives.directive('simpleDirective', [function () {
-    return {
-        restrict: 'E',
-        template: '<div class="nwcard">'+
-            '<h2 class="h3">{{header}}</h2>'+
-            '<p class="hidden">{{description}}</p>'+
-            '</div>',
-        scope:{
-            header: '@',
-            description: '@'
-        },
-        link: function (scope, elem, attrs) {
-            scope.$watch('header', function(){
-//               alert(scope.header);
-               var zeroElem = elem.children()[0];
-                elem.attr('id',scope.header);
-                var title = angular.element(elem.children()[0]);
-                title.attr('id','zeroElem');
-
-//                zeroElem.attr('id','elemento0');
-//                firstElem.attr('id','elemento1');
-            });
-           /* elem.on('click',function(){
-                    elem.attr('id',scope.header);
-                }
-            );*/
         }
     }
-}]);
+} ;
+
+var controllerEditHC = function () {
+
+    var vm = this;
+
+    function init() {
+
+    }
+
+    init();
+};
+var templateEditHC =
+    '<div layout-gt-sm="row" layout-margin flex-gt-sm>' +
+        '<md-switch ng-model="vm.camposino.siNo" aria-label="vm.camposino.nombre" ng-true-value="true" ng-false-value="false" class="md-primary"> {{vm.camposino.nombre }}: {{vm.camposino.siNo | siNo}} </md-switch>' +
+        '</div>'+
+        '<div layout-gt-sm="row" layout-margin flex-gt-sm>'+
+        '<md-input-container flex-gt-sm ng-if="vm.campodetalle && vm.camposino.siNo == true" ng-form="formDetalle">'+
+        '<label> {{ vm.campodetalle.nombre }} </label>'+
+        '<input name="detalle" ng-model="vm.campodetalle.only_detalle" md-maxlength="75" ng-required="vm.camposino.siNo == true" aria-label="{{vm.campodetalle.nombre }}">'+
+        '<error-messages form="formDetalle.detalle" submitted="vm.submitted"></error-messages>'+
+        '</md-input-container>'+
+        '<div layout="column" ng-if="vm.campofecha && vm.camposino.siNo == true" ng-form="formDetalle">'+
+        '<md-datepicker name="fecha" ng-model="vm.campofecha.fecha" md-placeholder="{{ vm.campofecha.nombre }}" ng-required="vm.camposino.siNo == true"></md-datepicker>'+
+        '<error-messages form="formDetalle.fecha" submitted="vm.submitted"></error-messages>'+
+        '</div>'+
+        '<div ng-transclude layout-gt-sm="row" layout-margin flex-gt-sm></div> '+
+    '</div>';
+var editHC = function(){
+  return {
+      restrict: 'E',
+      scope:{
+          camposino : '=',
+          campodetalle: '=',
+          campofecha: '=',
+          form : '=',
+          submitted: '='
+      },
+      template: templateEditHC,
+      controller: controllerEditHC,
+      controllerAs: 'vm',
+      bindToController: true,
+      transclude: true
+  }
+};
 
 directives.directive('validatedInput',directiveInput);
-directives.directive('validatedSelect', directiveSelect);
+directives.directive('errorMessages',errorMessages);
+directives.directive('detalle',detalle)
+directives.directive('itemHistoria', editHC)
 
 /* DIRECTIVES ODONTOGRAMA */
 
@@ -232,6 +225,16 @@ directives.filter('noDefinido',function(){
             return 'No definido';
         }
         return input;
+    }
+})
+
+directives.filter('siNo', function(){
+    return function(input){
+        if(angular.isDefined(input) && input == true ){
+            return "Sí";
+        }else{
+            return "No";
+        }
     }
 })
 

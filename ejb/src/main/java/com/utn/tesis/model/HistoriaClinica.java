@@ -180,39 +180,39 @@ public class HistoriaClinica extends EntityBase {
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G1P1, 1, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G1P2, 1, 2));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G1P3, 1, 3));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G1P3, 1, 3));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G2P1, 2, 1));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G2P2, 2, 2));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G2P3, 2, 3));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G2P4, 2, 4));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G2P4, 2, 4));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G3P1, 3, 1));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G3P2, 3, 2));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G3P3, 3, 3));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G3P4, 3, 4));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G3P4, 3, 4));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G3P5, 3, 5));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G3P6, 3, 6));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G3P7, 3, 7));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G3P8, 3, 8));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G3P9, 3, 9));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G3P10, 3, 10));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G3P10, 3, 10));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G3P11, 3, 11));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G4P1, 4, 1));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G4P2, 4, 2));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G4P3, 4, 3));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G4P4, 4, 4));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G4P4, 4, 4));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G5P1, 5, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G5P2, 5, 2));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G5P3, 5, 3));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G5P3, 5, 3));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G5P4, 5, 4));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G5P5, 5, 5));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G5P6, 5, 6));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G5P7, 5, 7));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G5P7, 5, 7));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G5P8, 5, 8));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G5P9, 5, 9));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G5P9, 5, 9));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G6P1, 6, 1));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G6P2, 6, 2));
@@ -236,8 +236,8 @@ public class HistoriaClinica extends EntityBase {
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G10P1, 10, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G10P2, 10, 2));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G10P3, 10, 3));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G10P4, 10, 4));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G10P3, 10, 3));
+        hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G10P4, 10, 4));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G10P5, 10, 5));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G10P6, 10, 6));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G10P7, 10, 7));
@@ -249,19 +249,19 @@ public class HistoriaClinica extends EntityBase {
         hc.addDetalle(new CampoEnumerable(DetalleHistoriaClinica.G11P3, 11, 3));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G11P4, 11, 4));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G11P5, 11, 5));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G11P6, 11, 6));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G11P6, 11, 6));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G12P1, 12, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G12P2, 12, 2));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G13P1, 13, 1));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G13P2, 13, 2));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G13P2, 13, 2));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G13P3, 13, 3));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G13P4, 13, 4));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G14P1, 14, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G14P2, 14, 2));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G14P3, 14, 3));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G14P3, 14, 3));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G14P4, 14, 4));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G15P1, 15, 1));
@@ -271,23 +271,23 @@ public class HistoriaClinica extends EntityBase {
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G15P5, 15, 5));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G15P6, 15, 6));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G15P7, 15, 7));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G15P8, 15, 8));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G15P8, 15, 8));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G15P9, 15, 9));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G15P10, 15, 10));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G15P11, 15, 11));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G15P12, 15, 12));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G15P12, 15, 12));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G15P13, 15, 13));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G16P1, 16, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G16P2, 16, 2));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G16P3, 16, 3));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G16P3, 16, 3));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G17P1, 17, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G17P2, 17, 2));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G17P3, 17, 3));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G17P4, 17, 4));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G17P5, 17, 5));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G17P6, 17, 6));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G17P6, 17, 6));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G17P7, 17, 7));
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G18P1, 18, 1));
@@ -298,7 +298,7 @@ public class HistoriaClinica extends EntityBase {
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G19P1, 19, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G19P2, 19, 2));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G19P3, 19, 3));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G19P3, 19, 3));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G19P4, 19, 4));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G19P5, 19, 5));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G19P6, 19, 6));
@@ -310,7 +310,7 @@ public class HistoriaClinica extends EntityBase {
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G20P1, 20, 1));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G20P2, 20, 2));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G20P3, 20, 3));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G20P4, 20, 4));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G20P4, 20, 4));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G20P5, 20, 5));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G20P6, 20, 6));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G20P7, 20, 7));
@@ -324,7 +324,7 @@ public class HistoriaClinica extends EntityBase {
         //Fin de preguntas para mujeres
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G21P1, 21, 1));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G21P2, 21, 2));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G21P2, 21, 2));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G21P3, 21, 3));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G21P4, 21, 4));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G21P5, 21, 5));
@@ -332,7 +332,7 @@ public class HistoriaClinica extends EntityBase {
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G21P7, 21, 7));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G21P8, 21, 8));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G21P9, 21, 9));
-        hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G21P10, 21, 10));
+        hc.addDetalle(new CampoFecha(DetalleHistoriaClinica.G21P10, 21, 10));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G21P11, 21, 11));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G21P12, 21, 12));
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G21P13, 21, 13));

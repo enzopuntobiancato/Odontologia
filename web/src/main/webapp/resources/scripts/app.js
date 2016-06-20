@@ -120,6 +120,25 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                                 deferred.resolve('Error durante la ejecución de la inicialización de datos');
                             });
                         return deferred.promise;
+                    }],
+                    createRandomData: ['loadMyModule', '$http', '$q', function (loadMyModule, $http, $q) {
+                        var deferred = $q.defer();
+                        $http({
+                            url: 'api/historiaClinica/createRandomData',
+                            method: 'POST'
+                        })
+                            .success(function (response) {
+                                if (response) {
+                                    deferred.resolve('Inicialización de datos ejecutada con éxito.');
+                                } else {
+                                    deferred.resolve(undefined);
+                                }
+
+                            })
+                            .error(function () {
+                                deferred.resolve('Error durante la ejecución de la inicialización de datos');
+                            });
+                        return deferred.promise;
                     }]
                 }
             })
@@ -680,6 +699,12 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 controller: 'HistoriaClinicaCtrl_Index',
                 controllerAs: 'vm',
                 resolve: {
+                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                        return commons.getTiposDocumento();
+                    }],
+                    sexosResponse:["CommonsSrv", function(commons){
+                        return commons.getSexos();
+                    }]
                 }
             })
             .state('historiaClinica.create', {
@@ -692,17 +717,22 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 url: '/edit/:id',
                 templateUrl: 'views/historiaClinica/historiaClinicaEdit.html',
                 controller: 'HistoriaClinicaCtrl_Edit',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {historiaClinicaResponse:['$stateParams','HistoriaClinicaSrv',function($stateParams,service){
+                    return service.findById($stateParams.id);
+                }]}
             })
             .state('historiaClinica.view', {
                 url: '/view/:id',
                 templateUrl: 'views/historiaClinica/historiaClinicaView.html',
                 controllerAs: 'vm',
-                controller: function($scope,$state){
+                resolve: {historiaClinicaResponse:['$stateParams','HistoriaClinicaSrv',function($stateParams,service){
+                    return service.findById($stateParams.id);
+                }]},
+                controller: function($scope,$state,historiaClinicaResponse){
                     var vm = this;
-                    vm.goIndex = goIndex();
-
-                    function goIndex(){
+                    vm.paciente = historiaClinicaResponse.data;
+                    vm.goIndex = function () {
                         $state.go('^.index');
                     }
                 }
@@ -800,7 +830,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     name: 'historiaClinicaModule',
                     files: [
                         url('/historiaClinica/historiaClinicaSrv.js'),
-                        url('/historiaClinica/hitoriaClinicaIndexCtrl.js'),
+                        url('/historiaClinica/historiaClinicaIndexCtrl.js'),
                         url('/historiaClinica/historiaClinicaCreateCtrl.js'),
                         url('/historiaClinica/historiaClinicaEditCtrl.js')
                     ]
@@ -852,39 +882,6 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             });
         }
     }
-
-    $scope.activity = [
-        {
-            what: 'Brunch this weekend?',
-            who: 'Ali Conners',
-            when: '3:08PM',
-            notes: " I'll be in your neighborhood doing errands"
-        },
-        {
-            what: 'Summer BBQ',
-            who: 'to Alex, Scott, Jennifer',
-            when: '3:08PM',
-            notes: "Wish I could come out but I'm out of town this weekend"
-        },
-        {
-            what: 'Oui Oui',
-            who: 'Sandra Adams',
-            when: '3:08PM',
-            notes: "Do you have Paris recommendations? Have you ever been?"
-        },
-        {
-            what: 'Birthday Gift',
-            who: 'Trevor Hansen',
-            when: '3:08PM',
-            notes: "Have any ideas of what we should get Heidi for her birthday?"
-        },
-        {
-            what: 'Recipe to try',
-            who: 'Brian Holt',
-            when: '3:08PM',
-            notes: "We should eat this: Grapefruit, Squash, Corn, and Tomatillo tacos"
-        },
-    ];
 
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
@@ -987,6 +984,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         } else {
             angular.forEach(form.$error, function (field) {
                 angular.forEach(field, function (errorField) {
+                    console.log(field.name);
                     errorField.$setTouched();
                 })
             });
