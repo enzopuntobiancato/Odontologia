@@ -1,8 +1,8 @@
 var module = angular.module('materiaModule');
 
 
-module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv', 'nivelesResponse', 'PaginationService', '$mdDialog',
-    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, nivelesResponse, pagination, $mdDialog) {
+module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv', 'nivelesResponse', 'PaginationService', '$mdDialog', 'DeleteRestoreSrv',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, nivelesResponse, pagination, $mdDialog, deleteRestoreService) {
 
         $scope.filter = {};
         $scope.result = [];
@@ -15,6 +15,8 @@ module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv',
             showDadosBaja: false,
             mostrarFiltros: true
         }
+
+        deleteRestoreService.config('api/materia/remove', 'api/materia/restore', 'Materia', executeQuery);
 
         pagination.config('api/materia/find');
 
@@ -81,74 +83,13 @@ module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv',
             $state.go('^.create');
         }
 
-        $scope.openRestoreDialog = function (ev, materiaId, materiaNombre) {
-            $mdDialog.show({
-                templateUrl: 'views/materia/materiaRestore.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: materiaId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide();
-                    };
-                }
-            })
-                .then(function () {
-                    //Success
-                    service.restore(materiaId)
-                        .success(function () {
-                            message.showMessage(materiaNombre + ' dada de alta.');
-                            executeQuery($scope.paginationData.pageNumber);
-                        })
-                        .error(function () {
-                            message.showMessage('Error dando de alta ' + materiaNombre);
-                        })
-                },
-                function () {
-                    $scope.status = 'You cancelled the dialog.';
-                });
-        };
+        $scope.openDeleteDialog = function(event, id, nombre) {
+            deleteRestoreService.delete(event, id, nombre, $scope.paginationData.pageNumber, $scope.filter.dadosBaja, $scope.result.length);
+        }
 
-        $scope.openDeleteDialog = function (ev, materiaId, nombreMateria) {
-            $mdDialog.show({
-                templateUrl: 'views/materia/materiaDelete.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: materiaId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.motivoBaja;
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function (form) {
-                        if (form.$valid) {
-                            $mdDialog.hide($scope.motivoBaja);
-                        }
-                    };
-                }
-            })
-                .then(function (motivoBaja) {
-                    //Success
-                    service.remove(materiaId, motivoBaja)
-                        .success(function (response) {
-                            message.showMessage(nombreMateria + ' dada de baja.');
-                            var execQuerySamePage = $scope.filter.dadosBaja || $scope.result.length > 1;
-                            executeQuery(execQuerySamePage ? $scope.paginationData.pageNumber : 0);
-                        })
-                        .error(function (error) {
-                            message.showMessage('Error dando de baja ' + nombreMateria);
-                        })
-                },
-                function () {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                });
-        };
+        $scope.openRestoreDialog = function(event, id, nombre) {
+            deleteRestoreService.restore(event, id, nombre, $scope.paginationData.pageNumber);
+        }
 
         $scope.mostrarAcciones = function (item) {
             item.showAction = true;

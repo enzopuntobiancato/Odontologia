@@ -73,7 +73,7 @@
                                     <label>{{ 'ROL' | translate }}</label>
                                     <md-select required ng-model="personaDTO.usuario.rol" ng-model-options="{trackBy: '$value.id'}" name="rol">
                                         <md-option ng-repeat="rol in data.roles" ng-value="rol">
-                                            {{ rol.nombre }}
+                                            {{ rol.nombre.nombre }}
                                         </md-option>
                                     </md-select>
                                     <div ng-messages="usuarioForm.rol.$error" ng-show="usuarioForm.rol.$touched">

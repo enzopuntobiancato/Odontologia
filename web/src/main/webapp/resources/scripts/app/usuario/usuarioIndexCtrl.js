@@ -1,8 +1,8 @@
 var module = angular.module('materiaModule');
 
 
-module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv', '$state', '$stateParams', 'MessageSrv', 'PaginationService', 'rolesResponse', '$mdDialog',
-    function ($scope, $cacheFactory, service, $state, $stateParams, message, pagination, rolesResponse, $mdDialog) {
+module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv', '$state', '$stateParams', 'MessageSrv', 'PaginationService', 'rolesResponse', '$mdDialog', 'DeleteRestoreSrv',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, pagination, rolesResponse, $mdDialog, deleteRestoreService) {
 
         $scope.filter = {};
         $scope.result = [];
@@ -19,6 +19,7 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
             roles: rolesResponse.data
         }
 
+        deleteRestoreService.config('api/usuario/remove', 'api/usuario/restore', 'Usuario', executeQuery);
         pagination.config('api/usuario/find');
         $scope.paginationData = pagination.paginationData;
 
@@ -60,7 +61,7 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
             var nombre;
             for (var i = 0; i < $scope.data.roles.length; i++) {
                 if ($scope.data.roles[i].id == rolId) {
-                    nombre = $scope.data.roles[i].nombre;
+                    nombre = $scope.data.roles[i].nombre.nombre;
                     break;
                 }
             }
@@ -105,76 +106,13 @@ module.controller('UsuarioCtrl_Index', ['$scope', '$cacheFactory', 'UsuarioSrv',
             $state.go('^.create');
         }
 
-        $scope.openDeleteDialog = function (ev, usuarioId, nombre) {
-            $mdDialog.show({
-                templateUrl: 'views/usuario/usuarioDelete.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: usuarioId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.motivoBaja;
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function (form) {
-                        if (form.$valid) {
-                            $mdDialog.hide($scope.motivoBaja);
-                        }
-                    };
-                }
-            })
-                .then(function (motivoBaja) {
-                    //Success
-                    service.remove(usuarioId, motivoBaja)
-                        .success(function (response) {
-                            message.successMessage("Usuario " + nombre + " dado de baja");
-                            var execQuerySamePage = $scope.filter.dadosBaja || $scope.result.length > 1;
-                            executeQuery(execQuerySamePage ? $scope.paginationData.pageNumber : 0);
-                        })
-                        .error(function (error) {
-                            message.showMessage("Error dando de baja usuario " + nombre)
-                        })
-                },
-                function (error) {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                    console.log(error);
-                });
-        };
+        $scope.openDeleteDialog = function(event, id, nombre) {
+            deleteRestoreService.delete(event, id, nombre, $scope.paginationData.pageNumber, $scope.filter.dadosBaja, $scope.result.length);
+        }
 
-        $scope.openRestoreDialog = function (ev, usuarioId, nombre) {
-            $mdDialog.show({
-                templateUrl: 'views/usuario/usuarioRestore.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: usuarioId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide();
-                    };
-                }
-            })
-                .then(function () {
-                    //Success
-                    service.restore(usuarioId)
-                        .success(function (response) {
-                            message.successMessage("Usuario " + nombre + " dado de alta.");
-                            executeQuery($scope.paginationData.pageNumber);
-                        })
-                        .error(function (error) {
-                            message.showMessage("Error dando de alta usuario " + nombre)
-                        })
-                },
-                function () {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                });
-        };
+        $scope.openRestoreDialog = function(event, id, nombre) {
+            deleteRestoreService.restore(event, id, nombre, $scope.paginationData.pageNumber);
+        }
 
         $scope.edit = function (id) {
             $state.go('^.edit', {id: id});

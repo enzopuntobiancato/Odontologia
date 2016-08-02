@@ -4,6 +4,8 @@ import com.utn.tesis.mapping.dto.RolDTO;
 import com.utn.tesis.model.Rol;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Usuario
@@ -11,9 +13,10 @@ import org.mapstruct.Mapper;
  * Time: 17:57
  * To change this template use File | Settings | File Templates.
  */
-@Mapper(componentModel = "cdi")
+@Mapper(componentModel = "cdi", uses = EnumMapper.class)
 public interface RollMapper {
 
     Rol fromRolDTO(RolDTO rolDTO);
     RolDTO toRolDTO(Rol rol);
+    List<RolDTO> toDTOList(List<Rol> source);
 }

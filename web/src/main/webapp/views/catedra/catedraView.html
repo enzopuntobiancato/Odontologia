@@ -16,25 +16,29 @@
                     <md-tab-body layout="column" class="md-padding">
                         <md-list flex>
                             <div layout-gt-sm="row">
-                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
+                                <div layout-align="center center">
+                                <img class="user-image-sm list-item-4"
+                                     ng-src="resources/img/odontology/{{imgIdx}}.svg"/>
+                                 </div>
+                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="10">
                                     <div class="md-list-item-text md-offset">
                                         <h4>Nombre</h4>
 
-                                        <p>{{catedra.denominacion}}</p>
+                                        <h2>{{catedra.denominacion}}</h2>
                                     </div>
                                 </md-list-item>
-                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
+                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="10">
                                     <div class="md-list-item-text md-offset">
                                         <h4>Materia</h4>
 
-                                        <p>{{catedra.materia.nombre}}</p>
+                                        <h2>{{catedra.materia.nombre}}</h2>
                                     </div>
                                 </md-list-item>
-                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="70">
+                                <md-list-item class="md-2-line md-long-text" flex-gt-sm="40">
                                     <div class="md-list-item-text md-offset">
                                         <h4>Descripción</h4>
 
-                                        <p>{{catedra.descripcion || 'Sin definir'}}</p>
+                                        <p>{{catedra.descripcion | noDefinido }}</p>
                                     </div>
                                 </md-list-item>
                             </div>
@@ -62,7 +66,7 @@
                                     <div class="md-list-item-text md-offset">
                                         <h4>Motivo de baja</h4>
 
-                                        <p>{{catedra.motivoBaja || 'Sin definir'}}</p>
+                                        <p>{{catedra.motivoBaja | noDefinido}}</p>
                                     </div>
                                 </md-list-item>
                             </div>

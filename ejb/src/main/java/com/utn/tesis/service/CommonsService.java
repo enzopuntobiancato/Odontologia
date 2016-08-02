@@ -51,12 +51,7 @@ public class CommonsService {
     }
 
     public List<RolDTO> findAllRoles() {
-        List<RolDTO> result = new ArrayList<RolDTO>();
-        List<Rol> roles = rolService.findAll();
-        for (Rol rol : roles){
-             result.add(rollMapper.toRolDTO(rol));
-        }
-        return result;
+        return rollMapper.toDTOList(rolService.findAll());
     }
 
     public Rol findRolById(long id){
@@ -100,6 +95,6 @@ public class CommonsService {
     }
 
     public Ciudad findCiudadById(Long id) {
-        return ciudadService.findById(id);  //To change body of created methods use File | Settings | File Templates.
+        return ciudadService.findById(id);
     }
 }

@@ -2,10 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -17,17 +14,10 @@ import java.util.List;
 public class Rol extends EntityBase {
     private static final long serialVersionUID = 2562846295039018053L;
 
-    public static final String ADMIN = "ADMINISTRADOR";
-    public static final String ALUMNO = "ALUMNO";
-    public static final String PROFESOR = "PROFESOR";
-    public static final String RESPONSABLE_RECEPCION_PACIENTES = "RESPONSABLE DE RECEPCIÓN DE PACIENTES";
-    public static final String ADMIN_ACADEMICO = "ADMINISTRADOR ACADÉMICO";
-    public static final String AUTORIDAD = "AUTORIDAD";
-
     @NotNull
-    @Size(max = 50, message = "El rol no puede tener mas de 50 caracteres.")
-    @Column(nullable = false, length = 50)
-    private String nombre;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private RolEnum nombre;
 
     @OneToMany(mappedBy = "rol")
     @NotNull(message = "Los privilegios no pueden ser nulos.")
@@ -41,15 +31,15 @@ public class Rol extends EntityBase {
         privilegios = new ArrayList<Privilegio>();
     }
 
-    public Rol(String nombre) {
+    public Rol(RolEnum nombre) {
         this.nombre = nombre;
     }
 
-    public String getNombre() {
+    public RolEnum getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(RolEnum nombre) {
         this.nombre = nombre;
     }
 

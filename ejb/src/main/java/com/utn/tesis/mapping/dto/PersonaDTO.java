@@ -1,7 +1,9 @@
 package com.utn.tesis.mapping.dto;
-import com.utn.tesis.model.Rol;
+
+import com.utn.tesis.model.RolEnum;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 import java.util.Calendar;
 
 /**
@@ -11,12 +13,12 @@ import java.util.Calendar;
  * Time: 17:18
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "nombreRol")
-@JsonSubTypes({@JsonSubTypes.Type(value = AlumnoDTO.class, name= Rol.ALUMNO),
-        @JsonSubTypes.Type(value = ProfesorDTO.class, name=Rol.PROFESOR),
-        @JsonSubTypes.Type(value = ResponsableRecepcionDTO.class, name=Rol.RESPONSABLE_RECEPCION_PACIENTES),
-        @JsonSubTypes.Type(value = AutoridadDTO.class, name=Rol.AUTORIDAD),
-        @JsonSubTypes.Type(value = AdministradorAcademicoDTO.class, name=Rol.ADMIN_ACADEMICO),
-        @JsonSubTypes.Type(value = AdministradorDTO.class, name=Rol.ADMIN)})
+@JsonSubTypes({@JsonSubTypes.Type(value = AlumnoDTO.class, name=RolEnum.Constants.ALUMNO),
+        @JsonSubTypes.Type(value = ProfesorDTO.class, name=RolEnum.Constants.PROFESOR),
+        @JsonSubTypes.Type(value = ResponsableRecepcionDTO.class, name=RolEnum.Constants.RESPONSABLE_RECEPCION_PACIENTES),
+        @JsonSubTypes.Type(value = AutoridadDTO.class, name=RolEnum.Constants.AUTORIDAD),
+        @JsonSubTypes.Type(value = AdministradorAcademicoDTO.class, name=RolEnum.Constants.ADMINISTRADOR_ACADEMICO),
+        @JsonSubTypes.Type(value = AdministradorDTO.class, name=RolEnum.Constants.ADMINISTRADOR)})
 public abstract class PersonaDTO extends BaseDTO {
 
     private Long id;
@@ -27,7 +29,6 @@ public abstract class PersonaDTO extends BaseDTO {
     private EnumDTO sexo;
     private UsuarioDTO usuario;
     private String nombreRol;
-
 
     public String getNombreRol() {
         return nombreRol;

@@ -2,9 +2,9 @@ var module = angular.module('pacienteModule');
 
 
 module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv', '$state', '$stateParams', 'MessageSrv',
-    'CommonsSrv',  'PaginationService', '$mdDialog','sexosResponse','tiposDocumentoResponse',
+    'CommonsSrv',  'PaginationService', '$mdDialog','sexosResponse','tiposDocumentoResponse', 'DeleteRestoreSrv',
     function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,
-              sexosResponse,tiposDocumentoResponse) {
+              sexosResponse,tiposDocumentoResponse, deleteRestoreService) {
         var vm = this;
         vm.result = [];
         vm.data = {
@@ -20,8 +20,7 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         vm.filterChips = [];
         vm.consultar = consultar;
         vm.openDeleteDialog = openDeleteDialog;
-
-
+        vm.openRestoreDialog = openRestoreDialog;
 
         vm.reload = function(){
             $rootScope.persistedOperation = vm.data.persistedOperation;
@@ -30,6 +29,18 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
 
         vm.paginationData = pagination.paginationData;
         pagination.config('api/paciente/find');
+
+
+        //TODO: Revisar este método. Paciente debe ser Bajeable.
+        //TODO: Implementar método para restore en caso de ser necesario.
+        deleteRestoreService.config('api/paciente/remove', 'api/paciente/restore', 'Paciente', executeQuery);
+        function openDeleteDialog(event, id, nombre) {
+            deleteRestoreService.delete(event, id, nombre, vm.paginationData.pageNumber, vm.filter.dadosBaja, vm.result.length);
+        }
+        function openRestoreDialog(event, id, nombre) {
+            deleteRestoreService.restore(event, id, nombre, vm.paginationData.pageNumber);
+        }
+
         //Consulta
         function executeQuery(pageNumber){
             pagination.paginate(vm.filter,pageNumber)
@@ -160,44 +171,6 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         vm.viewDetail = function (pacienteId) {
             $state.go('^.view', {id: pacienteId});
         };
-
-        //TODO: Revisar este método. Paciente debe ser Bajeable.
-        //TODO: Implementar método para restore en caso de ser necesario.
-        function openDeleteDialog(ev,pacienteId){
-            $mdDialog.show({
-                templateUrl:'views/paciente/pacienteDelete.html',
-                parent: angular.element(document.body),
-                targetEvent:ev,
-                clickOutsideToClose: true,
-                controller: DialogController
-            }).then(
-                    function(){
-                       service.remove(pacienteId,motivoBaja)
-                           .then(function(response){
-                               message.showMessage('Dada de baja.');
-                               executeQuery();
-                               console.log(response);
-                           }, function(error){
-                               console.log(error);
-                           });
-                    },
-                function(error){
-                    message.showMessage('Error dando de baja ');
-                    console.log(error);
-                });
-        }
-
-        function DialogController($scope,$mdDialog){
-            $scope.cancelar = function(){
-                $mdDialog.cancel();
-            }
-            $scope.confirmar = function(form){
-                if(form.$valid){
-                    $mdDialog.hide($scope.motivoBaja);
-                }
-            }
-        }
-
 
         //Métodos auxiliares
         vm.clickIcon = 'expand_more';

@@ -16,8 +16,9 @@ public class PracticaOdontologica extends Bajeable {
     @Column(nullable = false, length = 75)
     private String denominacion;
 
+    @NotNull(message = "Debe ingresar algunos detalles en el campo observaciones.")
     @Size(max = 200, message = "La observación de la práctica debe tener entre 0 y 200 caracteres.")
-    @Column(length = 200)
+    @Column(length = 200, nullable = false)
     private String observaciones;
 
     @ManyToOne

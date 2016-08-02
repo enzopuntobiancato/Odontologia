@@ -299,3 +299,23 @@ body {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
+
+.list-item-1 {
+  background-color: lightgreen;
+}
+
+.list-item-2 {
+    background-color: lightblue;
+}
+
+.list-item-3 {
+    background-color: lightcoral;
+}
+
+.list-item-4 {
+    background-color: lightskyblue;
+}
+
+.list-item-0 {
+    background-color: lightsalmon;
+}

@@ -59,7 +59,7 @@
                                         <label>{{ 'ROL' | translate }}</label>
                                         <md-select ng-model="filter.rolId" name="rol">
                                             <md-option ng-repeat="rol in data.roles" ng-value="{{ rol.id }}">
-                                                {{ rol.nombre }}
+                                                {{ rol.nombre.nombre }}
                                             </md-option>
                                         </md-select>
                                     </md-input-container>
@@ -70,18 +70,11 @@
                                     </md-input-container>
                                 </div>
                             </form>
-                            <div class="query-chips" layout-gt-sm="row" ng-if="filterChips.length > 0" layout-margin>
-                                <md-chips ng-model="filterChips">
-                                    <md-chip-template>
-                                        <em>{{$chip.name}}</em>
-                                        <strong>{{$chip.displayValue}}</strong>
-                                    </md-chip-template>
-                                </md-chips>
-                            </div>
+                            <filter-chips data="filterChips"></filter-chips>
                             <md-list ng-show="result.length > 0">
                                 <md-list-item class="md-3-line" ng-repeat="item in result" ng-class="{'deleted-item' : item.fechaBaja}"
                                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
-                                    <img src="resources/img/image_user.jpg" class="md-avatar" hide-xs/>
+                                    <img src="resources/img/image_user.jpg" hide-xs/>
                                     <div class="md-list-item-text" layout="column">
                                         <h3 class="md-title"><a>{{item.nombreUsuario }} ({{item.apellido}}, {{ item.nombre }})</a></h3>
                                         <h4>{{item.tipoDocumento }}:{{item.numero }}</h4>

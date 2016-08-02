@@ -4,115 +4,62 @@
             <div>
                 <div layout="row" layout-align="center center">
                     <md-card flex-gt-sm>
-                        <md-toolbar class="md-accent">
-                            <div class="md-toolbar-tools">
-                                <span>{{ 'MOD_PRACTICA_ODONT' | translate }}</span>
-                            </div>
-                        </md-toolbar>
-                        <md-card-content>
-                            <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
-                            <div layout-gt-sm="row" layout-margin>
-                                <md-input-container flex-gt-sm="33">
-                                    <label>{{ 'NOMBRE' | translate }}</label>
-                                    <input name="denominacion" ng-model="practica.denominacion"
-                                           required md-maxlength="75">
+                        <form novalidate name="form" ng-submit="save(form)">
+                            <md-toolbar class="md-accent">
+                                <div class="md-toolbar-tools">
+                                    <span>{{ 'MOD_PRACTICA_ODONT' | translate }}</span>
+                                </div>
+                            </md-toolbar>
+                            <md-card-content>
+                                <ng-include ng-if="validationErrorFromServer.error"
+                                            src="'views/validation-error.html'"></ng-include>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <md-input-container flex-gt-sm="33">
+                                        <label>{{ 'NOMBRE' | translate }}</label>
+                                        <input name="denominacion" ng-model="practica.denominacion"
+                                               required md-maxlength="75">
 
-                                    <div ng-messages="form.denominacion.$error"
-                                         ng-show="form.denominacion.$invalid && form.denominacion.$touched">
-                                        <div ng-messages-include="error-messages"></div>
-                                    </div>
-                                </md-input-container>
-                                <md-input-container flex-gt-sm="40">
-                                    <label>{{ 'GRUPO_ODONT' | translate }}</label>
-                                    <md-select required ng-model="practica.grupo" name="grupo"
-                                               ng-model-options="{trackBy: '$value.id'}">
-                                        <md-option ng-repeat="grupo in data.gruposPractica" ng-value="grupo">
-                                            {{ grupo.nombre }}
-                                        </md-option>
-                                    </md-select>
-                                    <div ng-messages="form.grupo.$error" ng-show="form.grupo.$invalid && form.grupo.$touched">
-                                        <div ng-messages-include="error-messages"></div>
-                                    </div>
-                                </md-input-container>
-                            </div>
-                            <div layout-gt-sm="row" layout-margin>
-                                <md-input-container flex>
-                                    <label>{{ 'OBSERVACIONES' | translate }}</label>
-                                    <textarea ng-model="practica.observaciones" name="observaciones" rows="3"
-                                              md-maxlength="200"></textarea>
+                                        <div ng-messages="form.denominacion.$error"
+                                             ng-show="form.denominacion.$invalid && form.denominacion.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex-gt-sm="40">
+                                        <label>{{ 'GRUPO_ODONT' | translate }}</label>
+                                        <md-select required ng-model="practica.grupo" name="grupo"
+                                                   ng-model-options="{trackBy: '$value.id'}">
+                                            <md-option ng-repeat="grupo in data.gruposPractica" ng-value="grupo">
+                                                {{ grupo.nombre }}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="form.grupo.$error"
+                                             ng-show="form.grupo.$invalid && form.grupo.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <md-input-container flex>
+                                        <label>{{ 'OBSERVACIONES' | translate }}</label>
+                                        <textarea required ng-model="practica.observaciones" name="observaciones" rows="3"
+                                                  md-maxlength="200"></textarea>
 
-                                    <div ng-messages="form.observaciones.$error"
-                                         ng-show="form.observaciones.$invalid && form.observaciones.$touched">
-                                        <div ng-messages-include="error-messages"></div>
-                                    </div>
-                                </md-input-container>
-                            </div>
-                        </md-card-content>
-                        <md-card-actions layout="row" layout-align="end center">
-                            <md-button ng-click="goIndex()">{{ 'CANCELAR' | translate }}</md-button>
-                            <md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}</md-button>
-                        </md-card-actions>
+                                        <div ng-messages="form.observaciones.$error"
+                                             ng-show="form.observaciones.$invalid && form.observaciones.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="goIndex()">{{ 'CANCELAR' | translate }}</md-button>
+                                <md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}
+                                </md-button>
+                            </md-card-actions>
+                        </form>
                     </md-card>
                 </div>
             </div>
         </div>
     </md-content>
 </div>
-
-<!--<md-content layout-align="center start" layout class="md-main-content" flex>-->
-    <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
-        <!--<form name="form" novalidate ng-submit="save(form)">-->
-            <!--<md-toolbar class="md-accent">-->
-                <!--<div class="md-toolbar-tools">-->
-                    <!--<span>Editar práctica odontológica</span>-->
-                <!--</div>-->
-            <!--</md-toolbar>-->
-            <!--<md-card-content>-->
-                <!--<p>Modifique los datos para editar una nueva práctica odontológica</p>-->
-                <!--<ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>-->
-                <!--<div layout-gt-sm="row" layout-margin>-->
-                    <!--<md-input-container flex-gt-sm="33">-->
-                        <!--<label>Nombre</label>-->
-                        <!--<input name="denominacion" ng-model="practica.denominacion"-->
-                               <!--required md-maxlength="75">-->
-
-                        <!--<div ng-messages="form.denominacion.$error"-->
-                             <!--ng-show="form.denominacion.$invalid && form.denominacion.$touched">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container flex-gt-sm="40">-->
-                        <!--<label>Grupo</label>-->
-                        <!--<md-select required ng-model="practica.grupo" name="grupo"-->
-                                   <!--ng-model-options="{trackBy: '$value.id'}">-->
-                            <!--<md-option ng-repeat="grupo in data.gruposPractica" ng-value="grupo">-->
-                                <!--{{ grupo.nombre }}-->
-                            <!--</md-option>-->
-                        <!--</md-select>-->
-                        <!--<div ng-messages="form.grupo.$error" ng-show="form.grupo.$invalid && form.grupo.$touched">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                <!--</div>-->
-                <!--<div layout-gt-sm="row" layout-margin>-->
-                    <!--<md-input-container flex>-->
-                        <!--<label>Observaciones</label>-->
-                        <!--<textarea ng-model="practica.observaciones" name="observaciones" rows="3"-->
-                                  <!--md-maxlength="200"></textarea>-->
-
-                        <!--<div ng-messages="form.observaciones.$error"-->
-                             <!--ng-show="form.observaciones.$invalid && form.observaciones.$touched">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                <!--</div>-->
-            <!--</md-card-content>-->
-            <!--{{practica}}-->
-            <!--<md-card-actions layout="row" layout-align="end center">-->
-                <!--<md-button ng-click="goIndex()">Cancelar</md-button>-->
-                <!--<md-button type="submit" class="md-raised md-primary">Aceptar</md-button>-->
-            <!--</md-card-actions>-->
-        <!--</form>-->
-    <!--</md-card>-->
-<!--</md-content>-->
-

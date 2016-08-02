@@ -10,56 +10,51 @@
                             </div>
                         </md-toolbar>
                         <md-card-content>
-                            <div>
-                                <md-list>
-                                    <md-list-item class="md-2-line" layout-margin layout-padding>
-                                        <img class="md-avatar-big"
-                                             ng-src="http://i.istockimg.com/file_thumbview_approve/48733948/5/stock-illustration-48733948-halloween-fangs-flat-icon-with-long-shadow-eps10.jpg"/>
-                                        <div class="md-list-item-text">
-                                            <h3 class="md-headline"> {{trabajoPractico.nombre}} </h3>
+                            <md-list flex>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <div layout-align="center center">
+                                        <img class="user-image-sm list-item-4"
+                                             ng-src="resources/img/odontology/{{imgIdx}}.svg"/>
+                                    </div>
+                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
+                                        <div class="md-list-item-text md-offset">
+                                            <h4>Nombre</h4>
+
+                                            <h2>{{trabajoPractico.nombre}}</h2>
                                         </div>
-                                        <md-divider md-inset></md-divider>
                                     </md-list-item>
-                                    <md-list-item class="md-2-line" layout-margin layout-padding>
-                                        <ng-md-icon icon="work" size="24"></ng-md-icon>
-                                        <div class="md-list-item-text">
-                                            <h3>{{ 'PRACTICA_ODONT' | translate }}</h3>
+                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
+                                        <div class="md-list-item-text md-offset">
+                                            <h4>{{ 'PRACTICA_ODONT' | translate }}</h4>
                                             <p>{{trabajoPractico.practicaOdontologica.denominacion}}</p>
                                         </div>
                                     </md-list-item>
-                                    <md-divider md-inset></md-divider>
-                                    <md-list-item class="md-2-line md-input-container-view-offset" layout-padding>
-                                        <div class="md-list-item-text">
-                                            <h3>{{ 'GRUPO_ODONT' | translate }}</h3>
-                                            <p>{{trabajoPractico.practicaOdontologica.grupo.nombre}}</p>
-                                        </div>
-                                    </md-list-item>
-                                    <md-divider md-inset></md-divider>
-                                    <md-list-item class="md-2-line" layout-margin layout-padding>
-                                        <ng-md-icon icon="description" size="24"></ng-md-icon>
-                                        <div class="md-list-item-text md-long-text">
-                                            <h3>{{ 'DESCRIPCION' | translate }}</h3>
+                                </div>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <flex></flex>
+                                    <md-list-item class="md-2-line md-long-text" flex=90>
+                                        <div class="md-list-item-text md-offset">
+                                            <h4>{{ 'DESCRIPCION' | translate }}</h4>
                                             <p>{{trabajoPractico.descripcion}}</p>
                                         </div>
                                     </md-list-item>
-                                    <md-divider md-inset></md-divider>
-                                    <section ng-if="trabajoPractico.fechaBaja">
-                                        <md-list-item class="md-2-line label-item-two-columns" layout-margin layout-padding>
-                                            <ng-md-icon icon="today" size="20"></ng-md-icon>
-                                            <div class="md-list-item-text compact">
-                                                <h3>{{ 'FECHA_BAJA' | translate }}</h3>
-                                                <p>{{trabajoPractico.fechaBaja | date:'dd/MM/yyyy'}}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-list-item class="md-2-line label-item-two-columns" layout-margin layout-padding>
-                                            <div class="md-list-item-text compact">
-                                                <h3>{{ 'MOTIVO_BAJA' | translate }}</h3>
-                                                <p>{{trabajoPractico.motivoBaja || ''}}</p>
-                                            </div>
-                                        </md-list-item>
-                                    </section>
-                                </md-list>
-                            </div>
+                                </div>
+                                <div layout-gt-sm="row" ng-if="trabajoPractico.fechaBaja" layout-margin>
+                                    <flex></flex>
+                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
+                                        <div class="md-list-item-text md-offset">
+                                            <h4>{{ 'FECHA_BAJA' | translate }}</h4>
+                                            <p>{{trabajoPractico.fechaBaja | date:'dd/MM/yyyy'}}</p>
+                                        </div>
+                                    </md-list-item>
+                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="70">
+                                        <div class="md-list-item-text md-offset">
+                                            <h3>{{ 'MOTIVO_BAJA' | translate }}</h3>
+                                            <p>{{trabajoPractico.motivoBaja | noDefinido}}</p>
+                                        </div>
+                                    </md-list-item>
+                                </div>
+                            </md-list>
                         </md-card-content>
                         <md-card-actions layout="row" layout-align="end center">
                             <md-button ng-click="goIndex()" class="md-primary" ng-class="md-offset">Volver</md-button>
@@ -70,20 +65,3 @@
         </div>
     </md-content>
 </div>
-
-<!--<md-content layout="column" layout-align="start center" class="md-main-content" flex>-->
-        <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
-            <!--<md-toolbar class="md-accent">-->
-                <!--<div class="md-toolbar-tools">-->
-                    <!--<span>Ver trabajo práctico</span>-->
-                <!--</div>-->
-            <!--</md-toolbar>-->
-            <!--<md-card-content>-->
-                <!---->
-            <!--</md-card-content>-->
-            <!--<md-card-actions layout="row" layout-align="end center">-->
-                <!--<md-button ng-click="goIndex()" class="md-primary" ng-class="md-offset">Volver</md-button>-->
-            <!--</md-card-actions>-->
-        <!--</md-card>-->
-    <!--</md-content>-->
-

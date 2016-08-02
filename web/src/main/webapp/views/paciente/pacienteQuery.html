@@ -9,16 +9,6 @@
         <div layout="column" layout-fill layout-padding>
             <div>
                 <div layout="row" layout-align="center center">
-                    <!--<md-card flex-gt-sm>-->
-                        <!--<md-toolbar class="md-accent">-->
-                            <!--<div class="md-toolbar-tools">-->
-                                <!--<span>Crear paciente</span>-->
-                            <!--</div>-->
-                        <!--</md-toolbar>-->
-                        <!--<md-card-content>-->
-
-                        <!--</md-card-content>-->
-                    <!--</md-card>-->
                     <md-card class="md-whiteframe-z5"  flex-gt-sm>
                         <md-toolbar class="md-accent">
                             <div class="md-toolbar-tools">
@@ -95,24 +85,12 @@
                                         <label>Nombre de usuario</label>
                                         <input ng-model="vm.filter.nombreUsuario" name="nombreUsuario">
                                     </md-input-container>
-                                    <!--<md-input-container  flex-gt-sm>
-                                        <md-checkbox ng-model="vm.filter.dadosBaja" aria-label="Incluir dados de baja">
-                                            Incluir dados de baja
-                                        </md-checkbox>
-                                    </md-input-container>-->
                                 </div>
-                                <div class="query-chips" layout-gt-sm="row" ng-if="vm.filterChips.length > 0" layout-margin>
-                                    <md-chips ng-model="vm.filterChips">
-                                        <md-chip-template>
-                                            <em>{{$chip.name}}</em>
-                                            <strong>{{$chip.displayValue}}</strong>
-                                        </md-chip-template>
-                                    </md-chips>
-                                </div>
+                                <filter-chips data="vm.filterChips"></filter-chips>
                                 <md-list ng-show="vm.result.length > 0">
                                     <md-list-item class="md-3-line" ng-repeat="item in vm.result"
                                                   ng-Mouseover="vm.mostrarAcciones(item)" ng-mouseleave="vm.ocultarAcciones(item)">
-                                        <img ng-src="{{item.img}}" class="md-avatar" hide-xs/>
+                                        <img ng-src="{{item.img}}" class="md-avatar list-item-{{$index}}" hide-xs/>
                                         <div class="md-list-item-text" layout="column">
                                             <h3 class="md-title">
                                                 <a>{{item.apellido}}, {{ item.nombre }}</a>
@@ -135,22 +113,6 @@
                                                     Ver
                                                 </md-tooltip>
                                             </ng-md-icon>
-                                            <!--<ng-md-icon ng-show="!item.fechaBaja" icon="delete" size="24"
-                                                        ng-click="vm.openDeleteDialog($event,item.id)"
-                                                        ng-attr-style="fill: {{vm.colorIcon[5]}}" ng-Mouseover="vm.colorMouseOver(5)"
-                                                        ng-mouseleave="vm.colorMouseLeave(5)">
-                                                <md-tooltip>
-                                                    Dar de baja
-                                                </md-tooltip>
-                                            </ng-md-icon>
-                                            <ng-md-icon ng-show="item.fechaBaja" icon="restore" size="24"
-                                                        ng-click="vm.openRestoreDialog($event,item.id)"
-                                                        ng-attr-style="fill: {{vm.colorIcon[5]}}" ng-Mouseover="vm.colorMouseOver(5)"
-                                                        ng-mouseleave="vm.colorMouseLeave(5)">
-                                                <md-tooltip>
-                                                    Dar de alta
-                                                </md-tooltip>
-                                            </ng-md-icon>-->
                                         </div>
                                         <md-divider md-inset ng-if="!$last"></md-divider>
                                     </md-list-item>

@@ -44,7 +44,7 @@ public class PersonaAPI {
     public Response save(MultipartFormDataInput input) throws SAPOException {
         Map<String, List<InputPart>> form = input.getFormDataMap();
         UsuarioLogueadoDTO usuario = (UsuarioLogueadoDTO) helper.retrieveObject(form, "usuario", UsuarioLogueadoDTO.class);
-        PersonaDTO person = (PersonaDTO) helper.retrieveObject(form, "persona", UsuarioLogueadoDTO.rolToPerson.get(usuario.getRol().toUpperCase()));
+        PersonaDTO person = (PersonaDTO) helper.retrieveObject(form, "persona", UsuarioLogueadoDTO.rolToPerson.get(usuario.getRol().getKey()));
 
         Map<String, Object> file = helper.retrieveFile(form, "file");
         ArchivoDTO imagenUsuario = null;

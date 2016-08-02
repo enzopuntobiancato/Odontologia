@@ -2,7 +2,6 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.BooleanExpression;
 import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.*;
 
@@ -54,8 +53,8 @@ public class AutoridadDao extends DaoBase<Autoridad> implements PersonaDaoQueryR
     }
 
     @Override
-    public boolean supports(String rol) {
-        return Rol.AUTORIDAD.equalsIgnoreCase(rol);
+    public boolean supports(RolEnum rol) {
+        return RolEnum.AUTORIDAD == rol;
     }
 
     @Override

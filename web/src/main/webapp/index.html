@@ -24,20 +24,15 @@
 </head>
 <body ng-controller="AppController" layout="row">
 
-<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-    <md-toolbar class="md-tall md-hue-2">
-        <span flex></span>
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md') && menuOpen">
+    <md-toolbar style="min-height:210px" class="md-tall md-hue-2">
+        <!--<span flex></span>-->
 
-        <div layout="row" layout-align="start center">
-            <!--<md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>-->
-            <img ng-src="resources/img/git_avatar.png"
-                 alt="avatar" class="md-avatar-big">
-            <span flex></span>
+        <div layout="column" layout-align="start center">
+            <img ng-src="resources/img/naveen-2.png"
+                 alt="avatar" class="user-image-sm">
         </div>
-        <span flex></span>
-
-        <div class="md-body-2">Firstname Lastname</div>
-        <div class="md-body-1">email@domainname.com</div>
+        <!--<span flex></span>-->
 
         <!--<img ng-src="resources/img/git_avatar.png"-->
         <!--alt="avatar" class="md-avatar-login">-->
@@ -90,12 +85,12 @@
 
 </md-sidenav>
 <div ng-cloak layout="column" class="relative" layout-fill role="main">
-    <md-toolbar>
+    <md-toolbar md-theme="altTheme">
         <div class="md-toolbar-tools">
             <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
                 <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
             </md-button>
-            <span>S.A.P.O.</span>
+            <h2>Sistema de administración de pacientes odontológicos</h2>
             <span flex></span>
 
             <div ng-if="session.user">
