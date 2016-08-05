@@ -78,7 +78,7 @@ public class PersonaDao extends DaoBase<Persona> {
     }
 
     public List<? extends Persona> validateByDocument(Persona entity) {
-        String rol = entity.getUsuario().getRol().getNombre();
+        RolEnum rol = entity.getUsuario().getRol().getNombre();
         for (PersonaDaoQueryResolver queryResolver : personaDaoQueryResolvers) {
             if (queryResolver.supports(rol)) {
                 return queryResolver.validateByDocument(entity);

@@ -52,6 +52,11 @@ var pagination = angular.module('Pagination',[]);
         };
 
         function setPaginationData(morePages) {
+            var imagesIdx = [];
+            for(var i = 0; i < service.paginationData.pageSize; i++) {
+                imagesIdx.push(Math.floor(Math.random() * (47 - 1 + 1)) + 1);
+            }
+            service.paginationData.imagesIdx = imagesIdx;
             service.paginationData.morePages = morePages;
             service.paginationData.firstPage = service.isFirstPage();
         };

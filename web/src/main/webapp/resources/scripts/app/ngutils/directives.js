@@ -236,7 +236,24 @@ directives.filter('siNo', function(){
             return "No";
         }
     }
-})
+});
+
+directives.directive('filterChips', function () {
+    return {
+        restrict: 'E',
+        template: '<div class="query-chips" layout-gt-sm="row" ng-if="data.length > 0" layout-margin> ' +
+            '<md-chips ng-model="data">' +
+            '<md-chip-template>' +
+            '<em>{{$chip.name}}</em> ' +
+            '<b>{{$chip.displayValue}}</b>' +
+            '</md-chip-template>' +
+            '</md-chips></div>',
+        scope: {
+            data: '='
+        },
+        controller: function($scope) {}
+    }
+});
 
 
 

@@ -4,7 +4,7 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.LoginDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.UsuarioMapper;
-import com.utn.tesis.model.Rol;
+import com.utn.tesis.model.RolEnum;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.UsuarioService;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class AuthService {
         Usuario user = usuarioService.findByUsernameAndAuthToken(authId, authToken);
 
         if (user != null) {
-            if (user.getRol().equals(Rol.ADMIN)) {
+            if (user.getRol().getNombre() == RolEnum.ADMINISTRADOR) {
                 return true;
             } else {
                 return rolesAllowed.contains(user.getRol());

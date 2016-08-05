@@ -14,7 +14,6 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
 
 @Stateless
@@ -297,7 +296,7 @@ public class InitializationService {
     private void cargarRoles() throws SAPOException {
         log.info("CargarRoles INICIO");
         Rol rol = new Rol();
-        rol.setNombre(Rol.ADMIN);
+        rol.setNombre(RolEnum.ADMINISTRADOR);
         rol.setDescripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua");
         rol.addPrivilegio(privilegioList.get(0));//materia
         rol.addPrivilegio(privilegioList.get(1));//Practica odontologica

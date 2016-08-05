@@ -1,8 +1,8 @@
 var module = angular.module('practicaOdontologicaModule');
 
 
-module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 'PracticaOdontologicaSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv', 'gruposPracticaResponse', 'PaginationService', '$mdDialog', '$filter',
-    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, gruposPracticaResponse, pagination, $mdDialog, $filter) {
+module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 'PracticaOdontologicaSrv', '$state', '$stateParams', 'MessageSrv', 'CommonsSrv', 'gruposPracticaResponse', 'PaginationService', '$mdDialog', '$filter', 'DeleteRestoreSrv',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, gruposPracticaResponse, pagination, $mdDialog, $filter, deleteRestoreService) {
 
         $scope.filter = {};
         $scope.result = [];
@@ -98,73 +98,15 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
             executeQuery();
         }
 
-        $scope.openDeleteDialog = function (ev, practicaId, practicaNombre) {
-            $mdDialog.show({
-                templateUrl: 'views/practicaOdontologica/practicaOdontologicaDelete.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: practicaId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.motivoBaja;
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide($scope.motivoBaja);
-                    };
-                }
-            })
-                .then(function (motivoBaja) {
-                    //Success
-                    service.remove(practicaId, motivoBaja)
-                        .success(function (response) {
-                            message.showMessage(practicaNombre + " dada de baja.");
-                            executeQuery();
-                        })
-                        .error(function (error) {
-                            message.showMessage("Se ha registrado un error en la transacción.")
-                        })
-                },
-                function () {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                });
-        };
+        deleteRestoreService.config('api/practicaOdontologica/remove', 'api/practicaOdontologica/restore', 'Práctica odontológica', executeQuery);
 
-        $scope.openRestoreDialog = function (ev, practicaId, practicaNombre) {
-            $mdDialog.show({
-                templateUrl: 'views/practicaOdontologica/practicaOdontologicaRestore.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: practicaId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide();
-                    };
-                }
-            })
-                .then(function () {
-                    //Success
-                    service.restore(practicaId)
-                        .success(function (response) {
-                            message.showMessage(practicaNombre + " dada de alta.");
-                            executeQuery($scope.paginationData.pageNumber);
-                        })
-                        .error(function (error) {
-                            message.showMessage("Se ha registrado un error en la transacción.")
-                            executeQuery($scope.paginationData.pageNumber);
-                        })
-                },
-                function () {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                });
-        };
+        $scope.openDeleteDialog = function (event, id, nombre) {
+            deleteRestoreService.delete(event, id, nombre, $scope.paginationData.pageNumber, $scope.filter.dadosBaja, $scope.result.length);
+        }
+
+        $scope.openRestoreDialog = function (event, id, nombre) {
+            deleteRestoreService.restore(event, id, nombre, $scope.paginationData.pageNumber);
+        }
 
         $scope.mostrarAcciones = function (item) {
             item.showAction = true;

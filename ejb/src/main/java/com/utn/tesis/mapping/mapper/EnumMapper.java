@@ -103,4 +103,15 @@ public abstract class EnumMapper {
     }
 
     public abstract List<EnumDTO> nacionalidadListToDTOList(List<Nacionalidad> nacionalidadList);
+
+    //ROLES
+    public EnumDTO rolEnumToDTO(RolEnum source) {
+        return source != null ? new EnumDTO(source.getKey(), source.toString()) : null;
+    }
+
+    public RolEnum rolEnumFromDTO(EnumDTO source) {
+        return source != null ? RolEnum.fromKey(source.getKey()) : null;
+    }
+
+    public abstract List<EnumDTO> rolEnumListToDTOList(List<RolEnum> rolEnumList);
 }

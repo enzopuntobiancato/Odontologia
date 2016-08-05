@@ -21,7 +21,7 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
         $scope.save = save;
         function save(form) {
             performSubmit(function () {
-                $scope.personaDTO.nombreRol = $scope.personaDTO.usuario.rol.nombre;
+                $scope.personaDTO.nombreRol = $scope.personaDTO.usuario.rol.nombre.key;
                 service.save($scope.personaDTO)
                     .success(function (data) {
                         $scope.data.persistedOperation = true;

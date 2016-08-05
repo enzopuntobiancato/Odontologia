@@ -5,6 +5,7 @@ import com.utn.tesis.data.daos.PracticaOdontologicaDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.PracticaOdontologicaDTO;
 import com.utn.tesis.mapping.mapper.PracticaOdontologicaMapper;
+import com.utn.tesis.model.GrupoPracticaOdontologica;
 import com.utn.tesis.model.PracticaOdontologica;
 
 import javax.ejb.Stateless;
@@ -49,11 +50,11 @@ public class PracticaOdontologicaService extends BaseService<PracticaOdontologic
         PracticaOdontologica entity;
         if (dto.getId() == null) {
             entity = practicaMapper.fromDTO(dto);
-            entity.setGrupo(grupoPracticaOdontologicaService.findById(dto.getGrupo().getId()));
         } else {
             entity = this.findById(dto.getId());
             practicaMapper.updateFromDTO(dto, entity);
         }
+        entity.setGrupo(grupoPracticaOdontologicaService.findById(dto.getGrupo().getId()));
 
         return practicaMapper.toDTO(this.save(entity));
     }

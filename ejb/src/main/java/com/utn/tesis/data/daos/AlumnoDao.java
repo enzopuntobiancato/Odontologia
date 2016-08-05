@@ -3,7 +3,6 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.BooleanExpression;
 import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.*;
 
@@ -56,8 +55,8 @@ public class AlumnoDao extends DaoBase<Alumno> implements PersonaDaoQueryResolve
     }
 
     @Override
-    public boolean supports(String rol) {
-        return Rol.ALUMNO.equalsIgnoreCase(rol);
+    public boolean supports(RolEnum rol) {
+        return RolEnum.ALUMNO == rol;
     }
 
     @Override

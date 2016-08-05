@@ -55,27 +55,18 @@
                         </md-checkbox>
                     </md-input-container>
                 </div>
-                <div class="query-chips" layout-gt-sm="row" ng-if="filterChips.length" layout-margin>
-                    <md-chips ng-model="filterChips">
-                        <md-chip-template>
-                            <em>{{$chip.name}}</em>
-                            <strong>{{$chip.displayValue}}</strong>
-                        </md-chip-template>
-                    </md-chips>
-                </div>
+                <filter-chips data="filterChips"></filter-chips>
                 <md-list ng-show="result.length">
                     <md-list-item class="md-3-line" ng-class="{'deleted-item' : item.fechaBaja}"
                                   ng-repeat="item in result"
                                   ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
-                        <img ng-src="http://us.123rf.com/450wm/floralset/floralset1404/floralset140400795/27696239-tooth-web-icon-flat-design.jpg?ver=6"
-                             class="md-avatar"/>
+                        <img ng-src="resources/img/odontology/{{paginationData.imagesIdx[$index]}}.svg"
+                             class="md-avatar list-item-{{$index}}" hide-xs/>
 
                         <div class="md-list-item-text" layout="column">
                             <h3 class="md-title">
-                                <a>{{item.denominacion}}</a>
+                                {{ item.materia }} {{item.denominacion}}
                             </h3>
-                            <h4>{{ item.materia }}</h4>
-
                             <p>{{item.descripcion}}</p>
                         </div>
                         <div ng-show="item.showAction">

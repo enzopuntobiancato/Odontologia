@@ -13,7 +13,7 @@ import org.mapstruct.*;
 @MapperConfig(componentModel = "cdi", uses = {DocumentoMapper.class, EnumMapper.class, UsuarioMapper.class},
         mappingInheritanceStrategy = MappingInheritanceStrategy.AUTO_INHERIT_FROM_CONFIG)
 public interface PersonaMapperConfig {
-    @Mapping(source = "usuario.rol.nombre", target = "nombreRol")
+    @Mapping(target = "nombreRol",  expression = "java(source.getUsuario().getRol().getNombre().getKey())")
     PersonaDTO toDTO(Persona source);
 
     void updateFromDTO(PersonaDTO source, @MappingTarget Persona persona);

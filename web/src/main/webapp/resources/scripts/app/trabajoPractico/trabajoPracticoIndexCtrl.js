@@ -10,8 +10,8 @@ var module = angular.module('trabajoPracticoModule');
 
 
 module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'TrabajoPracticoSrv', '$state', '$stateParams', 'MessageSrv', 'gruposPracticaResponse', 'practicasResponse', 'PaginationService',
-    '$filter', '$mdDialog',
-    function ($scope, $cacheFactory, service, $state, $stateParams, message, gruposPracticaResponse, practicasResponse, pagination, $filter, $mdDialog) {
+    '$filter', '$mdDialog', 'DeleteRestoreSrv',
+    function ($scope, $cacheFactory, service, $state, $stateParams, message, gruposPracticaResponse, practicasResponse, pagination, $filter, $mdDialog, deleteRestoreService) {
 
         $scope.filter = {};
         $scope.result = [];
@@ -63,21 +63,21 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         }
 
 
-        function findPractica(practicaId){
+        function findPractica(practicaId) {
             var nombre;
-            for(var i=0; i < $scope.data.practicas.length; i++){
-                if($scope.data.practicas[i].id == practicaId){
-                    nombre =  $scope.data.practicas[i].denominacion;
+            for (var i = 0; i < $scope.data.practicas.length; i++) {
+                if ($scope.data.practicas[i].id == practicaId) {
+                    nombre = $scope.data.practicas[i].denominacion;
                     break;
                 }
             }
             return nombre;
         }
 
-        $scope.$watchCollection('filterChips', function(newCol, oldCol) {
+        $scope.$watchCollection('filterChips', function (newCol, oldCol) {
             if (newCol.length < oldCol.length) {
                 $scope.filter = {};
-                angular.forEach(newCol, function(filterChip) {
+                angular.forEach(newCol, function (filterChip) {
                     $scope.filter[filterChip.origin] = filterChip.value;
                 });
                 executeQuery();
@@ -97,7 +97,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         pagination.config('api/trabajoPractico/find');
 
         $scope.paginationData = pagination.paginationData;
-        executeQuery();
+//        executeQuery();
         function executeQuery(pageNumber) {
             pagination.paginate($scope.filter, pageNumber).then(function (data) {
                 $scope.result = data;
@@ -134,80 +134,15 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             $state.go('^.create');
         }
 
-        $scope.openDeleteDialog = function (ev, trabajoPracticoId) {
-            $mdDialog.show({
-                templateUrl: 'views/trabajoPractico/trabajoPracticoDelete.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: trabajoPracticoId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.motivoBaja;
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide($scope.motivoBaja);
-                    };
-                }
-            })
-                .then(function (motivoBaja) {
-                    //Success
-                    service.remove(trabajoPracticoId, motivoBaja)
-                        .success(function (response) {
-                            message.successMessage("El trabajo práctico fue dado de baja");
-                            executeQuery();
-                            console.log(response);
-                        })
-                        .error(function (error) {
-                            message("Se ha registrado un error en la transacción.")
-                            console.log(error);
-                        })
-                },
-                function () {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                    console.log(error);
-                });
-        };
+        deleteRestoreService.config('api/trabajoPractico/remove', 'api/trabajoPractico/restore', 'Trabajo práctico', executeQuery);
 
-        $scope.openRestoreDialog = function (ev, trabajoPracticoId) {
-            $mdDialog.show({
-                templateUrl: 'views/trabajoPractico/trabajoPracticoRestore.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: trabajoPracticoId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide();
-                    };
-                }
-            })
-                .then(function () {
-                    //Success
-                    service.restore(trabajoPracticoId)
-                        .success(function (response) {
-                            message.successMessage("Se ha dado de alta.");
-                            executeQuery($scope.paginationData.pageNumber);
-                            console.log(response);
-                        })
-                        .error(function (error) {
-                            message.showMessage("Se ha registrado un error en la transacción.")
-                            executeQuery($scope.paginationData.pageNumber);
-                            console.log(error);
-                        })
-                },
-                function () {
-                    //Failure
-                    $scope.status = 'You cancelled the dialog.';
-                    console.log(error);
-                });
-        };
+        $scope.openDeleteDialog = function (event, id, nombre) {
+            deleteRestoreService.delete(event, id, nombre, $scope.paginationData.pageNumber, $scope.filter.dadosBaja, $scope.result.length);
+        }
 
+        $scope.openRestoreDialog = function (event, id, nombre) {
+            deleteRestoreService.restore(event, id, nombre, $scope.paginationData.pageNumber);
+        }
 
         $scope.edit = function (id) {
             $state.go('^.edit', {id: id});
@@ -251,7 +186,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
 
         $scope.mostrarFiltros = false;
 
-        $scope.clickIcon = 'expand_more';
+        $scope.clickIcon = 'expand_less';
         $scope.clickIconMorph = function () {
             if ($scope.clickIcon === 'expand_more') {
                 $scope.clickIcon = 'expand_less';
@@ -292,7 +227,8 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
                     } else {
                         getCachedData();
                     }
-
+                } else {
+                    executeQuery();
                 }
             })
     }]);

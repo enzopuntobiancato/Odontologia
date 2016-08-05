@@ -2,12 +2,11 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.BooleanExpression;
 import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.AdministradorAcademico;
 import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.QAdministradorAcademico;
-import com.utn.tesis.model.Rol;
+import com.utn.tesis.model.RolEnum;
 
 import java.util.List;
 
@@ -16,8 +15,8 @@ public class AdministradorAcademicoDao extends DaoBase<AdministradorAcademico> i
     QAdministradorAcademico $ = QAdministradorAcademico.administradorAcademico;
 
     @Override
-    public boolean supports(String rol) {
-        return Rol.ADMIN_ACADEMICO.equalsIgnoreCase(rol);
+    public boolean supports(RolEnum rol) {
+        return RolEnum.ADMINISTRADOR_ACADEMICO == rol;
     }
 
     @Override

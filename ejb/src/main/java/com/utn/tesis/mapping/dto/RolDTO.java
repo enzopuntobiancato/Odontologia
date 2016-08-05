@@ -7,14 +7,14 @@ package com.utn.tesis.mapping.dto;
  * Time: 17:43
  * To change this template use File | Settings | File Templates.
  */
-public class RolDTO extends BaseDTO{
+public class RolDTO extends BaseDTO {
     private Long id;
-    private String nombre;
+    private EnumDTO nombre;
 
     public RolDTO() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -22,11 +22,11 @@ public class RolDTO extends BaseDTO{
         this.id = id;
     }
 
-    public String getNombre() {
+    public EnumDTO getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(EnumDTO nombre) {
         this.nombre = nombre;
     }
 }

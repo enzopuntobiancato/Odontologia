@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 
-@Mapper(componentModel = "cdi", uses = {PrivilegioMapper.class, RollMapper.class})
+@Mapper(componentModel = "cdi", uses = {PrivilegioMapper.class, RollMapper.class, EnumMapper.class})
 public interface UsuarioMapper {
 
     @Mappings({

@@ -41,6 +41,10 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 'hue-1': '50'
             })
             .accentPalette('pink');
+        $mdThemingProvider.setDefaultTheme('default');
+
+        $mdThemingProvider.theme('altTheme')
+            .primaryPalette('grey');
 
         $mdIconProvider
             .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
@@ -106,25 +110,6 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                         var deferred = $q.defer();
                         $http({
                             url: 'api/commons/initializeData',
-                            method: 'POST'
-                        })
-                            .success(function (response) {
-                                if (response) {
-                                    deferred.resolve('Inicialización de datos ejecutada con éxito.');
-                                } else {
-                                    deferred.resolve(undefined);
-                                }
-
-                            })
-                            .error(function () {
-                                deferred.resolve('Error durante la ejecución de la inicialización de datos');
-                            });
-                        return deferred.promise;
-                    }],
-                    createRandomData: ['loadMyModule', '$http', '$q', function (loadMyModule, $http, $q) {
-                        var deferred = $q.defer();
-                        $http({
-                            url: 'api/historiaClinica/createRandomData',
                             method: 'POST'
                         })
                             .success(function (response) {
@@ -271,6 +256,8 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 controller: function ($scope, $state, materiaResponse) {
                     $scope.materia = materiaResponse.data;
 
+                    $scope.imgIdx = Math.floor(Math.random() * (47 - 1 + 1)) + 1;
+
                     $scope.goIndex = function () {
                         $state.go('^.index');
                     }
@@ -327,7 +314,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 },
                 controller: function ($scope, $state, practicaResponse) {
                     $scope.practica = practicaResponse.data;
-
+                    $scope.imgIdx = Math.floor(Math.random() * (47 - 1 + 1)) + 1;
                     $scope.goIndex = function () {
                         $state.go('^.index');
                     }
@@ -393,7 +380,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 },
                 controller: function ($scope, $state, trabajoPracticoResponse) {
                     $scope.trabajoPractico = trabajoPracticoResponse.data;
-
+                    $scope.imgIdx = Math.floor(Math.random() * (47 - 1 + 1)) + 1;
                     $scope.goIndex = function () {
                         $state.go('^.index');
                     }
@@ -468,7 +455,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 },
                 controller: function ($scope, $state, catedraResponse) {
                     $scope.catedra = catedraResponse.data;
-
+                    $scope.imgIdx = Math.floor(Math.random() * (47 - 1 + 1)) + 1;
                     $scope.goIndex = function () {
                         $state.go('^.index');
                     }
@@ -865,6 +852,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
 
     $scope.performSubmit = performSubmit;
     $scope.handleError = handleError;
+    $scope.menuOpen = false;
     $scope.validationErrorFromServer = {
         error: false,
         data: {}
@@ -895,6 +883,11 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
     $scope.$on('$stateChangeStart',
         function (event, toState, toParams, fromState, fromParams) {
               $scope.validationErrorFromServer.error = false;
+            if (toState.name == 'landingPage' && !$scope.session.user) {
+                $scope.menuOpen = false;
+            } else {
+                $scope.menuOpen = true;
+            }
 //            if (authFactory.isAuthenticated()) {
 //                authFactory.updateExpiresTime();
 //            } else {
@@ -933,7 +926,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         $scope.session = authFactory.logout();
         $scope.menu = [];
         $state.go('landingPage');
-    }
+    };
 
     function buildMenu(permissions) {
         var resultMenu = [];

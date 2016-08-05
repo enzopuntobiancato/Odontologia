@@ -71,8 +71,8 @@ public class ProfesorDao extends DaoBase<Profesor> implements PersonaDaoQueryRes
     }
 
     @Override
-    public boolean supports(String rol) {
-        return Rol.PROFESOR.equalsIgnoreCase(rol);
+    public boolean supports(RolEnum rol) {
+        return RolEnum.PROFESOR == rol;
     }
 
     @Override

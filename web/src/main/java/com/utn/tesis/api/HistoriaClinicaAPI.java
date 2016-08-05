@@ -16,7 +16,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,18 +33,6 @@ public class HistoriaClinicaAPI extends BaseAPI{
     private PacienteMapper pacienteMapper;
     @Inject
     private HistoriaClinicaMapper historiaClinicaMapper;
-
-
-    @Path("/createRandomData")
-    @POST
-    public Response loadInitializationData() {
-        try {
-            boolean result =  historiaClinicaService.createRandomHistoriasClinicas();
-            return Response.status(Response.Status.OK).entity(result).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 
     @Path("/find")
     @GET

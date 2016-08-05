@@ -1,8 +1,8 @@
 'use strict';
 var module = angular.module('catedraModule');
 
-module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'MessageSrv', 'CatedraSrv', 'PaginationService', 'materiasResponse', '$mdDialog', '$filter',
-    function ($scope, $state, $cacheFactory, message, service, pagination, materiasResponse, $mdDialog, $filter) {
+module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'MessageSrv', 'CatedraSrv', 'PaginationService', 'materiasResponse', '$mdDialog', '$filter', 'DeleteRestoreSrv',
+    function ($scope, $state, $cacheFactory, message, service, pagination, materiasResponse, $mdDialog, $filter, deleteRestoreService) {
 
         $scope.filter = {};
         $scope.result = [];
@@ -121,73 +121,13 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
             updateFilterChips();
         }
 
-        $scope.openDeleteDialog = function (ev, catedraId, catedraNombre) {
-            $mdDialog.show({
-                templateUrl: 'views/catedra/catedraDelete.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: catedraId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.motivoBaja;
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function (form) {
-                        if (form.$valid) {
-                            $mdDialog.hide($scope.motivoBaja);
-                        }
-                    };
-                }
-            })
-                .then(function (motivoBaja) {
-                    //Success
-                    service.remove(catedraId, motivoBaja)
-                        .success(function () {
-                            message.showMessage(catedraNombre + " dada de baja.");
-                            var execQuerySamePage = $scope.filter.dadosBaja || $scope.result.length > 1;
-                            executeQuery(execQuerySamePage ? $scope.paginationData.pageNumber : 0);
-                        })
-                        .error(function () {
-                            message.showMessage("Error dando de baja " + catedraNombre)
-                        })
-                },
-                function () {
-                    $scope.status = 'You cancelled the dialog.';
-                });
-        };
-
-
-        $scope.openRestoreDialog = function (ev, catedraId, catedraNombre) {
-            $mdDialog.show({
-                templateUrl: 'views/trabajoPractico/trabajoPracticoRestore.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                locals: {id: catedraId},
-                controller: function DialogController($scope, $mdDialog) {
-                    $scope.cancelar = function () {
-                        $mdDialog.cancel();
-                    };
-                    $scope.confirmar = function () {
-                        $mdDialog.hide();
-                    };
-                }
-            })
-                .then(function () {
-                    service.restore(catedraId)
-                        .success(function () {
-                            message.showMessage(catedraNombre + " dada de alta.");
-                            executeQuery($scope.paginationData.pageNumber);
-                        })
-                        .error(function () {
-                            message.showMessage("Error dando de alta " + catedraNombre);
-                        })
-                },
-                function () {
-                    $scope.status = 'You cancelled the dialog.';
-                });
-        };
+        deleteRestoreService.config('api/catedra/remove', 'api/catedra/restore', 'Cátedra', executeQuery);
+        $scope.openDeleteDialog = function (event, id, nombre) {
+            deleteRestoreService.delete(event, id, nombre, $scope.paginationData.pageNumber, $scope.filter.dadosBaja, $scope.result.length);
+        }
+        $scope.openRestoreDialog = function (event, id, nombre) {
+            deleteRestoreService.restore(event, id, nombre, $scope.paginationData.pageNumber);
+        }
 
         $scope.mostrarAcciones = function (item) {
             item.showAction = true;

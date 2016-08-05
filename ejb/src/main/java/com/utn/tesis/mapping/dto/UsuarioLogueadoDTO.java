@@ -2,6 +2,7 @@ package com.utn.tesis.mapping.dto;
 
 import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.model.Rol;
+import com.utn.tesis.model.RolEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -13,17 +14,17 @@ public class UsuarioLogueadoDTO extends BaseDTO {
     public static final String PARAM_AUTH_TOKEN = "auth-token";
 
     public static final Map<String, Class<? extends PersonaDTO>> rolToPerson = ImmutableMap.<String, Class<? extends PersonaDTO>>builder()
-            .put(Rol.ADMIN, AdministradorDTO.class)
-            .put(Rol.ADMIN_ACADEMICO, AdministradorAcademicoDTO.class)
-            .put(Rol.ALUMNO, AlumnoDTO.class)
-            .put(Rol.AUTORIDAD, AutoridadDTO.class)
-            .put(Rol.PROFESOR, ProfesorDTO.class)
-            .put(Rol.RESPONSABLE_RECEPCION_PACIENTES, ResponsableRecepcionDTO.class)
+            .put(RolEnum.ADMINISTRADOR.getKey(), AdministradorDTO.class)
+            .put(RolEnum.ADMINISTRADOR_ACADEMICO.getKey(), AdministradorAcademicoDTO.class)
+            .put(RolEnum.ALUMNO.getKey(), AlumnoDTO.class)
+            .put(RolEnum.AUTORIDAD.getKey(), AutoridadDTO.class)
+            .put(RolEnum.PROFESOR.getKey(), ProfesorDTO.class)
+            .put(RolEnum.RESPONSABLE_RECEPCION_PACIENTES.getKey(), ResponsableRecepcionDTO.class)
             .build();
 
     private String nombreUsuario;
     private String authToken;
-    private String rol;
+    private EnumDTO rol;
     private List<PrivilegioDTO> permisos;
     private boolean firstLogin;
     private Long imagenId;
@@ -44,11 +45,11 @@ public class UsuarioLogueadoDTO extends BaseDTO {
         this.authToken = authToken;
     }
 
-    public String getRol() {
+    public EnumDTO getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(EnumDTO rol) {
         this.rol = rol;
     }
 
@@ -69,27 +70,27 @@ public class UsuarioLogueadoDTO extends BaseDTO {
     }
 
     public boolean isAdministrador() {
-        return rol.equalsIgnoreCase(Rol.ADMIN);
+        return RolEnum.ADMINISTRADOR.getKey().equals(rol.getKey());
     }
 
     public boolean isAdminAcademino() {
-        return rol.equalsIgnoreCase(Rol.ADMIN_ACADEMICO);
+        return RolEnum.ADMINISTRADOR_ACADEMICO.getKey().equals(rol.getKey());
     }
 
     public boolean isAlumno() {
-        return rol.equalsIgnoreCase(Rol.ALUMNO);
+        return RolEnum.ALUMNO.getKey().equals(rol.getKey());
     }
 
     public boolean isAutoridad() {
-        return rol.equalsIgnoreCase(Rol.AUTORIDAD);
+        return RolEnum.AUTORIDAD.getKey().equals(rol.getKey());
     }
 
     public boolean isProfesor() {
-        return rol.equalsIgnoreCase(Rol.PROFESOR);
+        return RolEnum.PROFESOR.getKey().equals(rol.getKey());
     }
 
     public boolean isResponsable() {
-        return rol.equalsIgnoreCase(Rol.RESPONSABLE_RECEPCION_PACIENTES);
+        return RolEnum.RESPONSABLE_RECEPCION_PACIENTES.getKey().equals(rol.getKey());
     }
 
     public Long getImagenId() {
