@@ -14,7 +14,8 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'ngMessages',
     'ngMdIcons',
     'ngFileUpload',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'md.data.table'
 ]);
 
 odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
@@ -31,7 +32,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
             .useStaticFilesLoader({
                 prefix: 'resources/i18n/locale-',
                 suffix: '.json'}
-            )
+        )
             .preferredLanguage('es');
 
         $mdThemingProvider.definePalette('customBlue', customBlueMap);
@@ -508,10 +509,10 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                         return service.findUserImage(person.usuario.imagenId);
                     }],
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function(loadMyModule, $stateParams, service) {
-                         return service.findByIdAsUsuarioLogueadoBean($stateParams.id);
+                        return service.findByIdAsUsuarioLogueadoBean($stateParams.id);
                     }],
                     personaEmumsResponse: ['loadMyModule', 'CommonsSrv', function(loadMyModule, commons) {
-                         return commons.getPersonaEnums();
+                        return commons.getPersonaEnums();
                     }]
                 }
             })
@@ -567,15 +568,14 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     }]
                 }
             })
-            .state('paciente.odontograma',{
-                url:'/odontograma',
-                templateUrl: 'views/odontograma/odontograma.html'
-            })
             .state('paciente.create', {
                 url: '/create',
-                templateUrl: 'views/paciente/pacienteCreate.html',
-                controller: 'PacienteCtrl_Create',
+                templateUrl: 'views/paciente/pacienteEditCreate.html',
+                controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
+                data: {
+                    updating : false
+                },
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
@@ -609,15 +609,21 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     }],
                     nacionalidadesResponse: ['CommonsSrv', function(commons){
                         return commons.getNacionalidaes();
+                    }],
+                    pacienteResponse:['$stateParams','PacienteSrv', function($stateParams,service){
+                        return service.initPaciente();
                     }]
                 }
             })
             .state('paciente.edit', {
                 url: '/edit/:id',
-                templateUrl: 'views/paciente/pacienteEdit.html',
-                controller: 'PacienteCtrl_Edit',
+                templateUrl: 'views/paciente/pacienteEditCreate.html',
+                controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
-                resolve:{
+                data: {
+                    updating :true
+                },
+                resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
                     }],
@@ -668,8 +674,30 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 controller: function ($scope, $state,pacienteResponse) {
                     var vm = this;
                     vm.paciente = pacienteResponse.data;
-                    vm.goIndex = function () {
+                    vm.edit = edit;
+                    vm.goIndex = goIndex;
+                    vm.mostrar = mostrar;
+                    vm.tabs = [true, false, false, false];
+                    vm.tabsTitulos = ["Datos personales", "Antecedentes", "Diagnósticos", "Atenciones"];
+                    vm.titulo = vm.updating ? "Editar " +  vm.paciente.apellido : "Registrar nuevo paciente";
+                    vm.tabTitulo = vm.tabsTitulos[0];
+
+                    function edit(pacienteId){
+                        $state.go('^.edit', {id:pacienteId});
+                    }
+                    function goIndex() {
                         $state.go('^.index');
+                    }
+
+                    function mostrar(tabId){
+                        for(var i = 0; i < vm.tabs.length; i++){
+                            if(i == tabId){
+                                vm.tabs[i] = true;
+                                vm.tabTitulo = vm.tabsTitulos[i];
+                            }else{
+                                vm.tabs[i] = false;
+                            }
+                        }
                     }
                 }
             })
@@ -709,6 +737,33 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     return service.findById($stateParams.id);
                 }]}
             })
+            .state('historiaClinica.paciente', {
+                url:'/card/:id',
+                templateUrl: 'views/historiaClinica/historiaClinicaPaciente.html',
+                controllerAs:'vm',
+                resolve: {pacienteResponse:['$stateParams','HistoriaClinicaSrv',function($stateParams,service){
+                    return service.findById($stateParams.id);
+                }]},
+                controller: function($scope, $state, pacienteResponse){
+                    var vm = this;
+                    vm.paciente = pacienteResponse.data;
+                    vm.goHistoriaClinica = goHistoriaClinica;
+                    vm.goDatosPersonales = goDatosPersonales;
+                    vm.goIndex = goIndex;
+
+                    //Navegación a otros estados
+                    function goHistoriaClinica(idPaciente){
+                        $state.go('historiaClinica.view',{id : idPaciente});
+                    }
+
+                    function goDatosPersonales(idPaciente){
+                        $state.go('paciente.view',{id : idPaciente});
+                    }
+                    function goIndex() {
+                        $state.go('^.index');
+                    }
+                }
+            })
             .state('historiaClinica.view', {
                 url: '/view/:id',
                 templateUrl: 'views/historiaClinica/historiaClinicaView.html',
@@ -716,11 +771,21 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 resolve: {historiaClinicaResponse:['$stateParams','HistoriaClinicaSrv',function($stateParams,service){
                     return service.findById($stateParams.id);
                 }]},
-                controller: function($scope,$state,historiaClinicaResponse){
+                controller: function($scope,$state, historiaClinicaResponse){
                     var vm = this;
                     vm.paciente = historiaClinicaResponse.data;
-                    vm.goIndex = function () {
+                    vm.edit = edit;
+                    vm.goIndex = goIndex;
+                    vm.goToCard = goToCard;
+
+                    function edit(pacienteId){
+                        $state.go('^.edit', {id:pacienteId});
+                    }
+                    function goIndex() {
                         $state.go('^.index');
+                    }
+                    function goToCard(pacienteId){
+                        $state.go('^.paciente', {id: pacienteId});
                     }
                 }
             })
@@ -730,17 +795,31 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 abstract: true,
                 resolve: module('asignacionModule')
             })
-            .state('asignacion.index', {
-                url: '/',
-                templateUrl: 'views/asignacion/asignacionQuery.html',
-                controller: 'AsignacionCtrl_Index'
-            })
             .state('asignacion.create', {
                 url: '/create',
-                templateUrl: 'views/asignacion/asignacionCreate.html',
-                controller: 'AsignacionCtrl_Create'
+                templateUrl: 'views/asignacion/asignacionEditCreate.html',
+                controller: 'AsignacionCtrl_EditCreate',
+                controllerAs: 'vm',
+                data: {
+                    updating : false
+                },
+                resolve:  {
+                    tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getTiposDocumento();
+                    }]
+                    ,
+//                    materiasResponse: ['CatedraSrv', function (service) {
+//                        return service.findAllMaterias();
+//                    }],
+//                    trabajosPracticosResponse: ['loadMyModule', 'TrabajoPracticoSrv', function (module, service){
+//                        return service.find();
+//                    }]
+//                    ,
+                    sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getSexos();
+                    }]
+                }
             })
-        ;
 
         $ocLazyLoadProvider.config({
             debug: true,
@@ -809,8 +888,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     files: [
                         url('/paciente/pacienteSrv.js'),
                         url('/paciente/pacienteIndexCtrl.js'),
-                        url('/paciente/pacienteCreateCtrl.js'),
-                        url('/paciente/pacienteEditCtrl.js')
+                        url('/paciente/pacienteEditCreateCtrl.js')
                     ]
                 },
                 {
@@ -826,8 +904,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     name: 'asignacionModule',
                     files: [
                         url('/asignacion/asignacionSrv.js'),
-                        url('/asignacion/asignacionIndexCtrl.js'),
-                        url('/asignacion/asignacionCreateCtrl.js')
+                        url('/asignacion/asignacionEditCreateCtrl.js')
                     ]
                 }
             ]

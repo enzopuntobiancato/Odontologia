@@ -1,0 +1,202 @@
+<div layout="column">
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="row">
+        <md-card class="md-main-content-card">
+            <md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
+                <div class="md-toolbar-tools">
+                    <h2 class="md-title">{{ 'ALUMNO' | translate }}</h2>
+                    <span flex></span>
+                </div>
+            </md-toolbar>
+            <div layout ng-show="vm.isAlumnoSelected">
+                <md-button class="md-icon-button" ng-click="vm.deleteSelectedAlumno()"
+                           style="font-size:10pt; color: crimson !important; opacity: .8; font-weight: bold">
+                    <ng-md-icon icon="close" size="24" style="fill: crimson"></ng-md-icon>
+                </md-button>
+                <h2 class="md-body-1">{{ vm.selectedAlumno.apellido }}, {{ vm.selectedAlumno.nombre }}</h2>
+            </div>
+            <form ng-submit="vm.buscarAlumnos()" ng-show="!vm.isAlumnoSelected" name="consultarAlumnosForm"
+                    novalidate>
+                <div layout="row" layout-margin>
+                    <md-input-container>
+                        <md-select name="tipoDocumentoAlumno" ng-model="vm.filterAlumno.tipoDocumento"
+                                   placeholder="{{ 'TIPO_DOC' | translate }}">
+                            <md-option ng-repeat="tipoDoc in vm.data.tiposDocumentos" ng-value="tipoDoc.key">
+                                {{ tipoDoc.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container  flex-gt-sm>
+                        <label>{{ 'NUM_DOC' | translate }}</label>
+                        <input ng-model="vm.filterAlumno.numeroDocumento" name="numeroDocumentoAlumno"
+                               ng-disabled="!vm.filterAlumno.tipoDocumento"
+                               ng-required="vm.filterAlumno.tipoDocumento" ng-pattern="/^[0-9]+$/">
+                        <error-messages form="consultarAlumnosForm.numeroDocumentoAlumno"
+                                        submitted="vm.submitted"></error-messages>
+                    </md-input-container>
+                    <span flex></span>
+                    <md-button type="submit" class="md-icon-button">
+                        <ng-md-icon icon="search" size="24"></ng-md-icon>
+                    </md-button>
+                </div>
+            </form>
+            <!--<ng-include ng-if="vm.alumnos.length == 0" src="'views/no-results.html'"></ng-include>-->
+            <md-table-container ng-if="vm.alumnos.length > 0 && !vm.isAlumnoSelected">
+                <table md-table md-row-select="true"
+                       multiple="false"
+                       ng-model="vm.selectedAlumnos">
+                    <thead md-head>
+                    <tr md-row>
+                        <th md-column><span>{{ 'NOMBRE_APELLIDO' | translate }}</span></th>
+                        <th md-column><span>{{ 'DOCUMENTO' | translate }}</span></th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row md-select="alumno" md-on-select="vm.onAlumnoSelected"
+                        ng-repeat="alumno in vm.alumnos">
+                        <td md-cell>{{alumno.apellido}}, {{ alumno.nombre }}</td>
+                        <td md-cell>{{alumno.documento.tipoDocumento.nombre}}: {{ alumno.documento.numero }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <div class="buttons table-pagination" layout="row" layout-align="center center" ng-if="vm.alumnos.length > 0 && !vm.isAlumnoSelected">
+                <md-button class="md-icon-button" type="button"
+                           aria-label="First">
+                    <md-icon md-svg-icon="navigate-first.svg"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" type="button"
+                           ng-click="vm.previousPageAlumno()"
+                           aria-label="Previous">
+                    <md-icon md-svg-icon="navigate-before.svg"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button"
+                           type="button" ng-click="vm.nextPageAlumno()"
+                           aria-label="Next">
+                    <md-icon md-svg-icon="navigate-next.svg"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" type="button"
+                           aria-label="Last">
+                    <md-icon md-svg-icon="navigate-last.svg"></md-icon>
+                </md-button>
+            </div>
+            <section ng-show="vm.isAlumnoSelected">
+                <md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
+                    <div class="md-toolbar-tools">
+                        <h2 class="md-title">{{ 'PACIENTE' | translate }}</h2>
+                        <span flex></span>
+                    </div>
+                </md-toolbar>
+                <div layout ng-show="vm.isPacienteSelected">
+                    <md-button class="md-icon-button" ng-click="vm.deleteSelectedPaciente()">
+                        <ng-md-icon icon="close" size="24" style="fill: crimson"></ng-md-icon>
+                    </md-button>
+                    <h2 class="md-body-1">{{ vm.selectedPaciente.apellido }}, {{ vm.selectedPaciente.nombre }}</h2>
+                </div>
+                <form name="consultarPacienteForm" ng-submit="vm.buscarPacientes()" ng-show="!vm.isPacienteSelected">
+                    <div layout="row" layout-margin>
+                        <md-input-container flex-gt-sm="33">
+                            <md-select ng-model="vm.filterPaciente.materia" name="materia" placeholder="{{ 'MATERIA' | translate }}"
+                                       ng-disabled="!vm.isAlumnoSelected">
+                                <md-option ng-repeat="materia in vm.data.materias" ng-value="materia.id">
+                                    {{ materia.nombre }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm="33">
+                            <md-select ng-model="vm.filterPaciente.trabajoPractico" name="materia" placeholder="{{ 'TP' | translate }}"
+                                       ng-disabled="!vm.isAlumnoSelected">
+                                <md-option ng-repeat="trabajoPracico in vm.data.trabajosPracticos" ng-value="trabajoPracico">
+                                    {{ trabajoPracico }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-margin>
+                        <md-input-container flex-gt-sm>
+                            <md-select name="tipoDocumentoPaciente" ng-model="vm.filterPaciente.tipoDocumento"
+                                       placeholder="{{ 'TIPO_DOC' | translate }}" ng-disabled="!vm.isAlumnoSelected">
+                                <md-option ng-repeat="tipoDoc in vm.data.tiposDocumentos" ng-value="tipoDoc.key">
+                                    {{ tipoDoc.nombre }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container  flex-gt-sm>
+                            <label>{{ 'NUM_DOC' | translate }}</label>
+                            <input ng-model="vm.filterPaciente.numeroDocumento" name="numeroDocumentoPaciente"
+                                   ng-disabled="!vm.filterPaciente.tipoDocumento || !vm.isAlumnoSelected"
+                                   ng-required="vm.filterPaciente.tipoDocumento" ng-pattern="/^[0-9]+$/">
+                            <error-messages form="consultarPacienteForm.numeroDocumentoPaciente" submitted="vm.submitted"></error-messages>
+                        </md-input-container>
+                        <md-input-container  flex-gt-sm>
+                            <md-select ng-model="vm.filter.sexo" name="sexo" placeholder="{{ 'SEXO' | translate }}"
+                                       ng-disabled="!vm.isAlumnoSelected">
+                                <md-option ng-repeat="sexo in vm.data.sexos" ng-value="sexo.key">
+                                    {{ sexo.nombre }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-datepicker ng-model="vm.filterPaciente.fechaNacimiento" md-placeholder="{{ 'FECHA_NAC' | translate }}"
+                                       ng-disabled="!vm.isAlumnoSelected"></md-datepicker>
+                        <md-button type="submit" class="md-icon-button" ng-disabled="!vm.isAlumnoSelected">
+                            <ng-md-icon icon="search" size="24"></ng-md-icon>
+                        </md-button>
+                    </div>
+                </form>
+                <md-table-container ng-if="vm.pacientes.length > 0 && !vm.isPacienteSelected">
+                    <table md-table md-row-select="true"
+                           multiple="false"
+                           ng-model="vm.selectedPacientes">
+                        <thead md-head>
+                        <tr md-row>
+                            <th md-column><span>{{ 'NOMBRE_APELLIDO' | translate }}</span></th>
+                            <th md-column><span>{{ 'DOCUMENTO' | translate }}</span></th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row md-select="paciente" md-on-select="vm.onPacienteSelected"
+                            ng-repeat="paciente in vm.pacientes">
+                            <td md-cell>{{paciente.apellido}}, {{ paciente.nombre }}</td>
+                            <td md-cell>{{paciente.documento.tipoDocumento.nombre}}: {{ paciente.documento.numero }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+                <div class="buttons table-pagination" layout="row" layout-align="center center" ng-if="vm.pacientes.length > 0 && !vm.isPacienteSelected">
+                    <md-button class="md-icon-button" type="button"
+                               aria-label="First">
+                        <md-icon md-svg-icon="navigate-first.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" type="button"
+                               ng-click="vm.previousPagePaciente()"
+                               aria-label="Previous">
+                        <md-icon md-svg-icon="navigate-before.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button"
+                               type="button" ng-click="vm.nextPagePaciente()"
+                               aria-label="Next">
+                        <md-icon md-svg-icon="navigate-next.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" type="button"
+                               aria-label="Last">
+                        <md-icon md-svg-icon="navigate-last.svg"></md-icon>
+                    </md-button>
+                </div>
+                <div layout="row" layout-margin ng-show="vm.isPacienteSelected">
+                    <md-datepicker ng-model="vm.asignacion.fecha"
+                                   md-placeholder="{{ 'FECHA' | translate }}"
+                            ></md-datepicker>
+                    <md-input-container>
+                        <label>{{ 'HORA' | translate }}</label>
+                        <input  type="time" ng-model="vm.asignacion.hora" name="asignacionHora">
+                    </md-input-container>
+                </div>
+            </section>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="goIndex()">{{ 'CANCELAR' | translate }}</md-button>
+                <md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}</md-button>
+            </md-card-actions>
+        </md-card>
+            </div>
+    </md-content>
+</div>

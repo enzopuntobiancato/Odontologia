@@ -19,13 +19,23 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         vm.filter = {};
         vm.filterChips = [];
         vm.consultar = consultar;
+        //Cambio de estado
+        vm.view = view;
+        vm.edit = edit;
+        vm.create = create;
+        vm.reaload = reload;
+//        vm.viewDetail = viewDetail;
+        //paginación
+        vm.nextPage = nextPage;
+        vm.previousPage = previousPage;
+        //Diálogos
         vm.openDeleteDialog = openDeleteDialog;
         vm.openRestoreDialog = openRestoreDialog;
 
         vm.reload = function(){
             $rootScope.persistedOperation = vm.data.persistedOperation;
             $state.go($state.current, {}, {reload: true});
-        };
+        }
 
         vm.paginationData = pagination.paginationData;
         pagination.config('api/paciente/find');
@@ -147,28 +157,31 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         };
 
         //Paginación
-        vm.nextPage = function () {
+        function nextPage() {
             if (vm.paginationData.morePages) {
                 executeQuery(++vm.paginationData.pageNumber);
             }
-        };
-        vm.previousPage = function () {
+        }
+
+        function previousPage() {
             if (!vm.paginationData.firstPage) {
                 executeQuery(--vm.paginationData.pageNumber);
             }
-        };
+        }
 
         //Cambio de estado
-        vm.new = function () {
+        function create() {
+            console.log("create");
             $state.go('^.create');
-        };
+        }
 
-        vm.edit = function (pacienteId) {
+        function edit(pacienteId) {
+            console.log("edit:" +  pacienteId)
             $state.go('^.edit', {id:pacienteId});
+        }
 
-        };
-
-        vm.viewDetail = function (pacienteId) {
+        function view(pacienteId){
+            console.log("view: " + pacienteId);
             $state.go('^.view', {id: pacienteId});
         };
 

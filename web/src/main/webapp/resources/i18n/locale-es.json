@@ -20,6 +20,13 @@
     "FECHA" : "Fecha",
     "FECHA_BAJA":"Fecha de baja",
     "MOTIVO_BAJA":"Motivo de baja",
+    "IMPRIMIR" : "Imprimir",
+    "DAR_BAJA":"Dar de baja",
+    "DAR_ALTA": "Dar de alta",
+    "MODIFICAR" : "Modificar",
+    "IMPRIMIR" : "Imprimir",
+    "HORA" : "Hora",
+
 
     "CREAR_PRACTICA_ODONT": "Crear práctica odontológica",
     "VER_PRACTICA_ODONT": "Ver práctica odontológica",
@@ -62,6 +69,10 @@
     "EMAIL": "Correo electrónico",
     "DOCUMENTO": "Documento",
     "FECHA_NAC": "Fecha de nac.",
+    "VER_PACIENTE":"Ver paciente",
+    "VOLVER" : "Volver",
+    "NOMBRE_APELLIDO": "Nombre y apellido",
+
 
     "CREAR_USUARIO": "Crear usuario",
     "VER_USUARIO": "Ver usuario",
@@ -106,6 +117,13 @@
     "ULTIMA_VISITA": "Última visita al médico",
     "OTROS":"Otros",
     "INT_QUIRURGICA" : "Intervención quirúrgica",
+     "DATOS_PERSONALES" : "Datos personales",
+    "ATENCIONES" : "Atenciones",
+    "DIAGNOSTICOS" : "Diagnósticos",
+
+    "HORA_ASIGNACION" : "Hora de la asignacion",
+    "FECHA_ASIGNACION" : "Fecha de la asignacion",
+    "FECHA" : "Fecha",
 
 
     "G1P1":"Tiene problemas cardíacos",

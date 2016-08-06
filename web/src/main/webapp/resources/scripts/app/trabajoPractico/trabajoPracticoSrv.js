@@ -1,6 +1,4 @@
 var module = angular.module('trabajoPracticoModule');
-
-
 module
     .factory('TrabajoPracticoSrv', ['$http', function ($http) {
         return {
@@ -40,8 +38,12 @@ module
                     method: 'GET',
                     params: {id: id}
                 })
+            },
+            find: function() {
+                return $http({
+                    url: 'api/trabajoPractico/find',
+                    method: 'GET'
+                })
             }
-
         }
-
     }]);

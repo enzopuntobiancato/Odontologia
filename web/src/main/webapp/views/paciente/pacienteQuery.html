@@ -1,5 +1,5 @@
 <div layout="column">
-    <md-button class="md-fab md-fab-bottom-right"  aria-label="Add" ng-click="vm.new()">
+    <md-button class="md-fab md-fab-bottom-right"  aria-label="Add" ng-click="vm.create()">
         <md-tooltip>
             Nuevo
         </md-tooltip>
@@ -91,28 +91,13 @@
                                     <md-list-item class="md-3-line" ng-repeat="item in vm.result"
                                                   ng-Mouseover="vm.mostrarAcciones(item)" ng-mouseleave="vm.ocultarAcciones(item)">
                                         <img ng-src="{{item.img}}" class="md-avatar list-item-{{$index}}" hide-xs/>
+                                                  ng-click="vm.view(item.id)">
+                                        <img ng-src="resources/img/image_user.jpg" class="md-avatar" hide-xs/>
                                         <div class="md-list-item-text" layout="column">
                                             <h3 class="md-title">
                                                 <a>{{item.apellido}}, {{ item.nombre }}</a>
                                             </h3>
                                             <h4 class="muted">{{ item.documento.tipoDocumento.nombre }}: {{ item.documento.numero }}</h4>
-                                            <!--<p class="muted">{{item.trabajoPractico}}</p>-->
-                                        </div>
-                                        <div ng-show="item.showAction">
-                                            <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="vm.edit(item.id)"
-                                                        ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="vm.colorMouseOver(3)"
-                                                        ng-mouseleave="vm.colorMouseLeave(3)">
-                                                <md-tooltip>
-                                                    Editar
-                                                </md-tooltip>
-                                            </ng-md-icon>
-                                            <ng-md-icon icon="visibility" size="24" ng-click="vm.viewDetail(item.id)"
-                                                        ng-attr-style="fill: {{vm.colorIcon[4]}}" ng-Mouseover="vm.colorMouseOver(4)"
-                                                        ng-mouseleave="vm.colorMouseLeave(4)">
-                                                <md-tooltip>
-                                                    Ver
-                                                </md-tooltip>
-                                            </ng-md-icon>
                                         </div>
                                         <md-divider md-inset ng-if="!$last"></md-divider>
                                     </md-list-item>

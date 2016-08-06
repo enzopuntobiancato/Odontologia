@@ -2,9 +2,13 @@ package com.utn.tesis.mapping.mapper;
 
 import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.model.*;
+import com.utn.tesis.util.Collections;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,7 +30,6 @@ public abstract class PersonaMapper {
 
     public abstract AdministradorDTO adminToDTO(Administrador source);
 
-    @Mapping(source = "legajo", target = "legajo", defaultValue = "-1")
     public abstract Alumno alumnoFromDTO(AlumnoDTO source);
 
     public abstract Autoridad autoridadFromDTO(AutoridadDTO source);
@@ -51,19 +54,21 @@ public abstract class PersonaMapper {
 
     public abstract void updateAdminFromDTO(AdministradorDTO source, @MappingTarget Administrador target);
 
+    public abstract List<AlumnoDTO> toAlumnoDTOList(List<Alumno> alumnos);
+
     public PersonaDTO toDTO(Persona source) {
         if (source instanceof Alumno) {
-            return this.alumnoToDTO((Alumno)source);
+            return this.alumnoToDTO((Alumno) source);
         } else if (source instanceof Autoridad) {
-            return this.autoridadToDTO((Autoridad)source);
+            return this.autoridadToDTO((Autoridad) source);
         } else if (source instanceof ResponsableRecepcion) {
-            return this.responsableToDTO((ResponsableRecepcion)source);
+            return this.responsableToDTO((ResponsableRecepcion) source);
         }else if (source instanceof Profesor) {
-            return this.profesorToDTO((Profesor)source);
+            return this.profesorToDTO((Profesor) source);
         }else if (source instanceof AdministradorAcademico) {
-            return this.adminAcademicoToDTO((AdministradorAcademico)source);
+            return this.adminAcademicoToDTO((AdministradorAcademico) source);
         }else if (source instanceof Administrador) {
-            return this.adminToDTO((Administrador)source);
+            return this.adminToDTO((Administrador) source);
         }
         return null;
     }
@@ -100,4 +105,18 @@ public abstract class PersonaMapper {
             this.updateAdminFromDTO((AdministradorDTO)source, (Administrador) target);
         }
     }
+
+    public List<? extends PersonaDTO> toDTOList(List<Persona> source) {
+        if(source == null || source.isEmpty()){
+            return null;
+        }
+        Persona p = source.get(0);
+        if (p instanceof Alumno){
+            List<Alumno> b = (List<Alumno>) (List<?>) source;
+            return this.toAlumnoDTOList(b);
+        }
+        return null;
+    }
+
+
 }
