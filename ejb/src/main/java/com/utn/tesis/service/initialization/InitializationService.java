@@ -46,6 +46,9 @@ public class InitializationService {
     private PacienteService pacienteService;
     @Inject
     private HistoriaClinicaService historiaClinicaService;
+    @Inject
+    private AlumnoService alumnoService;
+
     private InitVariables initVariables = InitVariables.getInstance();
 
 
@@ -81,8 +84,10 @@ public class InitializationService {
                 //Usuarios y personas
                 this.cargarUsuarios(); //admin enzo
                 this.cargarPersonaAUsuario();
-        this.cargarHistoriasClinicas();
-        this.cargarPacientes();
+                this.cargarAlumnos();
+                this.cargarHistoriasClinicas();
+                this.cargarPacientes();
+
 
                 initVariables.setInitializationRunned(Boolean.TRUE);
                 return true;
@@ -367,9 +372,9 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarPacientes() throws SAPOException {
         log.info("CARGA PACIENTES INICIO");
-            EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
-                    .scanClasspathForConcreteTypes(true)
-                    .build();
+        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+                .scanClasspathForConcreteTypes(true)
+                .build();
         for (int i = 0; i < 10; i++) {
             Paciente p = enhancedRandom.nextObject(Paciente.class);
             p.setHistoriaClinica(historiaClinicas.get(i));
@@ -425,6 +430,22 @@ public class InitializationService {
 //
 //        personaService.create(persona3);
         log.info("CargarPersonaAUsuario FINAL");
+    }
+
+    private void cargarAlumnos() throws SAPOException {
+        log.info("CARGA ALUMNOS INICIO");
+        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+                .scanClasspathForConcreteTypes(true)
+                .build();
+        for (int i = 0; i < 10; i++) {
+            Random r = new Random();
+            int numero = r.nextInt(100000000)+1;  // Entre 0 y 5, más 1.
+            Alumno a = enhancedRandom.nextObject(Alumno.class);
+            a.setLegajo(numero + "");
+            alumnoService.save(a);
+        }
+        log.info("CARGA ALUMNOS FIN");
+
     }
 
 }

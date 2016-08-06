@@ -2,10 +2,13 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mapping.dto.HistoriaClinicaDTO;
 import com.utn.tesis.mapping.dto.PacienteDTO;
+import com.utn.tesis.mapping.mapper.HistoriaClinicaMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
 import com.utn.tesis.service.CommonsService;
+import com.utn.tesis.service.HistoriaClinicaService;
 import com.utn.tesis.service.PacienteService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,8 +20,6 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,11 +33,15 @@ import java.util.logging.Logger;
 @RequestScoped
 public class PacienteAPI extends BaseAPI{
     @Inject
+    private HistoriaClinicaService historiaClinicaService;
+    @Inject
     PacienteService pacienteService;
+    @Inject
+    CommonsService commonsService;
     @Inject
     PacienteMapper pacienteMapper;
     @Inject
-    CommonsService commonsService;
+    private HistoriaClinicaMapper historiaClinicaMapper;
 
     @Path("/save")
     @POST
@@ -81,9 +86,19 @@ public class PacienteAPI extends BaseAPI{
     @Produces(MediaType.APPLICATION_JSON)
     public PacienteDTO findById(@QueryParam("id") Long id){
         Paciente paciente = pacienteService.findById(id);
-        PacienteDTO auxpaciente = pacienteMapper.toDTO(pacienteService.findById(id));
-        return pacienteMapper.toDTO(pacienteService.findById(id));
+        HistoriaClinica historiaClinica;
+        if(paciente == null){
+          return null;
+        }
+
+        historiaClinica = historiaClinicaService.findById(paciente.getHistoriaClinica().getId());
+        PacienteDTO pacienteDTO = pacienteMapper.toDTO(paciente);
+        HistoriaClinicaDTO historiaClinicaDTO = historiaClinicaMapper.toDTO(historiaClinica);
+        pacienteDTO.setHistoriaClinicaDTO(historiaClinicaDTO);
+
+        return pacienteDTO;
     }
+
 
     //TODO: Persona no extiende de Bajeable, por lo tanto no puede ser dado de baja. Se debe revisar cómo implementar la herencia para poder darlo de baja.
     @Path("/remove")

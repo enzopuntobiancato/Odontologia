@@ -1,4 +1,4 @@
-<div layout="column">
+<div layout="column" flex>
 <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
         <div layout="column" layout-fill layout-padding>
             <div>
@@ -7,7 +7,7 @@
                     <md-toolbar class="md-accent">
                         <div class="md-toolbar-tools">
                             <h2>
-                            <span>{{ 'VER_PACIENTE' | translate }} > {{ vm.tabTitulo }} </span>
+                            <span>{{  vm.titulo }} > {{ vm.tabTitulo }} </span>
                             </h2>
                             <span flex></span>
                             <md-button ng-click="vm.mostrar(0)" hide-xs>
@@ -48,8 +48,8 @@
                                         </md-button>
                                     </md-menu-item>
                                     <md-divider show-xs hide-gt-sm></md-divider>
-                                    <md-menu-item ng-if="!item.fechaBaja" ng-click="vm.edit(vm.paciente.id)">
-                                        <md-button aria-label="Editar paciente">
+                                    <md-menu-item ng-if="!item.fechaBaja">
+                                        <md-button aria-label="Editar paciente" ng-click="vm.edit(vm.paciente.id)">
                                             <ng-md-icon icon="edit" size="24" hide-xs></ng-md-icon>
                                             {{ 'MODIFICAR' | translate }}
                                         </md-button>
@@ -77,23 +77,22 @@
                         </div>
                     </md-toolbar>
                     <md-card-content id="md-card-tab-content">
-                        <div ng-if="vm.tabs[0]" class="tabs">
+                        <div ng-show="vm.tabs[0]" class="tabs">
+                            <!--<h1 class="md-title md-offset">{{ 'DATOS_PERSONALES' | translate }}</h1>-->
                             <md-tabs md-dynamic-height md-border-bottom>
-                                <ng-include src="'views/paciente/datosPersonales.html'"></ng-include>
+                                <ng-include src="'views/paciente/datosPersonalesEdit.html'"></ng-include>
                             </md-tabs>
                         </div>
-                        <div ng-if="vm.tabs[1]" class="tabs">
-                            <h1 class="md-title">{{ 'ANTECEDENTES' | translate }}</h1>
+                        <div ng-show="vm.tabs[1]" class="tabs">
                             <md-tabs md-dynamic-height md-border-bottom  ng-if="vm.tabs[1]">
-                                <ng-include src="'views/paciente/antecedentes.html'"></ng-include>
+                                <ng-include src="'views/paciente/antecedentesEdit.html'"></ng-include>
                             </md-tabs>
                         </div>
                         <div ng-if="vm.tabs[2]" class="tabs">
-                            <h1 class="md-title"> {{ 'DIAGNOSTICOS' | translate }}</h1>
                             <md-tabs md-dynamic-height md-border-bottom  ng-if="vm.tabs[2]">
-                            </md-tabs>   </div>
+                            </md-tabs>
+                        </div>
                         <div ng-if="vm.tabs[3]" class="tabs">
-                            <h1 class="md-title">{{ 'ATENCIONES' | translate }}</h1>
                             <md-tabs md-dynamic-height md-border-bottom  ng-if="vm.tabs[3]">
                             </md-tabs>
                         </div>

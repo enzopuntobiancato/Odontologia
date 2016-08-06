@@ -46,6 +46,13 @@ module.
             })
         }
 
+        service.initPaciente = function() {
+            return $http({
+                url: 'api/paciente/initPaciente',
+                method: 'GET'
+            })
+        }
+
         service.restore = function(id){
             return $http({
                 method:"PUT",

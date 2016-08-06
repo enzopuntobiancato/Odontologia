@@ -1,0 +1,39 @@
+<md-dialog aria-label="Detalles"  ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Detalles</h2>
+                <span flex></span>
+                <md-button class="md-icon-button"  ng-click="close()">
+                    <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div id="segundaFila" layout="row">
+                    <div id="foto" flex="30">
+                        <img src="resources/img/image_user.jpg"
+                             alt="avatar" class="md-avatar-big">
+                    </div>
+                    <div id="acciones" flex="70" layout="column">
+                        <h3 class="md-headline">{{ paciente.apellido }}</h3>
+                        <h4 class="md-subhead" style="font-size: 14; padding-top: 0">{{ paciente.documento.tipoDocumento.nombre }}:
+                            {{ paciente.documento.numero }}</h4>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="goDatosPersonales(paciente.id)">{{'DATOS_PERSONALES' | translate}}   </md-button>
+            <md-button class="md-raised md-primary" ng-click="goHistoriaClinica(paciente.id)">{{'HC' | translate}}                 </md-button>
+            <md-button class="md-raised md-primary">{{'ATENCIONES' | translate}}         </md-button>
+            <md-button class="md-raised md-primary">{{'DIAGNOSTICOS' | translate}}       </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+
+
+
+
+

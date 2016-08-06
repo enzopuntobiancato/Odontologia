@@ -1,5 +1,7 @@
 package com.utn.tesis.model;
 
+import io.github.benas.randombeans.annotation.Exclude;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,6 +13,7 @@ import javax.validation.constraints.Size;
 public class Alumno extends Persona {
     private static final long serialVersionUID = -2397655902394714260L;
 
+    @Exclude
     @NotNull(message = "El legajo del alumno no puede ser nulo.")
     @Size(max = 10, message = "El legajo no puede ser mayor a 10 caracteres.")
     @Column(nullable = false, length = 10)

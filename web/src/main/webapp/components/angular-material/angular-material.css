@@ -2003,6 +2003,11 @@ md-icon {
   fill: currentColor;
   height: 24px;
   width: 24px; }
+ng-md-icon {
+    background-repeat: no-repeat no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    fill: rgba(0,0,0,0.54); }
   md-icon svg {
     pointer-events: none;
     display: block; }
@@ -2685,6 +2690,8 @@ md-menu-item {
     width: 100%; }
     md-menu-item > .md-button md-icon {
       margin: auto 16px auto 0; }
+    md-menu-item > .md-button ng-md-icon {
+    margin: auto 16px auto 0; }
     md-menu-item > .md-button p {
       display: inline-block;
       margin: auto; }

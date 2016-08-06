@@ -8,7 +8,11 @@ module.controller('HistoriaClinicaCtrl_Index', ['$scope', '$cacheFactory', 'Hist
         vm.new = create;
         vm.edit = edit;
         vm.view = view;
+        vm.viewPaciente = viewPaciente;
+        vm.viewHistoriaClinica = viewHistoriaClinica;
         vm.consultar = consultar;
+        vm.viewCard = viewCard;
+        vm.openMenu = openMenu;
         vm.result = [];
         vm.filter =[];
         vm.filterChips = [];
@@ -132,6 +136,22 @@ module.controller('HistoriaClinicaCtrl_Index', ['$scope', '$cacheFactory', 'Hist
             $state.go('^.view', {id: historiaClinicaId});
         }
 
+        function openMenu($mdOpenMenu, ev) {
+            $mdOpenMenu(ev);
+        }
+
+        function viewPaciente(pacienteId){
+            $state.go('paciente.view', {id: pacienteId});
+        }
+
+        function viewHistoriaClinica(pacienteId){
+            $state.go('^.view', {id: pacienteId});
+        }
+
+        function viewCard(pacienteId){
+            $state.go('^.paciente', {id: pacienteId});
+        }
+
         //Métodos auxiliares
         vm.mostrarFiltros = false;
         vm.clickIcon = 'expand_more';
@@ -153,11 +173,11 @@ module.controller('HistoriaClinicaCtrl_Index', ['$scope', '$cacheFactory', 'Hist
             item.showAction = true;
         }
 
-         function ocultarAcciones(item) {
+        function ocultarAcciones(item) {
             item.showAction = false;
         }
 
-         function colorMouseOver(icon) {
+        function colorMouseOver(icon) {
             vm.colorIcon[icon] = '#E91E63';
         }
 
@@ -165,7 +185,7 @@ module.controller('HistoriaClinicaCtrl_Index', ['$scope', '$cacheFactory', 'Hist
             vm.colorIcon[icon] = '#00B0FF';
         }
 
-         function clickIconMorph() {
+        function clickIconMorph() {
             if (vm.clickIcon === 'expand_more') {
                 vm.clickIcon = 'expand_less';
             }
@@ -191,7 +211,6 @@ module.controller('HistoriaClinicaCtrl_Index', ['$scope', '$cacheFactory', 'Hist
             vm.result = data.result;
             vm.aux = data.aux;
         };
-
     }]);
 
 

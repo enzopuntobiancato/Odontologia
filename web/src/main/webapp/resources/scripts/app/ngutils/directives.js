@@ -110,10 +110,7 @@ var directiveInput = function(){
         bindToController: true
     };
 };
-//"<div layout='row'>" +
-//    "<ng-md-icon icon='{{ camposino.siNo == true ? 'check_box' : 'close' }}'></ng-md-icon>"+
-//
-//    "</div>"
+
 var templateDetalleHC = "<md-list-item class='md-3-line md-long-text' flex-gt-sm>" +
     "<div class='md-list-item-text compact'>" +
     "<div layout='row'> <h4 style='font-weight: bold'> {{ camposino.nombre }}</h4> <h4>{{ camposino.siNo | siNo}} </h4> </div>"+
@@ -148,19 +145,20 @@ var errorMessages = function(){
     }
 } ;
 
-var controllerEditHC = function () {
+var controllerEditHC = function ($scope) {
 
     var vm = this;
+    vm.limpiarCampos = limpiarCampos;
 
-    function init() {
-
+    function limpiarCampos(id){
+        $scope.limpiarCampos(id);
     }
 
-    init();
+
 };
 var templateEditHC =
     '<div layout-gt-sm="row" layout-margin flex-gt-sm>' +
-        '<md-switch ng-model="vm.camposino.siNo" aria-label="vm.camposino.nombre" ng-true-value="true" ng-false-value="false" class="md-primary"> {{vm.camposino.nombre }}: {{vm.camposino.siNo | siNo}} </md-switch>' +
+        '<md-switch ng-model="vm.camposino.siNo" aria-label="vm.camposino.nombre" ng-true-value="true" ng-false-value="false" class="md-primary" ng-change="vm.change({id : vm.camposino.id})"> {{vm.camposino.nombre }}: {{vm.camposino.siNo | siNo}} </md-switch>' +
         '</div>'+
         '<div layout-gt-sm="row" layout-margin flex-gt-sm>'+
         '<md-input-container flex-gt-sm ng-if="vm.campodetalle && vm.camposino.siNo == true" ng-form="formDetalle">'+
@@ -182,7 +180,8 @@ var editHC = function(){
           campodetalle: '=',
           campofecha: '=',
           form : '=',
-          submitted: '='
+          submitted: '=',
+          change: '&'
       },
       template: templateEditHC,
       controller: controllerEditHC,
@@ -192,10 +191,82 @@ var editHC = function(){
   }
 };
 
+var toolbar = '<md-toolbar class="md-accent">'+
+    '<div class="md-toolbar-tools">'+
+    '<img ng-src="resources/img/image_user.jpg" class="md-avatar-login " hide-xs ng-click="ctrl.showCard($event, ctrl.paciente)"/>'+
+    '<h2>'+
+    '<span>{{ ctrl.paciente.apellido }}</span> '+
+    '</h2>'+
+    '<span flex></span>'+
+    '<md-button class="md-icon-button" aria-label="Editar paciente" ng-click="ctrl.edit(ctrl.paciente.id)">'+
+    '<ng-md-icon icon="edit" size="24" style="fill: white">'+
+    '<md-tooltip> Editar paciente </md-tooltip>'+
+    '</ng-md-icon>'+
+    '</md-button>'+
+    '</div>'+
+'</md-toolbar>'
+var pacienteToolbar = function(){
+    return {
+       restrict: 'E',
+       template: toolbar,
+       scope:{
+            paciente : '='
+      },
+        controller: pacienteToolbarCtrl,
+        controllerAs: 'ctrl',
+        bindToController: true,
+        replace:true
+    }
+}
+
+function pacienteToolbarCtrl($mdDialog){
+    var ctrl = this;
+
+    ctrl.showCard = showCard;
+    ctrl.edit = edit;
+
+    function edit(pacienteId){
+        $state.go('paciente.edit', {id:pacienteId});
+    }
+
+    function showCard(event, paciente){
+        $mdDialog.show({
+                templateUrl: 'views/historiaClinica/historiaClinicaCard.html',
+                parent: angular.element(document.body),
+                locals: {
+                    pacienteData: paciente},
+                targetEvent: event,
+                clickOutsideToClose: true,
+                controller: function DialogController($scope, $mdDialog, $state, pacienteData){
+                    $scope.paciente = pacienteData;
+                    $scope.goHistoriaClinica = goHistoriaClinica;
+                    $scope.goDatosPersonales = goDatosPersonales;
+                    $scope.close = close;
+
+                    function close(){
+                        $mdDialog.hide();
+                    }
+
+                    function goDatosPersonales(pacienteId){
+                        $state.go('paciente.view', {id:pacienteId});
+                        close();
+                    }
+
+                    function goHistoriaClinica(pacienteId){
+                        $state.go('historiaClinica.view', {id:pacienteId});
+                        close();
+                    }
+                }
+            }
+        );
+    }
+}
+
 directives.directive('validatedInput',directiveInput);
 directives.directive('errorMessages',errorMessages);
-directives.directive('detalle',detalle)
-directives.directive('itemHistoria', editHC)
+directives.directive('detalle',detalle);
+directives.directive('itemHistoria', editHC);
+directives.directive('pacienteToolbar', pacienteToolbar);
 
 /* DIRECTIVES ODONTOGRAMA */
 

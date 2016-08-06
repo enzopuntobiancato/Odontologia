@@ -20,7 +20,6 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
         }
 
         pagination.config('api/catedra/find');
-
         $scope.paginationData = pagination.paginationData;
 
         function updateFilterChips() {

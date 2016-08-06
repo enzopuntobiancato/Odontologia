@@ -2,13 +2,35 @@
     text-transform: none !important;
 }
 
+.tabs md-tab-content {
+    padding: 25px; }
+.tabs md-tab-content{
+    background: #f6f6f6; }
+.tabs md-datepicker{
+    background-color: #f6f6f6;
+}
+.tabs .md-subheader{
+    background-color: #f6f6f6;
+}
+
+.tabs .after-tabs-area > span {
+    margin-top: 25px;
+    padding-right: 15px;
+    vertical-align: middle;
+    line-height: 30px;
+    height: 35px; }
+
+.tabs .after-tabs-area > md-checkbox {
+    margin-top: 26px;
+    margin-left: 0; }
+
 .md-button-profile {
     text-transform: lowercase !important;
 }
 
 .muted {
-    color: #bbb;
-    font-weight: 500;
+    color: rgba(0,0,0,0.54) !important;
+    font-weight: 400 !important;
     text-align: left;
 }
 
@@ -194,7 +216,7 @@ md-whiteframe {
 }
 
 body {
-    overflow: hidden;
+    overflow: auto;
 }
 
 .md-menu-item > ng-md-icon {
@@ -294,6 +316,39 @@ body {
     background-color: #000;
     z-index: 10002;
     overflow: auto;
+}
+
+.md-menu-item  ng-md-icon {
+    margin-right: 10px;
+}
+
+.table-pagination{
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 24px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.54);
+    border-top: 1px rgba(0, 0, 0, 0.12) solid;
+}
+
+md-toolbar.md-table-toolbar.alternate-table-toolbar {
+    color: #1e88e5;
+    background-color: #e3f2fd;
+}
+
+md-toolbar.md-table-toolbar.alternate-table-toolbar {
+    font-size: 16px;
+}
+
+md-toolbar.md-table-toolbar.alternate-table-toolbar-2 {
+    color: #74cb86;
+    background-color: #e3f2fd;
+}
+
+md-toolbar.md-table-toolbar.alternate-table-toolbar-2 {
+    font-size: 16px;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

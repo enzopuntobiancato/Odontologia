@@ -4,6 +4,8 @@ import com.utn.tesis.mapping.dto.PersonaDTO;
 import com.utn.tesis.model.Persona;
 import org.mapstruct.*;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Enzo
@@ -17,4 +19,6 @@ public interface PersonaMapperConfig {
     PersonaDTO toDTO(Persona source);
 
     void updateFromDTO(PersonaDTO source, @MappingTarget Persona persona);
+
+    List<PersonaDTO> toDTOList(List<PersonaDTO> personas);
 }
