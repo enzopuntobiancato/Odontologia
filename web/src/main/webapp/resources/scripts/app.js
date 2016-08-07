@@ -806,15 +806,13 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 resolve:  {
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
-                    }]
-                    ,
-//                    materiasResponse: ['CatedraSrv', function (service) {
-//                        return service.findAllMaterias();
-//                    }],
-//                    trabajosPracticosResponse: ['loadMyModule', 'TrabajoPracticoSrv', function (module, service){
-//                        return service.find();
-//                    }]
-//                    ,
+                    }],
+                    catedrasResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                        return service.findAllCatedras();
+                    }],
+                    trabajosPracticosResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service){
+                        return service.findAllTrabajosPracticos();
+                    }],
                     sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getSexos();
                     }]

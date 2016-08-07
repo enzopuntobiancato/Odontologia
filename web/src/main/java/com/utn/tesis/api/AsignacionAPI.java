@@ -1,27 +1,17 @@
 package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
-import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.mapping.dto.AlumnoDTO;
-import com.utn.tesis.mapping.dto.HistoriaClinicaDTO;
-import com.utn.tesis.mapping.dto.PacienteDTO;
-import com.utn.tesis.mapping.mapper.HistoriaClinicaMapper;
-import com.utn.tesis.mapping.mapper.PacienteMapper;
-import com.utn.tesis.mapping.mapper.PersonaMapper;
+import com.utn.tesis.mapping.dto.*;
+import com.utn.tesis.mapping.mapper.*;
 import com.utn.tesis.model.*;
-import com.utn.tesis.service.AlumnoService;
-import com.utn.tesis.service.CommonsService;
-import com.utn.tesis.service.HistoriaClinicaService;
-import com.utn.tesis.service.PacienteService;
+import com.utn.tesis.service.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -39,11 +29,19 @@ public class AsignacionAPI extends BaseAPI{
     @Inject
     PacienteService pacienteService;
     @Inject
-    PacienteMapper pacienteMapper;
-    @Inject
     AlumnoService alumnoService;
     @Inject
+    CatedraService catedraService;
+    @Inject
+    TrabajoPracticoService trabajoPracticoService;
+    @Inject
+    PacienteMapper pacienteMapper;
+    @Inject
     PersonaMapper personaMapper;
+    @Inject
+    TrabajoPracticoMapper trabajoPracticoMapper;
+    @Inject
+    CatedraMapper catedraMapper;
 
     @Path("/findPacientes")
     @Produces(MediaType.APPLICATION_JSON)
@@ -86,5 +84,18 @@ public class AsignacionAPI extends BaseAPI{
         List<AlumnoDTO> alumnoDTOs = personaMapper.toAlumnoDTOList(alumnos);
 
         return alumnoDTOs;
+    }
+
+
+    @Path("/findAllCatedras")
+    @GET
+    public List<CatedraConsultaDTO> findAllCatedras() {
+        return catedraMapper.toConsultaDTOList(catedraService.findAll());
+    }
+
+    @Path("/findAllTrabajosPracticos")
+    @GET
+    public List<TrabajoPracticoDTO> findAllTrabajosPracticos() {
+        return trabajoPracticoMapper.toDTOList(trabajoPracticoService.findAll());
     }
 }

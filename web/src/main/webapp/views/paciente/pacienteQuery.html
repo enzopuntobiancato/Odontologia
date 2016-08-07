@@ -89,9 +89,9 @@
                                 <filter-chips data="vm.filterChips"></filter-chips>
                                 <md-list ng-show="vm.result.length > 0">
                                     <md-list-item class="md-3-line" ng-repeat="item in vm.result"
-                                                  ng-Mouseover="vm.mostrarAcciones(item)" ng-mouseleave="vm.ocultarAcciones(item)">
-                                        <img ng-src="{{item.img}}" class="md-avatar list-item-{{$index}}" hide-xs/>
                                                   ng-click="vm.view(item.id)">
+                                        <img ng-src="{{item.img}}" class="md-avatar list-item-{{$index}}" hide-xs/>
+
                                         <img ng-src="resources/img/image_user.jpg" class="md-avatar" hide-xs/>
                                         <div class="md-list-item-text" layout="column">
                                             <h3 class="md-title">

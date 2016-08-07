@@ -21,6 +21,7 @@ public class CatedraDTO extends BaseDTO {
     private MateriaDTO materia;
     private List<TrabajoPracticoDTO> trabajosPracticos;
 
+    //GETTERS AND SETTERS
     public Long getId() {
         return id;
     }

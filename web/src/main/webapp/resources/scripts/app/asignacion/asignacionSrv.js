@@ -46,10 +46,17 @@ module.
             })
         }
 
-        service.findAllMaterias = function(){
+        service.findAllCatedras = function(){
             return $http({
                 method:'GET',
-                url: 'api/materia/findAll'
+                url: 'api/asignacion/findAllCatedras'
+            })
+        }
+
+        service.findAllTrabajosPracticos = function(){
+            return $http({
+                method:'GET',
+                url: 'api/asignacion/findAllTrabajosPracticos'
             })
         }
 

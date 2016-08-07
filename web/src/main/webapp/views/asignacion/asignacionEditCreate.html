@@ -97,9 +97,9 @@
                     <div layout="row" layout-margin>
                         <md-input-container flex-gt-sm="33">
                             <md-select ng-model="vm.filterPaciente.materia" name="materia" placeholder="{{ 'MATERIA' | translate }}"
-                                       ng-disabled="!vm.isAlumnoSelected">
-                                <md-option ng-repeat="materia in vm.data.materias" ng-value="materia.id">
-                                    {{ materia.nombre }}
+                                       ng-disabled="!vm.isAlumnoSelected" ng-change="vm.loadTrabajosPracticos(catedra.id)">
+                                <md-option ng-repeat="catedra in vm.data.catedras" ng-value="catedra.id">
+                                    {{ catedra.nombre }} {{ catedra.denominacion }}
                                 </md-option>
                             </md-select>
                         </md-input-container>
@@ -107,7 +107,7 @@
                             <md-select ng-model="vm.filterPaciente.trabajoPractico" name="materia" placeholder="{{ 'TP' | translate }}"
                                        ng-disabled="!vm.isAlumnoSelected">
                                 <md-option ng-repeat="trabajoPracico in vm.data.trabajosPracticos" ng-value="trabajoPracico">
-                                    {{ trabajoPracico }}
+                                    {{ trabajoPracico.nombre }}
                                 </md-option>
                             </md-select>
                         </md-input-container>

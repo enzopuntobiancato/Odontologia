@@ -18,6 +18,8 @@ import java.util.List;
  */
 @Mapper(componentModel = "cdi", config = PersonaMapperConfig.class)
 public abstract class PersonaMapper {
+
+    @Mapping(target = "nombreRol", ignore = true)
     public abstract AlumnoDTO alumnoToDTO(Alumno source);
 
     public abstract AutoridadDTO autoridadToDTO(Autoridad source);
