@@ -9,9 +9,9 @@ var module = angular.module('asignacionModule');
 
 module.controller('AsignacionCtrl_EditCreate',
     ['$scope', '$rootScope', '$filter', 'AsignacionSrv', '$state', 'MessageSrv', 'PaginationService',
-        'tiposDocumentoResponse', 'sexosResponse',
+        'tiposDocumentoResponse', 'sexosResponse','catedrasResponse', 'trabajosPracticosResponse',
         function ($scope, $rootScope, $filter, service, $state, message, pagination, tiposDocumentoResponse,
-                   sexosResponse
+                   sexosResponse, catedrasResponse,  trabajosPracticosResponse
                  ) {
             var vm = this;
             //
@@ -19,9 +19,9 @@ module.controller('AsignacionCtrl_EditCreate',
             //Data auxiliar.
             vm.data = {
                 sexos : sexosResponse.data,
-                tiposDocumentos : tiposDocumentoResponse.data
-//                materiasResponse: materiasResponse.data,
-//                trabajosPracticos: trabajosPracticosResponse.data
+                tiposDocumentos : tiposDocumentoResponse.data,
+                catedras: catedrasResponse.data,
+                trabajosPracticos: trabajosPracticosResponse.data
             }
             //Resultados a mostrar
             vm.pacientes = [];
@@ -33,6 +33,7 @@ module.controller('AsignacionCtrl_EditCreate',
             vm.previousPagePaciente = previousPageAlumno;
             vm.filterPaciente = {};
             vm.isBusquedaPaciente = true;
+            vm.filteredTrabajosPracticos = [];
             //CONSULTA Y PAGINACION ALUMNO
             vm.buscarAlumnos = buscarAlumnos;
             vm.limpiarCampos = limpiarCampos;
@@ -159,6 +160,23 @@ module.controller('AsignacionCtrl_EditCreate',
                         })
                 }, form)
             }
+
+            //WATCHER
+//            $scope.$watch(
+//                'vm.filterPaciente.materia',
+//                function(newValue, oldValue){
+////                    delete vm.paciente.ciudadNacimiento;
+//                    filterTrabajosPracticos();
+//                    function filterTrabajosPracticos(){
+//                        if(!vm.filterPaciente.materia || !angular.isDefined(vm.filterPaciente.materia.id)){
+//                            vm.filteredTrabajosPracticos = vm.data.trabajosPracticos;
+//                        }else{
+//                            vm.filteredTrabajosPracticos = $filter('filter')(vm.data.trabajosPracticos, function(value){
+//                                return angular.equals(value.provincia.id,vm.paciente.provinciaNacimiento.id);
+//                            })
+//                        }
+//                    }
+//                })
 
             //NAVEGACION
             function goIndex() {
