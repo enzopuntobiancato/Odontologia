@@ -4,22 +4,13 @@
     <title>S.A.P.O.</title>
     <meta name="viewport" content="initial-scale=1">
     <link rel="stylesheet" href="resources/css/mdStyle.css"/>
-    <!--<link rel="stylesheet" href="resources/css/commons.css"/>-->
     <link rel="stylesheet" href="components/angular-loading-bar/build/loading-bar.css">
-    <!--Local version -->
-    <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">-->
-    <link rel="stylesheet" href="components/angular-material/angular-material.css">
-    <!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc4/angular-material.min.css"/>-->
+    <link rel="stylesheet" href="components/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="https://material.angularjs.org/1.1.0-rc4/docs.css"/>
-    <link rel="stylesheet" href="http://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.css">
-
     <link href="resources/img/git_avatar.png">
-    <!--CDN version -->
-    <!--link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css"-->
-    <!--MASTER version -->
-    <!--link rel="stylesheet" href="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.css"-->
     <link rel="stylesheet" href="components/angular-animate/animate.css"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link rel="stylesheet" href="components/google-fonts/google-fonts.css">
+    <link rel="stylesheet" href="components/md-datatable/md-data-table.min.css">
     <style>
     </style>
 </head>
@@ -27,81 +18,24 @@
 
 <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md') && menuOpen">
     <md-toolbar style="min-height:210px" class="md-tall md-hue-2">
-        <!--<span flex></span>-->
 
         <div layout="column" layout-align="start center">
             <img ng-src="resources/img/naveen-2.png"
                  alt="avatar" class="user-image-sm">
         </div>
-        <span flex></span>
-
-        <div class="md-body-2">Firstname Lastname</div>
-        <div class="md-body-1">email@domainname.com</div>
-
-        <!--<img ng-src="resources/img/git_avatar.png"-->
-        <!--alt="avatar" class="md-avatar-login">-->
-        <!--<span flex></span>-->
-        <!--<div layout="column" class="md-toolbar-tools-bottom inset">-->
-        <!--<span></span>-->
-        <!--<div>Firstname Lastname</div>-->
-        <!--<div>email@domainname.com</div>-->
-        <!--</div>-->
-        <!--<div flex="initial" class="user-main">-->
-        <!--<img ng-src="resources/img/git_avatar.png"-->
-        <!--alt="avatar" class="md-avatar">-->
-        <!--<div>S.A.P.O.</div>-->
-        <!--</div>-->
     </md-toolbar>
     <md-content>
         <md-list>
-            <md-list-item class="md-menu-item" ui-sref="materia.index">
-                <ng-md-icon icon="school"></ng-md-icon>
-                <div class="md-list-item-text">
-                    <h4>Materia</h4>
-                </div>
-            </md-list-item>
-            <md-list-item class="md-menu-item" ui-sref="trabajoPractico.index">
-                <ng-md-icon icon="work"></ng-md-icon>
-                <div class="md-list-item-text">
-                    <h4>Trabajo práctico </h4>
-                </div>
-            </md-list-item>
-            <md-list-item class="md-menu-item" ui-sref="usuario.index">
-                <ng-md-icon icon="person"></ng-md-icon>
-                <div class="md-list-item-text">
-                    <h4>Usuario </h4>
-                </div>
-            </md-list-item>
-            <md-list-item class="md-menu-item"  ui-sref="catedra.index">
-                <ng-md-icon icon="account_balance"></ng-md-icon>
-                <div class="md-list-item-text">
-                    <h4>Cátedra </h4>
-                </div>
-            </md-list-item>
-            <md-list-item class="md-menu-item" ui-sref="paciente.index">
-                <ng-md-icon icon="local_hospital"></ng-md-icon>
-                <div class="md-list-item-text">
-                    <h4>Pacientes</h4>
-                </div>
-            </md-list-item>
-            <md-list-item class="md-menu-item" ui-sref="practicaOdontologica.index">
-                <ng-md-icon icon="settings"></ng-md-icon>
-                <div class="md-list-item-text">
-                    <h4>Práctica odontlógica </h4>
-                </div>
-            </md-list-item>
-            <md-list-item class="md-menu-item" ui-sref="asignacion.create">
-                <ng-md-icon icon="settings"></ng-md-icon>
-                <div class="md-list-item-text">
-                    <h4>Asignacion </h4>
-                </div>
-            </md-list-item>
-            <!--<md-list-item class="md-menu-item" ui-sref="historiaClinica.index">-->
-                <!--<ng-md-icon icon="school"></ng-md-icon>-->
-                <!--<div class="md-list-item-text">-->
-                    <!--<h4> Historia clínica </h4>-->
-                <!--</div>-->
-            <!--</md-list-item>-->
+            <div ng-repeat="menuItem in menu">
+                <md-list-item ng-class="{'selected-menu-item': menuItem.id === selectedMenuItem}" ng-click="menuItemClick(menuItem)">
+                    <p> {{menuItem.name | uppercase}} </p>
+                    <ng-md-icon icon="{{menuItem.open ? 'expand_less' : 'expand_more'}}" size="20"></ng-md-icon>
+                </md-list-item>
+                <md-list-item ng-class="{'selected-menu-item': subItem.id === selectedMenuItem.id}" flex-offset="10" ng-click="menuItemClick(subItem)" ng-if="menuItem.dropdown && menuItem.open" ng-repeat="subItem in menuItem.subItems">
+                    <p>{{ subItem.name }}</p>
+                </md-list-item>
+                <md-divider></md-divider>
+            </div>
         </md-list>
     </md-content>
 
@@ -112,12 +46,16 @@
             <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
                 <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
             </md-button>
-            <h2>Sistema de administración de pacientes odontológicos</h2>
+            <h2 ng-if="selectedMenuItem.name && selectedMenuItem.group">{{ selectedMenuItem.group }} > {{ selectedMenuItem.name }}</h2>
+            <h2 ng-if="selectedMenuItem.name && !selectedMenuItem.group">{{ selectedMenuItem.name }}</h2>
+            <h1 ng-if="!selectedMenuItem.name">SAPO</h1>
             <span flex></span>
+
             <div ng-if="session.user">
                 <img ng-if="userHasImage()" ngf-thumbnail="session.image" class="md-avatar-login">
                 <img ng-if="!userHasImage()" src="resources/img/image_user.jpg" class="md-avatar-login">
             </div>
+
             <md-menu ng-if="session.user">
                 <md-button ng-click="$mdOpenMenu($event)" class="md-button-profile">
                     {{session.user.nombreUsuario}}
@@ -147,40 +85,25 @@
 
 <!--LIBRARIES-->
 <script type="text/javascript" src="components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-animate.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-messages.js"></script>
-<!--Local version -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.js"></script>
-
-<!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc4/angular-material.js"/>-->
-<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc4/angular-material.min.js"></script>-->
-<!--CDN version -->
-<!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script-->
-
-<!--From master>
-<script type="text/javascript" src="https://gitcdn.xyz/repo/angular/bower-material/master/angular-material.js"></script-->
-<!--<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>-->
+<script type="text/javascript" src="components/angular/angular.js"></script>
+<script type="text/javascript" src="components/angular-sanitize/angular-sanitize.js"></script>
+<script type="text/javascript" src="components/angular-animate/angular-animate.js"></script>
+<script src="components/angular-aria/angular-aria.min.js"></script>
+<script type="text/javascript" src="components/angular-messages/angular-messages.js"></script>
+<script src="components/angular-material/angular-material.js"></script>
 
 <!-- Auxiliares -->
 <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.js"></script>
 <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
 <script type="text/javascript" src="components/ocLazyLoad/dist/ocLazyLoad.min.js"></script>
-
 <script type="text/javascript" src="components/angular-i18n/angular-locale_es-ar.js"></script>
 <script type="text/javascript" src="components/angular-translate/angular-translate.js"></script>
 <script type="text/javascript" src="components/angular-loading-bar/build/loading-bar.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
-<script src="http://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/11.1.1/ng-file-upload.js"></script>
-<script type="text/javascript"
-        src="components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-
+<script type="text/javascript" src="components/angular-material/angular-material-icons.min.js"></script>
+<script type="text/javascript" src="components/angular-animate/svg-morpheus.js"></script>
+<script type="text/javascript" src="components/ng-file-upload/ng-file-upload.js"></script>
+<script type="text/javascript" src="components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script type="text/javascript" src="components/md-datatable/md-data-table.min.js"></script>
 
 <!--OURS JS-->
 <script type="text/javascript" src="resources/scripts/app/ngutils/authentication.js"></script>
@@ -188,7 +111,6 @@
 <script type="text/javascript" src="resources/scripts/app/ngutils/directives.js"></script>
 <script type="text/javascript" src="resources/scripts/app/ngutils/services.js"></script>
 <script type="text/javascript" src="resources/scripts/app.js"></script>
-
 
 <script type="text/ng-template" id="error-messages">
     <div ng-message="required">Es obligatorio.</div>

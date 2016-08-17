@@ -15,7 +15,6 @@ public class Profesor extends Persona {
     private static final long serialVersionUID = 8963528362720029022L;
 
     @OneToMany
-    @NotNull(message = "La lista de catedras del profesor no puede ser nula.")
     private List<Catedra> catedras;
 
     private int legajo;

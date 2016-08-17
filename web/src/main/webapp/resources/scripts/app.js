@@ -18,10 +18,9 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'md.data.table'
 ]);
 
-odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
-    '$mdThemingProvider', '$mdIconProvider','$translateProvider',
-    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider,
-              $mdIconProvider,$translateProvider) {
+odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
+    '$mdThemingProvider', '$mdIconProvider', '$translateProvider',
+    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider, $mdIconProvider, $translateProvider) {
 
         var customBlueMap = $mdThemingProvider.extendPalette('light-blue', {
             'contrastDefaultColor': 'light',
@@ -32,7 +31,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
             .useStaticFilesLoader({
                 prefix: 'resources/i18n/locale-',
                 suffix: '.json'}
-        )
+            )
             .preferredLanguage('es');
 
         $mdThemingProvider.definePalette('customBlue', customBlueMap);
@@ -132,8 +131,8 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 url: '/error',
                 params: {response: undefined},
                 template: '<md-card><div ng-bind-html="deliverHtml()"></div></md-card>',
-                controller: function($scope, $stateParams, $sce) {
-                    $scope.deliverHtml = function() {
+                controller: function ($scope, $stateParams, $sce) {
+                    $scope.deliverHtml = function () {
                         return $sce.trustAsHtml($stateParams.response);
                     }
                 }
@@ -189,7 +188,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                         var user = authFactory.getAuthData();
                         return personaSrv.findByUser(user.nombreUsuario, user.authToken);
                     }],
-                    imageResponse: ['loadMyModule', 'personaResponse', 'PersonaSrv', function(loadMyModule, personaResponse, service){
+                    imageResponse: ['loadMyModule', 'personaResponse', 'PersonaSrv', function (loadMyModule, personaResponse, service) {
                         var person = personaResponse.data;
                         return service.findUserImage(person.usuario.imagenId);
                     }],
@@ -504,15 +503,15 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     personaResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
                         return service.findPersona($stateParams.id);
                     }],
-                    imageResponse: ['loadMyModule', 'personaResponse', 'UsuarioSrv', function(loadMyModule, personaResponse, service) {
+                    imageResponse: ['loadMyModule', 'personaResponse', 'UsuarioSrv', function (loadMyModule, personaResponse, service) {
                         var person = personaResponse.data;
                         return service.findUserImage(person.usuario.imagenId);
                     }],
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function(loadMyModule, $stateParams, service) {
-                        return service.findByIdAsUsuarioLogueadoBean($stateParams.id);
+                         return service.findByIdAsUsuarioLogueadoBean($stateParams.id);
                     }],
                     personaEmumsResponse: ['loadMyModule', 'CommonsSrv', function(loadMyModule, commons) {
-                        return commons.getPersonaEnums();
+                         return commons.getPersonaEnums();
                     }]
                 }
             })
@@ -526,7 +525,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
                         return service.findByIdAsUsuarioLogueadoBean($stateParams.id);
                     }],
-                    imageResponse: ['loadMyModule', 'personaResponse', 'UsuarioSrv', function(loadMyModule, personaResponse, service) {
+                    imageResponse: ['loadMyModule', 'personaResponse', 'UsuarioSrv', function (loadMyModule, personaResponse, service) {
                         var person = personaResponse.data;
                         return service.findUserImage(person.usuario.imagenId);
                     }]
@@ -538,7 +537,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                     $scope.goIndex = function () {
                         $state.go('^.index');
                     }
-                    $scope.hasFile = function() {
+                    $scope.hasFile = function () {
                         var img = $scope.image;
                         return img &&
                             angular.isDefined(img) &&
@@ -560,10 +559,10 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 controller: 'PacienteCtrl_Index',
                 controllerAs: 'vm',
                 resolve: {
-                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                    tiposDocumentoResponse: ['CommonsSrv', function (commons) {
                         return commons.getTiposDocumento();
                     }],
-                    sexosResponse:["CommonsSrv", function(commons){
+                    sexosResponse: ["CommonsSrv", function (commons) {
                         return commons.getSexos();
                     }]
                 }
@@ -621,9 +620,9 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
                 data: {
-                    updating :true
+                    updating : false
                 },
-                resolve: {
+                resolve:{
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
                     }],
@@ -771,7 +770,7 @@ odontologiaApp.config(['$urlRouterProvider','$stateProvider','$ocLazyLoadProvide
                 resolve: {historiaClinicaResponse:['$stateParams','HistoriaClinicaSrv',function($stateParams,service){
                     return service.findById($stateParams.id);
                 }]},
-                controller: function($scope,$state, historiaClinicaResponse){
+                controller: function($scope,$state,historiaClinicaResponse){
                     var vm = this;
                     vm.paciente = historiaClinicaResponse.data;
                     vm.edit = edit;
@@ -923,46 +922,50 @@ angular.module('asignacionModule', []);
 angular.module('historiaClinicaModule',[]);
 
 
-odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', function ($scope, $state, authFactory, $filter, $mdSidenav) {
+odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav',
+    function ($scope, $state, authFactory, $filter, $mdSidenav) {
 
-    $scope.performSubmit = performSubmit;
-    $scope.handleError = handleError;
-    $scope.menuOpen = false;
-    $scope.validationErrorFromServer = {
-        error: false,
-        data: {}
-    };
-    $scope.session = {};
+        $scope.performSubmit = performSubmit;
+        $scope.handleError = handleError;
+        $scope.menuOpen = false;
+        $scope.selectedMenuItem = {};
+        $scope.validationErrorFromServer = {
+            error: false,
+            data: {}
+        };
+        $scope.session = {};
 
-    retrieveSession();
+        retrieveSession();
 
-    function retrieveSession() {
-        $scope.session.user = authFactory.getAuthData();
-        $scope.session.image = authFactory.getImage();
-        if ($scope.session.user && !angular.isDefined($scope.session.image) && $scope.session.user.imagenId) {
-            authFactory.lookForImage($scope.session.user.imagenId).then(function(response) {
-                $scope.session.image = response.data;
-            });
-        }
-    }
-
-    $scope.toggleSidenav = function (menuId) {
-        $mdSidenav(menuId).toggle();
-    };
-
-    $scope.show = "false";
-    $scope.showFilters = function () {
-        $scope.show = true;
-    };
-//    $scope.menu = $scope.user ? buildMenu($scope.user.permisos) : authFactory.getMenu();
-    $scope.$on('$stateChangeStart',
-        function (event, toState, toParams, fromState, fromParams) {
-              $scope.validationErrorFromServer.error = false;
-            if (toState.name == 'landingPage' && !$scope.session.user) {
-                $scope.menuOpen = false;
-            } else {
-                $scope.menuOpen = true;
+        function retrieveSession() {
+            $scope.session.user = authFactory.getAuthData();
+            $scope.session.image = authFactory.getImage();
+            if ($scope.session.user && !angular.isDefined($scope.session.image) && $scope.session.user.imagenId) {
+                authFactory.lookForImage($scope.session.user.imagenId).then(function (response) {
+                    $scope.session.image = response.data;
+                });
             }
+            $scope.menu = authFactory.getMenu();
+        }
+
+        $scope.toggleSidenav = function (menuId) {
+            $mdSidenav(menuId).toggle();
+        };
+
+        $scope.show = "false";
+        $scope.showFilters = function () {
+            $scope.show = true;
+        };
+        $scope.menu = authFactory.getMenu() ? authFactory.getMenu() : buildMenu($scope.session.user);
+
+        $scope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                $scope.validationErrorFromServer.error = false;
+                if (toState.name == 'landingPage' && !$scope.session.user) {
+                    $scope.menuOpen = false;
+                } else {
+                    $scope.menuOpen = true;
+                }
 //            if (authFactory.isAuthenticated()) {
 //                authFactory.updateExpiresTime();
 //            } else {
@@ -982,96 +985,112 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
 //                event.preventDefault();
 //                $state.go('landingPage');
 //            }
+            });
+
+        $scope.$on('authChanged', function () {
+            retrieveSession();
+            $scope.selectedMenuItem = {};
+            $scope.menu = buildMenu($scope.session.user);
         });
 
-    $scope.$on('authChanged', function () {
-        retrieveSession();
-        buildMenu($scope.session.user.permisos)
-    });
+        $scope.userHasImage = function () {
+            var file = $scope.session.image;
+            return file &&
+                angular.isDefined(file) &&
+                file != null &&
+                file.size > 0
+        }
 
-    $scope.userHasImage = function() {
-        var file = $scope.session.image;
-        return file &&
-            angular.isDefined(file) &&
-            file != null &&
-            file.size > 0
-    }
+        $scope.logOut = function () {
+            $scope.session = authFactory.logout();
+            $scope.selectedMenuItem = -1;
+            $scope.menu = [];
+            $state.go('landingPage');
+        };
 
-    $scope.logOut = function () {
-        $scope.session = authFactory.logout();
-        $scope.menu = [];
-        $state.go('landingPage');
-    };
-
-    function buildMenu(permissions) {
-        var resultMenu = [];
-
-        var items = $filter('filter')(permissions, function (permission) {
-            return permission.esItemMenu;
-        });
-
-        angular.forEach(items, function (item) {
-            if (item.funcionalidad.grupoFuncionalidad && !$filter('filter')(resultMenu,function (itemMenu) {
-                return itemMenu.name == item.funcionalidad.grupoFuncionalidad.nombre;
-            }).length) {
-                resultMenu.push({
-                    dropdown: true,
-                    name: item.funcionalidad.grupoFuncionalidad.nombre,
-                    subItems: []
-                })
-            }
-        });
-
-        angular.forEach(items, function (item) {
-            if (!item.funcionalidad.grupoFuncionalidad) {
-                resultMenu.push({
-                    name: item.funcionalidad.nombre,
-                    ref: item.funcionalidad.estadoAsociado
-                })
+        $scope.menuItemClick = function(item) {
+            if (item.dropdown) {
+                item.open = !item.open;
             } else {
-                for (var i = 0; i < resultMenu.length; i++) {
-                    if (item.funcionalidad.grupoFuncionalidad.nombre == resultMenu[i].name) {
-                        resultMenu[i].subItems.push({
-                                name: item.funcionalidad.nombre,
-                                ref: item.funcionalidad.estadoAsociado
-                            }
-                        )
+                $scope.selectedMenuItem = item;
+                $state.go(item.ref);
+            }
+        }
+
+
+        function buildMenu(user) {
+            var resultMenu = [];
+
+            var items = user ? $filter('filter')(user.permisos, function (permission) {
+                return permission.esItemMenu;
+            }) : [];
+
+            angular.forEach(items, function (item) {
+                if (item.funcionalidad.grupoFuncionalidad && !$filter('filter')(resultMenu,function (itemMenu) {
+                    return itemMenu.name == item.funcionalidad.grupoFuncionalidad;
+                }).length) {
+                    resultMenu.push({
+                        dropdown: true,
+                        name: item.funcionalidad.grupoFuncionalidad,
+                        open: false,
+                        subItems: []
+                    })
+                }
+            });
+
+            angular.forEach(items, function (item) {
+                if (!item.funcionalidad.grupoFuncionalidad) {
+                    resultMenu.push({
+                        name: item.funcionalidad.nombre,
+                        ref: item.funcionalidad.estadoAsociado,
+                        id: item.funcionalidad.id
+                    })
+                } else {
+                    for (var i = 0; i < resultMenu.length; i++) {
+                        if (item.funcionalidad.grupoFuncionalidad == resultMenu[i].name) {
+                            resultMenu[i].subItems.push({
+                                    name: item.funcionalidad.nombre,
+                                    ref: item.funcionalidad.estadoAsociado,
+                                    id: item.funcionalidad.id,
+                                    group: item.funcionalidad.grupoFuncionalidad
+                                }
+                            )
+                        }
                     }
                 }
-            }
-        });
-        authFactory.setMenu(resultMenu);
-        return resultMenu;
-    }
-
-    function performSubmit(toExecute, form) {
-        $scope.validationErrorFromServer.error = false;
-        $scope.validationErrorFromServer.data = {};
-        if (form.$valid) {
-            toExecute();
-        } else {
-            angular.forEach(form.$error, function (field) {
-                angular.forEach(field, function (errorField) {
-                    console.log(field.name);
-                    errorField.$setTouched();
-                })
             });
+            authFactory.setMenu(resultMenu);
+            return resultMenu;
         }
-    }
 
-    function handleError(data, status) {
-        if(status === 1000) {
-            // Our error response
-            $scope.validationErrorFromServer.error = true;
-            var message = [];
-            var msgs = Object.keys(data);
-            for (var i = 0; i < msgs.length; i++) {
-                message.push(data[msgs[i]]);
+        function performSubmit(toExecute, form) {
+            $scope.validationErrorFromServer.error = false;
+            $scope.validationErrorFromServer.data = {};
+            if (form.$valid) {
+                toExecute();
+            } else {
+                angular.forEach(form.$error, function (field) {
+                    angular.forEach(field, function (errorField) {
+                        console.log(field.name);
+                        errorField.$setTouched();
+                    })
+                });
             }
-            $scope.validationErrorFromServer.data = message;
-        } else {
-            // Other error, go to error page
-            $state.go('error', {response: data});
         }
-    }
-}]);
+
+        function handleError(data, status) {
+            if (status === 1000) {
+                // Our error response
+                $scope.validationErrorFromServer.error = true;
+                var message = [];
+                var msgs = Object.keys(data);
+                for (var i = 0; i < msgs.length; i++) {
+                    message.push(data[msgs[i]]);
+                }
+                $scope.validationErrorFromServer.data = message;
+            } else {
+                // Other error, go to error page
+                $state.go('error', {response: data});
+            }
+        }
+    }]);

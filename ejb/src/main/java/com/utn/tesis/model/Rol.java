@@ -20,7 +20,6 @@ public class Rol extends EntityBase {
     private RolEnum nombre;
 
     @OneToMany(mappedBy = "rol")
-    @NotNull(message = "Los privilegios no pueden ser nulos.")
     private List<Privilegio> privilegios;
 
     @Size(max = 250, message = "La descripcion del rol no puede tener mas de 250 caracteres")
@@ -100,19 +99,6 @@ public class Rol extends EntityBase {
 
     @Override
     public void validar() throws SAPOValidationException {
-        HashMap<String, String> e = new HashMap<String, String>();
-
-        if (privilegios == null) {
-            e.put("Lista privilegios null", "La lista de privilegios no puede ser nula.");
-        }
-
-        if (privilegios.isEmpty()) {
-            e.put("Lista privilegios vacia", "La lista de privilegios no puede estar vacia.");
-        }
-
-        if (!e.isEmpty()) {
-            throw new SAPOValidationException(e);
-        }
     }
 
 }

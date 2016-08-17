@@ -9,6 +9,7 @@ import io.github.benas.randombeans.randomizers.BooleanRandomizer;
 import io.github.benas.randombeans.randomizers.CalendarRandomizer;
 import io.github.benas.randombeans.randomizers.StringRandomizer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.RandomStringUtils;
 
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -76,14 +77,13 @@ public class InitializationService {
                 this.cargarCatedra();
 
                 //Perfiles
+                this.cargarRoles();
                 this.cargarGrupoFuncionalidad();
                 this.cargarFuncionalidad();
                 this.cargarPrivilegio();
-                this.cargarRoles();
 
                 //Usuarios y personas
                 this.cargarUsuarios(); //admin enzo
-                this.cargarPersonaAUsuario();
                 this.cargarAlumnos();
                 this.cargarHistoriasClinicas();
                 this.cargarPacientes();
@@ -243,10 +243,22 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarGrupoFuncionalidad() throws SAPOException {
         log.info("CargarGrupoFuncionalidad INICIO");
-        GrupoFuncionalidad gf = new GrupoFuncionalidad();
-        gf.setNombre("Soporte");
+        GrupoFuncionalidad soporte = new GrupoFuncionalidad();
+        soporte.setNombre("Soporte");
+        grupoFuncionalidadList.add(grupoFuncionalidadService.save(soporte));
 
-        grupoFuncionalidadList.add(grupoFuncionalidadService.save(gf));
+        GrupoFuncionalidad pacientes = new GrupoFuncionalidad();
+        pacientes.setNombre("Pacientes");
+        grupoFuncionalidadList.add(grupoFuncionalidadService.save(pacientes));
+
+        GrupoFuncionalidad estadisticas = new GrupoFuncionalidad();
+        estadisticas.setNombre("Estadísticas");
+        grupoFuncionalidadList.add(grupoFuncionalidadService.save(estadisticas));
+
+        GrupoFuncionalidad ayuda = new GrupoFuncionalidad();
+        ayuda.setNombre("Ayuda");
+        grupoFuncionalidadList.add(grupoFuncionalidadService.save(ayuda));
+
         log.info("CargarGrupoFuncionalidad FINAL");
     }
 
@@ -260,13 +272,13 @@ public class InitializationService {
         funcionalidadList.add(funcionalidadService.save(f1));
 
         Funcionalidad f2 = new Funcionalidad();
-        f2.setNombre("Practica odontologica");
+        f2.setNombre("Práctica odontológica");
         f2.setEstadoAsociado("practicaOdontologica.index");
         f2.setGrupoFuncionalidad(grupoFuncionalidadList.get(0));
         funcionalidadList.add(funcionalidadService.save(f2));
 
         Funcionalidad f3 = new Funcionalidad();
-        f3.setNombre("Trabajo practico");
+        f3.setNombre("Trabajo práctico");
         f3.setEstadoAsociado("trabajoPractico.index");
         f3.setGrupoFuncionalidad(grupoFuncionalidadList.get(0));
         funcionalidadList.add(funcionalidadService.save(f3));
@@ -282,6 +294,13 @@ public class InitializationService {
         f5.setEstadoAsociado("usuario.index");
         f5.setGrupoFuncionalidad(grupoFuncionalidadList.get(0));
         funcionalidadList.add(funcionalidadService.save(f5));
+
+        Funcionalidad f6 = new Funcionalidad();
+        f6.setNombre("Paciente");
+        f6.setEstadoAsociado("paciente.index");
+        f6.setGrupoFuncionalidad(grupoFuncionalidadList.get(1));
+        funcionalidadList.add(funcionalidadService.save(f6));
+
         log.info("CargarFuncionalidad FINAL");
     }
 
@@ -292,6 +311,7 @@ public class InitializationService {
             Privilegio p = new Privilegio();
             p.setFuncionalidad(f);
             p.setEsItemMenu(true);
+            p.setRol(rolList.get(0));
             privilegioList.add(privilegioService.save(p));
         }
         log.info("CargarPrivilegio FINAL");
@@ -300,43 +320,36 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarRoles() throws SAPOException {
         log.info("CargarRoles INICIO");
-        Rol rol = new Rol();
-        rol.setNombre(RolEnum.ADMINISTRADOR);
-        rol.setDescripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua");
-        rol.addPrivilegio(privilegioList.get(0));//materia
-        rol.addPrivilegio(privilegioList.get(1));//Practica odontologica
-        rol.addPrivilegio(privilegioList.get(2));//trabajo practico
-        rol.addPrivilegio(privilegioList.get(3));//Catedra
-        rol.addPrivilegio(privilegioList.get(4));//usuario
-        rolList.add(rolService.create(rol));
-        /*
-        Rol rol1 = Rol.builder()
-                .nombre(Rol.ADMIN_ACADEMICO)
-                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
-                .build();
-        Rol rol2 = Rol.builder()
-                .nombre(Rol.ALUMNO)
-                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
-                .build();
-        Rol rol3 = Rol.builder()
-                .nombre(Rol.AUTORIDAD)
-                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
-                .build();
-        Rol rol4 = Rol.builder()
-                .nombre(Rol.PROFESOR)
-                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
-                .build();
-        Rol rol5 = Rol.builder()
-                .nombre(Rol.RESPONSABLE_RECEPCION_PACIENTES)
-                .descripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
-                .build();
+        Rol administrador = new Rol();
+        administrador.setNombre(RolEnum.ADMINISTRADOR);
+        administrador.setDescripcion("Perfil técnico. Tiene acceso a todo el sistema.");
+        rolList.add(rolService.create(administrador));
 
+        Rol alumno = new Rol();
+        alumno.setNombre(RolEnum.ALUMNO);
+        alumno.setDescripcion("Estudiante. Puede buscar pacientes, asignárselos y registrar atenciones.");
+        rolList.add(rolService.create(alumno));
 
-        rolList.add(rolService.create(rol1));
-        rolList.add(rolService.create(rol2));
-        rolList.add(rolService.create(rol3));
-        rolList.add(rolService.create(rol4));
-        rolList.add(rolService.create(rol5));*/
+        Rol profesor = new Rol();
+        profesor.setNombre(RolEnum.PROFESOR);
+        profesor.setDescripcion("Profesor de la facultad. Puede ver atenciones hechas por alumnos y deberá autorizar previamente.");
+        rolList.add(rolService.create(profesor));
+
+        Rol responsable = new Rol();
+        responsable.setNombre(RolEnum.RESPONSABLE_RECEPCION_PACIENTES);
+        responsable.setDescripcion("Odontólogo matriculado. Recibe los pacientes, los registra y diagnostica.");
+        rolList.add(rolService.create(responsable));
+
+        Rol adminAcademico = new Rol();
+        adminAcademico.setNombre(RolEnum.ADMINISTRADOR_ACADEMICO);
+        adminAcademico.setDescripcion("Perfil académico. Se encarga de materias, trabajos prácticos, cátedras, etc.");
+        rolList.add(rolService.create(adminAcademico));
+
+        Rol autoridad = new Rol();
+        autoridad.setNombre(RolEnum.AUTORIDAD);
+        autoridad.setDescripcion("Autoridad de la facultad. Perfil de \"alto nivel\", puede ver estadísticas y reportes.");
+        rolList.add(rolService.create(autoridad));
+
         log.info("CargarRoles FINAL");
     }
 
@@ -385,50 +398,38 @@ public class InitializationService {
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarUsuarios() throws SAPOException {
-        log.info("CargarUsuarios INICIO");
-        Usuario usuario = new Usuario();
-        usuario.setNombreUsuario("enzo");
-        usuario.setContrasenia("123");
-        usuario.setEmail("enzo@enzo.com");
-        usuario.setRol(rolList.get(0));
-        usuarioService.create(usuario);
-        log.info("CargarUsuarios FINAL");
+        log.info("CargarUsuariosPersonas INICIO");
+        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador());
+        Alumno alumno = new Alumno();
+        alumno.setLegajo("1233456");
+        createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno);
+        Profesor profesor = new Profesor();
+        profesor.setLegajo(1234);
+        profesor.setProfesion("Odontólogo");
+        createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor);
+        createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion());
+        createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico());
+        Autoridad autoridad = new Autoridad();
+        autoridad.setCargo(Cargo.DECANO);
+        createUsuarioYPersona("autoridad", "La vieja", "Savi", rolList.get(5), autoridad);
+        log.info("CargarUsuariospersonas FINAL");
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarPersonaAUsuario() throws SAPOException {
-        log.info("CargarPersonaAUsuario INICIO");
-        Usuario usuario = usuarioService.findById(1L);
+    private void createUsuarioYPersona(String nombreUsuario, String nombre, String apellido, Rol rol, Persona persona) throws SAPOException {
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario(nombreUsuario);
+        usuario.setContrasenia("123");
+        usuario.setEmail(RandomStringUtils.randomAlphabetic(10) + "@domain.com");
+        usuario.setRol(rol);
+        usuarioService.create(usuario);
 
-        Persona persona = new Administrador();
-        persona.setNombre("Enzo");
-        persona.setApellido("Biancato");
+        persona.setNombre(nombre);
+        persona.setApellido(apellido);
         persona.setFechaCarga(Calendar.getInstance());
-        persona.setDocumento(new Documento("34880696", TipoDocumento.DNI));
+        persona.setDocumento(new Documento(RandomStringUtils.randomNumeric(8), TipoDocumento.DNI));
         persona.setUsuario(usuario);
-
         personaService.create(persona);
 
-        Usuario usuario2 = usuarioService.findById(2L);
-
-        Persona persona2 = new Administrador();
-        persona2.setNombre("Carlos");
-        persona2.setApellido("Bianchi");
-        persona2.setFechaCarga(Calendar.getInstance());
-        persona2.setDocumento(new Documento("11116591", TipoDocumento.DNI));
-        persona2.setUsuario(usuario2);
-
-//        personaService.create(persona2);
-//
-//        Alumno persona3 = new Alumno();
-//        persona3.setNombre("Carlos");
-//        persona3.setApellido("Biancato");
-//        persona3.setFechaCarga(Calendar.getInstance());
-//        persona3.setDocumento(new Documento("11116591", TipoDocumento.DNI));
-//        persona3.setUsuario(usuario2);
-//        persona3.setLegajo("54452");
-//
-//        personaService.create(persona3);
         log.info("CargarPersonaAUsuario FINAL");
     }
 
@@ -447,7 +448,6 @@ public class InitializationService {
         log.info("CARGA ALUMNOS FIN");
 
     }
-
 }
 
 

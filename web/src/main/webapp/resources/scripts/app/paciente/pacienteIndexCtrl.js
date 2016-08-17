@@ -23,7 +23,7 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         vm.view = view;
         vm.edit = edit;
         vm.create = create;
-        vm.reaload = reload;
+//        vm.reaload = reload;
 //        vm.viewDetail = viewDetail;
         //paginación
         vm.nextPage = nextPage;

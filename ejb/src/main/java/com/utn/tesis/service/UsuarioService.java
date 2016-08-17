@@ -9,6 +9,7 @@ import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.UsuarioMapper;
 import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Usuario;
+import com.utn.tesis.util.Collections;
 import com.utn.tesis.util.EncryptionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -58,11 +59,13 @@ public class UsuarioService extends BaseService<Usuario> {
     }
 
     public Usuario findByUserAndPassword(String userName, String password) {
+        Usuario usuario;
         try {
-            return dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A1(password));
+            usuario = dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A1(password));
         } catch (NoSuchAlgorithmException e) {
-            return dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A2(password));
+            usuario =  dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A2(password));
         }
+        return Collections.reload(usuario, 3);
     }
 
     public Usuario findByUsernameAndAuthToken(String authId, String authToken) {

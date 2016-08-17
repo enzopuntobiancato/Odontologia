@@ -3,6 +3,7 @@ package com.utn.tesis.model;
 import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "privilegios")
@@ -17,6 +18,7 @@ public class Privilegio extends EntityBase {
 
     @ManyToOne
     @JoinColumn(name = "rol_id")
+    @NotNull(message = "El rol no puede ser nulo.")
     private Rol rol;
 
     public Privilegio() {
