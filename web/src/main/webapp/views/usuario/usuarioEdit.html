@@ -46,7 +46,7 @@
                         <md-input-container flex class="md-block">
                             <label>{{ 'ROL' | translate }}</label>
                             <input disabled name="usuarioRol"
-                                   ng-model="vm.usuario.rol">
+                                   ng-model="vm.usuario.rol.nombre">
                         </md-input-container>
                         <md-input-container flex class="md-block">
                             <label>{{ 'EMAIL' | translate }}</label>
@@ -74,7 +74,7 @@
             </md-card-content>
             <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-click="vm.cancel()">{{ 'CANCELAR' | translate }}</md-button>
-                <md-button type="submit" class="md-raised md-primary">{{ 'NOMBRE' | translate }}</md-button>
+                <md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}</md-button>
             </md-card-actions>
         </form>
     </md-card>

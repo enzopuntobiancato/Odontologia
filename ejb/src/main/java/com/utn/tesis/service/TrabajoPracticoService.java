@@ -2,11 +2,14 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.TrabajoPracticoDao;
+import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.model.Materia;
 import com.utn.tesis.model.TrabajoPractico;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,5 +43,28 @@ public class TrabajoPracticoService extends BaseService<TrabajoPractico> {
 
     public List<TrabajoPractico> findByMateria(Long idMateria){
         return dao.findByMateria(idMateria);
+    }
+
+    @Override
+    protected void bussinessValidation(TrabajoPractico entity) throws SAPOValidationException {
+        boolean executeNameValidation = true;
+        if (!entity.isNew()) {
+            TrabajoPractico persistedEntity = this.findById(entity.getId());
+            executeNameValidation = !entity.getNombre().equalsIgnoreCase(persistedEntity.getNombre())
+            && entity.getPracticaOdontologica().equals(persistedEntity.getPracticaOdontologica());
+        }
+        if (executeNameValidation) {
+            HashMap<String, Object> filter = new HashMap<String, Object>();
+            filter.put("nombre", entity.getNombre());
+            filter.put("practicaOdontologica", entity.getPracticaOdontologica());
+
+            List<TrabajoPractico> result = dao.findBy(filter);
+            if (!result.isEmpty()) {
+                HashMap<String, String> error = new HashMap<String, String>(1);
+                error.put("nombre", "El trabajo práctico " + entity.getNombre() + " ya se encuentra registrado.");
+                throw new SAPOValidationException(error);
+            }
+        }
+        super.bussinessValidation(entity);
     }
 }

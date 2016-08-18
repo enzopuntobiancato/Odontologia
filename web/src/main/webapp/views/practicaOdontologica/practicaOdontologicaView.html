@@ -19,7 +19,6 @@
                                     <md-list-item class="md-2-line md-long-text" flex-gt-sm="35">
                                         <div class="md-list-item-text md-offset">
                                             <h4>Denominación</h4>
-
                                             <h2>{{practica.denominacion}}</h2>
                                         </div>
                                     </md-list-item>
@@ -35,7 +34,7 @@
                                     <md-list-item class="md-2-line md-long-text" flex=90>
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{ 'OBSERVACIONES' | translate }} </h4>
-                                            <p> {{practica.observaciones}} </p>
+                                            <p> {{practica.observaciones | cut:true:200}} </p>
                                         </div>
                                     </md-list-item>
                                 </div>

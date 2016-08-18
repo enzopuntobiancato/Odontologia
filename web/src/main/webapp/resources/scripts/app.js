@@ -358,6 +358,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/edit/:id',
                 templateUrl: 'views/trabajoPractico/trabajoPracticoEdit.html',
                 controller: 'TrabajoPracticoCtrl_Edit',
+                controllerAs: 'vm',
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
