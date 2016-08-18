@@ -18,7 +18,6 @@ import java.util.UUID;
 @Stateless
 @Slf4j
 public class AuthService {
-
     @Inject
     private UsuarioService usuarioService;
     @Inject
