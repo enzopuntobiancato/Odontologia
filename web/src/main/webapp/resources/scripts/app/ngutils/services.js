@@ -240,7 +240,9 @@ services
                         params: {id: entityId}
                     }).then(function () {
                             messages.successMessage('Alta exitosa: ' + liveEntityName);
-                            service.data.queryFunction(currentPage);
+                            if(currentPage != null){
+                                service.data.queryFunction(currentPage);
+                            }
                         }, function () {
                             messages.errorMessage('Error en alta: ' + liveEntityName);
                         })
