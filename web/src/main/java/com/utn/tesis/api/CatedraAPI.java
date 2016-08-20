@@ -45,7 +45,7 @@ public class CatedraAPI extends BaseAPI {
     public Response save(CatedraDTO dto) {
         try {
 
-            dto = catedraService.saveDTO(dto);
+            dto = catedraService.save(dto);
             return Response.ok(dto).build();
         } catch (SAPOException se) {
             return persistenceRequest(se);

@@ -55,19 +55,19 @@
                                         </md-button>
                                     </md-menu-item>
                                     <md-menu-item ng-if="!item.fechaBaja">
-                                        <md-button ng-click="logOut()">
+                                        <md-button ng-click="vm.openDeleteDialog($event)">
                                             <ng-md-icon icon="delete" hide-xs></ng-md-icon>
                                             {{ 'DAR_BAJA' | translate }}
                                         </md-button>
                                     </md-menu-item>
                                     <md-menu-item ng-if="vm.paciente.fechaBaja">
-                                        <md-button ng-click="logOut()">
+                                        <md-button ng-click="vm.openRestoreDialog($event)">
                                             <ng-md-icon icon="restore" hide-xs></ng-md-icon>
                                             {{ 'DAR_ALTA' | translate }}
                                         </md-button>
                                     </md-menu-item>
                                     <md-menu-item>
-                                        <md-button ng-click="logOut()">
+                                        <md-button ng-click="vm.openRestoreDialog($event)">
                                             <ng-md-icon icon="print"></ng-md-icon>
                                             {{ 'IMPRIMIR' | translate }}
                                         </md-button>

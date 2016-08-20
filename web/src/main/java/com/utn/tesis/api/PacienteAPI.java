@@ -99,7 +99,21 @@ public class PacienteAPI extends BaseAPI{
         return pacienteDTO;
     }
 
+    @Path("/initPaciente")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public PacienteDTO initPaciente(){
 
+        Paciente paciente = new Paciente();
+        HistoriaClinica  historiaClinica = HistoriaClinica.createDefault();
+        paciente.setHistoriaClinica(historiaClinica);
+
+        PacienteDTO pacienteDTO = pacienteMapper.toDTO(paciente);
+        HistoriaClinicaDTO historiaClinicaDTO = historiaClinicaMapper.toDTO(historiaClinica);
+        pacienteDTO.setHistoriaClinicaDTO(historiaClinicaDTO);
+
+        return pacienteDTO;
+    }
     //TODO: Persona no extiende de Bajeable, por lo tanto no puede ser dado de baja. Se debe revisar cómo implementar la herencia para poder darlo de baja.
     @Path("/remove")
     @POST

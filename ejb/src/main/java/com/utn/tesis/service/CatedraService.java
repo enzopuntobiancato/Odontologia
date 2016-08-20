@@ -56,7 +56,7 @@ public class CatedraService extends BaseService<Catedra> {
         return catedra;
     }
 
-    public CatedraDTO saveDTO(CatedraDTO dto) throws SAPOException {
+    public CatedraDTO save(CatedraDTO dto) throws SAPOException {
         Catedra entity;
         if (dto.getId() == null) {
             entity = catedraMapper.fromDTO(dto);

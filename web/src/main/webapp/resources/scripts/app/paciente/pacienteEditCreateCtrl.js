@@ -11,9 +11,11 @@ module.controller('PacienteCtrl_EditCreate',
     ['$scope', '$rootScope', '$filter','PacienteSrv', '$state', 'MessageSrv',
         'tiposDocumentoResponse','sexosResponse','provinciaResponse', 'ciudadesResponse','barriosResponse','estadosResponse',
         'trabajosResponse','obrasSocialesResponse','nivelesEstudioResponse','nacionalidadesResponse', 'pacienteResponse',
+        'DeleteRestoreSrv',
         function ($scope, $rootScope, $filter, service, $state, message,
                   tiposDocumentoResponse,sexosResponse,provinciaResponse,ciudadesResponse,barriosResponse,estadosResponse,
-                  trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse,pacienteResponse
+                  trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse,pacienteResponse,
+                  deleteRestoreService
             ) {
             var vm = this;
             vm.paciente= pacienteResponse.data;
@@ -84,6 +86,17 @@ module.controller('PacienteCtrl_EditCreate',
                             handleError(data,status);
                         })
                 },form)
+            }
+
+            //BAJA Y RESTAURAR
+            vm.openDeleteDialog = function(event) {
+                var nombre = vm.paciente.apellido + ", " + vm.paciente.nombre;
+                deleteRestoreService.delete(event, vm.paciente.id, nombre, null,null,null);
+            }
+
+            vm.openRestoreDialog = function(event) {
+                var nombre = vm.paciente.apellido + ", " + vm.paciente.nombre;
+                deleteRestoreService.restore(event, vm.paciente.id, nombre, null);
             }
 
 
@@ -459,10 +472,10 @@ module.controller('PacienteCtrl_EditCreate',
                 console.log("item: " +  idCampo);
             }
             //Adicionales
-            $scope.$on('$viewContentLoaded', function(){
-                alert("Content loaded! puto el que lee");
-                            //Here your view content is fully loaded !! })
-            });
+//            $scope.$on('$viewContentLoaded', function(){
+//                alert("Content loaded! puto el que lee");
+//                            //Here your view content is fully loaded !! })
+//            });
             $scope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     if (!angular.equals($state.current, toState)) {
