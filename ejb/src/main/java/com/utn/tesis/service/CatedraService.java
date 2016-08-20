@@ -4,6 +4,7 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.CatedraDao;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.mapping.dto.CatedraDTO;
 import com.utn.tesis.mapping.mapper.CatedraMapper;
 import com.utn.tesis.model.Catedra;
@@ -15,6 +16,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Stateless
@@ -58,11 +60,11 @@ public class CatedraService extends BaseService<Catedra> {
         Catedra entity;
         if (dto.getId() == null) {
             entity = catedraMapper.fromDTO(dto);
+            entity.setMateria(materiaService.findById(entity.getMateria().getId()));
         } else {
-            entity = this.findById(dto.getId());
+            entity = findById(dto.getId());
             catedraMapper.updateFromDTO(dto, entity);
         }
-        entity.setMateria(materiaService.findById(entity.getMateria().getId()));
         List<TrabajoPractico> practicos = new ArrayList<TrabajoPractico>();
         for (TrabajoPractico practico : entity.getTrabajosPracticos()) {
              practicos.add(trabajoPracticoService.findById(practico.getId()));
@@ -71,9 +73,32 @@ public class CatedraService extends BaseService<Catedra> {
         for (DiaHorario horario: entity.getHorarios()) {
              horario.setCatedra(entity);
         }
-        this.save(entity);
+        save(entity);
         return catedraMapper.toDTO(entity);
     }
 
+    @Override
+    protected void bussinessValidation(Catedra entity) throws SAPOValidationException {
+        boolean executeNameValidation = true;
+        if (!entity.isNew()) {
+            Catedra persistedEntity = this.findById(entity.getId());
+            executeNameValidation = !entity.getDenominacion().equalsIgnoreCase(persistedEntity.getDenominacion())
+                    && entity.getMateria().equals(persistedEntity.getMateria());
+        }
+        if (executeNameValidation) {
+            HashMap<String, Object> filter = new HashMap<String, Object>();
+            filter.put("denominacion", entity.getDenominacion());
+            filter.put("materia", entity.getMateria());
+
+            List<Catedra> result = dao.findBy(filter);
+            if (!result.isEmpty()) {
+                HashMap<String, String> error = new HashMap<String, String>(1);
+                error.put("denominacion", "La cátedra " + entity.getDenominacion() + " ya se encuentra registrada " +
+                        "para la materia " + entity.getMateria().getNombre() + ".");
+                throw new SAPOValidationException(error);
+            }
+        }
+        super.bussinessValidation(entity);
+    }
 
 }

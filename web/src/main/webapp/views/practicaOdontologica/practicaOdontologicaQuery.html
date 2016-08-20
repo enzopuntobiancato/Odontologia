@@ -55,7 +55,7 @@
                                         <label>{{ 'GRUPO_ODONT' | translate }}</label>
                                         <md-select ng-model="filter.idGrupoPractica" name="grupo">
                                             <md-option ng-repeat="grupo in gruposPractica" ng-value="grupo.id">
-                                                {{ grupo.nombre }}
+                                                {{ grupo.nombre | cut:true:30 }}
                                             </md-option>
                                         </md-select>
                                     </md-input-container>
@@ -77,7 +77,7 @@
                                         <h3 class="md-title">
                                             <a>{{item.denominacion}}</a>
                                         </h3>
-                                        <p>{{item.observaciones}}</p>
+                                        <p>{{item.observaciones | cut:true:120}}</p>
                                     </div>
                                     <div ng-show="item.showAction">
                                         <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.id)"

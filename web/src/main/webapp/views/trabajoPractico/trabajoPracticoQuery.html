@@ -55,15 +55,16 @@
                                         <label>{{ 'GRUPO_ODONT' | translate }}</label>
                                         <md-select ng-model="filter.grupoPracticaId" name="grupoPractica">
                                             <md-option ng-repeat="grupo in data.gruposPractica" ng-value="{{ grupo.id }}">
-                                                {{ grupo.nombre }}
+                                                {{ grupo.nombre | cut:true:30}}
                                             </md-option>
+
                                         </md-select>
                                     </md-input-container>
                                     <md-input-container flex="33">
                                         <label>{{ 'PRACTICA_ODONT' | translate }}</label>
                                         <md-select ng-model="filter.practicaId" name="practica">
                                             <md-option ng-repeat="practica in select.practicas" value="{{practica.id}}">
-                                                {{ practica.denominacion }}
+                                                {{ practica.denominacion | cut:true:30 }}
                                             </md-option>
                                         </md-select>
                                     </md-input-container>

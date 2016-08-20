@@ -358,6 +358,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/edit/:id',
                 templateUrl: 'views/trabajoPractico/trabajoPracticoEdit.html',
                 controller: 'TrabajoPracticoCtrl_Edit',
+                controllerAs: 'vm',
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
@@ -670,12 +671,14 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         return service.findById($stateParams.id);
                     }]
                 },
-                controller: function ($scope, $state,pacienteResponse) {
+                controller: function ($scope, $state,pacienteResponse, DeleteRestoreSrv) {
                     var vm = this;
                     vm.paciente = pacienteResponse.data;
                     vm.edit = edit;
                     vm.goIndex = goIndex;
                     vm.mostrar = mostrar;
+                    vm.openDeleteDialog = openDeleteDialog;
+                    vm.openRestoreDialog = openRestoreDialog;
                     vm.tabs = [true, false, false, false];
                     vm.tabsTitulos = ["Datos personales", "Antecedentes", "Diagnósticos", "Atenciones"];
                     vm.titulo = vm.updating ? "Editar " +  vm.paciente.apellido : "Registrar nuevo paciente";
@@ -686,6 +689,17 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }
                     function goIndex() {
                         $state.go('^.index');
+                    }
+
+                    //BAJA Y RESTAURAR
+                    function openDeleteDialog(event) {
+                        var nombre = vm.paciente.apellido + ", " + vm.paciente.nombre;
+                        DeleteRestoreSrv.delete(event, vm.paciente.id, nombre, null,null,null);
+                    }
+
+                    function openRestoreDialog(event) {
+                        var nombre = vm.paciente.apellido + ", " + vm.paciente.nombre;
+                        DeleteRestoreSrv.restore(event, vm.paciente.id, nombre, null);
                     }
 
                     function mostrar(tabId){

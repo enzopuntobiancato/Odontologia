@@ -203,8 +203,10 @@ services
 
                     }).then(function () {
                             messages.successMessage('Baja exitosa: ' + liveEntityName);
-                            var execQuerySamePage = dadosBaja || resultSize > 1;
-                            service.data.queryFunction(execQuerySamePage ? currentPage : 0);
+                            if(dadosBaja != null && resultSize != null && currentPage != null){
+                                var execQuerySamePage = dadosBaja || resultSize > 1;
+                                service.data.queryFunction(execQuerySamePage ? currentPage : 0);
+                            }
                         }, function () {
                             messages.errorMessage('Error en baja: ' + liveEntityName);
                         })
@@ -238,7 +240,9 @@ services
                         params: {id: entityId}
                     }).then(function () {
                             messages.successMessage('Alta exitosa: ' + liveEntityName);
-                            service.data.queryFunction(currentPage);
+                            if(currentPage != null){
+                                service.data.queryFunction(currentPage);
+                            }
                         }, function () {
                             messages.errorMessage('Error en alta: ' + liveEntityName);
                         })

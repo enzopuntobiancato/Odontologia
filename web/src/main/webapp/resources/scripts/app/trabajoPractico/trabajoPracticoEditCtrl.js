@@ -4,80 +4,80 @@
  * Date: 12/05/15
  * Time: 20:49
  */
-
 var module = angular.module('trabajoPracticoModule');
-
-
 module.controller('TrabajoPracticoCtrl_Edit', ['$scope', '$rootScope', 'TrabajoPracticoSrv', '$state', 'MessageSrv', 'gruposPracticaResponse', 'practicasResponse', '$filter', 'trabajoPracticoResponse',
     function ($scope, $rootScope, service, $state, message, gruposPracticaResponse, practicasResponse, $filter, trabajoPracticoResponse) {
-    $scope.trabajoPractico = trabajoPracticoResponse.data;
-    var performSubmit = $scope.$parent.performSubmit;
-    var handleError = $scope.$parent.handleError;
-    $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+        var vm = this;
+        vm.trabajoPractico = trabajoPracticoResponse.data;
+        vm.data = {
+            disableFields: false,
+            gruposPractica: gruposPracticaResponse.data,
+            practicas: practicasResponse.data,
+            persistedOperation: $rootScope.persistedOperation || false,
+            saved: false
+        };
+        vm.selectedGrupo = vm.trabajoPractico.practicaOdontologica.grupo;
+        vm.practicasSelect = vm.data.practicas;
+        var performSubmit = $scope.$parent.performSubmit;
+        var handleError = $scope.$parent.handleError;
+        vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+        vm.save = save;
+        vm.reload = reload;
+        vm.goIndex = goIndex;
 
-    $scope.data = {
-        disableFields: false,
-        gruposPractica: gruposPracticaResponse.data,
-        practicas: practicasResponse.data,
-        persistedOperation: $rootScope.persistedOperation || false,
-        saved: false
-    };
-
-        $scope.aux ={
-            selectedGrupo : $scope.trabajoPractico.practicaOdontologica.grupo
+        function save(form) {
+            performSubmit(function(){
+                service.save(vm.trabajoPractico)
+                    .success(function (data) {
+                        vm.data.persistedOperation = true;
+                        vm.data.disableFields = true;
+                        vm.data.saved = true;
+                        message.successMessage(vm.trabajoPractico.nombre + " modificado con éxito!");
+                        vm.goIndex();
+                    })
+                    .error(function (data, status) {
+                        handleError(data, status);
+                    })
+            },form);
         }
-//    $scope.selectedGrupo = $scope.trabajoPractico.practicaOdontologica.grupo;
-    $scope.practicasSelect = $scope.data.practicas;
 
-
-   /* $scope.$watch('selectedGrupo', function (newValue, oldValue) {
-        if (!angular.equals(newValue, oldValue)) {
-            delete $scope.trabajoPractico.practicaOdontologica;
-            filterPracticas();
+        function goIndex() {
+            $state.go('^.index', {execQuery: false, execQuerySamePage: vm.data.persistedOperation});
         }
 
-        function filterPracticas() {
-
-            if (!$scope.selectedGrupo || !angular.isDefined($scope.selectedGrupo.id)) {
-                $scope.practicasSelect = $scope.data.practicas;
-            } else {
-                $scope.practicasSelect = $filter('filter')($scope.data.practicas, function (value) {
-                    return angular.equals(value.grupo.id, $scope.selectedGrupo.id);
-                })
-            }
+        function reload() {
+            $rootScope.persistedOperation = vm.data.persistedOperation;
+            $state.go($state.current, {}, {reload: true});
         }
-    })*/
+//        $scope.aux ={
+//            selectedGrupo : $scope.trabajoPractico.practicaOdontologica.grupo
+//        };
 
-    $scope.save = function (form) {
-        performSubmit(function(){
-            service.save($scope.trabajoPractico)
-                .success(function (data) {
-                    $scope.data.persistedOperation = true;
-                    $scope.data.disableFields = true;
-                    $scope.data.saved = true;
-                    message.successMessage($scope.trabajoPractico.nombre + " modificado con éxito!");
-                    $scope.goIndex();
-                })
-                .error(function (data, status) {
-                    handleError(data, status);
-                })
-        },form);
-    };
 
-    $scope.goIndex = function () {
-        $state.go('^.index', {execQuery: false, execQuerySamePage: $scope.data.persistedOperation});
-    };
 
-    $scope.reload = function () {
-        $rootScope.persistedOperation = $scope.data.persistedOperation;
-        $state.go($state.current, {}, {reload: true});
-    };
+        /* $scope.$watch('selectedGrupo', function (newValue, oldValue) {
+         if (!angular.equals(newValue, oldValue)) {
+         delete $scope.trabajoPractico.practicaOdontologica;
+         filterPracticas();
+         }
 
-    $scope.$on('$stateChangeStart',
-        function (event, toState, toParams, fromState, fromParams) {
-            if (!angular.equals($state.current, toState)) {
-                delete $rootScope.persistedOperation;
-            }
-        });
-}]);
+         function filterPracticas() {
+
+         if (!$scope.selectedGrupo || !angular.isDefined($scope.selectedGrupo.id)) {
+         $scope.practicasSelect = $scope.data.practicas;
+         } else {
+         $scope.practicasSelect = $filter('filter')($scope.data.practicas, function (value) {
+         return angular.equals(value.grupo.id, $scope.selectedGrupo.id);
+         })
+         }
+         }
+         })*/
+
+        $scope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                if (!angular.equals($state.current, toState)) {
+                    delete $rootScope.persistedOperation;
+                }
+            });
+    }]);
 

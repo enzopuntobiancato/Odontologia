@@ -44,6 +44,7 @@ public class CatedraAPI extends BaseAPI {
     @Path("/save")
     public Response save(CatedraDTO dto) {
         try {
+
             dto = catedraService.save(dto);
             return Response.ok(dto).build();
         } catch (SAPOException se) {

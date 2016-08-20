@@ -3,14 +3,17 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.PracticaOdontologicaDao;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.mapping.dto.PracticaOdontologicaDTO;
 import com.utn.tesis.mapping.mapper.PracticaOdontologicaMapper;
+import com.utn.tesis.model.Catedra;
 import com.utn.tesis.model.GrupoPracticaOdontologica;
 import com.utn.tesis.model.PracticaOdontologica;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -59,4 +62,27 @@ public class PracticaOdontologicaService extends BaseService<PracticaOdontologic
         return practicaMapper.toDTO(this.save(entity));
     }
 
+    @Override
+    protected void bussinessValidation(PracticaOdontologica entity) throws SAPOValidationException {
+        boolean executeNameValidation = true;
+        if (!entity.isNew()) {
+            PracticaOdontologica persistedEntity = this.findById(entity.getId());
+            executeNameValidation = !(entity.getDenominacion().equalsIgnoreCase(persistedEntity.getDenominacion())
+                    && entity.getGrupo().equals(persistedEntity.getGrupo()));
+        }
+        if (executeNameValidation) {
+            HashMap<String, Object> filter = new HashMap<String, Object>();
+            filter.put("denominacion", entity.getDenominacion());
+            filter.put("grupo", entity.getGrupo());
+
+            List<PracticaOdontologica> result = dao.findBy(filter);
+            if (!result.isEmpty()) {
+                HashMap<String, String> error = new HashMap<String, String>(1);
+                error.put("denominacion", "La práctica " + entity.getDenominacion() + " ya se encuentra registrada " +
+                        "para el grupo " + entity.getGrupo().getNombre() + ".");
+                throw new SAPOValidationException(error);
+            }
+        }
+        super.bussinessValidation(entity);
+    }
 }
