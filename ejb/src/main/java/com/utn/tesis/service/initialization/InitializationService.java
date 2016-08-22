@@ -3,6 +3,7 @@ package com.utn.tesis.service.initialization;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.model.*;
 import com.utn.tesis.service.*;
+import com.utn.tesis.util.EncryptionUtils;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import io.github.benas.randombeans.randomizers.BooleanRandomizer;
@@ -418,7 +419,7 @@ public class InitializationService {
     private void createUsuarioYPersona(String nombreUsuario, String nombre, String apellido, Rol rol, Persona persona) throws SAPOException {
         Usuario usuario = new Usuario();
         usuario.setNombreUsuario(nombreUsuario);
-        usuario.setContrasenia("123");
+        usuario.setContrasenia(EncryptionUtils.encryptMD5A("123"));
         usuario.setEmail(RandomStringUtils.randomAlphabetic(10) + "@domain.com");
         usuario.setRol(rol);
         usuarioService.create(usuario);

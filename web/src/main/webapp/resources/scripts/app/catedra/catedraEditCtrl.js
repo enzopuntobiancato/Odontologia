@@ -209,7 +209,7 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
                         $scope.data.persistedOperation = true;
                         $scope.data.disableFields = true;
                         $scope.data.saved = true;
-                        message.showMessage("Cátedra " + $scope.catedra.materia.nombre + " " + $scope.catedra.denominacion + " creada.");
+                        message.showMessage("Cátedra " + $scope.catedra.materia.nombre + " " + $scope.catedra.denominacion + " editada.");
                         $scope.goIndex();
                     })
                     .error(function (data, status) {

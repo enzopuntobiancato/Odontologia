@@ -3,13 +3,9 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
-import com.utn.tesis.model.Bajeable;
-import com.utn.tesis.model.EntityBase;
+import com.utn.tesis.model.IBajeable;
 import com.utn.tesis.model.SuperEntityBase;
-import com.utn.tesis.util.Collections;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -22,7 +18,7 @@ import java.util.logging.Logger;
 /**
  * Created by enzo on 09/02/2015.
  */
-public abstract class  BaseService<T extends SuperEntityBase> {
+public abstract class BaseService<T extends SuperEntityBase> {
 
     abstract DaoBase<T> getDao();
 
@@ -49,14 +45,14 @@ public abstract class  BaseService<T extends SuperEntityBase> {
 
     public T remove(Long id, String motivoBaja) throws SAPOException {
         T entity = getDao().findById(id);
-        ((Bajeable) entity).darDeBaja(motivoBaja);
+        ((IBajeable) entity).darDeBaja(motivoBaja);
         getDao().deleteLogical(entity);
         return entity;
     }
 
     public void restore(Long id) {
         T entity = getDao().findById(id);
-        ((Bajeable) entity).darDeAlta();
+        ((IBajeable) entity).darDeAlta();
         getDao().update(entity);
     }
 

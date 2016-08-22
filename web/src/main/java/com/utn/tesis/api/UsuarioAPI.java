@@ -2,6 +2,7 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mail.MailService;
 import com.utn.tesis.mapping.dto.PersonaDTO;
 import com.utn.tesis.mapping.dto.UsuarioConsultaDTO;
 import com.utn.tesis.mapping.dto.UsuarioDTO;
@@ -46,6 +47,8 @@ public class UsuarioAPI extends BaseAPI {
     private CommonsService commonsService;
     @Inject
     private UsuarioConsultaMapper usuarioConsultaMapper;
+    @Inject
+    private MailService mailService;
 
     @Path("/find")
     @GET
@@ -98,7 +101,8 @@ public class UsuarioAPI extends BaseAPI {
             entityUsuario.setRol(rol);
             Persona entityPersona = personaMapper.fromDTO(personaDTO);
             entityUsuario.setNombreUsuario(personaDTO.getDocumento().getNumero()); //Por defaulr, el nombre de usuario es el numero de documento.
-            usuarioService.saveUsuario(entityPersona, entityUsuario);
+            String password = usuarioService.saveUsuario(entityPersona, entityUsuario);
+            mailService.sendRegistrationMail(entityUsuario.getEmail(), entityPersona.getNombre(), entityUsuario.getNombreUsuario(), password);
         } else {
             this.update(usuarioDTO);
         }
