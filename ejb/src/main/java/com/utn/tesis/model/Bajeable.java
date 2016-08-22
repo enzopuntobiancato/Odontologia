@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
@@ -16,7 +12,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 @MappedSuperclass
-public abstract class Bajeable extends EntityBase {
+public abstract class Bajeable extends EntityBase implements IBajeable {
 
     private int estadoAlta = ALTA;
 
@@ -30,12 +26,14 @@ public abstract class Bajeable extends EntityBase {
     public static int ALTA = 1;
     public static int BAJA = 0;
 
+    @Override
     public void darDeAlta() {
         estadoAlta = ALTA;
         fechaBaja = null;
         motivoBaja = null;
     }
 
+    @Override
     public void darDeBaja(String motivo) throws SAPOValidationException {
         if (estadoAlta == ALTA && motivoBaja == null && fechaBaja == null) {
             estadoAlta = BAJA;
@@ -49,6 +47,7 @@ public abstract class Bajeable extends EntityBase {
 
     }
 
+    @Override
     public void darDeBaja(String motivo, Calendar fechaDeBaja) throws SAPOValidationException {
         darDeBaja(motivo);
         fechaBaja = fechaDeBaja != null ? fechaDeBaja : this.fechaBaja;

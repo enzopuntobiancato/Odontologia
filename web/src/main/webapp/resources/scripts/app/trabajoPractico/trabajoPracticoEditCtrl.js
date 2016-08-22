@@ -49,29 +49,23 @@ module.controller('TrabajoPracticoCtrl_Edit', ['$scope', '$rootScope', 'TrabajoP
             $rootScope.persistedOperation = vm.data.persistedOperation;
             $state.go($state.current, {}, {reload: true});
         }
-//        $scope.aux ={
-//            selectedGrupo : $scope.trabajoPractico.practicaOdontologica.grupo
-//        };
 
+        $scope.$watch('vm.selectedGrupo', function (newValue, oldValue) {
+            if (!angular.equals(newValue, oldValue)) {
+                delete vm.trabajoPractico.practicaOdontologica;
+                filterPracticas();
+            }
 
-
-        /* $scope.$watch('selectedGrupo', function (newValue, oldValue) {
-         if (!angular.equals(newValue, oldValue)) {
-         delete $scope.trabajoPractico.practicaOdontologica;
-         filterPracticas();
-         }
-
-         function filterPracticas() {
-
-         if (!$scope.selectedGrupo || !angular.isDefined($scope.selectedGrupo.id)) {
-         $scope.practicasSelect = $scope.data.practicas;
-         } else {
-         $scope.practicasSelect = $filter('filter')($scope.data.practicas, function (value) {
-         return angular.equals(value.grupo.id, $scope.selectedGrupo.id);
-         })
-         }
-         }
-         })*/
+            function filterPracticas() {
+                if (!vm.selectedGrupo || !angular.isDefined(vm.selectedGrupo.id)) {
+                    vm.practicasSelect = vm.data.practicas;
+                } else {
+                    vm.practicasSelect = $filter('filter')(vm.data.practicas, function (value) {
+                        return angular.equals(value.grupo.id, vm.selectedGrupo.id);
+                    })
+                }
+            }
+        });
 
         $scope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {

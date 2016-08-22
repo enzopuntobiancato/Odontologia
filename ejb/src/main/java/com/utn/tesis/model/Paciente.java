@@ -1,14 +1,20 @@
 package com.utn.tesis.model;
 
+import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.util.FechaUtils;
 import io.github.benas.randombeans.annotation.Exclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Calendar;
+import java.util.HashMap;
 
 @Entity
 @Table(name = "pacientes")
-public class Paciente extends Persona {
+public class Paciente extends Persona implements IBajeable {
     private static final long serialVersionUID = -836105309387103995L;
+
+    private int estadoAlta = Bajeable.ALTA;
 
     @Size(max = 30, message = "El celular no puede tener mas de 30 caracteres.")
     @Column(length = 30)
@@ -80,7 +86,30 @@ public class Paciente extends Persona {
     @JoinColumn(name = "historia_clinica_id")
     private HistoriaClinica historiaClinica;
 
+    @Size(max = 150, message = "El motivo de baja debe tener entre 0 y 150 caracteres.")
+    @Column(length = 150, name = "motivo_baja")
+    private String motivoBaja;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_baja")
+    private Calendar fechaBaja;
+
     public Paciente() {
+    }
+
+    public String getMotivoBaja() {
+        return motivoBaja;
+    }
+
+    public void setMotivoBaja(String motivoBaja) {
+        this.motivoBaja = motivoBaja;
+    }
+
+    public Calendar getFechaBaja() {
+        return fechaBaja;
+    }
+
+    public void setFechaBaja(Calendar fechaBaja) {
+        this.fechaBaja = fechaBaja;
     }
 
     public String getCelular() {
@@ -209,6 +238,32 @@ public class Paciente extends Persona {
 
     public void setDomicilio(Domicilio domicilio) {
         this.domicilio = domicilio;
+    }
+
+    @Override
+    public void darDeAlta() {
+        estadoAlta = Bajeable.ALTA;
+        fechaBaja = null;
+        motivoBaja = null;
+    }
+
+    @Override
+    public void darDeBaja(String motivo) throws SAPOValidationException {
+        if (estadoAlta == Bajeable.ALTA && motivoBaja == null && fechaBaja == null) {
+            estadoAlta = Bajeable.BAJA;
+            this.motivoBaja = motivo;
+            fechaBaja = FechaUtils.convertDateToCalendar(Calendar.getInstance().getTime());
+        } else {
+            HashMap<String, String> errors = new HashMap<String, String>(1);
+            errors.put("Entidad actualmente dada de baja", "La entidad ya se encuentra dada de baja.");
+            throw new SAPOValidationException(errors);
+        }
+    }
+
+    @Override
+    public void darDeBaja(String motivo, Calendar fechaDeBaja) throws SAPOValidationException {
+        darDeBaja(motivo);
+        fechaBaja = fechaDeBaja != null ? fechaDeBaja : this.fechaBaja;
     }
 
 }

@@ -108,9 +108,9 @@ public abstract class Persona extends SuperEntityBase {
         this.fechaCarga = fechaCarga;
     }
 
-    /*
-             * Calcula y devuelve un Integer con la edad de la persona.
-             */
+    /**
+     * Calcula y devuelve un Integer con la edad de la persona.
+     */
     public Integer getEdad() {
         return fechaNacimiento == null ? null : Calendar.getInstance().get(Calendar.YEAR) - fechaNacimiento.get(Calendar.YEAR);
     }

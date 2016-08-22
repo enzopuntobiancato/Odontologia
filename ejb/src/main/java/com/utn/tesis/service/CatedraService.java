@@ -60,11 +60,11 @@ public class CatedraService extends BaseService<Catedra> {
         Catedra entity;
         if (dto.getId() == null) {
             entity = catedraMapper.fromDTO(dto);
-            entity.setMateria(materiaService.findById(entity.getMateria().getId()));
         } else {
             entity = findById(dto.getId());
             catedraMapper.updateFromDTO(dto, entity);
         }
+        entity.setMateria(materiaService.findById(dto.getMateria().getId()));
         List<TrabajoPractico> practicos = new ArrayList<TrabajoPractico>();
         for (TrabajoPractico practico : entity.getTrabajosPracticos()) {
              practicos.add(trabajoPracticoService.findById(practico.getId()));

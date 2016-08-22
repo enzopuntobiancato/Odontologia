@@ -5,6 +5,7 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.mail.MailService;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.UsuarioMapper;
 import com.utn.tesis.model.Persona;
@@ -34,6 +35,8 @@ public class UsuarioService extends BaseService<Usuario> {
     private PersonaService personaService;
     @Inject
     private UsuarioMapper usuarioMapper;
+    @Inject
+    private MailService mailService;
 
     @Override
     protected void bussinessValidation(Usuario entity) throws SAPOValidationException {
@@ -72,30 +75,18 @@ public class UsuarioService extends BaseService<Usuario> {
         return dao.findByUsernameAndAuthToken(authId, authToken);
     }
 
-    @Override
-    public Usuario create(Usuario entity) throws SAPOException {
-        // Enviar e-mail con la contraseña antes de encriptar la misma
-
-        //encriptamos la contraseña
-        try {
-            entity.setContrasenia(EncryptionUtils.encryptMD5A1(entity.getContrasenia()));
-        } catch (NoSuchAlgorithmException e) {
-            entity.setContrasenia(EncryptionUtils.encryptMD5A2(entity.getContrasenia()));
-        }
-
-        return super.create(entity);
-    }
-
     public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
         return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
     }
 
-    public void saveUsuario(Persona persona, Usuario usuario) throws SAPOException {
+    public String saveUsuario(Persona persona, Usuario usuario) throws SAPOException {
         String password = RandomStringUtils.randomAlphanumeric(5);
         usuario.setContrasenia(password);
+        usuario.setContrasenia(EncryptionUtils.encryptMD5A(usuario.getContrasenia()));
         usuario = create(usuario);
         persona.setUsuario(usuario);
         personaService.create(persona);
+        return password;
     }
 
     public Persona findPersonaByUsuario(Usuario usuario) {
