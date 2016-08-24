@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class Paciente extends Persona implements IBajeable {
     private static final long serialVersionUID = -836105309387103995L;
 
+    @Transient
     private int estadoAlta = Bajeable.ALTA;
 
     @Size(max = 30, message = "El celular no puede tener mas de 30 caracteres.")
@@ -88,9 +89,12 @@ public class Paciente extends Persona implements IBajeable {
 
     @Size(max = 150, message = "El motivo de baja debe tener entre 0 y 150 caracteres.")
     @Column(length = 150, name = "motivo_baja")
+    @Exclude
     private String motivoBaja;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_baja")
+    @Exclude
     private Calendar fechaBaja;
 
     public Paciente() {
