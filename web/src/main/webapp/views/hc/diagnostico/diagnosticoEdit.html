@@ -1,0 +1,47 @@
+<div layout="column" flex layout-fill>
+    <md-button class="md-fab md-fab-bottom-right" ng-click="vm.addNewDiagnostico($event)">
+        <md-tooltip>
+            Nuevo
+        </md-tooltip>
+        <ng-md-icon icon="add" size="24" style="fill: white"></ng-md-icon>
+    </md-button>
+    <md-content>
+        <div layout="column" layout-fill md-scroll-y layout-padding>
+            <p class="subtitle-text">Odontograma</p>
+
+            <p class="subtitle-text less-bottom">Diagnósticos abiertos</p>
+            <md-list ng-if="!vm.aux.editingDiagnostico" ng-show="vm.diagnosticos.length">
+                <md-list-item ng-click="vm.editDiagnostico(diagnostico, $index)"
+                              class="md-2-line" ng-repeat="diagnostico in vm.diagnosticos | orderBy:'':true">
+                    <img class="md-avatar list-item-{{$index}}" hide-xs/>
+
+                    <div class="md-list-item-text" layout="column">
+                        <h3 class="md-title">
+                            <a>{{diagnostico.practicaOdontologica.denominacion ||
+                                diagnostico.practicaNoExistente}}</a>
+                        </h3>
+
+                        <div layout="row">
+                            <h4>Estado: {{ diagnostico.ultimoMovimiento.estado.nombre }} </h4>
+                            <span flex></span>
+                            <h4 class="green-text" ng-if="!diagnostico.id">Nuevo</h4>
+                            <h4 class="orange-text" ng-if="diagnostico.editado">Editado</h4>
+                        </div>
+                    </div>
+                    <md-divider md-inset ng-if="!$last"></md-divider>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+            <div ng-show="!vm.diagnosticos.length && !vm.aux.editingDiagnostico" layout="column"
+                 layout-align="center center">
+                <h1 class="md-title">No se registran diagnósticos pendientes</h1>
+                <img style="height: 200px;width: auto" ng-src="resources/img/odontology/47.svg">
+            </div>
+            <ng-include ng-if="vm.aux.editingDiagnostico"
+                        src="'views/hc/diagnostico/editExisting.html'"/>
+        </div>
+    </md-content>
+</div>
+
+
+

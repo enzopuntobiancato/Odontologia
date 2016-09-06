@@ -5,115 +5,61 @@
                 <div layout="row" layout-align="center center">
                     <md-card flex-gt-sm>
                         <form name="createMateriaForm" ng-submit="save(createMateriaForm)" novalidate>
-                        <md-toolbar class="md-accent">
-                            <div class="md-toolbar-tools">
-                                <span>{{ 'CREAR_MATERIA' | translate }}</span>
-                            </div>
-                        </md-toolbar>
-                        <md-card-content>
-                            <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
-                            <div layout-gt-sm="row" layout-margin>
-                                <md-input-container flex-gt-sm="33">
-                                    <label>{{ 'NOMBRE' | translate }}</label>
-                                    <input name="nombre" ng-model="materia.nombre"
-                                           required md-maxlength="50">
+                            <md-toolbar class="md-accent">
+                                <div class="md-toolbar-tools">
+                                    <span>{{ 'CREAR_MATERIA' | translate }}</span>
+                                </div>
+                            </md-toolbar>
+                            <md-card-content>
+                                <ng-include ng-if="validationErrorFromServer.error"
+                                            src="'views/validation-error.html'"></ng-include>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <md-input-container flex-gt-sm="33">
+                                        <label>{{ 'NOMBRE' | translate }}</label>
+                                        <input name="nombre" ng-model="materia.nombre"
+                                               required md-maxlength="50">
 
-                                    <div ng-messages="createMateriaForm.nombre.$error" role="alert"
-                                         ng-show="createMateriaForm.nombre.$touched">
-                                        <div ng-messages-include="error-messages"></div>
-                                    </div>
-                                </md-input-container>
-                                <md-input-container flex-gt-sm="33">
-                                    <label>{{ 'NIVEL' | translate }}</label>
-                                    <md-select required ng-model="materia.nivel" name="nivel"
-                                               ng-model-options="{trackBy: '$value.key'}">
-                                        <md-option ng-repeat="nivel in data.niveles" ng-value="nivel">
-                                            {{ nivel.nombre }}
-                                        </md-option>
-                                    </md-select>
-                                    <div ng-messages="createMateriaForm.nivel.$error" ng-show="createMateriaForm.nivel.$touched">
-                                        <div ng-messages-include="error-messages"></div>
-                                    </div>
-                                </md-input-container>
-                            </div>
-                            <div layout-gt-sm="row" layout-margin>
-                                <md-input-container flex>
-                                    <label>{{ 'DESCRIPCION' | translate }}</label>
-                                    <textarea ng-model="materia.descripcion" rows="3" md-maxlength="400"
-                                              name="descripcion"></textarea>
+                                        <div ng-messages="createMateriaForm.nombre.$error" role="alert"
+                                             ng-show="createMateriaForm.nombre.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex-gt-sm="33">
+                                        <label>{{ 'NIVEL' | translate }}</label>
+                                        <md-select required ng-model="materia.nivel" name="nivel"
+                                                   ng-model-options="{trackBy: '$value.key'}">
+                                            <md-option ng-repeat="nivel in data.niveles" ng-value="nivel">
+                                                {{ nivel.nombre }}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="createMateriaForm.nivel.$error"
+                                             ng-show="createMateriaForm.nivel.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <md-input-container flex>
+                                        <label>{{ 'DESCRIPCION' | translate }}</label>
+                                        <textarea ng-model="materia.descripcion" rows="3" md-maxlength="400"
+                                                  name="descripcion"></textarea>
 
-                                    <div ng-messages="createMateriaForm.descripcion.$error"
-                                         ng-show="createMateriaForm.descripcion.$touched">
-                                        <div ng-messages-include="error-messages"></div>
-                                    </div>
-                                </md-input-container>
-                            </div>
-                        </md-card-content>
-                        <md-card-actions layout="row" layout-align="end center">
-                            <md-button ng-click="goIndex()">Cancelar</md-button>
-                            <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-                        </md-card-actions>
-                            </form>
+                                        <div ng-messages="createMateriaForm.descripcion.$error"
+                                             ng-show="createMateriaForm.descripcion.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="goIndex()">Cancelar</md-button>
+                                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                            </md-card-actions>
+                        </form>
                     </md-card>
                 </div>
             </div>
         </div>
     </md-content>
 </div>
-
-<!--<md-content layout="column" layout-align="start center" class="md-main-content" flex>-->
-    <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
-        <!--<form name="createMateriaForm" ng-submit="save(createMateriaForm)" novalidate>-->
-            <!--<md-toolbar class="md-accent">-->
-                <!--<div class="md-toolbar-tools">-->
-                    <!--<span>Crear materia</span>-->
-                <!--</div>-->
-            <!--</md-toolbar>-->
-            <!--<md-card-content>-->
-                <!--<p>Complete los datos para crear una nueva materia.</p>-->
-                <!--<ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>-->
-                <!--<div layout-gt-sm="row" layout-margin>-->
-                    <!--<md-input-container flex-gt-sm="33">-->
-                        <!--<label>Nombre</label>-->
-                        <!--<input name="nombre" ng-model="materia.nombre"-->
-                               <!--required md-maxlength="50">-->
-
-                        <!--<div ng-messages="createMateriaForm.nombre.$error" role="alert"-->
-                             <!--ng-show="createMateriaForm.nombre.$touched">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container flex-gt-sm="33">-->
-                        <!--<label>Nivel</label>-->
-                        <!--<md-select required ng-model="materia.nivel" name="nivel"-->
-                                   <!--ng-model-options="{trackBy: '$value.key'}">-->
-                            <!--<md-option ng-repeat="nivel in data.niveles" ng-value="nivel">-->
-                                <!--{{ nivel.nombre }}-->
-                            <!--</md-option>-->
-                        <!--</md-select>-->
-                        <!--<div ng-messages="createMateriaForm.nivel.$error" ng-show="createMateriaForm.nivel.$touched">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                <!--</div>-->
-                <!--<div layout-gt-sm="row" layout-margin>-->
-                    <!--<md-input-container flex>-->
-                        <!--<label>Descripción</label>-->
-                        <!--<textarea ng-model="materia.descripcion" rows="3" md-maxlength="400"-->
-                                  <!--name="descripcion"></textarea>-->
-
-                        <!--<div ng-messages="createMateriaForm.descripcion.$error"-->
-                             <!--ng-show="createMateriaForm.descripcion.$touched">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                <!--</div>-->
-            <!--</md-card-content>-->
-            <!--<md-card-actions layout="row" layout-align="end center">-->
-                <!--<md-button ng-click="goIndex()">Cancelar</md-button>-->
-                <!--<md-button type="submit" class="md-raised md-primary">Aceptar</md-button>-->
-            <!--</md-card-actions>-->
-        <!--</form>-->
-    <!--</md-card>-->
-<!--</md-content>-->
 

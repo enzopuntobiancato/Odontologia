@@ -1,6 +1,7 @@
 package com.utn.tesis.mapping.dto;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,13 +40,14 @@ public class PacienteDTO extends BaseDTO {
     private EnumDTO  nivelEstudio;
     //Otros datos
     private String religion;
+    private boolean privadoLibertad;
+    private String privadoLibertadDonde;
     //fechaCarga
     private Calendar fechaCarga;
     //Baja
     private String motivoBaja;
     //Historia clínica
     private HistoriaClinicaDTO historiaClinicaDTO;
-
     //CONSTRUCTOR
 
     public PacienteDTO() {
@@ -250,5 +252,21 @@ public class PacienteDTO extends BaseDTO {
 
     public void setHistoriaClinicaId(Long historiaClinicaId) {
         this.historiaClinicaId = historiaClinicaId;
+    }
+
+    public boolean isPrivadoLibertad() {
+        return privadoLibertad;
+    }
+
+    public void setPrivadoLibertad(boolean privadoLibertad) {
+        this.privadoLibertad = privadoLibertad;
+    }
+
+    public String getPrivadoLibertadDonde() {
+        return privadoLibertadDonde;
+    }
+
+    public void setPrivadoLibertadDonde(String privadoLibertadDonde) {
+        this.privadoLibertadDonde = privadoLibertadDonde;
     }
 }

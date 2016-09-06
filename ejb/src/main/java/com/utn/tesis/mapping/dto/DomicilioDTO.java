@@ -11,8 +11,8 @@ public class DomicilioDTO extends BaseDTO{
     private BarrioDTO barrio;
     private String calle;
     private String numeroCalle;
-    private int codigoPostal;
-    private int piso;
+    private Integer codigoPostal;
+    private Integer piso;
     private String departamento;
     private Long id;
     private Integer version;
@@ -59,19 +59,19 @@ public class DomicilioDTO extends BaseDTO{
         this.numeroCalle = numeroCalle;
     }
 
-    public int getCodigoPostal() {
+    public Integer getCodigoPostal() {
         return codigoPostal;
     }
 
-    public void setCodigoPostal(int codigoPostal) {
+    public void setCodigoPostal(Integer codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
 
-    public int getPiso() {
+    public Integer getPiso() {
         return piso;
     }
 
-    public void setPiso(int piso) {
+    public void setPiso(Integer piso) {
         this.piso = piso;
     }
 

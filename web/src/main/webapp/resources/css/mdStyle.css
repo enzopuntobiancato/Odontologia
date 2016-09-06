@@ -62,8 +62,6 @@ md-content.md-default-theme {
     box-sizing: content-box;
 }
 
-
-
 .label-item-three-columns {
     box-sizing: border-box;
     padding: 0;
@@ -377,4 +375,48 @@ md-toolbar.md-table-toolbar.alternate-table-toolbar-2 {
 
 .selected-menu-item {
     background-color: lightgray;
+}
+
+.justified-text {
+    text-align : justify;
+}
+
+.small-line {
+    line-height:1 !important;
+}
+
+.grey-item {
+    background-color: rgba(181, 181, 181, 0.66);
+}
+
+.green-text {
+    color: green!important;
+}
+
+.orange-text {
+    color: orange!important;
+}
+
+.word-wrap {
+    white-space: pre;           /* CSS 2.0 */
+    white-space: pre-wrap;      /* CSS 2.1 */
+    white-space: pre-line;      /* CSS 3.0 */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    white-space: -moz-pre-wrap; /* Mozilla */
+    white-space: -hp-pre-wrap;  /* HP Printers */
+    word-wrap: break-word;      /* IE 5+ */
+}
+
+.edited-row {
+    background-color: orange;
+}
+
+.less-bottom {
+    margin-bottom: 0px!important;
+}
+
+.autocomplete-less-bottom > md-autocomplete-wrap > md-input-container {
+    margin-bottom: 10px!important;
+    padding-bottom: 0px!important;
 }

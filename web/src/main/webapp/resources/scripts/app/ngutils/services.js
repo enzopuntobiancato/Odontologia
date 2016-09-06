@@ -156,6 +156,10 @@ services
 
         service.getPersonaEnums = function () {
             return $http.get('api/commons/getPersonaEnums', {});
+        };
+
+        service.getEstadosDiagnostico = function() {
+            return $http.get('api/commons/getEstadosDiagnostico', {});
         }
 
         return service;

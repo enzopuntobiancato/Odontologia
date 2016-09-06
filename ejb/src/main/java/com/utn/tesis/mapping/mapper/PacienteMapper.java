@@ -13,15 +13,22 @@ import java.util.List;
  * Time: 16:32
  * To change this template use File | Settings | File Templates.
  */
-@Mapper(componentModel = "cdi", uses = {EnumMapper.class,
-        TrabajoMapper.class,ObraSocialMapper.class, CiudadMapper.class,
-        DocumentoMapper.class, DomicilioMapper.class, BarrioMapper.class}, nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
+@Mapper(componentModel = "cdi", uses = {
+        EnumMapper.class,
+        TrabajoMapper.class,
+        ObraSocialMapper.class,
+        CiudadMapper.class,
+        DocumentoMapper.class,
+        DomicilioMapper.class,
+        BarrioMapper.class
+}, nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface PacienteMapper {
-
 
     Paciente fromDTO(PacienteDTO pacienteDTO);
 
-    @Mapping(source = "paciente.historiaClinica.id", target = "historiaClinicaId")
+    @Mappings({
+            @Mapping(source = "paciente.historiaClinica.id", target = "historiaClinicaId")
+    })
     PacienteDTO toDTO(Paciente paciente);
 
     void updataFromDTO(PacienteDTO pacienteDTO, @MappingTarget Paciente paciente);

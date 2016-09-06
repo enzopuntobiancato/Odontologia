@@ -70,10 +70,10 @@ directives.directive('validateLength', function() {
 
 // CUSTOM INPUT DIRECTIVES
 var templateInput =
-    '<md-input-container> ' +
+    '<md-input-container flex> ' +
         '<label> {{ ctrl.label }} </label>'+
         '<input name="{{ ctrl.name }}" ng-model="ctrl.model"  ng-required="{{ ctrl.req }}" md-maxlength="{{ ctrl.max }}" ng-pattern="ctrl.pat" minlength="{{ ctrl.min }}" ng-disabled="{{ ctrl.disabled }}" type="{{ ctrl.type }}" aria-label="{{ ctrl.label }}">'+
-        '<div ng-messages="ctrl.form.$error" ng-show="ctrl.form.$touched ||  ctrl.submitted  && ctrl.form.$invalid" multiple> ' +
+        '<div ng-messages="ctrl.form.$error" ng-show="ctrl.form.$touched ||  ctrl.submitted  && ctrl.form.$invalid"> ' +
               '<div ng-messages-include="error-messages"></div>' +
         '</div> ' +
         '</md-input-container>' ;
@@ -348,6 +348,23 @@ directives.directive('filterChips', function () {
         },
         controller: function($scope) {}
     }
+});
+
+directives.filter('truncate', function() {
+    return function(text, length, end) {
+        if (isNaN(length))
+            length = 10;
+
+        if (end === undefined)
+            end = "...";
+
+        if (text.length <= length || text.length - end.length <= length) {
+            return text;
+        } else {
+            return String(text).substring(0, length - end.length) + end;
+        }
+
+    };
 });
 
 

@@ -42,17 +42,10 @@ public class CatedraAPI extends BaseAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/save")
-    public Response save(CatedraDTO dto) {
-        try {
+    public Response save(CatedraDTO dto) throws SAPOException {
+        dto = catedraService.save(dto);
+        return Response.ok(dto).build();
 
-            dto = catedraService.save(dto);
-            return Response.ok(dto).build();
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     @Path("/findById")

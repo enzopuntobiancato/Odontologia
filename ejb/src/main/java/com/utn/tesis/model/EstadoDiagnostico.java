@@ -1,5 +1,9 @@
 package com.utn.tesis.model;
 
+import com.google.common.collect.ImmutableList;
+
+import java.util.List;
+
 public enum EstadoDiagnostico {
     RESERVADO {
         @Override
@@ -31,4 +35,8 @@ public enum EstadoDiagnostico {
             return "Cancelado";
         }
     };
+
+    public static List<EstadoDiagnostico> FINAL_STATES = ImmutableList.of(SOLUCIONADO, SOLUCIONADO_EXTERNO, CANCELADO);
+    public static List<EstadoDiagnostico> MANUAL_POSSIBLE_TRANSITIONS = ImmutableList.of(SOLUCIONADO_EXTERNO, CANCELADO);
+
 }

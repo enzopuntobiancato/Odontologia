@@ -1,8 +1,12 @@
 package com.utn.tesis.service;
 
+import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.PacienteDao;
+import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.mapping.dto.PacienteDTO;
+import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
 
 import javax.ejb.Stateless;
@@ -20,12 +24,14 @@ import java.util.List;
  */
 @Stateless
 public class PacienteService extends BaseService<Paciente> {
-
     @Inject
-    PacienteDao dao;
-
+    private PacienteDao dao;
     @Inject
-    Validator validator;
+    private Validator validator;
+    @Inject
+    private PacienteMapper pacienteMapper;
+    @Inject
+    private HistoriaClinicaService historiaClinicaService;
 
     @Override
     DaoBase<Paciente> getDao() {
@@ -37,9 +43,8 @@ public class PacienteService extends BaseService<Paciente> {
         return validator;
     }
 
-    public List<Paciente> findByFilters(String nombre, String apellido, Documento documento,
-                                        String usuarioNombre, Sexo sexo, Long page, Long pageSize) {
-        return dao.findByFilters(nombre, apellido, documento, usuarioNombre, sexo, page, pageSize);
+    public List<Paciente> findByFilters(String nombre, String apellido, Documento documento, Sexo sexo, boolean dadosBaja, Long page, Long pageSize) {
+        return dao.findByFilters(nombre, apellido, documento, sexo, dadosBaja, page, pageSize);
     }
 
     public List<Paciente> findByRol(Rol rol, Long page, Long pageSize) {
@@ -50,25 +55,23 @@ public class PacienteService extends BaseService<Paciente> {
         return dao.findByNombreApellido(nombApp, page, pageSize);
     }
 
+    public PacienteDTO savePaciente(Paciente entity) throws SAPOException {
+        HistoriaClinica historiaClinica = historiaClinicaService.save(HistoriaClinica.createDefault());
+        entity.setHistoriaClinica(historiaClinica);
+        return pacienteMapper.toDTO(save(entity));
+    }
+
     @Override
     protected void bussinessValidation(Paciente entity) throws SAPOValidationException {
-
-        boolean executeNameValidation = true;
-        if(!entity.isNew()){
-            Paciente persistedEntity = findById(entity.getId());
-            executeNameValidation = !entity.equals(persistedEntity);
+        List<Paciente> sameDocumentPersons = dao.validateByDocument(entity);
+        if (!sameDocumentPersons.isEmpty()) {
+            throw new SAPOValidationException(ImmutableMap.of("documento", "Número y tipo de documento ya registrado."));
         }
-        if(executeNameValidation){
-            HashMap<String,Object> filter = new HashMap<String, Object>();
+        super.bussinessValidation(entity);
+    }
 
-           filter.put("documento",entity.getDocumento());
-           List<Paciente> result = dao.findBy(filter);
-            if(!result.isEmpty()){
-                HashMap<String,String> error = new HashMap<String, String>(1);
-                error.put("nombre","El paciente con documento " + entity.getDocumento().toString() + " ya está registrado");
-                throw new SAPOValidationException(error);
-            }
-        }
-       super.bussinessValidation(entity);
+    public PacienteDTO findPacienteConDiagnosticos(Long pacienteId) {
+        Paciente paciente = this.findById(pacienteId);
+        return pacienteMapper.toDTO(paciente);
     }
 }

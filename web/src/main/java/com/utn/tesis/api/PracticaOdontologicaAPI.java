@@ -82,4 +82,9 @@ public class PracticaOdontologicaAPI extends BaseAPI {
         return practicaMapper.toDTOList(practicaOdontologicaService.findAll());
     }
 
+    @Path("/findByDenominacion")
+    @GET
+    public List<PracticaOdontologicaDTO> findByDenominacion(@QueryParam("text") String searchText) {
+        return practicaOdontologicaService.findByDenominacion(searchText);
+    }
 }

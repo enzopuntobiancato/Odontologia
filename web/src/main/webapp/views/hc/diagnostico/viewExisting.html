@@ -1,0 +1,71 @@
+<md-card>
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">{{vm.aux.viewingDiagnostico.practicaOdontologica.denominacion || vm.aux.viewingDiagnostico.practicaNoExistente}}</span>
+        </md-card-header-text>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="vm.cancelView()">
+            <ng-md-icon icon="close" style="fill: black"></ng-md-icon>
+        </md-button>
+    </md-card-header>
+    <md-card-content>
+        <md-list>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Fecha de creación</h4>
+
+                        <p>{{vm.aux.viewingDiagnostico.fechaCreacion | date:'dd/MM/yyyy' ||
+                            vm.aux.viewingDiagnostico.fechaCreacion | noDefinido}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Estado actual</h4>
+
+                        <p>{{vm.aux.viewingDiagnostico.ultimoMovimiento.estado.nombre}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Observaciones</h4>
+
+                        <p class="justified-text small-line">{{vm.aux.viewingDiagnostico.observaciones}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Observaciones de la práctica odontológica</h4>
+
+                        <p class="justified-text small-line">
+                            {{vm.aux.viewingDiagnostico.practicaOdontologica.observaciones || 'Diagnóstico no asociado
+                            con una práctica odontológica'}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+        </md-list>
+        <p md-offset class="subtitle-text">Historial de movimientos</p>
+        <md-table-container md-offset>
+            <table md-table>
+                <thead md-head>
+                <tr md-row>
+                    <th md-column>Fecha movimiento</th>
+                    <th md-column>Estado</th>
+                    <th md-column>Observaciones</th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row ng-repeat="movimiento in vm.aux.viewingDiagnostico.movimientos">
+                    <td md-cell>{{movimiento.fechaMovimiento | date:'dd/MM/yyyy'}}</td>
+                    <td md-cell>{{movimiento.estado.nombre}}</td>
+                    <td md-cell>{{movimiento.observaciones}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+    </md-card-content>
+</md-card>

@@ -31,7 +31,7 @@ import java.util.List;
 @Path("/paciente")
 @Slf4j
 @RequestScoped
-public class PacienteAPI extends BaseAPI{
+public class PacienteAPI extends BaseAPI {
     @Inject
     private HistoriaClinicaService historiaClinicaService;
     @Inject
@@ -49,33 +49,29 @@ public class PacienteAPI extends BaseAPI{
     @Consumes(MediaType.APPLICATION_JSON)
     public Response save(PacienteDTO pacienteDTO) throws SAPOException {
         Paciente entity = pacienteMapper.fromDTO(pacienteDTO);
-        if (entity.isNew()){
+        if (entity.isNew()) {
             entity.setFechaCarga(Calendar.getInstance());
+        } else {
+            pacienteMapper.updataFromDTO(pacienteDTO, entity);
         }
-        else {
-            pacienteMapper.updataFromDTO(pacienteDTO,entity);
-        }
-        pacienteService.save(entity);
+        pacienteDTO = pacienteService.savePaciente(entity);
         return Response.ok(pacienteDTO).build();
     }
 
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public List<PacienteDTO> findByFilters(@QueryParam("nombre")String nombre,
+    public List<PacienteDTO> findByFilters(@QueryParam("nombre") String nombre,
                                            @QueryParam("apellido") String apellido,
                                            @QueryParam("tipoDocumento") String tipoDocumento,
                                            @QueryParam("numeroDocumento") String numeroDocumento,
-                                           @QueryParam("nombreUsuario") String nombreUsuario,
                                            @QueryParam("sexo") String sexo,
+                                           @QueryParam("dadosBaja") boolean dadosBaja,
                                            @QueryParam("pageNumber") Long pageNumber,
-                                           @QueryParam("pageSize") Long pageSize){
-        Documento documento = null;
-        if(tipoDocumento != null && numeroDocumento != null){
-           documento = new Documento(numeroDocumento,TipoDocumento.valueOf(tipoDocumento));
-        }
-        ArrayList<Paciente> pacientes = (ArrayList<Paciente>) pacienteService.findByFilters(nombre,apellido,
-                documento, nombreUsuario,sexo != null ? Sexo.valueOf(sexo) : null,pageNumber,pageSize);
+                                           @QueryParam("pageSize") Long pageSize) {
+        Documento documento = new Documento(numeroDocumento, tipoDocumento !=  null ? TipoDocumento.valueOf(tipoDocumento): null);
+        ArrayList<Paciente> pacientes = (ArrayList<Paciente>) pacienteService.findByFilters(nombre, apellido,
+                documento, sexo != null ? Sexo.valueOf(sexo) : null, dadosBaja, pageNumber, pageSize);
 
         ArrayList<PacienteDTO> pacienteDTOs = (ArrayList<PacienteDTO>) pacienteMapper.toDTOList(pacientes);
         return pacienteDTOs;
@@ -84,11 +80,11 @@ public class PacienteAPI extends BaseAPI{
     @Path("/findById")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PacienteDTO findById(@QueryParam("id") Long id){
+    public PacienteDTO findById(@QueryParam("id") Long id) {
         Paciente paciente = pacienteService.findById(id);
         HistoriaClinica historiaClinica;
-        if(paciente == null){
-          return null;
+        if (paciente == null) {
+            return null;
         }
 
         historiaClinica = historiaClinicaService.findById(paciente.getHistoriaClinica().getId());
@@ -99,13 +95,26 @@ public class PacienteAPI extends BaseAPI{
         return pacienteDTO;
     }
 
+    @Path("/findPacienteLightById")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public PacienteDTO findPacienteLightById(@QueryParam("id") Long id) {
+        Paciente paciente = pacienteService.findById(id);
+        if (paciente == null) {
+            return null;
+        }
+        PacienteDTO pacienteDTO = pacienteMapper.toDTO(paciente);
+
+        return pacienteDTO;
+    }
+
     @Path("/initPaciente")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public PacienteDTO initPaciente(){
+    public PacienteDTO initPaciente() {
 
         Paciente paciente = new Paciente();
-        HistoriaClinica  historiaClinica = HistoriaClinica.createDefault();
+        HistoriaClinica historiaClinica = HistoriaClinica.createDefault();
         paciente.setHistoriaClinica(historiaClinica);
 
         PacienteDTO pacienteDTO = pacienteMapper.toDTO(paciente);
@@ -114,7 +123,7 @@ public class PacienteAPI extends BaseAPI{
 
         return pacienteDTO;
     }
-    //TODO: Persona no extiende de Bajeable, por lo tanto no puede ser dado de baja. Se debe revisar cómo implementar la herencia para poder darlo de baja.
+
     @Path("/remove")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -129,7 +138,7 @@ public class PacienteAPI extends BaseAPI{
     @Path("/restore")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void restore(@QueryParam("id") Long id){
-            pacienteService.restore(id);
+    public void restore(@QueryParam("id") Long id) {
+        pacienteService.restore(id);
     }
 }

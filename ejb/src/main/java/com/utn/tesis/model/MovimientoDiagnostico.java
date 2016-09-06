@@ -4,6 +4,7 @@ import com.utn.tesis.exception.SAPOValidationException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Calendar;
 
 @Entity
@@ -11,7 +12,6 @@ import java.util.Calendar;
 public class MovimientoDiagnostico extends EntityBase {
     private static final long serialVersionUID = -5842583073152945171L;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "atencion_id")
     private Atencion atencion;
 
@@ -29,7 +29,9 @@ public class MovimientoDiagnostico extends EntityBase {
     @JoinColumn(name = "generado_por_id")
     private Usuario generadoPor;
 
-    //agregar diagnostico
+    @Size(max = 400, message = "Las observaciones no pueden superar los 400 caracteres.")
+    @Column(length = 400)
+    private String observaciones;
 
     public MovimientoDiagnostico() {
         this.fechaMovimiento = Calendar.getInstance();
@@ -72,6 +74,14 @@ public class MovimientoDiagnostico extends EntityBase {
 
     public void setGeneradoPor(Usuario generadoPor) {
         this.generadoPor = generadoPor;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     @Override

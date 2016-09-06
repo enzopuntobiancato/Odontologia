@@ -68,6 +68,7 @@
                                 {{ item.materia }} {{item.denominacion}}
                             </h3>
                             <p>{{item.descripcion}}</p>
+                            <p class="justified-text small-line">{{item.descripcion}}</p>
                         </div>
                         <div ng-show="item.showAction">
                             <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.id)"

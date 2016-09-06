@@ -29,6 +29,7 @@ public class APIExceptionMapper implements ExceptionMapper<Exception> {
     }
 
     public Response persistenceRequest(Exception e) {
+        log.error(e.getMessage(), e);
         Response.ResponseBuilder builder;
 
         Exception origin = e instanceof SAPOException ? ((SAPOException) e).getException() : e;

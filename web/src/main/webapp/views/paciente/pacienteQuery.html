@@ -65,11 +65,10 @@
                                     <md-input-container  flex-gt-sm>
                                         <label>Número de documento</label>
                                         <input ng-model="vm.filter.numeroDocumento" name="numeroDocumento"
-                                               ng-disabled="!vm.aux.isTipoDocumentoSelected"
-                                               ng-required="vm.aux.isTipoDocumentoSelected" ng-pattern="/^[0-9]+$/">
+                                               ng-disabled="!vm.aux.isTipoDocumentoSelected" ng-pattern="/^[0-9]+$/">
                                         <div ng-messages="consultarPacienteForm.numeroDocumento.$error"
                                              ng-show="consultarPacienteForm.numeroDocumento.$touched
-                                                    || consultarPacienteForm.numeroDocumento.$invalid "
+                                                    || consultarPacienteForm.numeroDocumento.$invalid"
                                              multiple class="errors">
                                             <div ng-messages-include="error-messages"></div>
                                         </div>
@@ -81,9 +80,10 @@
                                             </md-option>
                                         </md-select>
                                     </md-input-container>
-                                    <md-input-container  flex-gt-sm>
-                                        <label>Nombre de usuario</label>
-                                        <input ng-model="vm.filter.nombreUsuario" name="nombreUsuario">
+                                    <md-input-container>
+                                        <md-checkbox ng-model="vm.filter.dadosBaja" aria-label="Incluir dados de baja">
+                                            Incluir dados de baja
+                                        </md-checkbox>
                                     </md-input-container>
                                 </div>
                                 <filter-chips data="vm.filterChips"></filter-chips>

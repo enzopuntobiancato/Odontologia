@@ -1,10 +1,3 @@
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 28/12/15
- * Time: 16:54
- * To change this template use File | Settings | File Templates.
- */
 var module = angular.module('historiaClinicaModule');
 
 module
@@ -60,7 +53,22 @@ module
                     url: 'api/historiaClinica/findAll',
                     method: 'GET'
                 })
+            },
+            findPacienteLightById: function (pacienteId) {
+                return $http({
+                    url: 'api/paciente/findPacienteLightById',
+                    method: 'GET',
+                    params: {id: pacienteId}
+                })
+            },
+            findPacienteById: function(pacienteId) {
+                return $http({
+                    url: 'api/paciente/findById',
+                    method: 'GET',
+                    params: {id: pacienteId}
+                })
             }
+
 
         }
 

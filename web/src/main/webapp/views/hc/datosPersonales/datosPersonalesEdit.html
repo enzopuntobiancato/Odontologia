@@ -1,0 +1,393 @@
+<md-tabs md-dynamic-height md-border-bottom>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class="(vm.submitted && datosPersonalesForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Datos personales
+            <ng-md-icon icon="error">
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="datosPersonales">
+            <ng-form name="datosPersonalesForm">
+                <div layout="row" layout-margin>
+                    <md-input-container flex="30">
+                        <label>Nombre</label>
+                        <input name="nombre" ng-model="vm.paciente.nombre"
+                               required md-maxlength="75"/>
+
+                        <div ng-messages="datosPersonalesForm.nombre.$error"
+                             ng-show="datosPersonalesForm.nombre.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="30">
+                        <label>Apellido</label>
+                        <input name="apellido" ng-model="vm.paciente.apellido"
+                               required md-maxlength="75"/>
+
+                        <div ng-messages="datosPersonalesForm.apellido.$error"
+                             ng-show="datosPersonalesForm.apellido.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <label>Sexo</label>
+                        <md-select ng-model="vm.paciente.sexo" name="sexo" required
+                                   ng-model-options="{ trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.sexos" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="datosPersonalesForm.sexo.$error"
+                             ng-show="datosPersonalesForm.sexo.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <label>Estado civil</label>
+                        <md-select ng-model="vm.paciente.estadoCivil" name="estadoCivil"
+                                   ng-model-options="{trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.estados" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                </div>
+                <div layout="row" layout-margin>
+                    <md-input-container flex="25">
+                        <label>Tipo doc.</label>
+                        <md-select ng-model="vm.paciente.documento.tipoDocumento" name="tipoDocumento"
+                                   required ng-model-options="{ trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.tiposDocumento" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="datosPersonalesForm.tipoDocumento.$error"
+                             ng-show="datosPersonalesForm.tipoDocumento.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <label>Número doc.</label>
+                        <input name="nroDocumento" ng-model="vm.paciente.documento.numero"
+                               required md-maxlength="75" pattern="^[0-9]+$"/>
+
+                        <div ng-messages="datosPersonalesForm.nroDocumento.$error"
+                             ng-show="datosPersonalesForm.nroDocumento.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <label>Nacionalidad</label>
+                        <md-select ng-model="vm.paciente.nacionalidad" name="nacionalidad"
+                                   ng-model-options="{trackBy: '$value.key'}">
+                            <md-option ng-repeat="item in vm.data.nacionalidades" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <div flex="25">
+                        <md-datepicker name="nacimiento" ng-model="vm.paciente.fechaNacimiento"
+                                       md-placeholder="Fecha de nac."
+                                       required class="md-date"></md-datepicker>
+                        <div class="validation-messages" ng-messages="datosPersonalesForm.nacimiento.$error"
+                             ng-show="datosPersonalesForm.nacimiento.$touched || vm.submitted">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" layout-margin>
+                    <md-input-container flex="30">
+                        <label>Prov. de nacimiento</label>
+                        <md-select ng-model="vm.selectedProvincia" name="provinciaNacimiento"
+                                   ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="item in vm.data.provincias" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="30">
+                        <label>Ciud. de nacimiento</label>
+                        <md-select ng-model="vm.paciente.lugarDeNacimiento" name="lugarDeNacimiento"
+                                   ng-required="vm.selectedProvincia"
+                                   ng-model-options="{trackBy: '$value.id'}" ng-disabled="!vm.selectedProvincia">
+                            <md-option ng-repeat="item in vm.ciudadesNacSelect" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="datosPersonalesForm.lugarDeNacimiento.$error"
+                             ng-show="datosPersonalesForm.lugarDeNacimiento.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class="(vm.submitted && domicilioContactoForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Domicilio y contacto
+            <ng-md-icon icon="error">
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="domicilioContacto">
+            <ng-form name="domicilioContactoForm">
+                <div layout="row" layout-margin>
+                    <md-input-container flex="30">
+                        <label>Correo electrónico</label>
+                        <input name="email" type="email" ng-model="vm.paciente.email"
+                               required md-maxlength="50"/>
+
+                        <div ng-messages="domicilioContactoForm.email.$error"
+                             ng-show="domicilioContactoForm.email.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <label>Teléfono fijo</label>
+                        <input name="telefono" ng-model="vm.paciente.telefono" md-maxlength="10" pattern="^[0-9]+$"/>
+
+                        <div ng-messages="domicilioContactoForm.telefono.$error"
+                             ng-show="domicilioContactoForm.telefono.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <label>Celular</label>
+                        <input name="celular" required ng-model="vm.paciente.celular" md-maxlength="12" pattern="^[0-9]+$"/>
+
+                        <div ng-messages="domicilioContactoForm.celular.$error"
+                             ng-show="domicilioContactoForm.celular.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-margin>
+                    <md-input-container flex="40">
+                        <label>Calle</label>
+                        <input name="calle" ng-model="vm.paciente.domicilio.calle" md-maxlength="100"/>
+
+                        <div ng-messages="domicilioContactoForm.calle.$error"
+                             ng-show="domicilioContactoForm.calle.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="15">
+                        <label>Número</label>
+                        <input name="nroCalle" ng-model="vm.paciente.domicilio.numeroCalle" md-maxlength="50"/>
+
+                        <div ng-messages="domicilioContactoForm.nroCalle.$error"
+                             ng-show="domicilioContactoForm.nroCalle.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="10">
+                        <label>Piso</label>
+                        <input name="piso" ng-model="vm.paciente.domicilio.piso" pattern="^[0-9]+$">
+
+                        <div ng-messages="domicilioContactoForm.piso.$error"
+                             ng-show="domicilioContactoForm.piso.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="10">
+                        <label>Depto.</label>
+                        <input name="departamento" ng-model="vm.paciente.domicilio.departamento" md-maxlength="50">
+
+                        <div ng-messages="domicilioContactoForm.departamento.$error"
+                             ng-show="domicilioContactoForm.departamento.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-margin>
+                    <md-input-container flex="30">
+                        <label>Ciudad</label>
+                        <md-select ng-model="vm.selectedCiudad" name="selectedCiudad"
+                                   ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="item in vm.data.ciudades" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="domicilioContactoForm.selectedCiudad.$error"
+                             ng-show="domicilioContactoForm.selectedCiudad.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="30">
+                        <label>Barrio</label>
+                        <md-select ng-model="vm.paciente.domicilio.barrio" name="barrio"
+                                   ng-model-options="{trackBy: '$value.id'}" ng-disabled="!vm.selectedCiudad">
+                            <md-option ng-repeat="item in vm.barriosSelect" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="domicilioContactoForm.barrio.$error"
+                             ng-show="domicilioContactoForm.barrio.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="15">
+                        <label>Código postal</label>
+                        <input name="codigoPostal" pattern="^[0-9]+$" ng-model="vm.paciente.domicilio.codigoPostal" md-maxlength="10">
+
+                        <div ng-messages="domicilioContactoForm.codigoPostal.$error"
+                             ng-show="domicilioContactoForm.codigoPostal.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class="(vm.submitted && trabajoForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Trabajo
+            <ng-md-icon icon="error">
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="trabajo">
+            <ng-form name="trabajoForm">
+                <div layout="row" layout-margin>
+                    <md-input-container flex="40">
+                        <label>Trabajo</label>
+                        <md-select ng-model="vm.paciente.trabajo" name="trabajo"
+                                   ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="trabajo in vm.data.trabajos" ng-value="trabajo">
+                                {{ trabajo.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex="30">
+                        <label>Estudios</label>
+                        <md-select ng-model="vm.paciente.nivelEstudio" name="estudios"
+                                   ng-model-options="{trackBy: '$value.key'}">
+                            <md-option ng-repeat="nivel in vm.data.nivelesEstudio" ng-value="nivel">
+                                {{ nivel.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class="(vm.submitted && datosMedicosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Datos médicos
+            <ng-md-icon icon="error">
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="datosMedicos">
+            <ng-form name="datosMedicosForm">
+                <div layout="row" layout-margin>
+                    <md-input-container flex="30">
+                        <label>Obra social</label>
+                        <md-select ng-model="vm.paciente.obraSocial" name="obraSocial"
+                                   ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-repeat="obraSocial in vm.data.obrasSociales" ng-value="obraSocial">
+                                {{ obraSocial.nombre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-margin>
+                    <md-input-container flex="30">
+                        <label>Médico de cabecera</label>
+                        <input name="medicoCabecera" ng-model="vm.paciente.medicoCabecera" md-maxlength="50"/>
+
+                        <div ng-messages="datosMedicosForm.medicoCabecera.$error"
+                             ng-show="datosMedicosForm.medicoCabecera.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="25">
+                        <label>Teléfono médico cabecera</label>
+                        <input name="telefonoMedicoCabecera" ng-model="vm.paciente.telefonoMedicoCabecera"
+                               md-maxlength="30" pattern="^[0-9]+$"/>
+
+                        <div ng-messages="datosMedicosForm.telefonoMedicoCabecera.$error"
+                             ng-show="datosMedicosForm.telefonoMedicoCabecera.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-margin>
+                    <md-input-container flex="20">
+                        <label>Servicio de emergencia</label>
+                        <input name="servicioEmergencia" ng-model="vm.paciente.servicioEmergencia" md-maxlength="30"/>
+
+                        <div ng-messages="datosMedicosForm.servicioEmergencia.$error"
+                             ng-show="datosMedicosForm.servicioEmergencia.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+<md-tab>
+    <md-tab-label>
+        <div layout layout-align="center center"
+             ng-class="(vm.submitted && otrosDatosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+            Otros datos
+            <ng-md-icon icon="error">
+            </ng-md-icon>
+        </div>
+    </md-tab-label>
+    <md-tab-body>
+        <div layout-margin id="otrosDatos">
+            <ng-form name="otrosDatosForm">
+                <div layout="row" layout-margin>
+                    <md-input-container flex="40">
+                        <label>Religión</label>
+                        <input name="religion" ng-model="vm.paciente.religion" md-maxlength="30">
+
+                        <div ng-messages="otrosDatosForm.religion.$error"
+                             ng-show="otrosDatosForm.religion.$touched || vm.submitted" multiple>
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-margin>
+                    <md-input-container>
+                        <md-checkbox ng-model="vm.paciente.privadoLibertad"
+                                     ng-change="vm.paciente.privadoLibertadDonde = null">
+                            Privado de la libertad
+                        </md-checkbox>
+                    </md-input-container>
+                    <md-input-container flex="30">
+                        <label>Dónde?</label>
+                        <input name="privadoLibertadDonde" ng-model="vm.paciente.privadoLibertadDonde"
+                               ng-disabled="!vm.paciente.privadoLibertad"
+                               ng-required="vm.paciente.privadoLibertad">
+
+                        <div ng-messages="otrosDatosForm.privadoLibertadDonde.$error"
+                             ng-show="otrosDatosForm.privadoLibertadDonde.$touched || vm.submitted">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </ng-form>
+        </div>
+    </md-tab-body>
+</md-tab>
+</md-tabs>

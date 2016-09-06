@@ -1,8 +1,8 @@
-
+<md-tabs md-dynamic-height md-border-bottom>
 <md-tab label="{{ 'ANTECEDENTES' | translate }} e {{ 'HIPERTENSION' | translate }}">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary">{{ 'ANTECEDENTES' | translate }} view</md-subheader>
+            <md-subheader class="md-no-sticky md-primary">{{ 'ANTECEDENTES' | translate }} view</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g1p1"
@@ -18,7 +18,7 @@
             </div>
         </section>
         <section>
-            <md-subheader   class="md-no-sticky md-primary">{{ 'HIPERTENSION' | translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary">{{ 'HIPERTENSION' | translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g3p1">
@@ -31,9 +31,12 @@
             <div layout="row" layout-margin flex-gt-sm>
                 <md-list-item class='md-3-line' flex-gt-sm>
                     <div class='md-list-item-text'>
-                        <div layout="row"> <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g3p5.nombre }} </h4><h4> {{vm.paciente.historiaClinicaDTO.g3p5.only_detalle }}</h4>  </div>
+                        <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g3p5.nombre
+                            }} </h4><h4> {{vm.paciente.historiaClinicaDTO.g3p5.only_detalle }}</h4></div>
                         <h4>Min: 11 | Máx: 12</h4>
-                        <p>{{ vm.paciente.historiaClinicaDTO.g3p10.nombre }}: {{ vm.paciente.historiaClinicaDTO.g3p10.fecha | date:'MM/dd/yyyy' }}</p>
+
+                        <p>{{ vm.paciente.historiaClinicaDTO.g3p10.nombre }}: {{
+                            vm.paciente.historiaClinicaDTO.g3p10.fecha | date:'MM/dd/yyyy' }}</p>
                     </div>
                 </md-list-item>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g3p11">
@@ -41,7 +44,7 @@
             </div>
         </section>
         <section>
-            <md-subheader   class="md-no-sticky md-primary"> {{ 'FIEBRE_REUM'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'FIEBRE_REUM'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g4p1">
@@ -53,7 +56,7 @@
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'RINONES'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'RINONES'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g5p1"
@@ -77,7 +80,7 @@
 <md-tab label="{{ 'ALERGIAS' | translate }}">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'ALERGIAS'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'ALERGIAS'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g6p1">
@@ -92,7 +95,7 @@
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'INT_QUIRURGICA'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'INT_QUIRURGICA'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g9p1"
@@ -108,7 +111,7 @@
 <md-tab label="{{ 'HEPATITIS' | translate }}">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'HEPATITIS'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'HEPATITIS'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g10p1"
@@ -132,7 +135,7 @@
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'ARTICULACIONES'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'ARTICULACIONES'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g11p1">
@@ -146,7 +149,7 @@
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> Revisar tìtulo</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> Revisar tìtulo</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g12p1"
@@ -158,7 +161,7 @@
 <md-tab label="{{ 'CONVULSIONES' | translate }} y {{ 'EPILEPSIA' | translate }}">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'CONVULSIONES'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'CONVULSIONES'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g13p1"
@@ -169,7 +172,7 @@
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'PERDIDA_SENS'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'PERDIDA_SENS'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g14p1"
@@ -186,16 +189,18 @@
                 <!--</md-list-item>-->
             </div>
             <div layout="row" flex-gt-sm layout-margin>
-                <md-list-item  class='md-2-line md-long-text' flex-gt-sm='66' ng-if='vm.paciente.historiaClinicaDTO.g14p4 != null'>
+                <md-list-item class='md-2-line md-long-text' flex-gt-sm='66'
+                              ng-if='vm.paciente.historiaClinicaDTO.g14p4 != null'>
                     <div class='md-list-item-text compact'>
                         <h4 style='font-weight: bold'>{{ vm.paciente.historiaClinicaDTO.g14p4.nombre }}</h4>
+
                         <p>{{ vm.paciente.historiaClinicaDTO.g14p4.only_detalle }}</p>
                     </div>
                 </md-list-item>
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'EPILEPSIA'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'EPILEPSIA'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g15p1"
@@ -212,10 +217,13 @@
                          campodetalle="vm.paciente.historiaClinicaDTO.g15p11"
                          campofecha="vm.paciente.historiaClinicaDTO.g15p12">
                 </detalle>
-                <md-list-item  class='md-2-line md-long-text' ng-if="vm.paciente.historiaClinicaDTO.g15p13 != null" flex-gt-sm>
+                <md-list-item class='md-2-line md-long-text' ng-if="vm.paciente.historiaClinicaDTO.g15p13 != null"
+                              flex-gt-sm>
                     <div class='md-list-item-text compact'>
                         <h4 style='font-weight: bold'> {{ vm.paciente.historiaClinicaDTO.g15p13.nombre }}</h4>
-                        <p ng-if='vm.paciente.historiaClinicaDTO.g15p13 != null'>{{ vm.paciente.historiaClinicaDTO.g15p13.only_detalle }}</p>
+
+                        <p ng-if='vm.paciente.historiaClinicaDTO.g15p13 != null'>{{
+                            vm.paciente.historiaClinicaDTO.g15p13.only_detalle }}</p>
                     </div>
                 </md-list-item>
             </div>
@@ -225,7 +233,7 @@
 <md-tab label="{{ 'TRANSFUSIONES' | translate }} y {{ 'TRANSPLANTES' | translate }}">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary">
+            <md-subheader class="md-no-sticky md-primary">
                 {{ 'PROBLEMAS_PIEL' | translate }}
             </md-subheader>
             <md-divider></md-divider>
@@ -236,7 +244,7 @@
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'TRANSFUSIONES'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'TRANSFUSIONES'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g17p1"
@@ -248,11 +256,13 @@
                 <!--{{ vm.paciente.historiaClinicaDTO.g17p2.nombre }} {{ vm.paciente.historiaClinicaDTO.g17p2.only_detalle }} </p>-->
                 <!--</div>-->
                 <!--</md-list-item>-->
-                <md-list-item  class='md-2-line md-long-text' flex-gt-sm>
+                <md-list-item class='md-2-line md-long-text' flex-gt-sm>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"><h4 style='font-weight: bold'> {{ vm.paciente.historiaClinicaDTO.g17p3.nombre }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g17p3.only_detalle}}</h4></div>
+                        <div layout="row"><h4 style='font-weight: bold'> {{ vm.paciente.historiaClinicaDTO.g17p3.nombre
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g17p3.only_detalle}}</h4></div>
                         <p ng-if='vm.paciente.historiaClinicaDTO.g17p1 == true && vm.paciente.historiaClinicaDTO.g17p4 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g17p4.nombre }} {{ vm.paciente.historiaClinicaDTO.g17p4.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g17p4.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g17p4.only_detalle }}</p>
                     </div>
                 </md-list-item>
                 <!--<detalle campodetalle="vm.paciente.historiaClinicaDTO.g17p3">-->
@@ -267,7 +277,7 @@
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'ENFERMEDADES_SANGRE'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'ENFERMEDADES_SANGRE'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g19p1"
@@ -279,30 +289,36 @@
                 </detalle>
             </div>
             <div layout="row" layout-margin flex-gt-sm>
-                <md-list-item  class='md-3-line md-long-text'>
+                <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"> <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g19p6.nombre }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g19p6.siNo | siNo  }}</h4></div>
+                        <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g19p6.nombre
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g19p6.siNo | siNo }}</h4></div>
                         <h4 ng-if='vm.paciente.historiaClinicaDTO.g19p6.siNo == true && vm.paciente.historiaClinicaDTO.g19p7 != null'>
                             ¿Cuál? {{ vm.paciente.historiaClinicaDTO.g19p7.only_detalle }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g19p6.siNo == true && vm.paciente.historiaClinicaDTO.g19p9 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g19p9.nombre }} {{ vm.paciente.historiaClinicaDTO.g19p9.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g19p9.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g19p9.only_detalle }}</p>
                     </div>
                 </md-list-item>
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'TRANSPLANTES'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'TRANSPLANTES'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g22p1"
                          campodetalle="vm.paciente.historiaClinicaDTO.g22p2"></detalle>
-                <md-list-item  class='md-3-line md-long-text' flex-gt-sm='33'>
+                <md-list-item class='md-3-line md-long-text' flex-gt-sm='33'>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"> <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g22p3.nombre }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g22p3.siNo | siNo  }}</h4></div>
+                        <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g22p3.nombre
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g22p3.siNo | siNo }}</h4></div>
                         <h4 ng-if='vm.paciente.historiaClinicaDTO.g22p3.siNo == true && vm.paciente.historiaClinicaDTO.g22p4 != null'>
                             ¿Cuál? {{ vm.paciente.historiaClinicaDTO.g22p4.only_detalle }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g22p3.siNo == true && vm.paciente.historiaClinicaDTO.g22p5 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g22p5.nombre }} {{ vm.paciente.historiaClinicaDTO.g22p5.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g22p5.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g22p5.only_detalle }}</p>
                     </div>
                 </md-list-item>
             </div>
@@ -312,7 +328,7 @@
 <md-tab label="{{ 'CANCER' | translate }}">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'CANCER'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'CANCER'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g18p1"
@@ -324,7 +340,7 @@
 <md-tab label="{{ 'SOLO_MUJERES' | translate }}" ng-if="vm.paciente.sexo.key == 'FEMENINO'">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'SOLO_MUJERES'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'SOLO_MUJERES'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g20p1">
@@ -340,22 +356,29 @@
                 <!--campodetalle="vm.paciente.historiaClinicaDTO.g20p7">-->
                 <!--</detalle>-->
                 <!--<detalle camposino="vm.paciente.historiaClinicaDTO.g20p8"></detalle>-->
-                <md-list-item  class='md-3-line md-long-text'>
+                <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"> <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g20p6.nombre }} </h4><h4>{{ vm.paciente.historiaClinicaDTO.g20p6.siNo | siNo  }}</h4></div>
+                        <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g20p6.nombre
+                            }} </h4><h4>{{ vm.paciente.historiaClinicaDTO.g20p6.siNo | siNo }}</h4></div>
                         <h4 ng-if='vm.paciente.historiaClinicaDTO.g20p6.siNo == true && vm.paciente.historiaClinicaDTO.g20p7 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g20p7.nombre }} {{ vm.paciente.historiaClinicaDTO.g20p7.only_detalle }}</h4>
+                            {{ vm.paciente.historiaClinicaDTO.g20p7.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g20p7.only_detalle }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g20p6.siNo == true && vm.paciente.historiaClinicaDTO.g20p8 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g20p8.nombre }} {{ vm.paciente.historiaClinicaDTO.g20p8.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g20p8.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g20p8.only_detalle }}</p>
                     </div>
                 </md-list-item>
-                <md-list-item  class='md-3-line md-long-text'>
+                <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"> <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g20p9.nombre }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g20p9.siNo | siNo  }}</h4></div>
+                        <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g20p9.nombre
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g20p9.siNo | siNo }}</h4></div>
                         <h4 ng-if='vm.paciente.historiaClinicaDTO.g20p9.siNo == true && vm.paciente.historiaClinicaDTO.g20p10 != null'>
                             ¿Cuál? {{ vm.paciente.historiaClinicaDTO.g20p10.only_detalle }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g20p9.siNo == true && vm.paciente.historiaClinicaDTO.g20p11 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g20p11.nombre }} {{ vm.paciente.historiaClinicaDTO.g20p11.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g20p11.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g20p11.only_detalle }}</p>
                     </div>
                 </md-list-item>
                 <!--<detalle camposino="vm.paciente.historiaClinicaDTO.g20p9"-->
@@ -378,7 +401,7 @@
 <md-tab label="{{ 'DIABETES' | translate }}">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'DIABETES'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'DIABETES'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g21p1"
@@ -388,31 +411,38 @@
                          campodetalle="vm.paciente.historiaClinicaDTO.g21p5"></detalle>
             </div>
             <div layout="row" layout-margin flex-gt-sm>
-                <md-list-item  class='md-3-line md-long-text'>
+                <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"> <h4 style="font-weight: bold">{{ vm.paciente.historiaClinicaDTO.g21p6.nombre }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g21p6.siNo | siNo  }}</h4></div>
+                        <div layout="row"><h4 style="font-weight: bold">{{ vm.paciente.historiaClinicaDTO.g21p6.nombre
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g21p6.siNo | siNo }}</h4></div>
                         <h4 ng-if='vm.paciente.historiaClinicaDTO.g21p6.siNo == true && vm.paciente.historiaClinicaDTO.g21p7 != null'>
                             ¿Cuál? {{ vm.paciente.historiaClinicaDTO.g21p7.only_detalle }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g21p6.siNo == true && vm.paciente.historiaClinicaDTO.g21p8 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g21p8.nombre }} {{ vm.paciente.historiaClinicaDTO.g21p8.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g21p8.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g21p8.only_detalle }}</p>
                     </div>
                 </md-list-item>
-                <md-list-item  class='md-3-line md-long-text'>
+                <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
                         <h4 style="font-weight: bold">{{ vm.paciente.historiaClinicaDTO.g21p9.nombre }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g21p6.siNo == true && vm.paciente.historiaClinicaDTO.g21p9 != null'>
                             {{ vm.paciente.historiaClinicaDTO.g21p9.only_detalle }}</p>
                     </div>
                 </md-list-item>
             </div>
             <div layout="row" layout-margin flex-gt-sm>
-                <md-list-item  class='md-3-line md-long-text'>
+                <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"> <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g21p10.nombre }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g21p10.fecha | date:'MM/dd/yyyy'  }}</h4></div>
+                        <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g21p10.nombre
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g21p10.fecha | date:'MM/dd/yyyy' }}</h4></div>
                         <h4 ng-if='vm.paciente.historiaClinicaDTO.g21p11 != null'>
                             ¿Cuál? {{ vm.paciente.historiaClinicaDTO.g21p11.only_detalle }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g21p12 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g21p12.nombre }} {{ vm.paciente.historiaClinicaDTO.g21p12.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g21p12.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g21p12.only_detalle }}</p>
                     </div>
                 </md-list-item>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g21p13"></detalle>
@@ -423,21 +453,26 @@
 <md-tab label="{{ 'VARIOS' | translate }}">
     <md-list>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'VARIOS'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'VARIOS'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
-                <md-list-item  class='md-2-line md-long-text' flex-gt-sm='33'>
+                <md-list-item class='md-2-line md-long-text' flex-gt-sm='33'>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"> <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g23p1.nombre }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g23p1.siNo | siNo  }}</h4></div>
+                        <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g23p1.nombre
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g23p1.siNo | siNo }}</h4></div>
                         <p ng-if='vm.paciente.historiaClinicaDTO.g23p1.siNo == true && vm.paciente.historiaClinicaDTO.g23p2 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g23p2.nombre }} {{ vm.paciente.historiaClinicaDTO.g23p2.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g23p2.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g23p2.only_detalle }}</p>
                     </div>
                 </md-list-item>
-                <md-list-item  class='md-3-line md-long-text' flex-gt-sm='33'>
+                <md-list-item class='md-3-line md-long-text' flex-gt-sm='33'>
                     <div class='md-list-item-text compact'>
-                        <h4 style="font-weight: bold">{{ vm.paciente.historiaClinicaDTO.g24p1.nombre }} {{ vm.paciente.historiaClinicaDTO.g24p1.siNo | siNo  }}</h4>
+                        <h4 style="font-weight: bold">{{ vm.paciente.historiaClinicaDTO.g24p1.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g24p1.siNo | siNo }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g24p1.siNo == true && vm.paciente.historiaClinicaDTO.g24p2 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g24p2.nombre }} {{ vm.paciente.historiaClinicaDTO.g24p2.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g24p2.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g24p2.only_detalle }}</p>
                     </div>
                 </md-list-item>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g25p1"
@@ -449,58 +484,72 @@
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'ENFERMEDADES_SANGRE'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'ENFERMEDADES_SANGRE'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g27p1"></detalle>
-                <md-list-item  class='md-3-line md-long-text' flex-gt-sm='33'>
+                <md-list-item class='md-3-line md-long-text' flex-gt-sm='33'>
                     <div class='md-list-item-text compact'>
-                        <div layout="row"> <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g27p2.nombre }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g27p2.siNo | siNo  }}</h4></div>
+                        <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g27p2.nombre
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g27p2.siNo | siNo }}</h4></div>
                         <h4 ng-if='vm.paciente.historiaClinicaDTO.g27p2.siNo == true && vm.paciente.historiaClinicaDTO.g27p3 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g27p3.nombre }} {{ vm.paciente.historiaClinicaDTO.g27p3.only_detalle }}</h4>
+                            {{ vm.paciente.historiaClinicaDTO.g27p3.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g27p3.only_detalle }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g27p2.siNo == true && vm.paciente.historiaClinicaDTO.g27p4 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g27p4.nombre }} {{ vm.paciente.historiaClinicaDTO.g27p4.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g27p4.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g27p4.only_detalle }}</p>
                     </div>
                 </md-list-item>
             </div>
         </section>
         <section>
-            <md-subheader  class="md-no-sticky md-primary"> {{ 'ULTIMA_VISITA'|translate }}</md-subheader>
+            <md-subheader class="md-no-sticky md-primary"> {{ 'ULTIMA_VISITA'|translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
-                <md-list-item  class='md-2-line md-long-text' flex-gt-sm='33'>
+                <md-list-item class='md-2-line md-long-text' flex-gt-sm='33'>
                     <div class='md-list-item-text compact'>
-                        <h4 style="font-weight: bold"> Fecha última visita  {{ vm.paciente.historiaClinicaDTO.g28p1.fecha |  date:'MM/dd/yyyy' }}</h4>
+                        <h4 style="font-weight: bold"> Fecha última visita {{ vm.paciente.historiaClinicaDTO.g28p1.fecha
+                            | date:'MM/dd/yyyy' }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g28p2 != null'>
                             Motivo {{ vm.paciente.historiaClinicaDTO.g28p2.only_detalle }}</p>
                     </div>
                 </md-list-item>
-                <md-list-item  class='md-2-line md-long-text' flex-gt-sm='33'>
+                <md-list-item class='md-2-line md-long-text' flex-gt-sm='33'>
                     <div class='md-list-item-text compact'>
-                        <h4 style="font-weight: bold">{{ vm.paciente.historiaClinicaDTO.g28p3.nombre }} {{ vm.paciente.historiaClinicaDTO.g28p3.siNo | siNo  }}</h4>
+                        <h4 style="font-weight: bold">{{ vm.paciente.historiaClinicaDTO.g28p3.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g28p3.siNo | siNo }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g28p3.siNo == true && vm.paciente.historiaClinicaDTO.g28p4 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g28p4.nombre }} {{ vm.paciente.historiaClinicaDTO.g28p4.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g28p4.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g28p4.only_detalle }}</p>
                     </div>
                 </md-list-item>
-                <md-list-item  class='md-2-line md-long-text' flex-gt-sm='33'>
+                <md-list-item class='md-2-line md-long-text' flex-gt-sm='33'>
                     <div class='md-list-item-text compact'>
-                        <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g28p5.nombre }} {{ vm.paciente.historiaClinicaDTO.g28p5.siNo | siNo  }}</h4>
+                        <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g28p5.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g28p5.siNo | siNo }}</h4>
+
                         <p ng-if='vm.paciente.historiaClinicaDTO.g28p5.siNo == true && vm.paciente.historiaClinicaDTO.g28p6 != null'>
-                            {{ vm.paciente.historiaClinicaDTO.g28p6.nombre }} {{ vm.paciente.historiaClinicaDTO.g28p6.only_detalle }}</p>
+                            {{ vm.paciente.historiaClinicaDTO.g28p6.nombre }} {{
+                            vm.paciente.historiaClinicaDTO.g28p6.only_detalle }}</p>
                     </div>
                 </md-list-item>
             </div>
             <div layout="row" layout-margin flex-gt-sm>
-                <md-list-item  class='md-3-line md-long-text'>
+                <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
                         <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g29p1.nombre }}</h4>
+
                         <p> {{ vm.paciente.historiaClinicaDTO.g29p1.siNo | siNo }}</p>
                     </div>
                 </md-list-item>
-                <md-list-item  class='md-3-line md-long-text'>
+                <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
                         <h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g29p2.nombre }} </h4>
-                        <p>{{ vm.paciente.historiaClinicaDTO.g29p2.siNo |  siNo }}</p>
+
+                        <p>{{ vm.paciente.historiaClinicaDTO.g29p2.siNo | siNo }}</p>
                     </div>
                 </md-list-item>
                 <!--<detalle camposino="vm.paciente.historiaClinicaDTO.g29p1"></detalle>-->
@@ -509,3 +558,4 @@
         </section>
     </md-list>
 </md-tab>
+</md-tabs>

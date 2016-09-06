@@ -216,7 +216,6 @@ public class HistoriaClinicaDTO extends BaseDTO {
     private CampoEnumerableDTO  g29p4;
     private CampoDetalleDTO  g29p5;
 
-
     //GETTERS AND SETTERS
     public Long getId() {
         return id;

@@ -4,7 +4,7 @@ var auth = angular.module('auth.services', ['ngCookies']);
 
 auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function ($rootScope, $http, $cookies, $q) {
 
-    var SESSION_COOKIE = 'SESSION';
+    var USER_COOKIE = 'USER';
     var MENU_COOKIE = 'MENU';
 
     var authFactory = {
@@ -62,7 +62,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
     authFactory.setAuthData = function (user, image) {
         this.session.user = user;
         this.session.image = image;
-        $cookies.putObject(SESSION_COOKIE, this.session.user, {expires: getExpiresDate()});
+        $cookies.putObject(USER_COOKIE, this.session.user, {expires: getExpiresDate()});
     };
 
     authFactory.communicateAuthChanged = function () {
@@ -73,7 +73,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
         if (this.session.user) {
            return this.session.user;
         } else {
-            this.session.user = $cookies.getObject(SESSION_COOKIE);
+            this.session.user = $cookies.getObject(USER_COOKIE);
         }
         return this.session.user;
     };
@@ -104,12 +104,12 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
 
     authFactory.isAuthenticated = function () {
         var user = this.getAuthData();
-        return !user && !angular.isUndefined(user) && user != null;
+        return user && !angular.isUndefined(user) && user != null;
     };
 
     authFactory.updateExpiresTime = function () {
-        this.session = this.getAuthData();
-        $cookies.putObject(SESSION_COOKIE, this.session.user, {expires: getExpiresDate()});
+        this.session.user = this.getAuthData();
+        $cookies.putObject(USER_COOKIE, this.session.user, {expires: getExpiresDate()});
     };
 
     authFactory.logout = function () {
@@ -139,7 +139,7 @@ auth.factory('authHttpRequestInterceptor', ['$rootScope', '$injector',
                 var authFactory = $injector.get('authFactory');
                 if (authFactory.isAuthenticated()) {
                     authFactory.updateExpiresTime();
-                    $request.headers['auth-id'] = authFactory.getAuthData().authId;
+                    $request.headers['auth-id'] = authFactory.getAuthData().nombreUsuario;
                     $request.headers['auth-token'] = authFactory.getAuthData().authToken;
                 }
                 return $request;
