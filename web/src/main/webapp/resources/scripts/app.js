@@ -151,6 +151,13 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }]}
 
             })
+            .state('estadisticas', {
+                url: '/estadisticas',
+                templateUrl: 'views/estadisticas/estadisticas.html',
+                controller: function($scope) {
+
+                }
+            })
             .state('persona', {
                 url: '/persona',
                 template: '<ui-view/>',
