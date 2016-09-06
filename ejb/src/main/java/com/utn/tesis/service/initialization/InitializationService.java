@@ -253,7 +253,7 @@ public class InitializationService {
         grupoFuncionalidadList.add(grupoFuncionalidadService.save(pacientes));
 
         GrupoFuncionalidad estadisticas = new GrupoFuncionalidad();
-        estadisticas.setNombre("Estadísticas");
+        estadisticas.setNombre("Análisis de datos");
         grupoFuncionalidadList.add(grupoFuncionalidadService.save(estadisticas));
 
         GrupoFuncionalidad ayuda = new GrupoFuncionalidad();
@@ -301,6 +301,12 @@ public class InitializationService {
         f6.setEstadoAsociado("paciente.index");
         f6.setGrupoFuncionalidad(grupoFuncionalidadList.get(1));
         funcionalidadList.add(funcionalidadService.save(f6));
+
+        Funcionalidad f7 = new Funcionalidad();
+        f7.setNombre("Reportes y estadísticas");
+        f7.setEstadoAsociado("estadisticas");
+        f7.setGrupoFuncionalidad(grupoFuncionalidadList.get(2));
+        funcionalidadList.add(funcionalidadService.save(f7));
 
         log.info("CargarFuncionalidad FINAL");
     }
