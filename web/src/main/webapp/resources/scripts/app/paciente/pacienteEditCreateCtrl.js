@@ -1,24 +1,16 @@
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 22/12/15
- * Time: 13:53
- * To change this template use File | Settings | File Templates.
- */
 var module = angular.module('pacienteModule');
 
 module.controller('PacienteCtrl_EditCreate',
     ['$scope', '$rootScope', '$filter','PacienteSrv', '$state', 'MessageSrv',
         'tiposDocumentoResponse','sexosResponse','provinciaResponse', 'ciudadesResponse','barriosResponse','estadosResponse',
         'trabajosResponse','obrasSocialesResponse','nivelesEstudioResponse','nacionalidadesResponse', 'pacienteResponse',
-        'DeleteRestoreSrv',
         function ($scope, $rootScope, $filter, service, $state, message,
                   tiposDocumentoResponse,sexosResponse,provinciaResponse,ciudadesResponse,barriosResponse,estadosResponse,
-                  trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse,pacienteResponse,
-                  deleteRestoreService
+                  trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse,pacienteResponse
             ) {
             var vm = this;
             vm.paciente= pacienteResponse.data;
+            vm.submitted = false;
             vm.data = {
                 ciudades : ciudadesResponse.data,
                 barrios : barriosResponse.data,
@@ -29,74 +21,51 @@ module.controller('PacienteCtrl_EditCreate',
                 trabajos: trabajosResponse.data,
                 obrasSociales: obrasSocialesResponse.data,
                 nivelesEstudio: nivelesEstudioResponse.data,
-                nacionalidades: nacionalidadesResponse.data,
-                persistedOperation: false,
-                saved: false
+                nacionalidades: nacionalidadesResponse.data
             }
-
-            //Navegacion
-            vm.save = save;
-            vm.goIndex = goIndex;
-            vm.reload =reload;
-            vm.mostrar = mostrar;
-            vm.limpiarCampos = limpiarCampos;
-            vm.updating = $state.current.data.updating;
-            vm.tabs = [true, false, false, false];
-            vm.tabsTitulos = ["Datos personales", "Antecedentes", "Diagnósticos", "Atenciones"];
-            vm.titulo = vm.updating ? "Editar " +  vm.paciente.apellido : "Registrar nuevo paciente";
-            vm.tabTitulo = vm.tabsTitulos[0];
 
             var performSubmit = $scope.$parent.performSubmit;
             var handleError = $scope.$parent.handleError;
             vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+            vm.create = create;
+            vm.goIndex = goIndex;
 
-            function mostrar(tabId){
-                for(var i = 0; i < vm.tabs.length; i++){
-                    if(i == tabId){
-                        vm.tabs[i] = true;
-                        vm.tabTitulo = vm.tabsTitulos[i];
-                    }else{
-                        vm.tabs[i] = false;
-                    }
+            $scope.$on('validatedForm', function(event, args) {
+                event.defaultPrevented = true;
+                if (args.form.$valid) {
+                    performSubmit(function(){
+                        service.save(vm.paciente)
+                            .success(function(){
+                                message.successMessage(vm.paciente.nombre + " editado con éxito");
+                                if  (args.continueEditing) {
+                                    $state.go($state.current, {editing: true}, {reload: true})
+                                } else {
+                                    $state.go($state.current.name.replace('Edit', 'View'),  {editing: false});
+                                }
+                            }).error(function(data,status){
+                                handleError(data,status);
+                            })
+                    },args.form);
+                } else {
+                    vm.submitted = true;
                 }
-            }
+            });
 
-            function goIndex(){
-                console.log("index");
-                $state.go('^.index',{execQuery: vm.data.persistedOperation});
-            }
-
-            function reload(){
-                $rootScope.persistedOperation = vm.data.persistedOperation;
-                $state.go($state.current, {}, {reload: true});
-            }
-
-            function save(form){
-                vm.submitted = true;
-                performSubmit(function(){
-                    service.save(vm.paciente)
-                        .success(function(){
-                            vm.data.persistedOperation = true;
-                            vm.data.disableFields = true;
-                            vm.data.saved = true;
-                            message.successMessage(vm.paciente.nombre + " creado con éxito");
-                            vm.goIndex();
-                        }).error(function(data,status){
-                            vm.paciente.documento = "";
-                            handleError(data,status);
-                        })
-                },form)
-            }
-
-            //BAJA Y RESTAURAR
-            vm.openDeleteDialog = function(event) {
-                var nombre = vm.paciente.apellido + ", " + vm.paciente.nombre;
-                deleteRestoreService.delete(event, vm.paciente.id, nombre, null,null,null);
-            }
-
-            vm.openRestoreDialog = function(event) {
-                var nombre = vm.paciente.apellido + ", " + vm.paciente.nombre;
-                deleteRestoreService.restore(event, vm.paciente.id, nombre, null);
+            function create(form){
+                if (form.$valid) {
+                    performSubmit(function(){
+                        service.save(vm.paciente)
+                            .success(function(pacienteResponse){
+                                message.successMessage(vm.paciente.nombre + " creado con éxito");
+                                $rootScope.created = true;
+                                $state.go('historiaClinica', {id: pacienteResponse.id});
+                            }).error(function(data,status){
+                                handleError(data,status);
+                            })
+                    },form);
+                } else {
+                    vm.submitted = true;
+                }
             }
 
 
@@ -132,7 +101,11 @@ module.controller('PacienteCtrl_EditCreate',
                             })
                         }
                     }
-                })
+                });
+
+            function goIndex() {
+                $state.go('paciente.index', {execQuery: $rootScope.created});
+            }
 
             function limpiarCampos(idCampo) {
                 switch (idCampo) {
@@ -471,15 +444,4 @@ module.controller('PacienteCtrl_EditCreate',
                 }
                 console.log("item: " +  idCampo);
             }
-            //Adicionales
-//            $scope.$on('$viewContentLoaded', function(){
-//                alert("Content loaded! puto el que lee");
-//                            //Here your view content is fully loaded !! })
-//            });
-            $scope.$on('$stateChangeStart',
-                function (event, toState, toParams, fromState, fromParams) {
-                    if (!angular.equals($state.current, toState)) {
-                        delete $rootScope.persistedOperation;
-                    }
-                })
         }]);

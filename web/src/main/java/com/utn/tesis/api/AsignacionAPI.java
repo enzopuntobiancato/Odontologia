@@ -58,7 +58,7 @@ public class AsignacionAPI extends BaseAPI{
            documento = new Documento(numeroDocumento,TipoDocumento.valueOf(tipoDocumento));
         }
         ArrayList<Paciente> pacientes = (ArrayList<Paciente>) pacienteService.findByFilters(nombre,apellido,
-                documento, null,sexo != null ? Sexo.valueOf(sexo) : null,pageNumber,pageSize);
+                documento,sexo != null ? Sexo.valueOf(sexo) : null, false, pageNumber,pageSize);
 
         ArrayList<PacienteDTO> pacienteDTOs = (ArrayList<PacienteDTO>) pacienteMapper.toDTOList(pacientes);
         return pacienteDTOs;

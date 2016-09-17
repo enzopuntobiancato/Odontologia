@@ -1,0 +1,126 @@
+<md-card>
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">{{vm.aux.editingDiagnostico.practicaOdontologica.denominacion || vm.aux.editingDiagnostico.practicaNoExistente}}</span>
+        </md-card-header-text>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="vm.cancelEditing()">
+            <ng-md-icon icon="close" style="fill: black"></ng-md-icon>
+        </md-button>
+    </md-card-header>
+    <md-card-content>
+        <md-list>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Fecha de creación</h4>
+
+                        <p>{{vm.aux.editingDiagnostico.fechaCreacion | date:'dd/MM/yyyy' ||
+                            vm.aux.editingDiagnostico.fechaCreacion | noDefinido}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Estado actual</h4>
+
+                        <p>{{vm.aux.editingDiagnostico.ultimoMovimiento.estado.nombre}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Observaciones</h4>
+
+                        <p class="justified-text small-line">{{vm.aux.editingDiagnostico.observaciones}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Observaciones de la práctica odontológica</h4>
+
+                        <p class="justified-text small-line">
+                            {{vm.aux.editingDiagnostico.practicaOdontologica.observaciones || 'Diagnóstico no asociado
+                            con una práctica odontológica'}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+        </md-list>
+        <p md-offset class="subtitle-text">Historial de movimientos</p>
+        <md-table-container md-offset>
+            <table md-table>
+                <thead md-head>
+                <tr md-row>
+                    <th md-column>Fecha movimiento</th>
+                    <th md-column>Estado</th>
+                    <th md-column>Observaciones</th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row ng-class="{'edited-row' : !movimiento.id}" ng-repeat="movimiento in vm.aux.editingDiagnostico.movimientos">
+                    <td md-cell>{{movimiento.fechaMovimiento | date:'dd/MM/yyyy'}}</td>
+                    <td md-cell>{{movimiento.estado.nombre}}</td>
+                    <td md-cell>{{movimiento.observaciones}}</td>
+                    <td ng-if="!movimiento.id" md-cell>
+                        <ng-md-icon icon="delete" size="24" ng-click="vm.deleteMovimiento($index)">
+                        <md-tooltip>
+                            Eliminar
+                        </md-tooltip>
+                    </ng-md-icon></td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+        <div ng-if="!vm.aux.editingDiagnostico.id" layout="row">
+            <md-button
+                    ng-click="vm.deleteDiagnostico(vm.aux.editingDiagnostico, vm.aux.editingDiagnostico.practicaOdontologica.denominacion || vm.aux.editingDiagnostico.practicaNoExistente, $event)"
+                    class="md-raised md-warn">Eliminar diagnóstico
+            </md-button>
+        </div>
+        <ng-form name="resolveDiagnosticoForm">
+            <div ng-if="vm.aux.editingDiagnostico.id && !vm.aux.editingDiagnostico.editado" layout="column">
+                <div layout="row">
+                    <md-button ng-show="!vm.aux.wantToResolve" ng-click="vm.aux.wantToResolve = true"
+                               class="md-raised md-warn">
+                        Resolver diagnóstico
+                    </md-button>
+                </div>
+
+                <p ng-show="vm.aux.wantToResolve">
+                    <span class="orange-text">Resolver diagnóstico:</span> Seleccione estado y describa las
+                    observaciones.</p>
+
+                <div layout="row" ng-show="vm.aux.wantToResolve" layout-margin>
+                    <md-input-container flex="30">
+                        <label>Estado</label>
+                        <md-select required ng-model="vm.aux.newMovimiento.estado" name="estado" ng-model-options="{trackBy: '$value.key'}">
+                            <md-option ng-repeat="estado in vm.aux.finalStates" ng-value="estado">
+                                {{ estado.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="resolveDiagnosticoForm.estado.$error"
+                             ng-show="resolveDiagnosticoForm.estado.$touched || vm.aux.errorOnEdit">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="70">
+                        <label>Observaciones</label>
+                        <textarea required ng-model="vm.aux.newMovimiento.observaciones" rows="3" md-maxlength="400"
+                                  name="observaciones"></textarea>
+
+                        <div ng-messages="resolveDiagnosticoForm.observaciones.$error"
+                             ng-show="resolveDiagnosticoForm.observaciones.$touched || vm.aux.errorOnEdit">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div ng-show="vm.aux.wantToResolve" layout="row" layout-align="end center">
+                    <md-button ng-click="vm.cancelResolve()">Cancelar</md-button>
+                    <md-button ng-click="vm.acceptResolve(resolveDiagnosticoForm)" class="md-raised md-primary">Resolver</md-button>
+                </div>
+            </div>
+        </ng-form>
+    </md-card-content>
+</md-card>

@@ -75,6 +75,15 @@ public class UsuarioService extends BaseService<Usuario> {
         return dao.findByUsernameAndAuthToken(authId, authToken);
     }
 
+    public UsuarioLogueadoDTO findDTOByUsernameAndAuthToken(String authId, String authToken) {
+        UsuarioLogueadoDTO usuarioLogueadoDTO = null;
+        Usuario usuario = dao.findByUsernameAndAuthToken(authId, authToken);
+        if (usuario != null) {
+            usuarioLogueadoDTO = usuarioMapper.toUsuarioLogueadoDTO(usuario);
+        }
+        return usuarioLogueadoDTO;
+    }
+
     public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
         return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
     }

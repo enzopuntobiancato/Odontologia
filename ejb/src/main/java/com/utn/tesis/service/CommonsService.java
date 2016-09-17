@@ -97,4 +97,8 @@ public class CommonsService {
     public Ciudad findCiudadById(Long id) {
         return ciudadService.findById(id);
     }
+
+    public List<EnumDTO> findAllEstadosDiagnostico() {
+        return enumMapper.estadoDiagnosticoListToDTOList(Arrays.asList(EstadoDiagnostico.values()));
+    }
 }

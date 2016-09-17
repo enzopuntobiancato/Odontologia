@@ -2,16 +2,11 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.*;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 13/05/15
- * Time: 13:15
- */
 public class TrabajoPracticoDao extends DaoBase<TrabajoPractico> {
 
     QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
@@ -19,18 +14,16 @@ public class TrabajoPracticoDao extends DaoBase<TrabajoPractico> {
 
     public List<TrabajoPractico> findByFilters(String nombre, Long grupoPracticaId, Long practicaId, boolean dadosBaja, Long pageNumber, Long pageSize) {
 
+        QPracticaOdontologica practicaOdontologica = QPracticaOdontologica.practicaOdontologica;
         JPAQuery query = new JPAQuery(em).from(trabajoPractico);
-        if (nombre != null) {
+        query.innerJoin(trabajoPractico.practicaOdontologica, practicaOdontologica);
+        if (StringUtils.isNotBlank(nombre)) {
             query.where(trabajoPractico.nombre.startsWith(nombre));
         }
         if (practicaId != null) {
-            query.where(trabajoPractico.practicaOdontologica.id.eq(practicaId));
+            query.where(practicaOdontologica.id.eq(practicaId));
         } else if (grupoPracticaId != null) {
-            QPracticaOdontologica practica = QPracticaOdontologica.practicaOdontologica;
-            query.where(trabajoPractico.practicaOdontologica.in(
-                    new JPAQuery(em).from(practica).where(
-                            practica.grupo.id.eq
-                                    (grupoPracticaId)).list(practica)));
+            query.where(practicaOdontologica.grupo.id.eq(grupoPracticaId));
         }
         if (!dadosBaja) {
             query.where(trabajoPractico.fechaBaja.isNull());

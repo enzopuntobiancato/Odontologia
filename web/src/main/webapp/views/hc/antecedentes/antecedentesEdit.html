@@ -1,23 +1,8 @@
-<div layout="column" xmlns="http://www.w3.org/1999/html">
-<md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
-<div layout="column" layout-fill layout-padding>
-<div>
-<div layout="row" layout-align="center center">
-<md-card flex-gt-sm>
-<form name="editHistoriaClinicaForm" novalidate ng-submit="vm.save(editHistoriaClinicaForm)">
-<md-toolbar class="md-accent">
-    <div class="md-toolbar-tools">
-        <span>{{ 'CREAR_HC' | translate }}</span>
-    </div>
-</md-toolbar>
-<md-card-content>
-<ng-include ng-if="validationErrorFromServer.error"
-            src="'views/validation-error.html'"></ng-include>
 <md-tabs md-dynamic-height md-border-bottom>
 <md-tab label="{{ 'ANTECEDENTES' | translate }} e {{ 'HIPERTENSION' | translate }}">
     <section>
         <ng-form name="G1">
-            <md-subheader class="md-primary">{{ 'ANTECEDENTES'| translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{ 'ANTECEDENTES'| translate }}</md-subheader>
             <item-historia change="vm.limpiarCampos(id)"
                            camposino="vm.paciente.historiaClinicaDTO.g1p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g1p2"
@@ -28,34 +13,38 @@
     <section>
         <ng-form id="G2">
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g2p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g2p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g2p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g2p1.nombre" ng-true-value="true"
                            ng-false-value="false" ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g2p1.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g2p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g2p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g2p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g2p1.siNo | siNo}}
                 </md-switch>
             </div>
             <item-historia change="vm.limpiarCampos(id)"
                            camposino="vm.paciente.historiaClinicaDTO.g2p2"
                            campodetalle="vm.paciente.historiaClinicaDTO.g2p3"
                            campofecha="vm.paciente.historiaClinicaDTO.g2p4"
-                           submitted="vm.submitted" ng-if="vm.paciente.historiaClinicaDTO.g2p1.siNo == true"></item-historia>
+                           submitted="vm.submitted"
+                           ng-if="vm.paciente.historiaClinicaDTO.g2p1.siNo == true"></item-historia>
         </ng-form>
     </section>
     <section>
         <ng-form name="G3">
-            <md-subheader class="md-primary">{{ 'HIPERTENSION' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{ 'HIPERTENSION' | translate }}</md-subheader>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
                 <md-switch ng-model="vm.paciente.historiaClinicaDTO.g3p1.siNo"
                            aria-label="vm.paciente.historiaClinicaDTO.g3p1.nombre"
                            ng-true-value="true"
                            ng-false-value="false" ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g3p1.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g3p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g3p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g3p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g3p1.siNo | siNo}}
                 </md-switch>
             </div>
-            <item-historia  change="vm.limpiarCampos(id)"
-                            camposino="vm.paciente.historiaClinicaDTO.g3p2"
-                            campodetalle="vm.paciente.historiaClinicaDTO.g3p3"
-                            campofecha="vm.paciente.historiaClinicaDTO.g3p4"
-                            submitted="vm.submitted" ng-if="vm.paciente.historiaClinicaDTO.g3p1.siNo == true">
+            <item-historia change="vm.limpiarCampos(id)"
+                           camposino="vm.paciente.historiaClinicaDTO.g3p2"
+                           campodetalle="vm.paciente.historiaClinicaDTO.g3p3"
+                           campofecha="vm.paciente.historiaClinicaDTO.g3p4"
+                           submitted="vm.submitted" ng-if="vm.paciente.historiaClinicaDTO.g3p1.siNo == true">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g3p2.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g3p5.nombre }} </label>
                     <input name="G3P5" ng-model="vm.paciente.historiaClinicaDTO.g3p5.only_detalle"
@@ -67,15 +56,18 @@
                 </md-input-container>
             </item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g3p6.siNo" aria-label="vm.paciente.historiaClinicaDTO.g3p6.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g3p6.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g3p6.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g3p6.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g3p6.nombre }}: {{vm.paciente.historiaClinicaDTO.g3p6.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g3p6.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g3p6.siNo | siNo}}
                 </md-switch>
             </div>
-            <item-historia  change="vm.limpiarCampos(id)"
-                            camposino="vm.paciente.historiaClinicaDTO.g3p7"
-                            campodetalle="vm.paciente.historiaClinicaDTO.g3p9" ng-if="vm.paciente.historiaClinicaDTO.g3p6.siNo == true">
+            <item-historia change="vm.limpiarCampos(id)"
+                           camposino="vm.paciente.historiaClinicaDTO.g3p7"
+                           campodetalle="vm.paciente.historiaClinicaDTO.g3p9"
+                           ng-if="vm.paciente.historiaClinicaDTO.g3p6.siNo == true">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g3p7.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g3p8.nombre }} </label>
                     <input name="G3P8" ng-model="vm.paciente.historiaClinicaDTO.g3p8.only_detalle"
@@ -94,21 +86,25 @@
                 </div>
             </item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g3p11.siNo" aria-label="vm.paciente.historiaClinicaDTO.g3p11.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g3p11.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g3p11.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g3p11.nombre }}: {{vm.paciente.historiaClinicaDTO.g3p11.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g3p11.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g3p11.siNo | siNo}}
                 </md-switch>
             </div>
         </ng-form>
     </section>
     <section>
         <ng-form name="G4">
-            <md-subheader class="md-primary">{{ 'FIEBRE_REUM' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{ 'FIEBRE_REUM' | translate }}</md-subheader>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g4p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g4p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g4p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g4p1.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g4p1.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g4p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g4p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g4p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g4p1.siNo | siNo}}
                 </md-switch>
             </div>
             <item-historia change="vm.limpiarCampos(id)"
@@ -121,7 +117,7 @@
     </section>
     <section>
         <ng-form name="G5">
-            <md-subheader class="md-primary">{{ 'RINONES' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{ 'RINONES' | translate }}</md-subheader>
             <item-historia change="vm.limpiarCampos(id)"
                            camposino="vm.paciente.historiaClinicaDTO.g5p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g5p2"
@@ -129,10 +125,12 @@
                            submitted="vm.submitted">
             </item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g5p4.siNo" aria-label="vm.paciente.historiaClinicaDTO.g5p4.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g5p4.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g5p4.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g5p4.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g5p4.nombre }}: {{vm.paciente.historiaClinicaDTO.g5p4.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g5p4.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g5p4.siNo | siNo}}
                 </md-switch>
             </div>
             <item-historia camposino="vm.paciente.historiaClinicaDTO.g5p5"
@@ -141,10 +139,12 @@
                            submitted="vm.submitted"
                            ng-if="vm.paciente.historiaClinicaDTO.g5p4.siNo == true"></item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g5p8.siNo" aria-label="vm.paciente.historiaClinicaDTO.g5p8.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g5p8.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g5p8.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g5p8.id)"
-                           class="md-primary" ng-if="vm.paciente.historiaClinicaDTO.g5p1.siNo == true"> {{vm.paciente.historiaClinicaDTO.g5p8.nombre }}: {{vm.paciente.historiaClinicaDTO.g5p8.siNo |
+                           class="md-primary" ng-if="vm.paciente.historiaClinicaDTO.g5p1.siNo == true">
+                    {{vm.paciente.historiaClinicaDTO.g5p8.nombre }}: {{vm.paciente.historiaClinicaDTO.g5p8.siNo |
                     siNo}}
                 </md-switch>
                 <div layout="column" ng-if="vm.paciente.historiaClinicaDTO.g5p1.siNo == true">
@@ -161,20 +161,26 @@
 <md-tab label="{{ 'ALERGIAS' | translate }}">
     <section>
         <ng-form name="G6">
-            <md-subheader class="md-primary">{{'ALERGIAS' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{'ALERGIAS' | translate }}</md-subheader>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g6p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g6p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g6p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g6p1.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g6p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g6p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g6p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g6p1.siNo | siNo}}
                 </md-switch>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g6p2.siNo" aria-label="vm.paciente.historiaClinicaDTO.g6p2.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g6p2.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g6p2.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g6p2.nombre }}: {{vm.paciente.historiaClinicaDTO.g6p2.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g6p2.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g6p2.siNo | siNo}}
                 </md-switch>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g6p3.siNo" aria-label="vm.paciente.historiaClinicaDTO.g6p3.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g6p3.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g6p3.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g6p3.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g6p3.nombre }}: {{vm.paciente.historiaClinicaDTO.g6p3.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g6p3.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g6p3.siNo | siNo}}
                 </md-switch>
                 <md-input-container flex-gt-sm="15" ng-if="vm.paciente.historiaClinicaDTO.g6p3.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g6p4.nombre }} </label>
@@ -187,10 +193,12 @@
                 </md-input-container>
             </div>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g8p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g8p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g8p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g8p1.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g8p1.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g8p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g8p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g8p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g8p1.siNo | siNo}}
                 </md-switch>
                 <fieldset class="standard" ng-if="vm.paciente.historiaClinicaDTO.g8p1.siNo == true">
                     <legend>Medicamentos?</legend>
@@ -219,24 +227,30 @@
 <md-tab label="{{ 'HEPATITIS' | translate }}">
     <section>
         <ng-form name="G10">
-            <md-subheader class="md-primary">{{'HEPATITIS' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{'HEPATITIS' | translate }}</md-subheader>
             <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g10p1"
                            campofecha="vm.paciente.historiaClinicaDTO.g10p3"
                            campodetalle="vm.paciente.historiaClinicaDTO.g10p2"
                            submitted="vm.submitted"></item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p4.siNo" aria-label="vm.paciente.historiaClinicaDTO.g10p4.nombre" ng-true-value="true"
+                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p4.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g10p4.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p4.nombre }}: {{vm.paciente.historiaClinicaDTO.g10p4.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p4.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g10p4.siNo | siNo}}
                 </md-switch>
-                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p5.siNo" aria-label="vm.paciente.historiaClinicaDTO.g10p5.nombre" ng-true-value="true"
+                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p5.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g10p5.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p5.nombre }}: {{vm.paciente.historiaClinicaDTO.g10p5.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p5.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g10p5.siNo | siNo}}
                 </md-switch>
-                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p6.siNo" aria-label="vm.paciente.historiaClinicaDTO.g10p6.nombre" ng-true-value="true"
+                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p6.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g10p6.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           ng-change ="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g10p6.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p6.nombre }}: {{vm.paciente.historiaClinicaDTO.g10p6.siNo | siNo}}
+                           ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g10p6.id)"
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p6.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g10p6.siNo | siNo}}
                 </md-switch>
             </div>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
@@ -249,13 +263,17 @@
                     <error-messages form="editHistoriaClinicaForm.G10.G10P7"
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
-                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p8.siNo" aria-label="vm.paciente.historiaClinicaDTO.g10p8.nombre" ng-true-value="true"
+                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p8.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g10p8.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p8.nombre }}: {{vm.paciente.historiaClinicaDTO.g10p8.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p8.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g10p8.siNo | siNo}}
                 </md-switch>
-                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p9.siNo" aria-label="vm.paciente.historiaClinicaDTO.g10p9.nombre" ng-true-value="true"
+                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g10p9.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g10p9.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p9.nombre }}: {{vm.paciente.historiaClinicaDTO.g10p9.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g10p9.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g10p9.siNo | siNo}}
                 </md-switch>
             </div>
         </ng-form>
@@ -264,12 +282,14 @@
 <md-tab label="{{ 'ARTICULACIONES' | translate }}">
     <section>
         <ng-form name="G11">
-            <md-subheader class="md-primary">{{'ARTICULACIONES' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{'ARTICULACIONES' | translate }}</md-subheader>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g11p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g11p1.nombre" ng-true-value="true"
+                <md-switch flex-gt-sm="33" ng-model="vm.paciente.historiaClinicaDTO.g11p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g11p1.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g11p1.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g11p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g11p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g11p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g11p1.siNo | siNo}}
                 </md-switch>
                 <fieldset class="standard" ng-if="vm.paciente.historiaClinicaDTO.g11p1.siNo == true">
                     <legend>Cuáles?</legend>
@@ -283,16 +303,17 @@
                     </div>
                 </fieldset>
             </div>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g11p4"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g11p4"
                            campofecha="vm.paciente.historiaClinicaDTO.g11p6"
                            campodetalle="vm.paciente.historiaClinicaDTO.g11p5"
-                           submitted="vm.submitted" ng-if="vm.paciente.historiaClinicaDTO.g11p1.siNo == true"></item-historia>
+                           submitted="vm.submitted"
+                           ng-if="vm.paciente.historiaClinicaDTO.g11p1.siNo == true"></item-historia>
         </ng-form>
     </section>
     <section>
         <ng-form name="G12">
-            <md-subheader class="md-primary"></md-subheader>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g12p1"
+            <md-subheader class="md-primary  md-no-sticky"></md-subheader>
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g12p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g12p2"
                            submitted="vm.submitted"></item-historia>
         </ng-form>
@@ -301,8 +322,8 @@
 <md-tab label="{{ 'CONVULSIONES' | translate }} y {{ 'EPILEPSIA' | translate }}">
     <section>
         <ng-form name="G13">
-            <md-subheader class="md-primary">{{'CONVULSIONES' | translate }}</md-subheader>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g13p1"
+            <md-subheader class="md-primary  md-no-sticky">{{'CONVULSIONES' | translate }}</md-subheader>
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g13p1"
                            campofecha="vm.paciente.historiaClinicaDTO.g13p2"
                            submitted="vm.submitted">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g13p1.siNo == true">
@@ -328,8 +349,8 @@
     </section>
     <section>
         <ng-form name="G14">
-            <md-subheader class="md-primary">{{'PERDIDA_SENS' | translate }}</md-subheader>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g14p1"
+            <md-subheader class="md-primary  md-no-sticky">{{'PERDIDA_SENS' | translate }}</md-subheader>
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g14p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g14p2"
                            campofecha="vm.paciente.historiaClinicaDTO.g14p3"
                            submitted="vm.submitted">
@@ -346,7 +367,7 @@
     </section>
     <section>
         <ng-form name="G15">
-            <md-subheader class="md-primary">{{'EPILEPSIA' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{'EPILEPSIA' | translate }}</md-subheader>
             <item-historia change="vm.limpiarCampos(id)"
                            camposino="vm.paciente.historiaClinicaDTO.g15p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g15p2"
@@ -359,10 +380,11 @@
                 <md-switch ng-model="vm.paciente.historiaClinicaDTO.g15p5.siNo"
                            aria-label="vm.paciente.historiaClinicaDTO.g15p5.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g15p5.nombre }}: {{vm.paciente.historiaClinicaDTO.g15p5.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g15p5.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g15p5.siNo | siNo}}
                 </md-switch>
             </div>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g15p6"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g15p6"
                            campodetalle="vm.paciente.historiaClinicaDTO.g15p7"
                            campofecha="vm.paciente.historiaClinicaDTO.g15p8"
                            submitted="vm.submitted">
@@ -376,7 +398,7 @@
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
             </item-historia>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g15p10"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g15p10"
                            campodetalle="vm.paciente.historiaClinicaDTO.g15p11"
                            campofecha="vm.paciente.historiaClinicaDTO.g15p12"
                            submitted="vm.submitted">
@@ -396,8 +418,8 @@
 <md-tab label="{{ 'TRANSFUSIONES' | translate }} y {{ 'TRANSPLANTES' | translate }}">
     <section>
         <ng-form name="G16">
-            <md-subheader class="md-primary">{{'PROBLEMAS_PIEL' | translate }}</md-subheader>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g16p1"
+            <md-subheader class="md-primary  md-no-sticky">{{'PROBLEMAS_PIEL' | translate }}</md-subheader>
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g16p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g16p2"
                            campofecha="vm.paciente.historiaClinicaDTO.g16p3"
                            submitted="vm.submitted"></item-historia>
@@ -405,7 +427,7 @@
     </section>
     <section>
         <ng-form name="G17">
-            <md-subheader class="md-primary">{{'TRANSFUSIONES' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{'TRANSFUSIONES' | translate }}</md-subheader>
             <item-historia change="vm.limpiarCampos(id)"
                            camposino="vm.paciente.historiaClinicaDTO.g17p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g17p2">
@@ -428,14 +450,14 @@
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
             </item-historia>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g17p5"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g17p5"
                            campodetalle="vm.paciente.historiaClinicaDTO.g17p7"
                            campofecha="vm.paciente.historiaClinicaDTO.g17p6"></item-historia>
         </ng-form>
     </section>
     <section>
         <ng-form name="G19">
-            <md-subheader class="md-primary">{{'ENFERMEDADES_SANGRE' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{'ENFERMEDADES_SANGRE' | translate }}</md-subheader>
             <item-historia change="vm.limpiarCampos(id)"
                            camposino="vm.paciente.historiaClinicaDTO.g19p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g19p2"
@@ -450,12 +472,14 @@
                 </md-input-container>
             </item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g19p5.siNo" aria-label="vm.paciente.historiaClinicaDTO.g19p5.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g19p5.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g19p5.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g19p5.nombre }}: {{vm.paciente.historiaClinicaDTO.g19p5.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g19p5.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g19p5.siNo | siNo}}
                 </md-switch>
             </div>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g19p6"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g19p6"
                            campodetalle="vm.paciente.historiaClinicaDTO.g19p7">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g19p6.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g19p9.nombre }} </label>
@@ -471,12 +495,14 @@
     </section>
     <section>
         <ng-form name="G22">
-            <md-subheader class="md-primary">{{'TRANSPLANTES' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{'TRANSPLANTES' | translate }}</md-subheader>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g22p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g22p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g22p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g22p1.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g22p1.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g22p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g22p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g22p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g22p1.siNo | siNo}}
                 </md-switch>
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g22p1.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g22p2.nombre }} </label>
@@ -487,7 +513,7 @@
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
             </div>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g22p3"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g22p3"
                            campodetalle="vm.paciente.historiaClinicaDTO.g22p4">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g22p3.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g22p5.nombre }} </label>
@@ -504,8 +530,8 @@
 <md-tab label="{{ 'CANCER' | translate }}">
     <section>
         <ng-form name="G18">
-            <md-subheader class="md-primary">{{'CANCER' | translate }}Cáncer</md-subheader>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g18p1"
+            <md-subheader class="md-primary  md-no-sticky">{{'CANCER' | translate }}Cáncer</md-subheader>
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g18p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g18p2">
                 <fieldset class="standard" ng-if="vm.paciente.historiaClinicaDTO.g18p1.siNo == true">
                     <legend>Tratamientos</legend>
@@ -528,26 +554,32 @@
 <md-tab label="{{ 'SOLO_MUJERES' | translate }}" ng-if="vm.paciente.sexo.key == 'FEMENINO'">
     <section>
         <ng-form name="G20">
-            <md-subheader class="md-primary">{{'SOLO_MUJERES' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{'SOLO_MUJERES' | translate }}</md-subheader>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g20p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g20p1.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g20p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g20p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g20p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g20p1.siNo | siNo}}
                 </md-switch>
             </div>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g20p2"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g20p2"
                            campodetalle="vm.paciente.historiaClinicaDTO.g20p3"
                            campofecha="vm.paciente.historiaClinicaDTO.g20p4"></item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p5.siNo" aria-label="vm.paciente.historiaClinicaDTO.g20p5.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p5.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g20p5.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g20p5.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g20p5.nombre }}: {{vm.paciente.historiaClinicaDTO.g20p5.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g20p5.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g20p5.siNo | siNo}}
                 </md-switch>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p6.siNo" aria-label="vm.paciente.historiaClinicaDTO.g20p6.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p6.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g20p6.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g20p6.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g20p6.nombre }}: {{vm.paciente.historiaClinicaDTO.g20p6.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g20p6.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g20p6.siNo | siNo}}
                 </md-switch>
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g20p6.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g20p7.nombre }} </label>
@@ -559,8 +591,9 @@
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
             </div>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g20p9"
-                           campodetalle="vm.paciente.historiaClinicaDTO.g20p10" ng-if="vm.paciente.historiaClinicaDTO.g20p6.siNo == true">
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g20p9"
+                           campodetalle="vm.paciente.historiaClinicaDTO.g20p10"
+                           ng-if="vm.paciente.historiaClinicaDTO.g20p6.siNo == true">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g20p9.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g20p11.nombre }} </label>
                     <input name="G20P11" ng-model="vm.paciente.historiaClinicaDTO.g20p11.only_detalle"
@@ -572,13 +605,17 @@
                 </md-input-container>
             </item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p12.siNo" aria-label="vm.paciente.historiaClinicaDTO.g20p12.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p12.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g20p12.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g20p12.nombre }}: {{vm.paciente.historiaClinicaDTO.g20p12.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g20p12.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g20p12.siNo | siNo}}
                 </md-switch>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p13.siNo" aria-label="vm.paciente.historiaClinicaDTO.g20p13.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g20p13.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g20p13.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary" ng-if="vm.paciente.historiaClinicaDTO.g20p12.siNo == true"> {{vm.paciente.historiaClinicaDTO.g20p13.nombre }}: {{vm.paciente.historiaClinicaDTO.g20p13.siNo
+                           class="md-primary" ng-if="vm.paciente.historiaClinicaDTO.g20p12.siNo == true">
+                    {{vm.paciente.historiaClinicaDTO.g20p13.nombre }}: {{vm.paciente.historiaClinicaDTO.g20p13.siNo
                     | siNo}}
                 </md-switch>
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g20p13.siNo == true">
@@ -597,14 +634,16 @@
 <md-tab label="{{ 'DIABETES' | translate }}">
     <section>
         <ng-form name="G21">
-            <md-subheader class="md-primary">{{'DIABETES' | translate }}</md-subheader>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g21p1"
+            <md-subheader class="md-primary  md-no-sticky">{{'DIABETES' | translate }}</md-subheader>
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g21p1"
                            campofecha="vm.paciente.historiaClinicaDTO.g21p2"></item-historia>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g21p4"
-                           campodetalle="vm.paciente.historiaClinicaDTO.g21p5" ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g21p4"
+                           campodetalle="vm.paciente.historiaClinicaDTO.g21p5"
+                           ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
             </item-historia>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g21p6"
-                           campodetalle="vm.paciente.historiaClinicaDTO.g21p7" ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g21p6"
+                           campodetalle="vm.paciente.historiaClinicaDTO.g21p7"
+                           ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g21p6.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g21p8.nombre }} </label>
                     <input name="G21P8" ng-model="vm.paciente.historiaClinicaDTO.g21p8.only_detalle"
@@ -615,7 +654,8 @@
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
             </item-historia>
-            <div layout-gt-sm="row" layout-margin flex-gt-sm="33" ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
+            <div layout-gt-sm="row" layout-margin flex-gt-sm="33"
+                 ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
                 <md-input-container flex-gt-sm>
                     <label> {{vm.paciente.historiaClinicaDTO.g21p9.nombre }} </label>
                     <input name="G21P11" ng-model="vm.paciente.historiaClinicaDTO.g21p9.only_detalle"
@@ -638,7 +678,8 @@
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
             </div>
-            <div layout-gt-sm="row" layout-margin flex-gt-sm="33" ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
+            <div layout-gt-sm="row" layout-margin flex-gt-sm="33"
+                 ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g21p1.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g21p12.nombre }} </label>
                     <input name="G21P12" ng-model="vm.paciente.historiaClinicaDTO.g21p12.only_detalle"
@@ -649,9 +690,11 @@
                 </md-input-container>
             </div>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g21p13.siNo" aria-label="vm.paciente.historiaClinicaDTO.g21p13.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g21p13.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g21p13.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g21p13.nombre }}: {{vm.paciente.historiaClinicaDTO.g21p13.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g21p13.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g21p13.siNo | siNo}}
                 </md-switch>
             </div>
         </ng-form>
@@ -660,12 +703,14 @@
 <md-tab label="{{ 'VARIOS' | translate }}">
     <section>
         <ng-form name="G23">
-            <md-subheader class="md-primary"> {{'VARIOS' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky"> {{'VARIOS' | translate }}</md-subheader>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g23p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g23p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g23p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g23p1.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g23p1.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g23p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g23p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g23p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g23p1.siNo | siNo}}
                 </md-switch>
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g23p1.siNo == true">
                     <label> {{ 'G23P2' | translate }} </label>
@@ -675,10 +720,12 @@
                     <error-messages form="editHistoriaClinicaForm.G23.G23P2"
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g24p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g24p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g24p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g24p1.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g24p1.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g24p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g24p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g24p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g24p1.siNo | siNo}}
                 </md-switch>
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g24p1.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g24p2.nombre }} </label>
@@ -689,7 +736,7 @@
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
             </div>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g25p1"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g25p1"
                            campodetalle="vm.paciente.historiaClinicaDTO.g25p2">
                 <fieldset class="standard" ng-if="vm.paciente.historiaClinicaDTO.g25p1.siNo == true">
                     <legend>Cómo?</legend>
@@ -707,19 +754,23 @@
                 </fieldset>
             </item-historia>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g26p1.siNo" aria-label="vm.paciente.historiaClinicaDTO.g26p1.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g26p1.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g26p1.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g26p1.nombre }}: {{vm.paciente.historiaClinicaDTO.g26p1.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g26p1.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g26p1.siNo | siNo}}
                 </md-switch>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g26p2.siNo" aria-label="vm.paciente.historiaClinicaDTO.g26p2.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g26p2.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g26p2.nombre" ng-true-value="true"
                            ng-false-value="false"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g26p2.nombre }}: {{vm.paciente.historiaClinicaDTO.g26p2.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g26p2.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g26p2.siNo | siNo}}
                 </md-switch>
             </div>
         </ng-form>
     </section>
     <section>
-        <md-subheader class="md-primary"></md-subheader>
+        <md-subheader class="md-primary  md-no-sticky"></md-subheader>
         <ng-form name="G27">
             <div layout-gt-sm="row" layout-margin flex-gt-sm="25">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g27p1.siNo == true">
@@ -731,7 +782,7 @@
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
             </div>
-            <item-historia change="vm.limpiarCampos(id)"                     camposino="vm.paciente.historiaClinicaDTO.g27p2"
+            <item-historia change="vm.limpiarCampos(id)" camposino="vm.paciente.historiaClinicaDTO.g27p2"
                            campodetalle="vm.paciente.historiaClinicaDTO.g27p3">
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g27p2.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g27p4.nombre }} </label>
@@ -746,7 +797,7 @@
     </section>
     <section>
         <ng-form name="G28">
-            <md-subheader class="md-primary">{{ 'ULTIMA_VISITA' | translate }}</md-subheader>
+            <md-subheader class="md-primary  md-no-sticky">{{ 'ULTIMA_VISITA' | translate }}</md-subheader>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
                 <md-input-container flex-gt-sm>
                     <label> {{ vm.paciente.historiaClinicaDTO.g28p1.nombre}} </label>
@@ -766,10 +817,12 @@
                 </md-input-container>
             </div>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g28p3.siNo" aria-label="vm.paciente.historiaClinicaDTO.g28p3.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g28p3.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g28p3.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g28p3.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g28p3.nombre }}: {{vm.paciente.historiaClinicaDTO.g28p3.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g28p3.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g28p3.siNo | siNo}}
                 </md-switch>
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g28p3.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g28p4.nombre }} </label>
@@ -781,10 +834,12 @@
                 </md-input-container>
             </div>
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g28p5.siNo" aria-label="vm.paciente.historiaClinicaDTO.g28p5.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g28p5.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g28p5.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g28p5.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g28p5.nombre }}: {{vm.paciente.historiaClinicaDTO.g28p5.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g28p5.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g28p5.siNo | siNo}}
                 </md-switch>
                 <md-input-container flex-gt-sm ng-if="vm.paciente.historiaClinicaDTO.g28p5.siNo == true">
                     <label> {{ vm.paciente.historiaClinicaDTO.g28p6.nombre }} </label>
@@ -798,13 +853,15 @@
         </ng-form>
     </section>
     <section>
-        <md-subheader class="md-primary">{{'OTROS' | translate }}</md-subheader>
+        <md-subheader class="md-primary  md-no-sticky">{{'OTROS' | translate }}</md-subheader>
         <ng-form name="G29">
             <div layout-gt-sm="row" layout-margin flex-gt-sm>
-                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g29p2.siNo" aria-label="vm.paciente.historiaClinicaDTO.g29p2.nombre" ng-true-value="true"
+                <md-switch ng-model="vm.paciente.historiaClinicaDTO.g29p2.siNo"
+                           aria-label="vm.paciente.historiaClinicaDTO.g29p2.nombre" ng-true-value="true"
                            ng-false-value="false"
                            ng-change="vm.limpiarCampos(vm.paciente.historiaClinicaDTO.g29p2.id)"
-                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g29p2.nombre }}: {{vm.paciente.historiaClinicaDTO.g29p2.siNo | siNo}}
+                           class="md-primary"> {{vm.paciente.historiaClinicaDTO.g29p2.nombre }}:
+                    {{vm.paciente.historiaClinicaDTO.g29p2.siNo | siNo}}
                 </md-switch>
                 <fieldset class="standard" ng-if="vm.paciente.historiaClinicaDTO.g29p2.siNo == true">
                     <legend>Cuál?</legend>
@@ -828,17 +885,3 @@
     </section>
 </md-tab>
 </md-tabs>
-</md-card-content>
-<md-card-actions layout="row" layout-align="end center">
-    <md-button ng-click="vm.goIndex()">Cancelar</md-button>
-    <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-</md-card-actions>
-</form>
-</md-card>
-</div>
-</div>
-</div>
-</md-content>
-</div>
-
-

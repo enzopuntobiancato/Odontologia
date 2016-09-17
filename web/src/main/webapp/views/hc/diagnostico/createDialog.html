@@ -1,0 +1,73 @@
+<md-dialog flex="40" ng-cloak>
+    <form novalidate name="diagnosticoForm" ng-submit="create(diagnosticoForm)">
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools">
+                <span>Nuevo diagnóstico</span>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                 <div layout="column" layout-margin>
+                     <md-autocomplete ng-disabled="aux.practicaNotFound" ng-required="!aux.practicaNotFound" md-input-name="practica"
+                                      md-input-minlength="3"
+                                      md-min-length="3"
+                                      md-selected-item="diagnostico.practicaOdontologica"
+                                      md-search-text="aux.practicaSearchText"
+                                      md-items="item in searchPractica(aux.practicaSearchText)"
+                                      md-item-text="item.denominacion"
+                                      md-floating-label="Práctica odontológica">
+                         <md-item-template>
+                             <span md-highlight-text="aux.practicaSearchText" md-highlight-flags="i">{{ item.denominacion }}</span>
+                         </md-item-template>
+                         <md-not-found>
+                             Sin resultados
+                         </md-not-found>
+                         <div ng-messages="diagnosticoForm.practica.$error" ng-if="diagnosticoForm.practica.$touched">
+                             <div ng-message="minlength">Escribe al menos 3 letras para buscar</div>
+                             <div ng-messages-include="error-messages"></div>
+                         </div>
+                     </md-autocomplete>
+                     <md-input-container>
+                         <md-checkbox ng-model="aux.practicaNotFound" ng-change="practicaNoExistente()">
+                             Práctica odontológica no existe
+                         </md-checkbox>
+                     </md-input-container>
+                     <section ng-if="!aux.practicaNotFound">
+                         <small>Información práctica odontológica</small>
+                         <p class="justified-text small-line">
+                             {{ diagnostico.practicaOdontologica.observaciones || 'Seleccione una práctica para ver su descripción'}}</p>
+                     </section>
+                     <md-input-container ng-if="aux.practicaNotFound">
+                         <label>Nombre práctica no existente</label>
+                         <input name="practicaNoExiste" ng-model="diagnostico.practicaNoExistente"
+                                ng-required="aux.practicaNotFound" md-maxlength="50">
+
+                         <div ng-messages="diagnosticoForm.practicaNoExiste.$error" role="alert"
+                              ng-show="diagnosticoForm.practicaNoExiste.$touched">
+                             <div ng-messages-include="error-messages"></div>
+                         </div>
+                     </md-input-container>
+                     <md-input-container>
+                         <label>Observaciones</label>
+                         <textarea required class="justified-text" ng-model="diagnostico.observaciones" rows="5"
+                                   md-maxlength="400" name="observaciones"></textarea>
+
+                         <div ng-messages="diagnosticoForm.observaciones.$error"
+                              ng-show="diagnosticoForm.observaciones.$touched">
+                             <div ng-messages-include="error-messages"></div>
+                         </div>
+                     </md-input-container>
+                 </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="end end">
+
+            <md-button ng-click="cancel()">Cancelar</md-button>
+            <md-button type="submit" class="md-raised md-primary">Agregar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

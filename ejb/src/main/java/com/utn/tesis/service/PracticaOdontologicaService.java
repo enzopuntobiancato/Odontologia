@@ -6,14 +6,14 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.mapping.dto.PracticaOdontologicaDTO;
 import com.utn.tesis.mapping.mapper.PracticaOdontologicaMapper;
-import com.utn.tesis.model.Catedra;
-import com.utn.tesis.model.GrupoPracticaOdontologica;
 import com.utn.tesis.model.PracticaOdontologica;
+import org.apache.commons.lang.StringUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -60,6 +60,13 @@ public class PracticaOdontologicaService extends BaseService<PracticaOdontologic
         entity.setGrupo(grupoPracticaOdontologicaService.findById(dto.getGrupo().getId()));
 
         return practicaMapper.toDTO(this.save(entity));
+    }
+
+    public List<PracticaOdontologicaDTO> findByDenominacion(String denominacion) {
+        if (StringUtils.isBlank(denominacion)) {
+            return Collections.emptyList();
+        }
+        return practicaMapper.toDTOList(dao.findByDenominacion(denominacion));
     }
 
     @Override

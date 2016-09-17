@@ -36,4 +36,10 @@ public class PracticaOdontologicaDao extends DaoBase<PracticaOdontologica> {
         return query.list(practica);
     }
 
+    public List<PracticaOdontologica> findByDenominacion(String denominacion) {
+        JPAQuery query = new JPAQuery(em).from(practica);
+        query.where(practica.denominacion.containsIgnoreCase(denominacion));
+        return query.list(practica);
+    }
+
 }

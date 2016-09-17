@@ -78,12 +78,12 @@ public class Paciente extends Persona implements IBajeable {
     private Trabajo trabajo;
 
     @Exclude
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "domicilio_id")
     private Domicilio domicilio;
 
     @Exclude
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "historia_clinica_id")
     private HistoriaClinica historiaClinica;
 
@@ -96,6 +96,13 @@ public class Paciente extends Persona implements IBajeable {
     @Column(name = "fecha_baja")
     @Exclude
     private Calendar fechaBaja;
+
+    @Column(name="privado_liberdad")
+    private boolean privadoLibertad;
+
+    @Size(max = 30, message = "El lugar donde el paciente está privado de la libertad no puede superar los 30 caracteres.")
+    @Column(name="privado_liberdad_donde", length = 30)
+    private String privadoLibertadDonde;
 
     public Paciente() {
     }
@@ -242,6 +249,22 @@ public class Paciente extends Persona implements IBajeable {
 
     public void setDomicilio(Domicilio domicilio) {
         this.domicilio = domicilio;
+    }
+
+    public boolean isPrivadoLibertad() {
+        return privadoLibertad;
+    }
+
+    public void setPrivadoLibertad(boolean privadoLibertad) {
+        this.privadoLibertad = privadoLibertad;
+    }
+
+    public String getPrivadoLibertadDonde() {
+        return privadoLibertadDonde;
+    }
+
+    public void setPrivadoLibertadDonde(String privadoLibertadDonde) {
+        this.privadoLibertadDonde = privadoLibertadDonde;
     }
 
     @Override

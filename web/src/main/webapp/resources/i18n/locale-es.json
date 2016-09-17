@@ -319,5 +319,7 @@
     "G29P2":"¿Tiene tratamientos con medicina alternativa?",
     "G29P3":"Homeopatia",
     "G29P4":"Acupuntura",
-    "G29P5": "Otros"
+    "G29P5": "Otros",
+
+    "ACEPTAR_TERMINAR":"Aceptar y terminar"
 }

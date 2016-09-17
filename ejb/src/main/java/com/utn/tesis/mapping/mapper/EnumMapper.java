@@ -7,12 +7,6 @@ import org.mapstruct.NullValueMappingStrategy;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 24/01/16
- * Time: 17:23
- */
 @Mapper(componentModel = "cdi", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public abstract class EnumMapper {
 
@@ -103,6 +97,17 @@ public abstract class EnumMapper {
     }
 
     public abstract List<EnumDTO> nacionalidadListToDTOList(List<Nacionalidad> nacionalidadList);
+
+    //ESTADOS DIAGNOSTICO
+    public EnumDTO estadoDiagnosticoToDTO(EstadoDiagnostico source) {
+        return source != null ? new EnumDTO(source.name(), source.toString()) : null;
+    }
+
+    public EstadoDiagnostico estadoDiagnosticoFromDTO(EnumDTO source) {
+        return source != null && source.getKey() != null ? EstadoDiagnostico.valueOf(source.getKey()) : null;
+    }
+
+    public abstract List<EnumDTO> estadoDiagnosticoListToDTOList(List<EstadoDiagnostico> nacionalidadList);
 
     //ROLES
     public EnumDTO rolEnumToDTO(RolEnum source) {

@@ -19,8 +19,8 @@ var odontologiaApp = angular.module('odontologiaApp', [
 ]);
 
 odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
-    '$mdThemingProvider', '$mdIconProvider', '$translateProvider',
-    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider, $mdIconProvider, $translateProvider) {
+    '$mdThemingProvider', '$mdIconProvider', '$translateProvider', '$mdDateLocaleProvider',
+    function ($urlRouterProvider, $stateProvider, $ocLazyLoadProvider, cfpLoadingBarProvider, $httpProvider, $mdThemingProvider, $mdIconProvider, $translateProvider, $mdDateLocaleProvider) {
 
         var customBlueMap = $mdThemingProvider.extendPalette('light-blue', {
             'contrastDefaultColor': 'light',
@@ -53,6 +53,18 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .defaultIconSet('img/icons/sets/core-icons.svg', 24);
 
         $httpProvider.interceptors.push('authHttpRequestInterceptor');
+
+//        $mdDateLocaleProvider.formatDate = function(date) {
+//            if (date) {
+//                var day = date.getDate();
+//                var monthIndex = date.getMonth();
+//                var year = date.getFullYear();
+//
+//                return day + '/' + (monthIndex + 1) + '/' + year;
+//            } else {
+//                '';
+//            }
+//        };
 
         cfpLoadingBarProvider.loadingBarTemplate = '<div id="bar-container"></div><div id="loading-bar"><div class="bar"><div class="peg"></div></div></div></div>';
 
@@ -567,246 +579,230 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'PacienteCtrl_Index',
                 controllerAs: 'vm',
                 resolve: {
-                    tiposDocumentoResponse: ['CommonsSrv', function (commons) {
+                    tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
                     }],
-                    sexosResponse: ["CommonsSrv", function (commons) {
+                    sexosResponse: ['loadMyModule', "CommonsSrv", function (loadMyModule, commons) {
                         return commons.getSexos();
                     }]
                 }
             })
             .state('paciente.create', {
                 url: '/create',
-                templateUrl: 'views/paciente/pacienteEditCreate.html',
+                templateUrl: 'views/paciente/pacienteCreate.html',
                 controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
-                data: {
-                    updating : false
-                },
                 resolve: {
-                    nivelesResponse: ['CommonsSrv', function (commons) {
+                    nivelesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getNiveles();
                     }],
-                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                    tiposDocumentoResponse:['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
                     }],
-                    sexosResponse:["CommonsSrv", function(commons){
+                    sexosResponse:['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getSexos();
                     }],
-                    provinciaResponse: ["CommonsSrv", function(commons){
+                    provinciaResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getProvincias();
                     }],
-                    ciudadesResponse: ['CommonsSrv', function(commons){
+                    ciudadesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getCiudades();
                     }],
-                    barriosResponse: ['CommonsSrv', function(commons){
+                    barriosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getBarrios();
                     }],
-                    estadosResponse: ['CommonsSrv', function(commons){
+                    estadosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getEstadosCivil();
                     }],
-                    trabajosResponse: ['CommonsSrv', function(commons){
+                    trabajosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTrabajos();
                     }],
-                    obrasSocialesResponse: ['CommonsSrv', function(commons){
+                    obrasSocialesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getObrasSociales();
                     }],
-                    nivelesEstudioResponse: ['CommonsSrv', function(commons){
+                    nivelesEstudioResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getNivelesEstudio();
                     }],
-                    nacionalidadesResponse: ['CommonsSrv', function(commons){
+                    nacionalidadesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getNacionalidaes();
                     }],
-                    pacienteResponse:['$stateParams','PacienteSrv', function($stateParams,service){
+                    pacienteResponse:['loadMyModule', '$stateParams','PacienteSrv', function(loadMyModule, $stateParams,service){
                         return service.initPaciente();
                     }]
                 }
             })
-            .state('paciente.edit', {
-                url: '/edit/:id',
-                templateUrl: 'views/paciente/pacienteEditCreate.html',
+            .state('historiaClinica', {
+                url: '/historiaClinica/:id?editing',
+                templateUrl: 'views/hc/historiaClinicaMain.html',
+                controller: 'HistoriaClinicaCtrl_Main',
+                controllerAs: 'vm',
+                resolve: {
+                    loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        //lazyload de un modulo
+                        return $ocLazyLoad.load('historiaClinicaModule');
+                    }],
+                    pacienteResponse:['loadMyModule', '$stateParams','HistoriaClinicaSrv',function(loadMyModule, $stateParams, service) {
+                        return service.findPacienteLightById($stateParams.id);
+                    }]
+                }
+            })
+            .state('historiaClinica.datosPersonalesView', {
+                url: '/datosPersonales/view',
+                templateUrl: 'views/hc/datosPersonales/datosPersonales.html',
+                controllerAs: 'vm',
+                controller: function($scope, pacienteResponse) {
+                    var vm = this;
+                    vm.paciente = pacienteResponse.data;
+                },
+                resolve: {
+                    pacienteResponse: ['loadMyModule', '$stateParams','HistoriaClinicaSrv', function(loadMyModule, $stateParams, service) {
+                        return service.findPacienteById($stateParams.id);
+                    }]
+                }
+            })
+            .state('historiaClinica.antecedentesView', {
+                url: '/antecedentes/view',
+                templateUrl: 'views/hc/antecedentes/antecedentes.html',
+                controllerAs: 'vm',
+                controller: function($scope, pacienteResponse) {
+                    var vm = this;
+                    vm.paciente = pacienteResponse.data;
+                },
+                resolve: {
+                    pacienteResponse: ['loadMyModule', '$stateParams','HistoriaClinicaSrv', function(loadMyModule, $stateParams, service) {
+                        return service.findPacienteById($stateParams.id);
+                    }]
+                }
+            })
+            .state('historiaClinica.diagnosticoView', {
+                url: '/diagnostico/view',
+                templateUrl: 'views/hc/diagnostico/diagnosticoView.html',
+                controllerAs: 'vm',
+                controller: 'DiagnosticoCtrl_View',
+                resolve: {
+                    pacienteResponse: ['loadMyModule', '$stateParams','HistoriaClinicaSrv', function(loadMyModule, $stateParams, service) {
+                        return service.findPacienteById($stateParams.id);
+                    }],
+                    estadosDiagnosticoResponse: ['loadMyModule', 'CommonsSrv', function(loadMyModule, commons) {
+                        return commons.getEstadosDiagnostico();
+                    }]
+                }
+            })
+            .state('historiaClinica.atencionesView', {
+                url: '/atenciones/view',
+                template: '<div>It works. Im on atenciones View</div>',
+                controller: function($scope) {
+                }
+            })
+            .state('historiaClinica.datosPersonalesEdit', {
+                url: '/datosPersonales/edit',
+                templateUrl: 'views/hc/datosPersonales/datosPersonalesEdit.html',
                 controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
-                data: {
-                    updating : false
-                },
-                resolve:{
-                    nivelesResponse: ['CommonsSrv', function (commons) {
+                resolve: {
+                    nivelesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getNiveles();
                     }],
-                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                    tiposDocumentoResponse:['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
                     }],
-                    sexosResponse:["CommonsSrv", function(commons){
+                    sexosResponse:['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getSexos();
                     }],
-                    provinciaResponse: ["CommonsSrv", function(commons){
+                    provinciaResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getProvincias();
                     }],
-                    ciudadesResponse: ['CommonsSrv', function(commons){
+                    ciudadesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getCiudades();
                     }],
-                    barriosResponse: ['CommonsSrv', function(commons){
+                    barriosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getBarrios();
                     }],
-                    estadosResponse: ['CommonsSrv', function(commons){
+                    estadosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getEstadosCivil();
                     }],
-                    trabajosResponse: ['CommonsSrv', function(commons){
+                    trabajosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTrabajos();
                     }],
-                    obrasSocialesResponse: ['CommonsSrv', function(commons){
+                    obrasSocialesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getObrasSociales();
                     }],
-                    nivelesEstudioResponse: ['CommonsSrv', function(commons){
+                    nivelesEstudioResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getNivelesEstudio();
                     }],
-                    nacionalidadesResponse: ['CommonsSrv', function(commons){
+                    nacionalidadesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getNacionalidaes();
                     }],
-                    pacienteResponse:['$stateParams','PacienteSrv', function($stateParams,service){
+                    pacienteResponse:['loadMyModule', '$stateParams','PacienteSrv', function(loadMyModule, $stateParams,service){
                         return service.findById($stateParams.id);
                     }]
                 }
             })
-            .state('paciente.view', {
-                url: '/view/:id',
-                templateUrl: 'views/paciente/pacienteView.html',
+            .state('historiaClinica.antecedentesEdit', {
+                url: '/antecedentes/edit',
+                templateUrl: 'views/hc/antecedentes/antecedentesEdit.html',
+                controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
                 resolve: {
-                    pacienteResponse:['$stateParams','PacienteSrv',function($stateParams,service){
-                        return service.findById($stateParams.id);
-                    }]
-                },
-                controller: function ($scope, $state,pacienteResponse, DeleteRestoreSrv) {
-                    var vm = this;
-                    vm.paciente = pacienteResponse.data;
-                    vm.edit = edit;
-                    vm.goIndex = goIndex;
-                    vm.mostrar = mostrar;
-                    vm.openDeleteDialog = openDeleteDialog;
-                    vm.openRestoreDialog = openRestoreDialog;
-                    vm.tabs = [true, false, false, false];
-                    vm.tabsTitulos = ["Datos personales", "Antecedentes", "Diagnósticos", "Atenciones"];
-                    vm.titulo = vm.updating ? "Editar " +  vm.paciente.apellido : "Registrar nuevo paciente";
-                    vm.tabTitulo = vm.tabsTitulos[0];
-
-                    function edit(pacienteId){
-                        $state.go('^.edit', {id:pacienteId});
-                    }
-                    function goIndex() {
-                        $state.go('^.index');
-                    }
-
-                    //BAJA Y RESTAURAR
-                    function openDeleteDialog(event) {
-                        var nombre = vm.paciente.apellido + ", " + vm.paciente.nombre;
-                        DeleteRestoreSrv.delete(event, vm.paciente.id, nombre, null,null,null);
-                    }
-
-                    function openRestoreDialog(event) {
-                        var nombre = vm.paciente.apellido + ", " + vm.paciente.nombre;
-                        DeleteRestoreSrv.restore(event, vm.paciente.id, nombre, null);
-                    }
-
-                    function mostrar(tabId){
-                        for(var i = 0; i < vm.tabs.length; i++){
-                            if(i == tabId){
-                                vm.tabs[i] = true;
-                                vm.tabTitulo = vm.tabsTitulos[i];
-                            }else{
-                                vm.tabs[i] = false;
-                            }
-                        }
-                    }
-                }
-            })
-            .state('historiaClinica', {
-                url: '/historiaClinica',
-                template: '<ui-view/>',
-                abstract: true,
-                resolve: module('historiaClinicaModule')
-            })
-            .state('historiaClinica.index', {
-                url: '/',
-                templateUrl: 'views/historiaClinica/historiaClinicaQuery.html',
-                params: {execQuery: false, execQuerySamePage: false},
-                controller: 'HistoriaClinicaCtrl_Index',
-                controllerAs: 'vm',
-                resolve: {
-                    tiposDocumentoResponse:['CommonsSrv', function(commons){
+                    nivelesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getNiveles();
+                    }],
+                    tiposDocumentoResponse:['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
                     }],
-                    sexosResponse:["CommonsSrv", function(commons){
+                    sexosResponse:['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getSexos();
+                    }],
+                    provinciaResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getProvincias();
+                    }],
+                    ciudadesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getCiudades();
+                    }],
+                    barriosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getBarrios();
+                    }],
+                    estadosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getEstadosCivil();
+                    }],
+                    trabajosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getTrabajos();
+                    }],
+                    obrasSocialesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getObrasSociales();
+                    }],
+                    nivelesEstudioResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getNivelesEstudio();
+                    }],
+                    nacionalidadesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getNacionalidaes();
+                    }],
+                    pacienteResponse:['loadMyModule', '$stateParams','PacienteSrv', function(loadMyModule, $stateParams,service){
+                        return service.findById($stateParams.id);
                     }]
                 }
             })
-            .state('historiaClinica.create', {
-                url: '/create',
-                templateUrl: 'views/historiaClinica/historiaClinicaCreate.html',
-                controller: 'HistoriaClinicaCtrl_Create',
-                controllerAs: 'vm'
-            })
-            .state('historiaClinica.edit', {
-                url: '/edit/:id',
-                templateUrl: 'views/historiaClinica/historiaClinicaEdit.html',
-                controller: 'HistoriaClinicaCtrl_Edit',
+            .state('historiaClinica.diagnosticoEdit', {
+                url: '/diagnostico/edit',
+                templateUrl: 'views/hc/diagnostico/diagnosticoEdit.html',
+                controller: 'DiagnosticoCtrl_Edit',
                 controllerAs: 'vm',
-                resolve: {historiaClinicaResponse:['$stateParams','HistoriaClinicaSrv',function($stateParams,service){
-                    return service.findById($stateParams.id);
-                }]}
-            })
-            .state('historiaClinica.paciente', {
-                url:'/card/:id',
-                templateUrl: 'views/historiaClinica/historiaClinicaPaciente.html',
-                controllerAs:'vm',
-                resolve: {pacienteResponse:['$stateParams','HistoriaClinicaSrv',function($stateParams,service){
-                    return service.findById($stateParams.id);
-                }]},
-                controller: function($scope, $state, pacienteResponse){
-                    var vm = this;
-                    vm.paciente = pacienteResponse.data;
-                    vm.goHistoriaClinica = goHistoriaClinica;
-                    vm.goDatosPersonales = goDatosPersonales;
-                    vm.goIndex = goIndex;
-
-                    //Navegación a otros estados
-                    function goHistoriaClinica(idPaciente){
-                        $state.go('historiaClinica.view',{id : idPaciente});
-                    }
-
-                    function goDatosPersonales(idPaciente){
-                        $state.go('paciente.view',{id : idPaciente});
-                    }
-                    function goIndex() {
-                        $state.go('^.index');
-                    }
+                resolve: {
+                    pacienteId: ['loadMyModule', '$stateParams', function(loadMyModule, $stateParams) {
+                       return $stateParams.id;
+                    }],
+                    diagnosticosResponse:['loadMyModule', '$stateParams','DiagnosticoSrv',function(loadMyModule, $stateParams, service) {
+                        return service.findOpenDiagnosticos($stateParams.id);
+                    }],
+                    finalStatesResponse: ['loadMyModule', 'DiagnosticoSrv', function(loadMyModule, service) {
+                        return service.findFinalStates();
+                    }]
                 }
             })
-            .state('historiaClinica.view', {
-                url: '/view/:id',
-                templateUrl: 'views/historiaClinica/historiaClinicaView.html',
-                controllerAs: 'vm',
-                resolve: {historiaClinicaResponse:['$stateParams','HistoriaClinicaSrv',function($stateParams,service){
-                    return service.findById($stateParams.id);
-                }]},
-                controller: function($scope,$state,historiaClinicaResponse){
-                    var vm = this;
-                    vm.paciente = historiaClinicaResponse.data;
-                    vm.edit = edit;
-                    vm.goIndex = goIndex;
-                    vm.goToCard = goToCard;
-
-                    function edit(pacienteId){
-                        $state.go('^.edit', {id:pacienteId});
-                    }
-                    function goIndex() {
-                        $state.go('^.index');
-                    }
-                    function goToCard(pacienteId){
-                        $state.go('^.paciente', {id: pacienteId});
-                    }
+            .state('historiaClinica.atencionesEdit', {
+                url: '/atenciones/edit',
+                template: '<div>It works. Im on atenciones Edit</div>',
+                controller: function($scope) {
                 }
             })
             .state('asignacion', {
@@ -913,9 +909,10 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     name: 'historiaClinicaModule',
                     files: [
                         url('/historiaClinica/historiaClinicaSrv.js'),
-                        url('/historiaClinica/historiaClinicaIndexCtrl.js'),
-                        url('/historiaClinica/historiaClinicaCreateCtrl.js'),
-                        url('/historiaClinica/historiaClinicaEditCtrl.js')
+                        url('/hc/historiaClinicaMainCtrl.js'),
+                        url('/hc/diagnostico/diagnosticoSrv.js'),
+                        url('/hc/diagnostico/diagnosticoEditCtrl.js'),
+                        url('/hc/diagnostico/diagnosticoViewCtrl.js')
                     ]
                 },
                 {
@@ -940,7 +937,7 @@ angular.module('sapo.login', []);
 angular.module('personaModule', []);
 angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
-angular.module('historiaClinicaModule',[]);
+angular.module('historiaClinicaModule',['pacienteModule']);
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav',
@@ -982,10 +979,14 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         $scope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
                 $scope.validationErrorFromServer.error = false;
-                if (toState.name == 'landingPage' && !$scope.session.user) {
-                    $scope.menuOpen = false;
+                if ($scope.session.user) {
+                    if (toState.name == 'landingPage' || toState.name.startsWith('historiaClinica')) {
+                        $scope.menuOpen = false;
+                    } else {
+                        $scope.menuOpen = true;
+                    }
                 } else {
-                    $scope.menuOpen = true;
+                    $scope.menuOpen = false;
                 }
 //            if (authFactory.isAuthenticated()) {
 //                authFactory.updateExpiresTime();

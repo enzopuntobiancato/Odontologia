@@ -1,10 +1,10 @@
 var module = angular.module('pacienteModule');
 
 
-module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv', '$state', '$stateParams', 'MessageSrv',
-    'CommonsSrv',  'PaginationService', '$mdDialog','sexosResponse','tiposDocumentoResponse', 'DeleteRestoreSrv',
-    function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,
-              sexosResponse,tiposDocumentoResponse, deleteRestoreService) {
+module.controller('PacienteCtrl_Index', ['$scope', '$rootScope', '$cacheFactory', 'PacienteSrv', '$state', '$stateParams', 'MessageSrv',
+    'CommonsSrv',  'PaginationService', '$mdDialog','sexosResponse','tiposDocumentoResponse',
+    function ($scope, $rootScope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,
+              sexosResponse,tiposDocumentoResponse) {
         var vm = this;
         vm.result = [];
         vm.data = {
@@ -21,35 +21,16 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         vm.consultar = consultar;
         //Cambio de estado
         vm.view = view;
-        vm.edit = edit;
         vm.create = create;
-//        vm.reaload = reload;
-//        vm.viewDetail = viewDetail;
+
         //paginación
         vm.nextPage = nextPage;
         vm.previousPage = previousPage;
-        //Diálogos
-        vm.openDeleteDialog = openDeleteDialog;
-        vm.openRestoreDialog = openRestoreDialog;
-
-        vm.reload = function(){
-            $rootScope.persistedOperation = vm.data.persistedOperation;
-            $state.go($state.current, {}, {reload: true});
-        }
 
         vm.paginationData = pagination.paginationData;
         pagination.config('api/paciente/find');
 
-
-        //TODO: Revisar este método. Paciente debe ser Bajeable.
-        //TODO: Implementar método para restore en caso de ser necesario.
-        deleteRestoreService.config('api/paciente/remove', 'api/paciente/restore', 'Paciente', executeQuery);
-        function openDeleteDialog(event, id, nombre) {
-            deleteRestoreService.delete(event, id, nombre, vm.paginationData.pageNumber, vm.filter.dadosBaja, vm.result.length);
-        }
-        function openRestoreDialog(event, id, nombre) {
-            deleteRestoreService.restore(event, id, nombre, vm.paginationData.pageNumber);
-        }
+        var cache = $cacheFactory.get('pacienteIndexCache') || $cacheFactory('pacienteIndexCache');
 
         //Consulta
         function executeQuery(pageNumber){
@@ -136,14 +117,13 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
             return "Sin definir";
         }
 
-
-
         //Caché
         function cacheData() {
             var data = {
                 filter: vm.filter,
                 result: vm.result,
-                aux: vm.aux
+                aux: vm.aux,
+                paginationData: vm.paginationData
             }
             cache.put('data', data);
         };
@@ -151,9 +131,14 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
         function getCachedData() {
             var data = cache.get('data');
 
-            vm.filter = data.filter;
-            vm.result = data.result;
-            vm.aux = data.aux;
+            if (data) {
+                vm.filter = data.filter;
+                vm.result = data.result;
+                vm.aux = data.aux;
+                vm.paginationData = data.paginationData;
+            } else {
+                executeQuery();
+            }
         };
 
         //Paginación
@@ -175,18 +160,12 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
             $state.go('^.create');
         }
 
-        function edit(pacienteId) {
-            console.log("edit:" +  pacienteId)
-            $state.go('^.edit', {id:pacienteId});
-        }
-
         function view(pacienteId){
-            console.log("view: " + pacienteId);
-            $state.go('^.view', {id: pacienteId});
+           $state.go('historiaClinica', {id: pacienteId});
         };
 
         //Métodos auxiliares
-        vm.clickIcon = 'expand_more';
+        vm.clickIcon = 'expand_less';
         vm.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
 
         vm.cleanFilters = function () {
@@ -218,6 +197,33 @@ module.controller('PacienteCtrl_Index', ['$scope', '$cacheFactory', 'PacienteSrv
                 vm.clickIcon = 'expand_more';
             }
         };
+
+        $scope.$on('$stateChangeStart',
+            function (event, toState) {
+                if (toState.name.startsWith('paciente') || toState.name.startsWith('historiaClinica')) {
+                    cacheData();
+                } else {
+                    $rootScope.created = false;
+                    $rootScope.edited = false;
+                    cache.destroy();
+                }
+            });
+
+        $scope.$on('$stateChangeSuccess',
+            function (event, toState, toParams, fromState, fromParams) {
+                if (fromState.name.startsWith('paciente') || fromState.name.startsWith('historiaClinica')) {
+                    if (toParams.execQuery) {
+                        executeQuery();
+                    } else if (toParams.execQuerySamePage) {
+                        getCachedData();
+                        executeQuery($scope.paginationData.pageNumber)
+                    } else {
+                        getCachedData();
+                    }
+                } else {
+                    executeQuery();
+                }
+            });
     }]);
 
 

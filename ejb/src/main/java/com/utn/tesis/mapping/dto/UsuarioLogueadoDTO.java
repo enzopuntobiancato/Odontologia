@@ -22,6 +22,7 @@ public class UsuarioLogueadoDTO extends BaseDTO {
             .put(RolEnum.RESPONSABLE_RECEPCION_PACIENTES.getKey(), ResponsableRecepcionDTO.class)
             .build();
 
+    private Long id;
     private String nombreUsuario;
     private String authToken;
     private EnumDTO rol;
@@ -99,5 +100,13 @@ public class UsuarioLogueadoDTO extends BaseDTO {
 
     public void setImagenId(Long imagenId) {
         this.imagenId = imagenId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

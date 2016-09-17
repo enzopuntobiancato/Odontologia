@@ -2,12 +2,6 @@ package com.utn.tesis.mapping.dto;
 
 import java.util.Calendar;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 7/02/16
- * Time: 18:48
- */
 public class PracticaOdontologicaDTO extends BaseDTO {
     private static final long serialVersionUID = -6183462980771041808L;
 

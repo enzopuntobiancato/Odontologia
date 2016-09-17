@@ -24,7 +24,7 @@ import java.util.List;
 @Path("/historiaClinica")
 @RequestScoped
 @Slf4j
-public class HistoriaClinicaAPI extends BaseAPI{
+public class HistoriaClinicaAPI extends BaseAPI {
     @Inject
     private HistoriaClinicaService historiaClinicaService;
     @Inject
@@ -38,13 +38,13 @@ public class HistoriaClinicaAPI extends BaseAPI{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<HistoriaClinicaDTO> findByFilters(@QueryParam("numero") int numero,
-                                          @QueryParam("fechaApertura") Date fechaApertura,
-                                          @QueryParam("dadosBaja") boolean dadosBaja,
-                                          @QueryParam("pageNumber") Long pageNumber,
-                                          @QueryParam("pageSize") Long pageSize) {
+                                                  @QueryParam("fechaApertura") Date fechaApertura,
+                                                  @QueryParam("dadosBaja") boolean dadosBaja,
+                                                  @QueryParam("pageNumber") Long pageNumber,
+                                                  @QueryParam("pageSize") Long pageSize) {
 
-        List<HistoriaClinica> historiasClinicas = historiaClinicaService.findByFilters(null, null, null,null,null,null,
-                pageNumber,pageSize);
+        List<HistoriaClinica> historiasClinicas = historiaClinicaService.findByFilters(null, null, null, null, null, null,
+                pageNumber, pageSize);
         List<HistoriaClinicaDTO> historiasClinicaDTOs = historiaClinicaMapper.toDTOList(historiasClinicas);
         return historiasClinicaDTOs;
     }
@@ -54,13 +54,13 @@ public class HistoriaClinicaAPI extends BaseAPI{
     @Produces(MediaType.APPLICATION_JSON)
     public PacienteDTO findById(@QueryParam("id") Long id) {
         Paciente paciente = pacienteService.findById(id);
-        if(paciente == null){
-           return null;
+        if (paciente == null) {
+            return null;
         }
 
         PacienteDTO pacienteDTO = pacienteMapper.toDTO(paciente);
         HistoriaClinica historiaClinica = historiaClinicaService.findById(pacienteDTO.getHistoriaClinicaId());
-        if(historiaClinica == null){
+        if (historiaClinica == null) {
             return null;
         }
 
@@ -74,48 +74,39 @@ public class HistoriaClinicaAPI extends BaseAPI{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/save")
-    public Response save(HistoriaClinicaDTO dto) {
-        try {
-            HistoriaClinica entity;
-            if (dto.getId() == null) {
-                entity = historiaClinicaMapper.fromDTO(dto);
-                entity.setFechaApertura(Calendar.getInstance());
-            } else {
-                entity = historiaClinicaService.findById(dto.getId());
-                historiaClinicaMapper.updateHistoriaClinicaFromDTO(dto, entity);
-            }
-
-            dto = historiaClinicaMapper.toDTO(historiaClinicaService.save(entity));
-            return Response.ok(dto).build();
-        } catch (SAPOException se) {
-            return persistenceRequest(se);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+    public Response save(HistoriaClinicaDTO dto) throws SAPOException {
+        HistoriaClinica entity;
+        if (dto.getId() == null) {
+            entity = historiaClinicaMapper.fromDTO(dto);
+            entity.setFechaApertura(Calendar.getInstance());
+        } else {
+            entity = historiaClinicaService.findById(dto.getId());
+            historiaClinicaMapper.updateHistoriaClinicaFromDTO(dto, entity);
         }
+
+        dto = historiaClinicaMapper.toDTO(historiaClinicaService.save(entity));
+        return Response.ok(dto).build();
     }
 
     @Path("/findPacientes")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public List<PacienteDTO> findPacientesByFilters(@QueryParam("nombre")String nombre,
-                                           @QueryParam("apellido") String apellido,
-                                           @QueryParam("tipoDocumento") String tipoDocumento,
-                                           @QueryParam("numeroDocumento") String numeroDocumento,
-                                           @QueryParam("nombreUsuario") String nombreUsuario,
-                                           @QueryParam("sexo") String sexo,
-                                           @QueryParam("pageNumber") Long pageNumber,
-                                           @QueryParam("pageSize") Long pageSize){
+    public List<PacienteDTO> findPacientesByFilters(@QueryParam("nombre") String nombre,
+                                                    @QueryParam("apellido") String apellido,
+                                                    @QueryParam("tipoDocumento") String tipoDocumento,
+                                                    @QueryParam("numeroDocumento") String numeroDocumento,
+                                                    @QueryParam("sexo") String sexo,
+                                                    @QueryParam("pageNumber") Long pageNumber,
+                                                    @QueryParam("pageSize") Long pageSize) {
 
         Documento documento = null;
-        if(tipoDocumento != null && numeroDocumento != null){
+        if (tipoDocumento != null && numeroDocumento != null) {
             documento = new Documento(numeroDocumento, TipoDocumento.valueOf(tipoDocumento));
         }
-        ArrayList<Paciente> pacientes = (ArrayList<Paciente>) pacienteService.findByFilters(nombre,apellido,
-                documento, nombreUsuario,sexo != null ? Sexo.valueOf(sexo) : null,pageNumber,pageSize);
+        ArrayList<Paciente> pacientes = (ArrayList<Paciente>) pacienteService.findByFilters(nombre, apellido,
+                documento, sexo != null ? Sexo.valueOf(sexo) : null, false, pageNumber, pageSize);
 
         ArrayList<PacienteDTO> pacienteDTOs = (ArrayList<PacienteDTO>) pacienteMapper.toDTOList(pacientes);
         return pacienteDTOs;
     }
-
 }

@@ -5,6 +5,7 @@ import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.IBajeable;
 import com.utn.tesis.model.SuperEntityBase;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 /**
  * Created by enzo on 09/02/2015.
  */
+@Slf4j
 public abstract class BaseService<T extends SuperEntityBase> {
 
     abstract DaoBase<T> getDao();
@@ -93,11 +95,13 @@ public abstract class BaseService<T extends SuperEntityBase> {
             constraintValidation(entity, validator);
             bussinessValidation(entity);
         } catch (ConstraintViolationException cve) {
+            log.error(cve.getMessage(), cve);
             throw new SAPOException(cve);
         } catch (SAPOValidationException sve) {
+            log.error(sve.getMessage(), sve);
             throw new SAPOException(sve);
         } catch (Exception e) {
-            Logger.getLogger(BaseService.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new SAPOException(e);
         }
     }
@@ -124,5 +128,4 @@ public abstract class BaseService<T extends SuperEntityBase> {
     protected void bussinessValidation(T entity) throws SAPOValidationException {
         entity.validar();
     }
-
 }

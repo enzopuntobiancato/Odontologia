@@ -406,28 +406,31 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarUsuarios() throws SAPOException {
         log.info("CargarUsuariosPersonas INICIO");
-        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador());
+        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), true);
         Alumno alumno = new Alumno();
         alumno.setLegajo("1233456");
-        createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno);
+        createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, false);
         Profesor profesor = new Profesor();
         profesor.setLegajo(1234);
         profesor.setProfesion("Odontólogo");
-        createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor);
-        createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion());
-        createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico());
+        createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor, false);
+        createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion(), false);
+        createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico(), false);
         Autoridad autoridad = new Autoridad();
         autoridad.setCargo(Cargo.DECANO);
-        createUsuarioYPersona("autoridad", "La vieja", "Savi", rolList.get(5), autoridad);
+        createUsuarioYPersona("autoridad", "Una", "Autoridad", rolList.get(5), autoridad, false);
         log.info("CargarUsuariospersonas FINAL");
     }
 
-    private void createUsuarioYPersona(String nombreUsuario, String nombre, String apellido, Rol rol, Persona persona) throws SAPOException {
+    private void createUsuarioYPersona(String nombreUsuario, String nombre, String apellido, Rol rol, Persona persona, boolean avoidFirstLogin) throws SAPOException {
         Usuario usuario = new Usuario();
         usuario.setNombreUsuario(nombreUsuario);
         usuario.setContrasenia(EncryptionUtils.encryptMD5A("123"));
         usuario.setEmail(RandomStringUtils.randomAlphabetic(10) + "@domain.com");
         usuario.setRol(rol);
+        if (avoidFirstLogin) {
+            usuario.setUltimaConexion(Calendar.getInstance());
+        }
         usuarioService.create(usuario);
 
         persona.setNombre(nombre);
@@ -435,6 +438,12 @@ public class InitializationService {
         persona.setFechaCarga(Calendar.getInstance());
         persona.setDocumento(new Documento(RandomStringUtils.randomNumeric(8), TipoDocumento.DNI));
         persona.setUsuario(usuario);
+        if (avoidFirstLogin) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(1989, 10, 9);
+            persona.setFechaNacimiento(calendar);
+            persona.setSexo(Sexo.MASCULINO);
+        }
         personaService.create(persona);
 
         log.info("CargarPersonaAUsuario FINAL");

@@ -23,7 +23,8 @@ public class Domicilio extends EntityBase {
     @Column(nullable = false, length = 100)
     private String calle;
 
-    private int codigoPostal;
+    @Column(name = "codigo_postal")
+    private Integer codigoPostal;
 
     @Size(max = 50, message = "El departamento no puede ser mayor a 50 caracteres.")
     @Column(length = 50)
@@ -34,7 +35,7 @@ public class Domicilio extends EntityBase {
     @Column(nullable = false, length = 50)
     private String numero;
 
-    private int piso;
+    private Integer piso;
 
     public Domicilio() {
     }
@@ -61,11 +62,11 @@ public class Domicilio extends EntityBase {
         this.calle = calle;
     }
 
-    public int getCodigoPostal() {
+    public Integer getCodigoPostal() {
         return codigoPostal;
     }
 
-    public void setCodigoPostal(int codigoPostal) {
+    public void setCodigoPostal(Integer codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
 
@@ -85,11 +86,11 @@ public class Domicilio extends EntityBase {
         this.numero = numero;
     }
 
-    public int getPiso() {
+    public Integer getPiso() {
         return piso;
     }
 
-    public void setPiso(int piso) {
+    public void setPiso(Integer piso) {
         this.piso = piso;
     }
 
