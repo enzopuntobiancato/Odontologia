@@ -117,7 +117,6 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         //lazyload de un modulo
                         return $ocLazyLoad.load('sapo.login');
                     }],
-
                     initializeData: ['loadMyModule', '$http', '$q', function (loadMyModule, $http, $q) {
                         var deferred = $q.defer();
                         $http({
@@ -811,6 +810,70 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 abstract: true,
                 resolve: module('asignacionModule')
             })
+            .state('asignacion.view', {
+                url: '/view/:id',
+                templateUrl: 'views/asignacion/asignacionView.html',
+                controllerAs: 'vm',
+                resolve: {asignacionResponse:['$stateParams','AsignacionSrv',function($stateParams,service){
+                    return service.findById($stateParams.id);
+                }]},
+                controller: function($scope,$state, asignacionResponse){
+                    var vm = this;
+                    vm.asignacion = asignacionResponse.data;
+                    vm.goIndex = goIndex;
+                    vm.imgIdx = Math.floor(Math.random() * (47 - 1 + 1)) + 1;
+                    function goIndex() {
+                        $state.go('^.index');
+                    }
+                }
+            })
+            .state('asignacion.index', {
+                url: '/',
+                templateUrl: 'views/asignacion/asignacionQuery.html',
+                controller: 'AsignacionCtrl_Index',
+                controllerAs: 'vm',
+                resolve:  {
+                    practicasResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
+                        return service.getPracticas();
+                    }],
+                    tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getTiposDocumento();
+                    }],
+                    catedrasResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                        return service.getCatedras();
+                    }],
+                    trabajosPracticosResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                        return service.getTrabajosPracticos();
+                    }],
+                    estadosAsignacionResponse : ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                        return service.getEstadosAsignaciones();
+                    }]
+                }
+            })
+            .state('asignacion.autorizar', {
+                url: '/autorizar',
+                templateUrl: 'views/asignacion/asignacionAutorizar.html',
+                controller: 'AsignacionCtrl_Autorizar',
+                controllerAs: 'vm',
+                resolve:  {
+                    practicasResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
+                        return service.getPracticas();
+                    }],
+                    profesorResponse: ['loadMyModule', 'AsignacionSrv', 'authFactory', function (loadMyModule, service, authFactory) {
+                        var user = authFactory.getAuthData();
+                        return service.findProfesorByUser(user.id);
+                    }],
+                    trabajosPracticosResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                        return null;
+                    }],
+                    estadosAsignacionResponse : ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                        return service.getEstadosAsignaciones();
+                    }],
+                    tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getTiposDocumento();
+                    }]
+                }
+            })
             .state('asignacion.create', {
                 url: '/create',
                 templateUrl: 'views/asignacion/asignacionEditCreate.html',
@@ -823,14 +886,38 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
                     }],
-                    catedrasResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
-                        return service.findAllCatedras();
+                    sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getSexos();
                     }],
-                    trabajosPracticosResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service){
-                        return service.findAllTrabajosPracticos();
+                    catedrasResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                        return service.getCatedras();
+                    }],
+                    asignacionResponse:['$stateParams', 'loadMyModule', 'AsignacionSrv',
+                        function($stateParams,loadMyModule, service){
+                        return null;
+                    }]
+                }
+            })
+            .state('asignacion.edit', {
+                url: '/edit/:id',
+                templateUrl: 'views/asignacion/asignacionEditCreate.html',
+                controller: 'AsignacionCtrl_EditCreate',
+                controllerAs: 'vm',
+                data: {
+                    updating : true
+                },
+                resolve:  {
+                    tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
+                        return commons.getTiposDocumento();
                     }],
                     sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getSexos();
+                    }],
+                    catedrasResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                        return service.getCatedras();
+                    }],
+                    asignacionResponse:['$stateParams', 'loadMyModule', 'AsignacionSrv', function($stateParams,loadMyModule, service){
+                        return service.findById($stateParams.id);
                     }]
                 }
             })
@@ -919,7 +1006,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     name: 'asignacionModule',
                     files: [
                         url('/asignacion/asignacionSrv.js'),
-                        url('/asignacion/asignacionEditCreateCtrl.js')
+                        url('/asignacion/asignacionEditCreateCtrl.js'),
+                        url('/asignacion/asignacionIndexCtrl.js'),
+                        url('/asignacion/asignacionAutorizarCtrl.js')
                     ]
                 }
             ]

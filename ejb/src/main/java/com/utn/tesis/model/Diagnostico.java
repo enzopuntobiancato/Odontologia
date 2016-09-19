@@ -1,6 +1,7 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import io.github.benas.randombeans.annotation.Exclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

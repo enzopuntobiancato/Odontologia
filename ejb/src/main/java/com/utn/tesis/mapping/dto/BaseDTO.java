@@ -9,4 +9,22 @@ import java.io.Serializable;
  * Time: 23:22
  */
 public abstract class BaseDTO implements Serializable {
+    private Long id;
+    private Integer version;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 }

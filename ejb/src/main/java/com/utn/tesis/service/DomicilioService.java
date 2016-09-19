@@ -5,6 +5,7 @@ import com.utn.tesis.data.daos.DomicilioDao;
 import com.utn.tesis.model.Barrio;
 import com.utn.tesis.model.Domicilio;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * Time: 15:43
  * To change this template use File | Settings | File Templates.
  */
+@Stateless
 public class DomicilioService extends BaseService<Domicilio> {
 
     @Inject

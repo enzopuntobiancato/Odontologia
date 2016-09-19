@@ -11,8 +11,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class HistoriaClinicaDTO extends BaseDTO {
-    private Long id;
-    private int version;
     private int numero;
     private Calendar fechaApertura;
     private List<DetalleHistoriaClinicaDTO> detalles;
@@ -217,22 +215,6 @@ public class HistoriaClinicaDTO extends BaseDTO {
     private CampoDetalleDTO  g29p5;
 
     //GETTERS AND SETTERS
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
     public int getNumero() {
         return numero;
     }

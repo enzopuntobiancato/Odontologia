@@ -12,8 +12,6 @@ import java.util.List;
  */
 public class PacienteDTO extends BaseDTO {
     //Datos Personales
-    private Long id;
-    private Long version;
     private String apellido;
     private String nombre;
     private EnumDTO estadoCivil;
@@ -76,14 +74,6 @@ public class PacienteDTO extends BaseDTO {
 
     public void setMotivoBaja(String motivoBaja) {
         this.motivoBaja = motivoBaja;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getApellido() {
@@ -236,14 +226,6 @@ public class PacienteDTO extends BaseDTO {
 
     public void setFechaCarga(Calendar fechaCarga) {
         this.fechaCarga = fechaCarga;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     public Long getHistoriaClinicaId() {

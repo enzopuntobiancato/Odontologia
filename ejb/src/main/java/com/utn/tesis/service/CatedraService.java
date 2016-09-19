@@ -5,10 +5,14 @@ import com.utn.tesis.data.daos.CatedraDao;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.mapping.dto.CatedraConsultaDTO;
 import com.utn.tesis.mapping.dto.CatedraDTO;
+import com.utn.tesis.mapping.dto.ProfesorDTO;
 import com.utn.tesis.mapping.mapper.CatedraMapper;
+import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.Catedra;
 import com.utn.tesis.model.DiaHorario;
+import com.utn.tesis.model.Profesor;
 import com.utn.tesis.model.TrabajoPractico;
 import com.utn.tesis.util.Collections;
 
@@ -33,6 +37,8 @@ public class CatedraService extends BaseService<Catedra> {
     private MateriaService materiaService;
     @Inject
     private TrabajoPracticoService trabajoPracticoService;
+    @Inject
+    private PersonaMapper personaMapper;
 
     @Override
     DaoBase<Catedra> getDao() {
@@ -75,6 +81,17 @@ public class CatedraService extends BaseService<Catedra> {
         }
         save(entity);
         return catedraMapper.toDTO(entity);
+    }
+
+    public List<CatedraConsultaDTO> findCatedrasByProfesor(ProfesorDTO profesorDTO){
+        Profesor profesor = personaMapper.profesorFromDTO(profesorDTO);
+        List<Catedra> entities = dao.findCatedrasByProfesor(profesor);
+        return catedraMapper.toConsultaDTOList(entities);
+    }
+
+    public List<CatedraConsultaDTO> findCatedrasByProfesor(Long id){
+        List<Catedra> entities = dao.findCatedrasByProfesor(id);
+        return catedraMapper.toConsultaDTOList(entities);
     }
 
     @Override

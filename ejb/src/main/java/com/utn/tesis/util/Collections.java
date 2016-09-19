@@ -4,7 +4,8 @@
  */
 package com.utn.tesis.util;
 
-import com.utn.tesis.model.EntityBase;
+
+import com.utn.tesis.model.SuperEntityBase;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -86,7 +87,8 @@ public class Collections {
             }
 
 // si es IEntidad o IGenericEntity
-            if (EntityBase.class.isAssignableFrom(type)) {
+//            if (EntityBase.class.isAssignableFrom(type)) {
+            if (SuperEntityBase.class.isAssignableFrom(type)) {
                 reload(getValue(f, o), profundidad - 1);
                 continue;
             }

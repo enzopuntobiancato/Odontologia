@@ -4,6 +4,7 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.FuncionalidadDao;
 import com.utn.tesis.model.Funcionalidad;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 
@@ -14,6 +15,7 @@ import javax.validation.Validator;
  * Time: 13:32
  * To change this template use File | Settings | File Templates.
  */
+@Stateless
 public class FuncionalidadService extends BaseService<Funcionalidad> {
 
     @Inject

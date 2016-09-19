@@ -41,8 +41,8 @@ public class TrabajoPracticoService extends BaseService<TrabajoPractico> {
         return dao.findByFilters(nombre, grupoPracticaId, practicaId, dadosBaja, pageNumber, pageSize);
     }
 
-    public List<TrabajoPractico> findByMateria(Long idMateria){
-        return dao.findByMateria(idMateria);
+    public List<TrabajoPractico> findByCatedra(Long idMateria){
+        return dao.findByCatedra(idMateria);
     }
 
     @Override

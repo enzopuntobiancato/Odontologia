@@ -7,6 +7,7 @@ import com.utn.tesis.model.EstadoDiagnostico;
 import com.utn.tesis.model.MovimientoDiagnostico;
 import com.utn.tesis.model.Usuario;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.Calendar;
@@ -19,6 +20,7 @@ import java.util.List;
  * Time: 15:40
  * To change this template use File | Settings | File Templates.
  */
+@Stateless
 public class MovimientoDiagnosticoService extends BaseService<MovimientoDiagnostico> {
 
     @Inject

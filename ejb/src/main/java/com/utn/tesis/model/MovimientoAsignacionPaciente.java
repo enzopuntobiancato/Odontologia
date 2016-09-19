@@ -20,7 +20,7 @@ public class MovimientoAsignacionPaciente extends EntityBase {
     @Column(name = "fecha_movimiento")
     private Calendar fechaMovimiento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "generado_por_id")
     @NotNull(message = "El usuario que genera el movimiento de asignacion no puede ser nulo.")
     private Usuario generadoPor;

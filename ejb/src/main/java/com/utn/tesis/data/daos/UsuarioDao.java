@@ -73,6 +73,23 @@ public class UsuarioDao extends DaoBase<Usuario> {
         return query1.uniqueResult(QPersona.persona);
     }
 
+    public Persona findPersonaByUsuario(Long usuarioId) {
+        if (usuario == null) return null;
+
+        /*JPAQuery query = new JPAQuery(em).from(QAlumno.alumno, QAutoridad.autoridad,
+                QResponsableRecepcion.responsableRecepcion, QProfesor.profesor)
+                .where((QAlumno.alumno.usuario.id.eq(usuario.getId()))
+                        .or(QAutoridad.autoridad.usuario.id.eq(usuario.getId()))
+                        .or(QProfesor.profesor.usuario.id.eq(usuario.getId()))
+                        .or(QResponsableRecepcion.responsableRecepcion.usuario.id.eq(usuario.getId())));*/
+
+        QPersona persona = QPersona.persona;
+        JPAQuery query1 = new JPAQuery(em).from(persona)
+                .where(persona.usuario.id.eq(usuarioId));
+
+        return query1.uniqueResult(QPersona.persona);
+    }
+
     public List<Usuario> validateByUsername(String username, Long id) {
         BooleanBuilder queryBuilder = new BooleanBuilder(usuario.nombreUsuario.equalsIgnoreCase(username));
         if (id != null) {

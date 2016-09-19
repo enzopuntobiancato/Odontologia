@@ -5,6 +5,7 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.model.AsignacionPaciente;
 import com.utn.tesis.model.Atencion;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ import java.util.List;
  * Time: 11:57
  * To change this template use File | Settings | File Templates.
  */
+@Stateless
 public class AtencionService extends BaseService<Atencion> {
 
     @Inject

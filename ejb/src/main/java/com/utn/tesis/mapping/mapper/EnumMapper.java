@@ -119,4 +119,15 @@ public abstract class EnumMapper {
     }
 
     public abstract List<EnumDTO> rolEnumListToDTOList(List<RolEnum> rolEnumList);
+
+    //ESTADOS ASIGNACIONES
+    public EnumDTO estadoAsignacionToDTO(EstadoAsignacionPaciente source) {
+        return source != null ? new EnumDTO(source.name(), source.toString()) : null;
+    }
+
+    public EstadoAsignacionPaciente estadoAsignacionFromDTO(EnumDTO source) {
+        return source != null ? EstadoAsignacionPaciente.valueOf(source.getKey()) : null;
+    }
+
+    public abstract List<EnumDTO> estadoAsignacionListToDTOList(List<EstadoAsignacionPaciente> list);
 }

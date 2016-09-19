@@ -102,6 +102,12 @@ public class UsuarioService extends BaseService<Usuario> {
         return dao.findPersonaByUsuario(usuario);
     }
 
+    public Persona findPersonaByUsuario(Long id) {
+        Persona p = dao.findPersonaByUsuario(id);
+        personaService.reload(p, 1);
+        return p;
+    }
+
     public UsuarioLogueadoDTO fetchUser(Long id) {
         Usuario user = findById(id);
         return usuarioMapper.toUsuarioLogueadoDTO(user);

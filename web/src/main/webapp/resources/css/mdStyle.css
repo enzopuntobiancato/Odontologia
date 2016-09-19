@@ -62,6 +62,8 @@ md-content.md-default-theme {
     box-sizing: content-box;
 }
 
+
+
 .label-item-three-columns {
     box-sizing: border-box;
     padding: 0;
@@ -419,4 +421,20 @@ md-toolbar.md-table-toolbar.alternate-table-toolbar-2 {
 .autocomplete-less-bottom > md-autocomplete-wrap > md-input-container {
     margin-bottom: 10px!important;
     padding-bottom: 0px!important;
+}
+
+.disabled-icon {
+    fill : darkgrey;
+}
+
+.enabled-icon {
+    fill : crimson;
+}
+
+.icon-hover {
+    fill: '#E91E63';
+}
+
+.icon-leave {
+    fill: '#00B0FF';
 }
