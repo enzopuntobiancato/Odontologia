@@ -282,9 +282,15 @@ public class InitializationService {
         estadisticas.setNombre("Análisis de datos");
         grupoFuncionalidadList.add(grupoFuncionalidadService.save(estadisticas));
 
+        GrupoFuncionalidad asignaciones = new GrupoFuncionalidad();
+        asignaciones.setNombre("Asignaciones");
+        grupoFuncionalidadList.add(grupoFuncionalidadService.save(asignaciones));
+
         GrupoFuncionalidad ayuda = new GrupoFuncionalidad();
         ayuda.setNombre("Ayuda");
         grupoFuncionalidadList.add(grupoFuncionalidadService.save(ayuda));
+
+
 
         log.info("CargarGrupoFuncionalidad FINAL");
     }
@@ -333,6 +339,19 @@ public class InitializationService {
         f7.setEstadoAsociado("estadisticas");
         f7.setGrupoFuncionalidad(grupoFuncionalidadList.get(2));
         funcionalidadList.add(funcionalidadService.save(f7));
+
+        Funcionalidad f8 = new Funcionalidad();
+        f8.setNombre("Asignaciones");
+        f8.setEstadoAsociado("asignacion.index");
+        f8.setGrupoFuncionalidad(grupoFuncionalidadList.get(3));
+        funcionalidadList.add(funcionalidadService.save(f8));
+
+        Funcionalidad f9 = new Funcionalidad();
+        f9.setNombre("Autorizar asignaciones confirmadas");
+        f9.setEstadoAsociado("asignacion.autorizar");
+        f9.setGrupoFuncionalidad(grupoFuncionalidadList.get(3));
+        funcionalidadList.add(funcionalidadService.save(f9));
+
 
         log.info("CargarFuncionalidad FINAL");
     }
