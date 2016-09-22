@@ -192,13 +192,18 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
 
         //Cambio de estado
         function autorizar(){
+            /*for (var i = 0; i < vm.selectedAsignaciones.length; i++) {
+                vm.selectedAsignaciones[i].autorizadoPor = vm.data.profesor;
+            }*/
             service.autorizar(vm.selectedAsignaciones)
                 .then(function(){
+                    vm.selectedAsignaciones = [];
+                    buscarAsignaciones("autorizarAsignacionesForm");
                     message.successMessage("Asignaciones autorizadas", null, 3000);
                 }, function(data){
                     handleError(data, status);
                 });
-            buscarAsignaciones("autorizarAsignacionesForm");
+
         }
         //NAVEGACION
         function goIndex() {

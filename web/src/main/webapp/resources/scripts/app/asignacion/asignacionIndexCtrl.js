@@ -4,10 +4,10 @@ var module = angular.module('asignacionModule');
 module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 'AsignacionSrv', '$state', '$stateParams', 'MessageSrv',
     'CommonsSrv', 'PaginationService', '$mdDialog',
     'practicasResponse', 'tiposDocumentoResponse', 'catedrasResponse', 'estadosAsignacionResponse',
-    'trabajosPracticosResponse', 'DeleteRestoreSrv','authFactory',
+    'trabajosPracticosResponse', 'authFactory',
     function ($scope, $filter, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,
               practicasResponse, tiposDocumentoResponse, catedrasResponse, estadosAsignacionResponse,
-              trabajosPracticosResponse, deleteRestoreService,authFactory) {
+              trabajosPracticosResponse, authFactory) {
         var vm = this;
         vm.asignacion = {};
         vm.result = [];
@@ -29,7 +29,7 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
         vm.selectedAsignaciones = [];
         vm.buscarAsignaciones = buscarAsignaciones;
         //Cambio de estado
-        vm.showConfirmDialog = showConfirmDialog;
+        vm.showConfirmarAsignacionDialog = showConfirmarAsignacionDialog;
 //        vm.confirmar = confirmar;
         vm.cancelar = cancelar;
         vm.view = view;
@@ -39,9 +39,6 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
         //paginación
         vm.nextPage = nextPage;
         vm.previousPage = previousPage;
-        //Diálogos
-        vm.openDeleteDialog = openDeleteDialog;
-        vm.openRestoreDialog = openRestoreDialog;
         //CONSULTA Y PAGINACION ALUMNO
         vm.alumnos = [];
         vm.buscarAlumnos = buscarAlumnos;
@@ -145,16 +142,6 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
         }
 
         vm.paginationData = pagination.paginationData;
-
-        deleteRestoreService.config('api/asignacion/remove', 'api/asignacion/restore', 'Asignacion paciente', executeQuery);
-        function openDeleteDialog(event, id, nombre) {
-            deleteRestoreService.delete(event, id, nombre, vm.paginationData.pageNumber, vm.filter.dadosBaja, vm.result.length);
-//            buscarAsignaciones('consultarAsignacionesForm');
-        }
-
-        function openRestoreDialog(event, id, nombre) {
-            deleteRestoreService.restore(event, id, nombre, vm.paginationData.pageNumber);
-        }
 
         //Consulta
         function executeQuery(pageNumber) {
@@ -332,7 +319,7 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
             $state.go('^.view', {id: asignacionId});
         }
 
-        function showConfirmDialog(event, entity) {
+        function showConfirmarAsignacionDialog(event, entity) {
             $mdDialog.show({
                 templateUrl: 'views/asignacion/confirmarAsignacionDialog.html',
                 parent: angular.element(document.body),
@@ -368,12 +355,16 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
             changeEstado(asignacion, mensaje, key);
         }
 
-        function changeEstado(asignacion, mensaje, keyEstado){
-            var nuevoEstado = findObjectInCollection(keyEstado, vm.data.estados);
-            var nuevoMovimiento = {estado : nuevoEstado};
-            asignacion.movimientoAsignacionPaciente.push(nuevoMovimiento);
 
-            service.cambiarEstado(asignacion)
+
+        function changeEstado(asignacion, mensaje, estadoKey){
+            /*var nuevoEstado = findObjectInCollection(keyEstado, vm.data.estados);
+            var nuevoMovimiento = {estado : nuevoEstado};
+            asignacion.movimientoAsignacionPaciente.push(nuevoMovimiento);*/
+            var asignaciones = [];
+            asignaciones.push(asignacion);
+            asignacion.diagnosticoId = asignacion.diagnostico.id;
+            service.cambiarEstado(asignacion, estadoKey)
                 .then(function(){
                     buscarAsignaciones('consultarAsignacionesForm');
                     message.successMessage(mensaje, null, 3000);

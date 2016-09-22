@@ -3,12 +3,10 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.AsignacionPacienteDao;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.mapping.dto.AsignacionPacienteDTO;
-import com.utn.tesis.mapping.dto.AsignacionPacienteEditCreateDTO;
-import com.utn.tesis.mapping.dto.DiagnosticoSupport;
-import com.utn.tesis.mapping.dto.EnumDTO;
+import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.mapping.mapper.AsignacionPacienteMapper;
 import com.utn.tesis.mapping.mapper.EnumMapper;
+import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.*;
 
 import javax.ejb.Stateless;
@@ -29,15 +27,28 @@ import java.util.*;
 public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
 
     @Inject
-    AsignacionPacienteDao dao;
+    private AsignacionPacienteDao dao;
     @Inject
-    EnumMapper enumMapper;
+    private EnumMapper enumMapper;
     @Inject
-    AsignacionPacienteMapper asignacionPacienteMapper;
+    private AsignacionPacienteMapper asignacionPacienteMapper;
+    @Inject
+    private UsuarioService usuarioService;
+    @Inject
+    private MovimientoAsignacionPacienteService movimientoAsignacionPacienteService;
+    @Inject
+    private MovimientoDiagnosticoService movimientoDiagnosticoService;
+    @Inject
+    private PersonaService personaService;
+    @Inject
+    private PersonaMapper personaMapper;
+
     @Inject
     Validator validator;
     @Inject
     PacienteService pacienteService;
+    @Inject
+    DiagnosticoService diagnosticoService;
 
     @Override
     DaoBase<AsignacionPaciente> getDao() {
@@ -95,25 +106,65 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
         return enumMapper.estadoAsignacionListToDTOList(Arrays.asList(EstadoAsignacionPaciente.values()));
     }
 
+    public AsignacionPacienteDTO save(UsuarioLogueadoDTO usuarioLogueadoDTO, AsignacionPacienteDTO dto) throws SAPOException {
+        AsignacionPaciente asignacion;
 
-    public AsignacionPacienteDTO save(AsignacionPacienteDTO dto) throws SAPOException {
-        AsignacionPaciente entity;
-        Paciente paciente = pacienteService.findById(dto.getIdPaciente());
-        if (dto.getId() == null) {
-            entity = asignacionPacienteMapper.fromDTO(dto);
-            List<MovimientoAsignacionPaciente> movimientos = new ArrayList<MovimientoAsignacionPaciente>();
-            MovimientoAsignacionPaciente primerMovimiento = new MovimientoAsignacionPaciente(EstadoAsignacionPaciente.PENDIENTE, Calendar.getInstance(), null);
-            movimientos.add(primerMovimiento);
-            entity.setFechaCreacion(Calendar.getInstance());
-            entity.setMovimientoAsignacionPaciente(movimientos);
-            entity.setUltimoMovimiento(primerMovimiento);
-        } else {
-            entity = findById(dto.getId());
-            asignacionPacienteMapper.updateFromDTO(dto, entity);
+        if (dto.getId() == null){
+            asignacion = asignacionPacienteMapper.fromDTO(dto);
+            Usuario usuario = usuarioService.findById(usuarioLogueadoDTO.getId());
+            Paciente paciente = pacienteService.findById(dto.getIdPaciente());
+            Diagnostico diagnostico = diagnosticoService.findById(dto.getDiagnosticoId());
+
+            MovimientoDiagnostico nuevoMovimientoDiagnostico = new MovimientoDiagnostico
+                    (EstadoDiagnostico.RESERVADO, Calendar.getInstance(), usuario);
+            movimientoDiagnosticoService.save(nuevoMovimientoDiagnostico);
+
+            diagnostico.addMovimiento(nuevoMovimientoDiagnostico);
+
+            MovimientoAsignacionPaciente nuevoMovimientoAsignacion = new MovimientoAsignacionPaciente
+                    (EstadoAsignacionPaciente.PENDIENTE, Calendar.getInstance(), usuario);
+            movimientoAsignacionPacienteService.save(nuevoMovimientoAsignacion);
+
+            asignacion.setMovimientoAsignacionPaciente(new ArrayList<MovimientoAsignacionPaciente>());
+            asignacion.addMovimientoAsignacionPaciente(nuevoMovimientoAsignacion);
+            asignacion.setUltimoMovimiento(nuevoMovimientoAsignacion);
+            asignacion.setPaciente(paciente);
+            asignacion.setFechaCreacion(Calendar.getInstance());
+            asignacion.setDiagnostico(diagnostico);
+
+        }else{
+            asignacion = findById(dto.getId());
+            asignacionPacienteMapper.updateFromDTO(dto, asignacion);
         }
-        entity.setPaciente(paciente);
-        save(entity);
-        return asignacionPacienteMapper.toDTO(entity);
+        save(asignacion);
+        return asignacionPacienteMapper.toDTO(asignacion);
+    }
+
+    public void cambiarEstadoAsignacion(UsuarioLogueadoDTO usuarioLogueadoDTO,
+                                                         AsignacionPacienteDTO dto, String estadoKey) throws SAPOException {
+        AsignacionPaciente asignacion = asignacionPacienteMapper.fromDTO(dto);
+
+        Usuario usuario = usuarioService.findById(usuarioLogueadoDTO.getId());
+        Paciente paciente = pacienteService.findById(dto.getIdPaciente());
+        EstadoAsignacionPaciente estado = EstadoAsignacionPaciente.valueOf(estadoKey);
+        if(estado == null){
+            return;
+        }
+
+        MovimientoAsignacionPaciente nuevoMovimientoAsignacion = new MovimientoAsignacionPaciente
+                (estado, Calendar.getInstance(), usuario);
+        movimientoAsignacionPacienteService.save(nuevoMovimientoAsignacion);
+        asignacion.addMovimientoAsignacionPaciente(nuevoMovimientoAsignacion);
+        asignacion.setUltimoMovimiento(nuevoMovimientoAsignacion);
+        asignacion.setPaciente(paciente);
+
+        if(estado.equals(EstadoAsignacionPaciente.CANCELADO) || estado.equals(EstadoAsignacionPaciente.ANULADO)){
+            MovimientoDiagnostico nuevoMovimientoDiagnostico = new MovimientoDiagnostico
+                    (EstadoDiagnostico.PENDIENTE, Calendar.getInstance(), usuario);
+            movimientoDiagnosticoService.save(nuevoMovimientoDiagnostico);
+            asignacion.getDiagnostico().addMovimiento(nuevoMovimientoDiagnostico);
+        }
+        save(asignacion);
     }
 
     public AsignacionPaciente reload(AsignacionPaciente entity, int depth) {

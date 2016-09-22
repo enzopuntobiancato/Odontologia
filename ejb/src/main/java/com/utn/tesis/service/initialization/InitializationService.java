@@ -56,6 +56,9 @@ public class InitializationService {
     private ProfesorService profesorService;
     @Inject
     private MovimientoAsignacionPacienteService movimientoAsignacionPacienteService;
+    @Inject
+    private MovimientoDiagnosticoService movimientoDiagnosticoService;
+
     private InitVariables initVariables = InitVariables.getInstance();
     private ArrayList<GrupoPracticaOdontologica> grupoPracticaOdontologicasList = new ArrayList<GrupoPracticaOdontologica>();
     private ArrayList<PracticaOdontologica> practicaOdontologicasList = new ArrayList<PracticaOdontologica>();
@@ -92,6 +95,7 @@ public class InitializationService {
                 this.cargarUsuarios(); //admin enzo
                 this.cargarAlumnos();
                 cargarProfesores();
+                cargarMovimientos();
                 cargarDiagnosticos();
 //                cargarMovimientos();
                 cargarHistoriasClinicas();
@@ -157,7 +161,6 @@ public class InitializationService {
         m6.setNivel(Nivel.SEGUNDO);
         m6.setDescripcion("Magna ante, efficitur sed dui eu, fringilla condimentum mi. Donec pulvinar convallis ligula, in consectetur nisi varius ut. ");
 
-        materiaList.add(materiaService.create(m1));
         materiaList.add(materiaService.create(m1));
         materiaList.add(materiaService.create(m2));
         materiaList.add(materiaService.create(m3));
@@ -390,10 +393,16 @@ public class InitializationService {
         EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
                 .scanClasspathForConcreteTypes(true)
                 .build();
+        List<MovimientoDiagnostico> movimientos = movimientoDiagnosticoService.findAll();
         for (int i = 0; i < 60; i++) {
             Random random = new Random();
             int numero = random.nextInt(3 - 0 + 1) + 0;
+            MovimientoDiagnostico movD = movimientos.get(i);
+            List<MovimientoDiagnostico> movs = new ArrayList<MovimientoDiagnostico>();
+            movs.add(movD);
             Diagnostico diagnostico = enhancedRandom.nextObject(Diagnostico.class);
+            diagnostico.setMovimientos(movs);
+            diagnostico.setUltimoMovimiento(movD);
             diagnostico.setPracticaOdontologica(practicaOdontologicas.get(numero));
             diagnosticos.add(diagnosticoService.save(diagnostico));
         }
@@ -454,16 +463,16 @@ public class InitializationService {
         createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), true);
         Alumno alumno = new Alumno();
         alumno.setLegajo("1233456");
-        createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, false);
+        createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, true);
         Profesor profesor = new Profesor();
         profesor.setLegajo(1234);
         profesor.setProfesion("Odontólogo");
-        createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor, false);
-        createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion(), false);
-        createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico(), false);
+        createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor, true);
+        createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion(), true);
+        createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico(), true);
         Autoridad autoridad = new Autoridad();
         autoridad.setCargo(Cargo.DECANO);
-        createUsuarioYPersona("autoridad", "Una", "Autoridad", rolList.get(5), autoridad, false);
+        createUsuarioYPersona("autoridad", "Una", "Autoridad", rolList.get(5), autoridad, true);
         log.info("CargarUsuariospersonas FINAL");
     }
 
@@ -580,19 +589,19 @@ public class InitializationService {
         log.info("FIN CARGA DE ASIGNACIONES");
     }
 
-    /*@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarMovimientos() throws SAPOException {
         log.info("Inicia carga de movimientos");
         Usuario usuarioCreador = usuarioService.findAll().get(0);
         for (int i = 0; i < 60; i++) {
-            MovimientoAsignacionPaciente movimientoAsignacionPaciente = new MovimientoAsignacionPaciente(
-                    EstadoAsignacionPaciente.PENDIENTE,CalendarRandomizer.aNewCalendarRandomizer().getRandomValue(),
-                    usuarioCreador);
-            movimientoAsignacionPacientes.add(movimientoAsignacionPaciente);
+            MovimientoDiagnostico movD = new MovimientoDiagnostico();
+            movD.setEstado(EstadoDiagnostico.PENDIENTE);
+            movD.setGeneradoPor(usuarioCreador);
+            movimientoDiagnosticoService.save(movD);
         }
-        movimientoAsignacionPacienteService.save(movimientoAsignacionPacientes);
+
         log.info("Fin carga de movimientos");
-    }*/
+    }
 }
 
 

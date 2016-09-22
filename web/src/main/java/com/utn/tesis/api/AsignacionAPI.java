@@ -1,5 +1,6 @@
 package com.utn.tesis.api;
 
+import com.utn.tesis.SessionHelper;
 import com.utn.tesis.api.commons.BaseAPI;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.*;
@@ -12,7 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -53,6 +56,12 @@ public class AsignacionAPI extends BaseAPI {
     MovimientoAsignacionMapper movimientoAsignacionMapper;
     @Inject
     EnumMapper enumMapper;
+    @Inject
+    private SessionHelper sessionHelper;
+    @Inject
+    private DiagnosticoService diagnosticoService;
+    @Inject
+    private UsuarioMapper usuarioMapper;
 
     @Path("/findAlumnoByFilters")
     @Produces(MediaType.APPLICATION_JSON)
@@ -79,6 +88,7 @@ public class AsignacionAPI extends BaseAPI {
         }
     }
 
+    //TODO: REVISAR LOS CAMPOS A MOSTRAR: CONTACTO O DESCRIPCION DEL DIAGNOSTICO?
     @Path("/findDiagnosticosByFilters")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
@@ -145,7 +155,7 @@ public class AsignacionAPI extends BaseAPI {
                     apellidoAlumno, documentoAlumno, profesorId, nombrePaciente, apellidoPaciente, documentoPaciente,
                     catedraId, estadoAsignacionPaciente, diagnosticoId, null, fecha, trabajoPracticoId, dadosBaja, pageNumber, pageSize);
 
-            entities = asignacionPacienteService.reloadList(entities, 2);
+            entities = asignacionPacienteService.reloadList(entities, 4);
             return asignacionPacienteMapper.toDTOList(entities);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -197,10 +207,11 @@ public class AsignacionAPI extends BaseAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/save")
-    public Response save(AsignacionPacienteDTO dto) {
+    public Response save(@Context HttpServletRequest request, AsignacionPacienteDTO dto) {
         try {
-            AsignacionPacienteDTO dt = asignacionPacienteService.save(dto);
-            return Response.ok(dt).build();
+            UsuarioLogueadoDTO usuarioLogueadoDTO = sessionHelper.getUser(request);
+            asignacionPacienteService.save(usuarioLogueadoDTO, dto);
+            return Response.ok(dto).build();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -219,22 +230,13 @@ public class AsignacionAPI extends BaseAPI {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response cambiarEstadoAsignacion(AsignacionPacienteDTO dto) throws SAPOException {
+    public Response cambiarEstadoAsignacion(@Context HttpServletRequest request,
+                                            @QueryParam("estadoKey") String estadoKey,
+                                            AsignacionPacienteDTO dto) throws SAPOException {
         try {
-            List<MovimientoAsignacionDTO> movimientos = dto.getMovimientoAsignacionPaciente();
-            //La asignacion siempre tiene movimientos.
-            if (movimientos == null || movimientos.isEmpty()) {
-                throw new Exception();
-            }
-            //Recuperamos el ultimo movimiento y seteamos los campos.
-            int ultimoIndex = movimientos.size() - 1;
-            MovimientoAsignacionDTO nuevoMovimiento = movimientos.get(ultimoIndex);
-            nuevoMovimiento.setFechaMovimiento(Calendar.getInstance());
-            nuevoMovimiento.setGeneradoPor(null);
-            dto.setUltimoMovimiento(nuevoMovimiento);
-            //Guardamos los cambios.
-            asignacionPacienteService.save(dto);
-            return Response.ok(dto).build();
+            UsuarioLogueadoDTO usuarioLogueadoDTO = sessionHelper.getUser(request);
+            asignacionPacienteService.cambiarEstadoAsignacion(usuarioLogueadoDTO, dto, estadoKey);
+            return Response.ok(true).build();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -245,24 +247,13 @@ public class AsignacionAPI extends BaseAPI {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response autorizarAsignaciones(List<AsignacionPacienteDTO> dtos) throws SAPOException {
+    public Response autorizarAsignaciones(@Context HttpServletRequest request, List<AsignacionPacienteDTO> dtos) throws SAPOException {
         try {
+            UsuarioLogueadoDTO usuarioLogueadoDTO = sessionHelper.getUser(request);
             for (AsignacionPacienteDTO dto : dtos) {
-                List<MovimientoAsignacionDTO> movimientos = dto.getMovimientoAsignacionPaciente();
-                //La asignacion siempre tiene movimientos.
-                if (movimientos == null || movimientos.isEmpty()) {
-                    throw new Exception();
-                }
-                EnumDTO estado = enumMapper.estadoAsignacionToDTO(EstadoAsignacionPaciente.AUTORIZADO);
-                //Recuperamos el ultimo movimiento y seteamos los campos.
-                MovimientoAsignacionDTO movimientoAutorizado = new MovimientoAsignacionDTO();
-                movimientoAutorizado.setEstado(estado);
-                movimientoAutorizado.setFechaMovimiento(Calendar.getInstance());
-                movimientoAutorizado.setGeneradoPor(null);
-                dto.setAutorizadoPor(null);
-                dto.setUltimoMovimiento(movimientoAutorizado);
-                //Guardamos los cambios.
-                asignacionPacienteService.save(dto);
+                //TODO: REVISAR COMO SETEAR EL PROFESOR QUE AUTORIZA PUES TIRA ERROR.
+//                dto.setAutorizadoPor(profesor);
+                asignacionPacienteService.cambiarEstadoAsignacion(usuarioLogueadoDTO, dto, "AUTORIZADO");
             }
             return Response.ok(true).build();
         } catch (Exception e) {

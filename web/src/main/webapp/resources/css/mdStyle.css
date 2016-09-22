@@ -423,8 +423,13 @@ md-toolbar.md-table-toolbar.alternate-table-toolbar-2 {
     padding-bottom: 0px!important;
 }
 
+.icon-normal {
+    fill: rgb(117, 117, 117);
+}
+
 .disabled-icon {
     fill : darkgrey;
+
 }
 
 .enabled-icon {

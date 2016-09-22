@@ -39,8 +39,7 @@ public class AsignacionPaciente extends Bajeable {
         private String motivoCancelacion;*/
     @JoinColumn(name = "asignacion_paciente_id")
     @NotNull(message = "El movimiento de asignacion no puede ser nulo.")
-    @OneToMany(cascade = CascadeType.ALL,
-            orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @Size(min = 1)
     private List<MovimientoAsignacionPaciente> movimientoAsignacionPaciente;
     @ManyToOne

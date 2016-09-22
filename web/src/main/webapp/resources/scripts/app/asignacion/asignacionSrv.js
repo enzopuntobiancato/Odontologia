@@ -19,11 +19,12 @@ module.
             })
         }
 
-        service.cambiarEstado = function (dto) {
+        service.cambiarEstado = function (dto, estadoKey) {
             return $http({
                 url: 'api/asignacion/cambiarEstadoAsignacion',
                 method: 'POST',
-                data: dto
+                data: dto,
+                params: {estadoKey: estadoKey}
             })
         }
 

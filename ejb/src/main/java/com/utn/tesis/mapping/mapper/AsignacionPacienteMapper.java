@@ -19,13 +19,15 @@ import java.util.List;
  * Time: 23:48
  * To change this template use File | Settings | File Templates.
  */
-@Mapper(componentModel = "cdi", uses = {TrabajoPracticoMapper.class, PacienteMapper.class, DocumentoMapper.class, PersonaMapper.class, MovimientoAsignacionMapper.class})
+@Mapper(componentModel = "cdi", uses = {TrabajoPracticoMapper.class, PacienteMapper.class,
+        DocumentoMapper.class,PersonaMapper.class, MovimientoAsignacionMapper.class,
+        DiagnosticoMapper.class})
 public interface AsignacionPacienteMapper {
     @Mappings({
-            @Mapping(source = "alumno.apellido", target = "apellidoAlumno"),
+/*            @Mapping(source = "alumno.apellido", target = "apellidoAlumno"),
             @Mapping(source = "alumno.nombre", target = "nombreAlumno"),
             @Mapping(source = "alumno.id", target = "idAlumno"),
-            @Mapping(source = "trabajoPractico.nombre", target = "trabajoPracticoNombre"),
+            @Mapping(source = "trabajoPractico.nombre", target = "trabajoPracticoNombre"),*/
             @Mapping(source = "paciente.id", target = "idPaciente"),
             @Mapping(source = "paciente.apellido", target = "apellidoPaciente"),
             @Mapping(source = "paciente.nombre", target = "nombrePaciente"),

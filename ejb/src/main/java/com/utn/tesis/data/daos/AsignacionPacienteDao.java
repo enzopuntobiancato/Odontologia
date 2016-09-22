@@ -163,22 +163,26 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
 
         query = paginar(query, page, pageSize);
 
-        List<Object[]> tuplas = query.list(diagnostico, paciente.apellido, paciente.nombre,
-                paciente.documento.tipoDocumento, paciente.documento.numero, paciente.id, practicaOdontologica, trabajoPractico);
+        List<Object[]> tuplas = query.list(diagnostico.id, diagnostico.fechaCreacion, diagnostico.practicaOdontologica.denominacion,
+                paciente.apellido, paciente.nombre,
+                paciente.documento.tipoDocumento, paciente.documento.numero, paciente.id);
         List<DiagnosticoSupport> resultados = new ArrayList<DiagnosticoSupport>();
         if (tuplas.isEmpty()) {
             return resultados;
         }
 
         for (Object[] tupla : tuplas) {
-            Diagnostico d = Collections.reload((Diagnostico) tupla[0], 2);
-            String apellido = (String) tupla[1];
-            String nombre = (String) tupla[2];
-            String tipoDocumento = (tupla[3]).toString();
-            String numeroDocumento = (String) tupla[4];
-            Long pacienteId = (Long) tupla[5];
+            Long idDiagnostico = (Long) tupla[0];
+            Calendar fechaCreacion = (Calendar) tupla[1];
+            String denominacionPractica = (String) tupla[2];
+            String apellido = (String) tupla[3];
+            String nombre = (String) tupla[4];
+            String tipoDocumento = (tupla[5]).toString();
+            String numeroDocumento = (String) tupla[6];
+            Long pacienteId = (Long) tupla[7];
 
-            DiagnosticoSupport diagnosticoSupport = new DiagnosticoSupport(d, apellido, nombre, tipoDocumento, numeroDocumento, pacienteId);
+            DiagnosticoSupport diagnosticoSupport = new DiagnosticoSupport(idDiagnostico, fechaCreacion,
+                    denominacionPractica, apellido, nombre, tipoDocumento, numeroDocumento, pacienteId);
             resultados.add(diagnosticoSupport);
         }
         return resultados;

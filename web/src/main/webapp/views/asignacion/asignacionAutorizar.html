@@ -104,6 +104,7 @@
                            multiple="true" ng-model="vm.selectedAsignaciones">
                         <thead md-head>
                         <tr md-row>
+                            <th md-column><span> ID </span></th>
                             <th md-column><span>{{ 'ALUMNO' | translate }}</span></th>
                             <th md-column><span>{{ 'PACIENTE' | translate }}</span></th>
                             <th md-column><span>{{ 'ESTADO' | translate }}</span></th>
@@ -116,16 +117,17 @@
                             ng-disabled="asignacion.ultimoMovimiento.estado.nombre != 'Confirmado'"
                             md-row ng-class="{'deleted-item' : asignacion.fechaBaja}"
                             ng-repeat="asignacion in vm.result">
-                            <td md-cell>{{asignacion.apellidoAlumno}}, {{ asignacion.nombreAlumno }}</td>
+                            <td md-cell>{{asignacion.id}}</td>
+                            <td md-cell>{{asignacion.alumno.apellido}}, {{ asignacion.alumno.nombre }}</td>
                             <td md-cell>{{asignacion.apellidoPaciente}}, {{ asignacion.nombrePaciente }}</td>
                             <td md-cell>{{asignacion.ultimoMovimiento.estado.nombre }}</td>
-                            <td md-cell>{{ asignacion.trabajoPracticoNombre }}</td>
+                            <td md-cell>{{ asignacion.trabajoPractico.nombre }}</td>
                             <td md-cell>{{ asignacion.fechaAsignacion | date:'dd/MM/yyyy' }}</td>
                         </tr>
                         </tbody>
                     </table>
                 </md-table-container>
-                <div class="buttons table-pagination" layout="row" layout-align="center center"
+               <!-- <div class="buttons table-pagination" layout="row" layout-align="center center"
                      ng-if="vm.result.length > 0">
                     <md-button class="md-icon-button" type="button"
                                ng-click="vm.previousPage()"
@@ -137,7 +139,7 @@
                                aria-label="Next">
                         <md-icon md-svg-icon="navigate-next.svg"></md-icon>
                     </md-button>
-                </div>
+                </div>-->
                 <div ng-show="vm.result.length == 0">
                     <ng-include src="'views/no-results.html'"></ng-include>
                 </div>

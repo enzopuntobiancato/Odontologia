@@ -3,6 +3,8 @@ package com.utn.tesis.mapping.dto;
 import com.utn.tesis.model.Diagnostico;
 import com.utn.tesis.model.Paciente;
 
+import java.util.Calendar;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Usuario
@@ -11,7 +13,9 @@ import com.utn.tesis.model.Paciente;
  * To change this template use File | Settings | File Templates.
  */
 public class DiagnosticoSupport {
-    private Diagnostico diagnostico;
+    private Long idDiagnostico;
+    private Calendar fechaCreacion;
+    private String denominacionPractica;
     private String apellido;
     private String nombre;
     private String tipoDocumento;
@@ -19,8 +23,12 @@ public class DiagnosticoSupport {
     private Long idPaciente;
 
     //CONSTRUCTOR
-    public DiagnosticoSupport(Diagnostico diagnostico, String apellido, String nombre, String tipoDocumento, String numeroDocumento, Long idPaciente) {
-        this.diagnostico = diagnostico;
+
+    public DiagnosticoSupport(Long idDiagnostico, Calendar fechaCreacion, String denominacionPractica, String apellido,
+                              String nombre, String tipoDocumento, String numeroDocumento, Long idPaciente) {
+        this.idDiagnostico = idDiagnostico;
+        this.fechaCreacion = fechaCreacion;
+        this.denominacionPractica = denominacionPractica;
         this.apellido = apellido;
         this.nombre = nombre;
         this.tipoDocumento = tipoDocumento;
@@ -28,13 +36,31 @@ public class DiagnosticoSupport {
         this.idPaciente = idPaciente;
     }
 
+
     //GETTERS Y SETTERS
-    public Diagnostico getDiagnostico() {
-        return diagnostico;
+
+    public Long getIdDiagnostico() {
+        return idDiagnostico;
     }
 
-    public void setDiagnostico(Diagnostico diagnostico) {
-        this.diagnostico = diagnostico;
+    public void setIdDiagnostico(Long idDiagnostico) {
+        this.idDiagnostico = idDiagnostico;
+    }
+
+    public Calendar getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Calendar fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getDenominacionPractica() {
+        return denominacionPractica;
+    }
+
+    public void setDenominacionPractica(String denominacionPractica) {
+        this.denominacionPractica = denominacionPractica;
     }
 
     public String getApellido() {

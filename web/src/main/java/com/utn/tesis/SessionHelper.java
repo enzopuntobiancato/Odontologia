@@ -1,5 +1,6 @@
 package com.utn.tesis;
 
+import com.utn.tesis.mapping.dto.UsuarioDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.service.UsuarioService;
 
@@ -16,6 +17,13 @@ public class SessionHelper {
         String authId = request.getHeader(UsuarioLogueadoDTO.PARAM_AUTH_ID);
         String authToken = request.getHeader(UsuarioLogueadoDTO.PARAM_AUTH_TOKEN);
         UsuarioLogueadoDTO usuario = usuarioService.findDTOByUsernameAndAuthToken(authId, authToken);
+        return usuario;
+    }
+
+    public UsuarioDTO getUsuario(HttpServletRequest request) {
+        String authId = request.getHeader(UsuarioLogueadoDTO.PARAM_AUTH_ID);
+        String authToken = request.getHeader(UsuarioLogueadoDTO.PARAM_AUTH_TOKEN);
+        UsuarioDTO usuario = usuarioService.findUsuarioDTOByUsernameAndAuthToken(authId, authToken);
         return usuario;
     }
 }

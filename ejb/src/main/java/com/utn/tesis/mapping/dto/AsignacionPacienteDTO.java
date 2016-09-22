@@ -15,32 +15,49 @@ import java.util.List;
  */
 public class AsignacionPacienteDTO extends BaseDTO {
 
-    private String apellidoAlumno;
-    private String nombreAlumno;
-    private Long idAlumno;
+//    private String apellidoAlumno;
+//    private String nombreAlumno;
+//    private Long idAlumno;
     private Calendar fechaAsignacion;
     private Calendar fechaCreacion;
     private String apellidoPaciente;
     private String nombrePaciente;
     private String tipoDocumentoPaciente;
     private String numeroDocumentoPaciente;
-    private String trabajoPracticoNombre;
+    private String telefono;
+    private String celular;
+    private String email;
+//    private String trabajoPracticoNombre;
     private Long id;
-
     private Long idPaciente;
     private AlumnoDTO alumno;
     private TrabajoPracticoDTO trabajoPractico;
     private Calendar fechaBaja;
     private String motivoBaja;
-    private Diagnostico diagnostico;
     private ProfesorDTO autorizadoPor;
     private List<MovimientoAsignacionDTO> movimientoAsignacionPaciente;
     private MovimientoAsignacionDTO ultimoMovimiento;
-    private String telefono;
-    private String celular;
-    private String email;
+
+    private Long diagnosticoId;
+    private DiagnosticoDTO diagnostico;
 
     //GETTERS AND SETTERS
+    public DiagnosticoDTO getDiagnostico() {
+        return diagnostico;
+    }
+
+    public void setDiagnostico(DiagnosticoDTO diagnostico) {
+        this.diagnostico = diagnostico;
+    }
+
+    public Long getDiagnosticoId() {
+        return diagnosticoId;
+    }
+
+    public void setDiagnosticoId(Long diagnosticoId) {
+        this.diagnosticoId = diagnosticoId;
+    }
+
     public String getTelefono() {
         return telefono;
     }
@@ -105,13 +122,13 @@ public class AsignacionPacienteDTO extends BaseDTO {
         this.id = id;
     }
 
-    public String getTrabajoPracticoNombre() {
+    /*public String getTrabajoPracticoNombre() {
         return trabajoPracticoNombre;
     }
 
     public void setTrabajoPracticoNombre(String trabajoPracticoNombre) {
         this.trabajoPracticoNombre = trabajoPracticoNombre;
-    }
+    }*/
 
 
     public Calendar getFechaCreacion() {
@@ -130,7 +147,7 @@ public class AsignacionPacienteDTO extends BaseDTO {
         this.fechaAsignacion = fechaAsignacion;
     }
 
-    public String getApellidoAlumno() {
+   /* public String getApellidoAlumno() {
         return apellidoAlumno;
     }
 
@@ -140,9 +157,9 @@ public class AsignacionPacienteDTO extends BaseDTO {
 
     public String getNombreAlumno() {
         return nombreAlumno;
-    }
+    }*/
 
-    public void setNombreAlumno(String nombreAlumno) {
+   /* public void setNombreAlumno(String nombreAlumno) {
         this.nombreAlumno = nombreAlumno;
     }
 
@@ -152,7 +169,7 @@ public class AsignacionPacienteDTO extends BaseDTO {
 
     public void setIdAlumno(Long idAlumno) {
         this.idAlumno = idAlumno;
-    }
+    }*/
 
     public String getApellidoPaciente() {
         return apellidoPaciente;
@@ -210,14 +227,14 @@ public class AsignacionPacienteDTO extends BaseDTO {
         this.trabajoPractico = trabajoPractico;
     }
 
-    public Diagnostico getDiagnostico() {
+    /*public DiagnosticoDTO getDiagnostico() {
         return diagnostico;
     }
 
-    public void setDiagnostico(Diagnostico diagnostico) {
+    public void setDiagnostico(DiagnosticoDTO diagnostico) {
         this.diagnostico = diagnostico;
     }
-
+*/
     public ProfesorDTO getAutorizadoPor() {
         return autorizadoPor;
     }

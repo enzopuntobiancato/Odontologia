@@ -9,9 +9,9 @@ var module = angular.module('asignacionModule');
 
 module.controller('AsignacionCtrl_EditCreate',
     ['$scope', '$rootScope', '$filter', '$mdDialog', 'AsignacionSrv', '$state', 'MessageSrv', 'PaginationService',
-        'tiposDocumentoResponse', 'sexosResponse', 'asignacionResponse', 'catedrasResponse','authFactory',
+        'tiposDocumentoResponse', 'sexosResponse', 'asignacionResponse', 'catedrasResponse','authFactory', 'ConfirmCreateEntitySrv',
         function ($scope, $rootScope, $filter, $mdDialog, service, $state, message, pagination, tiposDocumentoResponse,
-                  sexosResponse, asignacionResponse, catedrasResponse, authFactory) {
+                  sexosResponse, asignacionResponse, catedrasResponse, authFactory, confirmCreateEntitySrv) {
             var vm = this;
             //Asignacion a guardar
             vm.updating = $state.current.data.updating;
@@ -58,9 +58,6 @@ module.controller('AsignacionCtrl_EditCreate',
             vm.selectedDiagnosticos = [];
             vm.filterPaciente = [];
             vm.fecha = {};
-            //GUARDAR
-            vm.verificarAsignacionCompleta = verificarAsignacionCompleta;
-            vm.save = save;
             //Navegacion
             vm.goIndex = goIndex;
             vm.reload = reload;
@@ -68,6 +65,10 @@ module.controller('AsignacionCtrl_EditCreate',
             var performSubmit = $scope.$parent.performSubmit;
             var handleError = $scope.$parent.handleError;
             vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+            //GUARDAR
+            vm.verificarAsignacionCompleta = verificarAsignacionCompleta;
+            vm.save = save;
+            confirmCreateEntitySrv.config('api/asignacion/save','Asignación de paciente',vm.goIndex);
             //AUX UI
             vm.clickIcon = 'expand_less';
             vm.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
@@ -78,6 +79,7 @@ module.controller('AsignacionCtrl_EditCreate',
             vm.colorIconRemove = 'crimson';
             vm.esAlumno = false;
             vm.user = null;
+
 
             (function init() {
                 vm.user = authFactory.getAuthData();
@@ -195,6 +197,7 @@ module.controller('AsignacionCtrl_EditCreate',
             function onDiagnosticoSelected(diagnosticoSupport) {
                 vm.isDiagnosticoSelected = true;
                 vm.asignacion.diagnostico = diagnosticoSupport.diagnostico;
+                vm.asignacion.diagnosticoId = diagnosticoSupport.idDiagnostico;
                 vm.asignacion.idPaciente = diagnosticoSupport.idPaciente;
                 vm.asignacion.apellidoPaciente = diagnosticoSupport.apellido;
                 vm.asignacion.nombrePaciente = diagnosticoSupport.nombre;
@@ -256,35 +259,10 @@ module.controller('AsignacionCtrl_EditCreate',
             }
 
             function save(form, ev) {
-//                preSave();
-                var mensajeSave = vm.updating ? "Asignacion de paciente " + vm.asignacion.apellidoPaciente + ", "
-                    + vm.asignacion.nombrePaciente + " modificada."
-                    : "Paciente " + vm.asignacion.apellidoPaciente + ", " + vm.asignacion.nombrePaciente + " asignado con éxito";
-                var titileDialog = vm.updating ? '¿Desea editar la asignación?' : '¿Desea crear una nueva asignación?';
-                var textContent = vm.updating ? 'Se editará la asignación del paciente ' + vm.asignacion.apellidoPaciente + ", " + vm.asignacion.nombrePaciente + '.' : 'Se creará una asignación para tratar al paciente ' + vm.asignacion.apellidoPaciente + ", " + vm.asignacion.nombrePaciente + ' .';
-                var confirm = $mdDialog.confirm()
-                    .title(titileDialog)
-                    .textContent(textContent)
-                    .targetEvent(ev)
-                    .ok('Aceptar')
-                    .cancel('Cancelar');
-                $mdDialog.show(confirm).then(function () {
-                    vm.submitted = true;
-                    performSubmit(function () {
-                        service.save(vm.asignacion)
-                            .success(function () {
-                                vm.data.persistedOperation = true;
-                                vm.data.disableFields = true;
-                                vm.data.saved = true;
-                                message.successMessage(mensajeSave, null, 3000);
-                                vm.goIndex();
-                            }).error(function (data, status) {
-                                handleError(data, status);
-                            })
-                    }, form)
-                }, function () {
-
-                });
+                performSubmit(function() {
+                confirmCreateEntitySrv.confirmCreate(ev, vm.asignacion,
+                    vm.asignacion.apellidoPaciente + ", "+ vm.asignacion.nombrePaciente, vm.updating);
+                }, form)
             }
 
             //Chips
