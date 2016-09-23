@@ -25,6 +25,7 @@ import java.util.List;
  * Time: 15:42
  * To change this template use File | Settings | File Templates.
  */
+@Stateless
 public class DiagnosticoService extends BaseService<Diagnostico> {
     @Inject
     private DiagnosticoDao dao;
