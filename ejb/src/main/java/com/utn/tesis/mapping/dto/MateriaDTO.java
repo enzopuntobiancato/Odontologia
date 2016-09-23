@@ -5,20 +5,11 @@ import java.util.Calendar;
 public class MateriaDTO extends BaseDTO {
     private static final long serialVersionUID = -1792766317112917917L;
 
-    private Long id;
     private String nombre;
     private EnumDTO nivel;
     private String descripcion;
     private String motivoBaja;
     private Calendar fechaBaja;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;

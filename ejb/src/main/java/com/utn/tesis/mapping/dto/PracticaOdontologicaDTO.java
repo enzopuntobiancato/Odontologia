@@ -5,20 +5,11 @@ import java.util.Calendar;
 public class PracticaOdontologicaDTO extends BaseDTO {
     private static final long serialVersionUID = -6183462980771041808L;
 
-    private Long id;
     private Calendar fechaBaja;
     private String motivoBaja;
     private String denominacion;
     private String observaciones;
     private GrupoPracticaOdontologicaDTO grupo;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Calendar getFechaBaja() {
         return fechaBaja;

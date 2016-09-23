@@ -8,26 +8,8 @@ package com.utn.tesis.mapping.dto;
  * To change this template use File | Settings | File Templates.
  */
 public class BarrioDTO extends BaseDTO {
-    private Long id;
     private String nombre;
     private CiudadDTO ciudad;
-    private Integer version;
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;

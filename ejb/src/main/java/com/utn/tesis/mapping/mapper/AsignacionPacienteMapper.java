@@ -1,10 +1,7 @@
 package com.utn.tesis.mapping.mapper;
 
 import com.utn.tesis.mapping.dto.AsignacionPacienteDTO;
-import com.utn.tesis.mapping.dto.AsignacionPacienteEditCreateDTO;
-import com.utn.tesis.mapping.dto.MateriaDTO;
 import com.utn.tesis.model.AsignacionPaciente;
-import com.utn.tesis.model.Materia;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -24,10 +21,6 @@ import java.util.List;
         DiagnosticoMapper.class})
 public interface AsignacionPacienteMapper {
     @Mappings({
-/*            @Mapping(source = "alumno.apellido", target = "apellidoAlumno"),
-            @Mapping(source = "alumno.nombre", target = "nombreAlumno"),
-            @Mapping(source = "alumno.id", target = "idAlumno"),
-            @Mapping(source = "trabajoPractico.nombre", target = "trabajoPracticoNombre"),*/
             @Mapping(source = "paciente.id", target = "idPaciente"),
             @Mapping(source = "paciente.apellido", target = "apellidoPaciente"),
             @Mapping(source = "paciente.nombre", target = "nombrePaciente"),

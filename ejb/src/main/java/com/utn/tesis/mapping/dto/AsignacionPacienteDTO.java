@@ -15,11 +15,6 @@ import java.util.List;
  */
 public class AsignacionPacienteDTO extends BaseDTO {
 
-//    private String apellidoAlumno;
-//    private String nombreAlumno;
-//    private Long idAlumno;
-    private Calendar fechaAsignacion;
-    private Calendar fechaCreacion;
     private String apellidoPaciente;
     private String nombrePaciente;
     private String tipoDocumentoPaciente;
@@ -27,13 +22,13 @@ public class AsignacionPacienteDTO extends BaseDTO {
     private String telefono;
     private String celular;
     private String email;
-//    private String trabajoPracticoNombre;
-    private Long id;
     private Long idPaciente;
+
+    private Calendar fechaAsignacion;
+    private Calendar fechaCreacion;
+
     private AlumnoDTO alumno;
     private TrabajoPracticoDTO trabajoPractico;
-    private Calendar fechaBaja;
-    private String motivoBaja;
     private ProfesorDTO autorizadoPor;
     private List<MovimientoAsignacionDTO> movimientoAsignacionPaciente;
     private MovimientoAsignacionDTO ultimoMovimiento;
@@ -82,14 +77,6 @@ public class AsignacionPacienteDTO extends BaseDTO {
         this.email = email;
     }
 
-    public Calendar getFechaBaja() {
-        return fechaBaja;
-    }
-
-    public void setFechaBaja(Calendar fechaBaja) {
-        this.fechaBaja = fechaBaja;
-    }
-
     public MovimientoAsignacionDTO getUltimoMovimiento() {
         return ultimoMovimiento;
     }
@@ -106,31 +93,6 @@ public class AsignacionPacienteDTO extends BaseDTO {
         this.movimientoAsignacionPaciente = movimientoAsignacionPaciente;
     }
 
-    public String getMotivoBaja() {
-        return motivoBaja;
-    }
-
-    public void setMotivoBaja(String motivoBaja) {
-        this.motivoBaja = motivoBaja;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /*public String getTrabajoPracticoNombre() {
-        return trabajoPracticoNombre;
-    }
-
-    public void setTrabajoPracticoNombre(String trabajoPracticoNombre) {
-        this.trabajoPracticoNombre = trabajoPracticoNombre;
-    }*/
-
-
     public Calendar getFechaCreacion() {
         return fechaCreacion;
     }
@@ -146,30 +108,6 @@ public class AsignacionPacienteDTO extends BaseDTO {
     public void setFechaAsignacion(Calendar fechaAsignacion) {
         this.fechaAsignacion = fechaAsignacion;
     }
-
-   /* public String getApellidoAlumno() {
-        return apellidoAlumno;
-    }
-
-    public void setApellidoAlumno(String apellidoAlumno) {
-        this.apellidoAlumno = apellidoAlumno;
-    }
-
-    public String getNombreAlumno() {
-        return nombreAlumno;
-    }*/
-
-   /* public void setNombreAlumno(String nombreAlumno) {
-        this.nombreAlumno = nombreAlumno;
-    }
-
-    public Long getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(Long idAlumno) {
-        this.idAlumno = idAlumno;
-    }*/
 
     public String getApellidoPaciente() {
         return apellidoPaciente;
@@ -226,15 +164,6 @@ public class AsignacionPacienteDTO extends BaseDTO {
     public void setTrabajoPractico(TrabajoPracticoDTO trabajoPractico) {
         this.trabajoPractico = trabajoPractico;
     }
-
-    /*public DiagnosticoDTO getDiagnostico() {
-        return diagnostico;
-    }
-
-    public void setDiagnostico(DiagnosticoDTO diagnostico) {
-        this.diagnostico = diagnostico;
-    }
-*/
     public ProfesorDTO getAutorizadoPor() {
         return autorizadoPor;
     }

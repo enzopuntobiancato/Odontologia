@@ -3,7 +3,6 @@ package com.utn.tesis.data.daos;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.mapping.dto.DiagnosticoSupport;
 import com.utn.tesis.model.*;
-import com.utn.tesis.util.Collections;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -67,9 +66,6 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
             query.where(asignacionPaciente.fechaCreacion.eq(fechaCreacion));
         if (fechaAsignacion != null)
             query.where(asignacionPaciente.fechaAsignacion.eq(fechaAsignacion));
-        if (!dadosBaja) {
-            query.where(asignacionPaciente.fechaBaja.isNull());
-        }
 
         query = paginar(query, page, pageSize);
         return query.list(asignacionPaciente);

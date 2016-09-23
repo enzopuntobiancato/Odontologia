@@ -23,13 +23,13 @@ module.
             })
         }
 
-        /*service.restore = function (id) {
+        service.restore = function (id) {
             return $http({
                 url: 'api/catedra/restore',
                 method: 'PUT',
                 params: {id: id}
             })
-        }*/
+        }
 
         service.findById = function(id) {
             return $http({

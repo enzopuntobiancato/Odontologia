@@ -30,7 +30,6 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
         vm.buscarAsignaciones = buscarAsignaciones;
         //Cambio de estado
         vm.showConfirmarAsignacionDialog = showConfirmarAsignacionDialog;
-//        vm.confirmar = confirmar;
         vm.cancelar = cancelar;
         vm.view = view;
         vm.edit = edit;
@@ -52,7 +51,6 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
         vm.selectedAlumno = {};
         vm.onAlumnoSelected = onAlumnoSelected;
         vm.deleteSelectedAlumno = deleteSelectedAlumno;
-//        vm.isAlumnoSelected = false;
         vm.selectedAlumnos = [];
         vm.esAlumno = false;
         vm.user = null;
@@ -91,7 +89,6 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
         function buscarAlumnos(form) {
             if (!form.$invalid) {
                 pagination.config('api/asignacion/findAlumnoByFilters');
-//                vm.isBusquedaPaciente = false;
                 executeQuery();
             }
         }
@@ -129,7 +126,6 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
         }
 
         function deleteSelectedAlumno() {
-//            vm.isAlumnoSelected = false;
             vm.filter.selectedAlumno = null;
             vm.asignacion.alumno = {};
             vm.alumnos = [];
@@ -164,7 +160,6 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
                 pagination.config('api/asignacion/findAsignacionByFilters');
                 vm.filter.trabajoPracticoId = angular.isUndefined(vm.filter.trabajoPractico) ? null : vm.filter.trabajoPractico.id;
                 vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
-//                vm.isBusquedaPaciente = true;
                 executeQuery();
             }
         }
@@ -230,8 +225,6 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
                 } else {
                     vm.filter = {};
                     vm.alumnos = [];
-//                    vm.isAlumnoSelected = false;
-//                    vm.isBusquedaPaciente = false;
                 }
             }
         });
@@ -355,12 +348,7 @@ module.controller('AsignacionCtrl_Index', ['$scope','$filter', '$cacheFactory', 
             changeEstado(asignacion, mensaje, key);
         }
 
-
-
         function changeEstado(asignacion, mensaje, estadoKey){
-            /*var nuevoEstado = findObjectInCollection(keyEstado, vm.data.estados);
-            var nuevoMovimiento = {estado : nuevoEstado};
-            asignacion.movimientoAsignacionPaciente.push(nuevoMovimiento);*/
             var asignaciones = [];
             asignaciones.push(asignacion);
             asignacion.diagnosticoId = asignacion.diagnostico.id;

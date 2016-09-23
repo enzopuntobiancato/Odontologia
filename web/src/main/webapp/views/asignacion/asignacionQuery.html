@@ -209,11 +209,11 @@
             <div layout="row" layout-margin layout-xs="column">
                 <md-datepicker ng-model="vm.filter.fechaAsignacion" md-placeholder="{{ 'FECHA_ASIGNADO' | translate }}">
                 </md-datepicker>
-                <md-input-container>
+                <!--<md-input-container>
                     <md-checkbox ng-model="vm.filter.dadosBaja" aria-label="Incluir dados de baja">
                         Incluir dados de baja
                     </md-checkbox>
-                </md-input-container>
+                </md-input-container>-->
             </div>
         </div>
         <filter-chips data="vm.filterChips"></filter-chips>
@@ -259,7 +259,8 @@
                                     {{ 'CONFIRMAR_ASIGNACION' | translate }}
                                 </md-tooltip>
                             </ng-md-icon>
-                            <ng-md-icon ng-show="asignacion.ultimoMovimiento.estado.nombre != 'Cancelado'" icon="delete" size="24"
+                            <ng-md-icon ng-show="asignacion.ultimoMovimiento.estado.nombre == 'Pendiente'
+                                        || asignacion.ultimoMovimiento.estado.nombre == 'Confirmado'" icon="delete" size="24"
                                         ng-click="vm.cancelar(asignacion)"  style="fill: rgb(117, 117, 117) ">
                                 <md-tooltip>
                                     {{ 'CANCELAR' | translate }}

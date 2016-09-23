@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "asignaciones_paciente")
-public class AsignacionPaciente extends Bajeable {
+public class AsignacionPaciente extends EntityBase{
     private static final long serialVersionUID = -678479853171993357L;
     @ManyToOne
     @JoinColumn(name = "alumno_id")

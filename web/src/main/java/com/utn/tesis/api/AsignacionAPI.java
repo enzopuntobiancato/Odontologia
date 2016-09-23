@@ -251,8 +251,6 @@ public class AsignacionAPI extends BaseAPI {
         try {
             UsuarioLogueadoDTO usuarioLogueadoDTO = sessionHelper.getUser(request);
             for (AsignacionPacienteDTO dto : dtos) {
-                //TODO: REVISAR COMO SETEAR EL PROFESOR QUE AUTORIZA PUES TIRA ERROR.
-//                dto.setAutorizadoPor(profesor);
                 asignacionPacienteService.cambiarEstadoAsignacion(usuarioLogueadoDTO, dto, "AUTORIZADO");
             }
             return Response.ok(true).build();
@@ -262,7 +260,7 @@ public class AsignacionAPI extends BaseAPI {
         }
     }
 
-    @Path("/remove")
+    /*@Path("/remove")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -287,7 +285,7 @@ public class AsignacionAPI extends BaseAPI {
             log.error(e.getMessage(), e);
         }
     }
-
+*/
     @Path("/getTrabajosPracticosByCatedra")
     @GET
     public List<TrabajoPracticoDTO> getTrabajosPracticosByCatedra(@QueryParam("idCatedra") Long idCatedra) {

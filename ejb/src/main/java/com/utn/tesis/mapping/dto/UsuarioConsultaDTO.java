@@ -19,7 +19,6 @@ public class UsuarioConsultaDTO extends BaseDTO {
     private String fechaBaja;
     private String motivoBaja;
     private RolDTO rol;
-    private Long id;
     private Long idUsuario;
 
 
@@ -38,14 +37,6 @@ public class UsuarioConsultaDTO extends BaseDTO {
 
     public void setRol(RolDTO rol) {
         this.rol = rol;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNombre() {

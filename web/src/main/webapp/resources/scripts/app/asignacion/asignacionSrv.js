@@ -36,25 +36,6 @@ module.
             })
         }
 
-        service.remove = function (id, motivoBaja) {
-            var entity = {
-                id: id,
-                motivoBaja: motivoBaja}
-            return $http({
-                url: 'api/asignacion/remove',
-                method: 'POST',
-                data: entity
-            })
-        }
-
-        service.restore = function (id) {
-            return $http({
-                url: 'api/asignacion/restore',
-                method: 'PUT',
-                params: {id: id}
-            })
-        }
-
         service.findById = function(id) {
             return $http({
                 url: 'api/asignacion/findById',
