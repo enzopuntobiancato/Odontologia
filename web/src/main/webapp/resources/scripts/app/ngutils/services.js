@@ -260,6 +260,63 @@ services
     }]);
 
 services
+    .factory('ConfirmCreateEntitySrv', ['$http', '$mdDialog', 'MessageSrv', function ($http, $mdDialog, messages) {
+        var service = {};
+
+        service.data = {};
+
+        service.config = function (createUrl,entityName, goIndexFunction) {
+            service.data.createUrl = createUrl;
+            service.data.entityName = entityName;
+            service.data.goIndexFunction = goIndexFunction;
+        };
+
+        service.confirmCreate = function (event, entity, liveEntityName, isUpdate) {
+            $mdDialog.show({
+                templateUrl: 'views/confirmCreateEntity.html',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                controller: function DialogController($scope, $mdDialog) {
+                    $scope.isUpdate = isUpdate;
+                    $scope.liveEntityName = liveEntityName;
+                    $scope.entity = entity;
+                    $scope.entityName = service.data.entityName;
+                    $scope.titulo = isUpdate ? 'Edición de ' : 'Creación de ';
+                    $scope.contenido = isUpdate ? '¿Está seguro que desea proseguir con la edición?'
+                        : ' ¿Está seguro que desea proseguir con la creación?';
+
+                    $scope.cancelar = function () {
+                        $mdDialog.cancel();
+                    };
+                    $scope.confirmar = function () {
+                        $mdDialog.hide();
+                    };
+                }
+            })
+                .then(function () {
+                     var successMsg = isUpdate ? "Edición exitosa: " : "Alta exitosa: ";
+                    var failedMsg = isUpdate ? "Error en edición: " : "Error en creación: ";
+                    $http({
+                        url: service.data.createUrl,
+                        method: 'POST',
+                        data: entity
+                    }).then(function () {
+                            messages.successMessage(successMsg + liveEntityName);
+                            service.data.goIndexFunction();
+                        }, function () {
+                            messages.errorMessage(failedMsg + liveEntityName);
+                        })
+                },
+                function () {
+                    // Cancelled dialog. Do nothing
+                });
+        }
+
+        return service;
+    }]);
+
+services
     .factory('LocationSrv', ['$http', function ($http) {
         var service = {};
         service.getProvincias = function () {

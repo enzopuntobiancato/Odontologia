@@ -3,7 +3,9 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.Catedra;
+import com.utn.tesis.model.Profesor;
 import com.utn.tesis.model.QCatedra;
+import com.utn.tesis.model.QProfesor;
 
 import java.util.List;
 
@@ -26,6 +28,34 @@ public class CatedraDao extends DaoBase<Catedra> {
         }
         query = paginar(query, pageNumber, pageSize);
         return query.list(catedra);
+    }
+
+    public List<Catedra> findCatedrasByProfesor(Profesor p){
+        QProfesor profesor = QProfesor.profesor;
+
+        JPAQuery query = new JPAQuery(em);
+        query.from(profesor);
+        query.innerJoin(profesor.catedras, catedra);
+        if (profesor != null) {
+            query.where(profesor.eq(p));
+        }
+
+        List<Catedra> tuplas = query.list(catedra);
+        return tuplas;
+    }
+
+    public List<Catedra> findCatedrasByProfesor(Long id){
+        QProfesor profesor = QProfesor.profesor;
+
+        JPAQuery query = new JPAQuery(em);
+        query.from(profesor);
+        query.innerJoin(profesor.catedras, catedra);
+        if (profesor != null) {
+            query.where(profesor.id.eq(id));
+        }
+
+        List<Catedra> tuplas = query.list(catedra);
+        return tuplas;
     }
 
 }

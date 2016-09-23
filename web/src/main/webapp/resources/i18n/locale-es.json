@@ -1,4 +1,8 @@
 {
+    "CONTACTO":"Contacto",
+    "ACCIONES" : "Acciones",
+    "AUTORIZAR" : "Autorizar",
+    "CONFIRMAR_ASIGNACION" : "Confirmar asignación",
     "CUAL":"¿Cuál?",
     "CUALES":"¿Cuáles?",
     "CUANDO":"¿Cuando?",
@@ -26,7 +30,11 @@
     "MODIFICAR" : "Modificar",
     "IMPRIMIR" : "Imprimir",
     "HORA" : "Hora",
-
+    "CATEDRA" : "Cátedra",
+    "TELEFONO" : "Teléfono",
+    "CEL" : "Celular",
+    "FECHA_DIAGNOSTICO" : "Fecha del diagnóstico",
+    "VER_ASIGNACION" : "Ver asignación",
 
     "CREAR_PRACTICA_ODONT": "Crear práctica odontológica",
     "VER_PRACTICA_ODONT": "Ver práctica odontológica",
@@ -72,6 +80,12 @@
     "VER_PACIENTE":"Ver paciente",
     "VOLVER" : "Volver",
     "NOMBRE_APELLIDO": "Nombre y apellido",
+    "VER_FILTROS": "Ver filtros",
+    "LIMPIAR_FILTROS" : "Limpiar filtros",
+    "BUSCAR" : "Buscar",
+    "ANTERIOR" : "Anterior",
+    "SIGUIENTE" : "Siguiente",
+    "NUEVO" : "Nuevo",
 
 
     "CREAR_USUARIO": "Crear usuario",
@@ -120,9 +134,22 @@
      "DATOS_PERSONALES" : "Datos personales",
     "ATENCIONES" : "Atenciones",
     "DIAGNOSTICOS" : "Diagnósticos",
+    "VER": "Ver",
+    "EDITAR" : "Editar",
 
     "HORA_ASIGNACION" : "Hora de la asignacion",
     "FECHA_ASIGNACION" : "Fecha de la asignacion",
+    "CREAR_": "Crear asignacion",
+    "VER_ASIGN": "Ver asignacion",
+    "CONS_ASIGN": "Consultar asignaciones",
+    "MOD_ASIGN": "Modificar asignacion",
+    "BORRAR_ASIGN": "Borrar asignacion",
+    "REST_ASIGN": "Restaurar asignacion",
+    "ESTADO" : "Estado",
+    "ASIGNACIONES" : "Asignaciones",
+    "FECHA_ASIGNADO" : "Fecha asignado",
+    "AUTORIZAR_ASIGNACIONES" : "Autorizar asignaciones",
+
     "FECHA" : "Fecha",
 
 

@@ -21,7 +21,6 @@ import java.util.Calendar;
         @JsonSubTypes.Type(value = AdministradorDTO.class, name=RolEnum.Constants.ADMINISTRADOR)})
 public abstract class PersonaDTO extends BaseDTO {
 
-    private Long id;
     private String apellido;
     private String nombre;
     private DocumentoDTO documento;
@@ -36,14 +35,6 @@ public abstract class PersonaDTO extends BaseDTO {
 
     public void setNombreRol(String nombreRol) {
         this.nombreRol = nombreRol;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getApellido() {
@@ -93,4 +84,5 @@ public abstract class PersonaDTO extends BaseDTO {
     public void setUsuario(UsuarioDTO usuario) {
         this.usuario = usuario;
     }
+
 }

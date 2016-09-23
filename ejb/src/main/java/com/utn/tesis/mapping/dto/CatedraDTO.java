@@ -12,7 +12,6 @@ import java.util.List;
 public class CatedraDTO extends BaseDTO {
     private static final long serialVersionUID = -4824818177254887378L;
 
-    private Long id;
     private Calendar fechaBaja;
     private String motivoBaja;
     private String denominacion;
@@ -22,14 +21,6 @@ public class CatedraDTO extends BaseDTO {
     private List<TrabajoPracticoDTO> trabajosPracticos;
 
     //GETTERS AND SETTERS
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Calendar getFechaBaja() {
         return fechaBaja;
     }

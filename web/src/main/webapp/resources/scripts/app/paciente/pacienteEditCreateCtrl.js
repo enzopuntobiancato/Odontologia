@@ -68,7 +68,6 @@ module.controller('PacienteCtrl_EditCreate',
                 }
             }
 
-
             $scope.$watch(
                 'vm.paciente.provinciaNacimiento',
                 function(newValue, oldValue){

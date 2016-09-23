@@ -1,6 +1,7 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import io.github.benas.randombeans.annotation.Exclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,9 +13,11 @@ import java.util.Calendar;
 public class MovimientoDiagnostico extends EntityBase {
     private static final long serialVersionUID = -5842583073152945171L;
 
+    @Exclude
     @JoinColumn(name = "atencion_id")
     private Atencion atencion;
 
+    @Exclude
     @NotNull(message = "El estado del movimiento diagnostico no puede ser nulo.")
     @Enumerated(EnumType.STRING)
     private EstadoDiagnostico estado;
@@ -24,6 +27,7 @@ public class MovimientoDiagnostico extends EntityBase {
     @Column(name = "fecha_movimiento")
     private Calendar fechaMovimiento;
 
+    @Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "El usuario que genera el movimiento diagnostico no puede ser nulo.")
     @JoinColumn(name = "generado_por_id")
@@ -39,6 +43,12 @@ public class MovimientoDiagnostico extends EntityBase {
 
     public MovimientoDiagnostico(Atencion atencion, EstadoDiagnostico estado, Calendar fechaMovimiento, Usuario generadoPor) {
         this.atencion = atencion;
+        this.estado = estado;
+        this.fechaMovimiento = fechaMovimiento;
+        this.generadoPor = generadoPor;
+    }
+
+    public MovimientoDiagnostico(EstadoDiagnostico estado, Calendar fechaMovimiento, Usuario generadoPor) {
         this.estado = estado;
         this.fechaMovimiento = fechaMovimiento;
         this.generadoPor = generadoPor;

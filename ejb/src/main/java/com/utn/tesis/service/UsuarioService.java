@@ -6,6 +6,7 @@ import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.mail.MailService;
+import com.utn.tesis.mapping.dto.UsuarioDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.UsuarioMapper;
 import com.utn.tesis.model.Persona;
@@ -84,6 +85,15 @@ public class UsuarioService extends BaseService<Usuario> {
         return usuarioLogueadoDTO;
     }
 
+    public UsuarioDTO findUsuarioDTOByUsernameAndAuthToken(String authId, String authToken) {
+        UsuarioDTO usuarioDTO = null;
+        Usuario usuario = dao.findByUsernameAndAuthToken(authId, authToken);
+        if (usuario != null) {
+            usuarioDTO = usuarioMapper.fromUsuario(usuario);
+        }
+        return usuarioDTO;
+    }
+
     public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
         return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
     }
@@ -100,6 +110,12 @@ public class UsuarioService extends BaseService<Usuario> {
 
     public Persona findPersonaByUsuario(Usuario usuario) {
         return dao.findPersonaByUsuario(usuario);
+    }
+
+    public Persona findPersonaByUsuario(Long id) {
+        Persona p = dao.findPersonaByUsuario(id);
+        personaService.reload(p, 1);
+        return p;
     }
 
     public UsuarioLogueadoDTO fetchUser(Long id) {

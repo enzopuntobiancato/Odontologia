@@ -1,6 +1,7 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import io.github.benas.randombeans.annotation.Exclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class Diagnostico extends EntityBase {
     @Column(name = "fecha_creacion")
     private Calendar fechaCreacion;
 
+    @Exclude
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "diagnostico_id")
     @NotNull(message = "El movimiento diagnostico no puede ser nulo.")
@@ -28,6 +30,7 @@ public class Diagnostico extends EntityBase {
     @Column(length = 400)
     private String observaciones;
 
+    @Exclude
     @ManyToOne
     @JoinColumn(name = "practica_odontologica_id")
     private PracticaOdontologica practicaOdontologica;
@@ -36,6 +39,7 @@ public class Diagnostico extends EntityBase {
     @Column(name = "practica_no_existente")
     private String practicaNoExistente;
 
+    @Exclude
     @OneToOne
     @JoinColumn(name = "ultimo_movimiento_diagnostico_id")
     private MovimientoDiagnostico ultimoMovimiento;

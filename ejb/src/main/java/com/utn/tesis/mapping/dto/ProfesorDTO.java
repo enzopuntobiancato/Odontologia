@@ -1,5 +1,8 @@
 package com.utn.tesis.mapping.dto;
 
+
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Enzo

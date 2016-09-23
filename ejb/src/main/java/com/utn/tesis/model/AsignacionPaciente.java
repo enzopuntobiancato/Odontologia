@@ -10,46 +10,46 @@ import java.util.List;
 
 @Entity
 @Table(name = "asignaciones_paciente")
-public class AsignacionPaciente extends EntityBase {
+public class AsignacionPaciente extends EntityBase{
     private static final long serialVersionUID = -678479853171993357L;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "alumno_id")
     @NotNull(message = "El alumno de la asignacion no puede ser nulo.")
     private Alumno alumno;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "autorizado_por_id")
     private Profesor autorizadoPor;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "diagnostico_id")
     @NotNull(message = "El diagnostico de la asignacion no puede ser nulo.")
     private Diagnostico diagnostico;
-
     @NotNull(message = "La fecha de asignacion no puede ser nula.")
     @Column(name = "fecha_asignacion")
     @Temporal(TemporalType.DATE)
     private Calendar fechaAsignacion;
-
     @NotNull(message = "La fecha de creacion de la asignacion no puede ser nula.")
     @Column(name = "fecha_creacion")
     @Temporal(TemporalType.DATE)
     private Calendar fechaCreacion;
-
-    @Size(max = 300, message = "El motivo de cancelacion no puede tener mas de 300 caracteres.")
-    @Column(length = 300, name = "motivo_cancelacion")
-    private String motivoCancelacion;
-
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ultimo_movimiento_id")
+    private MovimientoAsignacionPaciente ultimoMovimiento;
+    /*    @Size(max = 300, message = "El motivo de cancelacion no puede tener mas de 300 caracteres.")
+        @Column(length = 300, name = "motivo_cancelacion")
+        private String motivoCancelacion;*/
     @JoinColumn(name = "asignacion_paciente_id")
     @NotNull(message = "El movimiento de asignacion no puede ser nulo.")
+    @OneToMany(fetch = FetchType.LAZY)
+    @Size(min = 1)
     private List<MovimientoAsignacionPaciente> movimientoAsignacionPaciente;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "trabajo_practico_id")
     @NotNull(message = "El trabajo practico de la asignacion no puede ser nulo.")
     private TrabajoPractico trabajoPractico;
+    @OneToOne
+    @JoinColumn(name = "paciente_id")
+    @NotNull(message = "El paciente de la asignacion no puede ser nulo.")
+    private Paciente paciente;
 
     public AsignacionPaciente() {
         this.fechaCreacion = Calendar.getInstance();
@@ -104,14 +104,14 @@ public class AsignacionPaciente extends EntityBase {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public String getMotivoCancelacion() {
-        return motivoCancelacion;
-    }
+    /*  public String getMotivoCancelacion() {
+          return motivoCancelacion;
+      }
 
-    public void setMotivoCancelacion(String motivoCancelacion) {
-        this.motivoCancelacion = motivoCancelacion;
-    }
-
+      public void setMotivoCancelacion(String motivoCancelacion) {
+          this.motivoCancelacion = motivoCancelacion;
+      }
+  */
     public List<MovimientoAsignacionPaciente> getMovimientoAsignacionPaciente() {
         return movimientoAsignacionPaciente;
     }
@@ -138,6 +138,30 @@ public class AsignacionPaciente extends EntityBase {
         this.trabajoPractico = trabajoPractico;
     }
 
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public MovimientoAsignacionPaciente getUltimoMovimiento() {
+        return ultimoMovimiento;
+    }
+
+    public void setUltimoMovimiento(MovimientoAsignacionPaciente ultimoMovimiento) {
+        this.ultimoMovimiento = ultimoMovimiento;
+    }
+
+    /* public Calendar getFechaCancelacion() {
+        return fechaCancelacion;
+    }
+
+    public void setFechaCancelacion(Calendar fechaCancelacion) {
+        this.fechaCancelacion = fechaCancelacion;
+    }*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -147,6 +171,7 @@ public class AsignacionPaciente extends EntityBase {
         AsignacionPaciente that = (AsignacionPaciente) o;
 
         if (alumno != null ? !alumno.equals(that.alumno) : that.alumno != null) return false;
+        if (paciente != null ? !paciente.equals(that.paciente) : that.paciente != null) return false;
         if (autorizadoPor != null ? !autorizadoPor.equals(that.autorizadoPor) : that.autorizadoPor != null)
             return false;
         if (diagnostico != null ? !diagnostico.equals(that.diagnostico) : that.diagnostico != null) return false;
@@ -171,6 +196,6 @@ public class AsignacionPaciente extends EntityBase {
 
     @Override
     public void validar() throws SAPOValidationException {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 }

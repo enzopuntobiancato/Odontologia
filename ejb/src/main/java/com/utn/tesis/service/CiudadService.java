@@ -5,6 +5,7 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.model.Ciudad;
 import com.utn.tesis.model.Provincia;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * Time: 12:30
  * To change this template use File | Settings | File Templates.
  */
+@Stateless
 public class CiudadService extends BaseService<Ciudad> {
 
     @Inject

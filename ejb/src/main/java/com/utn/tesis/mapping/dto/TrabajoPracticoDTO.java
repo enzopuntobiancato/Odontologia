@@ -9,7 +9,6 @@ package com.utn.tesis.mapping.dto;
 public class TrabajoPracticoDTO extends BaseDTO {
     private static final long serialVersionUID = 4315782049030498725L;
 
-    private Long id;
     private String nombre;
     private PracticaOdontologicaDTO practicaOdontologica;
     private String descripcion;
@@ -36,13 +35,6 @@ public class TrabajoPracticoDTO extends BaseDTO {
         return serialVersionUID;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;

@@ -1,5 +1,7 @@
 package com.utn.tesis.model;
 
+import io.github.benas.randombeans.annotation.Exclude;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -14,15 +16,22 @@ import java.util.List;
 public class Profesor extends Persona {
     private static final long serialVersionUID = 8963528362720029022L;
 
+    @Exclude
     @OneToMany
     private List<Catedra> catedras;
 
+    @Exclude
+    @NotNull(message = "El legajo del alumno no puede ser nulo.")
+    @Size(max = 10, message = "El legajo no puede ser mayor a 10 caracteres.")
+    @Column(nullable = false, length = 10)
     private int legajo;
 
+    @Exclude
     @Size(max = 25, message = "La matricula no puede tener mas de 25 caracteres")
     @Column(length = 25)
     private String matricula;
 
+    @Exclude
     @Size(max = 75, message = "La profesion no puede tener mas de 75 caracteres.")
     @Column(length = 75)
     private String profesion;

@@ -4,6 +4,7 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.ResponsableRecepcionDao;
 import com.utn.tesis.model.*;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * Time: 13:02
  * To change this template use File | Settings | File Templates.
  */
+@Stateless
 public class ResponsableRecepcionService extends BaseService<ResponsableRecepcion> {
 
     @Inject

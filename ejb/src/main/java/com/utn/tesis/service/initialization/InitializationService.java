@@ -14,9 +14,7 @@ import org.apache.commons.lang.RandomStringUtils;
 
 import javax.ejb.*;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Random;
+import java.util.*;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -50,10 +48,18 @@ public class InitializationService {
     private HistoriaClinicaService historiaClinicaService;
     @Inject
     private AlumnoService alumnoService;
+    @Inject
+    private AsignacionPacienteService asignacionPacienteService;
+    @Inject
+    private DiagnosticoService diagnosticoService;
+    @Inject
+    private ProfesorService profesorService;
+    @Inject
+    private MovimientoAsignacionPacienteService movimientoAsignacionPacienteService;
+    @Inject
+    private MovimientoDiagnosticoService movimientoDiagnosticoService;
 
     private InitVariables initVariables = InitVariables.getInstance();
-
-
     private ArrayList<GrupoPracticaOdontologica> grupoPracticaOdontologicasList = new ArrayList<GrupoPracticaOdontologica>();
     private ArrayList<PracticaOdontologica> practicaOdontologicasList = new ArrayList<PracticaOdontologica>();
     private ArrayList<GrupoFuncionalidad> grupoFuncionalidadList = new ArrayList<GrupoFuncionalidad>();
@@ -65,7 +71,9 @@ public class InitializationService {
     private ArrayList<Catedra> catedraList = new ArrayList<Catedra>();
     private ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
     private ArrayList<HistoriaClinica> historiaClinicas = new ArrayList<HistoriaClinica>();
-
+    private ArrayList<Diagnostico> diagnosticos = new ArrayList<Diagnostico>();
+    private List<MovimientoAsignacionPaciente> movimientoAsignacionPacientes = new ArrayList<MovimientoAsignacionPaciente>();
+    private List<AsignacionPaciente> asignaciones;
 
     public boolean initializeData() throws SAPOException {
         if (!initVariables.isInitializationRunned()) {
@@ -86,8 +94,13 @@ public class InitializationService {
                 //Usuarios y personas
                 this.cargarUsuarios(); //admin enzo
                 this.cargarAlumnos();
-                this.cargarHistoriasClinicas();
-                this.cargarPacientes();
+                cargarProfesores();
+                cargarMovimientos();
+                cargarDiagnosticos();
+//                cargarMovimientos();
+                cargarHistoriasClinicas();
+                cargarPacientes();
+                cargarAsignaciones();
 
 
                 initVariables.setInitializationRunned(Boolean.TRUE);
@@ -99,6 +112,19 @@ public class InitializationService {
             }
         }
         return false;
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public List<AsignacionPaciente> realoadAll(List<AsignacionPaciente> asignaciones) {
+        log.error("inicio reload");
+        Usuario u = usuarioService.findAll().get(0);
+        u = usuarioService.reload(u, 2);
+
+        AsignacionPaciente asignacionPaciente = asignacionPacienteService.findById(1l);
+        asignaciones = asignacionPacienteService.reloadList(asignaciones, 2);
+        asignacionPaciente = asignacionPacienteService.reload(asignacionPaciente, 2);
+        log.error("fin reload");
+        return asignaciones;
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -256,9 +282,15 @@ public class InitializationService {
         estadisticas.setNombre("Análisis de datos");
         grupoFuncionalidadList.add(grupoFuncionalidadService.save(estadisticas));
 
+        GrupoFuncionalidad asignaciones = new GrupoFuncionalidad();
+        asignaciones.setNombre("Asignaciones");
+        grupoFuncionalidadList.add(grupoFuncionalidadService.save(asignaciones));
+
         GrupoFuncionalidad ayuda = new GrupoFuncionalidad();
         ayuda.setNombre("Ayuda");
         grupoFuncionalidadList.add(grupoFuncionalidadService.save(ayuda));
+
+
 
         log.info("CargarGrupoFuncionalidad FINAL");
     }
@@ -308,13 +340,26 @@ public class InitializationService {
         f7.setGrupoFuncionalidad(grupoFuncionalidadList.get(2));
         funcionalidadList.add(funcionalidadService.save(f7));
 
+        Funcionalidad f8 = new Funcionalidad();
+        f8.setNombre("Asignaciones");
+        f8.setEstadoAsociado("asignacion.index");
+        f8.setGrupoFuncionalidad(grupoFuncionalidadList.get(3));
+        funcionalidadList.add(funcionalidadService.save(f8));
+
+        Funcionalidad f9 = new Funcionalidad();
+        f9.setNombre("Autorizar asignaciones confirmadas");
+        f9.setEstadoAsociado("asignacion.autorizar");
+        f9.setGrupoFuncionalidad(grupoFuncionalidadList.get(3));
+        funcionalidadList.add(funcionalidadService.save(f9));
+
+
         log.info("CargarFuncionalidad FINAL");
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarPrivilegio() throws SAPOException {
         log.info("CargarPrivilegio INICIO");
-        for(Funcionalidad f: funcionalidadList) {
+        for (Funcionalidad f : funcionalidadList) {
             Privilegio p = new Privilegio();
             p.setFuncionalidad(f);
             p.setEsItemMenu(true);
@@ -361,29 +406,57 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    private void cargarDiagnosticos() throws SAPOException {
+        log.info("COMIENZO CARGA DE DIAGNOSTICOS");
+        List<PracticaOdontologica> practicaOdontologicas = practicaOdontologicaService.findAll();
+        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+                .scanClasspathForConcreteTypes(true)
+                .build();
+        List<MovimientoDiagnostico> movimientos = movimientoDiagnosticoService.findAll();
+        for (int i = 0; i < 60; i++) {
+            Random random = new Random();
+            int numero = random.nextInt(3 - 0 + 1) + 0;
+            MovimientoDiagnostico movD = movimientos.get(i);
+            List<MovimientoDiagnostico> movs = new ArrayList<MovimientoDiagnostico>();
+            movs.add(movD);
+            Diagnostico diagnostico = enhancedRandom.nextObject(Diagnostico.class);
+            diagnostico.setMovimientos(movs);
+            diagnostico.setUltimoMovimiento(movD);
+            diagnostico.setPracticaOdontologica(practicaOdontologicas.get(numero));
+            diagnosticos.add(diagnosticoService.save(diagnostico));
+        }
+
+        log.info("FIN CARGA DE DIAGNOSTICOS");
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void cargarHistoriasClinicas() throws SAPOException {
         log.info("CARGA HISTORIAS CLINICAS INICIO");
+
         for (int i = 0; i < 10; i++) {
             Random r = new Random();
-            int numero = r.nextInt(10000)+1;  // Entre 0 y 5, más 1.
+            int numero = r.nextInt(10000) + 1;  // Entre 0 y 5, más 1.
             HistoriaClinica hc = HistoriaClinica.createDefault();
             hc.setNumero(numero);
 
-            for(DetalleHistoriaClinica detalle : hc.getDetallesHC()){
-                if(detalle instanceof CampoDetalle){
+            for (DetalleHistoriaClinica detalle : hc.getDetallesHC()) {
+                if (detalle instanceof CampoDetalle) {
                     String randomString = StringRandomizer.aNewStringRandomizer().getRandomValue();
                     ((CampoDetalle) detalle).setOnly_detalle(randomString);
-                } else if(detalle instanceof CampoSiNo){
+                } else if (detalle instanceof CampoSiNo) {
                     Boolean randomBoolean = BooleanRandomizer.aNewBooleanRandomizer().getRandomValue();
                     ((CampoSiNo) detalle).setSiNo(true);
-                } else if (detalle instanceof CampoFecha){
+                } else if (detalle instanceof CampoFecha) {
                     Calendar fecha = CalendarRandomizer.aNewCalendarRandomizer().getRandomValue();
                     ((CampoFecha) detalle).setFecha(fecha);
-                } else if (detalle instanceof CampoEnumerable){
+                } else if (detalle instanceof CampoEnumerable) {
                     Boolean randomBoolean = BooleanRandomizer.aNewBooleanRandomizer().getRandomValue();
                     ((CampoEnumerable) detalle).setChecked(randomBoolean);
                 }
             }
+            List<Diagnostico> diagnosticoList = diagnosticoService.findAll();
+            List<Diagnostico> diagnosticoList2 = diagnosticoList.subList(2 * i, (2 * i + 2));
+            hc.setDiagnostico(diagnosticoList2);
             historiaClinicas.add(historiaClinicaService.save(hc));
         }
         log.info("CARGA HISTORIAS CLINICAS FIN");
@@ -409,16 +482,16 @@ public class InitializationService {
         createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), true);
         Alumno alumno = new Alumno();
         alumno.setLegajo("1233456");
-        createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, false);
+        createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, true);
         Profesor profesor = new Profesor();
         profesor.setLegajo(1234);
         profesor.setProfesion("Odontólogo");
-        createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor, false);
-        createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion(), false);
-        createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico(), false);
+        createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor, true);
+        createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion(), true);
+        createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico(), true);
         Autoridad autoridad = new Autoridad();
         autoridad.setCargo(Cargo.DECANO);
-        createUsuarioYPersona("autoridad", "Una", "Autoridad", rolList.get(5), autoridad, false);
+        createUsuarioYPersona("autoridad", "Una", "Autoridad", rolList.get(5), autoridad, true);
         log.info("CargarUsuariospersonas FINAL");
     }
 
@@ -432,21 +505,38 @@ public class InitializationService {
             usuario.setUltimaConexion(Calendar.getInstance());
         }
         usuarioService.create(usuario);
+        log.info("CargarUsuarios FINAL");
+    }
 
-        persona.setNombre(nombre);
-        persona.setApellido(apellido);
-        persona.setFechaCarga(Calendar.getInstance());
-        persona.setDocumento(new Documento(RandomStringUtils.randomNumeric(8), TipoDocumento.DNI));
-        persona.setUsuario(usuario);
-        if (avoidFirstLogin) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(1989, 10, 9);
-            persona.setFechaNacimiento(calendar);
-            persona.setSexo(Sexo.MASCULINO);
+    private void cargarProfesores() throws SAPOException{
+        log.info("CARGA PROFESORES INICIO");
+        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+                .scanClasspathForConcreteTypes(true)
+                .build();
+        List<Usuario> users = new ArrayList<Usuario>();
+//        List<Catedra> catedras = catedraService.findAll();
+        for(int i = 0; i < 2 ; i++){
+            String nombre = StringRandomizer.aNewStringRandomizer().getRandomValue();
+            Usuario user = new Usuario();
+            user.setUltimaConexion(Calendar.getInstance());
+            user.setNombreUsuario("prof" + nombre);
+            user.setRol(rolList.get(2));
+            user.setEmail(nombre+ "@gmail.com");
+            user.setContrasenia("123");
+            users.add(usuarioService.create(user));
         }
-        personaService.create(persona);
+        /*for (int i = 0; i < 2; i++) {
+            Random r = new Random();
+            int numero = r.nextInt(1000000) + 1;  // Entre 0 y 5, más 1.
+            Profesor p = new Profesor();
+            p.setLegajo(i);
+            p.setUsuario(users.get(i));
+            p.setCatedras(Arrays.asList(catedras.get(i)));
+            profesorService.create(p);
+        }*/
 
-        log.info("CargarPersonaAUsuario FINAL");
+        log.info("CARGA PROFESORES FIN");
+
     }
 
     private void cargarAlumnos() throws SAPOException {
@@ -454,15 +544,82 @@ public class InitializationService {
         EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
                 .scanClasspathForConcreteTypes(true)
                 .build();
+        List<Usuario> users = new ArrayList<Usuario>();
+        for(int i = 0; i < 10 ; i++){
+            String nombre = StringRandomizer.aNewStringRandomizer().getRandomValue();
+            Usuario user = new Usuario();
+            user.setUltimaConexion(Calendar.getInstance());
+            user.setNombreUsuario(nombre);
+            user.setRol(rolList.get(1));
+            user.setEmail(nombre+ "@gmail.com");
+            user.setContrasenia("123");
+            users.add(usuarioService.create(user));
+        }
+
         for (int i = 0; i < 10; i++) {
             Random r = new Random();
-            int numero = r.nextInt(100000000)+1;  // Entre 0 y 5, más 1.
+            int numero = r.nextInt(100000000) + 1;  // Entre 0 y 5, más 1.
             Alumno a = enhancedRandom.nextObject(Alumno.class);
             a.setLegajo(numero + "");
+            a.setUsuario(users.get(i));
             alumnoService.save(a);
         }
+
         log.info("CARGA ALUMNOS FIN");
 
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    private void cargarAsignaciones() throws SAPOException {
+        log.info("CARGA DE ASIGNACIONES");
+        asignaciones = new ArrayList<AsignacionPaciente>();
+        List<Alumno> alumnos = alumnoService.findAll();
+        List<TrabajoPractico> trabajoPracticos = trabajoPracticoService.findAll();
+        List<Paciente> pacientesAux = pacienteService.findAll();
+        List<Diagnostico> diagnosticoList = diagnosticoService.findAll();
+        Usuario usuarioCreador = usuarioService.findAll().get(0);
+
+        int numDiag = 0;
+        for (Alumno alumno : alumnos) {
+            for (TrabajoPractico trabajoPractico : trabajoPracticos) {
+                Random random = new Random();
+                int numero = random.nextInt(8 - 0 + 1) + 0;
+
+                List<MovimientoAsignacionPaciente> movimientos = new ArrayList<MovimientoAsignacionPaciente>();
+
+                MovimientoAsignacionPaciente movimientoAsignacionPaciente = new MovimientoAsignacionPaciente(
+                        EstadoAsignacionPaciente.PENDIENTE, CalendarRandomizer.aNewCalendarRandomizer().getRandomValue(),
+                        usuarioCreador);
+                movimientos.add(movimientoAsignacionPaciente);
+
+                AsignacionPaciente asignacionPaciente = new AsignacionPaciente();
+                asignacionPaciente.setDiagnostico(diagnosticoList.get(numDiag));
+                asignacionPaciente.setPaciente(pacientesAux.get(numero));
+                asignacionPaciente.setAlumno(alumno);
+                asignacionPaciente.setTrabajoPractico(trabajoPractico);
+                asignacionPaciente.setFechaAsignacion(CalendarRandomizer.aNewCalendarRandomizer().getRandomValue());
+                asignacionPaciente.setFechaCreacion(CalendarRandomizer.aNewCalendarRandomizer().getRandomValue());
+                asignacionPaciente.setMovimientoAsignacionPaciente(movimientos);
+                asignacionPaciente.setUltimoMovimiento(movimientoAsignacionPaciente);
+                asignaciones.add(asignacionPacienteService.save(asignacionPaciente));
+                numDiag++;
+            }
+        }
+        log.info("FIN CARGA DE ASIGNACIONES");
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    private void cargarMovimientos() throws SAPOException {
+        log.info("Inicia carga de movimientos");
+        Usuario usuarioCreador = usuarioService.findAll().get(0);
+        for (int i = 0; i < 60; i++) {
+            MovimientoDiagnostico movD = new MovimientoDiagnostico();
+            movD.setEstado(EstadoDiagnostico.PENDIENTE);
+            movD.setGeneradoPor(usuarioCreador);
+            movimientoDiagnosticoService.save(movD);
+        }
+
+        log.info("Fin carga de movimientos");
     }
 }
 

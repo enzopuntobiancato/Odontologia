@@ -8,18 +8,9 @@ package com.utn.tesis.mapping.dto;
  * To change this template use File | Settings | File Templates.
  */
 public class RolDTO extends BaseDTO {
-    private Long id;
     private EnumDTO nombre;
 
     public RolDTO() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public EnumDTO getNombre() {

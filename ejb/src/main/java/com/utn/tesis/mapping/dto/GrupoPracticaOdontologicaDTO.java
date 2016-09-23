@@ -9,16 +9,7 @@ package com.utn.tesis.mapping.dto;
 public class GrupoPracticaOdontologicaDTO extends BaseDTO {
     private static final long serialVersionUID = 4992088903124341818L;
 
-    private Long id;
     private String nombre;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;

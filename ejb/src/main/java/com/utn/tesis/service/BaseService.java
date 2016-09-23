@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ public abstract class BaseService<T extends SuperEntityBase> {
     }
 
     public T findById(Long id) {
+
         return getDao().findById(id);
     }
 
@@ -62,6 +64,27 @@ public abstract class BaseService<T extends SuperEntityBase> {
         return getDao().findAll();
     }
 
+
+    public List<T> save(List<T> entities) throws SAPOException{
+        List<T> result = new ArrayList<T>();
+        for (T entity : entities){
+            result.add(save(entity));
+        }
+        return result;
+    }
+
+    public <S extends T> S reload(S entity, int depth) {
+        return getDao().reload(entity,depth);
+    }
+
+    public <S extends T> List<S> reloadList(List<S> entities, int depth) {
+        List<S> result = new ArrayList<S>();
+        for (S entity : entities) {
+            result.add(reload(entity,depth));
+        }
+        return result;
+    }
+
     /**
      * Template method que llama a las validaciones de restricciones de modelo y a las validaciones de negocio.
      * @param entity
@@ -86,6 +109,7 @@ public abstract class BaseService<T extends SuperEntityBase> {
         }
         return Collections.reload(entity, depth);
     }
+
 
     /*
     Template method que llama a las validaciones de restricciones de modelo y a las validaciones de negocio.

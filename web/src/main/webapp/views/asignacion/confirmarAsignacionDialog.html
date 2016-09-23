@@ -1,0 +1,55 @@
+<md-dialog ng-cloak>
+    <form name="restoreMateriaForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{ 'CONFIRMAR_ASIGNACION' | translate }}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancelar()">
+                    <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <p>¿Quiere confirmar la asistencia del paciente <b>{{asignacion.apellidoPaciente}}, {{ asignacion.nombrePaciente }}</b>
+                    el día <b>{{ asignacion.fechaAsignacion | date:'dd/MM/yyyy' }}</b> para resolver las problemáticas pertenecientes al trabajo práctico
+                    <b>{{ asignacion.trabajoPractico.nombre }}</b>?
+                </p>
+
+                <p>Contáctese con el paciente usando alguno de los siguientes medios:</p>
+                <md-list>
+                    <div layout="row">
+                        <md-list-item class="md-2-line" flex="33">
+                            <ng-md-icon icon="phone"></ng-md-icon>
+                            <div class="md-list-item-text">
+                                <h4>{{'TELEFONO' | translate}}</h4>
+                                <p>{{ asignacion.telefono }}</p>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line" flex="33">
+                            <ng-md-icon icon="stay_current_portrait"></ng-md-icon>
+                            <div class="md-list-item-text">
+                                <h4>{{'CEL' | translate}} </h4>
+
+                                <p>{{ asignacion.celular }}</p>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line" flex="33">
+                            <ng-md-icon icon="mail"></ng-md-icon>
+                            <div class="md-list-item-text">
+                                <h4>{{'EMAIL' | translate}} </h4>
+
+                                <p>{{ asignacion.email }}</p>
+                            </div>
+                        </md-list-item>
+                    </div>
+                </md-list>
+            </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="cancelar()">Cancelar</md-button>
+            <md-button type="submit" class="md-raised md-primary" ng-click="aceptar()">Aceptar</md-button>
+        </div>
+    </form>
+</md-dialog>

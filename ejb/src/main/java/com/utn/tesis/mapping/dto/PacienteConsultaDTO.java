@@ -11,8 +11,6 @@ import java.util.Calendar;
  */
 public class PacienteConsultaDTO extends BaseDTO {
     //Datos Personales
-    private Long id;
-    private Long version;
     private String apellido;
     private String nombre;
     private EnumDTO estadoCivil;
@@ -39,14 +37,6 @@ public class PacienteConsultaDTO extends BaseDTO {
     private String religion;
     //fechaCarga
     private Calendar fechaCarga;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getApellido() {
         return apellido;
@@ -198,13 +188,5 @@ public class PacienteConsultaDTO extends BaseDTO {
 
     public void setFechaCarga(Calendar fechaCarga) {
         this.fechaCarga = fechaCarga;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 }

@@ -8,30 +8,12 @@ package com.utn.tesis.mapping.dto;
  * To change this template use File | Settings | File Templates.
  */
 public class DetalleHistoriaClinicaDTO extends BaseDTO {
-    private Long id;
-    private int version;
     private String nombre;
     private int grupo;
     private int pregunta;
     private String dtype;
 
     //GETTERS AND SETTERS
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
     public String getNombre() {
         return nombre;
     }

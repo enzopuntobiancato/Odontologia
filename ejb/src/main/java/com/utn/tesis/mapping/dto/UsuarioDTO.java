@@ -8,7 +8,6 @@ public class UsuarioDTO extends BaseDTO {
     private String nombreUsuario;
     private String email;
     private RolDTO rol;
-    private Long id;
     // Diferente nombre para no mapear la contraseña
     private String currentPassword;
     private String password;
@@ -25,14 +24,6 @@ public class UsuarioDTO extends BaseDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNombreUsuario() {

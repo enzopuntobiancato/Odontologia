@@ -32,7 +32,7 @@ public class TrabajoPracticoDao extends DaoBase<TrabajoPractico> {
         return query.list(trabajoPractico);
     }
 
-    public List<TrabajoPractico> findByMateria(Long idMateria){
+    public List<TrabajoPractico> findByCatedra(Long idMateria){
         List<TrabajoPractico> trabajoPracticos = new ArrayList<TrabajoPractico>();
         if(idMateria == null){
             return trabajoPracticos;

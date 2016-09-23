@@ -198,6 +198,7 @@ public abstract class DaoBase<E extends SuperEntityBase> {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public <S extends E> S reload(S entity, int depth) {
 
+        //TODO: REVISAR SI NO DEBERIA PREGUNTAR SI ES INSTABCIA DE SUPERENTITYBASE.
         if (entity instanceof EntityBase) {
             entity = (S) findOne(((EntityBase) entity).getId());
         } else {
