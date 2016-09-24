@@ -25,7 +25,7 @@
                             </md-button>
                             <md-menu ng-if="!vm.data.editing">
                                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                                    <ng-md-icon icon="more_vert" style="fill: red"></ng-md-icon>
+                                    <ng-md-icon icon="more_vert" style="fill: black"></ng-md-icon>
                                 </md-button>
                                 <md-menu-content width="4">
                                     <md-menu-item show-xs hide-gt-sm>
@@ -50,7 +50,7 @@
                                     </md-menu-item>
                                     <md-divider show-xs hide-gt-sm></md-divider>
                                     <md-menu-item>
-                                        <md-button aria-label="Editar paciente"
+                                        <md-button ng-disabled="vm.paciente.fechaBaja" aria-label="Editar paciente"
                                                    ng-click="vm.goEdit()">
                                             <ng-md-icon icon="edit" size="24" hide-xs></ng-md-icon>
                                             {{ 'MODIFICAR' | translate }}
@@ -81,6 +81,8 @@
                             <md-card-content id="md-card-tab-content">
                                 <ng-include ng-if="vm.validationErrorFromServer.error"
                                             src="'views/validation-error.html'"></ng-include>
+                                <p ng-if="vm.paciente.fechaBaja" style="color: red;"><ng-md-icon  icon="thumb_down" style="fill: red">
+                                </ng-md-icon>&nbsp;El paciente se encuentra dado de baja.</p>
                                     <ui-view></ui-view>
                             </md-card-content>
                             <md-card-actions ng-if="!vm.data.editing" layout="row" layout-align="end center">

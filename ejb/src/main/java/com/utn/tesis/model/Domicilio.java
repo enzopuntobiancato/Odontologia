@@ -123,10 +123,10 @@ public class Domicilio extends EntityBase {
         int result = super.hashCode();
         result = 31 * result + (barrio != null ? barrio.hashCode() : 0);
         result = 31 * result + (calle != null ? calle.hashCode() : 0);
-        result = 31 * result + codigoPostal;
+        result = 31 * result + (codigoPostal!= null ? codigoPostal: 0);
         result = 31 * result + (departamento != null ? departamento.hashCode() : 0);
         result = 31 * result + (numero != null ? numero.hashCode() : 0);
-        result = 31 * result + piso;
+        result = 31 * result + (piso != null ? piso : 0);
         return result;
     }
 }

@@ -44,6 +44,7 @@ public class PacienteDTO extends BaseDTO {
     private Calendar fechaCarga;
     //Baja
     private String motivoBaja;
+    private Calendar fechaBaja;
     //Historia clínica
     private HistoriaClinicaDTO historiaClinicaDTO;
     //CONSTRUCTOR
@@ -250,5 +251,13 @@ public class PacienteDTO extends BaseDTO {
 
     public void setPrivadoLibertadDonde(String privadoLibertadDonde) {
         this.privadoLibertadDonde = privadoLibertadDonde;
+    }
+
+    public Calendar getFechaBaja() {
+        return fechaBaja;
+    }
+
+    public void setFechaBaja(Calendar fechaBaja) {
+        this.fechaBaja = fechaBaja;
     }
 }

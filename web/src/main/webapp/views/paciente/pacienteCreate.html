@@ -13,6 +13,8 @@
                         </md-toolbar>
                         <form novalidate name="createPacienteForm" ng-submit="vm.create(createPacienteForm)">
                             <md-card-content id="md-card-tab-content">
+                                <ng-include ng-if="vm.validationErrorFromServer.error"
+                                            src="'views/validation-error.html'"></ng-include>
                                 <ng-include src="'views/hc/datosPersonales/datosPersonalesEdit.html'"></ng-include>
                             </md-card-content>
                             <md-card-actions layout="row" layout-align="end center">

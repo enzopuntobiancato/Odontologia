@@ -129,15 +129,13 @@ public class PacienteAPI extends BaseAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(PacienteDTO dto) throws SAPOException {
-        Paciente entity = pacienteService.remove(dto.getId(), "Baja");
+        Paciente entity = pacienteService.remove(dto.getId(), dto.getMotivoBaja());
         dto = pacienteMapper.toDTO(entity);
         return Response.ok(dto).build();
     }
 
-    //TODO: Se debe revisar este método o quitarlo si hace falta.
     @Path("/restore")
     @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
     public void restore(@QueryParam("id") Long id) {
         pacienteService.restore(id);
     }

@@ -166,7 +166,7 @@ services
     }]);
 
 services
-    .factory('DeleteRestoreSrv', ['$http', '$mdDialog', 'MessageSrv', function ($http, $mdDialog, messages) {
+    .factory('DeleteRestoreSrv', ['$http', '$mdDialog', 'MessageSrv', '$rootScope', function ($http, $mdDialog, messages, $rootScope) {
         var service = {};
 
         service.data = {};
@@ -207,9 +207,11 @@ services
 
                     }).then(function () {
                             messages.successMessage('Baja exitosa: ' + liveEntityName);
-                            if(dadosBaja != null && resultSize != null && currentPage != null){
+                            if (service.data.queryFunction) {
                                 var execQuerySamePage = dadosBaja || resultSize > 1;
                                 service.data.queryFunction(execQuerySamePage ? currentPage : 0);
+                            } else {
+                                $rootScope.$broadcast('successDeleteRestoreEvent');
                             }
                         }, function () {
                             messages.errorMessage('Error en baja: ' + liveEntityName);
@@ -244,8 +246,10 @@ services
                         params: {id: entityId}
                     }).then(function () {
                             messages.successMessage('Alta exitosa: ' + liveEntityName);
-                            if(currentPage != null){
+                            if (service.data.queryFunction) {
                                 service.data.queryFunction(currentPage);
+                            } else {
+                                $rootScope.$broadcast('successDeleteRestoreEvent');
                             }
                         }, function () {
                             messages.errorMessage('Error en alta: ' + liveEntityName);

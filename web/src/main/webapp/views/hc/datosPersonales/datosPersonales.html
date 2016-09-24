@@ -49,7 +49,7 @@
                         <div class="md-list-item-text compact">
                             <h4> Provincia de nacimiento </h4>
 
-                            <p>{{vm.paciente.provinciaNacimiento.nombre | noDefinido}} </p>
+                            <p>{{vm.paciente.lugarDeNacimiento.provincia.nombre | noDefinido}} </p>
                         </div>
                     </md-list-item>
                     <md-list-item class="md-2-line " flex="25">
@@ -79,22 +79,22 @@
         </md-tab-label>
         <md-tab-body>
             <md-list>
-                <div layout-gt-sm="row" layout-margin>
-                    <md-list-item class="md-2-line " flex-gt-sm="25">
+                <div layout="row" layout-margin>
+                    <md-list-item class="md-2-line " flex="25">
                         <div class="md-list-item-text compact">
                             <h4> Correo electrónico </h4>
 
                             <p>{{vm.paciente.email | noDefinido}} </p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line " flex-gt-sm="25">
+                    <md-list-item class="md-2-line " flex="25">
                         <div class="md-list-item-text compact">
                             <h4> Teléfono </h4>
 
                             <p>{{vm.paciente.telefono | noDefinido}} </p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line " flex-gt-sm="25">
+                    <md-list-item class="md-2-line " flex="25">
                         <div class="md-list-item-text compact">
                             <h4>Celular</h4>
 
@@ -103,29 +103,29 @@
                     </md-list-item>
                     <span flex></span>
                 </div>
-                <div layout-gt-sm="row" layout-margin>
-                    <md-list-item class="md-2-line" flex-gt-sm="35">
+                <div layout="row" layout-margin>
+                    <md-list-item class="md-2-line" flex="25">
                         <div class="md-list-item-text compact">
                             <h4> Calle </h4>
 
                             <p> {{vm.paciente.domicilio.calle | noDefinido}} </p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line" flex-gt-sm="10">
+                    <md-list-item class="md-2-line" flex="10">
                         <div class="md-list-item-text compact">
                             <h4> Número </h4>
 
                             <p> {{vm.paciente.domicilio.numeroCalle | noDefinido}} </p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line" flex-gt-sm="10">
+                    <md-list-item class="md-2-line" flex="5">
                         <div class="md-list-item-text compact">
                             <h4> Piso </h4>
 
                             <p> {{vm.paciente.domicilio.piso | noDefinido}} </p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line" flex-gt-sm="10">
+                    <md-list-item class="md-2-line" flex="5">
                         <div class="md-list-item-text compact">
                             <h4> Dpto.</h4>
 
@@ -133,21 +133,21 @@
                                 noDefinido}} </p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line " flex-gt-sm="20">
+                    <md-list-item class="md-2-line " flex="20">
                         <div class="md-list-item-text compact">
                             <h4>Ciudad </h4>
 
                             <p>{{vm.paciente.domicilio.barrio.ciudad.nombre | noDefinido}} </p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line" flex-gt-sm="15">
+                    <md-list-item class="md-2-line" flex="20">
                         <div class="md-list-item-text compact">
                             <h4>Barrio</h4>
 
                             <p>{{vm.paciente.domicilio.barrio.nombre | noDefinido}}</p>
                         </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line" flex-gt-sm="10">
+                    <md-list-item class="md-2-line" flex="10">
                         <div class="md-list-item-text compact">
                             <h4>Código postal</h4>
 
@@ -254,6 +254,22 @@
                             <h4>Lugar de reclusión</h4>
 
                             <p>{{vm.paciente.privadoLibertadDonde | noDefinido}}</p>
+                        </div>
+                    </md-list-item>
+                </div>
+                <div layout="row" ng-if="vm.paciente.fechaBaja" layout-margin>
+                    <md-list-item class="md-2-line" flex="25">
+                        <div class="md-list-item-text compact">
+                            <h4>{{'FECHA_BAJA' | translate}}</h4>
+
+                            <p>{{vm.paciente.fechaBaja | date:'dd/MM/yyyy' }}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" flex="70">
+                        <div class="md-list-item-text compact">
+                            <h4>{{'MOTIVO_BAJA' | translate}}</h4>
+
+                            <p>{{vm.paciente.motivoBaja | noDefinido}}</p>
                         </div>
                     </md-list-item>
                 </div>
