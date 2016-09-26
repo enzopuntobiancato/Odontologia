@@ -11,6 +11,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         var ATENCIONES_TAB = 'atenciones';
         var VIEW_SUFFIX = 'View';
         var EDIT_SUFFIX = 'Edit';
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
         var cache = $cacheFactory.get('hcCache') || $cacheFactory('hcCache');
 
@@ -43,10 +44,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         vm.openRestoreDialog = openRestoreDialog;
 
         function submit(form, continueEditing) {
-            vm.data.editing = continueEditing;
-            if (form.$valid) {
-                $scope.$broadcast('validatedForm', {form: form, continueEditing: continueEditing});
-            }
+            $scope.$broadcast('validatedForm', {form: form, continueEditing: continueEditing});
         }
 
         function cancelEditing() {
@@ -80,8 +78,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
 
         function goEdit() {
             var current = vm.data.currentTab || getTab();
-            vm.data.editing = true;
-            $state.go(PREFIX + current + EDIT_SUFFIX, {editing : vm.data.editing});
+            $state.go(PREFIX + current + EDIT_SUFFIX, {editing : true});
         }
 
         function goToConsultar() {
@@ -99,6 +96,12 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         function openRestoreDialog(event, id, nombre) {
             deleteRestoreService.restore(event, id, nombre);
         }
+
+        $scope.$on('successDeleteRestoreEvent', function(event) {
+            event.defaultPrevented = true;
+            $rootScope.created = true;
+            $state.go($state.current, {editing: convertToBoolean($stateParams.editing)}, {reload: true})
+        })
 
         $scope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {

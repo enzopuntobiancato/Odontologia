@@ -27,8 +27,16 @@ module.controller('PacienteCtrl_EditCreate',
             var performSubmit = $scope.$parent.performSubmit;
             var handleError = $scope.$parent.handleError;
             vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+
             vm.create = create;
             vm.goIndex = goIndex;
+            vm.provinciaLugarDeNacimientoChange = provinciaLugarDeNacimientoChange;
+            vm.provinciaDomicilioChange = provinciaDomicilioChange;
+            vm.ciudadDomicilioChange = ciudadDomicilioChange;
+            vm.domicilioRequired = domicilioRequired;
+            vm.limpiarCampos = limpiarCampos;
+
+            init();
 
             $scope.$on('validatedForm', function(event, args) {
                 event.defaultPrevented = true;
@@ -68,39 +76,59 @@ module.controller('PacienteCtrl_EditCreate',
                 }
             }
 
-            $scope.$watch(
-                'vm.paciente.provinciaNacimiento',
-                function(newValue, oldValue){
-                    delete vm.paciente.ciudadNacimiento;
-                    filterCiudades();
-                    function filterCiudades(){
-                        if(!vm.paciente.provinciaNacimiento || !angular.isDefined(vm.paciente.provinciaNacimiento.id)){
-                            vm.ciudadesNacSelect = vm.data.ciudades;
-                        }else{
-                            vm.ciudadesNacSelect = $filter('filter')(vm.data.ciudades, function(value){
-                                return angular.equals(value.provincia.id,vm.paciente.provinciaNacimiento.id);
-                            })
-                        }
-                    }
-                })
+            function init() {
+                if (angular.isDefined(vm.paciente.lugarDeNacimiento)) {
+                    vm.selectedProvincia = vm.paciente.lugarDeNacimiento.provincia;
+                    vm.ciudadesNacSelect = provinciaChange(vm.selectedProvincia);
+                }
+                if (angular.isDefined(vm.paciente.domicilio)) {
+                    vm.provinciaDomicilio = vm.paciente.domicilio.barrio.ciudad.provincia;
+                    vm.ciudadesDomicilioSelect = provinciaChange(vm.provinciaDomicilio);
+                    vm.ciudadDomicilio = vm.paciente.domicilio.barrio.ciudad;
+                    vm.barriosSelect = $filter('filter')(vm.data.barrios, function(barrio) {
+                        return barrio.ciudad.id == vm.ciudadDomicilio.id;
+                    });
+                }
+            }
 
-            $scope.$watch(
-                'vm.selectedCiudad',
-                function(newValue, oldValue){
-                    if(vm.paciente.domicilio){
-                        delete vm.paciente.domicilio.barrio;
-                    }
-                    filterBarrios();
-                    function filterBarrios(){
-                        if(!vm.selectedCiudad || !angular.isDefined(vm.selectedCiudad.id)){
-                            vm.barriosSelect = vm.data.barrios;
-                        }else{
-                            vm.barriosSelect = $filter('filter')(vm.data.barrios, function(value){
-                                return angular.equals(value.ciudad.id,vm.selectedCiudad.id);
-                            })
+            function provinciaLugarDeNacimientoChange() {
+                vm.paciente.lugarDeNacimiento = null;
+                vm.ciudadesNacSelect = provinciaChange(vm.selectedProvincia);
+            }
+
+            function provinciaDomicilioChange() {
+                if(vm.paciente.domicilio) {
+                    vm.paciente.domicilio.barrio = null;
+                }
+                vm.ciudadesDomicilioSelect = provinciaChange(vm.provinciaDomicilio);
+            }
+
+            function ciudadDomicilioChange() {
+                if(vm.paciente.domicilio) {
+                    vm.paciente.domicilio.barrio = null;
+                }
+                vm.barriosSelect = $filter('filter')(vm.data.barrios, function(barrio) {
+                    return barrio.ciudad.id == vm.ciudadDomicilio.id;
+                });
+            }
+
+            function provinciaChange(selectedProvincia) {
+                return $filter('filter')(vm.data.ciudades, function(ciudad) {
+                    return ciudad.provincia.id == selectedProvincia.id;
+                });
+            }
+
+            function domicilioRequired() {
+                if (vm.paciente.domicilio) {
+                    for (var prop in vm.paciente.domicilio) {
+                        if (vm.paciente.domicilio.hasOwnProperty(prop)) {
+                            return true;
                         }
                     }
-                });
+                }
+                return false;
+            }
+
 
             function goIndex() {
                 $state.go('paciente.index', {execQuery: $rootScope.created});

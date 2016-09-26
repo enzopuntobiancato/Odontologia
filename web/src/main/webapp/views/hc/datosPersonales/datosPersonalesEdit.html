@@ -102,7 +102,7 @@
                 <div layout="row" layout-margin>
                     <md-input-container flex="30">
                         <label>Prov. de nacimiento</label>
-                        <md-select ng-model="vm.selectedProvincia" name="provinciaNacimiento"
+                        <md-select ng-model="vm.selectedProvincia" ng-change="vm.provinciaLugarDeNacimientoChange()" name="provinciaNacimiento"
                                    ng-model-options="{trackBy: '$value.id'}">
                             <md-option ng-repeat="item in vm.data.provincias" ng-value="item">
                                 {{ item.nombre }}
@@ -173,7 +173,7 @@
                 <div layout="row" layout-margin>
                     <md-input-container flex="40">
                         <label>Calle</label>
-                        <input name="calle" ng-model="vm.paciente.domicilio.calle" md-maxlength="100"/>
+                        <input name="calle" ng-required="vm.domicilioRequired()" ng-model="vm.paciente.domicilio.calle" md-maxlength="100"/>
 
                         <div ng-messages="domicilioContactoForm.calle.$error"
                              ng-show="domicilioContactoForm.calle.$touched || vm.submitted" class="errors">
@@ -182,7 +182,7 @@
                     </md-input-container>
                     <md-input-container flex="15">
                         <label>Número</label>
-                        <input name="nroCalle" ng-model="vm.paciente.domicilio.numeroCalle" md-maxlength="50"/>
+                        <input name="nroCalle" ng-required="vm.domicilioRequired()" ng-model="vm.paciente.domicilio.numeroCalle" md-maxlength="50"/>
 
                         <div ng-messages="domicilioContactoForm.nroCalle.$error"
                              ng-show="domicilioContactoForm.nroCalle.$touched || vm.submitted" class="errors">
@@ -209,23 +209,39 @@
                     </md-input-container>
                 </div>
                 <div layout="row" layout-margin>
+                    <md-input-container flex="20">
+                        <label>Provincia</label>
+                        <md-select ng-model="vm.provinciaDomicilio" name="provinciaDomicilio"
+                                   ng-model-options="{trackBy: '$value.id'}" ng-change="vm.provinciaDomicilioChange()"
+                                ng-required="vm.domicilioRequired()">
+                            <md-option ng-repeat="item in vm.data.provincias" ng-value="item">
+                                {{ item.nombre }}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="domicilioContactoForm.provinciaDomicilio.$error"
+                             ng-show="domicilioContactoForm.provinciaDomicilio.$touched || vm.submitted" class="errors">
+                            <div ng-messages-include="error-messages"></div>
+                        </div>
+                    </md-input-container>
                     <md-input-container flex="30">
                         <label>Ciudad</label>
-                        <md-select ng-model="vm.selectedCiudad" name="selectedCiudad"
-                                   ng-model-options="{trackBy: '$value.id'}">
+                        <md-select ng-model="vm.ciudadDomicilio" name="ciudadDomicilio"
+                                   ng-model-options="{trackBy: '$value.id'}" ng-change="vm.ciudadDomicilioChange()" ng-disabled="!vm.provinciaDomicilio"
+                                   ng-required="vm.domicilioRequired()">
                             <md-option ng-repeat="item in vm.data.ciudades" ng-value="item">
                                 {{ item.nombre }}
                             </md-option>
                         </md-select>
-                        <div ng-messages="domicilioContactoForm.selectedCiudad.$error"
-                             ng-show="domicilioContactoForm.selectedCiudad.$touched || vm.submitted" class="errors">
+                        <div ng-messages="domicilioContactoForm.ciudadDomicilio.$error"
+                             ng-show="domicilioContactoForm.ciudadDomicilio.$touched || vm.submitted" class="errors">
                             <div ng-messages-include="error-messages"></div>
                         </div>
                     </md-input-container>
                     <md-input-container flex="30">
                         <label>Barrio</label>
                         <md-select ng-model="vm.paciente.domicilio.barrio" name="barrio"
-                                   ng-model-options="{trackBy: '$value.id'}" ng-disabled="!vm.selectedCiudad">
+                                   ng-model-options="{trackBy: '$value.id'}" ng-disabled="!vm.ciudadDomicilio"
+                                   ng-required="vm.domicilioRequired()">
                             <md-option ng-repeat="item in vm.barriosSelect" ng-value="item">
                                 {{ item.nombre }}
                             </md-option>

@@ -213,9 +213,9 @@ module.controller('PacienteCtrl_Index', ['$scope', '$rootScope', '$cacheFactory'
             function (event, toState, toParams, fromState, fromParams) {
                 if (fromState.name.startsWith('paciente') || fromState.name.startsWith('historiaClinica')) {
                     if (toParams.execQuery) {
+                        getCachedData();
                         executeQuery();
                     } else if (toParams.execQuerySamePage) {
-                        getCachedData();
                         executeQuery($scope.paginationData.pageNumber)
                     } else {
                         getCachedData();
