@@ -21,10 +21,7 @@ public class Profesor extends Persona {
     private List<Catedra> catedras;
 
     @Exclude
-    @NotNull(message = "El legajo del alumno no puede ser nulo.")
-    @Size(max = 10, message = "El legajo no puede ser mayor a 10 caracteres.")
-    @Column(nullable = false, length = 10)
-    private int legajo;
+    private Integer legajo;
 
     @Exclude
     @Size(max = 25, message = "La matricula no puede tener mas de 25 caracteres")
@@ -58,11 +55,11 @@ public class Profesor extends Persona {
         return catedras.remove(c);
     }
 
-    public int getLegajo() {
+    public Integer getLegajo() {
         return legajo;
     }
 
-    public void setLegajo(int legajo) {
+    public void setLegajo(Integer legajo) {
         this.legajo = legajo;
     }
 

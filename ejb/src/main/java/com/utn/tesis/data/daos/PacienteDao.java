@@ -57,10 +57,18 @@ public class PacienteDao extends DaoBase<Paciente> {
         return query.list($);
     }
 
-    public List<Paciente> validateByDocument(Persona entity) {
+    public List<Paciente> validateByDocument(Paciente entity) {
         BooleanBuilder expression = new BooleanBuilder($.documento.eq(entity.getDocumento()));
         if (entity.getId() !=  null) {
             expression.and($.id.ne(entity.getId()));
+        }
+        return new JPAQuery(em).from($).where(expression).list($);
+    }
+
+    public List<Paciente> validateByEmail(Paciente paciente) {
+        BooleanBuilder expression = new BooleanBuilder($.email.eq(paciente.getEmail()));
+        if (paciente.getId() != null) {
+            expression.and($.id.ne(paciente.getId()));
         }
         return new JPAQuery(em).from($).where(expression).list($);
     }

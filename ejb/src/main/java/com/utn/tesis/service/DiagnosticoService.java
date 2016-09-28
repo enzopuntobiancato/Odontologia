@@ -18,13 +18,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 20/02/16
- * Time: 15:42
- * To change this template use File | Settings | File Templates.
- */
 @Stateless
 public class DiagnosticoService extends BaseService<Diagnostico> {
     @Inject

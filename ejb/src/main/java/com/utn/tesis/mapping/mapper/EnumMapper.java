@@ -38,7 +38,7 @@ public abstract class EnumMapper {
     }
 
     public Cargo cargoFromDTO(EnumDTO source) {
-        return Cargo.valueOf(source.getKey());
+        return source != null ? Cargo.valueOf(source.getKey()) : null;
     }
 
     public abstract List<EnumDTO> cargoListToDTOList(List<Cargo> list);

@@ -1,26 +1,18 @@
 package com.utn.tesis.mapping.dto;
 
 
-import java.util.List;
-
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 24/01/16
- * Time: 17:49
- */
 public class ProfesorDTO extends PersonaDTO {
     private static final long serialVersionUID = -2624365127909522877L;
 
-    private int legajo;
+    private Integer legajo;
     private String matricula;
     private String profesion;
 
-    public int getLegajo() {
+    public Integer getLegajo() {
         return legajo;
     }
 
-    public void setLegajo(int legajo) {
+    public void setLegajo(Integer legajo) {
         this.legajo = legajo;
     }
 

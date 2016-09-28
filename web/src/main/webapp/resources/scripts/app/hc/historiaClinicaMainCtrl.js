@@ -11,7 +11,6 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         var ATENCIONES_TAB = 'atenciones';
         var VIEW_SUFFIX = 'View';
         var EDIT_SUFFIX = 'Edit';
-        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
         var cache = $cacheFactory.get('hcCache') || $cacheFactory('hcCache');
 
@@ -42,6 +41,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         vm.submit = submit;
         vm.openDeleteDialog = openDeleteDialog;
         vm.openRestoreDialog = openRestoreDialog;
+        vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
         function submit(form, continueEditing) {
             $scope.$broadcast('validatedForm', {form: form, continueEditing: continueEditing});

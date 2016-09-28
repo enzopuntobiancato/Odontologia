@@ -15,13 +15,6 @@ import javax.validation.Validator;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 29/03/16
- * Time: 11:16
- * To change this template use File | Settings | File Templates.
- */
 @Stateless
 public class PacienteService extends BaseService<Paciente> {
     @Inject
@@ -66,6 +59,10 @@ public class PacienteService extends BaseService<Paciente> {
         List<Paciente> sameDocumentPersons = dao.validateByDocument(entity);
         if (!sameDocumentPersons.isEmpty()) {
             throw new SAPOValidationException(ImmutableMap.of("documento", "Número y tipo de documento ya registrado."));
+        }
+        List<Paciente> sameEmailPacientes = dao.validateByEmail(entity);
+        if (!sameEmailPacientes.isEmpty()) {
+            throw new SAPOValidationException(ImmutableMap.of("email", "Correo electrónico ya registrado."));
         }
         super.bussinessValidation(entity);
     }

@@ -51,6 +51,7 @@ module.controller('PacienteCtrl_EditCreate',
                                     $state.go($state.current.name.replace('Edit', 'View'),  {editing: false});
                                 }
                             }).error(function(data,status){
+                                vm.validationErrorFromServer;
                                 handleError(data,status);
                             })
                     },args.form);
