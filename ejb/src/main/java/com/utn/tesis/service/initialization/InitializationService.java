@@ -59,7 +59,6 @@ public class InitializationService {
     @Inject
     private MovimientoDiagnosticoService movimientoDiagnosticoService;
 
-    private InitVariables initVariables = InitVariables.getInstance();
     private ArrayList<GrupoPracticaOdontologica> grupoPracticaOdontologicasList = new ArrayList<GrupoPracticaOdontologica>();
     private ArrayList<PracticaOdontologica> practicaOdontologicasList = new ArrayList<PracticaOdontologica>();
     private ArrayList<GrupoFuncionalidad> grupoFuncionalidadList = new ArrayList<GrupoFuncionalidad>();
@@ -75,45 +74,6 @@ public class InitializationService {
     private List<MovimientoAsignacionPaciente> movimientoAsignacionPacientes = new ArrayList<MovimientoAsignacionPaciente>();
     private List<AsignacionPaciente> asignaciones;
 
-    public boolean initializeData() throws SAPOException {
-        if (!initVariables.isInitializationRunned()) {
-            try {
-                //Materia
-                this.cargarMaterias();
-                this.cargarGrupoPracticaOdontologica();
-                this.cargarPracticaOdontologica();
-                this.cargarTrabajoPracticos();
-                this.cargarCatedra();
-
-                //Perfiles
-                this.cargarRoles();
-                this.cargarGrupoFuncionalidad();
-                this.cargarFuncionalidad();
-                this.cargarPrivilegio();
-
-                //Usuarios y personas
-                this.cargarUsuarios(); //admin enzo
-                this.cargarAlumnos();
-                cargarProfesores();
-                cargarMovimientos();
-                cargarDiagnosticos();
-//                cargarMovimientos();
-                cargarHistoriasClinicas();
-                cargarPacientes();
-                cargarAsignaciones();
-
-
-                initVariables.setInitializationRunned(Boolean.TRUE);
-                return true;
-            } catch (SAPOException e) {
-                log.error("EXCEPCION: " + e.getException());
-                log.error("EXCEPCION: " + e.getMessage());
-                throw new SAPOException(e);
-            }
-        }
-        return false;
-    }
-
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<AsignacionPaciente> realoadAll(List<AsignacionPaciente> asignaciones) {
         log.error("inicio reload");
@@ -128,7 +88,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarMaterias() throws SAPOException {
+    public void cargarMaterias() throws SAPOException {
         log.info("CargarMaterias INICIO");
 
         Materia m1 = new Materia();
@@ -171,7 +131,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarGrupoPracticaOdontologica() throws SAPOException {
+    public void cargarGrupoPracticaOdontologica() throws SAPOException {
         log.info("CargarGrupoPracticaOdontologica INICIO");
 
         grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("OPERATORIA DENTAL")));
@@ -188,7 +148,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarPracticaOdontologica() throws SAPOException {
+    public void cargarPracticaOdontologica() throws SAPOException {
         log.info("CargarPracticaOdontologica INICIO");
         practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "EXAMEN DIAGNÓSTICO, FICHADO Y PLAN DE TRATAMIENTO", "Se considera primera consulta al examen, diagnóstico, fichado y plan de tratamiento. Como consecuencia del exámen, el fichado deberá reflejar el estado actual de la boca, previo al tratamiento.")));
         practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "VISITA A DOMICILIO", "Se considera consulta domiciliaria a la atención de pacientes impedidos de trasladarse al consultorio del odontólogo.")));
@@ -198,7 +158,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarTrabajoPracticos() throws SAPOException {
+    public void cargarTrabajoPracticos() throws SAPOException {
         log.info("CargarTrabajoPracticos INICIO");
         TrabajoPractico tp1 = new TrabajoPractico();
         tp1.setNombre("TP 1 - Diagnostico");
@@ -245,7 +205,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarCatedra() throws SAPOException {
+    public void cargarCatedra() throws SAPOException {
         log.info("CargarCatedra INICIO");
         Catedra c1 = new Catedra();
         c1.setDenominacion("A");
@@ -370,7 +330,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarRoles() throws SAPOException {
+    public void cargarRoles() throws SAPOException {
         log.info("CargarRoles INICIO");
         Rol administrador = new Rol();
         administrador.setNombre(RolEnum.ADMINISTRADOR);
@@ -406,7 +366,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarDiagnosticos() throws SAPOException {
+    public void cargarDiagnosticos() throws SAPOException {
         log.info("COMIENZO CARGA DE DIAGNOSTICOS");
         List<PracticaOdontologica> practicaOdontologicas = practicaOdontologicaService.findAll();
         EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
@@ -420,6 +380,8 @@ public class InitializationService {
             List<MovimientoDiagnostico> movs = new ArrayList<MovimientoDiagnostico>();
             movs.add(movD);
             Diagnostico diagnostico = enhancedRandom.nextObject(Diagnostico.class);
+            diagnostico.setId(null);
+            diagnostico.setVersion(null);
             diagnostico.setMovimientos(movs);
             diagnostico.setUltimoMovimiento(movD);
             diagnostico.setPracticaOdontologica(practicaOdontologicas.get(numero));
@@ -430,7 +392,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarHistoriasClinicas() throws SAPOException {
+    public void cargarHistoriasClinicas() throws SAPOException {
         log.info("CARGA HISTORIAS CLINICAS INICIO");
 
         for (int i = 0; i < 10; i++) {
@@ -454,16 +416,16 @@ public class InitializationService {
                     ((CampoEnumerable) detalle).setChecked(randomBoolean);
                 }
             }
-            List<Diagnostico> diagnosticoList = diagnosticoService.findAll();
-            List<Diagnostico> diagnosticoList2 = diagnosticoList.subList(2 * i, (2 * i + 2));
-            hc.setDiagnostico(diagnosticoList2);
+            List<Diagnostico> diagnosticoList = diagnosticoService.findByFilters(null, null, null, new Long(i), 1L);
+//            List<Diagnostico> diagnosticoList2 = diagnosticoList.subList(2 * i, (2 * i + 2));
+            hc.setDiagnostico(diagnosticoList);
             historiaClinicas.add(historiaClinicaService.save(hc));
         }
         log.info("CARGA HISTORIAS CLINICAS FIN");
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarPacientes() throws SAPOException {
+    public void cargarPacientes() throws SAPOException {
         log.info("CARGA PACIENTES INICIO");
         EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
                 .scanClasspathForConcreteTypes(true)
@@ -477,14 +439,14 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarUsuarios() throws SAPOException {
+    public void cargarUsuarios() throws SAPOException {
         log.info("CargarUsuariosPersonas INICIO");
         createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), true);
         Alumno alumno = new Alumno();
         alumno.setLegajo("1233456");
         createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, true);
         Profesor profesor = new Profesor();
-        profesor.setLegajo(1234);
+//        profesor.setLegajo(1234);
         profesor.setProfesion("Odontólogo");
         createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor, true);
         createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion(), true);
@@ -506,9 +468,25 @@ public class InitializationService {
         }
         usuarioService.create(usuario);
         log.info("CargarUsuarios FINAL");
+
+        persona.setNombre(nombre);
+        persona.setApellido(apellido);
+        persona.setFechaCarga(Calendar.getInstance());
+        persona.setDocumento(new Documento(RandomStringUtils.randomNumeric(8), TipoDocumento.DNI));
+        persona.setUsuario(usuario);
+        if (avoidFirstLogin) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(1989, 10, 9);
+            persona.setFechaNacimiento(calendar);
+            persona.setSexo(Sexo.MASCULINO);
+        }
+        personaService.create(persona);
+
+        log.info("CargarPersonaAUsuario FINAL");
     }
 
-    private void cargarProfesores() throws SAPOException{
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void cargarProfesores() throws SAPOException{
         log.info("CARGA PROFESORES INICIO");
         EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
                 .scanClasspathForConcreteTypes(true)
@@ -539,7 +517,8 @@ public class InitializationService {
 
     }
 
-    private void cargarAlumnos() throws SAPOException {
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void cargarAlumnos() throws SAPOException {
         log.info("CARGA ALUMNOS INICIO");
         EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
                 .scanClasspathForConcreteTypes(true)
@@ -570,10 +549,10 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarAsignaciones() throws SAPOException {
+    public void cargarAsignaciones() throws SAPOException {
         log.info("CARGA DE ASIGNACIONES");
         asignaciones = new ArrayList<AsignacionPaciente>();
-        List<Alumno> alumnos = alumnoService.findAll();
+        List<Alumno> alumnos = alumnoService.findByFilters(null, null, null, null, null, 1L, 5L);
         List<TrabajoPractico> trabajoPracticos = trabajoPracticoService.findAll();
         List<Paciente> pacientesAux = pacienteService.findAll();
         List<Diagnostico> diagnosticoList = diagnosticoService.findAll();
@@ -609,7 +588,7 @@ public class InitializationService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    private void cargarMovimientos() throws SAPOException {
+    public void cargarMovimientos() throws SAPOException {
         log.info("Inicia carga de movimientos");
         Usuario usuarioCreador = usuarioService.findAll().get(0);
         for (int i = 0; i < 60; i++) {

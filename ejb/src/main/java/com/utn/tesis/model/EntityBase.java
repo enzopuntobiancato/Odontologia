@@ -21,6 +21,7 @@ public abstract class EntityBase extends SuperEntityBase {
         this.id = id;
     }
 
+    @Override
     public boolean isNew() {
         if (id == null && super.isNew()) {
             return true;

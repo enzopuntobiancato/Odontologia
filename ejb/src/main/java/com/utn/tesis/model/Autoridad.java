@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 public class Autoridad extends Persona {
     private static final long serialVersionUID = -887497634688613227L;
 
-    @NotNull(message = "El cargo no puede ser nulo.")
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
 

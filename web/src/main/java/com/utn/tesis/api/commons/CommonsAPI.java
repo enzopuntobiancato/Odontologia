@@ -6,6 +6,7 @@ import com.utn.tesis.service.BarrioService;
 import com.utn.tesis.service.CiudadService;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.ProvinciaService;
+import com.utn.tesis.service.initialization.InitializationInvoker;
 import com.utn.tesis.service.initialization.InitializationService;
 
 import javax.enterprise.context.RequestScoped;
@@ -22,7 +23,7 @@ public class CommonsAPI {
     @Inject
     private CommonsService commonsService;
     @Inject
-    private InitializationService initService;
+    private InitializationInvoker initializationInvoker;
     @Inject
     private ProvinciaService provinciaService;
     @Inject
@@ -62,7 +63,7 @@ public class CommonsAPI {
     @POST
     public Response loadInitializationData() {
         try {
-            boolean result = initService.initializeData();
+            boolean result = initializationInvoker.initializeData();
             return Response.status(Response.Status.OK).entity(result).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
