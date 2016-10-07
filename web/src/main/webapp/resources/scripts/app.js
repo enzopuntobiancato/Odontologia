@@ -832,6 +832,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/asignacion/asignacionQuery.html',
                 controller: 'AsignacionCtrl_Index',
                 controllerAs: 'vm',
+                params: {execQuery: false, execQuerySamePage: false},
                 resolve:  {
                     practicasResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return service.getPracticas();

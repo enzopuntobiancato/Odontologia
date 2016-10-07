@@ -96,7 +96,7 @@ module.controller('AsignacionCtrl_EditCreate',
                     vm.colorIconRemove = 'darkgrey';
                 }
                 if(vm.esAlumno){
-                   findPersona();
+                    findPersona();
                 }
 
             })();
@@ -133,13 +133,13 @@ module.controller('AsignacionCtrl_EditCreate',
 
             //BUSQUEDA DIAGNOSTICOS
             function buscarDiagnosticos(form) {
-//                if(form.$invalid){
-                pagination.config('api/asignacion/findDiagnosticosByFilters');
-                vm.filter.trabajoPracticoId = angular.isUndefined(vm.filter.trabajoPractico) ? null : vm.filter.trabajoPractico.id;
-                vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
-                vm.isBusquedaDiagnostico = true;
-                executeQuery();
-//                }
+                if(!form.$invalid){
+                    pagination.config('api/asignacion/findDiagnosticosByFilters');
+                    vm.filter.trabajoPracticoId = angular.isUndefined(vm.filter.trabajoPractico) ? null : vm.filter.trabajoPractico.id;
+                    vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
+                    vm.isBusquedaDiagnostico = true;
+                    executeQuery();
+                }
             }
 
             function nextPageDiagnostico() {
@@ -260,8 +260,8 @@ module.controller('AsignacionCtrl_EditCreate',
 
             function save(form, ev) {
                 performSubmit(function() {
-                confirmCreateEntitySrv.confirmCreate(ev, vm.asignacion,
-                    vm.asignacion.apellidoPaciente + ", "+ vm.asignacion.nombrePaciente, vm.updating);
+                    confirmCreateEntitySrv.confirmCreate(ev, vm.asignacion,
+                        vm.asignacion.apellidoPaciente + ", "+ vm.asignacion.nombrePaciente, vm.updating);
                 }, form)
             }
 
@@ -335,7 +335,7 @@ module.controller('AsignacionCtrl_EditCreate',
                     angular.forEach(newCol, function (filterChip) {
                         vm.filter[filterChip.origin] = filterChip.value;
                     });
-                    buscarDiagnosticos(editCreateAsignacionForm);
+                    buscarDiagnosticos("editCreateAsignacionForm");
                 }
             })
 
