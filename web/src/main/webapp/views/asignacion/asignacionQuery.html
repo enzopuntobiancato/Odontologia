@@ -18,13 +18,22 @@
     </div>
 </md-toolbar>
 <md-card-content>
-<md-toolbar class="md-table-toolbar md-default" aria-hidden="false" ng-show="!vm.filter.selectedAlumno">
+<!--<md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
     <div class="md-toolbar-tools">
-        <h2 class="md-title">{{ 'ALUMNO' | translate }}</h2>
+        <h2 class="md-title">{{ 'BUSCAR_ALUMNO' | translate }}</h2>
+       &lt;!&ndash; <md-button type="button">
+            <md-tooltip>
+                {{'BUSCAR_ALUMNO' | translate}}
+            </md-tooltip>
+            <ng-md-icon icon="launch" ng-attr-style="fill: {{vm.colorIcon[0]}}"
+                        ng-click="vm.showConsultarAlumnosDialog($event)"
+                        ng-Mouseover="vm.colorMouseOver(0)"
+                        ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
+        </md-button>&ndash;&gt;
         <span flex></span>
     </div>
-</md-toolbar>
-<ng-form ng-show="!vm.filter.selectedAlumno" name="consultarAlumnosForm">
+</md-toolbar>-->
+<!--<ng-form name="consultarAlumnosForm">
     <div layout="row" layout-margin>
         <md-input-container flex-gt-sm>
             <label>Apellido</label>
@@ -68,9 +77,9 @@
                             ng-mouseleave="vm.colorMouseLeave(1)"></ng-md-icon>
             </md-button>
         </div>
-        <!--<md-button type="submit" class="md-icon-button">
+        &lt;!&ndash;<md-button type="submit" class="md-icon-button">
             <ng-md-icon icon="search" size="24"></ng-md-icon>
-        </md-button>-->
+        </md-button>&ndash;&gt;
     </div>
     <ng-include ng-if="vm.alumnos.length== 0" src="'views/no-results.html'"></ng-include>
     <md-table-container ng-if="vm.alumnos.length > 0 && !vm.filter.selectedAlumno">
@@ -113,14 +122,8 @@
             <md-icon md-svg-icon="navigate-last.svg"></md-icon>
         </md-button>
     </div>
-</ng-form>
-<section ng-show="vm.filter.selectedAlumno">
-    <!-- <md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
-         <div class="md-toolbar-tools">
-             <h2 class="md-title">{{ 'ASIGNACIONES' | translate }}</h2>
-             <span flex></span>
-         </div>
-     </md-toolbar>-->
+</ng-form>-->
+<section>
     <ng-form name="consultarAsignacionesForm" novalidate>
         <div layout="row" layout-margin>
             <md-input-container flex-gt-sm>
@@ -133,13 +136,22 @@
                 <input ng-model="vm.filter.nombrePaciente" name="nombrePaciente" ng-keypress="vm.keyboardOk($event)">
             </md-input-container>
             <div flex="50" layout-gt-sm="row" layout-align="start center">
-                <md-button ng-click="vm.buscarAsignaciones(consultarAsignacionesForm)">
+                <md-button ng-click="vm.consultar(consultarAsignacionesForm)">
                     <md-tooltip>
                         {{ 'BUSCAR' | translate }}
                     </md-tooltip>
                     <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{vm.colorIcon[0]}}"
                                 ng-Mouseover="vm.colorMouseOver(0)"
                                 ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
+                </md-button>
+                <md-button type="button" ng-if="!vm.esAlumno">
+                    <md-tooltip>
+                        {{'BUSCAR_ALUMNO' | translate}}
+                    </md-tooltip>
+                    <ng-md-icon icon="school" size="40" ng-attr-style="fill: {{vm.colorIcon[3]}}"
+                                ng-click="vm.showConsultarAlumnosDialog($event)"
+                                ng-Mouseover="vm.colorMouseOver(3)"
+                                ng-mouseleave="vm.colorMouseLeave(3)"></ng-md-icon>
                 </md-button>
                 <md-button type="button" ng-click="vm.aux.mostrarFiltros = !vm.aux.mostrarFiltros">
                     <md-tooltip>
@@ -209,11 +221,6 @@
             <div layout="row" layout-margin layout-xs="column">
                 <md-datepicker ng-model="vm.filter.fechaAsignacion" md-placeholder="{{ 'FECHA_ASIGNADO' | translate }}">
                 </md-datepicker>
-                <!--<md-input-container>
-                    <md-checkbox ng-model="vm.filter.dadosBaja" aria-label="Incluir dados de baja">
-                        Incluir dados de baja
-                    </md-checkbox>
-                </md-input-container>-->
             </div>
         </div>
         <filter-chips data="vm.filterChips"></filter-chips>
@@ -222,11 +229,12 @@
                    multiple="false">
                 <thead md-head>
                 <tr md-row md-auto-select>
-                    <th md-column><span>{{ 'NOMBRE_APELLIDO' | translate }}</span></th>
+                    <th md-column><span>{{ 'PACIENTE' | translate }}</span></th>
                     <th md-column><span>{{ 'DOCUMENTO' | translate }}</span></th>
                     <th md-column><span>{{ 'ESTADO' | translate }}</span></th>
                     <th md-column><span> {{ 'TP' | translate }}</span></th>
                     <th md-column><span> {{ 'FECHA_ASIGNACION' | translate }}</span></th>
+                    <th md-column><span> {{ 'ALUMNO' | translate }}</span></th>
                     <th md-column><span> {{ 'ACCIONES' | translate }}</span></th>
                 </tr>
                 </thead>
@@ -238,6 +246,7 @@
                     <td md-cell>{{asignacion.ultimoMovimiento.estado.nombre }}</td>
                     <td md-cell>{{ asignacion.trabajoPractico.nombre }}</td>
                     <td md-cell>{{ asignacion.fechaAsignacion | date:'dd/MM/yyyy' }}</td>
+                    <td md-cell>{{ asignacion.alumno.apellido }}, {{ asignacion.alumno.nombre }}</td>
                     <td md-cell>
                         <div layout-gt-sm="row">
                             <ng-md-icon ng-show="asignacion.ultimoMovimiento.estado.nombre == 'Pendiente'" icon="edit" size="24"

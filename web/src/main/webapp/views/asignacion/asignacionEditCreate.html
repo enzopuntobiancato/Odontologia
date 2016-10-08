@@ -11,19 +11,23 @@
 
 <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
 <form name="editCreateAsignacionForm" ng-submit="vm.save(editCreateAsignacionForm, $event)" novalidate>
+<md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
+    <div class="md-toolbar-tools">
+        <h2 class="md-title">{{ 'ALUMNO' | translate }}</h2>
+        <span flex></span>
+    </div>
+</md-toolbar>
 <div layout ng-show="vm.asignacion.alumno && !vm.esAlumno">
     <md-button class="md-icon-button" ng-click="vm.deleteSelectedAlumno()" ng-disabled="vm.updating">
-        <ng-md-icon icon="close" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"></ng-md-icon>
+        <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}" ng-hide="vm.updating"></ng-md-icon>
     </md-button>
     <h2 class="md-body-1">{{ vm.asignacion.alumno.apellido }}, {{ vm.asignacion.alumno.nombre }}</h2>
 </div>
 <section ng-show="!vm.asignacion.alumno">
-    <md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
-        <div class="md-toolbar-tools">
-            <h2 class="md-title">{{ 'ALUMNO' | translate }}</h2>
-            <span flex></span>
-        </div>
-    </md-toolbar>
+    <md-card-content>
+        <p>Seleccione un alumno para la asignación</p>
+    </md-card-content>
+
     <ng-form name="consultarAlumnosForm">
         <div layout="row" layout-margin>
             <md-input-container>
@@ -107,40 +111,47 @@
     <div layout="column" ng-show="vm.isDiagnosticoSelected">
         <div layout="row">
             <md-button class="md-icon-button" ng-click="vm.deleteSelectedDiagnostico()" ng-disabled="vm.updating">
-                <ng-md-icon icon="close" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"></ng-md-icon>
+                <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"  ng-hide="vm.updating"></ng-md-icon>
             </md-button>
             <h2 class="md-body-1">{{ vm.asignacion.trabajoPractico.nombre }}</h2>
         </div>
         <div layout="row">
             <md-button class="md-icon-button" ng-click="vm.deleteSelectedDiagnostico()" ng-disabled="vm.updating">
-                <ng-md-icon icon="close" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"></ng-md-icon>
+                <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"  ng-hide="vm.updating"></ng-md-icon>
             </md-button>
             <h2 class="md-body-1">{{ vm.asignacion.apellidoPaciente }}, {{ vm.asignacion.nombrePaciente }}</h2>
         </div>
-        <!--<filter-chips data="vm.filterPaciente" readonly="vm.updating"></filter-chips>-->
     </div>
     <section ng-show="!vm.isDiagnosticoSelected">
         <ng-form name="consultarDiagnosticoForm">
+            <md-card-content>
+                <p>Seleccione una cátedra y trabajo práctico para consultar los pacientes disponibles</p>
+            </md-card-content>
             <div layout="row" layout-margin>
                 <md-input-container flex-gt-sm="33">
                     <md-select ng-model="vm.filter.catedra" name="catedra"
                                placeholder="{{ 'CATEDRA' | translate }}"
+                               required="true"
                                ng-disabled="!vm.asignacion.alumno" ng-change="vm.onCatedraSelected()">
                         <md-option ng-repeat="catedra in vm.data.catedras" ng-value="catedra">
                             {{ catedra.materia }} {{ catedra.denominacion }}
                         </md-option>
                     </md-select>
+                    <error-messages form="consultarDiagnosticoForm.catedra"
+                                    submitted="vm.submitted"></error-messages>
                 </md-input-container>
                 <md-input-container flex-gt-sm="33">
                     <md-select ng-model="vm.filter.trabajoPractico" name="trabajoPractico"
-                               placeholder="{{ 'TP' | translate }}"
+                               placeholder="{{ 'TP' | translate }}" required="true"
                                ng-disabled="!vm.asignacion.alumno" ng-change="vm.onTrabajoPracticoSelected()">
                         <md-option ng-repeat="trabajoPractico in vm.data.trabajosPracticos" ng-value="trabajoPractico">
                             {{ trabajoPractico.nombre }}
                         </md-option>
                     </md-select>
+                    <error-messages form="consultarDiagnosticoForm.trabajoPractico"
+                                    submitted="vm.submitted"></error-messages>
                 </md-input-container>
-                <div flex="50" layout="row" layout-align="start center">
+                <div flex="50" layout="row" layout-align="start center" ng-hide="!vm.filter.trabajoPractico || !vm.autorizado">
                     <md-button ng-click="vm.buscarDiagnosticos(consultarDiagnosticoForm)" type="button"
                                ng-disabled="!vm.filter.trabajoPractico || !vm.autorizado">
                         <md-tooltip>
