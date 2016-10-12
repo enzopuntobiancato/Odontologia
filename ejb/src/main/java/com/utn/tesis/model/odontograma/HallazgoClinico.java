@@ -1,0 +1,57 @@
+package com.utn.tesis.model.odontograma;
+
+import java.util.Collections;
+import java.util.List;
+
+public abstract class HallazgoClinico {
+    private String nombre;
+    private String color;
+    private EstadoHallazgoClinico estado;
+
+    protected HallazgoClinico(EstadoHallazgoClinico estado) {
+        this.estado = estado;
+        this.color = estado.getColor();
+        this.nombre = getNombre();
+    }
+
+    public abstract String getNombre();
+
+    public String getColor() {
+        return color;
+    }
+
+    public EstadoHallazgoClinico getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoHallazgoClinico estado) {
+        this.estado = estado;
+        this.color = estado.getColor();
+    }
+
+    public boolean aplicaACara() {
+        return false;
+    }
+
+    public boolean aplicaAPieza() {
+        return false;
+    }
+
+    public boolean aplicaAPiezaGrupal() {
+        return false;
+    }
+
+    public boolean aplicaAPosicion() {
+        return false;
+    }
+
+    public List<Integer> posiciones() {
+        return Collections.emptyList();
+    }
+
+    /**
+     * Definimos el ID del "dibujo/marca" correspondiente del hallazgo
+     * @return
+     */
+    public abstract String markID();
+}
