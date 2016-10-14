@@ -54,17 +54,23 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
 
         $httpProvider.interceptors.push('authHttpRequestInterceptor');
 
-//        $mdDateLocaleProvider.formatDate = function(date) {
-//            if (date) {
-//                var day = date.getDate();
-//                var monthIndex = date.getMonth();
-//                var year = date.getFullYear();
-//
-//                return day + '/' + (monthIndex + 1) + '/' + year;
-//            } else {
-//                '';
-//            }
-//        };
+        $mdDateLocaleProvider.formatDate = function(date) {
+            if (date) {
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                var year = date.getFullYear();
+
+                return day + '/' + (monthIndex + 1) + '/' + year;
+            } else {
+                return '';
+            }
+        };
+
+        $mdDateLocaleProvider.parseDate = function(dateString) {
+            var parts = dateString.split("/");
+            var date = new Date(parts[2], parts[1], parts[0]);
+            return date;
+        };
 
         cfpLoadingBarProvider.loadingBarTemplate = '<div id="bar-container"></div><div id="loading-bar"><div class="bar"><div class="peg"></div></div></div></div>';
 

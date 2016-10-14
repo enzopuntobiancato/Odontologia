@@ -93,6 +93,13 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
                 vm.filter.trabajoPracticoId = angular.isUndefined(vm.filter.trabajoPractico) ? null : vm.filter.trabajoPractico.id;
                 vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
                 executeQuery();
+            }else {
+                angular.forEach(form.$error, function (field) {
+                    angular.forEach(field, function (errorField) {
+                        console.log(field.name);
+                        errorField.$setTouched();
+                    })
+                });
             }
         }
 

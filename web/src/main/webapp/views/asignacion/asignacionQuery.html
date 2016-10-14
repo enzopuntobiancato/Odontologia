@@ -203,7 +203,7 @@
                 </md-input-container>
                 <md-input-container>
                     <md-select ng-model="vm.filter.catedra" name="catedra" placeholder="{{ 'CATEDRA' | translate }}"
-                               ng-disabled="!vm.filter.selectedAlumno" ng-change="vm.onCatedraSelected()">
+                               ting-change="vm.onCatedraSelected()">
                         <md-option ng-repeat="catedra in vm.data.catedras" ng-value="catedra">
                             {{ catedra.materia }} {{ catedra.denominacion }}
                         </md-option>

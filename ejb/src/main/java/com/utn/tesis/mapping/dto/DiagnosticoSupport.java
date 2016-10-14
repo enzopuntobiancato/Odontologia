@@ -20,12 +20,13 @@ public class DiagnosticoSupport {
     private String nombre;
     private String tipoDocumento;
     private String numeroDocumento;
+    private String trabajoPractico;
     private Long idPaciente;
 
     //CONSTRUCTOR
 
     public DiagnosticoSupport(Long idDiagnostico, Calendar fechaCreacion, String denominacionPractica, String apellido,
-                              String nombre, String tipoDocumento, String numeroDocumento, Long idPaciente) {
+                              String nombre, String tipoDocumento, String numeroDocumento, Long idPaciente, String trabajoPractico) {
         this.idDiagnostico = idDiagnostico;
         this.fechaCreacion = fechaCreacion;
         this.denominacionPractica = denominacionPractica;
@@ -34,10 +35,18 @@ public class DiagnosticoSupport {
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.idPaciente = idPaciente;
+        this.trabajoPractico = trabajoPractico;
     }
 
 
     //GETTERS Y SETTERS
+    public String getTrabajoPractico() {
+        return trabajoPractico;
+    }
+
+    public void setTrabajoPractico(String trabajoPractico) {
+        this.trabajoPractico = trabajoPractico;
+    }
 
     public Long getIdDiagnostico() {
         return idDiagnostico;

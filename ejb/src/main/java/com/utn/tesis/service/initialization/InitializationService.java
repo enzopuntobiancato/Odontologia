@@ -217,13 +217,23 @@ public class InitializationService {
         catedraList.add(catedraService.save(c1));
 
         Catedra c2 = new Catedra();
-        c2.setDenominacion("A");
+        c2.setDenominacion("B");
         c2.setMateria(materiaList.get(1));
         c2.addHorario(new DiaHorario(Dia.MIERCOLES, Calendar.getInstance(), Calendar.getInstance()));
         c2.addHorario(new DiaHorario(Dia.JUEVES, Calendar.getInstance(), Calendar.getInstance()));
         c2.addTrabajoPractico(trabajoPracticoList.get(2));
         c2.addTrabajoPractico(trabajoPracticoList.get(3));
         catedraList.add(catedraService.save(c2));
+
+        Catedra c3 = new Catedra();
+        c2.setDenominacion("C");
+        c2.setMateria(materiaList.get(1));
+        c2.addHorario(new DiaHorario(Dia.MIERCOLES, Calendar.getInstance(), Calendar.getInstance()));
+        c2.addHorario(new DiaHorario(Dia.JUEVES, Calendar.getInstance(), Calendar.getInstance()));
+        c2.addTrabajoPractico(trabajoPracticoList.get(4));
+        c2.addTrabajoPractico(trabajoPracticoList.get(5));
+        catedraList.add(catedraService.save(c2));
+
         log.info("CargarCatedra FINAL");
     }
 
@@ -326,6 +336,14 @@ public class InitializationService {
             p.setRol(rolList.get(0));
             privilegioList.add(privilegioService.save(p));
         }
+        //Funcionalidad Profesor
+        Privilegio privABMAsignaciones = new Privilegio(funcionalidadList.get(7), true, rolList.get(2));
+        Privilegio privAutorizarAsignaciones = new Privilegio(funcionalidadList.get(8), true, rolList.get(2));
+        privilegioList.add(privilegioService.save(privABMAsignaciones));
+        privilegioList.add(privilegioService.save(privAutorizarAsignaciones));
+        //Funcionalidad Alumno
+        Privilegio privABMPaciente = new Privilegio(funcionalidadList.get(5), true, rolList.get(1));
+        privilegioList.add(privilegioService.save(privABMPaciente));
         log.info("CargarPrivilegio FINAL");
     }
 
@@ -445,9 +463,10 @@ public class InitializationService {
         Alumno alumno = new Alumno();
         alumno.setLegajo("1233456");
         createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, true);
+
         Profesor profesor = new Profesor();
-//        profesor.setLegajo(1234);
         profesor.setProfesion("Odontólogo");
+        profesor.setCatedras(Arrays.asList(catedraList.get(0)));
         createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor, true);
         createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion(), true);
         createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico(), true);

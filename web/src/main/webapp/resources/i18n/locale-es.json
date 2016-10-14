@@ -3,6 +3,8 @@
     "ACCIONES" : "Acciones",
     "AUTORIZAR" : "Autorizar",
     "CONFIRMAR_ASIGNACION" : "Confirmar asignación",
+    "NOMBRE_PACIENTE" : "Nombre del paciente",
+    "APELLIDO_PACIENTE": "Apellido del paciente",
     "CUAL":"¿Cuál?",
     "CUALES":"¿Cuáles?",
     "CUANDO":"¿Cuando?",

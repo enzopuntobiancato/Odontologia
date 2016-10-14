@@ -2,7 +2,7 @@
     <form name="confirmEntityForm">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>{{ titulo }} {{entityName | lowercase}}</h2>
+                <h2>{{ titulo }}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancelar()">
                     <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
@@ -11,9 +11,9 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <h3>{{entityName}}: <b>{{liveEntityName}}</b></h3>
-                <p>
-                   {{ contenido }}
+                <p>¿Quiere confirmar la {{ contenido }} de la asignación del paciente <b>{{asignacion.apellidoPaciente}}, {{ asignacion.nombrePaciente }}</b>
+                    el día <b>{{ asignacion.fechaAsignacion | date:'dd/MM/yyyy' }}</b> para resolver las problemáticas pertenecientes al trabajo práctico
+                    <b>{{ asignacion.trabajoPractico.nombre }}</b>?
                 </p>
             </div>
         </md-dialog-content>
