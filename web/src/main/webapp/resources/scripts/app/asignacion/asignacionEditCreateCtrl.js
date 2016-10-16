@@ -52,7 +52,8 @@ module.controller('AsignacionCtrl_EditCreate',
             vm.selectedAlumnos = [];
             //Seleccion diagnostico
             vm.onDiagnosticoSelected = onDiagnosticoSelected;
-            vm.deleteSelectedDiagnostico = onDeleteSelectedDiagnostico;
+            vm.onDeleteSelectedTrabajoPractico = onDeleteSelectedTrabajoPractico;
+            vm.onDeleteSelectedDiagnostico = onDeleteSelectedDiagnostico;
             vm.autorizado = true;
             vm.isDiagnosticoSelected = false;
             vm.selectedDiagnosticos = [];
@@ -68,6 +69,7 @@ module.controller('AsignacionCtrl_EditCreate',
             //GUARDAR
             vm.verificarAsignacionCompleta = verificarAsignacionCompleta;
             vm.save = save;
+            vm.confirmCreate = confirmCreate;
             confirmCreateEntitySrv.config('api/asignacion/save','Asignación de paciente',vm.goIndex);
             //AUX UI
             vm.clickIcon = 'expand_less';
@@ -88,12 +90,14 @@ module.controller('AsignacionCtrl_EditCreate',
                     vm.filter.trabajoPractico = vm.asignacion.trabajoPractico;
                     vm.filter.tipoDocumentoAlumno = vm.asignacion.alumno.documento.tipoDocumento;
                     vm.filter.numeroDocumentoAlumno = vm.asignacion.alumno.documento.numero;
-//                    vm.isAlumnoSelected = true;
+                    vm.filter.catedra = vm.asignacion.trabajoPractico;
+                    vm.filter.trabajoPractico = vm.asignacion.trabajoPractico;
+
                     vm.filterAlumno.push(newFilterChip('selectedAlumno', 'Alumno', vm.asignacion.alumno, vm.asignacion.alumno.apellido + ", " + vm.asignacion.alumno.nombre));
                     vm.filterPaciente.push(newFilterChip('selectedPaciente', 'Paciente', vm.asignacion.idPaciente, vm.asignacion.apellidoPaciente + ", " + vm.asignacion.nombrePaciente));
                     vm.filterPaciente.push(newFilterChip('trabajoPractico', 'Trabajo práctico', vm.filter.trabajoPractico, vm.filter.trabajoPractico.nombre));
                     vm.isDiagnosticoSelected = true;
-                    vm.colorIconRemove = 'darkgrey';
+//                    vm.colorIconRemove = 'darkgrey';
                 }
                 if(vm.esAlumno){
                     findPersona();
@@ -139,6 +143,13 @@ module.controller('AsignacionCtrl_EditCreate',
                     vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
                     vm.isBusquedaDiagnostico = true;
                     executeQuery();
+                }else{
+                    angular.forEach(form.$error, function (field) {
+                        angular.forEach(field, function (errorField) {
+                            console.log(field.name);
+                            errorField.$setTouched();
+                        })
+                    });
                 }
             }
 
@@ -183,14 +194,20 @@ module.controller('AsignacionCtrl_EditCreate',
             //SELECCION DE ALUMNO
             function onAlumnoSelected(alumno) {
                 vm.asignacion.alumno = alumno;
-//                vm.isAlumnoSelected = true;
                 vm.filterAlumno.push(newFilterChip('selectedAlumno', 'Alumno', vm.asignacion.alumno, vm.asignacion.alumno.apellido + ", " + vm.asignacion.alumno.nombre));
             }
 
             function onDeleteSelectedAlumno() {
-//                vm.isAlumnoSelected = false;
-                vm.asignacion.alumno = {};
+                vm.asignacion = {};
                 vm.selectedAlumnos = [];
+                vm.isDiagnosticoSelected = false;
+                vm.selectedDiagnosticos = [];
+                vm.filterPaciente = [];
+                vm.filterAlumno = [];
+                vm.fecha = {};
+                vm.filter = {};
+                vm.diagnosticos = [];
+                vm.alumnos = [];
             }
 
             //SELECCION DE Diagnostico
@@ -212,7 +229,18 @@ module.controller('AsignacionCtrl_EditCreate',
             }
 
 
-            function onDeleteSelectedDiagnostico() {
+            function onDeleteSelectedTrabajoPractico() {
+                vm.isDiagnosticoSelected = false;
+                vm.asignacion.diagnostico = {};
+                vm.asignacion.paciente = {};
+                vm.asignacion.apellidoPaciente = {};
+                vm.asignacion.nombrePaciente = {};
+                vm.selectedDiagnosticos = [];
+                vm.filter = {};
+                vm.diagnosticos = [];
+            }
+
+            function onDeleteSelectedDiagnostico(){
                 vm.isDiagnosticoSelected = false;
                 vm.asignacion.diagnostico = {};
                 vm.asignacion.paciente = {};
@@ -258,28 +286,56 @@ module.controller('AsignacionCtrl_EditCreate',
                 }
             }
 
-            function save(form, ev) {
+            function save(form, asignacion) {
                 performSubmit(function() {
-                    confirmCreateEntitySrv.confirmCreate(ev, vm.asignacion,
-                        vm.asignacion.apellidoPaciente + ", "+ vm.asignacion.nombrePaciente, vm.updating);
-                }, form)
+                    var mensaje = vm.updating ? "Asignacion de paciente" + asignacion.apellidoPaciente + " modificada con éxito"
+                        : "Asignacion de paciente" + asignacion.apellidoPaciente + " creada con éxito" ;
+                    service.save(asignacion)
+                        .success(function () {
+                            vm.data.persistedOperation = true;
+                            vm.data.disableFields = true;
+                            vm.data.saved = true;
+                            message.successMessage(mensaje);
+                            vm.goIndex();
+                        })
+                        .error(function (data, status) {
+                            handleError(data, status);
+                        })
+                }, form);
             }
 
+            function confirmCreate(event,isUpdate,form) {
+                $mdDialog.show({
+                    templateUrl: 'views/asignacion/confirmCreateEntity.html',
+                    parent: angular.element(document.body),
+                    locals: {
+                        asignacion : vm.asignacion
+                    },
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    controller: function DialogController($scope, $mdDialog, asignacion) {
+                        $scope.isUpdate = isUpdate;
+                        $scope.asignacion = asignacion;
+                        $scope.titulo = isUpdate ? 'Edición de asignacion' : 'Creación de asignación';
+                        $scope.contenido = isUpdate ? 'edición de ' : 'creación de ';
+                        $scope.cancelar = function () {
+                            $mdDialog.cancel();
+                        };
+                        $scope.confirmar = function () {
+                            $mdDialog.hide($scope.asignacion);
+                        };
+                    }
+                })
+                    .then(function (asignacion) {
+                        save(form, asignacion);
+                    },
+                    function () {
+                        // Cancelled dialog. Do nothing
+                    });
+            }
             //Chips
             function updateFilterChips() {
                 vm.filterChips = [];
-                /* if (vm.filter.catedra) {
-                 vm.filterChips.push(newFilterChip('catedra', 'Cátedra', vm.filter.catedra, (vm.filter.catedra.materia + ' ' + vm.filter.catedra.denominacion)));
-                 }
-                 if (vm.filter.trabajoPractico) {
-                 vm.filterChips.push(newFilterChip('trabajoPractico', 'Trabajo práctico', vm.filter.trabajoPractico, vm.filter.trabajoPractico.nombre));
-                 }*/
-                /*             if (vm.filter.profesorId) {
-                 vm.filterChips.push(newFilterChip('profesorId', 'Profesor', vm.filter.profesorId));
-                 }
-                 if (vm.filter.fechaAsignacion) {
-                 vm.filterChips.push(newFilterChip('fechaAsignacion', 'Fecha asignación', vm.filter.fechaAsignacion, $filter('date')(vm.filter.fechaAsignacion, 'dd/MM/yyyy')));
-                 }*/
                 if (vm.filter.practica) {
                     vm.filterChips.push(newFilterChip('practica', 'Práctica', vm.filter.practica));
                 }

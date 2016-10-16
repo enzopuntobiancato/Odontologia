@@ -86,6 +86,42 @@
                                 <md-tab>
                                     <md-tab-label>
                                         <div layout layout-align="center center">
+                                            {{ 'CONTACTO' | translate }}
+                                        </div>
+                                    </md-tab-label>
+                                    <md-tab-body>
+                                        <md-list>
+                                            <div layout="row">
+                                                <md-list-item class="md-2-line" flex="33" ng-if="vm.asignacion.telefono">
+                                                    <ng-md-icon icon="phone"></ng-md-icon>
+                                                    <div class="md-list-item-text">
+                                                        <h4>{{'TELEFONO' | translate}}</h4>
+                                                        <p>{{ vm.asignacion.telefono }}</p>
+                                                    </div>
+                                                </md-list-item>
+                                                <md-list-item class="md-2-line" flex="33"  ng-if="vm.asignacion.celular">
+                                                    <ng-md-icon icon="stay_current_portrait"></ng-md-icon>
+                                                    <div class="md-list-item-text">
+                                                        <h4>{{'CEL' | translate}} </h4>
+
+                                                        <p>{{vm.asignacion.celular }}</p>
+                                                    </div>
+                                                </md-list-item>
+                                                <md-list-item class="md-2-line" flex="33" ng-if="vm.asignacion.email">
+                                                    <ng-md-icon icon="mail"></ng-md-icon>
+                                                    <div class="md-list-item-text">
+                                                        <h4>{{'EMAIL' | translate}} </h4>
+
+                                                        <p>{{ vm.asignacion.email }}</p>
+                                                    </div>
+                                                </md-list-item>
+                                            </div>
+                                        </md-list>
+                                    </md-tab-body>
+                                </md-tab>
+                                <md-tab>
+                                    <md-tab-label>
+                                        <div layout layout-align="center center">
                                             Historico
                                         </div>
                                     </md-tab-label>

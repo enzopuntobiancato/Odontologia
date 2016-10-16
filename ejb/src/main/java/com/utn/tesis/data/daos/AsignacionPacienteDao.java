@@ -161,7 +161,7 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
 
         List<Object[]> tuplas = query.list(diagnostico.id, diagnostico.fechaCreacion, diagnostico.practicaOdontologica.denominacion,
                 paciente.apellido, paciente.nombre,
-                paciente.documento.tipoDocumento, paciente.documento.numero, paciente.id);
+                paciente.documento.tipoDocumento, paciente.documento.numero, paciente.id, trabajoPractico.nombre);
         List<DiagnosticoSupport> resultados = new ArrayList<DiagnosticoSupport>();
         if (tuplas.isEmpty()) {
             return resultados;
@@ -176,9 +176,10 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
             String tipoDocumento = (tupla[5]).toString();
             String numeroDocumento = (String) tupla[6];
             Long pacienteId = (Long) tupla[7];
+            String nombreTrabajoPractico = (String) tupla[8];
 
             DiagnosticoSupport diagnosticoSupport = new DiagnosticoSupport(idDiagnostico, fechaCreacion,
-                    denominacionPractica, apellido, nombre, tipoDocumento, numeroDocumento, pacienteId);
+                    denominacionPractica, apellido, nombre, tipoDocumento, numeroDocumento, pacienteId, nombreTrabajoPractico);
             resultados.add(diagnosticoSupport);
         }
         return resultados;

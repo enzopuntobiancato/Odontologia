@@ -10,7 +10,8 @@
 </md-toolbar>
 
 <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
-<form name="editCreateAsignacionForm" ng-submit="vm.save(editCreateAsignacionForm, $event)" novalidate>
+<form name="editCreateAsignacionForm" ng-submit="vm.confirmCreate($event, vm.updating, editCreateAsignacionForm)"
+      novalidate>
 <md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
     <div class="md-toolbar-tools">
         <h2 class="md-title">{{ 'ALUMNO' | translate }}</h2>
@@ -110,13 +111,13 @@
     </md-toolbar>
     <div layout="column" ng-show="vm.isDiagnosticoSelected">
         <div layout="row">
-            <md-button class="md-icon-button" ng-click="vm.deleteSelectedDiagnostico()" ng-disabled="vm.updating">
+            <md-button class="md-icon-button" ng-click="vm.onDeleteSelectedTrabajoPractico()" ng-disabled="vm.updating">
                 <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"  ng-hide="vm.updating"></ng-md-icon>
             </md-button>
             <h2 class="md-body-1">{{ vm.asignacion.trabajoPractico.nombre }}</h2>
         </div>
         <div layout="row">
-            <md-button class="md-icon-button" ng-click="vm.deleteSelectedDiagnostico()" ng-disabled="vm.updating">
+            <md-button class="md-icon-button" ng-click="vm.onDeleteSelectedDiagnostico()" ng-disabled="vm.updating">
                 <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"  ng-hide="vm.updating"></ng-md-icon>
             </md-button>
             <h2 class="md-body-1">{{ vm.asignacion.apellidoPaciente }}, {{ vm.asignacion.nombrePaciente }}</h2>
@@ -151,9 +152,9 @@
                     <error-messages form="consultarDiagnosticoForm.trabajoPractico"
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
-                <div flex="50" layout="row" layout-align="start center" ng-hide="!vm.filter.trabajoPractico || !vm.autorizado">
+                <div flex="50" layout="row" layout-align="start center" ng-hide="!vm.autorizado">
                     <md-button ng-click="vm.buscarDiagnosticos(consultarDiagnosticoForm)" type="button"
-                               ng-disabled="!vm.filter.trabajoPractico || !vm.autorizado">
+                               ng-disabled="!vm.autorizado">
                         <md-tooltip>
                             {{'BUSCAR' | translate}}
                         </md-tooltip>
@@ -203,10 +204,6 @@
                 <md-datepicker ng-model="vm.filter.fechaNacimiento"
                                md-placeholder="{{ 'FECHA_NAC' | translate }}"
                                ng-disabled="!vm.filter.trabajoPractico || !vm.autorizado"></md-datepicker>
-                <!--<md-button class="md-icon-button" ng-click="vm.buscarDiagnosticos(consultarDiagnosticoForm)"
-                           ng-disabled="!vm.filter.trabajoPractico || !vm.autorizado">
-                    <ng-md-icon icon="search" size="24"></ng-md-icon>
-                </md-button>-->
             </div>
         </ng-form>
     </section>
@@ -226,6 +223,7 @@
                 <th md-column><span>{{ 'DOCUMENTO' | translate }}</span></th>
                 <th md-column><span>{{ 'TELEFONO' | translate }}</span></th>
                 <th md-column><span>{{ 'CEL' | translate }}</span></th>
+                <th md-column><span>{{ 'TP' | translate }}</span></th>
                 <th md-column><span>{{ 'FECHA_DIAGNOSTICO' | translate }}</span></th>
             </tr>
             </thead>
@@ -237,6 +235,7 @@
                 </td>
                 <td md-cell>{{diagnosticoSupport.telefono}}</td>
                 <td md-cell>{{diagnosticoSupport.celular}}</td>
+                <td md-cell>{{diagnosticoSupport.trabajoPractico}}</td>
                 <td md-cell>{{diagnosticoSupport.fechaCreacion | date : 'dd/MM/yyyy'}}</td>
             </tr>
             </tbody>

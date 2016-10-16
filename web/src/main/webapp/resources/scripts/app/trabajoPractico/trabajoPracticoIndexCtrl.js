@@ -163,7 +163,8 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             var data = {
                 filter: $scope.filter,
                 result: $scope.result,
-                aux: $scope.aux
+                aux: $scope.aux,
+                paginationData: $scope.paginationData
             }
             cache.put('data', data);
         }
@@ -211,7 +212,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
                 if (toState.name.startsWith('trabajoPractico')) {
                     cacheData();
                 } else {
-                    cache.put('data', null);
+                    cache.destroy();
                 }
 
             });

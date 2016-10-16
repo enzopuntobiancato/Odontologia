@@ -479,8 +479,8 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 if (toState.name.startsWith('asignacion')) {
                     cacheData();
                 } else {
-                    $rootScope.created = false;
-                    $rootScope.edited = false;
+//                    $rootScope.created = false;
+//                    $rootScope.edited = false;
                     cache.destroy();
                 }
             });
@@ -489,15 +489,16 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
             function (event, toState, toParams, fromState, fromParams) {
                 if (fromState.name.startsWith('asignacion')) {
                     if (toParams.execQuery) {
-                        getCachedData();
+//                        getCachedData();
                         executeQuery();
 //                        buscarAsignaciones("consultarAsignacionesForm");
                     } else if (toParams.execQuerySamePage) {
+                        getCachedData();
 //                        buscarAsignaciones("consultarAlumnosForm");
                         executeQuery($scope.paginationData.pageNumber)
                     } else {
                         getCachedData();
-                        executeQuery();
+//                        executeQuery();
                     }
                 } else {
 //                    buscarAsignaciones("consultarAlumnosForm");
