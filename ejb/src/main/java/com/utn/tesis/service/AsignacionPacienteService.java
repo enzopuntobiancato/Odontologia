@@ -179,4 +179,17 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     public AsignacionPaciente reload(AsignacionPaciente entity, int depth) {
         return getDao().reload(entity, depth);
     }
+
+    public AsignacionPaciente registrarMovimiento(Long asignacionPacienteId, Long usuarioId, EstadoAsignacionPaciente proximoEstado) throws SAPOException {
+        AsignacionPaciente asignacionPaciente = this.findById(asignacionPacienteId);
+        Usuario usuario = usuarioService.findById(usuarioId);
+        MovimientoAsignacionPaciente ultimoMovimiento = new MovimientoAsignacionPaciente();
+        ultimoMovimiento.setFechaMovimiento(Calendar.getInstance());
+        ultimoMovimiento.setEstado(proximoEstado);
+        ultimoMovimiento.setGeneradoPor(usuario);
+        movimientoAsignacionPacienteService.save(ultimoMovimiento);
+        asignacionPaciente.setUltimoMovimiento(ultimoMovimiento);
+        asignacionPaciente.getMovimientoAsignacionPaciente().add(ultimoMovimiento);
+        return asignacionPaciente;
+    }
 }

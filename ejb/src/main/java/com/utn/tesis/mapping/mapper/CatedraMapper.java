@@ -3,10 +3,7 @@ package com.utn.tesis.mapping.mapper;
 import com.utn.tesis.mapping.dto.CatedraConsultaDTO;
 import com.utn.tesis.mapping.dto.CatedraDTO;
 import com.utn.tesis.model.Catedra;
-import org.mapstruct.InheritConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -25,6 +22,8 @@ public interface CatedraMapper {
     void updateFromDTO(CatedraDTO source, @MappingTarget Catedra target);
     @Mapping(source = "materia.nombre", target = "materia")
     CatedraConsultaDTO toConsultaDTO(Catedra source);
+    @Mapping(target = "materia", ignore = true)
+    Catedra fromConsultaDTO(CatedraConsultaDTO source);
     @InheritConfiguration
-    List<CatedraConsultaDTO>  toConsultaDTOList(List<Catedra> sourceList);
+    List<CatedraConsultaDTO> toConsultaDTOList(List<Catedra> sourceList);
 }

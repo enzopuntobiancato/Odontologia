@@ -2,10 +2,7 @@ package com.utn.tesis.data.daos;
 
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.utn.tesis.model.Catedra;
-import com.utn.tesis.model.Profesor;
-import com.utn.tesis.model.QCatedra;
-import com.utn.tesis.model.QProfesor;
+import com.utn.tesis.model.*;
 
 import java.util.List;
 
@@ -58,4 +55,12 @@ public class CatedraDao extends DaoBase<Catedra> {
         return tuplas;
     }
 
+    public List<Catedra> findCatedrasByPractica(Long practicaId) {
+        QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
+
+        JPAQuery query = new JPAQuery(em);
+        query.from(catedra).innerJoin(catedra.trabajosPracticos, trabajoPractico);
+        query.where(trabajoPractico.practicaOdontologica.id.eq(practicaId));
+        return query.listDistinct(catedra);
+    }
 }

@@ -14,6 +14,7 @@ public class MovimientoDiagnostico extends EntityBase {
     private static final long serialVersionUID = -5842583073152945171L;
 
     @Exclude
+    @OneToOne
     @JoinColumn(name = "atencion_id")
     private Atencion atencion;
 

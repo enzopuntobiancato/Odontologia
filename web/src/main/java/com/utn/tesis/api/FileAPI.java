@@ -34,4 +34,21 @@ public class FileAPI {
         }
         return response.build();
     }
+
+    @GET
+    @Path("/pdf")
+    @Produces({"application/pdf"})
+    public Response getPdf(@QueryParam("id") Long id) {
+        Response.ResponseBuilder response = Response.noContent();
+        if (id != null) {
+            try {
+                ArchivoDTO archivo = archivoService.findArchivo(id);
+                response = Response.ok(archivoService.findFile(id));
+                response.header("Content-Disposition", String.format("attachment; filename=\"%s\"", archivo.getNombre()));
+            } catch (IOException e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+        return response.build();
+    }
 }

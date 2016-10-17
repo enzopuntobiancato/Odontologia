@@ -18,12 +18,16 @@ public class Atencion extends EntityBase {
     @Column(name = "fecha_atencion")
     private Calendar fechaAtencion;
 
-    @Size(min = 1, max = 700, message = "El motivo de la consulta debe tener entre 1 y 700 caracteres")
-    @NotNull(message = "El motivo de la consulta no puede ser nulo.")
-    @Column(nullable = false, length = 700, name = "motivo_consulta_odontologica")
+    @Temporal(TemporalType.DATE)
+    @NotNull(message = "La fecha de carga no puede ser nula.")
+    @Column(name = "fecha_de_carga")
+    private Calendar fechaDeCarga;
+
+    @Size(max = 700, message = "El motivo de la consulta no puede ser mayor a 700 caracteres")
+    @Column(length = 700, name = "motivo_consulta_odontologica")
     private String motivoConsultaOdontologica;
 
-    @Size(min = 1, max = 700, message = "El campo descripcion debe tener entre 1 y 700 caracteres")
+    @Size(max = 700, message = "El campo descripcion no debe ser mayor a 700 caracteres")
     @NotNull(message = "La descripcion del procedimiento no puede ser nula.")
     @Column(nullable = false, length = 700, name = "descripcion_procedimiento")
     private String descripcionProcedimiento;
@@ -35,6 +39,9 @@ public class Atencion extends EntityBase {
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "atencion_id")
     private List<Archivo> documentaciones;
+
+    @Column(name = "resolvio_diagnostico")
+    private boolean diagnosticoSolucionado;
 
     public Atencion() {
     }
@@ -89,5 +96,21 @@ public class Atencion extends EntityBase {
 
     public void setDocumentaciones(List<Archivo> documentaciones) {
         this.documentaciones = documentaciones;
+    }
+
+    public Calendar getFechaDeCarga() {
+        return fechaDeCarga;
+    }
+
+    public void setFechaDeCarga(Calendar fechaDeCarga) {
+        this.fechaDeCarga = fechaDeCarga;
+    }
+
+    public boolean isDiagnosticoSolucionado() {
+        return diagnosticoSolucionado;
+    }
+
+    public void setDiagnosticoSolucionado(boolean diagnosticoSolucionado) {
+        this.diagnosticoSolucionado = diagnosticoSolucionado;
     }
 }

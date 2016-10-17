@@ -17,14 +17,17 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Stateless
 @LocalBean
 @Slf4j
 public class ArchivoService extends BaseService<Archivo> {
-    private static final String PATH = "C:\\sapo";
-
+    private static String OS = System.getProperty("os.name").toLowerCase();
+    private static final String WIN_PATH = "C:\\sapo";
+    private static final String LIN_PATH = System.getProperty("user.home") + File.separator + "sapo_files";
     @Inject
     private ArchivoDao archivoDao;
     @Inject
@@ -53,17 +56,34 @@ public class ArchivoService extends BaseService<Archivo> {
         return entity;
     }
 
+    public List<Archivo> saveList(List<ArchivoDTO> archivoDTOs) throws SAPOException {
+        List<Archivo> archivos = new ArrayList<Archivo>();
+        for (ArchivoDTO archivoDTO: archivoDTOs) {
+            Archivo archivo = save(archivoDTO);
+            if (archivo != null) {
+                archivos.add(archivo);
+            }
+        }
+        return archivos;
+    }
+
     public String saveToDisk(@Nonnull InputStream uploadedInputStream, @Nonnull FileExtension extension) throws SAPORuntimeException {
         Preconditions.checkNotNull(extension);
         Preconditions.checkArgument(extension != FileExtension.NONE);
         try {
-            File path = new File(PATH);
+            String pathToUse;
+            if (OS.indexOf("linux") >= 0) {
+                pathToUse = LIN_PATH;
+            } else {
+                pathToUse = WIN_PATH;
+            }
+            File path = new File(pathToUse);
             if (!path.exists()) {
-                path.createNewFile();
+                path.mkdir();
             }
             int read;
             byte[] bytes = new byte[1024];
-            String filePath = String.format("%s%s%s.%s", PATH, File.separator, UUID.randomUUID(), extension.getName());
+            String filePath = String.format("%s%s%s.%s", path.getAbsolutePath(), File.separator, UUID.randomUUID(), extension.getName());
             OutputStream outputStream = new FileOutputStream(new File(filePath));
             while ((read = uploadedInputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, read);

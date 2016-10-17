@@ -219,6 +219,7 @@ module.controller('AsignacionCtrl_EditCreate',
                 vm.asignacion.apellidoPaciente = diagnosticoSupport.apellido;
                 vm.asignacion.nombrePaciente = diagnosticoSupport.nombre;
                 vm.asignacion.trabajoPractico = vm.filter.trabajoPractico;
+                vm.asignacion.catedra = vm.filter.catedra;
                 vm.filterPaciente.push(newFilterChip('selectedPaciente', 'Paciente', vm.asignacion.idPaciente, vm.asignacion.apellidoPaciente + ", " + vm.asignacion.nombrePaciente));
                 if (vm.filter.catedra) {
                     vm.filterPaciente.push(newFilterChip('catedra', 'Cátedra', vm.filter.catedra, (vm.filter.catedra.materia + ' ' + vm.filter.catedra.denominacion)));

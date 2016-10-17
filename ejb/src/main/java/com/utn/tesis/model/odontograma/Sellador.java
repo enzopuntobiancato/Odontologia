@@ -14,7 +14,12 @@ public class Sellador extends HallazgoClinico {
     }
 
     @Override
-    public boolean aplicaAPieza() {
+    public boolean aplicaACara() {
+        return true;
+    }
+
+    @Override
+    public boolean aplicaACaraCentral() {
         return true;
     }
 

@@ -275,6 +275,12 @@
                                     {{ 'CANCELAR' | translate }}
                                 </md-tooltip>
                             </ng-md-icon>
+                            <ng-md-icon ng-show="asignacion.ultimoMovimiento.estado.nombre == 'Autorizado'" icon="local_hospital" size="24"
+                                        ng-click="vm.goRegistrarAtencion(asignacion.id)"  style="fill: rgb(117, 117, 117) ">
+                                <md-tooltip>
+                                    Registrar atención
+                                </md-tooltip>
+                            </ng-md-icon>
                         </div>
                     </td>
                 </tr>
@@ -288,12 +294,12 @@
             </md-button>-->
             <md-button class="md-icon-button" type="button"
                        ng-click="vm.previousPage()"
-                       aria-label="Previous">
+                       aria-label="Previous" ng-disabled="vm.paginationData.firstPage">
                 <md-icon md-svg-icon="navigate-before.svg"></md-icon>
             </md-button>
             <md-button class="md-icon-button"
                        type="button" ng-click="vm.nextPage()"
-                       aria-label="Next">
+                       aria-label="Next" ng-disabled="!vm.paginationData.morePages">
                 <md-icon md-svg-icon="navigate-next.svg"></md-icon>
             </md-button>
 <!--            <md-button class="md-icon-button" type="button"

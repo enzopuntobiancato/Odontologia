@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Mapper(componentModel = "cdi", uses = {TrabajoPracticoMapper.class, PacienteMapper.class,
         DocumentoMapper.class,PersonaMapper.class, MovimientoAsignacionMapper.class,
-        DiagnosticoMapper.class})
+        DiagnosticoMapper.class, CatedraMapper.class})
 public interface AsignacionPacienteMapper {
     @Mappings({
             @Mapping(source = "paciente.id", target = "idPaciente"),

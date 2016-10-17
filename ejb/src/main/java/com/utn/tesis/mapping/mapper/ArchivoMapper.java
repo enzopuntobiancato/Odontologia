@@ -5,6 +5,8 @@ import com.utn.tesis.model.Archivo;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Enzo
@@ -15,6 +17,7 @@ import org.mapstruct.MappingTarget;
 public interface ArchivoMapper {
 
     ArchivoDTO toDTO(Archivo source);
+    List<ArchivoDTO> toDTOList(List<Archivo> sourceList);
 
     void updateFromDTO(ArchivoDTO source, @MappingTarget Archivo target);
 }

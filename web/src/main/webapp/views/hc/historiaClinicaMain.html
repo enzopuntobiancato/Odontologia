@@ -11,17 +11,20 @@
                                         vm.paciente.documento.numero }}</span>
                             </md-card-header-text>
                             <span flex></span>
-                            <md-button class="md-raised md-primary" ng-click="vm.goDatosPersonales()" hide-xs>
+                            <md-button ng-disabled="vm.isDatosPersonalesSelected()" class="md-raised md-primary" ng-click="vm.goDatosPersonales()" hide-xs>
                                 {{ 'DATOS_PERSONALES' | translate }}
                             </md-button>
-                            <md-button class="md-raised md-primary" ng-click="vm.goAntecedentes()" hide-xs>
+                            <md-button ng-disabled="vm.isAntecedentesSelected()" class="md-raised md-primary" ng-click="vm.goAntecedentes()" hide-xs>
                                 {{ 'ANTECEDENTES' | translate }}
                             </md-button>
-                            <md-button class="md-raised md-primary" ng-click="vm.goDiagnosticos()" hide-xs>
+                            <md-button ng-disabled="vm.isDiagnosticosSelected()" class="md-raised md-primary" ng-click="vm.goDiagnosticos()" hide-xs>
                                 {{ 'DIAGNOSTICOS' | translate }}
                             </md-button>
-                            <md-button class="md-raised md-primary" ng-click="vm.goAtenciones()" hide-xs>
+                            <md-button ng-disabled="vm.isAtencionesSelected()" class="md-raised md-primary" ng-click="vm.goAtenciones()" ng-show="!vm.data.editing" hide-xs>
                                 {{ 'ATENCIONES' | translate }}
+                            </md-button>
+                            <md-button ng-disabled="vm.isDocumentacionesSelected()" class="md-raised md-primary" ng-click="vm.goDocumentaciones()" hide-xs>
+                                Documentaciones
                             </md-button>
                             <md-menu ng-if="!vm.data.editing">
                                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -43,14 +46,19 @@
                                             {{ 'DIAGNOSTICOS' | translate }}
                                         </md-button>
                                     </md-menu-item>
-                                    <md-menu-item show-xs hide-gt-sm>
+                                    <md-menu-item show-xs hide-gt-sm ng-show="!vm.data.editing">
                                         <md-button ng-click="vm.goAtenciones()">
                                             {{ 'ATENCIONES' | translate }}
                                         </md-button>
                                     </md-menu-item>
+                                    <md-menu-item show-xs hide-gt-sm>
+                                        <md-button ng-click="vm.goDocumentaciones()">
+                                            Documentaciones
+                                        </md-button>
+                                    </md-menu-item>
                                     <md-divider show-xs hide-gt-sm></md-divider>
                                     <md-menu-item>
-                                        <md-button ng-disabled="vm.paciente.fechaBaja" aria-label="Editar paciente"
+                                        <md-button ng-disabled="vm.paciente.fechaBaja || vm.onAtencionesView()" aria-label="Editar paciente"
                                                    ng-click="vm.goEdit()">
                                             <ng-md-icon icon="edit" size="24" hide-xs></ng-md-icon>
                                             {{ 'MODIFICAR' | translate }}

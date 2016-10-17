@@ -118,4 +118,8 @@ public class CatedraService extends BaseService<Catedra> {
         super.bussinessValidation(entity);
     }
 
+    public List<CatedraConsultaDTO> findCatedrasByPractica(Long practicaId) {
+        return catedraMapper.toConsultaDTOList(dao.findCatedrasByPractica(practicaId));
+    }
+
 }

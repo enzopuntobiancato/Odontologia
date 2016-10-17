@@ -1,0 +1,136 @@
+<div layout="column">
+    <md-content md-scroll-y layout-padding>
+        <ng-form name="vm.form">
+            <div layout="row" layout-margin class="less-bottom" ng-if="!vm.aux.viewingAtencion" style="margin-top: 0px!important;">
+                <md-autocomplete class="autocomplete-less-bottom" flex md-input-name="practica"
+                                 md-input-minlength="3"
+                                 md-min-length="3"
+                                 md-selected-item="vm.filter.practica"
+                                 md-search-text="vm.aux.practicaSearchText"
+                                 md-items="item in vm.searchPractica(vm.aux.practicaSearchText)"
+                                 md-item-text="item.denominacion"
+                                 md-floating-label="Práctica odontológica"
+                                 md-selected-item-change="vm.onDiagnosticoSelect()">
+                    <md-item-template>
+                        <span md-highlight-text="vm.aux.practicaSearchText" md-highlight-flags="i">{{ item.denominacion }}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        Sin resultados
+                    </md-not-found>
+                    <div ng-messages="vm.form.practica.$error" ng-if="vm.form.practica.$touched">
+                        <div ng-message="minlength">Escribe al menos 3 letras para buscar</div>
+                    </div>
+                </md-autocomplete>
+                <div flex="50" layout="row" layout-align="start start">
+                    <md-button ng-click="vm.consultar(vm.form)">
+                        <md-tooltip>
+                            Buscar
+                        </md-tooltip>
+                        <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{vm.colorIcon[0]}}"
+                                    ng-Mouseover="vm.colorMouseOver(0)"
+                                    ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
+                    </md-button>
+                    <md-button type="button" ng-click="vm.aux.mostrarFiltros = !vm.aux.mostrarFiltros">
+                        <md-tooltip>
+                            Ver filtros
+                        </md-tooltip>
+                        <ng-md-icon icon="{{vm.clickIcon}}" size="40"
+                                    ng-attr-style="fill: {{vm.colorIcon[1]}}"
+                                    ng-Mouseover="vm.colorMouseOver(1)"
+                                    ng-mouseleave="vm.colorMouseLeave(1)"
+                                    options='{"duration": 375, "rotation": "none"}'
+                                    ng-click="vm.clickIconMorph()"></ng-md-icon>
+                    </md-button>
+                    <md-button ng-click="vm.cleanFilters()" type="button">
+                        <md-tooltip>
+                            Limpiar filtros
+                        </md-tooltip>
+                        <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{vm.colorIcon[2]}}"
+                                    ng-Mouseover="vm.colorMouseOver(2)"
+                                    ng-mouseleave="vm.colorMouseLeave(2)"></ng-md-icon>
+                    </md-button>
+                </div>
+            </div>
+            <div layout="row" layout-margin ng-if="vm.aux.mostrarFiltros && !vm.aux.viewingAtencion">
+                <md-input-container flex="20">
+                    <label>Catedra</label>
+                    <md-select ng-model="vm.filter.catedra" name="catedra" ng-model-options="{trackBy: '$value.id'}" ng-change="vm.onCatedraSelect()">
+                        <md-option ng-repeat="catedra in vm.data.catedras" ng-value="catedra">
+                            {{ catedra.materia }} {{catedra.denominacion}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex="30">
+                    <label>Trabajo práctico</label>
+                    <md-select ng-model="vm.filter.trabajoPractico" name="trabajoPractico" ng-disabled="!vm.filter.catedra" ng-model-options="{trackBy: '$value.id'}">
+                        <md-option ng-repeat="trabajoPractico in vm.data.trabajosPracticos" ng-value="trabajoPractico">
+                            {{ trabajoPractico.nombre }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <div layout-gt-sm="column" flex="40">
+                    <div layout="row">
+                        <md-tooltip>Fecha de creación</md-tooltip>
+                        <md-datepicker flex name="fechaDesde" ng-model="vm.filter.fechaDesde"
+                                       class="md-date" md-placeholder="Fecha desde"></md-datepicker>
+                        <md-datepicker flex name="fechaHasta" ng-model="vm.filter.fechaHasta"
+                                       md-placeholder="Fecha hasta" md-min-date="vm.filter.fechaDesde"
+                                       class="md-date"></md-datepicker>
+                    </div>
+                    <div class="validation-messages" ng-messages="vm.form.fechaHasta.$error"
+                         ng-if="vm.form.fechaHasta.$touched">
+                        <div ng-message="mindate">La fecha desde no puede ser mayor a la fecha hasta</div>
+                    </div>
+                </div>
+            </div>
+            <div class="query-chips" layout="row" ng-if="vm.filterChips.length > 0 && !vm.aux.viewingAtencion"
+                 layout-margin>
+                <md-chips ng-model="vm.filterChips">
+                    <md-chip-template>
+                        <em>{{$chip.name}}</em>
+                        <b>{{$chip.displayValue}}</b>
+                    </md-chip-template>
+                </md-chips>
+            </div>
+            <md-table-container ng-if="vm.result.length && !vm.aux.viewingAtencion">
+                <table md-table>
+                    <thead md-head>
+                    <tr md-row md-auto-select>
+                        <th md-column><span>Fecha de atencion</span></th>
+                        <th md-column><span>Fecha de carga</span></th>
+                        <th md-column><span>Trabajo practico</span></th>
+                        <th md-column><span>Catedra</span></th>
+                        <th md-column><span>Diagnostico</span></th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row ng-repeat="atencion in vm.result" ng-click="vm.viewAtencion(atencion)" style="cursor: pointer">
+                        <td md-cell>{{atencion.fechaAtencion | date:'dd/MM/yyyy'}}</td>
+                        <td md-cell>{{atencion.fechaDeCarga | date:'dd/MM/yyyy'}}</td>
+                        <td md-cell>{{atencion.asignacionPaciente.trabajoPractico.nombre}}</td>
+                        <td md-cell>{{atencion.asignacionPaciente.catedra.materia }} {{ atencion.asignacionPaciente.catedra.denominacion }}</td>
+                        <td md-cell>{{atencion.asignacionPaciente.diagnostico.practicaOdontologica.denominacion || atencion.asignacionPaciente.diagnostico.practicaNoExistente}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <div ng-if="vm.result.length && !vm.aux.viewingAtencion" class="buttons table-pagination" layout="row" layout-align="center center" ng-if="vm.result.length > 0">
+                <md-button class="md-icon-button" type="button"
+                           ng-click="vm.previousPage()"
+                           aria-label="Previous" ng-disabled="vm.paginationData.firstPage">
+                    <md-icon md-svg-icon="navigate-before.svg"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button"
+                           type="button" ng-click="vm.nextPage()"
+                           aria-label="Next" ng-disabled="!vm.paginationData.morePages">
+                    <md-icon md-svg-icon="navigate-next.svg"></md-icon>
+                </md-button>
+            </div>
+            <div ng-show="!vm.result.length && !vm.aux.viewingAtencion">
+                <ng-include src="'views/no-results.html'"/>
+            </div>
+        </ng-form>
+        <ng-include ng-if="vm.aux.viewingAtencion"
+                    src="'views/hc/atenciones/viewingAtencion.html'"/>
+    </md-content>
+</div>

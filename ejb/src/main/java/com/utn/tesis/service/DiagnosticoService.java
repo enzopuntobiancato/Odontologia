@@ -119,4 +119,18 @@ public class DiagnosticoService extends BaseService<Diagnostico> {
         diagnostico.setUltimoMovimiento(newMovimiento);
         diagnostico.addMovimiento(newMovimiento);
     }
+
+    public void registrarMovimiento(Long diagnosticoId, Long generadoPor, EstadoDiagnostico proximoEstado, String observaciones, Atencion atencion) throws SAPOException {
+        Diagnostico diagnostico = this.findById(diagnosticoId);
+        Usuario usuario = usuarioService.findById(generadoPor);
+        MovimientoDiagnostico ultimoMovimiento = new MovimientoDiagnostico();
+        ultimoMovimiento.setFechaMovimiento(Calendar.getInstance());
+        ultimoMovimiento.setGeneradoPor(usuario);
+        ultimoMovimiento.setEstado(proximoEstado);
+        ultimoMovimiento.setObservaciones(observaciones);
+        ultimoMovimiento.setAtencion(atencion);
+        movimientoDiagnosticoService.save(ultimoMovimiento);
+        diagnostico.setUltimoMovimiento(ultimoMovimiento);
+        diagnostico.getMovimientos().add(ultimoMovimiento);
+    }
 }
