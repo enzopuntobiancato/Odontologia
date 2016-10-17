@@ -49,6 +49,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         vm.user = null;
         vm.showConsultarAlumnosDialog = showConsultarAlumnosDialog;
         vm.consultar = consultar;
+        vm.goRegistrarAtencion = goRegistrarAtencion;
 
         //CACHE
         var cache = $cacheFactory.get('asignacionIndexCache') || $cacheFactory('asignacionIndexCache');
@@ -438,6 +439,10 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 function() {
                     // Cancelled dialog. Do nothing
                 });
+        }
+
+        function goRegistrarAtencion(asignacionId) {
+            $state.go('atencion.create', {idAsignacion: asignacionId});
         }
 
         //Métodos auxiliares

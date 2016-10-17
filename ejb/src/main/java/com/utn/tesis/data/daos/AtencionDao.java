@@ -1,11 +1,10 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.utn.tesis.model.AsignacionPaciente;
-import com.utn.tesis.model.Atencion;
-import com.utn.tesis.model.QAtencion;
+import com.utn.tesis.model.*;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,5 +29,51 @@ public class AtencionDao extends DaoBase<Atencion> {
 
         query = paginar(query, page, pageSize);
         return query.list(atencion);
+    }
+
+    public List<Atencion> findByFilters(Long pacienteId, Long practicaId, Long catedraId, Long trabajoPracticoId, Date fechaDesde, Date fechaHasta, Long pageNumber, Long pageSize) {
+        QPaciente paciente = QPaciente.paciente;
+        QHistoriaClinica historiaClinica = QHistoriaClinica.historiaClinica;
+        QAsignacionPaciente asignacionPaciente = QAsignacionPaciente.asignacionPaciente;
+        QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
+        QCatedra catedra = QCatedra.catedra;
+
+        JPAQuery query = new JPAQuery(em)
+                .from(paciente)
+                .innerJoin(paciente.historiaClinica, historiaClinica)
+                .innerJoin(historiaClinica.atencion, atencion)
+                .innerJoin(atencion.asignacionPaciente, asignacionPaciente)
+                .rightJoin(asignacionPaciente.catedra, catedra)
+                .innerJoin(asignacionPaciente.trabajoPractico, trabajoPractico);
+        query.where(paciente.id.eq(pacienteId));
+
+        if (practicaId != null) {
+            query.where(trabajoPractico.practicaOdontologica.id.eq(practicaId));
+        }
+        if (catedraId != null) {
+            query.where(catedra.id.eq(catedraId));
+        }
+        if (trabajoPracticoId != null) {
+            query.where(trabajoPractico.id.eq(trabajoPracticoId));
+        }
+        if (fechaDesde != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fechaDesde);
+            query.where(atencion.fechaAtencion.goe(calendar));
+        }
+        if (fechaHasta != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fechaHasta);
+            query.where(atencion.fechaAtencion.loe(calendar));
+        }
+        query = paginar(query, pageNumber, pageSize);
+        return query.list(atencion);
+    }
+
+    public List<Archivo> findDocumentacionesByAtencion(Long atencionId) {
+        QArchivo archivo = QArchivo.archivo;
+        JPAQuery query = new JPAQuery(em).from(atencion).innerJoin(atencion.documentaciones, archivo);
+        query.where(atencion.id.eq(atencionId));
+        return query.list(archivo);
     }
 }

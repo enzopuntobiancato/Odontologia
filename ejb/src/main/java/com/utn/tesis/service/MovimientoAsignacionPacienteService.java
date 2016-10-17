@@ -2,6 +2,7 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.MovimientoAsignacionPacienteDao;
+import com.utn.tesis.model.AsignacionPaciente;
 import com.utn.tesis.model.EstadoAsignacionPaciente;
 import com.utn.tesis.model.MovimientoAsignacionPaciente;
 import com.utn.tesis.model.Usuario;
@@ -21,12 +22,11 @@ import java.util.List;
  */
 @Stateless
 public class MovimientoAsignacionPacienteService extends BaseService<MovimientoAsignacionPaciente> {
+    @Inject
+    private MovimientoAsignacionPacienteDao dao;
 
     @Inject
-    MovimientoAsignacionPacienteDao dao;
-
-    @Inject
-    Validator validator;
+    private Validator validator;
 
     @Override
     DaoBase<MovimientoAsignacionPaciente> getDao() {

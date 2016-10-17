@@ -1,0 +1,131 @@
+<md-card>
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">Datos de atencion</span>
+        </md-card-header-text>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="vm.cancelView()">
+            <ng-md-icon icon="close" style="fill: black"></ng-md-icon>
+        </md-button>
+    </md-card-header>
+    <md-card-content>
+        <md-list>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Fecha de atencion</h4>
+
+                        <p>{{vm.atencionView.fechaAtencion |
+                            date:'dd/MM/yyyy'}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Fecha de carga</h4>
+
+                        <p>{{vm.atencionView.fechaDeCarga |
+                            date:'dd/MM/yyyy'}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Diagnostico resuelto</h4>
+
+                        <p>{{vm.atencionView.diagnosticoSolucionado | siNo}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Descripcion del procedimiento</h4>
+
+                        <p>{{vm.atencionView.descripcionProcedimiento}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <md-list-item>
+                <p md-offset class="subtitle-text">Asignacion paciente</p>
+            </md-list-item>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Fecha de creación</h4>
+
+                        <p>{{vm.atencionView.asignacionPaciente.fechaCreacion |
+                            date:'dd/MM/yyyy'}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Fecha asignación (citación paciente)</h4>
+
+                        <p>{{vm.atencionView.asignacionPaciente.fechaAsignacion |
+                            date:'dd/MM/yyyy'}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Estado</h4>
+
+                        <p>{{vm.atencionView.asignacionPaciente.ultimoMovimiento.estado.nombre}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Autorizado por</h4>
+
+                        <p>{{vm.atencionView.asignacionPaciente.autorizadoPor.apellido}},
+                            {{vm.atencionView.asignacionPaciente.autorizadoPor.nombre}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Cátedra</h4>
+
+                        <p>{{vm.atencionView.asignacionPaciente.catedra.materia}} {{vm.atencionView.asignacionPaciente.catedra.denominacion}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Trabajo práctico</h4>
+
+                        <p>{{vm.atencionView.asignacionPaciente.trabajoPractico.nombre}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <div layout="row">
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Paciente diagnosticado para</h4>
+
+                        <p>
+                            {{vm.atencionView.asignacionPaciente.diagnostico.practicaOdontologica.denominacion
+                            ||
+                            vm.atencionView.asignacionPaciente.diagnostico.practicaNoExistente}}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-2-line">
+                    <div class="md-list-item-text md-offset">
+                        <h4>Observaciones diagnóstico</h4>
+
+                        <p>{{vm.atencionView.asignacionPaciente.diagnostico.observaciones}}</p>
+                    </div>
+                </md-list-item>
+            </div>
+            <md-list-item>
+                <p md-offset class="subtitle-text">Documentaciones relacionadas</p>
+            </md-list-item>
+            <div class="query-chips" layout="row" ng-if="vm.documentaciones.length"
+                 layout-margin>
+                <md-chips ng-model="vm.documentaciones" readonly="true">
+                    <md-chip-template style="cursor: pointer" ng-click="vm.openInNewTab($chip)">
+                        {{$chip.nombre}}
+                    </md-chip-template>
+                </md-chips>
+            </div>
+        </md-list>
+    </md-card-content>
+</md-card>

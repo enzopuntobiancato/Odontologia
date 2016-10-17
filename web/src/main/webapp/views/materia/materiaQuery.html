@@ -66,7 +66,7 @@
                                     </md-input-container>
                                 </div>
                             </form>
-                            <query-chips data="filterChips"></query-chips>
+                            <filter-chips data="filterChips"></filter-chips>
                             <md-list ng-show="result.length > 0">
                                 <md-list-item class="md-3-line" ng-class="{'deleted-item' : item.fechaBaja}" ng-repeat="item in result"
                                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">

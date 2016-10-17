@@ -33,6 +33,10 @@ public abstract class HallazgoClinico {
         return false;
     }
 
+    public boolean aplicaACaraCentral() {
+        return false;
+    }
+
     public boolean aplicaAPieza() {
         return false;
     }

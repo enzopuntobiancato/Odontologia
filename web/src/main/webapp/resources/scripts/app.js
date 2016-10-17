@@ -695,8 +695,20 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             })
             .state('historiaClinica.atencionesView', {
                 url: '/atenciones/view',
-                template: '<div>It works. Im on atenciones View</div>',
+                templateUrl: 'views/hc/atenciones/atenciones.html',
+                controller: 'AtencionCtrl_View',
+                controllerAs: 'vm',
+                resolve: {
+                    catedrasResponse: ['loadMyModule','AtencionSrv', function (loadMyModule, service) {
+                        return service.getCatedras();
+                    }]
+                }
+            })
+            .state('historiaClinica.documentacionesView', {
+                url: '/documentaciones/view',
+                templateUrl: 'views/hc/documentaciones/documentaciones.html',
                 controller: function($scope) {
+
                 }
             })
             .state('historiaClinica.datosPersonalesEdit', {
@@ -804,9 +816,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }]
                 }
             })
-            .state('historiaClinica.atencionesEdit', {
-                url: '/atenciones/edit',
-                template: '<div>It works. Im on atenciones Edit</div>',
+            .state('historiaClinica.documentacionesEdit', {
+                url: '/documentaciones/edit',
+                templateUrl: 'views/hc/documentaciones/documentacionesEdit.html',
                 controller: function($scope) {
                 }
             })
@@ -928,6 +940,24 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }]
                 }
             })
+            .state('atencion', {
+                url: '/atencion',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('atencionModule')
+            })
+            .state('atencion.create', {
+                url: '/create/:idAsignacion',
+                templateUrl: 'views/atencion/atencionCreate.html',
+                controllerAs: 'vm',
+                controller: 'AtencionCtrl_Create',
+                resolve: {
+                    asignacionResponse: ['loadMyModule', '$stateParams', 'AtencionSrv', function(loadMyModule, $stateParams, service) {
+                        return service.findAsignacion($stateParams.idAsignacion);
+                    }]
+                }
+
+            })
 
         $ocLazyLoadProvider.config({
             debug: true,
@@ -1006,7 +1036,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         url('/hc/historiaClinicaMainCtrl.js'),
                         url('/hc/diagnostico/diagnosticoSrv.js'),
                         url('/hc/diagnostico/diagnosticoEditCtrl.js'),
-                        url('/hc/diagnostico/diagnosticoViewCtrl.js')
+                        url('/hc/diagnostico/diagnosticoViewCtrl.js'),
+                        url('/hc/atenciones/atencionesViewCtrl.js')
                     ]
                 },
                 {
@@ -1016,6 +1047,13 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         url('/asignacion/asignacionEditCreateCtrl.js'),
                         url('/asignacion/asignacionIndexCtrl.js'),
                         url('/asignacion/asignacionAutorizarCtrl.js')
+                    ]
+                },
+                {
+                    name: 'atencionModule',
+                    files: [
+                        url('/atencion/atencionSrv.js'),
+                        url('/atencion/atencionCreateCtrl.js')
                     ]
                 }
             ]
@@ -1033,7 +1071,8 @@ angular.module('sapo.login', []);
 angular.module('personaModule', []);
 angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
-angular.module('historiaClinicaModule',['pacienteModule']);
+angular.module('historiaClinicaModule',['pacienteModule', 'atencionModule']);
+angular.module('atencionModule', []);
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav',

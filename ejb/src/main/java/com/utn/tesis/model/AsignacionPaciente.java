@@ -34,9 +34,6 @@ public class AsignacionPaciente extends EntityBase{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ultimo_movimiento_id")
     private MovimientoAsignacionPaciente ultimoMovimiento;
-    /*    @Size(max = 300, message = "El motivo de cancelacion no puede tener mas de 300 caracteres.")
-        @Column(length = 300, name = "motivo_cancelacion")
-        private String motivoCancelacion;*/
     @JoinColumn(name = "asignacion_paciente_id")
     @NotNull(message = "El movimiento de asignacion no puede ser nulo.")
     @OneToMany(fetch = FetchType.LAZY)
@@ -46,10 +43,14 @@ public class AsignacionPaciente extends EntityBase{
     @JoinColumn(name = "trabajo_practico_id")
     @NotNull(message = "El trabajo practico de la asignacion no puede ser nulo.")
     private TrabajoPractico trabajoPractico;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "paciente_id")
     @NotNull(message = "El paciente de la asignacion no puede ser nulo.")
     private Paciente paciente;
+
+    @ManyToOne
+    @JoinColumn(name = "catedra_id")
+    private Catedra catedra;
 
     public AsignacionPaciente() {
         this.fechaCreacion = Calendar.getInstance();
@@ -104,14 +105,6 @@ public class AsignacionPaciente extends EntityBase{
         this.fechaCreacion = fechaCreacion;
     }
 
-    /*  public String getMotivoCancelacion() {
-          return motivoCancelacion;
-      }
-
-      public void setMotivoCancelacion(String motivoCancelacion) {
-          this.motivoCancelacion = motivoCancelacion;
-      }
-  */
     public List<MovimientoAsignacionPaciente> getMovimientoAsignacionPaciente() {
         return movimientoAsignacionPaciente;
     }
@@ -154,13 +147,13 @@ public class AsignacionPaciente extends EntityBase{
         this.ultimoMovimiento = ultimoMovimiento;
     }
 
-    /* public Calendar getFechaCancelacion() {
-        return fechaCancelacion;
+    public Catedra getCatedra() {
+        return catedra;
     }
 
-    public void setFechaCancelacion(Calendar fechaCancelacion) {
-        this.fechaCancelacion = fechaCancelacion;
-    }*/
+    public void setCatedra(Catedra catedra) {
+        this.catedra = catedra;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,10 +1,10 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.utn.tesis.model.PracticaOdontologica;
-import com.utn.tesis.model.QGrupoPracticaOdontologica;
-import com.utn.tesis.model.QPracticaOdontologica;
+import com.utn.tesis.model.*;
+import org.apache.commons.lang.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,6 +40,28 @@ public class PracticaOdontologicaDao extends DaoBase<PracticaOdontologica> {
         JPAQuery query = new JPAQuery(em).from(practica);
         query.where(practica.denominacion.containsIgnoreCase(denominacion));
         return query.list(practica);
+    }
+
+    public List<PracticaOdontologica> findByDenominacionCatedraAndPractico(String denominacion, Long catedraId, Long trabajoPracticoId) {
+        if (StringUtils.isBlank(denominacion)) {
+            return Collections.emptyList();
+        }
+        QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
+        QCatedra catedra = QCatedra.catedra;
+        JPAQuery query = new JPAQuery(em);
+        query.from(catedra)
+                .rightJoin(catedra.trabajosPracticos, trabajoPractico)
+                .rightJoin(trabajoPractico.practicaOdontologica, practica);
+
+        query.where(practica.denominacion.containsIgnoreCase(denominacion));
+        if (catedraId != null) {
+            query.where(catedra.id.eq(catedraId));
+        }
+        if (trabajoPracticoId != null) {
+            query.where(trabajoPractico.id.eq(trabajoPracticoId));
+        }
+
+        return query.listDistinct(practica);
     }
 
 }

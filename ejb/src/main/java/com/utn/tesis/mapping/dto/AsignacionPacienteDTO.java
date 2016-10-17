@@ -1,8 +1,5 @@
 package com.utn.tesis.mapping.dto;
 
-import com.utn.tesis.model.Diagnostico;
-import com.utn.tesis.model.MovimientoAsignacionPaciente;
-
 import java.util.Calendar;
 import java.util.List;
 
@@ -28,6 +25,7 @@ public class AsignacionPacienteDTO extends BaseDTO {
     private Calendar fechaCreacion;
 
     private AlumnoDTO alumno;
+    private CatedraConsultaDTO catedra;
     private TrabajoPracticoDTO trabajoPractico;
     private ProfesorDTO autorizadoPor;
     private List<MovimientoAsignacionDTO> movimientoAsignacionPaciente;
@@ -170,5 +168,13 @@ public class AsignacionPacienteDTO extends BaseDTO {
 
     public void setAutorizadoPor(ProfesorDTO autorizadoPor) {
         this.autorizadoPor = autorizadoPor;
+    }
+
+    public CatedraConsultaDTO getCatedra() {
+        return catedra;
+    }
+
+    public void setCatedra(CatedraConsultaDTO catedra) {
+        this.catedra = catedra;
     }
 }

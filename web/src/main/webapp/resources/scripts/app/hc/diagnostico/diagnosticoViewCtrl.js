@@ -22,7 +22,13 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
         vm.previousPage = previousPage;
         vm.viewDiagnostico = viewDiagnostico;
         vm.cancelView = cancelView;
+        vm.cleanFilters = cleanFilters;
         search();
+
+        function cleanFilters() {
+            $scope.filter = {};
+            search();
+        }
 
         function viewDiagnostico(diagnostico) {
             vm.aux.viewingDiagnostico = diagnostico;

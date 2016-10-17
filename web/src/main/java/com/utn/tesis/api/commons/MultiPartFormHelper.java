@@ -48,8 +48,14 @@ public class MultiPartFormHelper {
     }
 
     public List<Map<String, Object>> retrieveFiles(Map<String, List<InputPart>> formParts, String key) {
-        List<InputPart> filesParts = formParts.get(key);
-        List<Map<String, Object>> filesMaps = new ArrayList<Map<String, Object>>(filesParts.size());
+        Set<String> keys = formParts.keySet();
+        List<InputPart> filesParts = new ArrayList<InputPart>();
+        for (String aKey: keys) {
+            if (aKey.startsWith(key)) {
+                filesParts.add(formParts.get(aKey).get(0));
+            }
+        }
+        List<Map<String, Object>> filesMaps = new ArrayList<Map<String, Object>>();
         for (InputPart inputPart : filesParts) {
             filesMaps.add(loadFileMap(inputPart));
         }

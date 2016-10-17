@@ -69,6 +69,10 @@ public class PracticaOdontologicaService extends BaseService<PracticaOdontologic
         return practicaMapper.toDTOList(dao.findByDenominacion(denominacion));
     }
 
+    public List<PracticaOdontologicaDTO> findByDenominacionCatedraAndPractico(String denominacion, Long catedraId, Long trabajoPracticoId) {
+        return practicaMapper.toDTOList(dao.findByDenominacionCatedraAndPractico(denominacion, catedraId, trabajoPracticoId));
+    }
+
     @Override
     protected void bussinessValidation(PracticaOdontologica entity) throws SAPOValidationException {
         boolean executeNameValidation = true;

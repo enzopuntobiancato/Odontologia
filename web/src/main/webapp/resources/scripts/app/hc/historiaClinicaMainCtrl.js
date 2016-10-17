@@ -9,6 +9,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         var ANTECEDENTES_TAB = 'antecedentes';
         var DIAGNOSTICO_TAB = 'diagnostico';
         var ATENCIONES_TAB = 'atenciones';
+        var DOCUMENTACIONES_TAB = 'documentaciones';
         var VIEW_SUFFIX = 'View';
         var EDIT_SUFFIX = 'Edit';
 
@@ -33,10 +34,17 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         vm.goAntecedentes = goAntecedentes;
         vm.goDiagnosticos = goDiagnosticos;
         vm.goAtenciones = goAtenciones;
+        vm.goDocumentaciones = goDocumentaciones;
+        vm.isDatosPersonalesSelected = isDatosPersonalesSelected;
+        vm.isAntecedentesSelected = isAntecedentesSelected;
+        vm.isDiagnosticosSelected = isDiagnosticosSelected;
+        vm.isAtencionesSelected = isAtencionesSelected;
+        vm.isDocumentacionesSelected = isDocumentacionesSelected;
 
         vm.goEdit = goEdit;
         vm.goToConsultar = goToConsultar;
         vm.cancelEditing = cancelEditing;
+        vm.onAtencionesView = onAtencionesView;
 
         vm.submit = submit;
         vm.openDeleteDialog = openDeleteDialog;
@@ -68,6 +76,34 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
             goViewOrEdit(ATENCIONES_TAB)
         }
 
+        function goDocumentaciones() {
+            goViewOrEdit(DOCUMENTACIONES_TAB);
+        }
+
+        function isDatosPersonalesSelected() {
+            return isTabSelected(DATOS_PERSONALES_TAB);
+        }
+
+        function isAntecedentesSelected() {
+            return isTabSelected(ANTECEDENTES_TAB);
+        }
+
+        function isDiagnosticosSelected() {
+            return isTabSelected(DIAGNOSTICO_TAB);
+        }
+
+        function isAtencionesSelected() {
+            return isTabSelected(ATENCIONES_TAB);
+        }
+
+        function isDocumentacionesSelected() {
+            return isTabSelected(DOCUMENTACIONES_TAB);
+        }
+
+        function isTabSelected(tab) {
+            return $state.current.name.indexOf(tab) > 1;
+        }
+
         function goViewOrEdit(tab) {
             vm.data.currentTab = tab;
             cacheTab();
@@ -79,6 +115,10 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         function goEdit() {
             var current = vm.data.currentTab || getTab();
             $state.go(PREFIX + current + EDIT_SUFFIX, {editing : true});
+        }
+
+        function onAtencionesView() {
+            return $state.current.name.indexOf(ATENCIONES_TAB) > 1;
         }
 
         function goToConsultar() {
