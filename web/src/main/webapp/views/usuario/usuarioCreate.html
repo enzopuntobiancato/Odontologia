@@ -7,7 +7,8 @@
                         <form name="usuarioForm" novalidate ng-submit="save(usuarioForm)">
                         <md-toolbar class="md-accent">
                             <div class="md-toolbar-tools">
-                                <span>{{ 'CREAR_USUARIO' | translate }}</span>
+                                <span ng-if="!data.isAlumno">{{ 'CREAR_USUARIO' | translate }}</span>
+                                <span ng-if="data.isAlumno">Crear alumno</span>
                             </div>
                         </md-toolbar>
                         <md-card-content>
@@ -71,7 +72,7 @@
                             <div layout-gt-sm="row" layout-margin>
                                 <md-input-container flex-gt-sm="33">
                                     <label>{{ 'ROL' | translate }}</label>
-                                    <md-select required ng-model="personaDTO.usuario.rol" ng-model-options="{trackBy: '$value.id'}" name="rol">
+                                    <md-select required ng-disabled="data.isAlumno" ng-model="personaDTO.usuario.rol" ng-model-options="{trackBy: '$value.id'}" name="rol">
                                         <md-option ng-repeat="rol in data.roles" ng-value="rol">
                                             {{ rol.nombre.nombre }}
                                         </md-option>
