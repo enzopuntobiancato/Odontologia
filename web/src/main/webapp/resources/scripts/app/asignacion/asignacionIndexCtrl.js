@@ -155,7 +155,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 executeQuery();
 //                buscarAsignaciones("consultarAsignacionesForm");
             }
-        };
+        }
 
         //Chips
         function updateFilterChips() {
@@ -255,7 +255,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 paginationData: vm.paginationData
             }
             cache.put('data', data);
-        };
+        }
 
         function getCachedData() {
             var data = cache.get('data');
@@ -269,7 +269,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
 //                buscarAsignaciones("consultarAsignacionesForm")
                 executeQuery();
             }
-        };
+        }
 
         //Paginación
         function nextPage() {
