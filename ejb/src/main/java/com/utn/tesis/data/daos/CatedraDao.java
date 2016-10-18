@@ -3,6 +3,7 @@ package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -25,6 +26,15 @@ public class CatedraDao extends DaoBase<Catedra> {
         }
         query = paginar(query, pageNumber, pageSize);
         return query.list(catedra);
+    }
+
+    public List<Catedra> findCatedrasByDenomicacion(String denominacion){
+        JPAQuery query = new JPAQuery(em).from(catedra);
+        if(StringUtils.isNotBlank(denominacion)){
+            query.where(catedra.denominacion.startsWithIgnoreCase(denominacion));
+        }
+        List<Catedra> catedras = query.list(catedra);
+        return catedras;
     }
 
     public List<Catedra> findCatedrasByProfesor(Profesor p){

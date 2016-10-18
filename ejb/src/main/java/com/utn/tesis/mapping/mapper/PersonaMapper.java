@@ -58,6 +58,8 @@ public abstract class PersonaMapper {
 
     public abstract List<AlumnoDTO> toAlumnoDTOList(List<Alumno> alumnos);
 
+    public abstract List<ProfesorDTO> toProfesorDTOList(List<Profesor> profesores);
+
     public PersonaDTO toDTO(Persona source) {
         if (source instanceof Alumno) {
             return this.alumnoToDTO((Alumno) source);
@@ -108,7 +110,7 @@ public abstract class PersonaMapper {
         }
     }
 
-    public List<? extends PersonaDTO> toDTOList(List<Persona> source) {
+    public List<? extends PersonaDTO> toDTOList(List<? extends Persona> source) {
         if(source == null || source.isEmpty()){
             return null;
         }
@@ -116,7 +118,11 @@ public abstract class PersonaMapper {
         if (p instanceof Alumno){
             List<Alumno> b = (List<Alumno>) (List<?>) source;
             return this.toAlumnoDTOList(b);
+        } else if(p instanceof Profesor){
+            List<Profesor> b = (List<Profesor>) (List<?>) source;
+            return toProfesorDTOList(b);
         }
+
         return null;
     }
 

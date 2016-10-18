@@ -16,6 +16,7 @@ import java.util.List;
 @Mapper(componentModel = "cdi", uses = {DiaHorarioMapper.class, MateriaMapper.class, TrabajoPracticoMapper.class})
 public interface CatedraMapper {
     CatedraDTO toDTO(Catedra source);
+    List<CatedraDTO> toDTOList(List<Catedra> source);
     @Mapping(target= "materia", ignore = true)
     Catedra fromDTO(CatedraDTO source);
     @Mapping(target= "materia", ignore = true)

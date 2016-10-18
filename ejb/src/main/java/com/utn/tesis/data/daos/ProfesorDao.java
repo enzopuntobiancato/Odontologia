@@ -6,7 +6,9 @@ import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.*;
+import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,6 +70,19 @@ public class ProfesorDao extends DaoBase<Profesor> implements PersonaDaoQueryRes
         }
 
         return query.list(profesor);
+    }
+
+    public List<Profesor> findProfesoresByApellido(String apellidoNombre, String legajo){
+        List<Profesor> profesores;
+
+        JPAQuery query = new JPAQuery(em).from($);
+        if(StringUtils.isNotBlank(apellidoNombre)){
+            query.where($.apellido.containsIgnoreCase(apellidoNombre));
+        } else {
+            query.where($.legajo.like(legajo));
+        }
+        profesores = query.list($);
+        return profesores;
     }
 
     @Override

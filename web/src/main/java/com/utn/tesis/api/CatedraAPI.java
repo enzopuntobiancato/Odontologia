@@ -29,13 +29,14 @@ public class CatedraAPI extends BaseAPI {
     @Path("/find")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CatedraConsultaDTO> findByFilters(@QueryParam("denominacion") String denominacion,
+    public List<CatedraDTO> findByFilters(@QueryParam("denominacion") String denominacion,
                                                   @QueryParam("materiaId") Long materiaId,
                                                   @QueryParam("dadosBaja") boolean dadosBaja,
                                                   @QueryParam("pageNumber") Long pageNumber,
                                                   @QueryParam("pageSize") Long pageSize) {
         List<Catedra> result = catedraService.findByFilters(denominacion, materiaId, dadosBaja, pageNumber, pageSize);
-        return catedraMapper.toConsultaDTOList(result);
+        result = catedraService.reloadList(result,1);
+        return catedraMapper.toDTOList(result);
     }
 
     @POST
@@ -69,6 +70,14 @@ public class CatedraAPI extends BaseAPI {
     @PUT
     public void restore(@QueryParam("id") Long id) {
         catedraService.restore(id);
+    }
+
+    @Path("/findCatedrasByDenomicacion")
+    @GET
+    public List<CatedraConsultaDTO> findCatedrasByDenomicacion(@QueryParam("searchText") String searchText){
+        List<Catedra> catedras = catedraService.findCatedrasByDenomicacion(searchText);
+        List<CatedraConsultaDTO> catedraDTOs = catedraMapper.toConsultaDTOList(catedras);
+        return catedraDTOs;
     }
 
 }

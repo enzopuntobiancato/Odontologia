@@ -293,7 +293,7 @@ public class InitializationService {
         addFuncionalidad("Trabajos prácticos", "trabajoPractico.index", datosAcademicos, TPS_IDX);
         addFuncionalidad("Cátedras", "catedra.index", datosAcademicos, CATEDRAS_IDX);
         addFuncionalidad("Consultar información de trabajos prácticos", "", datosAcademicos, CONS_INFO_TP_IDX);
-        addFuncionalidad("Asignar profesores a cátedras", "", datosAcademicos, ASIGNAR_PROF_CAT_IDX);
+        addFuncionalidad("Asignar profesores a cátedras", "profesor.editCatedrasProfesor", datosAcademicos, ASIGNAR_PROF_CAT_IDX);
 
         // SOPORTE
         addFuncionalidad("Usuarios", "usuario.index", soporte, USUARIOS_IDX);
@@ -498,6 +498,31 @@ public class InitializationService {
         profesor.setProfesion("Odontólogo");
         profesor.setCatedras(Arrays.asList(catedraList.get(0)));
         createUsuarioYPersona("profesor", "Alexis", "Spesot", rolList.get(2), profesor, true);
+
+        Profesor profesor2 = new Profesor();
+        profesor2.setProfesion("Odontólogo");
+        createUsuarioYPersona("profesor2", "Juan", "Pérez", rolList.get(2), profesor2, true);
+
+        Profesor profesor3 = new Profesor();
+        profesor3.setProfesion("Odontólogo");
+        createUsuarioYPersona("profesor3", "Pedro", "Martinez", rolList.get(2), profesor3, true);
+
+        Profesor profesor4 = new Profesor();
+        profesor4.setProfesion("Odontólogo");
+        createUsuarioYPersona("profesor4", "Santiago", "Spinosa", rolList.get(2), profesor4, true);
+
+        Profesor profesor5 = new Profesor();
+        profesor5.setProfesion("Odontólogo");
+        createUsuarioYPersona("profesor5", "Alexis", "Spesot", rolList.get(2), profesor5, true);
+
+        Profesor profesor6 = new Profesor();
+        profesor6.setProfesion("Odontólogo");
+        createUsuarioYPersona("profesor6", "Alexis", "Spesot", rolList.get(2), profesor6, true);
+
+        Profesor profesor7 = new Profesor();
+        profesor7.setProfesion("Odontólogo");
+        createUsuarioYPersona("profesor7", "Agustin", "Cardeilac", rolList.get(2), profesor7, true);
+
         createUsuarioYPersona("responsable", "Maximiliano", "Barros", rolList.get(3), new ResponsableRecepcion(), true);
         createUsuarioYPersona("adminAcademico", "Mauro", "Barros", rolList.get(4), new AdministradorAcademico(), true);
         Autoridad autoridad = new Autoridad();
