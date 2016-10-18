@@ -20,6 +20,22 @@ import java.util.*;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Slf4j
 public class InitializationService {
+    private static final int MATERIAS_IDX = 0;
+    private static final int PRACTICAS_IDX = 1;
+    private static final int TPS_IDX = 2;
+    private static final int CATEDRAS_IDX = 3;
+    private static final int CONS_INFO_TP_IDX = 4;
+    private static final int ASIGNAR_PROF_CAT_IDX = 5;
+    private static final int USUARIOS_IDX = 6;
+    private static final int RESPALDO_IDX = 7;
+    private static final int CONS_ASIG_IDX = 8;
+    private static final int AUTORIZAR_ASIG_IDX = 9;
+    private static final int CONS_PACIENTES_IDX = 10;
+    private static final int BONO_IDX = 11;
+    private static final int REG_ALUMNO_IDX = 12;
+    private static final int CONS_ALUMNOS_IDX = 13;
+    private static final int ESTADISTICAS_IDX = 14;
+
     @Inject
     private GrupoPracticaOdontologicaService grupoPracticaOdontologicaService;
     @Inject
@@ -63,7 +79,6 @@ public class InitializationService {
     private ArrayList<PracticaOdontologica> practicaOdontologicasList = new ArrayList<PracticaOdontologica>();
     private ArrayList<GrupoFuncionalidad> grupoFuncionalidadList = new ArrayList<GrupoFuncionalidad>();
     private ArrayList<Funcionalidad> funcionalidadList = new ArrayList<Funcionalidad>();
-    private ArrayList<Privilegio> privilegioList = new ArrayList<Privilegio>();
     private ArrayList<Rol> rolList = new ArrayList<Rol>();
     private ArrayList<Materia> materiaList = new ArrayList<Materia>();
     private ArrayList<TrabajoPractico> trabajoPracticoList = new ArrayList<TrabajoPractico>();
@@ -248,19 +263,17 @@ public class InitializationService {
         pacientes.setNombre("Pacientes");
         grupoFuncionalidadList.add(grupoFuncionalidadService.save(pacientes));
 
-        GrupoFuncionalidad estadisticas = new GrupoFuncionalidad();
-        estadisticas.setNombre("Análisis de datos");
-        grupoFuncionalidadList.add(grupoFuncionalidadService.save(estadisticas));
-
         GrupoFuncionalidad asignaciones = new GrupoFuncionalidad();
-        asignaciones.setNombre("Asignaciones");
+        asignaciones.setNombre("Asignaciones de paciente");
         grupoFuncionalidadList.add(grupoFuncionalidadService.save(asignaciones));
 
-        GrupoFuncionalidad ayuda = new GrupoFuncionalidad();
-        ayuda.setNombre("Ayuda");
-        grupoFuncionalidadList.add(grupoFuncionalidadService.save(ayuda));
+        GrupoFuncionalidad datosAcademicos = new GrupoFuncionalidad();
+        datosAcademicos.setNombre("Datos académicos");
+        grupoFuncionalidadList.add(grupoFuncionalidadService.save(datosAcademicos));
 
-
+        GrupoFuncionalidad alumnos = new GrupoFuncionalidad();
+        alumnos.setNombre("Alumnos");
+        grupoFuncionalidadList.add(grupoFuncionalidadService.save(alumnos));
 
         log.info("CargarGrupoFuncionalidad FINAL");
     }
@@ -268,83 +281,100 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarFuncionalidad() throws SAPOException {
         log.info("CargarFuncionalidad INICIO");
-        Funcionalidad f1 = new Funcionalidad();
-        f1.setNombre("Materia");
-        f1.setEstadoAsociado("materia.index");
-        f1.setGrupoFuncionalidad(grupoFuncionalidadList.get(0));
-        funcionalidadList.add(funcionalidadService.save(f1));
+        GrupoFuncionalidad soporte = grupoFuncionalidadList.get(0);
+        GrupoFuncionalidad pacientes = grupoFuncionalidadList.get(1);
+        GrupoFuncionalidad asignaciones = grupoFuncionalidadList.get(2);
+        GrupoFuncionalidad datosAcademicos = grupoFuncionalidadList.get(3);
+        GrupoFuncionalidad alumnos = grupoFuncionalidadList.get(4);
 
-        Funcionalidad f2 = new Funcionalidad();
-        f2.setNombre("Práctica odontológica");
-        f2.setEstadoAsociado("practicaOdontologica.index");
-        f2.setGrupoFuncionalidad(grupoFuncionalidadList.get(0));
-        funcionalidadList.add(funcionalidadService.save(f2));
+        // DATOS ACADEMICOS
+        addFuncionalidad("Materias", "materia.index", datosAcademicos, MATERIAS_IDX);
+        addFuncionalidad("Prácticas odontológicas", "practicaOdontologica.index", datosAcademicos, PRACTICAS_IDX);
+        addFuncionalidad("Trabajos prácticos", "trabajoPractico.index", datosAcademicos, TPS_IDX);
+        addFuncionalidad("Cátedras", "catedra.index", datosAcademicos, CATEDRAS_IDX);
+        addFuncionalidad("Consultar información de trabajos prácticos", "", datosAcademicos, CONS_INFO_TP_IDX);
+        addFuncionalidad("Asignar profesores a cátedras", "", datosAcademicos, ASIGNAR_PROF_CAT_IDX);
 
-        Funcionalidad f3 = new Funcionalidad();
-        f3.setNombre("Trabajo práctico");
-        f3.setEstadoAsociado("trabajoPractico.index");
-        f3.setGrupoFuncionalidad(grupoFuncionalidadList.get(0));
-        funcionalidadList.add(funcionalidadService.save(f3));
+        // SOPORTE
+        addFuncionalidad("Usuarios", "usuario.index", soporte, USUARIOS_IDX);
+        addFuncionalidad("Respaldo de datos de sistema", "", soporte, RESPALDO_IDX);
 
-        Funcionalidad f4 = new Funcionalidad();
-        f4.setNombre("Catedra");
-        f4.setEstadoAsociado("catedra.index");
-        f4.setGrupoFuncionalidad(grupoFuncionalidadList.get(0));
-        funcionalidadList.add(funcionalidadService.save(f4));
+        // ASIGNACIONES
+        addFuncionalidad("Consultar asignaciones", "asignacion.index", asignaciones, CONS_ASIG_IDX);
+        addFuncionalidad("Autorizar asignaciones", "asignacion.autorizar", asignaciones, AUTORIZAR_ASIG_IDX);
 
-        Funcionalidad f5 = new Funcionalidad();
-        f5.setNombre("Usuario");
-        f5.setEstadoAsociado("usuario.index");
-        f5.setGrupoFuncionalidad(grupoFuncionalidadList.get(0));
-        funcionalidadList.add(funcionalidadService.save(f5));
+        // PACIENTES
+        addFuncionalidad("Consultar pacientes", "paciente.index", pacientes, CONS_PACIENTES_IDX);
+        addFuncionalidad("Emitir bono de consulta", "", pacientes, BONO_IDX);
 
-        Funcionalidad f6 = new Funcionalidad();
-        f6.setNombre("Paciente");
-        f6.setEstadoAsociado("paciente.index");
-        f6.setGrupoFuncionalidad(grupoFuncionalidadList.get(1));
-        funcionalidadList.add(funcionalidadService.save(f6));
+        // ALUMNOS
+        addFuncionalidad("Registrar alumno", "usuario.registerAlumno", alumnos, REG_ALUMNO_IDX);
+        addFuncionalidad("Consultar alumnos", "", alumnos, CONS_ALUMNOS_IDX);
 
-        Funcionalidad f7 = new Funcionalidad();
-        f7.setNombre("Reportes y estadísticas");
-        f7.setEstadoAsociado("estadisticas");
-        f7.setGrupoFuncionalidad(grupoFuncionalidadList.get(2));
-        funcionalidadList.add(funcionalidadService.save(f7));
-
-        Funcionalidad f8 = new Funcionalidad();
-        f8.setNombre("Asignaciones");
-        f8.setEstadoAsociado("asignacion.index");
-        f8.setGrupoFuncionalidad(grupoFuncionalidadList.get(3));
-        funcionalidadList.add(funcionalidadService.save(f8));
-
-        Funcionalidad f9 = new Funcionalidad();
-        f9.setNombre("Autorizar asignaciones confirmadas");
-        f9.setEstadoAsociado("asignacion.autorizar");
-        f9.setGrupoFuncionalidad(grupoFuncionalidadList.get(3));
-        funcionalidadList.add(funcionalidadService.save(f9));
-
-
+        // ESTADISTICOAS
+        addFuncionalidad("Módulo de estadísticas", "estadisticas", null, ESTADISTICAS_IDX);
         log.info("CargarFuncionalidad FINAL");
+    }
+
+    private void addFuncionalidad(String nombre, String estadoAsociado, GrupoFuncionalidad grupo, int idx) throws SAPOException {
+        Funcionalidad f = new Funcionalidad();
+        f.setNombre(nombre);
+        f.setEstadoAsociado(estadoAsociado);
+        f.setGrupoFuncionalidad(grupo);
+        funcionalidadList.add(idx, funcionalidadService.save(f));
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarPrivilegio() throws SAPOException {
         log.info("CargarPrivilegio INICIO");
+        Rol administrador = rolList.get(0);
+        Rol alumno = rolList.get(1);
+        Rol profesor = rolList.get(2);
+        Rol rrp = rolList.get(3);
+        Rol adminAcademico = rolList.get(4);
+        Rol autoridad = rolList.get(5);
+
+        // ADMINISTRADOR
         for (Funcionalidad f : funcionalidadList) {
-            Privilegio p = new Privilegio();
-            p.setFuncionalidad(f);
-            p.setEsItemMenu(true);
-            p.setRol(rolList.get(0));
-            privilegioList.add(privilegioService.save(p));
+            addPrivilegio(f, true, administrador);
         }
-        //Funcionalidad Profesor
-        Privilegio privABMAsignaciones = new Privilegio(funcionalidadList.get(7), true, rolList.get(2));
-        Privilegio privAutorizarAsignaciones = new Privilegio(funcionalidadList.get(8), true, rolList.get(2));
-        privilegioList.add(privilegioService.save(privABMAsignaciones));
-        privilegioList.add(privilegioService.save(privAutorizarAsignaciones));
-        //Funcionalidad Alumno
-        Privilegio privABMPaciente = new Privilegio(funcionalidadList.get(5), true, rolList.get(1));
-        privilegioList.add(privilegioService.save(privABMPaciente));
+
+        // ALUMNO
+        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), true, alumno);
+        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), true, alumno);
+
+        // PROFESOR
+        addPrivilegio(funcionalidadList.get(AUTORIZAR_ASIG_IDX), true, profesor);
+        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), true, profesor);
+        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), true, profesor);
+        addPrivilegio(funcionalidadList.get(CONS_PACIENTES_IDX), true, profesor);
+        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), true, profesor);
+        addPrivilegio(funcionalidadList.get(ESTADISTICAS_IDX), true, profesor);
+
+        // RESPONSABLE DE RECEPCION
+        addPrivilegio(funcionalidadList.get(CONS_PACIENTES_IDX), true, rrp);
+        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), true, rrp);
+        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), true, rrp);
+        addPrivilegio(funcionalidadList.get(REG_ALUMNO_IDX), true, rrp);
+        addPrivilegio(funcionalidadList.get(BONO_IDX), true, rrp);
+
+        // ADMINISTRADOR ACADÉMICO
+        addPrivilegio(funcionalidadList.get(MATERIAS_IDX), true, adminAcademico);
+        addPrivilegio(funcionalidadList.get(PRACTICAS_IDX), true, adminAcademico);
+        addPrivilegio(funcionalidadList.get(TPS_IDX), true, adminAcademico);
+        addPrivilegio(funcionalidadList.get(CATEDRAS_IDX), true, adminAcademico);
+        addPrivilegio(funcionalidadList.get(ASIGNAR_PROF_CAT_IDX), true, adminAcademico);
+
+        // AUTORIDAD
+        addPrivilegio(funcionalidadList.get(ESTADISTICAS_IDX), true, autoridad);
+        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), true, autoridad);
+        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), true, autoridad);
         log.info("CargarPrivilegio FINAL");
+    }
+
+    private void addPrivilegio(Funcionalidad f, boolean isItemMenu, Rol rol) throws SAPOException {
+        Privilegio privilegio = new Privilegio(f, isItemMenu, rol);
+        privilegioService.save(privilegio);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

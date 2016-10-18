@@ -113,7 +113,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
     };
 
     authFactory.logout = function () {
-        $cookies.remove(SESSION_COOKIE);
+        $cookies.remove(USER_COOKIE);
         $cookies.remove(MENU_COOKIE);
         return this.session = {};
     };
