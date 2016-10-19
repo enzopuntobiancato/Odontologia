@@ -89,6 +89,7 @@ public class PersonaService extends BaseService<Persona> {
 
     @Override
     protected void bussinessValidation(Persona entity) throws SAPOValidationException {
+        entity.validar();
         List<? extends Persona> sameDocumentPersons = dao.validateByDocument(entity);
         if (!sameDocumentPersons.isEmpty()) {
             throw new SAPOValidationException(ImmutableMap.of("documento", "Número y tipo de documento ya registrado."));

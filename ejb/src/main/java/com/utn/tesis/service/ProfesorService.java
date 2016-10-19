@@ -47,4 +47,10 @@ public class ProfesorService extends BaseService<Profesor> {
     public List<Profesor> findByNombreApellido(String nombApp, Long page, Long pageSize) {
         return dao.findByNombreApellido(nombApp, page, pageSize);
     }
+
+    public List<Profesor> findProfesoresByApellido(String apellidoNombre, String legajo){
+        List<Profesor> profesores = dao.findByNombreApellido(apellidoNombre, null, null);
+        profesores = reloadList(profesores, 2);
+        return profesores;
+    }
 }

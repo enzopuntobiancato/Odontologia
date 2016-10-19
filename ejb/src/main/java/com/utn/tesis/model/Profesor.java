@@ -1,11 +1,10 @@
 package com.utn.tesis.model;
 
+import com.utn.tesis.exception.SAPOValidationException;
+import freemarker.core.CollectionAndSequence;
 import io.github.benas.randombeans.annotation.Exclude;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -17,7 +16,9 @@ public class Profesor extends Persona {
     private static final long serialVersionUID = 8963528362720029022L;
 
     @Exclude
-    @OneToMany
+    @ManyToMany
+    @JoinTable(name="profesores_catedras", joinColumns=@JoinColumn(name="profesor_id"),
+            inverseJoinColumns=@JoinColumn(name="catedra_id"))
     private List<Catedra> catedras;
 
     @Exclude
@@ -97,5 +98,9 @@ public class Profesor extends Persona {
         int result = super.hashCode();
         result = 31 * result + (catedras != null ? catedras.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public void validar() throws SAPOValidationException {
     }
 }

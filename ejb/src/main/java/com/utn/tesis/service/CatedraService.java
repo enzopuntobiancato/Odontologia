@@ -55,6 +55,10 @@ public class CatedraService extends BaseService<Catedra> {
         return result;
     }
 
+    public List<Catedra> findCatedrasByDenomicacion(String denominacion){
+        return dao.findCatedrasByDenomicacion(denominacion);
+    }
+
     @Override
     public Catedra findById(Long id) {
         Catedra catedra = super.findById(id);

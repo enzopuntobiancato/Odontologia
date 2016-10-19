@@ -4,13 +4,17 @@ import com.utn.tesis.api.commons.MultiPartFormHelper;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.ArchivoDTO;
 import com.utn.tesis.mapping.dto.PersonaDTO;
+import com.utn.tesis.mapping.dto.ProfesorDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.FileExtension;
 import com.utn.tesis.model.Persona;
+import com.utn.tesis.model.Profesor;
 import com.utn.tesis.service.PersonaService;
+import com.utn.tesis.service.ProfesorService;
 import com.utn.tesis.service.UsuarioService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -32,6 +36,8 @@ public class PersonaAPI {
     private PersonaService personaService;
     @Inject
     private UsuarioService usuarioService;
+    @Inject
+    private ProfesorService profesorService;
     @Inject
     private PersonaMapper personaMapper;
     @Inject
@@ -66,5 +72,39 @@ public class PersonaAPI {
                                  @QueryParam("authToken") String authToken) {
         Persona persona = personaService.findByUserByUsernameAndAuthtoken(username, authToken);
         return personaMapper.toDTO(persona);
+    }
+
+    @Path("/addCatedraToProfesor")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addCatedraToProfesor(ProfesorDTO profesorDTO){
+        try {
+            Profesor updatedProfesor = personaMapper.profesorFromDTO(profesorDTO);
+            Persona profesor = personaService.findById(profesorDTO.getId());
+            ((Profesor) profesor).setCatedras(updatedProfesor.getCatedras());
+            personaService.save(profesor);
+            return Response.ok().build();
+        } catch (SAPOException e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        }
+    }
+
+    @Path("/findProfesoresByApellido")
+    @GET
+    public List<ProfesorDTO> findProfesoresByNombre(@QueryParam("searchText") String searchText){
+        String legajo = null;
+        String apellidoNombre = null;
+
+        if(StringUtils.isNumeric(searchText)){
+            legajo = searchText;
+        }else{
+            apellidoNombre = searchText;
+        }
+        List<Profesor> profesores = profesorService.findProfesoresByApellido(apellidoNombre, legajo);
+
+        List<ProfesorDTO> dtos = (List<ProfesorDTO>) personaMapper.toDTOList(profesores);
+        return dtos;
     }
 }

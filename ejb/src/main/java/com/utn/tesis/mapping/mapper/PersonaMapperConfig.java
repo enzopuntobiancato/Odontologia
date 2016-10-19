@@ -12,7 +12,7 @@ import java.util.List;
  * Date: 24/01/16
  * Time: 17:16
  */
-@MapperConfig(componentModel = "cdi", uses = {DocumentoMapper.class, EnumMapper.class, UsuarioMapper.class},
+@MapperConfig(componentModel = "cdi", uses = {DocumentoMapper.class, EnumMapper.class, UsuarioMapper.class, CatedraMapper.class},
         mappingInheritanceStrategy = MappingInheritanceStrategy.AUTO_INHERIT_FROM_CONFIG)
 public interface PersonaMapperConfig {
     @Mapping(target = "nombreRol",  expression = "java(source.getUsuario().getRol().getNombre().getKey())")

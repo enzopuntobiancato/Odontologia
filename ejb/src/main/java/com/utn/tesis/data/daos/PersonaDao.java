@@ -1,13 +1,14 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.BooleanExpression;
 import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.*;
+import org.apache.commons.lang.StringUtils;
 
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

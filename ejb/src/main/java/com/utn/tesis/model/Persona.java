@@ -2,6 +2,7 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 import io.github.benas.randombeans.annotation.Exclude;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -125,7 +126,6 @@ public abstract class Persona extends SuperEntityBase {
 
     @Override
     public void validar() throws SAPOValidationException {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
