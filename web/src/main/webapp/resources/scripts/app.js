@@ -925,9 +925,6 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
                     }],
-                    catedrasResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
-                        return service.getCatedras();
-                    }],
                     trabajosPracticosResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return service.getTrabajosPracticos();
                     }],
@@ -948,9 +945,6 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     profesorResponse: ['loadMyModule', 'AsignacionSrv', 'authFactory', function (loadMyModule, service, authFactory) {
                         var user = authFactory.getAuthData();
                         return service.findProfesorByUser(user.id);
-                    }],
-                    trabajosPracticosResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
-                        return null;
                     }],
                     estadosAsignacionResponse : ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
                         return service.getEstadosAsignaciones();
@@ -974,9 +968,6 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     sexosResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getSexos();
-                    }],
-                    catedrasResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
-                        return service.getCatedras();
                     }],
                     asignacionResponse: ['$stateParams', 'loadMyModule', 'AsignacionSrv',
                         function ($stateParams, loadMyModule, service) {

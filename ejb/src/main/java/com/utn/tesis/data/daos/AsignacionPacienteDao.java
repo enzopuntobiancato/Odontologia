@@ -23,7 +23,7 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
     public List<AsignacionPaciente> findByFilters(Long alumnoId, String nombreAlumno, String apellidoAlumno,
                                                   Documento documentoAlumno, Long profesorId, String nombrePaciente,
                                                   String apellidoPaciente, Documento documentoPaciente,
-                                                  Long catedraId, EstadoAsignacionPaciente estado,
+                                                  List<Long> catedrasId, EstadoAsignacionPaciente estado,
                                                   Long diagnosticoId, Calendar fechaCreacion,
                                                   Calendar fechaAsignacion, Long trabajoPracticoId, boolean dadosBaja,
                                                   Long page, Long pageSize) {
@@ -56,8 +56,8 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
         }
         if (estado != null)
             query.where(asignacionPaciente.ultimoMovimiento.estado.eq(estado));
-        if (catedraId != null)
-            query.where(asignacionPaciente.trabajoPractico.catedras.any().id.eq(catedraId));
+        if (catedrasId != null && catedrasId.size() > 0)
+            query.where(asignacionPaciente.catedra.id.in(catedrasId));
         if (diagnosticoId != null)
             query.where(asignacionPaciente.diagnostico.id.eq(diagnosticoId));
         if (trabajoPracticoId != null)
@@ -156,7 +156,7 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
         if (documentoPaciente != null) {
             query.where(paciente.documento.eq(documentoPaciente));
         }
-
+        query.where(diagnostico.ultimoMovimiento.estado.ne(EstadoDiagnostico.RESERVADO));
         query = paginar(query, page, pageSize);
 
         List<Object[]> tuplas = query.list(diagnostico.id, diagnostico.fechaCreacion, diagnostico.practicaOdontologica.denominacion,

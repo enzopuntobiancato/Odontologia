@@ -44,14 +44,26 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
         (function init() {
             vm.user = authFactory.getAuthData();
             vm.data.catedras = [];
-
-            service.findCatedrasByProfesor(vm.data.profesor.id)
-                .success(function(data){
-                    vm.data.catedras = data;
-                }).error(function(error){
-                    console.log(error);
-                });
-
+            if (vm.user.profesor) {
+                service.findCatedrasByProfesor(vm.user.id)
+                    .success(function (data) {
+                        vm.data.catedras = data;
+                        for (var i = 0; i < vm.data.catedras.length; i++) {
+                            vm.filter.catedrasId.push(vm.data.catedras[i].id);
+                        }
+                        executeQuery();
+                    }).error(function (error) {
+                        console.log(error);
+                    })
+            } else {
+                service.getCatedras()
+                    .success(function (data) {
+                        vm.data.catedras = data;
+                        executeQuery();
+                    }).error(function (error) {
+                        console.log(error);
+                    })
+            }
         })();
 
 

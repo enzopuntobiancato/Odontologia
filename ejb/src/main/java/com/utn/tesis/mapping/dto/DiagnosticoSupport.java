@@ -1,7 +1,6 @@
 package com.utn.tesis.mapping.dto;
 
-import com.utn.tesis.model.Diagnostico;
-import com.utn.tesis.model.Paciente;
+
 
 import java.util.Calendar;
 

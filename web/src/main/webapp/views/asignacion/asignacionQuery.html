@@ -18,111 +18,6 @@
     </div>
 </md-toolbar>
 <md-card-content>
-<!--<md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
-    <div class="md-toolbar-tools">
-        <h2 class="md-title">{{ 'BUSCAR_ALUMNO' | translate }}</h2>
-       &lt;!&ndash; <md-button type="button">
-            <md-tooltip>
-                {{'BUSCAR_ALUMNO' | translate}}
-            </md-tooltip>
-            <ng-md-icon icon="launch" ng-attr-style="fill: {{vm.colorIcon[0]}}"
-                        ng-click="vm.showConsultarAlumnosDialog($event)"
-                        ng-Mouseover="vm.colorMouseOver(0)"
-                        ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
-        </md-button>&ndash;&gt;
-        <span flex></span>
-    </div>
-</md-toolbar>-->
-<!--<ng-form name="consultarAlumnosForm">
-    <div layout="row" layout-margin>
-        <md-input-container flex-gt-sm>
-            <label>Apellido</label>
-            <input ng-model="vm.filter.apellidoAlumno" name="apellidoAlumno" ng-keypress="vm.keyboardOk($event)">
-        </md-input-container>
-        <md-input-container flex-gt-sm>
-            <label>Nombre</label>
-            <input ng-model="vm.filter.nombreAlumno" name="nombreAlumno" ng-keypress="vm.keyboardOk($event)">
-        </md-input-container>
-        <md-input-container>
-            <md-select name="tipoDocumentoAlumno" ng-model="vm.filter.tipoDocumentoAlumno"
-                       placeholder="{{ 'TIPO_DOC' | translate }}">
-                <md-option ng-repeat="tipoDoc in vm.data.tiposDocumentos" ng-value="tipoDoc.key">
-                    {{ tipoDoc.nombre }}
-                </md-option>
-            </md-select>
-        </md-input-container>
-        <md-input-container flex-gt-sm>
-            <label>{{ 'NUM_DOC' | translate }}</label>
-            <input ng-model="vm.filter.numeroDocumentoAlumno" name="numeroDocumentoAlumno"
-                   ng-disabled="!vm.filter.tipoDocumentoAlumno"
-                   ng-required="vm.filter.tipoDocumentoAlumno" ng-pattern="/^[0-9]+$/">
-            <error-messages form="consultarAlumnosForm.numeroDocumentoAlumno"
-                            submitted="vm.submitted"></error-messages>
-        </md-input-container>
-        <div flex="33" layout="row" layout-align="start center">
-            <md-button type="submit" type="button" ng-click="vm.buscarAlumnos(consultarAlumnosForm)">
-                <md-tooltip>
-                    {{'BUSCAR' | translate}}
-                </md-tooltip>
-                <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{vm.colorIcon[0]}}"
-                            ng-Mouseover="vm.colorMouseOver(0)"
-                            ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
-            </md-button>
-            <md-button ng-click="vm.cleanFilters()" type="button">
-                <md-tooltip>
-                    {{'LIMPIAR_FILTROS' | translate}}
-                </md-tooltip>
-                <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{vm.colorIcon[2]}}"
-                            ng-Mouseover="vm.colorMouseOver(1)"
-                            ng-mouseleave="vm.colorMouseLeave(1)"></ng-md-icon>
-            </md-button>
-        </div>
-        &lt;!&ndash;<md-button type="submit" class="md-icon-button">
-            <ng-md-icon icon="search" size="24"></ng-md-icon>
-        </md-button>&ndash;&gt;
-    </div>
-    <ng-include ng-if="vm.alumnos.length== 0" src="'views/no-results.html'"></ng-include>
-    <md-table-container ng-if="vm.alumnos.length > 0 && !vm.filter.selectedAlumno">
-        <table md-table md-row-select="true"
-               multiple="false"
-               ng-model="vm.selectedAlumnos">
-            <thead md-head>
-            <tr md-row md-auto-select>
-                <th md-column><span>{{ 'NOMBRE_APELLIDO' | translate }}</span></th>
-                <th md-column><span>{{ 'DOCUMENTO' | translate }}</span></th>
-            </tr>
-            </thead>
-            <tbody md-body>
-            <tr md-row md-select="alumno" md-on-select="vm.onAlumnoSelected"
-                ng-repeat="alumno in vm.alumnos">
-                <td md-cell>{{alumno.apellido}}, {{ alumno.nombre }}</td>
-                <td md-cell>{{alumno.documento.tipoDocumento.nombre}}: {{ alumno.documento.numero }}</td>
-            </tr>
-            </tbody>
-        </table>
-    </md-table-container>
-    <div class="buttons table-pagination" layout="row" layout-align="center center"
-         ng-if="vm.alumnos.length > 0 && !vm.filter.selectedAlumno">
-        <md-button class="md-icon-button" type="button"
-                   aria-label="First">
-            <md-icon md-svg-icon="navigate-first.svg"></md-icon>
-        </md-button>
-        <md-button class="md-icon-button" type="button"
-                   ng-click="vm.previousPageAlumno()"
-                   aria-label="Previous">
-            <md-icon md-svg-icon="navigate-before.svg"></md-icon>
-        </md-button>
-        <md-button class="md-icon-button"
-                   type="button" ng-click="vm.nextPageAlumno()"
-                   aria-label="Next">
-            <md-icon md-svg-icon="navigate-next.svg"></md-icon>
-        </md-button>
-        <md-button class="md-icon-button" type="button"
-                   aria-label="Last">
-            <md-icon md-svg-icon="navigate-last.svg"></md-icon>
-        </md-button>
-    </div>
-</ng-form>-->
 <section>
     <ng-form name="consultarAsignacionesForm" novalidate>
         <div layout="row" layout-margin>
@@ -144,7 +39,7 @@
                                 ng-Mouseover="vm.colorMouseOver(0)"
                                 ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
                 </md-button>
-                <md-button type="button" ng-if="!vm.esAlumno">
+                <md-button type="button" ng-if="!vm.user.alumno">
                     <md-tooltip>
                         {{'BUSCAR_ALUMNO' | translate}}
                     </md-tooltip>
@@ -203,7 +98,7 @@
                 </md-input-container>
                 <md-input-container>
                     <md-select ng-model="vm.filter.catedra" name="catedra" placeholder="{{ 'CATEDRA' | translate }}"
-                               ting-change="vm.onCatedraSelected()">
+                               ng-change="vm.onCatedraSelected()">
                         <md-option ng-repeat="catedra in vm.data.catedras" ng-value="catedra">
                             {{ catedra.materia }} {{ catedra.denominacion }}
                         </md-option>
