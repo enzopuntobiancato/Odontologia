@@ -123,8 +123,7 @@ module.controller('PacienteCtrl_Index', ['$scope', '$rootScope', '$cacheFactory'
                 filter: vm.filter,
                 result: vm.result,
                 aux: vm.aux,
-                paginationData: vm.paginationData,
-
+                paginationData: vm.paginationData
             }
             cache.put('data', data);
         };
