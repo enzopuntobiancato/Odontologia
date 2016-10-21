@@ -9,9 +9,9 @@ var module = angular.module('asignacionModule');
 
 module.controller('AsignacionCtrl_EditCreate',
     ['$scope', '$rootScope', '$filter', '$mdDialog', 'AsignacionSrv', '$state', 'MessageSrv', 'PaginationService',
-        'tiposDocumentoResponse', 'sexosResponse', 'asignacionResponse', 'catedrasResponse','authFactory', 'ConfirmCreateEntitySrv',
+        'tiposDocumentoResponse', 'sexosResponse', 'asignacionResponse', 'authFactory', 'ConfirmCreateEntitySrv',
         function ($scope, $rootScope, $filter, $mdDialog, service, $state, message, pagination, tiposDocumentoResponse,
-                  sexosResponse, asignacionResponse, catedrasResponse, authFactory, confirmCreateEntitySrv) {
+                  sexosResponse, asignacionResponse, authFactory, confirmCreateEntitySrv) {
             var vm = this;
             //Asignacion a guardar
             vm.updating = $state.current.data.updating;
@@ -20,7 +20,6 @@ module.controller('AsignacionCtrl_EditCreate',
             vm.data = {
                 sexos: sexosResponse.data,
                 tiposDocumentos: tiposDocumentoResponse.data,
-                catedras: catedrasResponse.data,
                 trabajosPracticos: []
             };
             vm.titulo = vm.updating ? "Editar asignación" : "Registrar nueva asignación";
@@ -35,7 +34,9 @@ module.controller('AsignacionCtrl_EditCreate',
             vm.onTrabajoPracticoSelected = onTrabajoPracticoSelected;
             vm.cleanFiltersPaciente = cleanFiltersPaciente;
             vm.isBusquedaDiagnostico = true;
-            vm.filter = {};
+            vm.filter = {
+                catedrasId : []
+            };
             vm.filterChips = [];
             vm.filterAlumno = [];
             //CONSULTA Y PAGINACION ALUMNO
@@ -54,7 +55,7 @@ module.controller('AsignacionCtrl_EditCreate',
             vm.onDiagnosticoSelected = onDiagnosticoSelected;
             vm.onDeleteSelectedTrabajoPractico = onDeleteSelectedTrabajoPractico;
             vm.onDeleteSelectedDiagnostico = onDeleteSelectedDiagnostico;
-            vm.autorizado = true;
+            vm.autorizado = false;
             vm.isDiagnosticoSelected = false;
             vm.selectedDiagnosticos = [];
             vm.filterPaciente = [];
@@ -85,7 +86,6 @@ module.controller('AsignacionCtrl_EditCreate',
 
             (function init() {
                 vm.user = authFactory.getAuthData();
-                vm.esAlumno = isAlumno();
                 if (vm.updating) {
                     vm.filter.trabajoPractico = vm.asignacion.trabajoPractico;
                     vm.filter.tipoDocumentoAlumno = vm.asignacion.alumno.documento.tipoDocumento;
@@ -97,21 +97,37 @@ module.controller('AsignacionCtrl_EditCreate',
                     vm.filterPaciente.push(newFilterChip('selectedPaciente', 'Paciente', vm.asignacion.idPaciente, vm.asignacion.apellidoPaciente + ", " + vm.asignacion.nombrePaciente));
                     vm.filterPaciente.push(newFilterChip('trabajoPractico', 'Trabajo práctico', vm.filter.trabajoPractico, vm.filter.trabajoPractico.nombre));
                     vm.isDiagnosticoSelected = true;
-//                    vm.colorIconRemove = 'darkgrey';
                 }
-                if(vm.esAlumno){
+                vm.user = authFactory.getAuthData();
+                if (vm.user.alumno) {
                     findPersona();
-                }
+                    service.getCatedras()
+                        .success(function (data) {
+                            vm.data.catedras = data;
+//                            executeQuery();
+                        }).error(function (error) {
+                            console.log(error);
+                        })
 
+                }else if(vm.user.profesor){
+                    service.findCatedrasByProfesor(vm.user.id)
+                        .success(function(data){
+                            vm.data.catedras = data;
+                            for(var i = 0; i < vm.data.catedras.length; i++){
+                                vm.filter.catedrasId.push(vm.data.catedras[i].id);
+                            }
+                        }).error(function(error){
+                            console.log(error);
+                        })
+                }else{
+                    service.getCatedras()
+                        .success(function(data){
+                            vm.data.catedras = data;
+                        }).error(function(error){
+                            console.log(error);
+                        })
+                }
             })();
-
-            //USUARIO
-            function isAlumno(){
-                if(vm.user.alumno){
-                    return true;
-                }
-                return false;
-            }
 
             function findPersona(){
                 service.findAlumnoByUser(vm.user.id)
@@ -265,6 +281,7 @@ module.controller('AsignacionCtrl_EditCreate',
                 service.estaAutorizado(vm.asignacion.alumno.id, vm.filter.trabajoPractico.id)
                     .success(function (response) {
                         vm.autorizado = response;
+                        buscarDiagnosticos("editCreateAsignacionForm");
                         updateFilterChips();
                     }).error(function (data, status) {
                         handleError(data, status);

@@ -2,18 +2,18 @@ var module = angular.module('asignacionModule');
 
 
 module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$cacheFactory', 'AsignacionSrv', '$state', '$stateParams', 'MessageSrv',
-    'CommonsSrv', 'PaginationService', '$mdDialog',
-    'practicasResponse', 'tiposDocumentoResponse', 'catedrasResponse', 'estadosAsignacionResponse',
+    'CommonsSrv', 'PaginationService', '$mdDialog', 'practicasResponse', 'tiposDocumentoResponse', 'estadosAsignacionResponse',
     'trabajosPracticosResponse', 'authFactory',
-    function ($scope, $rootScope, $filter, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog, practicasResponse, tiposDocumentoResponse, catedrasResponse, estadosAsignacionResponse, trabajosPracticosResponse, authFactory) {
+    function ($scope, $rootScope, $filter, $cacheFactory, service, $state, $stateParams, message, commons, pagination,
+              $mdDialog, practicasResponse, tiposDocumentoResponse, estadosAsignacionResponse, trabajosPracticosResponse, authFactory) {
         var vm = this;
         vm.asignacion = {};
         vm.result = [];
         vm.data = {
             practicas: practicasResponse.data,
             tiposDocumentos: tiposDocumentoResponse.data,
-            catedras: catedrasResponse.data,
             trabajosPracticos: [],
+            catedras : [],
             estados: estadosAsignacionResponse.data
         };
         vm.aux = {
@@ -21,11 +21,12 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
             isTipoDocumentoSelected: false,
             mostrarFiltros: true
         }
-        vm.filter = {};
+        vm.filter = {
+            catedrasId : []
+        };
         vm.filter.dadosBaja = false;
         vm.filterChips = [];
         vm.selectedAsignaciones = [];
-//        vm.buscarAsignaciones = buscarAsignaciones;
         //Cambio de estado
         vm.showConfirmarAsignacionDialog = showConfirmarAsignacionDialog;
         vm.cancelar = cancelar;
@@ -45,33 +46,51 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         //Seleccion Alumno
         vm.onAlumnoSelected = onAlumnoSelected;
         vm.deleteSelectedAlumno = deleteSelectedAlumno;
-        vm.esAlumno = false;
         vm.user = null;
         vm.showConsultarAlumnosDialog = showConsultarAlumnosDialog;
         vm.consultar = consultar;
         vm.goRegistrarAtencion = goRegistrarAtencion;
-
+        vm.user = authFactory.getAuthData();
         //CACHE
         var cache = $cacheFactory.get('asignacionIndexCache') || $cacheFactory('asignacionIndexCache');
 
         var handleError = $scope.$parent.handleError;
         $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
-        (function init() {
-            vm.user = authFactory.getAuthData();
-            vm.esAlumno = isAlumno();
-            if (vm.esAlumno) {
+        function init() {
+            if (vm.user.alumno) {
                 findPersona();
+                service.getCatedras()
+                    .success(function (data) {
+                        vm.data.catedras = data;
+//                        executeQuery();
+                    }).error(function (error) {
+                        console.log(error);
+                    })
+
+            }else if(vm.user.profesor){
+                service.findCatedrasByProfesor(vm.user.id)
+                    .success(function(data){
+                       vm.data.catedras = data;
+                        for(var i = 0; i < vm.data.catedras.length; i++){
+                            vm.filter.catedrasId.push(vm.data.catedras[i].id);
+                        }
+                        executeQuery();
+                    }).error(function(error){
+                        console.log(error);
+                    })
+            }else{
+                service.getCatedras()
+                    .success(function(data){
+                        vm.data.catedras = data;
+                        executeQuery();
+                    }).error(function(error){
+                        console.log(error);
+                    })
             }
-        })();
+        }
 
         //USUARIO
-        function isAlumno() {
-            if (vm.user.alumno) {
-                return true;
-            }
-            return false;
-        }
 
         function findPersona() {
             var alumno = null;
@@ -87,6 +106,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         //BUSQUEDA ALUMNO
         function onCatedraSelected() {
             var idCatedra = vm.filter.catedra.id;
+            vm.filter.catedrasId.push(idCatedra);
             service.getTrabajosPracticosByCatedra(idCatedra)
                 .success(function (response) {
                     vm.data.trabajosPracticos = response;
@@ -102,14 +122,11 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
             vm.filter.selectedAlumno = alumno;
             vm.filter.alumnoId = alumno.id;
             executeQuery();
-//            buscarAsignaciones("consultarAsignacionesForm");
         }
 
         function deleteSelectedAlumno() {
             vm.filter.selectedAlumno = null;
             vm.asignacion.alumno = {};
-/*            vm.alumnos = [];
-            vm.selectedAlumnos = [];*/
         }
 
         function reload() {
@@ -124,7 +141,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         function executeQuery(pageNumber) {
             pagination.config('api/asignacion/findAsignacionByFilters');
             vm.filter.trabajoPracticoId = angular.isUndefined(vm.filter.trabajoPractico) ? null : vm.filter.trabajoPractico.id;
-            vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
+//            vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
             pagination.paginate(vm.filter, pageNumber)
                 .then(function (data) {
                     vm.result = data;
@@ -135,33 +152,16 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 });
         }
 
-        /*function buscarAsignaciones(form) {
-            if (!form.$invalid) {
-                pagination.config('api/asignacion/findAsignacionByFilters');
-                vm.filter.trabajoPracticoId = angular.isUndefined(vm.filter.trabajoPractico) ? null : vm.filter.trabajoPractico.id;
-                vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
-                executeQuery();
-            }
-        }*/
-
         function consultar(form){
             if(!form.$invalid){
                 executeQuery();
             }
         }
 
-        vm.keyboardOk = function (event) {
-            if (event.which == 13) {
-                executeQuery();
-//                buscarAsignaciones("consultarAsignacionesForm");
-            }
-        }
-
         //Chips
         function updateFilterChips() {
             vm.filterChips = [];
-//            vm.filterChips.push(newFilterChip('dadosBaja', 'Dados de baja', vm.filter.dadosBaja, vm.filter.dadosBaja ? 'SI' : 'NO'));
-            if (vm.filter.selectedAlumno && !vm.esAlumno) {
+            if (vm.filter.selectedAlumno && !vm.user.alumno) {
                 vm.filterChips.push(newFilterChip('selectedAlumno', 'Alumno', vm.filter.selectedAlumno, vm.filter.selectedAlumno.apellido));
             }
             if (vm.filter.catedra) {
@@ -199,7 +199,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         $scope.$watchCollection('vm.filterChips', function (newCol, oldCol) {
             if (newCol.length < oldCol.length) {
                 vm.filter = {};
-                if (vm.esAlumno) {
+                if (vm.user.alumno) {
                     vm.filter["selectedAlumno"] = vm.selectedAlumno;
                     vm.filter.alumnoId = vm.selectedAlumno.id;
                 }
@@ -209,15 +209,12 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
 
                 if (vm.filter["selectedAlumno"] != null) {
                     executeQuery();
-//                    buscarAsignaciones("consultarAsignacionesForm");
                 } else {
                     vm.filter = {};
                     executeQuery();
-//                    buscarAsignaciones("consultarAsignacionesForm");
-//                    vm.alumnos = [];
                 }
             }
-        });
+        })
 
         $scope.$watch('vm.filter.tipoDocumento', function () {
             if (vm.filter.tipoDocumento != null && vm.filter.tipoDocumento != 'undefined') {
@@ -225,7 +222,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
             } else {
                 vm.aux.isTipoDocumentoSelected = false;
             }
-        });
+        })
 
         function newFilterChip(origin, name, value, displayValue) {
             var filterChip = {
@@ -252,7 +249,8 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 filter: vm.filter,
                 result: vm.result,
                 aux: vm.aux,
-                paginationData: vm.paginationData
+                paginationData: vm.paginationData,
+                catedras : vm.data.catedras
             }
             cache.put('data', data);
         }
@@ -264,9 +262,9 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 vm.result = data.result;
                 vm.aux = data.aux;
                 vm.paginationData = data.paginationData;
+                vm.data.catedras = data.catedras;
                 updateFilterChips();
             } else {
-//                buscarAsignaciones("consultarAsignacionesForm")
                 executeQuery();
             }
         }
@@ -416,21 +414,6 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                             executeQueryAlumnos(--$scope.paginationData.pageNumber);
                         }
                     }
-
-                   /* function updateFilterChips(){
-                        if ($scope.filterAlumnos.tipoDocumentoAlumno) {
-                            $scope.filterChipsAlumnos.push(newFilterChip('tipoDocumentoPaciente', 'Tipo doc.', $scope.filterChipsAlumnos.tipoDocumentoPaciente, findInColecction(vm.filter.tipoDocumentoPaciente, vm.data.tiposDocumentos)));
-                        }
-                        if ($scope.filterAlumnos..numeroDocumentoAlumno) {
-                            $scope.filterChipsAlumnos.push(newFilterChip('numeroDocumentoPaciente', 'Nro. doc.', $scope.filterChipsAlumnos.numeroDocumentoPaciente));
-                        }
-                        if ($scope.filterAlumnos.apellidoAlumno) {
-                            $scope.filterChipsAlumnos.push(newFilterChip('apellidoAlumno', 'Apellido paciente', $scope.filterChipsAlumnos.apellidoPaciente));
-                        }
-                        if ($scope.filterAlumnos.nombreAlumno) {
-                            $scope.filterChipsAlumnos.push(newFilterChip('nombreAlumno', 'Nombre paciente', $scope.filterChipsAlumnos.nombreAlumno));
-                        }
-                    }*/
                 }
             })
                 .then(function(selectedAlumno) {
@@ -452,6 +435,11 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         vm.cleanFilters = function () {
             vm.filter = {};
             vm.filterChips = [];
+            if(vm.user.profesor){
+                for(var i = 0; i < vm.data.catedras.length; i++){
+                    vm.filter.catedrasId.push(vm.data.catedras[i].id);
+                }
+            }
         };
 
         vm.mostrarAcciones = function (item) {
@@ -484,8 +472,8 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 if (toState.name.startsWith('asignacion')) {
                     cacheData();
                 } else {
-//                    $rootScope.created = false;
-//                    $rootScope.edited = false;
+                    $rootScope.created = false;
+                    $rootScope.edited = false;
                     cache.destroy();
                 }
             });
@@ -495,19 +483,18 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 if (fromState.name.startsWith('asignacion')) {
                     if (toParams.execQuery) {
 //                        getCachedData();
+                        //aca va la bocha! cargar
+                        getCachedData(); //o init()
                         executeQuery();
-//                        buscarAsignaciones("consultarAsignacionesForm");
                     } else if (toParams.execQuerySamePage) {
                         getCachedData();
-//                        buscarAsignaciones("consultarAlumnosForm");
                         executeQuery($scope.paginationData.pageNumber)
                     } else {
                         getCachedData();
-//                        executeQuery();
+                        executeQuery()
                     }
                 } else {
-//                    buscarAsignaciones("consultarAlumnosForm");
-                    executeQuery();
+                    init();
                 }
             });
 

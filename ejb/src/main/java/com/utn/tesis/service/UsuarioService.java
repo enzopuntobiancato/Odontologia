@@ -114,7 +114,7 @@ public class UsuarioService extends BaseService<Usuario> {
 
     public Persona findPersonaByUsuario(Long id) {
         Persona p = dao.findPersonaByUsuario(id);
-        personaService.reload(p, 1);
+        personaService.reload(p, 2);
         return p;
     }
 

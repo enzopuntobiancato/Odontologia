@@ -128,7 +128,7 @@ public class AsignacionAPI extends BaseAPI {
                                                                @QueryParam("tipoDocumentoPaciente") String tipoDocumentoPaciente,
                                                                @QueryParam("numeroDocumentoPaciente") String numeroDocumentoPaciente,
                                                                @QueryParam("profesorId") Long profesorId,
-                                                               @QueryParam("catedraId") Long catedraId,
+                                                               @QueryParam("catedrasId") List<Long> catedrasId,
                                                                @QueryParam("trabajoPracticoId") Long trabajoPracticoId,
                                                                @QueryParam("estado") String estado,
                                                                @QueryParam("diagnosticoId") Long diagnosticoId,
@@ -153,7 +153,7 @@ public class AsignacionAPI extends BaseAPI {
 
             List<AsignacionPaciente> entities = asignacionPacienteService.findByFilters(alumnoId, nombreAlumno,
                     apellidoAlumno, documentoAlumno, profesorId, nombrePaciente, apellidoPaciente, documentoPaciente,
-                    catedraId, estadoAsignacionPaciente, diagnosticoId, null, fecha, trabajoPracticoId, dadosBaja, pageNumber, pageSize);
+                    catedrasId, estadoAsignacionPaciente, diagnosticoId, null, fecha, trabajoPracticoId, dadosBaja, pageNumber, pageSize);
 
             entities = asignacionPacienteService.reloadList(entities, 4);
             return asignacionPacienteMapper.toDTOList(entities);
@@ -260,32 +260,6 @@ public class AsignacionAPI extends BaseAPI {
         }
     }
 
-    /*@Path("/remove")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response remove(AsignacionPacienteDTO dto) throws SAPOException {
-        try {
-            AsignacionPaciente entity = asignacionPacienteService.remove(dto.getId(), dto.getMotivoBaja());
-            entity = asignacionPacienteService.reload(entity, 2);
-            AsignacionPacienteDTO response = asignacionPacienteMapper.toDTO(entity);
-            return Response.ok(response).build();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-    @Path("/restore")
-    @PUT
-    public void restore(@QueryParam("id") Long id) {
-        try {
-            asignacionPacienteService.restore(id);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-    }
-*/
     @Path("/getTrabajosPracticosByCatedra")
     @GET
     public List<TrabajoPracticoDTO> getTrabajosPracticosByCatedra(@QueryParam("idCatedra") Long idCatedra) {
@@ -342,8 +316,9 @@ public class AsignacionAPI extends BaseAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<CatedraConsultaDTO> findCatedrasByProfesor(@QueryParam("profesorId") Long profesorId) {
-        List<CatedraConsultaDTO> dtos2 = catedraService.findCatedrasByProfesor(profesorId);
-        return dtos2;
+        List<Catedra> entities = catedraService.findCatedrasByProfesor(profesorId);
+        entities = catedraService.reloadList(entities, 1);
+        return catedraMapper.toConsultaDTOList(entities);
     }
 
     @Path("/getTrabajosPracticos")

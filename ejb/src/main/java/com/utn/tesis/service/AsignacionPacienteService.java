@@ -67,14 +67,14 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
                                                   Documento documentoAlumno,
                                                   Long profesorId, String nombrePaciente,
                                                   String apellidoPaciente, Documento documentoPaciente,
-                                                  Long catedraId, EstadoAsignacionPaciente estado,
+                                                  List<Long> catedrasId, EstadoAsignacionPaciente estado,
                                                   Long diagnosticoId, Calendar fechaCreacion,
                                                   Calendar fechaAsignacion, Long trabajoPracticoId, boolean dadosBaja,
                                                   Long page, Long pageSize) {
 
         List<AsignacionPaciente> entities = dao.findByFilters(alumnoId, nombreAlumno, apellidoAlumno,
                 documentoAlumno, profesorId, nombrePaciente, apellidoPaciente,
-                documentoPaciente, catedraId, estado, diagnosticoId, fechaCreacion, fechaAsignacion, trabajoPracticoId,
+                documentoPaciente, catedrasId, estado, diagnosticoId, fechaCreacion, fechaAsignacion, trabajoPracticoId,
                 dadosBaja, page, pageSize);
         return entities;
     }

@@ -93,9 +93,8 @@ public class CatedraService extends BaseService<Catedra> {
         return catedraMapper.toConsultaDTOList(entities);
     }
 
-    public List<CatedraConsultaDTO> findCatedrasByProfesor(Long id){
-        List<Catedra> entities = dao.findCatedrasByProfesor(id);
-        return catedraMapper.toConsultaDTOList(entities);
+    public List<Catedra> findCatedrasByProfesor(Long id){
+        return dao.findCatedrasByProfesor(id);
     }
 
     @Override

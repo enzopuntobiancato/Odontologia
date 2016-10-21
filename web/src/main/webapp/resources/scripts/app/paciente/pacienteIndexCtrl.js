@@ -123,7 +123,8 @@ module.controller('PacienteCtrl_Index', ['$scope', '$rootScope', '$cacheFactory'
                 filter: vm.filter,
                 result: vm.result,
                 aux: vm.aux,
-                paginationData: vm.paginationData
+                paginationData: vm.paginationData,
+
             }
             cache.put('data', data);
         };
@@ -213,12 +214,13 @@ module.controller('PacienteCtrl_Index', ['$scope', '$rootScope', '$cacheFactory'
             function (event, toState, toParams, fromState, fromParams) {
                 if (fromState.name.startsWith('paciente') || fromState.name.startsWith('historiaClinica')) {
                     if (toParams.execQuery) {
-//                        getCachedData();
+//                        acava el fil
                         executeQuery();
                     } else if (toParams.execQuerySamePage) {
                         getCachedData();
                         executeQuery($scope.paginationData.pageNumber)
                     } else {
+                        //mortal
                         getCachedData();
                         executeQuery()
                     }

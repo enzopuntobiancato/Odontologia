@@ -12,13 +12,13 @@
 <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
 <form name="editCreateAsignacionForm" ng-submit="vm.confirmCreate($event, vm.updating, editCreateAsignacionForm)"
       novalidate>
-<md-toolbar class="md-table-toolbar md-default" aria-hidden="false">
+<md-toolbar class="md-table-toolbar md-default" aria-hidden="false" ng-if="!vm.user.alumno">
     <div class="md-toolbar-tools">
         <h2 class="md-title">{{ 'ALUMNO' | translate }}</h2>
         <span flex></span>
     </div>
 </md-toolbar>
-<div layout ng-show="vm.asignacion.alumno && !vm.esAlumno">
+<div layout ng-show="vm.asignacion.alumno && !vm.user.alumno">
     <md-button class="md-icon-button" ng-click="vm.deleteSelectedAlumno()" ng-disabled="vm.updating">
         <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}" ng-hide="vm.updating"></ng-md-icon>
     </md-button>
@@ -207,13 +207,17 @@
             </div>
         </ng-form>
     </section>
-    <div layout="row" layout-margin layout-align="center center" ng-show="vm.asignacion.alumno && !vm.autorizado">
+    <div layout="row" layout-margin layout-align="center center" ng-show="vm.asignacion.alumno && !vm.autorizado
+                                                                && vm.filter.trabajoPractico && !vm.updating">
         <ng-md-icon icon="report_problem" style="fill : crimson"></ng-md-icon>
         <h1 class="md-title">No está autorizado pues posee más 3 o más asignaciones para el mismo trabajo
             práctico.</h1>
     </div>
     <filter-chips data="vm.filterChips" readonly="vm.updating" ng-show="!vm.isDiagnosticoSelected"></filter-chips>
-    <md-table-container ng-if="(vm.diagnosticos.length > 0 && !vm.isDiagnosticoSelected)">
+    <div ng-show="!vm.diagnosticos.length && vm.autorizado">
+        <ng-include src="'views/no-results.html'"></ng-include>
+    </div>
+    <md-table-container ng-if="vm.autorizado && vm.diagnosticos.length > 0 && !vm.isDiagnosticoSelected">
         <table md-table md-row-select="true"
                multiple="false"
                ng-model="vm.selectedDiagnosticos">
@@ -221,8 +225,6 @@
             <tr md-row>
                 <th md-column><span>{{ 'NOMBRE_APELLIDO' | translate }}</span></th>
                 <th md-column><span>{{ 'DOCUMENTO' | translate }}</span></th>
-                <th md-column><span>{{ 'TELEFONO' | translate }}</span></th>
-                <th md-column><span>{{ 'CEL' | translate }}</span></th>
                 <th md-column><span>{{ 'TP' | translate }}</span></th>
                 <th md-column><span>{{ 'FECHA_DIAGNOSTICO' | translate }}</span></th>
             </tr>
@@ -233,8 +235,6 @@
                 <td md-cell>{{diagnosticoSupport.apellido}}, {{ diagnosticoSupport.nombre }}</td>
                 <td md-cell>{{diagnosticoSupport.tipoDocumento}}: {{diagnosticoSupport.numeroDocumento }}
                 </td>
-                <td md-cell>{{diagnosticoSupport.telefono}}</td>
-                <td md-cell>{{diagnosticoSupport.celular}}</td>
                 <td md-cell>{{diagnosticoSupport.trabajoPractico}}</td>
                 <td md-cell>{{diagnosticoSupport.fechaCreacion | date : 'dd/MM/yyyy'}}</td>
             </tr>
@@ -242,7 +242,7 @@
         </table>
     </md-table-container>
     <div class="buttons table-pagination" layout="row" layout-align="center center"
-         ng-if="vm.diagnosticos.length > 0 && !vm.isDiagnosticoSelected">
+         ng-if="vm.autorizado && vm.diagnosticos.length > 0 && !vm.isDiagnosticoSelected">
         <md-button class="md-icon-button" type="button"
                    ng-click="vm.previousPageDiagnostico()"
                    aria-label="Previous">
@@ -262,10 +262,6 @@
                                required class="md-date"></md-datepicker>
                 <error-messages form="consultarFechaForm.fechaAsignacion" submitted="vm.submitted"></error-messages>
             </div>
-           <!-- <md-input-container>
-                <label>{{ 'HORA' | translate }}</label>
-                <input type="time" ng-model="vm.asignacion.hora" name="asignacionHora">
-            </md-input-container>-->
         </div>
     </ng-form>
 </section>
