@@ -1,6 +1,12 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.model.odontograma.Odontograma;
+import com.utn.tesis.util.JsonBinaryType;
+import com.utn.tesis.util.JsonStringType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonStringType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
 @Entity
 @Table(name = "historias_clinicas")
 public class HistoriaClinica extends EntityBase {
@@ -43,12 +53,17 @@ public class HistoriaClinica extends EntityBase {
     @JoinColumn(name = "historia_clinica_id")
     private List<DetalleHistoriaClinica> detallesHC;
 
+    @Type(type = "json")
+    @Column(columnDefinition = "TEXT")
+    private Odontograma odontograma;
+
     //CONSTRUCTORS
     public HistoriaClinica() {
         fechaApertura = Calendar.getInstance();
         atencion = new ArrayList<Atencion>();
         diagnostico = new ArrayList<Diagnostico>();
         detallesHC = new ArrayList<DetalleHistoriaClinica>();
+        odontograma = Odontograma.createDefault();
     }
 
     public HistoriaClinica(int numero, Calendar fechaApertura, Usuario realizoHistoriaClinica,
@@ -175,8 +190,17 @@ public class HistoriaClinica extends EntityBase {
         this.documentacion = documentacion;
     }
 
+    public Odontograma getOdontograma() {
+        return odontograma;
+    }
+
+    public void setOdontograma(Odontograma odontograma) {
+        this.odontograma = odontograma;
+    }
+
     public static HistoriaClinica createDefault() {
         HistoriaClinica hc = new HistoriaClinica();
+        hc.setOdontograma(Odontograma.createDefault());
 
         hc.addDetalle(new CampoSiNo(DetalleHistoriaClinica.G1P1, 1, 1));
         hc.addDetalle(new CampoDetalle(DetalleHistoriaClinica.G1P2, 1, 2));

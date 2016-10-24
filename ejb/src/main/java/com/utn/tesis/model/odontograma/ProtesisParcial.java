@@ -1,6 +1,11 @@
 package com.utn.tesis.model.odontograma;
 
 public class ProtesisParcial extends Protesis {
+
+    public ProtesisParcial(){
+
+    }
+
     protected ProtesisParcial(EstadoHallazgoClinico estado) {
         super(estado);
     }

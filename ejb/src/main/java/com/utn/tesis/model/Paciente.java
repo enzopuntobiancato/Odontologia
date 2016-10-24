@@ -105,6 +105,7 @@ public class Paciente extends Persona implements IBajeable {
     private String privadoLibertadDonde;
 
     public Paciente() {
+        historiaClinica = new HistoriaClinica();
     }
 
     public String getMotivoBaja() {

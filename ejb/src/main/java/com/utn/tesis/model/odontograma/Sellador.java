@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Sellador extends HallazgoClinico {
+
+    public Sellador(){
+
+    }
+
     protected Sellador(EstadoHallazgoClinico estado) {
         super(estado);
     }

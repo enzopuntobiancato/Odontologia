@@ -470,6 +470,9 @@ public class InitializationService {
             historiaClinicas.add(historiaClinicaService.save(hc));
         }
         log.info("CARGA HISTORIAS CLINICAS FIN");
+
+        List<HistoriaClinica> listHc = historiaClinicaService.findAll();
+        log.info("Historias clinicas traidas de BD");
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
