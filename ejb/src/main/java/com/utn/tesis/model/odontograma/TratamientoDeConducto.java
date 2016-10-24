@@ -1,6 +1,11 @@
 package com.utn.tesis.model.odontograma;
 
 public class TratamientoDeConducto extends HallazgoClinico {
+
+    public TratamientoDeConducto(){
+
+    }
+
     protected TratamientoDeConducto(EstadoHallazgoClinico estado) {
         super(estado);
     }

@@ -1,6 +1,10 @@
 package com.utn.tesis.model.odontograma;
 
 public class ProtesisCompleta extends Protesis {
+
+    public ProtesisCompleta(){
+
+    }
     protected ProtesisCompleta(EstadoHallazgoClinico estado) {
         super(estado);
     }

@@ -2,6 +2,9 @@ package com.utn.tesis.model.odontograma;
 
 public class Puente extends HallazgoClinico {
 
+    public Puente() {
+
+    }
     protected Puente(EstadoHallazgoClinico estado) {
         super(estado);
     }

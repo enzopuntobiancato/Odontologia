@@ -1,12 +1,19 @@
 package com.utn.tesis.model.odontograma;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class HallazgoClinico {
+public abstract class HallazgoClinico implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private String nombre;
     private String color;
     private EstadoHallazgoClinico estado;
+
+    public HallazgoClinico() {
+    }
 
     protected HallazgoClinico(EstadoHallazgoClinico estado) {
         this.estado = estado;

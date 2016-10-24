@@ -1,8 +1,12 @@
 package com.utn.tesis.model.odontograma;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PiezaDental {
+public class PiezaDental implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
 
     private String nombrePieza;
     private String nombreSector;
@@ -10,6 +14,19 @@ public class PiezaDental {
     private int numeroSector;
     List<CaraPiezaDental> carasPiezaDental;
     private HallazgoClinico hallazgoClinico;
+
+    public PiezaDental() {
+    }
+
+    public PiezaDental(String nombrePieza, String nombreSector, int numeroSector,
+                       int numeroPieza, List<CaraPiezaDental> carasPiezaDental) {
+        this.nombrePieza = nombrePieza;
+        this.nombreSector = nombreSector;
+        this.numeroPieza = numeroPieza;
+        this.numeroSector = numeroSector;
+        this.carasPiezaDental = carasPiezaDental;
+        this.hallazgoClinico = hallazgoClinico;
+    }
 
     public String getNombrePieza() {
         return nombrePieza;
@@ -58,4 +75,5 @@ public class PiezaDental {
     public void setHallazgoClinico(HallazgoClinico hallazgoClinico) {
         this.hallazgoClinico = hallazgoClinico;
     }
+
 }

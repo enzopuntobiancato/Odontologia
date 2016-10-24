@@ -1,6 +1,10 @@
 package com.utn.tesis.model.odontograma;
 
 public class Caries extends HallazgoClinico {
+
+    public Caries() {
+    }
+
     @Override
     public String getNombre() {
         return Terminology.CARIES;

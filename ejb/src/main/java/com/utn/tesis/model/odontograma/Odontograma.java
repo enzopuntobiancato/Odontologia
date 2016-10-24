@@ -1,13 +1,41 @@
 package com.utn.tesis.model.odontograma;
 
+import java.io.Serializable;
 import java.util.Calendar;
-import java.util.List;
+import java.util.LinkedList;
 
-public class Odontograma {
+public class Odontograma implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private boolean esAdulto;
     private Calendar fecha;
-    private List<PiezaDental> piezasDentales;
+    private LinkedList<PiezaDental> piezasDentalesSuperiores;
+    private LinkedList<PiezaDental> piezasDentalesInferiores;
+
+    public Odontograma() {
+        esAdulto = true;
+        fecha = Calendar.getInstance();
+        piezasDentalesSuperiores = new LinkedList<PiezaDental>();
+        piezasDentalesInferiores = new LinkedList<PiezaDental>();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Odontograma)) return false;
+
+        Odontograma that = (Odontograma) o;
+
+        if (!fecha.equals(that.fecha)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return fecha.hashCode();
+    }
 
     public boolean isEsAdulto() {
         return esAdulto;
@@ -25,11 +53,280 @@ public class Odontograma {
         this.fecha = fecha;
     }
 
-    public List<PiezaDental> getPiezasDentales() {
-        return piezasDentales;
+    public LinkedList<PiezaDental> getPiezasDentalesSuperiores() {
+        return piezasDentalesSuperiores;
     }
 
-    public void setPiezasDentales(List<PiezaDental> piezasDentales) {
-        this.piezasDentales = piezasDentales;
+    public void setPiezasDentalesSuperiores(LinkedList<PiezaDental> piezasDentalesSuperiores) {
+        this.piezasDentalesSuperiores = piezasDentalesSuperiores;
+    }
+
+    public LinkedList<PiezaDental> getPiezasDentalesInferiores() {
+        return piezasDentalesInferiores;
+    }
+
+    public void setPiezasDentalesInferiores(LinkedList<PiezaDental> piezasDentalesInferiores) {
+        this.piezasDentalesInferiores = piezasDentalesInferiores;
+    }
+
+    public static Odontograma createDefault() {
+        Odontograma od = new Odontograma();
+        od.piezasDentalesSuperiores.addFirst(
+                new PiezaDental(Terminology.PD18, Terminology.SUPDER, 1, 8,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.PALATINA,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD17, Terminology.SUPDER, 1, 7,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.PALATINA,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD16, Terminology.SUPDER, 1, 6,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.PALATINA,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD15, Terminology.SUPDER, 1, 5,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.PALATINA,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD14, Terminology.SUPDER, 1, 4,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.PALATINA,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD13, Terminology.SUPDER, 1, 3,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.PALATINA,
+                                Terminology.DISTAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD12, Terminology.SUPDER, 1, 2,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.PALATINA,
+                                Terminology.DISTAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD11, Terminology.SUPDER, 1, 1,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.PALATINA,
+                                Terminology.DISTAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD21, Terminology.SUPIZQ, 2, 1,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.PALATINA,
+                                Terminology.MESIAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD22, Terminology.SUPIZQ, 2, 2,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.PALATINA,
+                                Terminology.MESIAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD23, Terminology.SUPIZQ, 2, 3,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.PALATINA,
+                                Terminology.MESIAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD24, Terminology.SUPIZQ, 2, 4,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.PALATINA,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD25, Terminology.SUPIZQ, 2, 5,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.PALATINA,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD26, Terminology.SUPIZQ, 2, 6,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.PALATINA,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD27, Terminology.SUPIZQ, 2, 7,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.PALATINA,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesSuperiores.addLast(
+                new PiezaDental(Terminology.PD28, Terminology.SUPIZQ, 2, 8,
+                        CaraPiezaDental.createDefault(
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.PALATINA,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addLast(
+                new PiezaDental(Terminology.PD38, Terminology.INFIZQ, 3, 8,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.DISTAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD37, Terminology.INFIZQ, 3, 7,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.DISTAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD36, Terminology.INFIZQ, 3, 6,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.DISTAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD35, Terminology.INFIZQ, 3, 5,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.DISTAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD34, Terminology.INFIZQ, 3, 4,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.DISTAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD33, Terminology.INFIZQ, 3, 3,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.DISTAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD32, Terminology.INFIZQ, 3, 2,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.DISTAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD31, Terminology.INFIZQ, 3, 1,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.DISTAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.MESIAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD41, Terminology.INFDER, 4, 1,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.MESIAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD42, Terminology.INFDER, 4, 2,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.MESIAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD43, Terminology.INFDER, 4, 3,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.MESIAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.INCISAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD44, Terminology.INFDER, 4, 4,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.MESIAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD45, Terminology.INFDER, 4, 5,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.MESIAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD46, Terminology.INFDER, 4, 6,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.MESIAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD47, Terminology.INFDER, 4, 7,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.MESIAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        od.piezasDentalesInferiores.addFirst(
+                new PiezaDental(Terminology.PD48, Terminology.INFDER, 4, 8,
+                        CaraPiezaDental.createDefault(
+                                Terminology.LINGUAL,
+                                Terminology.MESIAL,
+                                Terminology.VESTIBULAR,
+                                Terminology.DISTAL,
+                                Terminology.OCLUSAL)));
+        return od;
     }
 }
