@@ -15,12 +15,12 @@ public class Corona extends Protesis {
     }
 
     @Override
-    public boolean aplicaAPieza() {
+    public boolean isAplicaAPieza() {
         return true;
     }
 
     @Override
-    public String markID() {
+    public String getMarkID() {
         return null;
     }
 }

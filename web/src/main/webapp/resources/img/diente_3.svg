@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" viewbox="0 0 959 593">
+  <g class="cara" ng-class="{'diente-hover' : selectedTratamiento.aplicaAPieza, 'pointer': selectedTratamiento.aplicaAPieza}"
+     id="PD">
+    <rect ng-class="{'diente' : selectedTratamiento.aplicaAPieza}"
+       width="311.42856"
+       height="302.85715"
+       x="219.00423"
+       y="397.74356"
+       class="cara"
+       id="rect3807"
+       style="fill: transparent" />
+  <g
+     id="5" ng-click="dienteClick(5)"
+     class="pointer cara" disabled
+     ng-class="{'cara-active' : selectedTratamiento.aplicaACara}">
+    <path
+       sodipodi:type="arc"
+       id="path3840"
+       sodipodi:cx="370.07697"
+       sodipodi:cy="552.13104"
+       sodipodi:rx="25.089962"
+       sodipodi:ry="26.658085"
+       d="m 395.16693,552.13104 a 25.089962,26.658085 0 1 1 -50.17993,0 25.089962,26.658085 0 1 1 50.17993,0 z"
+       transform="matrix(1.4793261,0,0,1.2581066,-182.14133,-149.38931)"
+       inkscape:label=""
+        opacity="0"/>
+    <rect
+       width="130.7459"
+       height="130.23091"
+       x="301.00055"
+       y="482.44916"
+       id="rect3812"
+       style="fill: transparent" />
+  </g>
+  <g
+     id="2"
+     class="cara" ng-click="dienteClick(2)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+    <path
+       sodipodi:type="arc"
+       id="path3848"
+       sodipodi:cx="370.07697"
+       sodipodi:cy="552.13104"
+       sodipodi:rx="25.089962"
+       sodipodi:ry="26.658085"
+       d="m 395.16693,552.13104 a 25.089962,26.658085 0 1 1 -50.17993,0 25.089962,26.658085 0 1 1 50.17993,0 z"
+       transform="matrix(1.1749101,0,0,0.93455735,-177.68446,39.241695)"
+       inkscape:label=""
+       opacity="0"/>
+    <path
+       d="m 228.57143,420.93361 60,60 2.85714,128.57143 -65.71428,80 z"
+       id="path3817"
+       style="fill: transparent" />
+  </g>
+  <g
+     id="4"
+     class="cara" ng-click="dienteClick(4)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+    <path
+       transform="matrix(1.1749101,0,0,0.93455735,41.852716,36.105449)"
+       d="m 395.16693,552.13104 a 25.089962,26.658085 0 1 1 -50.17993,0 25.089962,26.658085 0 1 1 50.17993,0 z"
+       sodipodi:ry="26.658085"
+       sodipodi:rx="25.089962"
+       sodipodi:cy="552.13104"
+       sodipodi:cx="370.07697"
+       id="path3846"
+       sodipodi:type="arc"
+       inkscape:label=""
+       opacity="0"/>
+    <path
+       d="m 510.15763,417.11567 -65.60501,67.20553 -3.12404,128.9098 71.85309,79.13118 z"
+       id="path3822"
+       style="fill: transparent" />
+  </g>
+  <g
+     class="cara"
+     id="1" ng-click="dienteClick(1)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+    <path
+       sodipodi:type="arc"
+       id="path3844"
+       sodipodi:cx="370.07697"
+       sodipodi:cy="552.13104"
+       sodipodi:rx="25.089962"
+       sodipodi:ry="26.658085"
+       d="m 395.16693,552.13104 a 25.089962,26.658085 0 1 1 -50.17993,0 25.089962,26.658085 0 1 1 50.17993,0 z"
+       transform="matrix(1.1749101,0,0,0.93455735,-61.643381,-73.663138)"
+       inkscape:label="" opacity="0"/>
+    <path
+       d="m 240,415.21932 62.85714,57.14287 137.14286,-10e-6 60,-60 z"
+       id="path3827"
+       style="fill: transparent" />
+  </g>
+  <g
+     class="cara"
+     id="3" ng-click="dienteClick(3)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+    <path
+       transform="matrix(1.1749101,0,0,0.93455735,-67.915872,136.4653)"
+       d="m 395.16693,552.13104 a 25.089962,26.658085 0 1 1 -50.17993,0 25.089962,26.658085 0 1 1 50.17993,0 z"
+       sodipodi:ry="26.658085"
+       sodipodi:rx="25.089962"
+       sodipodi:cy="552.13104"
+       sodipodi:cx="370.07697"
+       id="path3842"
+       sodipodi:type="arc"
+       inkscape:label=""
+       opacity="0"/>
+    <path
+       d="m 235.71429,690.6741 62.85714,-68.86983 137.14286,10e-6 68.57143,69.5476 z"
+       id="path3832"
+       style="fill: transparent" />
+  </g>
+  </g>
+</svg>

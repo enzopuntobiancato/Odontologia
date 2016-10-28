@@ -37,27 +37,27 @@ public abstract class HallazgoClinico implements Serializable {
         this.color = estado.getColor();
     }
 
-    public boolean aplicaACara() {
+    public boolean isAplicaACara() {
         return false;
     }
 
-    public boolean aplicaACaraCentral() {
+    public boolean isAplicaACaraCentral() {
         return false;
     }
 
-    public boolean aplicaAPieza() {
+    public boolean isAplicaAPieza() {
         return false;
     }
 
-    public boolean aplicaAPiezaGrupal() {
+    public boolean isAplicaAPiezaGrupal() {
         return false;
     }
 
-    public boolean aplicaAPosicion() {
+    public boolean isAplicaAPosicion() {
         return false;
     }
 
-    public List<Integer> posiciones() {
+    public List<Integer> getPosiciones() {
         return Collections.emptyList();
     }
 
@@ -65,5 +65,5 @@ public abstract class HallazgoClinico implements Serializable {
      * Definimos el ID del "dibujo/marca" correspondiente del hallazgo
      * @return
      */
-    public abstract String markID();
+    public abstract String getMarkID();
 }

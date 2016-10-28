@@ -19,22 +19,22 @@ public class Sellador extends HallazgoClinico {
     }
 
     @Override
-    public boolean aplicaACara() {
+    public boolean isAplicaACara() {
         return true;
     }
 
     @Override
-    public boolean aplicaACaraCentral() {
+    public boolean isAplicaACaraCentral() {
         return true;
     }
 
     @Override
-    public boolean aplicaAPosicion() {
+    public boolean isAplicaAPosicion() {
         return true;
     }
 
     @Override
-    public List<Integer> posiciones() {
+    public List<Integer> getPosiciones() {
         return Arrays.asList(Integer.valueOf(4),
                 Integer.valueOf(5),
                 Integer.valueOf(6),
@@ -42,7 +42,7 @@ public class Sellador extends HallazgoClinico {
     }
 
     @Override
-    public String markID() {
+    public String getMarkID() {
         return null;
     }
 }

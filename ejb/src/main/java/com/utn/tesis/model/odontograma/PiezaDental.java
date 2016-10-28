@@ -12,7 +12,7 @@ public class PiezaDental implements Serializable {
     private String nombreSector;
     private int numeroPieza;
     private int numeroSector;
-    List<CaraPiezaDental> carasPiezaDental;
+    private List<CaraPiezaDental> carasPiezaDental;
     private HallazgoClinico hallazgoClinico;
 
     public PiezaDental() {
