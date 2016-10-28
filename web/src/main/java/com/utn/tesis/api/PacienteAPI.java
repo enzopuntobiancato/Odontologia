@@ -7,6 +7,7 @@ import com.utn.tesis.mapping.dto.PacienteDTO;
 import com.utn.tesis.mapping.mapper.HistoriaClinicaMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
+import com.utn.tesis.model.odontograma.Odontograma;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.HistoriaClinicaService;
 import com.utn.tesis.service.PacienteService;
@@ -138,5 +139,12 @@ public class PacienteAPI extends BaseAPI {
     @PUT
     public void restore(@QueryParam("id") Long id) {
         pacienteService.restore(id);
+    }
+
+    @Path("/initOdontograma")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Odontograma initOdontograma() {
+        return Odontograma.createDefault();
     }
 }

@@ -16,12 +16,12 @@ public class TratamientoDeConducto extends HallazgoClinico {
     }
 
     @Override
-    public boolean aplicaAPieza() {
+    public boolean isAplicaAPieza() {
         return true;
     }
 
     @Override
-    public String markID() {
+    public String getMarkID() {
         return null;
     }
 }

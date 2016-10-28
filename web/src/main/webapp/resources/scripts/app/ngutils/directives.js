@@ -48,18 +48,22 @@ directives.directive('pwCheck', [function () {
     }
 }]);
 
-directives.directive('validateLength', function() {
+directives.directive('validateLength', function () {
     return {
         require: 'ngModel',
-        link: function(scope, element, attrs, ngModel) {
+        link: function (scope, element, attrs, ngModel) {
 
-            scope.$watch(function () { return ngModel.$modelValue && ngModel.$modelValue.length; }, function() {
+            scope.$watch(function () {
+                return ngModel.$modelValue && ngModel.$modelValue.length;
+            }, function () {
                 ngModel.$validate(); // validate again when array changes
             });
 
-            ngModel.$validators.length = function() {
+            ngModel.$validators.length = function () {
                 var arr = ngModel.$modelValue;
-                if(!arr) { return false; }
+                if (!arr) {
+                    return false;
+                }
 
                 return arr.length > 0;
             };
@@ -71,24 +75,25 @@ directives.directive('validateLength', function() {
 // CUSTOM INPUT DIRECTIVES
 var templateInput =
     '<md-input-container flex> ' +
-        '<label> {{ ctrl.label }} </label>'+
-        '<input name="{{ ctrl.name }}" ng-model="ctrl.model"  ng-required="{{ ctrl.req }}" md-maxlength="{{ ctrl.max }}" ng-pattern="ctrl.pat" minlength="{{ ctrl.min }}" ng-disabled="{{ ctrl.disabled }}" type="{{ ctrl.type }}" aria-label="{{ ctrl.label }}">'+
+        '<label> {{ ctrl.label }} </label>' +
+        '<input name="{{ ctrl.name }}" ng-model="ctrl.model"  ng-required="{{ ctrl.req }}" md-maxlength="{{ ctrl.max }}" ng-pattern="ctrl.pat" minlength="{{ ctrl.min }}" ng-disabled="{{ ctrl.disabled }}" type="{{ ctrl.type }}" aria-label="{{ ctrl.label }}">' +
         '<div ng-messages="ctrl.form.$error" ng-show="ctrl.form.$touched ||  ctrl.submitted  && ctrl.form.$invalid"> ' +
-              '<div ng-messages-include="error-messages"></div>' +
+        '<div ng-messages-include="error-messages"></div>' +
         '</div> ' +
-        '</md-input-container>' ;
-var inputController = function(){
+        '</md-input-container>';
+var inputController = function () {
     var ctrl = this;
 
-    function init(){
-        if(ctrl.pattern != 'undefined'){
+    function init() {
+        if (ctrl.pattern != 'undefined') {
             ctrl.pat = new RegExp(ctrl.pattern);
         }
     }
+
     init();
 };
 
-var directiveInput = function(){
+var directiveInput = function () {
     return {
         restrict: 'E',
         template: templateInput,
@@ -113,44 +118,44 @@ var directiveInput = function(){
 
 var templateDetalleHC = "<md-list-item class='md-3-line md-long-text' flex-gt-sm>" +
     "<div class='md-list-item-text compact'>" +
-    "<div layout='row'> <h4 style='font-weight: bold'> {{ camposino.nombre }}</h4> <h4>{{ camposino.siNo | siNo}} </h4> </div>"+
+    "<div layout='row'> <h4 style='font-weight: bold'> {{ camposino.nombre }}</h4> <h4>{{ camposino.siNo | siNo}} </h4> </div>" +
     "<h4 ng-if='camposino.siNo == true && campodetalle != null'> {{ campodetalle.nombre }} {{ campodetalle.only_detalle }}</h4>" +
     "<p ng-if='camposino.siNo == true && campofecha != null'>{{ campofecha.nombre }} {{ campofecha.fecha |  date:'MM/dd/yyyy' }}</p>" +
     "</div>" +
     "</md-list-item>";
-var detalle = function(){
+var detalle = function () {
     return {
         restrict: 'E',
         template: templateDetalleHC,
         replace: true,
         scope: {
-            camposino : "=",
-            campodetalle : "=",
-            campofecha : "=",
+            camposino: "=",
+            campodetalle: "=",
+            campofecha: "=",
             exp: "@"
         }
     };
 };
 
-var errorMessages = function(){
+var errorMessages = function () {
     return{
         restrict: 'AE',
         template: '<div class="validation-messages" ng-messages="form.$error" ng-show="form.$touched ||  submitted  && form.$invalid" multiple> ' +
-                    '<div ng-messages-include="error-messages"></div>' +
-                   '</div> ',
+            '<div ng-messages-include="error-messages"></div>' +
+            '</div> ',
         scope: {
             form: '=',
             submitted: '='
         }
     }
-} ;
+};
 
 var controllerEditHC = function ($scope) {
 
     var vm = this;
     vm.limpiarCampos = limpiarCampos;
 
-    function limpiarCampos(id){
+    function limpiarCampos(id) {
         $scope.limpiarCampos(id);
     }
 
@@ -159,77 +164,77 @@ var controllerEditHC = function ($scope) {
 var templateEditHC =
     '<div layout-gt-sm="row" layout-margin flex-gt-sm>' +
         '<md-switch ng-model="vm.camposino.siNo" aria-label="vm.camposino.nombre" ng-true-value="true" ng-false-value="false" class="md-primary" ng-change="vm.change({id : vm.camposino.id})"> {{vm.camposino.nombre }}: {{vm.camposino.siNo | siNo}} </md-switch>' +
-        '</div>'+
-        '<div layout-gt-sm="row" layout-margin flex-gt-sm>'+
-        '<md-input-container flex-gt-sm ng-if="vm.campodetalle && vm.camposino.siNo == true" ng-form="formDetalle">'+
-        '<label> {{ vm.campodetalle.nombre }} </label>'+
-        '<input name="detalle" ng-model="vm.campodetalle.only_detalle" md-maxlength="75" ng-required="vm.camposino.siNo == true" aria-label="{{vm.campodetalle.nombre }}">'+
-        '<error-messages form="formDetalle.detalle" submitted="vm.submitted"></error-messages>'+
-        '</md-input-container>'+
-        '<div layout="column" ng-if="vm.campofecha && vm.camposino.siNo == true" ng-form="formDetalle">'+
-        '<md-datepicker name="fecha" ng-model="vm.campofecha.fecha" md-placeholder="{{ vm.campofecha.nombre }}" ng-required="vm.camposino.siNo == true"></md-datepicker>'+
-        '<error-messages form="formDetalle.fecha" submitted="vm.submitted"></error-messages>'+
-        '</div>'+
-        '<div ng-transclude layout-gt-sm="row" layout-margin flex-gt-sm></div> '+
-    '</div>';
-var editHC = function(){
-  return {
-      restrict: 'E',
-      scope:{
-          camposino : '=',
-          campodetalle: '=',
-          campofecha: '=',
-          form : '=',
-          submitted: '=',
-          change: '&'
-      },
-      template: templateEditHC,
-      controller: controllerEditHC,
-      controllerAs: 'vm',
-      bindToController: true,
-      transclude: true
-  }
+        '</div>' +
+        '<div layout-gt-sm="row" layout-margin flex-gt-sm>' +
+        '<md-input-container flex-gt-sm ng-if="vm.campodetalle && vm.camposino.siNo == true" ng-form="formDetalle">' +
+        '<label> {{ vm.campodetalle.nombre }} </label>' +
+        '<input name="detalle" ng-model="vm.campodetalle.only_detalle" md-maxlength="75" ng-required="vm.camposino.siNo == true" aria-label="{{vm.campodetalle.nombre }}">' +
+        '<error-messages form="formDetalle.detalle" submitted="vm.submitted"></error-messages>' +
+        '</md-input-container>' +
+        '<div layout="column" ng-if="vm.campofecha && vm.camposino.siNo == true" ng-form="formDetalle">' +
+        '<md-datepicker name="fecha" ng-model="vm.campofecha.fecha" md-placeholder="{{ vm.campofecha.nombre }}" ng-required="vm.camposino.siNo == true"></md-datepicker>' +
+        '<error-messages form="formDetalle.fecha" submitted="vm.submitted"></error-messages>' +
+        '</div>' +
+        '<div ng-transclude layout-gt-sm="row" layout-margin flex-gt-sm></div> ' +
+        '</div>';
+var editHC = function () {
+    return {
+        restrict: 'E',
+        scope: {
+            camposino: '=',
+            campodetalle: '=',
+            campofecha: '=',
+            form: '=',
+            submitted: '=',
+            change: '&'
+        },
+        template: templateEditHC,
+        controller: controllerEditHC,
+        controllerAs: 'vm',
+        bindToController: true,
+        transclude: true
+    }
 };
 
-var toolbar = '<md-toolbar class="md-accent">'+
-    '<div class="md-toolbar-tools">'+
-    '<img ng-src="resources/img/image_user.jpg" class="md-avatar-login " hide-xs ng-click="ctrl.showCard($event, ctrl.paciente)"/>'+
-    '<h2>'+
-    '<span>{{ ctrl.paciente.apellido }}</span> '+
-    '</h2>'+
-    '<span flex></span>'+
-    '<md-button class="md-icon-button" aria-label="Editar paciente" ng-click="ctrl.edit(ctrl.paciente.id)">'+
-    '<ng-md-icon icon="edit" size="24" style="fill: white">'+
-    '<md-tooltip> Editar paciente </md-tooltip>'+
-    '</ng-md-icon>'+
-    '</md-button>'+
-    '</div>'+
-'</md-toolbar>'
-var pacienteToolbar = function(){
+var toolbar = '<md-toolbar class="md-accent">' +
+    '<div class="md-toolbar-tools">' +
+    '<img ng-src="resources/img/image_user.jpg" class="md-avatar-login " hide-xs ng-click="ctrl.showCard($event, ctrl.paciente)"/>' +
+    '<h2>' +
+    '<span>{{ ctrl.paciente.apellido }}</span> ' +
+    '</h2>' +
+    '<span flex></span>' +
+    '<md-button class="md-icon-button" aria-label="Editar paciente" ng-click="ctrl.edit(ctrl.paciente.id)">' +
+    '<ng-md-icon icon="edit" size="24" style="fill: white">' +
+    '<md-tooltip> Editar paciente </md-tooltip>' +
+    '</ng-md-icon>' +
+    '</md-button>' +
+    '</div>' +
+    '</md-toolbar>'
+var pacienteToolbar = function () {
     return {
-       restrict: 'E',
-       template: toolbar,
-       scope:{
-            paciente : '='
-      },
+        restrict: 'E',
+        template: toolbar,
+        scope: {
+            paciente: '='
+        },
         controller: pacienteToolbarCtrl,
         controllerAs: 'ctrl',
         bindToController: true,
-        replace:true
+        replace: true
     }
 }
 
-function pacienteToolbarCtrl($mdDialog){
+function pacienteToolbarCtrl($mdDialog) {
     var ctrl = this;
 
     ctrl.showCard = showCard;
     ctrl.edit = edit;
 
-    function edit(pacienteId){
-        $state.go('paciente.edit', {id:pacienteId});
+    function edit(pacienteId) {
+        $state.go('paciente.edit', {id: pacienteId});
     }
 
-    function showCard(event, paciente){
+    function showCard(event, paciente) {
         $mdDialog.show({
                 templateUrl: 'views/historiaClinica/historiaClinicaCard.html',
                 parent: angular.element(document.body),
@@ -237,23 +242,23 @@ function pacienteToolbarCtrl($mdDialog){
                     pacienteData: paciente},
                 targetEvent: event,
                 clickOutsideToClose: true,
-                controller: function DialogController($scope, $mdDialog, $state, pacienteData){
+                controller: function DialogController($scope, $mdDialog, $state, pacienteData) {
                     $scope.paciente = pacienteData;
                     $scope.goHistoriaClinica = goHistoriaClinica;
                     $scope.goDatosPersonales = goDatosPersonales;
                     $scope.close = close;
 
-                    function close(){
+                    function close() {
                         $mdDialog.hide();
                     }
 
-                    function goDatosPersonales(pacienteId){
-                        $state.go('paciente.view', {id:pacienteId});
+                    function goDatosPersonales(pacienteId) {
+                        $state.go('paciente.view', {id: pacienteId});
                         close();
                     }
 
-                    function goHistoriaClinica(pacienteId){
-                        $state.go('historiaClinica.view', {id:pacienteId});
+                    function goHistoriaClinica(pacienteId) {
+                        $state.go('historiaClinica.view', {id: pacienteId});
                         close();
                     }
                 }
@@ -262,32 +267,169 @@ function pacienteToolbarCtrl($mdDialog){
     }
 }
 
-directives.directive('validatedInput',directiveInput);
-directives.directive('errorMessages',errorMessages);
-directives.directive('detalle',detalle);
+directives.directive('validatedInput', directiveInput);
+directives.directive('errorMessages', errorMessages);
+directives.directive('detalle', detalle);
 directives.directive('itemHistoria', editHC);
 directives.directive('pacienteToolbar', pacienteToolbar);
 
 /* DIRECTIVES ODONTOGRAMA */
-
-var piezaDentalController = function(){
-
-}
-
-var piezaDentalDirective = function(){
-    return{
-        restrict: 'E',
-        templateUrl: 'views/odontograma/piezaDental.html',
-        scope:{
-            piezaDental: '='
+directives.directive('diente', ['$compile', function ($compile) {
+    return {
+        restrict: 'A',
+        scope: {
+            model: '=',
+            selectedTratamiento: '='
         },
-        controller: piezaDentalController,
-        controllerAs: 'vm',
-        bindToController: true
-    }
-}
+        templateUrl: 'resources/img/diente_3.svg',
+        link: function (scope, element, attrs) {
+                scope.dienteClick = function (idCara) {
+                    if (!scope.selectedTratamiento) {
+                        alert("Elija un tratamiento primero");
+                        return false;
+                    }
+                    if (scope.elementId == "PD" && scope.selectedTratamiento.aplicaCara) {
+                        alert("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " al diente completo, " +
+                            "pues solo se puede aplicar a una cara.")
+                        return false;
+                    }
+                    if (scope.elementId !== 'PD' && scope.selectedTratamiento.aplicaDiente) {
+                        alert("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " a la cara, " +
+                            "pues solo se puede aplicar al diente completo.")
+                        return false;
+                    }
 
-directives.directive('piezaDental', piezaDentalDirective);
+                    //Recuperamos la coleccion de hijos del grupo.
+                    var caras = element[0].children[0].children[0].children;
+                    var clickedCara;
+                    for (var i in caras) {
+                        if (caras[i].id == idCara) {
+                            clickedCara = caras[i];
+                            break;
+                        }
+                    }
+
+                    var marca = clickedCara.children[0];
+                    //Dependiendo del tratamiento elegido, extraemos el simbolo y el color.
+                    //Con el simbolo, buscamos a que elemento pertenece dentro del grupo.
+                    //Lo usamos como indice para buscar entrre los hijos.
+                    //Una vez ubicado el elemento, lo tranformamos en un objeto jQuery.
+                    var first = angular.element(marca);
+                    //Al objeto le modificamos los attrs  con el color del tratamiento seleccionado
+                    //y le cambiamos la opacity a 1 para que se vea.
+                    first.attr('fill', '#F44336');
+                    first.attr('opacity', '1');
+                    //Agregamos el tratamiento a la cara correspondiente.
+                    if(scope.selectedTratamiento.aplicaCara) {
+                        for (var i in scope.model.carasPiezaDental) {
+                            if (scope.model.carasPiezaDental[i].posicion == idCara) {
+                                scope.model.carasPiezaDental[i].hallazgoClinico = scope.selectedTratamiento;
+                                break;
+                            }
+                        }
+                    } else {
+                        scope.model.hallazgoClinico = scope.selectedTratamiento;
+                    }
+
+                    scope.$emit('newHallazgo', {newPieza: scope.model});
+//                console.log(scope.model);
+                };
+        }
+    }
+}]);
+
+directives.directive('cara', ['$compile', function ($compile) {
+    return {
+        restrict: 'A',
+        scope: {
+//            tratamiento: "=",
+//            piezaDental : "="
+            model: "="
+        },
+        link: function (scope, element, attrs) {
+            scope.elementId = element.attr("id");
+
+            scope.regionClick = function () {
+              /*  console.log(scope.elementId);
+                console.log(scope.tratamiento);
+                console.log(scope.model);*/
+                 if (!scope.tratamiento) {
+                 alert("Elija un tratamiento primero");
+                 return false;
+                 }
+                 if (scope.elementId == "PD" && scope.tratamiento.aplicaCara) {
+                 alert("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " al diente completo, " +
+                 "pues solo se puede aplicar a una cara.")
+                 return false;
+                 }
+                 if (scope.elementId !== 'PD' && scope.tratamiento.aplicaDiente) {
+                 alert("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " a la cara, " +
+                 "pues solo se puede aplicar al diente completo.")
+                 return false;
+                 }
+
+                //Recuperamos la coleccion de hijos del grupo.
+                var children = element[0].childNodes;
+
+                //Dependiendo del tratamiento elegido, extraemos el simbolo y el color.
+                //Con el simbolo, buscamos a que elemento pertenece dentro del grupo.
+                //Lo usamos como indice para buscar entrre los hijos.
+                //Una vez ubicado el elemento, lo tranformamos en un objeto jQuery.
+                var first = angular.element(children[1]);
+                //Al objeto le modificamos los attrs  con el color del tratamiento seleccionado
+                //y le cambiamos la opacity a 1 para que se vea.
+                first.attr('fill', '#F44336');
+                first.attr('opacity', '1');
+                //Agregamos el tratamiento a la cara correspondiente.
+
+//                console.log(scope.model);
+            };
+            element.attr("ng-click", "regionClick()");
+//            element.attr("ng-mouseover", "regionMouseOver()");
+            element.removeAttr("cara");
+            $compile(element)(scope);
+        }
+    }
+}]);
+
+/*
+ directives.directive("diente", ["$compile", function($compile){
+ return{
+ restrict: 'A',
+ templateUrl: 'resources/img/map.svg',
+ link: function(scope, element, attrs){
+ //Agregamos la directiva 'cara' a cada elemento del diente
+ var caras = element[0].querySelectorAll(".state");
+ angular.forEach(caras, function (path, key) {
+ var caraElement = angular.element(path);
+ caraElement.attr("cara", "");
+ $compile(caraElement)(scope);
+ })
+ }
+ }
+ }]);
+
+ directives.directive("cara", ["$compile", function($compile){
+ return{
+ restrict: 'A',
+ link: function(scope, element, attrs){
+ scope.id = element.attr("id");
+ scope.caraClick = function(){
+ scope.el = element;
+ scope.id2 = element.attr("id");
+ alert(scope.id + " clicked. ID2 : " +  scope.id2);
+ */
+/*                scope.fill = element.attr('ng-attr-fill');
+ element.attr("style", "fill: #e4de00");*//*
+
+ };
+ element.attr("ng-click", "caraClick()");
+ element.removeAttr("cara");
+ $compile(element)(scope);
+ }
+ }
+ }]);
+ */
 
 //FILTERS
 directives.filter('cut', function () {
@@ -303,31 +445,32 @@ directives.filter('cut', function () {
             var lastspace = value.lastIndexOf(' ');
             if (lastspace != -1) {
                 //Also remove . and , so its gives a cleaner result.
-                if (value.charAt(lastspace-1) == '.' || value.charAt(lastspace-1) == ',') {
+                if (value.charAt(lastspace - 1) == '.' || value.charAt(lastspace - 1) == ',') {
                     lastspace = lastspace - 1;
                 }
                 value = value.substr(0, lastspace);
             }
         }
 
-        return value +  '…';
+        return value + '…';
     };
 });
 
-directives.filter('noDefinido',function(){
-    return function(input){
-        if(angular.isUndefined(input) || input == null){
+//DIRECTIVES AUXILIARES
+directives.filter('noDefinido', function () {
+    return function (input) {
+        if (angular.isUndefined(input) || input == null) {
             return 'No definido';
         }
         return input;
     }
 })
 
-directives.filter('siNo', function(){
-    return function(input){
-        if(angular.isDefined(input) && input == true ){
+directives.filter('siNo', function () {
+    return function (input) {
+        if (angular.isDefined(input) && input == true) {
             return "Sí";
-        }else{
+        } else {
             return "No";
         }
     }
@@ -347,12 +490,13 @@ directives.directive('filterChips', function () {
             data: '=',
             readonly: '='
         },
-        controller: function($scope) {}
+        controller: function ($scope) {
+        }
     }
 });
 
-directives.filter('truncate', function() {
-    return function(text, length, end) {
+directives.filter('truncate', function () {
+    return function (text, length, end) {
         if (isNaN(length))
             length = 10;
 

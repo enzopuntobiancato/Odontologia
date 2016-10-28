@@ -68,11 +68,23 @@ module.
             })
         }
 
-
-
         service.getPracticas = function() {
             return $http({
                 url: 'api/practicaOdontologica/findAll',
+                method: 'GET'
+            })
+        }
+
+        service.initOdontograma = function() {
+            return $http({
+                url: 'api/paciente/initOdontograma',
+                method: 'GET'
+            })
+        };
+
+        service.findHallazgos = function() {
+            return $http({
+                url: 'api/diagnostico/getHallazgos',
                 method: 'GET'
             })
         }

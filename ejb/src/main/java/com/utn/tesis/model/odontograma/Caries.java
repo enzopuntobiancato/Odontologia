@@ -15,12 +15,12 @@ public class Caries extends HallazgoClinico {
     }
 
     @Override
-    public boolean aplicaACara() {
+    public boolean isAplicaACara() {
         return true;
     }
 
     @Override
-    public String markID() {
+    public String getMarkID() {
         return null;
     }
 }
