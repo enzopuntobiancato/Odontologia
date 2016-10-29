@@ -10,6 +10,7 @@ import com.utn.tesis.mapping.mapper.DiagnosticoMapper;
 import com.utn.tesis.mapping.mapper.EnumMapper;
 import com.utn.tesis.model.Diagnostico;
 import com.utn.tesis.model.EstadoDiagnostico;
+import com.utn.tesis.model.odontograma.*;
 import com.utn.tesis.service.DiagnosticoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -92,5 +94,21 @@ public class DiagnosticoAPI extends BaseAPI {
         UsuarioLogueadoDTO usuario = sessionHelper.getUser(request);
         diagnosticoService.saveDiagnosticosByPaciente(diagnosticos, pacienteId, usuario);
         return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getHallazgos")
+    public List<HallazgoClinico> getHallazgosClinicos(){
+        List<HallazgoClinico> hallazgos = new ArrayList<HallazgoClinico>();
+        hallazgos.add(new Caries());
+        hallazgos.add(new Corona());
+        hallazgos.add(new Extraccion());
+        hallazgos.add(new ProtesisCompleta());
+        hallazgos.add(new ProtesisParcial());
+        hallazgos.add(new Puente());
+        hallazgos.add(new Sellador());
+        hallazgos.add(new TratamientoDeConducto());
+        return hallazgos;
     }
 }
