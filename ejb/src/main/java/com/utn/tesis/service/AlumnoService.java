@@ -40,9 +40,9 @@ public class AlumnoService extends BaseService<Alumno> {
         return dao.findByFilters(nombre, apellido, documento, usuario, sexo, page, pageSize);
     }
 
-    public List<Alumno> findByRol(Rol rol, Long page, Long pageSize) {
-        return dao.findByRol(rol, page, pageSize);
-    }
+//    public List<Alumno> findByRol(Rol rol, Long page, Long pageSize) {
+//        return dao.findByRol(rol, page, pageSize);
+//    }
 
     public List<Alumno> findByNombreApellido(String nombApp, Long page, Long pageSize) {
         return dao.findByNombreApellido(nombApp, page, pageSize);

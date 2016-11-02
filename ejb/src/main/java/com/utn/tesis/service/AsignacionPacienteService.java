@@ -167,10 +167,15 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
             asignacion.getDiagnostico().addMovimiento(nuevoMovimientoDiagnostico);
         }
         if(estado.equals(EstadoAsignacionPaciente.AUTORIZADO)){
-            Persona autorizadoPor = usuarioService.findPersonaByUsuario(usuarioLogueadoDTO.getId());
-            if(autorizadoPor != null && autorizadoPor instanceof  Profesor){
-                asignacion.setAutorizadoPor((Profesor) autorizadoPor);
+            List<Persona> personasUsuario = usuarioService.findPersonaByUsuario(usuarioLogueadoDTO.getId());
+            Profesor profesor = null;
+            for (Persona p: personasUsuario) {
+                if (p instanceof Profesor) {
+                    profesor = (Profesor)p;
+                    break;
+                }
             }
+                asignacion.setAutorizadoPor(profesor);
 
         }
 //        save(asignacion);

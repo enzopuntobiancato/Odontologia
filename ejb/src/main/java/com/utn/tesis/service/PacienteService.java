@@ -40,9 +40,9 @@ public class PacienteService extends BaseService<Paciente> {
         return dao.findByFilters(nombre, apellido, documento, sexo, dadosBaja, page, pageSize);
     }
 
-    public List<Paciente> findByRol(Rol rol, Long page, Long pageSize) {
-        return dao.findByRol(rol, page, pageSize);
-    }
+//    public List<Paciente> findByRol(Rol rol, Long page, Long pageSize) {
+//        return dao.findByRol(rol, page, pageSize);
+//    }
 
     public List<Paciente> findByNombreApellido(String nombApp, Long page, Long pageSize) {
         return dao.findByNombreApellido(nombApp, page, pageSize);

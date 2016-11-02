@@ -48,14 +48,14 @@ public class PacienteDao extends DaoBase<Paciente> {
         return query.list($);
     }
 
-    public List<Paciente> findByRol(Rol rol, Long page, Long pageSize) {
-        JPAQuery query = new JPAQuery(em).from($);
-        if (rol != null)
-            query.where($.usuario.rol.id.eq(rol.getId()));
-
-        query = paginar(query, page, pageSize);
-        return query.list($);
-    }
+//    public List<Paciente> findByRol(Rol rol, Long page, Long pageSize) {
+//        JPAQuery query = new JPAQuery(em).from($);
+//        if (rol != null)
+//            query.where($.usuario.rol.id.eq(rol.getId()));
+//
+//        query = paginar(query, page, pageSize);
+//        return query.list($);
+//    }
 
     public List<Paciente> validateByDocument(Paciente entity) {
         BooleanBuilder expression = new BooleanBuilder($.documento.eq(entity.getDocumento()));

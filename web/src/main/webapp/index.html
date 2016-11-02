@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="resources/css/mdStyle.css"/>
     <link rel="stylesheet" href="components/angular-loading-bar/build/loading-bar.css">
     <link rel="stylesheet" href="components/angular-material/angular-material.min.css">
-    <link rel="stylesheet" href="https://material.angularjs.org/1.1.0-rc4/docs.css"/>
+    <!--<link rel="stylesheet" href="https://material.angularjs.org/1.1.0-rc4/docs.css"/>-->
     <link href="resources/img/git_avatar.png">
     <link rel="stylesheet" href="components/angular-animate/animate.css"/>
     <link rel="stylesheet" href="components/google-fonts/google-fonts.css">
@@ -16,7 +16,7 @@
 </head>
 <body ng-controller="AppController" layout="row">
 
-<md-sidenav ng-cloak layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md') && menuOpen">
+<md-sidenav ng-cloak layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" ng-hide="!session.user || session.user.missingRole || session.user.firstLogin" md-is-locked-open="$mdMedia('gt-md') && menuOpen">
     <md-toolbar style="min-height:210px" class="md-tall md-hue-2">
 
         <div layout="column" layout-align="start center">
@@ -43,7 +43,7 @@
 <div ng-cloak layout="column" class="relative" layout-fill role="main">
     <md-toolbar md-theme="altTheme">
         <div class="md-toolbar-tools">
-            <md-button ng-click="toggleSidenav('left')" ng-hide="$mdMedia('gt-md') || menuOpen || !session.user" class="md-icon-button">
+            <md-button ng-click="toggleSidenav('left')" ng-hide="$mdMedia('gt-md') || menuOpen || !session.user || session.user.missingRole || session.user.firstLogin" class="md-icon-button">
                 <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
             </md-button>
             <h2 ng-if="selectedMenuItem.name && selectedMenuItem.group">{{ selectedMenuItem.group }} > {{ selectedMenuItem.name }}</h2>
@@ -59,15 +59,22 @@
             <md-menu ng-if="session.user">
                 <md-button ng-click="$mdOpenMenu($event)" class="md-button-profile">
                     {{session.user.nombreUsuario}}
+                    <small ng-if="session.user.rol">({{session.user.rol.nombre}})</small>
                 </md-button>
                 <md-menu-content width="4">
-                    <md-menu-item>
+                    <md-menu-item ng-if="!session.user.firstLogin && !session.user.missingRole && session.user.hasMultipleRoles">
+                        <md-button ui-sref="selectRol">
+                            <ng-md-icon icon="list"></ng-md-icon>
+                            Cambiar de rol
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-if="!session.user.firstLogin && !session.user.missingRole">
                         <md-button ui-sref="persona.datosUsuario">
                             <ng-md-icon icon="edit"></ng-md-icon>
                             Mis datos
                         </md-button>
                     </md-menu-item>
-                    <md-menu-divider></md-menu-divider>
+                    <md-menu-divider ng-if="!session.user.firstLogin && !session.user.missingRole"></md-menu-divider>
                     <md-menu-item>
                         <md-button ng-click="logOut()">
                             <ng-md-icon icon="logout"></ng-md-icon>

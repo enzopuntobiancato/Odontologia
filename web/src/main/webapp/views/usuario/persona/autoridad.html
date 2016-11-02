@@ -1,0 +1,14 @@
+<div layout-gt-sm="row" layout-margin>
+    <md-input-container flex-gt-sm="33">
+        <label>Cargo</label>
+        <md-select required ng-model="vm.usuario.autoridadDTO.cargo" ng-model-options="{trackBy: '$value.key'}"
+                   name="cargo">
+            <md-option ng-repeat="cargo in vm.data.cargos" ng-value="cargo">
+                {{ cargo.nombre }}
+            </md-option>
+        </md-select>
+        <div ng-messages="form.cargo.$error" ng-show="form.cargo.$touched">
+            <div ng-messages-include="error-messages"></div>
+        </div>
+    </md-input-container>
+</div>

@@ -40,9 +40,9 @@ public class ResponsableRecepcionService extends BaseService<ResponsableRecepcio
         return dao.findByFilters(nombre, apellido, documento, usuario, sexo, page, pageSize);
     }
 
-    public List<ResponsableRecepcion> findByRol(Rol rol, Long page, Long pageSize) {
-        return dao.findByRol(rol, page, pageSize);
-    }
+//    public List<ResponsableRecepcion> findByRol(Rol rol, Long page, Long pageSize) {
+//        return dao.findByRol(rol, page, pageSize);
+//    }
 
     public List<ResponsableRecepcion> findByNombreApellido(String nombApp, Long page, Long pageSize) {
         return dao.findByNombreApellido(nombApp, page, pageSize);

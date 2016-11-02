@@ -21,8 +21,16 @@ loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'M
                 authFactory.login(vm.user)
                     .then(function (response) {
                         if (response.user) {
-                            authFactory.setAuthData(response.user, response.image);
-                            if (response.user.firstLogin) {
+                            var user = response.user;
+                            user.missingRole = false;
+                            authFactory.setAuthData(user, response.image);
+                            if (response.user.hasMultipleRoles) {
+                                user.missingRole = true;
+                                authFactory.setAuthData(user, response.image);
+                                authFactory.communicateAuthChangedMissingStep();
+                                $state.go('selectRol');
+                            } else if (response.user.firstLogin) {
+                                authFactory.communicateAuthChangedMissingStep();
                                 $state.go('persona.firstLogin');
                             } else {
                                 authFactory.communicateAuthChanged();

@@ -15,15 +15,35 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
             tiposDoc: tiposDocResponse.data,
             sexos: sexosResponse.data,
             sendEmail: true,
-            isAlumno: isAlumno
+            isAlumno: isAlumno,
+            submitted: false,
+            missingRole: false
         };
+
+        function getSelectedRoles() {
+            return $filter('filter')($scope.data.roles, function (rol) {
+                return rol.selected;
+            });
+        }
+
+        $scope.clickRol = function () {
+            if (getSelectedRoles().length == 0) {
+                $scope.data.missingRole = true;
+            } else {
+                $scope.data.missingRole = false;
+            }
+        }
+
         init();
 
         function init() {
             if ($scope.data.isAlumno) {
-                $scope.personaDTO.usuario.rol = $filter('filter')($scope.data.roles, function (rol) {
-                    return rol.nombre.key == 'ALUMNO';
-                })[0];
+                for (var i = 0; i < $scope.data.roles.length; i++) {
+                    if ($scope.data.roles[i].nombre.key == 'ALUMNO') {
+                        $scope.data.roles[i].selected = true;
+                        break;
+                    }
+                }
             }
         }
 
@@ -32,8 +52,21 @@ module.controller('UsuarioCtrl_Create', ['$scope', '$rootScope', 'UsuarioSrv', '
 
         $scope.save = save;
         function save(form) {
+            $scope.data.submitted = true;
+            if (getSelectedRoles().length == 0) {
+                $scope.data.missingRole = true;
+                return;
+            }
             performSubmit(function () {
-                $scope.personaDTO.nombreRol = $scope.personaDTO.usuario.rol.nombre.key;
+                $scope.personaDTO.nombreRol = getSelectedRoles()[0].nombre.key;
+                $scope.personaDTO.usuario.roles = [];
+                var roles = getSelectedRoles();
+                for (var i = 0; i < roles.length; i++) {
+                    var rolUsuario = {
+                        rol: roles[i]
+                    }
+                    $scope.personaDTO.usuario.roles.push(rolUsuario);
+                }
                 service.save($scope.personaDTO)
                     .success(function (data) {
                         $scope.data.persistedOperation = true;

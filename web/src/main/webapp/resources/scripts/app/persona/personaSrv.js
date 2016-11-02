@@ -2,11 +2,11 @@ var module = angular.module('personaModule');
 
 module.factory('PersonaSrv', ['$http', function ($http) {
     return {
-        findByUser: function (userName, authToken) {
+        findByUser: function (userName, authToken, rol) {
             return $http({
                 method: 'GET',
                 url: 'api/persona/findByUser',
-                params: {username: userName, authToken: authToken}
+                params: {username: userName, authToken: authToken, rol: rol}
             });
         },
         findUserImage: function(imageId) {

@@ -1,16 +1,16 @@
 <div layout-gt-sm="row" layout-margin>
     <md-input-container flex-gt-sm="33">
         <label>Legajo</label>
-        <input name="legajo" ng-model="vm.persona.legajo"
+        <input name="legajoProfesor" ng-model="vm.usuario.profesorDTO.legajo"
                type="text" ng-pattern="/^\d+$/" md-maxlength="10" required>
 
-        <div ng-messages="form.legajo.$error" ng-show="form.legajo.$touched">
+        <div ng-messages="form.legajoProfesor.$error" ng-show="form.legajoProfesor.$touched">
             <div ng-messages-include="error-messages"></div>
         </div>
     </md-input-container>
     <md-input-container flex-gt-sm="33">
         <label>Matrícula profesional</label>
-        <input name="matricula" ng-model="vm.persona.matricula"
+        <input name="matricula" ng-model="vm.usuario.profesorDTO.matricula"
                type="text" md-maxlength="25" required>
 
         <div ng-messages="form.matricula.$error" ng-show="form.matricula.$touched">
@@ -19,7 +19,7 @@
     </md-input-container>
     <md-input-container flex-gt-sm="33">
         <label>Profesión</label>
-        <input name="profesion" ng-model="vm.persona.profesion"
+        <input name="profesion" ng-model="vm.usuario.profesorDTO.profesion"
                type="text" md-maxlength="75">
 
         <div ng-messages="form.profesion.$error" ng-show="form.profesion.$touched">

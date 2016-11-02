@@ -4,6 +4,8 @@ import com.utn.tesis.mapping.dto.PrivilegioDTO;
 import com.utn.tesis.model.Privilegio;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Enzo
@@ -14,4 +16,5 @@ import org.mapstruct.Mapper;
 public interface PrivilegioMapper {
 
     PrivilegioDTO toPrivilegioDTO(Privilegio privilegio);
+    List<PrivilegioDTO> toDTOList(List<Privilegio> source);
 }

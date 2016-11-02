@@ -1,0 +1,11 @@
+<div layout-gt-sm="row" layout-margin>
+    <md-input-container flex-gt-sm="33">
+        <label>Legajo</label>
+        <input name="legajoAlumno" ng-model="vm.usuario.alumnoDTO.legajo"
+               type="text" ng-pattern="/^\d+$/" md-maxlength="10" required=>
+
+        <div ng-messages="form.legajoAlumno.$error" ng-show="form.legajoAlumno.$touched">
+            <div ng-messages-include="error-messages"></div>
+        </div>
+    </md-input-container>
+</div>

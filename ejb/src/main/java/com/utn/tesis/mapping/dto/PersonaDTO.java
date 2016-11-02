@@ -1,6 +1,6 @@
 package com.utn.tesis.mapping.dto;
 
-import com.utn.tesis.model.RolEnum;
+import com.utn.tesis.model.*;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
@@ -85,4 +85,15 @@ public abstract class PersonaDTO extends BaseDTO {
         this.usuario = usuario;
     }
 
+    public <T extends Persona> void populateTo(T target) {
+        target.setApellido(this.getApellido());
+        target.setNombre(this.getNombre());
+        target.setSexo(this.getSexo() != null ? Sexo.valueOf(this.getSexo().getKey()) : null);
+        if (target.getDocumento() == null) {
+            target.setDocumento(new Documento());
+        }
+        target.getDocumento().setNumero(this.getDocumento().getNumero());
+        target.getDocumento().setTipoDocumento(this.getDocumento().getTipoDocumento() != null ? TipoDocumento.valueOf(this.getDocumento().getTipoDocumento().getKey()) : null);
+        target.setFechaNacimiento(this.getFechaNacimiento());
+    }
 }

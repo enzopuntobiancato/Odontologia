@@ -47,6 +47,14 @@ module.
             })
         }
 
+        service.findUsuarioView = function(id){
+            return $http({
+                url:'api/usuario/findUsuarioView',
+                method:'GET',
+                params:{id: id}
+            })
+        }
+
         service.getRoles = function () {
             return $http.get('api/commons/getRoles', {});
         }

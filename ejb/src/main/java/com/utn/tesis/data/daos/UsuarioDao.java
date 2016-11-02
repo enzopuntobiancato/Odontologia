@@ -20,21 +20,20 @@ public class UsuarioDao extends DaoBase<Usuario> {
     QUsuario usuario = QUsuario.usuario;
 
     public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
-
         JPAQuery query = new JPAQuery(em).from(usuario);
         if (nombreUsuario != null)
             query.where(usuario.nombreUsuario.startsWith(nombreUsuario));
         if (email != null)
             query.where(usuario.email.startsWith(email));
         if (rolId != null) {
-            QRol rol = QRol.rol;
-            query.join(usuario.rol, rol).where(rol.id.eq(rolId));
+            QRolUsuario rolUsuario = QRolUsuario.rolUsuario;
+            query.innerJoin(usuario.roles, rolUsuario).where(rolUsuario.rol.id.eq(rolId));
         }
         if (!dadosBaja)
             query.where(usuario.fechaBaja.isNull());
 
         query = paginar(query, pageNumber, pageSize);
-        return query.list(usuario);
+        return query.listDistinct(usuario);
     }
 
     public Usuario findByUsernameAndPassword(String nombreUsuario, String contrasenia) {
@@ -55,20 +54,20 @@ public class UsuarioDao extends DaoBase<Usuario> {
         return query.uniqueResult(usuario);
     }
 
-    public Persona findPersonaByUsuario(Usuario usuario) {
+    public List<Persona> findPersonaByUsuario(Usuario usuario) {
         QPersona persona = QPersona.persona;
         JPAQuery query1 = new JPAQuery(em).from(persona)
                 .where(persona.usuario.id.eq(usuario.getId()));
 
-        return query1.uniqueResult(QPersona.persona);
+        return query1.list(persona);
     }
 
-    public Persona findPersonaByUsuario(Long usuarioId) {
+    public List<Persona> findPersonaByUsuario(Long usuarioId) {
         QPersona persona = QPersona.persona;
         JPAQuery query1 = new JPAQuery(em).from(persona)
                 .where(persona.usuario.id.eq(usuarioId));
 
-        return query1.uniqueResult(QPersona.persona);
+        return query1.list(persona);
     }
 
     public List<Usuario> validateByUsername(String username, Long id) {
@@ -85,5 +84,13 @@ public class UsuarioDao extends DaoBase<Usuario> {
             queryBuilder.and(usuario.id.ne(id));
         }
         return performQuery(usuario, queryBuilder);
+    }
+
+    public List<RolUsuario> findRolesByUser(Long userId) {
+        QRolUsuario rolUsuario = QRolUsuario.rolUsuario;
+        JPAQuery query = new JPAQuery(em).from(usuario);
+        query.innerJoin(usuario.roles, rolUsuario);
+        query.where(usuario.id.eq(userId));
+        return query.list(rolUsuario);
     }
 }

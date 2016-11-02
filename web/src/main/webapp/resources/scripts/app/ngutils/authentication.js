@@ -34,6 +34,14 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
         return deferred.promise;
     };
 
+    authFactory.selectRol = function(rol) {
+        return $http({
+            url: 'api/auth/selectRol',
+            method: 'POST',
+            data: rol
+        })
+    };
+
     authFactory.fetchUser = function() {
         var current = this.session.user;
 
@@ -61,12 +69,17 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
 
     authFactory.setAuthData = function (user, image) {
         this.session.user = user;
-        this.session.image = image;
+        this.session.image = image ? image : this.session.image;
+        $cookies.remove(USER_COOKIE);
         $cookies.putObject(USER_COOKIE, this.session.user, {expires: getExpiresDate()});
     };
 
     authFactory.communicateAuthChanged = function () {
         $rootScope.$broadcast('authChanged');
+    }
+
+    authFactory.communicateAuthChangedMissingStep = function() {
+        $rootScope.$broadcast('authChangedMissingStep');
     }
 
     authFactory.getAuthData = function () {
@@ -114,21 +127,17 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
 
     authFactory.logout = function () {
         $cookies.remove(USER_COOKIE);
-        $cookies.remove(MENU_COOKIE);
         return this.session = {};
     };
 
-    authFactory.setMenu = function (menu) {
-        $cookies.putObject(MENU_COOKIE, menu, {});
+    authFactory.getPermisos = function(rolKey) {
+        return $http({
+            url: 'api/usuario/findPermisosRol',
+            method: 'GET',
+            params: {rol: rolKey}
+        })
     };
 
-    authFactory.getMenu = function () {
-        return $cookies.getObject(MENU_COOKIE);
-    };
-
-    authFactory.removeMenu = function () {
-        $cookies.remove(MENU_COOKIE);
-    }
     return authFactory;
 }]);
 

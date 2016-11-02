@@ -45,18 +45,18 @@ public class AlumnoDao extends DaoBase<Alumno> implements PersonaDaoQueryResolve
         return query.list($);
     }
 
-    public List<Alumno> findByRol(Rol rol, Long page, Long pageSize) {
-        JPAQuery query = new JPAQuery(em).from($);
-        if (rol != null)
-            query.where($.usuario.rol.id.eq(rol.getId()));
-
-        query = paginar(query, page, pageSize);
-        return query.list($);
-    }
+//    public List<Alumno> findByRol(Rol rol, Long page, Long pageSize) {
+//        JPAQuery query = new JPAQuery(em).from($);
+//        if (rol != null)
+//            query.where($.usuario.rol.id.eq(rol.getId()));
+//
+//        query = paginar(query, page, pageSize);
+//        return query.list($);
+//    }
 
     @Override
-    public boolean supports(RolEnum rol) {
-        return RolEnum.ALUMNO == rol;
+    public <T extends Persona> boolean supports(Class<T> personaClass) {
+        return personaClass.equals(Alumno.class);
     }
 
     @Override

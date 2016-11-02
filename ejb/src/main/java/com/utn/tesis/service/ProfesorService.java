@@ -40,9 +40,9 @@ public class ProfesorService extends BaseService<Profesor> {
         return dao.findByFilters(nombre, apellido, documento, usuario, sexo, page, pageSize);
     }
 
-    public List<Profesor> findByRol(Rol rol, Long page, Long pageSize) {
-        return dao.findByRol(rol, page, pageSize);
-    }
+//    public List<Profesor> findByRol(Rol rol, Long page, Long pageSize) {
+//        return dao.findByRol(rol, page, pageSize);
+//    }
 
     public List<Profesor> findByNombreApellido(String nombApp, Long page, Long pageSize) {
         return dao.findByNombreApellido(nombApp, page, pageSize);

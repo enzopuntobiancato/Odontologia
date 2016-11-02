@@ -15,8 +15,8 @@ public class AdministradorDao extends DaoBase<Administrador> implements PersonaD
     private static final QAdministrador $ = QAdministrador.administrador;
 
     @Override
-    public boolean supports(RolEnum rol) {
-        return RolEnum.ADMINISTRADOR == rol;
+    public <T extends Persona> boolean supports(Class<T> personaClass) {
+        return personaClass.equals(Administrador.class);
     }
 
     @Override
