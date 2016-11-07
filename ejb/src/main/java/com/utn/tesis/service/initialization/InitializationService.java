@@ -3,6 +3,7 @@ package com.utn.tesis.service.initialization;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.AlumnoDTO;
 import com.utn.tesis.model.*;
+import com.utn.tesis.model.odontograma.Odontograma;
 import com.utn.tesis.service.*;
 import com.utn.tesis.util.EncryptionUtils;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
@@ -653,6 +654,8 @@ public class InitializationService {
                 numDiag++;
             }
         }
+        List<HistoriaClinica> listHc = historiaClinicaService.findAll();
+        List<Paciente> pacientes = pacienteService.findAll();
         log.info("FIN CARGA DE ASIGNACIONES");
     }
 
@@ -667,6 +670,7 @@ public class InitializationService {
             movimientoDiagnosticoService.save(movD);
         }
 
+        List<HistoriaClinica> listHc = historiaClinicaService.findAll();
         log.info("Fin carga de movimientos");
     }
 }

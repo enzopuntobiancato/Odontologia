@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Sellador extends HallazgoClinico {
 
+    //CONSTRUCTORES
     public Sellador(){
 
     }
@@ -12,6 +13,8 @@ public class Sellador extends HallazgoClinico {
     protected Sellador(EstadoHallazgoClinico estado) {
         super(estado);
     }
+
+    //GETTERS Y SETTES
 
     @Override
     public String getNombre() {
@@ -35,14 +38,15 @@ public class Sellador extends HallazgoClinico {
 
     @Override
     public List<Integer> getPosiciones() {
-        return Arrays.asList(Integer.valueOf(4),
+        return null;
+/*        return Arrays.asList(Integer.valueOf(4),
                 Integer.valueOf(5),
                 Integer.valueOf(6),
-                Integer.valueOf(7));
+                Integer.valueOf(7));*/
     }
 
     @Override
     public String getMarkID() {
-        return null;
+        return "sellador";
     }
 }

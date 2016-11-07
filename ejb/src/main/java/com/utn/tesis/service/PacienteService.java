@@ -11,6 +11,7 @@ import com.utn.tesis.mapping.mapper.ArchivoMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
 import org.apache.commons.lang3.tuple.Pair;
+import com.utn.tesis.model.odontograma.Odontograma;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -96,6 +97,12 @@ public class PacienteService extends BaseService<Paciente> {
 
     public List<ArchivoDTO> findDocumentacionesByPaciente(Long pacienteId) {
         return archivoMapper.toDTOList(dao.findDocumentacionesByPaciente(pacienteId));
+    }
+
+    public Odontograma findOdontogramaById(Long historiaClinicaId){
+        HistoriaClinica hc = historiaClinicaService.findById(historiaClinicaId);
+        Odontograma o = hc.getOdontograma();
+        return o;
     }
 
 

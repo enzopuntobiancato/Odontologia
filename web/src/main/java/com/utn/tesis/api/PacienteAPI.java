@@ -7,7 +7,10 @@ import com.utn.tesis.mapping.dto.PacienteDTO;
 import com.utn.tesis.mapping.mapper.HistoriaClinicaMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
+import com.utn.tesis.model.odontograma.CaraPiezaDental;
+import com.utn.tesis.model.odontograma.Caries;
 import com.utn.tesis.model.odontograma.Odontograma;
+import com.utn.tesis.model.odontograma.PiezaDental;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.HistoriaClinicaService;
 import com.utn.tesis.service.PacienteService;
@@ -138,6 +141,25 @@ public class PacienteAPI extends BaseAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Odontograma initOdontograma() {
-        return Odontograma.createDefault();
+        Odontograma odontograma = Odontograma.createDefault();
+/*        for (PiezaDental pieza : odontograma.getPiezasDentalesInferiores()){
+            CaraPiezaDental cara = pieza.getCarasPiezaDental().get(0);
+            Caries caries = new Caries();
+            cara.setHallazgoClinico(caries);
+        }*/
+        return odontograma;
+    }
+
+    @Path("/findOdontogramaById")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Odontograma findOdontogramaById(@QueryParam("pacienteId") Long pacienteId) {
+        Paciente paciente = pacienteService.findById(pacienteId);
+        Odontograma odontograma = paciente.getHistoriaClinica().getOdontograma();
+        List<HistoriaClinica> listHc = historiaClinicaService.findAll();
+/*        HistoriaClinica hc = listHc.get(0);
+        hc = historiaClinicaService.reload(hc, 3);*/
+        odontograma = pacienteService.findOdontogramaById(paciente.getHistoriaClinica().getId());
+        return odontograma;
     }
 }

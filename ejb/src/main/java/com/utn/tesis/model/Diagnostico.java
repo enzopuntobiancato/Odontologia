@@ -1,6 +1,7 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.model.odontograma.PiezaDental;
 import io.github.benas.randombeans.annotation.Exclude;
 
 import javax.persistence.*;
@@ -44,6 +45,13 @@ public class Diagnostico extends EntityBase {
     @JoinColumn(name = "ultimo_movimiento_diagnostico_id")
     private MovimientoDiagnostico ultimoMovimiento;
 
+    @Exclude
+    @ElementCollection
+    @CollectionTable(name="piezas", joinColumns=@JoinColumn(name="diagnostico_id"))
+    @Column(name="pieza")
+    private List<Integer> piezas;
+
+
     public Diagnostico() {
     }
 
@@ -51,6 +59,16 @@ public class Diagnostico extends EntityBase {
         this.fechaCreacion = fechaCreacion;
         this.observaciones = observaciones;
         this.practicaOdontologica = practicaOdontologica;
+    }
+
+    //GETTERR Y SETTERS
+
+    public List<Integer> getPiezas() {
+        return piezas;
+    }
+
+    public void setPiezas(List<Integer> piezas) {
+        this.piezas = piezas;
     }
 
     public Calendar getFechaCreacion() {

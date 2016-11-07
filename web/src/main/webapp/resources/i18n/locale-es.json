@@ -140,7 +140,8 @@
     "DIAGNOSTICOS" : "Diagnósticos",
     "VER": "Ver",
     "EDITAR" : "Editar",
-
+    "PIEZA_DENTAL" : "Pieza dental",
+    "HALLAZGO_CLINICO" : "Hallazgo clínico",
     "HORA_ASIGNACION" : "Hora de la asignacion",
     "FECHA_ASIGNACION" : "Fecha de la asignacion",
     "CREAR_": "Crear asignacion",

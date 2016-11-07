@@ -81,10 +81,11 @@ public class MultiPartFormHelper {
             ObjectMapper om = omp.getContext(ObjectMapper.class);
             result = om.readValue(json, objectType);
         } catch (IOException e) {
-            throw new SAPORuntimeException("An error happened");
+            throw new SAPORuntimeException("An error happened:" + e.getMessage());
         }
         return result;
     }
+
 
     public FileExtension parseFileExtension(String mimeType) {
         FileExtension[] values = FileExtension.values();

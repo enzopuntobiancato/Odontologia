@@ -1,8 +1,11 @@
 package com.utn.tesis.mapping.dto;
 
+import com.utn.tesis.model.odontograma.PiezaDental;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import java.util.Calendar;
 import java.util.List;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DiagnosticoDTO extends BaseDTO {
     private static final long serialVersionUID = 2698145564751713756L;
 
@@ -13,6 +16,16 @@ public class DiagnosticoDTO extends BaseDTO {
     private String practicaNoExistente;
     private List<MovimientoDiagnosticoDTO> movimientos;
     private MovimientoDiagnosticoDTO ultimoMovimiento;
+    private List<Integer> piezas;
+
+    //GETTERS Y SETTERS
+    public List<Integer> getPiezas() {
+        return piezas;
+    }
+
+    public void setPiezas(List<Integer> piezas) {
+        this.piezas = piezas;
+    }
 
     public Long getId() {
         return id;

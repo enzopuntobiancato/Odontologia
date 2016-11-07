@@ -2,7 +2,8 @@ package com.utn.tesis.model.odontograma;
 
 public class ProtesisParcial extends Protesis {
 
-    public ProtesisParcial(){
+    //CONSTRUCTORES
+    public ProtesisParcial() {
 
     }
 
@@ -10,6 +11,7 @@ public class ProtesisParcial extends Protesis {
         super(estado);
     }
 
+    //GETTERS Y SETTERS
     @Override
     public String getNombre() {
         return Terminology.PROTESIS_PARCIAL;

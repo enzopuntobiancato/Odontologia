@@ -5,6 +5,7 @@ public class Puente extends HallazgoClinico {
     public Puente() {
 
     }
+
     protected Puente(EstadoHallazgoClinico estado) {
         super(estado);
     }
@@ -26,6 +27,7 @@ public class Puente extends HallazgoClinico {
 
     @Override
     public String getMarkID() {
-        return null;
+        return "puente";
     }
+
 }

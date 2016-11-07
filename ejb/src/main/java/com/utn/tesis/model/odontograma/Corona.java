@@ -2,6 +2,7 @@ package com.utn.tesis.model.odontograma;
 
 public class Corona extends Protesis {
 
+    //CONSTRUCTORES
     public Corona() {
     }
 
@@ -9,6 +10,7 @@ public class Corona extends Protesis {
         super(estado);
     }
 
+    //GETTERS Y SETTERS
     @Override
     public String getNombre() {
         return Terminology.CORONA;
@@ -21,6 +23,6 @@ public class Corona extends Protesis {
 
     @Override
     public String getMarkID() {
-        return null;
+        return "corona";
     }
 }

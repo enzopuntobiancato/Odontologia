@@ -8,7 +8,6 @@
     height="90">
     <g id="piezaCompleta" transform="translate(-0,3)">
   <g id="PD" class="cara"
-  ng-class="{'diente-hover' : selectedTratamiento.aplicaAPieza, 'pointer': selectedTratamiento.aplicaAPieza}"
     transform="matrix(0.97308798,0,0,0.90408403,0.73056834,9.8440412) scale(0.75) translate(10,0.36363636)">
    	 <path
       sodipodi:type="arc"
@@ -23,7 +22,7 @@
          id="extraccion"
          d="M 99.636366,34.90909 80.200855,17.431618 60.363639,35.272727 77.841111,15.837216 60.000002,-4.0000002 79.435513,13.477473 99.272729,-4.3636369 81.795256,10 z"
          transform="matrix(1.4953523,0,0,1.426545,-87.629031,10)"/>
-    <rect ng-class="{'diente' : selectedTratamiento.aplicaAPieza}"
+    <rect
        style="fill: transparent"
        id="6"
        width="63.650757"
@@ -31,9 +30,8 @@
        x="0.18560584"
        y="0.54924226"/>
     <g
-    id="2" ng-click="dienteClick(2)" ng-right-click="removeArreglo(2)"
-     class="cara"
-     ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+    id="2"
+     class="cara">
                      <path
                         d="M 61.636363,2.6363637 62,61.363636 45.636364,44.454546 45.818182,19 z"
                         id="caries" class="marca"
@@ -44,9 +42,7 @@
          id="path3896"
          inkscape:connector-curvature="0" />
     </g>
-    <g id="4"  class="cara"
-      ng-click="dienteClick(4)" ng-right-click="removeArreglo(4)"
-      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+    <g id="4"  class="cara">
                      <path
                       id="caries"
                       class="marca"
@@ -58,8 +54,7 @@
          id="path3902"/>
     </g>
     <g
-       id="1" class="cara" ng-click="dienteClick(1)" ng-right-click="removeArreglo(1)"
-      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+       id="1" class="cara">
                      <path
                       id="caries"
                       class="marca"
@@ -72,9 +67,7 @@
 
     </g>
     <g
-    id="5" class="pointer cara"
-     ng-click="dienteClick(5)" ng-right-click="removeArreglo(5)"
-      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+    id="5" class="cara">
                   <rect
                     class="marca"
                      id="caries"
@@ -98,8 +91,7 @@
 
     </g>
     <g
-       id="3" class="cara" ng-click="dienteClick(3)" ng-right-click="removeArreglo(3)"
-      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+       id="3" class="cara">
                      <path
                       id="caries"
                       class="marca"
@@ -113,8 +105,7 @@
   </g>
    <g
       id="numeroDiente"
-      transform="translate(-0.36363636,-0.36363636)" ng-click="dienteClick(6)" ng-right-click="removeArreglo(6)"
-      ng-class="{'diente-hover' : selectedTratamiento.aplicaAPieza, 'pointer': selectedTratamiento.aplicaAPieza}">
+      transform="translate(-0.36363636,-0.36363636)">
      <text
         transform="scale(0.94345888,1.0599296) translate(8,9)"
         id="text3052"
@@ -158,6 +149,4 @@
                                                 style="font-size:12px;font-style:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill-opacity:1;stroke:none;"
                                                 xml:space="preserve">TC</text>
         </g>
-
-
 </svg>

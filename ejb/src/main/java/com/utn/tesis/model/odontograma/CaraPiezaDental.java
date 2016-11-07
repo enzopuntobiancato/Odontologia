@@ -1,9 +1,16 @@
 package com.utn.tesis.model.odontograma;
 
+import lombok.ToString;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class CaraPiezaDental implements Serializable {
 
     private static final long serialVersionUID = 1L;

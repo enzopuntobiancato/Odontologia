@@ -8,14 +8,15 @@ import com.utn.tesis.mapping.dto.AtencionDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.ArchivoMapper;
 import com.utn.tesis.mapping.mapper.AtencionMapper;
-import com.utn.tesis.model.AsignacionPaciente;
-import com.utn.tesis.model.Atencion;
-import com.utn.tesis.model.EstadoAsignacionPaciente;
-import com.utn.tesis.model.EstadoDiagnostico;
+import com.utn.tesis.model.*;
+import com.utn.tesis.model.odontograma.Odontograma;
+import com.utn.tesis.model.odontograma.PiezaDental;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.List;
  * Time: 11:57
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Stateless
 public class AtencionService extends BaseService<Atencion> {
     @Inject
@@ -43,6 +45,8 @@ public class AtencionService extends BaseService<Atencion> {
     private ArchivoService archivoService;
     @Inject
     private ArchivoMapper archivoMapper;
+    @Inject
+    private HistoriaClinicaService historiaClinicaService;
 
     @Override
     DaoBase<Atencion> getDao() {
@@ -66,21 +70,30 @@ public class AtencionService extends BaseService<Atencion> {
         atencion.setAsignacionPaciente(asignacionPaciente);
         atencion.setDocumentaciones(archivoService.saveList(documentaciones));
         save(atencion);
-        asignacionPaciente.getPaciente().getHistoriaClinica().addAtencion(atencion);
+        HistoriaClinica hc = asignacionPaciente.getPaciente().getHistoriaClinica();
+        hc.addAtencion(atencion);
 
         Atencion referenceForDiagnostico = null;
         String observacionesForDiagnostico = null;
         EstadoDiagnostico estadoDiagnostico ;
+        Diagnostico diagnostico = asignacionPaciente.getDiagnostico();
+        List<PiezaDental> piezasDentales = new ArrayList<PiezaDental>();
 
         if (atencionDTO.isDiagnosticoSolucionado()) {
             referenceForDiagnostico = atencion;
             estadoDiagnostico = EstadoDiagnostico.SOLUCIONADO;
+
+            if (diagnostico.getPiezas() != null && diagnostico.getPiezas().size() > 0){
+                //Guardar piezas
+                realizarArregloEnPiezasDentales(diagnostico.getPiezas(), hc);
+            }
+
         } else {
             observacionesForDiagnostico = atencionDTO.getMotivoNoSolucion();
             estadoDiagnostico = EstadoDiagnostico.PENDIENTE;
         }
         diagnosticoService.registrarMovimiento(
-                asignacionPaciente.getDiagnostico().getId(),
+                diagnostico.getId(),
                 generadoPor.getId(),
                 estadoDiagnostico,
                 observacionesForDiagnostico,
@@ -94,5 +107,17 @@ public class AtencionService extends BaseService<Atencion> {
 
     public List<ArchivoDTO> findDocumentacionesByAtencion(Long atencionId) {
         return archivoMapper.toDTOList(dao.findDocumentacionesByAtencion(atencionId));
+    }
+
+    private boolean realizarArregloEnPiezasDentales(List<Integer> codigoPiezas,  HistoriaClinica hc) {
+        try {
+            Odontograma odontograma = hc.getOdontograma();
+            odontograma.realizarArregloEnPiezasDentales(codigoPiezas);
+            hc.setOdontograma(odontograma);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return false;
     }
 }

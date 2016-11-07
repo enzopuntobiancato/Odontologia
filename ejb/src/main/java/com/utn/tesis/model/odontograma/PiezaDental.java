@@ -1,8 +1,16 @@
 package com.utn.tesis.model.odontograma;
 
+
+import lombok.ToString;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import java.io.Serializable;
 import java.util.List;
 
+@ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class PiezaDental implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -14,7 +22,9 @@ public class PiezaDental implements Serializable {
     private int numeroSector;
     private List<CaraPiezaDental> carasPiezaDental;
     private HallazgoClinico hallazgoClinico;
+    private Long diagnosticoId;
 
+    //CONSTRUCTOR
     public PiezaDental() {
     }
 
@@ -26,6 +36,15 @@ public class PiezaDental implements Serializable {
         this.numeroSector = numeroSector;
         this.carasPiezaDental = carasPiezaDental;
         this.hallazgoClinico = hallazgoClinico;
+    }
+
+    //GETTERS Y SETTERS
+    public Long getDiagnosticoId() {
+        return diagnosticoId;
+    }
+
+    public void setDiagnosticoId(Long diagnosticoId) {
+        this.diagnosticoId = diagnosticoId;
     }
 
     public String getNombrePieza() {
@@ -76,4 +95,9 @@ public class PiezaDental implements Serializable {
         this.hallazgoClinico = hallazgoClinico;
     }
 
+    //METODOS
+    public  Integer getNombrePiezaDental(){
+        String nombrePieza = numeroSector +  "" + numeroPieza;
+        return  Integer.valueOf(nombrePieza);
+    }
 }

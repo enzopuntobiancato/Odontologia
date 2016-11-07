@@ -790,6 +790,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     estadosDiagnosticoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getEstadosDiagnostico();
+                    }],
+                    odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function(loadMyModule, $stateParams, service){
+                        return service.findOdontogramaById($stateParams.id);
                     }]
                 }
             })
@@ -945,6 +948,15 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     finalStatesResponse: ['loadMyModule', 'DiagnosticoSrv', function (loadMyModule, service) {
                         return service.findFinalStates();
+                    }],
+                    hallazgosResponse : ['loadMyModule', '$stateParams', 'PacienteSrv',function(loadMyModule, $stateParams, service){
+                        return service.findHallazgos();
+                    }],
+                    odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function(loadMyModule, $stateParams, service){
+                        return service.findOdontogramaById($stateParams.id);
+                    }],
+                    practicasResponse: ['loadMyModule', 'DiagnosticoSrv', function(loadMyModule, service){
+                        return service.findPracticas();
                     }]
                 }
             })

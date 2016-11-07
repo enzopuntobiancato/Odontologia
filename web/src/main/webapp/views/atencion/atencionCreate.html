@@ -117,9 +117,12 @@
                             <form name="atencionForm" ng-submit="vm.save(atencionForm)" novalidate>
                                 <div layout="row" layout-margin>
                                     <div>
+                                        <!--<md-datepicker name="fechaAtencion" ng-model="vm.atencion.fechaAtencion"
+                                                       md-placeholder="Fecha de atención"
+                                                       required md-min-date="vm.atencion.asignacionPaciente.fechaAsignacion" md-max-date="vm.data.today" class="md-date"></md-datepicker>-->
                                         <md-datepicker name="fechaAtencion" ng-model="vm.atencion.fechaAtencion"
                                                        md-placeholder="Fecha de atención"
-                                                       required md-min-date="vm.atencion.asignacionPaciente.fechaAsignacion" md-max-date="vm.data.today" class="md-date"></md-datepicker>
+                                                       required class="md-date"></md-datepicker>
                                         <div class="validation-messages" ng-messages="atencionForm.fechaAtencion.$error"
                                              ng-show="atencionForm.fechaAtencion.$touched">
                                             <div ng-messages-include="error-messages"></div>

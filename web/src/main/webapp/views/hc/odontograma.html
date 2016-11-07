@@ -4,13 +4,6 @@
         cursor: pointer;
     }
 
-    /*svg > g .diente-hover:hover {*/
-        /*cursor: pointer;*/
-        /*fill: red;*/
-        /*stroke-width: 4;*/
-        /*stroke: #58aeff;*/
-    /*}*/
-
     svg .cara {
         stroke-width: 2;
         stroke: #000000;
@@ -32,6 +25,7 @@
         stroke-width: 4;
         stroke: #58aeff;
     }
+
 </style>
 <div layout="column" layout-align="start center" class="md-main-content">
     <form name="createPacienteForm" novalidate ng-keydown="vm.keyDown($event)" ng-keyup="vm.keyUp($event)">
@@ -42,20 +36,15 @@
                     <h1 class="md-toolbar-tools">{{ 'TRATAMIENTOS' | translate }}</h1>
                 </md-toolbar>
                 <md-content layout-padding  style="height: 500px">
-<!--                    <md-radio-group ng-model="vm.selectedTratamiento" class="md-primary">
-                        <md-radio-button
-                                ng-repeat="tratamiento in vm.tratamientos"
-                                ng-value="tratamiento.value">
-                            {{ tratamiento.nombre }}<br/>
-                        </md-radio-button>
-                    </md-radio-group>-->
+                    <md-switch ng-model="vm.hecho">
+                        Tratamiento hecho: {{ vm.hecho }}
+                    </md-switch>
                     <md-list>
                         <div ng-repeat="tratamiento in vm.tratamientos">
                             <md-list-item>
                                 <md-checkbox ng-model="tratamiento.selected"
                                              ng-change="vm.selectTratamiento(tratamiento)"></md-checkbox>
                                 <p> {{tratamiento.nombre}} </p>
-                                <!--<md-icon class="md-secondary"></md-icon>-->
                             </md-list-item>
                             <md-divider></md-divider>
                         </div>
@@ -64,13 +53,16 @@
             </md-sidenav>
             <md-content flex layout-padding>
                 <div layout="column" layout-fill layout-align="top center">
-                    {{ vm.selectedTratamiento }}
-                    {{ vm.odontograma }}
-                    <div ng-repeat="piezaDental in vm.odontograma.piezasDentalesInferiores">
-                        <div diente model="piezaDental" selected-tratamiento="vm.selectedTratamiento"></div>
+                    <!--{{ vm.selectedTratamiento }}-->
+                    <div layout="row">
+                        <div ng-repeat="piezaDental in vm.odontograma.piezasDentalesSuperiores" diente model="piezaDental"
+                             selected-tratamiento="vm.selectedTratamiento"></div>
+                    </div>
+                    <div layout="row">
+                        <div ng-repeat="piezaDental in vm.odontograma.piezasDentalesInferiores" diente model="piezaDental"
+                             selected-tratamiento="vm.selectedTratamiento"></div>
                     </div>
                 </div>
-                <div flex></div>
             </md-content>
         </section>
     </form>

@@ -1,0 +1,54 @@
+<md-dialog ng-cloak>
+    <form novalidate name="diagnosticoOdontogramaForm" ng-submit="create(diagnosticoOdontogramaForm)">
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools">
+                <span>Nuevo diagnóstico</span>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <ng-md-icon icon="close"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="column">
+                    <md-table-container>
+                        <table md-table md-row-select="false"
+                               multiple="false">
+                            <thead md-head>
+                            <tr md-row md-auto-select>
+                                <th md-column><span>{{ 'PIEZA_DENTAL' | translate }}</span></th>
+                                <th md-column><span>{{ 'HALLAZGO_CLINICO' | translate }}</span></th>
+                                <th md-column><span>{{ 'PRACTICA_ODONT' | translate }}</span></th>
+                                <th md-column><span>{{ 'OBSERVACIONES' | translate }}</span></th>
+                            </tr>
+                            </thead>
+                            <tbody md-body>
+                            <tr md-row
+                                ng-repeat="diagnostico in diagnosticosOdontograma | limitTo: query.limit : (query.page -1) * query.limit">
+                                <td md-cell>{{ getNombrePiezasDiagnostico(diagnostico.piezas)}}</td>
+                                <td md-cell>{{ diagnostico.hallazgoClinico.nombre }}</td>
+                                <td md-cell>
+                                    <md-select ng-model="diagnostico.practicaOdontologica" name="practica" placeholder="Práctica odontológica"
+                                            ng-disabled="diagnostico.tieneDiagnostico" ng-model-options="{trackBy: '$value.id'}">
+                                        <md-option ng-repeat="practica in practicas" ng-value="practica">
+                                            {{ practica.denominacion }}
+                                        </md-option>
+                                    </md-select>
+                                </td>
+                                <td md-cell ng-click="editComment($event, diagnostico)">{{ diagnostico.observaciones }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{ diagnosticosOdontograma.length }}"></md-table-pagination>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="end end">
+            <md-button ng-click="cancel()">Cancelar</md-button>
+            <md-button type="submit" class="md-raised md-primary">Agregar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

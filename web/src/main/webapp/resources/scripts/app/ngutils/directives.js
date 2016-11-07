@@ -273,162 +273,451 @@ directives.directive('itemHistoria', editHC);
 directives.directive('pacienteToolbar', pacienteToolbar);
 
 /* DIRECTIVES ODONTOGRAMA */
-directives.directive('diente', ['$compile', function ($compile) {
+directives.directive('diente', ['MessageSrv', function (message) {
+    return {
+        restrict: 'A',
+        scope: {
+            model: '=',
+            selectedTratamiento: '=',
+            addHallazgo: '&',
+            removeHallazgo: '&'
+        },
+        templateUrl: 'resources/img/diente_3 - copia.svg',
+        link: function (scope, element, attrs) {
+            (function init() {
+                pintarDiente(scope.model);
+            })();
+            scope.dienteClick = dienteClick;
+            scope.removeArreglo = removeArreglo;
+            scope.model = scope.model;
+            scope.agregar = true;
+
+            //FUNCIONALIDAD
+            function dienteClick(idCara) {
+                //VERIFICACIONES
+                if (angular.isUndefined(scope.selectedTratamiento) || scope.selectedTratamiento == null) {
+                    message.errorMessage("Debe elegir un tratamiento.");
+                    return false;
+                }
+                if (idCara == 6 && scope.selectedTratamiento.aplicaACara) {
+                    message.errorMessage("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " al diente completo, " +
+                        "pues solo se puede aplicar a una cara.");
+                    return false;
+                }
+                if (idCara !== 6 && scope.selectedTratamiento.aplicaAPieza) {
+                    message.errorMessage("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " a la cara, " +
+                        "pues solo se puede aplicar al diente completo.");
+                    return false;
+                }
+                if (idCara != 5 && scope.selectedTratamiento.aplicaACaraCentral) {
+                    message.errorMessage("El tratamiento " + scope.selectedTratamiento.nombre + " solo puede aplicarse a la cara central.");
+                    return false;
+                }
+
+                //Valor booleano TRVE si aplica a cara, FALSE si aplica a la pieza dental entera
+                var aplicaACara = scope.selectedTratamiento.aplicaACara;
+                if (aplicaACara) {
+                    //Revisamos si el diente ya tiene un hallazgo.
+                    if (scope.model.hallazgoClinico) {
+                        message.errorMessage("El diente seleccionado tiene un tratamiento. Elimínelo antes de agregar uno nuevo.");
+                        return false;
+                    }
+                    //Revisamos si la cara seleccionada ya tiene un hallazgo.
+                    var index = findCaraByPosicion(scope.model.carasPiezaDental, idCara);
+                    if (index == null) {
+                        alert("La cara buscada no existe en el diente");
+                        return false;
+                    }
+                    var cara = scope.model.carasPiezaDental[index];
+                    if (cara.hallazgoClinico) {
+                        message.errorMessage("La cara seleccionada ya posee un hallazgo. Elimínelo antes de agregar uno nuevo");
+                        return false;
+                    }
+                } else {
+                    //Aplica al diente entero. No puede haber otro arreglo sobre el diente o sobre las caras.
+                    if (scope.model.hallazgoClinico) {
+                        message.errorMessage("El diente ya posee un hallazgo. Elimínelo antes de agregar uno nuevo.");
+                        return false;
+                    }
+                    //Revisamos que no haya algun arreglo en alguna de las caras.
+                    for (var i = 0; i < scope.model.carasPiezaDental.length; i++) {
+                        if (scope.model.carasPiezaDental[i].hallazgoClinico) {
+                            message.errorMessage("El diente ya posee un hallazgo en la cara " + scope.model.carasPiezaDental[i].nombre
+                                + ". Elimínelo antes de agregar uno nuevo.");
+                            return false;
+                        }
+                    }
+                }
+
+                //CON LA DATA LIMPIA, PASAMOS A AGREGAR EL TRATAMIENTO AL DIENTE O CARA CORRESPONDIENTE
+                var index = null;
+                var arreglo = angular.copy(scope.selectedTratamiento);
+                if (aplicaACara) {
+                    index = findCaraByPosicion(scope.model.carasPiezaDental, idCara);
+                    if (index == null) {
+                        alert("La cara buscada no existe en el diente");
+                        return false;
+                    }
+                    scope.model.carasPiezaDental[index].hallazgoClinico = arreglo;
+                } else {
+                    index = 6;
+                    scope.model.hallazgoClinico = arreglo;
+                }
+                //Enviamos el evento al controlador del odontograma para que lo agregue a la HC.
+                scope.addHallazgo()(scope.model);
+                //Pintamos el diente.
+                pintarDiente(scope.model);
+                message.successMessage("Se ha agregado " + scope.selectedTratamiento.nombre + " al diente "
+                    + scope.model.numeroSector + scope.model.numeroPieza);
+
+            }
+
+            function removeArreglo(idCara) {
+                if (scope.model.hasDiagnostico || scope.model.diagnosticoId != null) {
+                    message.errorMessage("No se puede eliminar el arreglo del diente  " + scope.model.nombrePiezaDental +
+                        " pues tiene un diagnóstico asociado. Elimine el diagnóstico primero.");
+                    return false;
+                }
+                if (!idCara) {
+                    alert("Id de cara vacío.")
+                    return false;
+                }
+                var esRealizado;
+                //Si es el ID del diente completo, se borran todos los tratamientos.
+                if (idCara == 6) {
+                    esRealizado = scope.model.hallazgoClinico.estado == "REALIZADO" ? true : false;
+                    if (!scope.model.hallazgoClinico) {
+                        console.log("El diente no tiene arreglos registrados.");
+                        return false;
+                    }
+                    scope.model.hallazgoClinico = null;
+
+                    for (var i = 0; i < scope.model.carasPiezaDental.length; i++) {
+                        scope.model.carasPiezaDental[i].hallazgoClinico = null;
+                        console.log("Tratamiento eliminado de la cara " + scope.model.carasPiezaDental[i].nombre
+                            + " diente " + scope.model.numeroSector + scope.model.numeroPieza);
+                    }
+                    //Enviamos el evento al controlador del odontograma para que lo agregue a la HC.
+                    scope.removeHallazgo()(scope.model, esRealizado);
+//                    scope.removeHallazgo()(scope.model, esRealizado);
+                    message.successMessage("Tratamiento eliminado del diente " + scope.model.numeroSector + scope.model.numeroPieza);
+                    //Pintamos el diente.
+                    pintarDiente(scope.model);
+                    return true;
+                }
+
+                //Si se hace click sobre una cara, buscamos la cara.
+                var indexCara = findCaraByPosicion(scope.model.carasPiezaDental, idCara);
+                if (!scope.model.carasPiezaDental[indexCara].hallazgoClinico) {
+                    message.errorMessage("La cara " + idCara + " no tiene arreglos.");
+                    return false;
+                }
+                esRealizado = scope.model.carasPiezaDental[indexCara].hallazgoClinico.estado == "REALIZADO" ? true : false;
+                //Quitamos el tratamiento
+                scope.model.carasPiezaDental[indexCara].hallazgoClinico = null;
+                //Enviamos el evento al controlador del odontograma para que lo agregue a la HC.
+//                scope.$emit('newHallazgo', {newPieza: scope.model});
+                scope.removeHallazgo()(scope.model, esRealizado);
+                if (scope.agregar) {
+                    message.successMessage("Tratamiento eliminado de la cara " + scope.model.carasPiezaDental[indexCara].nombre
+                        + " diente " + scope.model.numeroSector + scope.model.numeroPieza);
+                    //Pintamos el diente.
+                    pintarDiente(scope.model);
+                }
+            }
+
+            function pintarDiente(diente) {
+                if (!diente) {
+                    return false;
+                }
+
+                resetNodos(element);
+                var nodoPiezaCompleta = element[0].children[0].children[0]; //Pieza completa
+                var nodoDiente = element[0].children[0].children[0].children[0];
+                var nodosCaras = element[0].children[0].children[0].children[0].children; //Caras
+
+                //Existe un hallazgo en el diente entero por lo que los demas posibles hallazgos no importan
+                if (diente.hallazgoClinico) {
+                    var nodoEncontrado = null;
+                    if (diente.hallazgoClinico.markID == "tratamientoConducto"
+                        || diente.hallazgoClinico.markID == "puente") {
+                        var sup = diente.numeroSector < 3 ? "Superior" : "Inferior";
+                        var nombre = diente.hallazgoClinico.markID + sup;
+                        nodoEncontrado = findHallazgoEnNodoGrupo(nodoPiezaCompleta, nombre);
+                    } else {
+                        nodoEncontrado = findHallazgoEnNodoGrupo(nodoDiente, diente.hallazgoClinico.markID);
+                    }
+                    if (!nodoEncontrado) {
+                        //No se encontro --> error!
+                        console.log("No se encoinntro el nodo SVG para el diente " + diente);
+                        return false;
+                    }
+                    var color = null;
+                    if (diente.hallazgoClinico.estado == 'PENDIENTE') {
+                        color = "#3F51B5";
+                    } else {
+                        color = "#F44336";
+                    }
+                    //Pintamos el nodo encontrado.
+                    nodoEncontrado.attr('stroke', color);
+                    nodoEncontrado.attr('opacity', '1');
+                    if (diente.hallazgoClinico.markID != "corona") {
+                        nodoEncontrado.attr('fill', color);
+                    }
+                    return true;
+                }
+                //Buscarmos cada cara del diente.
+                var caras = diente.carasPiezaDental;
+                for (var i = 0; i < caras.length; i++) {
+                    var cara = caras[i];
+                    if (!cara.hallazgoClinico) {
+                        continue;
+                    }
+                    //Para esa cara busco el nodo SVG correspondiente
+                    var nodoCara = null;
+                    for (var j = 0; j < nodosCaras.length; j++) {
+                        var n = nodosCaras[j];
+                        if (n.id == cara.posicion) {
+                            nodoCara = n;
+                            break;
+                        }
+                    }
+
+                    if (!nodoCara) {
+                        console.log("Error! No se encontró la cara en el diente " + cara);
+                        return false;
+                    }
+                    var nodoEncontrado = findHallazgoEnNodoGrupo(nodoCara, cara.hallazgoClinico.markID);
+                    if (!nodoEncontrado) {
+                        //No se encontro --> error!
+                        console.log("No se encontró la marca correspondiente al tratamiento " + cara.hallazgoClinico);
+                        return false;
+                    }
+
+                    var color = null;
+                    if (cara.hallazgoClinico.estado == 'PENDIENTE') {
+                        color = "#3F51B5";
+                    } else {
+                        color = "#F44336";
+                    }
+                    //Pintamos el nodo encontrado.
+                    nodoEncontrado.attr('opacity', '1');
+                    nodoEncontrado.attr('fill', color);
+                }
+            }
+
+            /**
+             * Metodo que busca entre los hijos de un grupo el nodo del mismo que se corresponde al hallazgo de la cara
+             * pasado por parametro.
+             * @param elementoPadre Nodo SVG
+             * @param hallazgoPorBuscar HallazgoClinico de la cara
+             * @returns nodoEncontrado o null si no lo encuentra.
+             */
+            function findHallazgoEnNodoGrupo(elementoPadre, hallazgoPorBuscar) {
+                //Recuperamos los hijos, es decir todos los nodos interiores donde vamos a buscar la marca del tratamiento.
+                var nodosHijos = elementoPadre.children;
+                var nodoEncontrado = null;
+                //Iteramos y buscamos en los nodos hijos la marca.
+                for (var i = 0; i < nodosHijos.length; i++) {
+                    //Busco en el grupo, el nodo que simboliza la marca.
+                    if (nodosHijos[i].id == hallazgoPorBuscar) {
+                        //Encuentro el nodo y salgo
+                        nodoEncontrado = angular.element(nodosHijos[i]);
+                        break;
+                    }
+                }
+                return nodoEncontrado;
+            }
+
+            /**
+             * Metodo que buscar en un array de caras la cara correspondiente a la posicion pasada por parametro.
+             * @param arrayCaras
+             * @param posicion
+             * @returns {*}
+             */
+            function findCaraByPosicion(arrayCaras, posicion) {
+                for (var index = 0; index < arrayCaras.length; index++) {
+                    if (arrayCaras[index].posicion == posicion) {
+                        return index;
+                    }
+                }
+            }
+
+            /**
+             * Metodo que limpia todas las marcas del diente.
+             * @param element
+             */
+            function resetNodos(element) {
+                var nodos = element[0].querySelectorAll('.marca');
+                angular.forEach(nodos, function (path, key) {
+                    var nodoElement = angular.element(path);
+                    nodoElement.attr("opacity", 0);
+                })
+            }
+
+            scope.$watch('model', function (newData, oldData) {
+                pintarDiente(scope.model);
+            });
+
+            scope.$on('deleted-hallazgo', function (event, args) {
+                event.defaultPrevented = true;
+                var piezas = args.piezas;
+                for (var i = 0; i < piezas.length; i++) {
+                    if (piezas[i] != scope.model.nombrePiezaDental) {
+                        continue;
+                    }
+                    pintarDiente(scope.model);
+                    break;
+                }
+            });
+        }
+    }
+}]);
+
+directives.directive('ngRightClick', function ($parse) {
+    return function (scope, element, attrs) {
+        var fn = $parse(attrs.ngRightClick);
+        element.bind('contextmenu', function (event) {
+            scope.$apply(function () {
+                event.preventDefault();
+                fn(scope, {$event: event});
+            });
+        });
+    };
+});
+
+directives.directive('dienteConsulta', ['MessageSrv', function (message) {
     return {
         restrict: 'A',
         scope: {
             model: '=',
             selectedTratamiento: '='
         },
-        templateUrl: 'resources/img/diente_3.svg',
+        templateUrl: 'resources/img/diente-consulta.svg',
         link: function (scope, element, attrs) {
-                scope.dienteClick = function (idCara) {
-                    if (!scope.selectedTratamiento) {
-                        alert("Elija un tratamiento primero");
-                        return false;
-                    }
-                    if (scope.elementId == "PD" && scope.selectedTratamiento.aplicaCara) {
-                        alert("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " al diente completo, " +
-                            "pues solo se puede aplicar a una cara.")
-                        return false;
-                    }
-                    if (scope.elementId !== 'PD' && scope.selectedTratamiento.aplicaDiente) {
-                        alert("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " a la cara, " +
-                            "pues solo se puede aplicar al diente completo.")
-                        return false;
-                    }
+            (function init() {
+                pintarDiente(scope.model);
+            })();
+            scope.model = scope.model;
 
-                    //Recuperamos la coleccion de hijos del grupo.
-                    var caras = element[0].children[0].children[0].children;
-                    var clickedCara;
-                    for (var i in caras) {
-                        if (caras[i].id == idCara) {
-                            clickedCara = caras[i];
+            //FUNCIONALIDAD
+            function pintarDiente(diente) {
+                if (!diente) {
+                    return false;
+                }
+
+                resetNodos(element);
+                var nodoPiezaCompleta = element[0].children[0].children[0]; //Pieza completa
+                var nodoDiente = element[0].children[0].children[0].children[0];
+                var nodosCaras = element[0].children[0].children[0].children[0].children; //Caras
+
+                //Existe un hallazgo en el diente entero por lo que los demas posibles hallazgos no importan
+                if (diente.hallazgoClinico) {
+                    var nodoEncontrado = null;
+                    if (diente.hallazgoClinico.markID == "tratamientoConducto"
+                        || diente.hallazgoClinico.markID == "puente") {
+                        var sup = diente.numeroSector < 3 ? "Superior" : "Inferior";
+                        var nombre = diente.hallazgoClinico.markID + sup;
+                        nodoEncontrado = findHallazgoEnNodoGrupo(nodoPiezaCompleta, nombre);
+                    } else {
+                        nodoEncontrado = findHallazgoEnNodoGrupo(nodoDiente, diente.hallazgoClinico.markID);
+                    }
+                    if (!nodoEncontrado) {
+                        //No se encontro --> error!
+                        console.log("No se encoinntro el nodo SVG para el diente " + diente);
+                        return false;
+                    }
+                    var color = null;
+                    if (diente.hallazgoClinico.estado == 'PENDIENTE') {
+                        color = "#3F51B5";
+                    } else {
+                        color = "#F44336";
+                    }
+                    //Pintamos el nodo encontrado.
+                    nodoEncontrado.attr('stroke', color);
+                    nodoEncontrado.attr('opacity', '1');
+                    if (diente.hallazgoClinico.markID != "corona") {
+                        nodoEncontrado.attr('fill', color);
+                    }
+                    return true;
+                }
+                //Buscarmos cada cara del diente.
+                var caras = diente.carasPiezaDental;
+                for (var i = 0; i < caras.length; i++) {
+                    var cara = caras[i];
+                    if (!cara.hallazgoClinico) {
+                        continue;
+                    }
+                    //Para esa cara busco el nodo SVG correspondiente
+                    var nodoCara = null;
+                    for (var j = 0; j < nodosCaras.length; j++) {
+                        var n = nodosCaras[j];
+                        if (n.id == cara.posicion) {
+                            nodoCara = n;
                             break;
                         }
                     }
 
-                    var marca = clickedCara.children[0];
-                    //Dependiendo del tratamiento elegido, extraemos el simbolo y el color.
-                    //Con el simbolo, buscamos a que elemento pertenece dentro del grupo.
-                    //Lo usamos como indice para buscar entrre los hijos.
-                    //Una vez ubicado el elemento, lo tranformamos en un objeto jQuery.
-                    var first = angular.element(marca);
-                    //Al objeto le modificamos los attrs  con el color del tratamiento seleccionado
-                    //y le cambiamos la opacity a 1 para que se vea.
-                    first.attr('fill', '#F44336');
-                    first.attr('opacity', '1');
-                    //Agregamos el tratamiento a la cara correspondiente.
-                    if(scope.selectedTratamiento.aplicaCara) {
-                        for (var i in scope.model.carasPiezaDental) {
-                            if (scope.model.carasPiezaDental[i].posicion == idCara) {
-                                scope.model.carasPiezaDental[i].hallazgoClinico = scope.selectedTratamiento;
-                                break;
-                            }
-                        }
-                    } else {
-                        scope.model.hallazgoClinico = scope.selectedTratamiento;
+                    if (!nodoCara) {
+                        console.log("Error! No se encontró la cara en el diente " + cara);
+                        return false;
+                    }
+                    var nodoEncontrado = findHallazgoEnNodoGrupo(nodoCara, cara.hallazgoClinico.markID);
+                    if (!nodoEncontrado) {
+                        //No se encontro --> error!
+                        console.log("No se encontró la marca correspondiente al tratamiento " + cara.hallazgoClinico);
+                        return false;
                     }
 
-                    scope.$emit('newHallazgo', {newPieza: scope.model});
-//                console.log(scope.model);
-                };
+                    var color = null;
+                    if (cara.hallazgoClinico.estado == 'PENDIENTE') {
+                        color = "#3F51B5";
+                    } else {
+                        color = "#F44336";
+                    }
+                    //Pintamos el nodo encontrado.
+                    nodoEncontrado.attr('opacity', '1');
+                    nodoEncontrado.attr('fill', color);
+                }
+            }
+
+            /**
+             * Metodo que busca entre los hijos de un grupo el nodo del mismo que se corresponde al hallazgo de la cara
+             * pasado por parametro.
+             * @param elementoPadre Nodo SVG
+             * @param hallazgoPorBuscar HallazgoClinico de la cara
+             * @returns nodoEncontrado o null si no lo encuentra.
+             */
+            function findHallazgoEnNodoGrupo(elementoPadre, hallazgoPorBuscar) {
+                //Recuperamos los hijos, es decir todos los nodos interiores donde vamos a buscar la marca del tratamiento.
+                var nodosHijos = elementoPadre.children;
+                var nodoEncontrado = null;
+                //Iteramos y buscamos en los nodos hijos la marca.
+                for (var i = 0; i < nodosHijos.length; i++) {
+                    //Busco en el grupo, el nodo que simboliza la marca.
+                    if (nodosHijos[i].id == hallazgoPorBuscar) {
+                        //Encuentro el nodo y salgo
+                        nodoEncontrado = angular.element(nodosHijos[i]);
+                        break;
+                    }
+                }
+                return nodoEncontrado;
+            }
+
+            /**
+             * Metodo que limpia todas las marcas del diente.
+             * @param element
+             */
+            function resetNodos(element) {
+                var nodos = element[0].querySelectorAll('.marca');
+                angular.forEach(nodos, function (path, key) {
+                    var nodoElement = angular.element(path);
+                    nodoElement.attr("opacity", 0);
+                })
+            }
         }
     }
 }]);
-
-directives.directive('cara', ['$compile', function ($compile) {
-    return {
-        restrict: 'A',
-        scope: {
-//            tratamiento: "=",
-//            piezaDental : "="
-            model: "="
-        },
-        link: function (scope, element, attrs) {
-            scope.elementId = element.attr("id");
-
-            scope.regionClick = function () {
-              /*  console.log(scope.elementId);
-                console.log(scope.tratamiento);
-                console.log(scope.model);*/
-                 if (!scope.tratamiento) {
-                 alert("Elija un tratamiento primero");
-                 return false;
-                 }
-                 if (scope.elementId == "PD" && scope.tratamiento.aplicaCara) {
-                 alert("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " al diente completo, " +
-                 "pues solo se puede aplicar a una cara.")
-                 return false;
-                 }
-                 if (scope.elementId !== 'PD' && scope.tratamiento.aplicaDiente) {
-                 alert("No se puede aplicar el tratamiento " + scope.selectedTratamiento.nombre + " a la cara, " +
-                 "pues solo se puede aplicar al diente completo.")
-                 return false;
-                 }
-
-                //Recuperamos la coleccion de hijos del grupo.
-                var children = element[0].childNodes;
-
-                //Dependiendo del tratamiento elegido, extraemos el simbolo y el color.
-                //Con el simbolo, buscamos a que elemento pertenece dentro del grupo.
-                //Lo usamos como indice para buscar entrre los hijos.
-                //Una vez ubicado el elemento, lo tranformamos en un objeto jQuery.
-                var first = angular.element(children[1]);
-                //Al objeto le modificamos los attrs  con el color del tratamiento seleccionado
-                //y le cambiamos la opacity a 1 para que se vea.
-                first.attr('fill', '#F44336');
-                first.attr('opacity', '1');
-                //Agregamos el tratamiento a la cara correspondiente.
-
-//                console.log(scope.model);
-            };
-            element.attr("ng-click", "regionClick()");
-//            element.attr("ng-mouseover", "regionMouseOver()");
-            element.removeAttr("cara");
-            $compile(element)(scope);
-        }
-    }
-}]);
-
-/*
- directives.directive("diente", ["$compile", function($compile){
- return{
- restrict: 'A',
- templateUrl: 'resources/img/map.svg',
- link: function(scope, element, attrs){
- //Agregamos la directiva 'cara' a cada elemento del diente
- var caras = element[0].querySelectorAll(".state");
- angular.forEach(caras, function (path, key) {
- var caraElement = angular.element(path);
- caraElement.attr("cara", "");
- $compile(caraElement)(scope);
- })
- }
- }
- }]);
-
- directives.directive("cara", ["$compile", function($compile){
- return{
- restrict: 'A',
- link: function(scope, element, attrs){
- scope.id = element.attr("id");
- scope.caraClick = function(){
- scope.el = element;
- scope.id2 = element.attr("id");
- alert(scope.id + " clicked. ID2 : " +  scope.id2);
- */
-/*                scope.fill = element.attr('ng-attr-fill');
- element.attr("style", "fill: #e4de00");*//*
-
- };
- element.attr("ng-click", "caraClick()");
- element.removeAttr("cara");
- $compile(element)(scope);
- }
- }
- }]);
- */
 
 //FILTERS
 directives.filter('cut', function () {

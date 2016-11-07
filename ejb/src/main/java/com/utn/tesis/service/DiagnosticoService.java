@@ -10,11 +10,13 @@ import com.utn.tesis.mapping.mapper.DiagnosticoMapper;
 import com.utn.tesis.mapping.mapper.MovimientoDiagnosticoMapper;
 import com.utn.tesis.model.*;
 import com.utn.tesis.model.odontograma.HallazgoClinico;
+import com.utn.tesis.model.odontograma.PiezaDental;
 import com.utn.tesis.util.Collections;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -73,7 +75,8 @@ public class DiagnosticoService extends BaseService<Diagnostico> {
         return diagnosticoMapper.toDTOList(openDiagnosticos);
     }
 
-    public void saveDiagnosticosByPaciente(List<DiagnosticoDTO> diagnosticos, Long pacienteId, UsuarioLogueadoDTO usuarioLogueado) throws SAPOException {
+    public List<Diagnostico> saveDiagnosticosByPaciente(List<DiagnosticoDTO> diagnosticos, Long pacienteId, UsuarioLogueadoDTO usuarioLogueado) throws SAPOException {
+        List<Diagnostico> diagnosticosResponse = new ArrayList<Diagnostico>();
         Paciente paciente = pacienteService.findById(pacienteId);
         for (DiagnosticoDTO diagnosticoDTO : diagnosticos) {
             for (Diagnostico diagnostico : paciente.getHistoriaClinica().getDiagnostico()) {
@@ -92,10 +95,14 @@ public class DiagnosticoService extends BaseService<Diagnostico> {
             }
 
             if (diagnosticoDTO.getId() == null) {
-                paciente.getHistoriaClinica().addDiagnostico(save(createNewDiagnostico(diagnosticoDTO, usuarioLogueado)));
+                Diagnostico diagnostico = save(createNewDiagnostico(diagnosticoDTO, usuarioLogueado));
+                paciente.getHistoriaClinica().addDiagnostico(diagnostico);
+                diagnosticosResponse.add(diagnostico);
             }
         }
+        return diagnosticosResponse;
     }
+
 
     private Diagnostico createNewDiagnostico(DiagnosticoDTO diagnosticoDTO, UsuarioLogueadoDTO usuarioLogueado) throws SAPOException {
         Diagnostico diagnostico = diagnosticoMapper.fromDTO(diagnosticoDTO);
