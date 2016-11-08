@@ -17,6 +17,7 @@ public class JsonStringType
 
     public JsonStringType() {
         super( JsonStringSqlTypeDescriptor.INSTANCE, new JsonTypeDescriptor() );
+
     }
 
     public String getName() {

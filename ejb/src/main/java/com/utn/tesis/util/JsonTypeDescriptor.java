@@ -24,11 +24,10 @@ public class JsonTypeDescriptor
 
     @Override
     public void setParameterValues(Properties parameters) {
-        ParameterType p = ( (ParameterType) parameters.get( PARAMETER_TYPE ) );
-        if(p != null) {
-            jsonObjectClass = p.getReturnedClass();
-        }
-        else{
+        try {
+            Class<?> returnedClass = Class.forName(parameters.get(DynamicParameterizedType.RETURNED_CLASS).toString());
+            jsonObjectClass = returnedClass;
+        } catch (ClassNotFoundException e) {
             jsonObjectClass = null;
         }
     }

@@ -1,5 +1,7 @@
 package com.utn.tesis.mapping.dto;
 
+import com.utn.tesis.model.odontograma.Odontograma;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -213,6 +215,7 @@ public class HistoriaClinicaDTO extends BaseDTO {
     private CampoEnumerableDTO  g29p3;
     private CampoEnumerableDTO  g29p4;
     private CampoDetalleDTO  g29p5;
+    private Odontograma odontograma;
 
     //GETTERS AND SETTERS
     public int getNumero() {
@@ -1589,5 +1592,13 @@ public class HistoriaClinicaDTO extends BaseDTO {
 
     public void setG29p5(CampoDetalleDTO g29p5) {
         this.g29p5 = g29p5;
+    }
+
+    public Odontograma getOdontograma() {
+        return odontograma;
+    }
+
+    public void setOdontograma(Odontograma odontograma) {
+        this.odontograma = odontograma;
     }
 }

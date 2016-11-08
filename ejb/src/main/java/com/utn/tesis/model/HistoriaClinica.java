@@ -2,22 +2,19 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.model.odontograma.Odontograma;
-import com.utn.tesis.util.JsonBinaryType;
-import com.utn.tesis.util.JsonStringType;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.usertype.DynamicParameterizedType;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-@TypeDefs({
-        @TypeDef(name = "json", typeClass = JsonStringType.class),
-        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
-})
 @Entity
 @Table(name = "historias_clinicas")
 public class HistoriaClinica extends EntityBase {
@@ -53,7 +50,7 @@ public class HistoriaClinica extends EntityBase {
     @JoinColumn(name = "historia_clinica_id")
     private List<DetalleHistoriaClinica> detallesHC;
 
-    @Type(type = "json")
+    @Type(type = "json", parameters = @Parameter(name = DynamicParameterizedType.RETURNED_CLASS, value = "com.utn.tesis.model.odontograma.Odontograma"))
     @Column(columnDefinition = "TEXT")
     private Odontograma odontograma;
 

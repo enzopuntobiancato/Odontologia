@@ -9,6 +9,7 @@ import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.DiagnosticoMapper;
 import com.utn.tesis.mapping.mapper.MovimientoDiagnosticoMapper;
 import com.utn.tesis.model.*;
+import com.utn.tesis.model.odontograma.HallazgoClinico;
 import com.utn.tesis.util.Collections;
 
 import javax.ejb.Stateless;
@@ -89,6 +90,7 @@ public class DiagnosticoService extends BaseService<Diagnostico> {
                     }
                 }
             }
+
             if (diagnosticoDTO.getId() == null) {
                 paciente.getHistoriaClinica().addDiagnostico(save(createNewDiagnostico(diagnosticoDTO, usuarioLogueado)));
             }
