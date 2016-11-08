@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Usuario
@@ -13,7 +15,7 @@ import org.mapstruct.Mappings;
  * Time: 19:51
  * To change this template use File | Settings | File Templates.
  */
- @Mapper(componentModel = "cdi", uses = {RollMapper.class})
+ @Mapper(componentModel = "cdi", uses = {RolUsuarioMapper.class})
 public interface UsuarioConsultaMapper{
 
     @Mappings({
@@ -23,7 +25,7 @@ public interface UsuarioConsultaMapper{
             @Mapping(source = "usuario.motivoBaja", target = "motivoBaja"),
             @Mapping(target = "tipoDocumento", expression = "java(persona.getDocumento().getTipoDocumento().toString())"),
             @Mapping(source = "documento.numero", target = "numero"),
-            @Mapping(source = "usuario.rol", target = "rol"),
+            @Mapping(source = "usuario.roles", target = "roles"),
             @Mapping(source = "usuario.id", target = "idUsuario")
     }
     )

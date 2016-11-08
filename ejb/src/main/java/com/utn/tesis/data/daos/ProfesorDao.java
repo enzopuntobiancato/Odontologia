@@ -48,16 +48,14 @@ public class ProfesorDao extends DaoBase<Profesor> implements PersonaDaoQueryRes
         return query.list($);
     }
 
-    public List<Profesor> findByRol(Rol rol, Long page, Long pageSize) {
-        JPAQuery query = new JPAQuery(em).from($);
-        if (rol != null)
-            query.where($.usuario.rol.id.eq(rol.getId()));
-
-        query = paginar(query, page, pageSize);
-        return query.list($);
-    }
-
-
+//    public List<Profesor> findByRol(Rol rol, Long page, Long pageSize) {
+//        JPAQuery query = new JPAQuery(em).from($);
+//        if (rol != null)
+//            query.where($.usuario.rol.id.eq(rol.getId()));
+//
+//        query = paginar(query, page, pageSize);
+//        return query.list($);
+//    }
 
     public List<Profesor> findByCatedra(Catedra catedra){
         JPAQuery query = new JPAQuery(em).from(profesor);
@@ -86,8 +84,8 @@ public class ProfesorDao extends DaoBase<Profesor> implements PersonaDaoQueryRes
     }
 
     @Override
-    public boolean supports(RolEnum rol) {
-        return RolEnum.PROFESOR == rol;
+    public <T extends Persona> boolean supports(Class<T> personaClass) {
+        return personaClass.equals(Profesor.class);
     }
 
     @Override

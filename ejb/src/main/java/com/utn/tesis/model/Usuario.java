@@ -2,12 +2,15 @@ package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.util.RegexUtils;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -29,10 +32,10 @@ public class Usuario extends Bajeable {
     @Column(nullable = false, length = 70)
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "rol_id")
-    @NotNull(message = "El rol de usuario no puede ser nulo.")
-    private Rol rol;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id")
+    @NotEmpty(message = "El usuario debe tener un rol")
+    private List<RolUsuario> roles = new ArrayList<RolUsuario>();
 
     @ManyToOne
     @JoinColumn(name = "archivo_imagen_id")
@@ -54,8 +57,8 @@ public class Usuario extends Bajeable {
             e.put("E-mail inválido", "Ingrese un e-mail válido.");
         }
 
-        if (rol == null) {
-            e.put("Rol Null", "El rol no puede ser nulo.");
+        if (roles == null || roles.isEmpty()) {
+            e.put("Rol Null or Empty", "El usuario debe tener al menos un rol");
         }
 
         if (!e.isEmpty()) {
@@ -87,14 +90,6 @@ public class Usuario extends Bajeable {
         this.email = email;
     }
 
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol r) {
-        this.rol = r;
-    }
-
     public String getAuthToken() {
         return authToken;
     }
@@ -119,6 +114,18 @@ public class Usuario extends Bajeable {
         this.ultimaConexion = ultimaConexion;
     }
 
+    public List<RolUsuario> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RolUsuario> roles) {
+        this.roles = roles;
+    }
+
+    public Persona retrieveFirstPerson() {
+        return roles.get(0).getPersona();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,7 +138,7 @@ public class Usuario extends Bajeable {
         if (email != null ? !email.equals(usuario.email) : usuario.email != null) return false;
         if (nombreUsuario != null ? !nombreUsuario.equals(usuario.nombreUsuario) : usuario.nombreUsuario != null)
             return false;
-        if (rol != null ? !rol.equals(usuario.rol) : usuario.rol != null) return false;
+        if (roles != null ? !roles.equals(usuario.roles) : usuario.roles != null) return false;
 
         return true;
     }

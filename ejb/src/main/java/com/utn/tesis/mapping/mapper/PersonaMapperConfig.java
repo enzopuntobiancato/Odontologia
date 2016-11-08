@@ -2,7 +2,9 @@ package com.utn.tesis.mapping.mapper;
 
 import com.utn.tesis.mapping.dto.PersonaDTO;
 import com.utn.tesis.model.Persona;
-import org.mapstruct.*;
+import org.mapstruct.MapperConfig;
+import org.mapstruct.MappingInheritanceStrategy;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ import java.util.List;
 @MapperConfig(componentModel = "cdi", uses = {DocumentoMapper.class, EnumMapper.class, UsuarioMapper.class, CatedraMapper.class},
         mappingInheritanceStrategy = MappingInheritanceStrategy.AUTO_INHERIT_FROM_CONFIG)
 public interface PersonaMapperConfig {
-    @Mapping(target = "nombreRol",  expression = "java(source.getUsuario().getRol().getNombre().getKey())")
+    //    @Mapping(target = "nombreRol",  expression = "java(source.getUsuario().getRol().getNombre().getKey())")
     PersonaDTO toDTO(Persona source);
 
     void updateFromDTO(PersonaDTO source, @MappingTarget Persona persona);

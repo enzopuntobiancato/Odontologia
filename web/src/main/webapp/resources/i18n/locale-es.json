@@ -76,6 +76,7 @@
     "NOMBRE": "Nombre",
     "APELLIDO" : "Apellido",
     "ROL": "Rol",
+    "ROLES": "Roles",
     "SEXO" : "Sexo",
     "EMAIL": "Correo electrónico",
     "DOCUMENTO": "Documento",

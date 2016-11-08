@@ -1,15 +1,15 @@
 package com.utn.tesis.data.daos;
 
+import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.data.PersonaDaoQueryResolver;
 import com.utn.tesis.model.*;
-import org.apache.commons.lang.StringUtils;
 
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PersonaDao extends DaoBase<Persona> {
@@ -56,19 +56,25 @@ public class PersonaDao extends DaoBase<Persona> {
         return query.list($);
     }
 
-    private List<Persona> findByRol(Rol rol, Long page, Long pageSize) {
-        JPAQuery query = new JPAQuery(em).from($);
-        if (rol != null)
-            query.where($.usuario.rol.id.eq(rol.getId()));
+//    private List<Persona> findByRol(Rol rol, Long page, Long pageSize) {
+//        JPAQuery query = new JPAQuery(em).from($);
+//        if (rol != null)
+//            query.where($.usuario.rol.id.eq(rol.getId()));
+//
+//        query = paginar(query, page, pageSize);
+//        return query.list($);
+//    }
 
-        query = paginar(query, page, pageSize);
-        return query.list($);
-    }
-
-    public Persona findByUserByUsernameAndAuthtoken(String username, String authToken) {
-        JPAQuery query = new JPAQuery(em).from($);
-        return query.where($.usuario.nombreUsuario.eq(username)
-                .and($.usuario.authToken.eq(authToken))).singleResult($);
+    public Persona findByUserByUsernameAndAuthtoken(String username, String authToken, RolEnum rol) {
+        QRolUsuario rolUsuario = QRolUsuario.rolUsuario;
+        QUsuario usuario = QUsuario.usuario;
+        JPAQuery query = new JPAQuery(em).from(usuario);
+        query.innerJoin(usuario.roles, rolUsuario);
+        query.where(usuario.nombreUsuario.eq(username)
+                .and(usuario.authToken.eq(authToken))
+        .and(rolUsuario.rol.nombre.eq(rol)));
+        Long personaId = query.singleResult(rolUsuario.persona.id);
+        return this.findById(personaId);
     }
 
     public List<Usuario> findUserByUsername(String username) {
@@ -79,12 +85,11 @@ public class PersonaDao extends DaoBase<Persona> {
     }
 
     public List<? extends Persona> validateByDocument(Persona entity) {
-        RolEnum rol = entity.getUsuario().getRol().getNombre();
         for (PersonaDaoQueryResolver queryResolver : personaDaoQueryResolvers) {
-            if (queryResolver.supports(rol)) {
+            if (queryResolver.supports(entity.getClass())) {
                 return queryResolver.validateByDocument(entity);
             }
         }
-        return Arrays.asList();
+        return Collections.emptyList();
     }
 }

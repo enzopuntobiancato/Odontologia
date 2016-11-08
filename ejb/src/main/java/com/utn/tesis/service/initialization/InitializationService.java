@@ -492,7 +492,7 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarUsuarios() throws SAPOException {
         log.info("CargarUsuariosPersonas INICIO");
-        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), true);
+        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), false);
         Alumno alumno = new Alumno();
         alumno.setLegajo("1233456");
         createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, true);
@@ -535,22 +535,10 @@ public class InitializationService {
     }
 
     private void createUsuarioYPersona(String nombreUsuario, String nombre, String apellido, Rol rol, Persona persona, boolean avoidFirstLogin) throws SAPOException {
-        Usuario usuario = new Usuario();
-        usuario.setNombreUsuario(nombreUsuario);
-        usuario.setContrasenia(EncryptionUtils.encryptMD5A("123"));
-        usuario.setEmail(RandomStringUtils.randomAlphabetic(10) + "@domain.com");
-        usuario.setRol(rol);
-        if (avoidFirstLogin) {
-            usuario.setUltimaConexion(Calendar.getInstance());
-        }
-        usuarioService.create(usuario);
-        log.info("CargarUsuarios FINAL");
-
         persona.setNombre(nombre);
         persona.setApellido(apellido);
         persona.setFechaCarga(Calendar.getInstance());
         persona.setDocumento(new Documento(RandomStringUtils.randomNumeric(8), TipoDocumento.DNI));
-        persona.setUsuario(usuario);
         if (avoidFirstLogin) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(1989, 10, 9);
@@ -559,36 +547,51 @@ public class InitializationService {
         }
         personaService.create(persona);
 
-        log.info("CargarPersonaAUsuario FINAL");
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario(nombreUsuario);
+        usuario.setContrasenia(EncryptionUtils.encryptMD5A("123"));
+        usuario.setEmail(RandomStringUtils.randomAlphabetic(10) + "@domain.com");
+        if (avoidFirstLogin) {
+            usuario.setUltimaConexion(Calendar.getInstance());
+        }
+        RolUsuario rolUsuario = new RolUsuario();
+        rolUsuario.setRol(rol);
+        rolUsuario.setPersona(persona);
+        usuario.getRoles().add(rolUsuario);
+        Profesor profesor = null;
+        if (rol.getNombre() == RolEnum.ADMINISTRADOR) {
+            RolUsuario rolUsuario2 = new RolUsuario();
+            rolUsuario2.setRol(rolList.get(2));
+            profesor = new Profesor();
+            profesor.setNombre(nombre);
+            profesor.setApellido(apellido);
+            profesor.setFechaCarga(Calendar.getInstance());
+            profesor.setDocumento(new Documento(RandomStringUtils.randomNumeric(8), TipoDocumento.DNI));
+            if (avoidFirstLogin) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(1989, 10, 9);
+                profesor.setFechaNacimiento(calendar);
+                profesor.setSexo(Sexo.MASCULINO);
+            }
+            personaService.create(profesor);
+            rolUsuario2.setPersona(profesor);
+            usuario.getRoles().add(rolUsuario2);
+        }
+        usuarioService.create(usuario);
+        persona.setUsuario(usuario);
+        if (profesor != null) {
+            profesor.setUsuario(usuario);
+        }
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarProfesores() throws SAPOException{
         log.info("CARGA PROFESORES INICIO");
-        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
-                .scanClasspathForConcreteTypes(true)
-                .build();
-        List<Usuario> users = new ArrayList<Usuario>();
-//        List<Catedra> catedras = catedraService.findAll();
         for(int i = 0; i < 2 ; i++){
             String nombre = StringRandomizer.aNewStringRandomizer().getRandomValue();
-            Usuario user = new Usuario();
-            user.setUltimaConexion(Calendar.getInstance());
-            user.setNombreUsuario("prof" + nombre);
-            user.setRol(rolList.get(2));
-            user.setEmail(nombre+ "@gmail.com");
-            user.setContrasenia("123");
-            users.add(usuarioService.create(user));
+            Profesor profesor = new Profesor();
+            createUsuarioYPersona(nombre, nombre, nombre + "apellido", rolList.get(2), profesor, true);
         }
-        /*for (int i = 0; i < 2; i++) {
-            Random r = new Random();
-            int numero = r.nextInt(1000000) + 1;  // Entre 0 y 5, más 1.
-            Profesor p = new Profesor();
-            p.setLegajo(i);
-            p.setUsuario(users.get(i));
-            p.setCatedras(Arrays.asList(catedras.get(i)));
-            profesorService.create(p);
-        }*/
 
         log.info("CARGA PROFESORES FIN");
 
@@ -603,22 +606,8 @@ public class InitializationService {
         List<Usuario> users = new ArrayList<Usuario>();
         for(int i = 0; i < 10 ; i++){
             String nombre = StringRandomizer.aNewStringRandomizer().getRandomValue();
-            Usuario user = new Usuario();
-            user.setUltimaConexion(Calendar.getInstance());
-            user.setNombreUsuario(nombre);
-            user.setRol(rolList.get(1));
-            user.setEmail(nombre+ "@gmail.com");
-            user.setContrasenia("123");
-            users.add(usuarioService.create(user));
-        }
-
-        for (int i = 0; i < 10; i++) {
-            Random r = new Random();
-            int numero = r.nextInt(100000000) + 1;  // Entre 0 y 5, más 1.
-            Alumno a = enhancedRandom.nextObject(Alumno.class);
-            a.setLegajo(numero + "");
-            a.setUsuario(users.get(i));
-            alumnoService.save(a);
+            Alumno alumno = new Alumno();
+            createUsuarioYPersona(nombre, nombre, nombre + "apellido", rolList.get(2), alumno, true);
         }
 
         log.info("CARGA ALUMNOS FIN");

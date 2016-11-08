@@ -6,11 +6,9 @@ import com.utn.tesis.data.daos.UsuarioDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.mail.MailService;
-import com.utn.tesis.mapping.dto.UsuarioDTO;
-import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
-import com.utn.tesis.mapping.mapper.UsuarioMapper;
-import com.utn.tesis.model.Persona;
-import com.utn.tesis.model.Usuario;
+import com.utn.tesis.mapping.dto.*;
+import com.utn.tesis.mapping.mapper.*;
+import com.utn.tesis.model.*;
 import com.utn.tesis.util.Collections;
 import com.utn.tesis.util.EncryptionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -19,6 +17,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -38,6 +37,20 @@ public class UsuarioService extends BaseService<Usuario> {
     private UsuarioMapper usuarioMapper;
     @Inject
     private MailService mailService;
+    @Inject
+    private RolUsuarioMapper rolUsuarioMapper;
+    @Inject
+    private EnumMapper enumMapper;
+    @Inject
+    private PrivilegioMapper privilegioMapper;
+    @Inject
+    private UsuarioConsultaMapper usuarioConsultaMapper;
+    @Inject
+    private DocumentoMapper documentoMapper;
+    @Inject
+    private RolUsuarioMapperWithPerson rolUsuarioMapperWithPerson;
+    @Inject
+    private PersonaMapper personaMapper;
 
     @Override
     protected void bussinessValidation(Usuario entity) throws SAPOValidationException {
@@ -67,7 +80,7 @@ public class UsuarioService extends BaseService<Usuario> {
         try {
             usuario = dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A1(password));
         } catch (NoSuchAlgorithmException e) {
-            usuario =  dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A2(password));
+            usuario = dao.findByUsernameAndPassword(userName, EncryptionUtils.encryptMD5A2(password));
         }
         return Collections.reload(usuario, 3);
     }
@@ -80,7 +93,7 @@ public class UsuarioService extends BaseService<Usuario> {
         UsuarioLogueadoDTO usuarioLogueadoDTO = null;
         Usuario usuario = dao.findByUsernameAndAuthToken(authId, authToken);
         if (usuario != null) {
-            usuarioLogueadoDTO = usuarioMapper.toUsuarioLogueadoDTO(usuario);
+            usuarioLogueadoDTO = UsuarioLogueadoDTO.valueOf(usuario);
         }
         return usuarioLogueadoDTO;
     }
@@ -94,33 +107,109 @@ public class UsuarioService extends BaseService<Usuario> {
         return usuarioDTO;
     }
 
-    public List<Usuario> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
-        return dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
+    public List<UsuarioConsultaDTO> findByFilters(String nombreUsuario, String email, Long rolId, boolean dadosBaja, Long pageNumber, Long pageSize) {
+        List<Usuario> results = dao.findByFilters(nombreUsuario, email, rolId, dadosBaja, pageNumber, pageSize);
+        List<UsuarioConsultaDTO> dtos = new ArrayList<UsuarioConsultaDTO>();
+        for (Usuario usuario : results) {
+            UsuarioConsultaDTO usuarioConsultaDTO = usuarioConsultaMapper.personaToUsuarioConsultaDTO(this.findPersonaByUsuario(usuario).get(0));
+            dtos.add(usuarioConsultaDTO);
+        }
+        return dtos;
     }
 
     public String saveUsuario(Persona persona, Usuario usuario) throws SAPOException {
+        List<Persona> personas = new ArrayList<Persona>();
+        for (RolUsuario rolUsuario : usuario.getRoles()) {
+            rolUsuario.setRol(rolService.findById(rolUsuario.getRol().getId()));
+            Persona rolPerson;
+            try {
+                rolPerson = RolService.rolToPersonEntity.get(rolUsuario.getRol().getNombre().getKey()).newInstance();
+                rolPerson.setDocumento(new Documento());
+            } catch (InstantiationException e) {
+                throw new SAPOException(e);
+            } catch (IllegalAccessException e) {
+                throw new SAPOException(e);
+            }
+            persona.populateTo(rolPerson);
+            personaService.create(rolPerson);
+            rolUsuario.setPersona(rolPerson);
+            personas.add(rolPerson);
+        }
         String password = RandomStringUtils.randomAlphanumeric(5);
         usuario.setContrasenia(password);
         usuario.setContrasenia(EncryptionUtils.encryptMD5A(usuario.getContrasenia()));
+
         usuario = create(usuario);
-        persona.setUsuario(usuario);
-        personaService.create(persona);
+        for (Persona personaPersisted : personas) {
+            personaPersisted.setUsuario(usuario);
+        }
         return password;
     }
 
-    public Persona findPersonaByUsuario(Usuario usuario) {
+    public List<Persona> findPersonaByUsuario(Usuario usuario) {
         return dao.findPersonaByUsuario(usuario);
     }
 
-    public Persona findPersonaByUsuario(Long id) {
-        Persona p = dao.findPersonaByUsuario(id);
-        personaService.reload(p, 2);
+    public List<Persona> findPersonaByUsuario(Long id) {
+        List<Persona> p = dao.findPersonaByUsuario(id);
+        Collections.reload(p, 1);
         return p;
     }
 
-    public UsuarioLogueadoDTO fetchUser(Long id) {
+    public UsuarioLogueadoDTO fetchUser(Long id, EnumDTO rolSelected) {
         Usuario user = findById(id);
-        return usuarioMapper.toUsuarioLogueadoDTO(user);
+        UsuarioLogueadoDTO usuarioLogueado = UsuarioLogueadoDTO.valueOf(user);
+        Rol rol = rolService.findByRolEnum(enumMapper.rolEnumFromDTO(rolSelected));
+        usuarioLogueado.setRol(enumMapper.rolEnumToDTO(rol.getNombre()));
+        return usuarioLogueado;
+    }
+
+    public List<RolUsuarioDTO> findRolesByUser(Long userId) {
+        return rolUsuarioMapper.toDTOList(dao.findRolesByUser(userId));
+    }
+
+    public UsuarioViewEditDTO findUsuarioView(Long usuarioId) {
+        Usuario usuario = findById(usuarioId);
+        UsuarioViewEditDTO usuarioViewDTO = usuarioMapper.toUsuarioViewDTO(usuario);
+        usuarioViewDTO.setDocumento(documentoMapper.toDTO(usuario.retrieveFirstPerson().getDocumento()));
+        usuarioViewDTO.setSexo(enumMapper.sexoToDTO(usuario.retrieveFirstPerson().getSexo()));
+        usuarioViewDTO.setRoles(rolUsuarioMapperWithPerson.toDTOList(usuario.getRoles()));
+        return usuarioViewDTO;
+    }
+
+    public void updateUser(UsuarioViewEditDTO usuarioDTO, ArchivoDTO imagen) throws IllegalAccessException, InstantiationException, SAPOException {
+        Usuario usuario = findById(usuarioDTO.getId());
+        usuarioMapper.updateFromDTO(usuarioDTO, usuario);
+
+        AdministradorDTO anyPerson = new AdministradorDTO();
+        anyPerson.setApellido(usuarioDTO.getApellido());
+        anyPerson.setNombre(usuarioDTO.getNombre());
+        anyPerson.setSexo(usuarioDTO.getSexo());
+        anyPerson.setDocumento(usuarioDTO.getDocumento());
+        anyPerson.setFechaNacimiento(usuarioDTO.getFechaNacimiento());
+
+        List<RolUsuario> rolesUsuario = new ArrayList<RolUsuario>();
+        for (RolUsuarioDTO rolUsuarioDTO : usuarioDTO.getRoles()) {
+            Rol rol = rolService.findByRolEnum(RolEnum.valueOf(rolUsuarioDTO.getRol().getNombre().getKey()));
+            Persona persona = null;
+            if (rolUsuarioDTO.getPersona().getId() != null) {
+                persona = personaService.findById(rolUsuarioDTO.getPersona().getId());
+                personaMapper.updateFromDTO(rolUsuarioDTO.getPersona(), persona);
+            } else {
+                persona = personaMapper.fromDTO(rolUsuarioDTO.getPersona());
+            }
+            anyPerson.populateTo(persona);
+            if (persona.isNew()) {
+                personaService.create(persona);
+            }
+            RolUsuario rolUsuario = new RolUsuario();
+            rolUsuario.setRol(rol);
+            rolUsuario.setPersona(persona);
+            rolesUsuario.add(rolUsuario);
+            persona.setUsuario(usuario);
+        }
+        usuario.setRoles(rolesUsuario);
+        usuario.setImagen(archivoService.save(imagen));
     }
 }
 

@@ -1,13 +1,14 @@
 package com.utn.tesis.mapping.dto;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class UsuarioDTO extends BaseDTO {
     private static final long serialVersionUID = -4163955333854545006L;
 
     private String nombreUsuario;
     private String email;
-    private RolDTO rol;
+    private List<RolUsuarioDTO> roles;
     // Diferente nombre para no mapear la contraseña
     private String currentPassword;
     private String password;
@@ -42,12 +43,12 @@ public class UsuarioDTO extends BaseDTO {
         this.email = email;
     }
 
-    public RolDTO getRol() {
-        return rol;
+    public List<RolUsuarioDTO> getRoles() {
+        return roles;
     }
 
-    public void setRol(RolDTO rolDTO) {
-        this.rol = rolDTO;
+    public void setRoles(List<RolUsuarioDTO> roles) {
+        this.roles = roles;
     }
 
     public Long getImagenId() {

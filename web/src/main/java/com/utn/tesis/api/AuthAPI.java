@@ -1,10 +1,15 @@
 package com.utn.tesis.api;
 
+import com.utn.tesis.SessionHelper;
 import com.utn.tesis.mapping.dto.LoginDTO;
+import com.utn.tesis.mapping.dto.RolUsuarioDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
+import com.utn.tesis.model.RolEnum;
+import com.utn.tesis.model.RolUsuario;
 import com.utn.tesis.service.authentication.AuthService;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +32,8 @@ public class AuthAPI {
 
     @Inject
     private AuthService authService;
+    @Inject
+    private SessionHelper sessionHelper;
 
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
@@ -36,6 +43,21 @@ public class AuthAPI {
     public UsuarioLogueadoDTO login(@Context HttpServletRequest request, LoginDTO loginElement) {
         UsuarioLogueadoDTO usuarioLogueado = authService.login(loginElement);
 
+        if (usuarioLogueado != null && usuarioLogueado.getNombreUsuario() != null && usuarioLogueado.getAuthToken() != null) {
+            request.getSession(true).setMaxInactiveInterval(15);
+            request.getSession().setAttribute(UsuarioLogueadoDTO.PARAM_AUTH_ID, usuarioLogueado.getNombreUsuario());
+            request.getSession().setAttribute(UsuarioLogueadoDTO.PARAM_AUTH_TOKEN, usuarioLogueado.getAuthToken());
+        }
+        return usuarioLogueado;
+    }
+
+    @Path("/selectRol")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @POST
+    @PermitAll
+    public UsuarioLogueadoDTO selectRol(@Context HttpServletRequest request, RolUsuarioDTO rolUsuario) {
+        UsuarioLogueadoDTO usuarioLogueado = authService.selectRol(sessionHelper.getUser(request), rolUsuario);
         if (usuarioLogueado != null && usuarioLogueado.getNombreUsuario() != null && usuarioLogueado.getAuthToken() != null) {
             request.getSession(true).setMaxInactiveInterval(15);
             request.getSession().setAttribute(UsuarioLogueadoDTO.PARAM_AUTH_ID, usuarioLogueado.getNombreUsuario());

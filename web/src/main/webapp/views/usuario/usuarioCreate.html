@@ -18,7 +18,7 @@
                                     <label>{{ 'NOMBRE' | translate }}</label>
                                     <input name="nombre"  ng-model="personaDTO.nombre"
                                            required md-maxlength="75">
-                                    <div ng-messages="usuarioForm.nombre.$error" ng-show="usuarioForm.nombre.$touched">
+                                    <div ng-messages="usuarioForm.nombre.$error" ng-show="usuarioForm.nombre.$touched || data.submitted">
                                         <div ng-messages-include="error-messages"></div>
                                     </div>
                                 </md-input-container>
@@ -26,7 +26,7 @@
                                     <label>{{ 'APELLIDO' | translate }}</label>
                                     <input name="apellido"  ng-model="personaDTO.apellido"
                                            required md-maxlength="75">
-                                    <div ng-messages="usuarioForm.apellido.$error" ng-show="usuarioForm.apellido.$touched">
+                                    <div ng-messages="usuarioForm.apellido.$error" ng-show="usuarioForm.apellido.$touched || data.submitted">
                                         <div ng-messages-include="error-messages"></div>
                                     </div>
                                 </md-input-container>
@@ -49,7 +49,7 @@
                                             {{ tipo.nombre }}
                                         </md-option>
                                     </md-select>
-                                    <div ng-messages="usuarioForm.tipoDocumento.$error" ng-show="usuarioForm.tipoDocumento.$touched">
+                                    <div ng-messages="usuarioForm.tipoDocumento.$error" ng-show="usuarioForm.tipoDocumento.$touched || data.submitted">
                                         <div ng-messages-include="error-messages"></div>
                                     </div>
                                 </md-input-container>
@@ -57,7 +57,7 @@
                                     <label>{{ 'NUM_DOC' | translate }}</label>
                                     <input name="nroDocumento"  ng-model="personaDTO.documento.numero"
                                            required md-maxlength="10">
-                                    <div ng-messages="usuarioForm.nroDocumento.$error" ng-show="usuarioForm.nroDocumento.$touched">
+                                    <div ng-messages="usuarioForm.nroDocumento.$error" ng-show="usuarioForm.nroDocumento.$touched || data.submitted">
                                         <div ng-messages-include="error-messages"></div>
                                     </div>
                                 </md-input-container>
@@ -70,32 +70,28 @@
                                 </md-input-container>
                             </div>
                             <div layout-gt-sm="row" layout-margin>
-                                <md-input-container flex-gt-sm="33">
-                                    <label>{{ 'ROL' | translate }}</label>
-                                    <md-select required ng-disabled="data.isAlumno" ng-model="personaDTO.usuario.rol" ng-model-options="{trackBy: '$value.id'}" name="rol">
-                                        <md-option ng-repeat="rol in data.roles" ng-value="rol">
-                                            {{ rol.nombre.nombre }}
-                                        </md-option>
-                                    </md-select>
-                                    <div ng-messages="usuarioForm.rol.$error" ng-show="usuarioForm.rol.$touched">
-                                        <div ng-messages-include="error-messages"></div>
-                                    </div>
+                                <md-input-container flex-gt-sm="60">
+                                    <fieldset class="standard" name="roles">
+                                        <legend>Roles</legend>
+                                        <div layout="row" layout-wrap flex>
+                                            <div flex="50" ng-repeat="rol in data.roles">
+                                                <md-checkbox ng-model="rol.selected" ng-disabled="data.isAlumno" ng-change="clickRol()">
+                                                    <span>{{ rol.nombre.nombre }}</span>
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                        <div ng-messages="usuarioForm.roles.$error" ng-show="data.missingRole">
+                                            <div>Es obligatorio</div>
+                                        </div>
+                                    </fieldset>
                                 </md-input-container>
                                 <md-input-container flex-gt-sm="40">
                                     <label>{{ 'EMAIL' | translate }}</label>
                                     <input name="email" ng-model="personaDTO.usuario.email" type="email"
                                            required md-maxlength="70">
-                                    <div ng-messages="usuarioForm.email.$error" ng-show="usuarioForm.email.$touched">
+                                    <div ng-messages="usuarioForm.email.$error" ng-show="usuarioForm.email.$touched || data.submitted">
                                         <div ng-messages-include="error-messages"></div>
                                     </div>
-                                </md-input-container>
-                                <md-input-container flex="25">
-                                    <md-checkbox ng-model="data.sendEmail" disabled>
-                                        {{ 'ENVIAR_NOTIFICACION' | translate}}
-                                    </md-checkbox>
-                                    <md-tooltip md-direction="top">
-                                        El usuario recibirá un correo electrónico con los datos para iniciar sesión
-                                    </md-tooltip>
                                 </md-input-container>
                             </div>
                         </md-card-content>

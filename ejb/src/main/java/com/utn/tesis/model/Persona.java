@@ -154,4 +154,13 @@ public abstract class Persona extends SuperEntityBase {
         result = 31 * result + (fechaNacimiento != null ? fechaNacimiento.hashCode() : 0);
         return result;
     }
+
+    public <T extends Persona> void populateTo(T target) {
+        target.setApellido(this.getApellido());
+        target.setNombre(this.getNombre());
+        target.setSexo(this.getSexo());
+        target.getDocumento().setNumero(this.getDocumento().getNumero());
+        target.getDocumento().setTipoDocumento(this.getDocumento().getTipoDocumento());
+        target.setFechaNacimiento(this.getFechaNacimiento());
+    }
 }

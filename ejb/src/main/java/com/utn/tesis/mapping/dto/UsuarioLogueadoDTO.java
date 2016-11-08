@@ -1,11 +1,9 @@
 package com.utn.tesis.mapping.dto;
 
-import com.google.common.collect.ImmutableMap;
-import com.utn.tesis.model.Rol;
 import com.utn.tesis.model.RolEnum;
+import com.utn.tesis.model.Usuario;
 
 import java.util.List;
-import java.util.Map;
 
 public class UsuarioLogueadoDTO extends BaseDTO {
     private static final long serialVersionUID = -998155527497569957L;
@@ -13,21 +11,24 @@ public class UsuarioLogueadoDTO extends BaseDTO {
     public static final String PARAM_AUTH_ID = "auth-id";
     public static final String PARAM_AUTH_TOKEN = "auth-token";
 
-    public static final Map<String, Class<? extends PersonaDTO>> rolToPerson = ImmutableMap.<String, Class<? extends PersonaDTO>>builder()
-            .put(RolEnum.ADMINISTRADOR.getKey(), AdministradorDTO.class)
-            .put(RolEnum.ADMINISTRADOR_ACADEMICO.getKey(), AdministradorAcademicoDTO.class)
-            .put(RolEnum.ALUMNO.getKey(), AlumnoDTO.class)
-            .put(RolEnum.AUTORIDAD.getKey(), AutoridadDTO.class)
-            .put(RolEnum.PROFESOR.getKey(), ProfesorDTO.class)
-            .put(RolEnum.RESPONSABLE_RECEPCION_PACIENTES.getKey(), ResponsableRecepcionDTO.class)
-            .build();
-
     private String nombreUsuario;
     private String authToken;
     private EnumDTO rol;
-    private List<PrivilegioDTO> permisos;
     private boolean firstLogin;
+    private boolean hasMultipleRoles;
     private Long imagenId;
+
+    public static UsuarioLogueadoDTO valueOf(Usuario usuario) {
+        UsuarioLogueadoDTO usuarioLogueado = new UsuarioLogueadoDTO();
+        usuarioLogueado.setId(usuario.getId());
+        usuarioLogueado.setAuthToken(usuario.getAuthToken());
+        usuarioLogueado.setVersion(usuario.getVersion());
+        usuarioLogueado.setFirstLogin(usuario.getUltimaConexion() == null);
+        usuarioLogueado.setHasMultipleRoles(usuario.getRoles().size() > 1);
+        usuarioLogueado.setImagenId(usuario.getImagen() != null ? usuario.getImagen().getId() : null);
+        usuarioLogueado.setNombreUsuario(usuario.getNombreUsuario());
+        return usuarioLogueado;
+    }
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -53,14 +54,6 @@ public class UsuarioLogueadoDTO extends BaseDTO {
         this.rol = rol;
     }
 
-    public List<PrivilegioDTO> getPermisos() {
-        return permisos;
-    }
-
-    public void setPermisos(List<PrivilegioDTO> permisos) {
-        this.permisos = permisos;
-    }
-
     public boolean isFirstLogin() {
         return firstLogin;
     }
@@ -70,27 +63,49 @@ public class UsuarioLogueadoDTO extends BaseDTO {
     }
 
     public boolean isAdministrador() {
-        return RolEnum.ADMINISTRADOR.getKey().equals(rol.getKey());
+        if (rol != null) {
+            return RolEnum.ADMINISTRADOR.getKey().equals(rol.getKey());
+        }
+        return false;
     }
 
     public boolean isAdminAcademino() {
-        return RolEnum.ADMINISTRADOR_ACADEMICO.getKey().equals(rol.getKey());
+        if (rol != null) {
+            return RolEnum.ADMINISTRADOR_ACADEMICO.getKey().equals(rol.getKey());
+
+        }
+        return false;
     }
 
     public boolean isAlumno() {
-        return RolEnum.ALUMNO.getKey().equals(rol.getKey());
+        if (rol != null) {
+            return RolEnum.ALUMNO.getKey().equals(rol.getKey());
+
+        }
+        return false;
     }
 
     public boolean isAutoridad() {
-        return RolEnum.AUTORIDAD.getKey().equals(rol.getKey());
+        if (rol != null) {
+            return RolEnum.AUTORIDAD.getKey().equals(rol.getKey());
+
+        }
+        return false;
     }
 
     public boolean isProfesor() {
-        return RolEnum.PROFESOR.getKey().equals(rol.getKey());
+        if (rol != null) {
+            return RolEnum.PROFESOR.getKey().equals(rol.getKey());
+        }
+        return false;
+
     }
 
     public boolean isResponsable() {
-        return RolEnum.RESPONSABLE_RECEPCION_PACIENTES.getKey().equals(rol.getKey());
+        if (rol != null) {
+            return RolEnum.RESPONSABLE_RECEPCION_PACIENTES.getKey().equals(rol.getKey());
+        }
+        return false;
     }
 
     public Long getImagenId() {
@@ -99,5 +114,13 @@ public class UsuarioLogueadoDTO extends BaseDTO {
 
     public void setImagenId(Long imagenId) {
         this.imagenId = imagenId;
+    }
+
+    public boolean isHasMultipleRoles() {
+        return hasMultipleRoles;
+    }
+
+    public void setHasMultipleRoles(boolean hasMultipleRoles) {
+        this.hasMultipleRoles = hasMultipleRoles;
     }
 }

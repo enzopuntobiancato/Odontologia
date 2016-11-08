@@ -43,18 +43,18 @@ public class AutoridadDao extends DaoBase<Autoridad> implements PersonaDaoQueryR
         return query.list($);
     }
 
-    public List<Autoridad> findByRol(Rol rol, Long page, Long pageSize) {
-        JPAQuery query = new JPAQuery(em).from($);
-        if (rol != null)
-            query.where($.usuario.rol.id.eq(rol.getId()));
-
-        query = paginar(query, page, pageSize);
-        return query.list($);
-    }
+//    public List<Autoridad> findByRol(Rol rol, Long page, Long pageSize) {
+//        JPAQuery query = new JPAQuery(em).from($);
+//        if (rol != null)
+//            query.where($.usuario.rol.id.eq(rol.getId()));
+//
+//        query = paginar(query, page, pageSize);
+//        return query.list($);
+//    }
 
     @Override
-    public boolean supports(RolEnum rol) {
-        return RolEnum.AUTORIDAD == rol;
+    public <T extends Persona> boolean supports(Class<T> personaClass) {
+        return personaClass.equals(Autoridad.class);
     }
 
     @Override

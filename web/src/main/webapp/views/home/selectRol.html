@@ -1,0 +1,21 @@
+<md-content layout-fill flex layout="row" class="landing-page"
+            layout-align="center center">
+    <md-card style="width: 400px; height: auto">
+        <md-card-header>
+            <md-toolbar class="md-accent">
+                <div class="md-toolbar-tools">
+                    <span>Seleccionar rol</span>
+                </div>
+            </md-toolbar>
+        </md-card-header>
+        <md-card-content>
+            <md-list>
+                <md-list-item ng-repeat="rol in vm.data.roles" ng-click="vm.selectRol(rol)">
+                    <img src="resources/img/role.svg" class="md-avatar"/>
+
+                    <p>{{ rol.rol.nombre.nombre }}</p>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
+</md-content>

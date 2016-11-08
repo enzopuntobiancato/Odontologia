@@ -22,29 +22,30 @@
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{'NOMBRE_USUARIO' | translate}}</h4>
 
-                                            <p>{{persona.usuario.nombreUsuario}}</p>
+                                            <p>{{usuario.nombreUsuario}}</p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
                                         <div class="md-list-item-text md-offset">
-                                            <h4>{{'ROL' | translate}}</h4>
-
-                                            <p>{{persona.usuario.rol.nombre.nombre}}</p>
+                                            <h4>{{'ROLES' | translate}}</h4>
+                                           <div ng-repeat="rol in usuario.roles">
+                                               <p>{{rol.rol.nombre.nombre}}</p>
+                                           </div>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{'EMAIL' | translate}}</h4>
 
-                                            <p>{{persona.usuario.email}}</p>
+                                            <p>{{usuario.email}}</p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line md-long-text" flex-gt-sm="10">
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{'ULTIMA_CONEXION' | translate}}</h4>
 
-                                            <p>{{(persona.usuario.ultimaConexion | date:'dd/MM/yyyy') ||
-                                                (persona.usuario.ultimaConexion | noDefinido) }}</p>
+                                            <p>{{(usuario.ultimaConexion | date:'dd/MM/yyyy') ||
+                                                (usuario.ultimaConexion | noDefinido) }}</p>
                                         </div>
                                     </md-list-item>
                                 </div>
@@ -53,24 +54,30 @@
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{'FECHA_BAJA' | translate}}</h4>
 
-                                            <p>{{persona.usuario.fechaBaja | date:'dd/MM/yyyy' }}</p>
+                                            <p>{{usuario.fechaBaja | date:'dd/MM/yyyy' }}</p>
                                         </div>
                                     </md-list-item>
                                     <md-list-item class="md-2-line md-long-text" flex-gt-sm="70">
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{'MOTIVO_BAJA' | translate}}</h4>
 
-                                            <p>{{persona.usuario.motivoBaja | noDefinido}}</p>
+                                            <p>{{usuario.motivoBaja | noDefinido}}</p>
                                         </div>
                                     </md-list-item>
                                 </div>
-                                <ng-include src="'views/persona/view/personaView.html'"></ng-include>
-                                <ng-include ng-if="usuario.alumno"
-                                            src="'views/persona/view/alumnoView.html'"></ng-include>
-                                <ng-include ng-if="usuario.profesor"
-                                            src="'views/persona/view/profesorView.html'"></ng-include>
-                                <ng-include ng-if="usuario.autoridad"
-                                            src="'views/persona/view/autoridadView.html'"></ng-include>
+                                <ng-include src="'views/usuario/persona/view/personaView.html'"></ng-include>
+                                <div ng-if="usuario.profesor" layout-margin>
+                                    <p class="subtitle-text">Datos de profesor</p>
+                                    <ng-include src="'views/usuario/persona/view/profesorView.html'"></ng-include>
+                                </div>
+                                <div ng-if="usuario.alumno" layout-margin>
+                                    <p class="subtitle-text">Datos de alumno</p>
+                                    <ng-include src="'views/usuario/persona/view/alumnoView.html'"></ng-include>
+                                </div>
+                                <div ng-if="usuario.autoridad" layout-margin>
+                                    <p class="subtitle-text">Datos de autoridad</p>
+                                    <ng-include src="'views/usuario/persona/view/autoridadView.html'"></ng-include>
+                                </div>
                             </md-list>
                         </md-card-content>
                         <md-card-actions layout="row" layout-align="end center">

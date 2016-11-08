@@ -15,8 +15,8 @@ public class AdministradorAcademicoDao extends DaoBase<AdministradorAcademico> i
     QAdministradorAcademico $ = QAdministradorAcademico.administradorAcademico;
 
     @Override
-    public boolean supports(RolEnum rol) {
-        return RolEnum.ADMINISTRADOR_ACADEMICO == rol;
+    public <T extends Persona> boolean supports(Class<T> personaClass) {
+        return personaClass.equals(AdministradorAcademico.class);
     }
 
     @Override

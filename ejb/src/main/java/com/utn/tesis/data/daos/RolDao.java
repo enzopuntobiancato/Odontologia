@@ -1,13 +1,16 @@
 package com.utn.tesis.data.daos;
 
+import com.mysema.query.jpa.impl.JPAQuery;
+import com.utn.tesis.model.QRol;
 import com.utn.tesis.model.Rol;
+import com.utn.tesis.model.RolEnum;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 28/06/15
- * Time: 19:58
- * To change this template use File | Settings | File Templates.
- */
 public class RolDao extends DaoBase<Rol> {
+    QRol rol = QRol.rol;
+
+    public Rol findByRolEnum(RolEnum rolEnum) {
+        JPAQuery query = new JPAQuery(em).from(rol);
+        query.where(rol.nombre.eq(rolEnum));
+        return query.singleResult(rol);
+    }
 }

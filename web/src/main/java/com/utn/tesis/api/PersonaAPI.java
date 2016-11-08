@@ -2,16 +2,14 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.MultiPartFormHelper;
 import com.utn.tesis.exception.SAPOException;
-import com.utn.tesis.mapping.dto.ArchivoDTO;
-import com.utn.tesis.mapping.dto.PersonaDTO;
-import com.utn.tesis.mapping.dto.ProfesorDTO;
-import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
+import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.FileExtension;
 import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Profesor;
 import com.utn.tesis.service.PersonaService;
 import com.utn.tesis.service.ProfesorService;
+import com.utn.tesis.service.RolService;
 import com.utn.tesis.service.UsuarioService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -50,7 +48,7 @@ public class PersonaAPI {
     public Response save(MultipartFormDataInput input) throws SAPOException {
         Map<String, List<InputPart>> form = input.getFormDataMap();
         UsuarioLogueadoDTO usuario = (UsuarioLogueadoDTO) helper.retrieveObject(form, "usuario", UsuarioLogueadoDTO.class);
-        PersonaDTO person = (PersonaDTO) helper.retrieveObject(form, "persona", UsuarioLogueadoDTO.rolToPerson.get(usuario.getRol().getKey()));
+        PersonaDTO person = (PersonaDTO) helper.retrieveObject(form, "persona", RolService.rolToPerson.get(usuario.getRol().getKey()));
 
         Map<String, Object> file = helper.retrieveFile(form, "file");
         ArchivoDTO imagenUsuario = null;
@@ -61,7 +59,7 @@ public class PersonaAPI {
             imagenUsuario.setArchivo((InputStream) file.get(helper.FILE));
         }
         personaService.update(person, imagenUsuario);
-        UsuarioLogueadoDTO updatedUser = usuarioService.fetchUser(person.getUsuario().getId());
+        UsuarioLogueadoDTO updatedUser = usuarioService.fetchUser(person.getUsuario().getId(), usuario.getRol());
         return Response.ok(updatedUser).build();
     }
 
@@ -69,9 +67,9 @@ public class PersonaAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PersonaDTO findByUser(@QueryParam("username") String username,
-                                 @QueryParam("authToken") String authToken) {
-        Persona persona = personaService.findByUserByUsernameAndAuthtoken(username, authToken);
-        return personaMapper.toDTO(persona);
+                                 @QueryParam("authToken") String authToken,
+                                 @QueryParam("rol") String rol) {
+        return personaService.findByUserByUsernameAndAuthtoken(username, authToken, rol);
     }
 
     @Path("/addCatedraToProfesor")

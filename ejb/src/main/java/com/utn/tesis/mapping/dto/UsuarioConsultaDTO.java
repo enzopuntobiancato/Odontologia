@@ -1,5 +1,7 @@
 package com.utn.tesis.mapping.dto;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Usuario
@@ -18,7 +20,7 @@ public class UsuarioConsultaDTO extends BaseDTO {
     private String email;
     private String fechaBaja;
     private String motivoBaja;
-    private RolDTO rol;
+    private List<RolUsuarioDTO> roles;
     private Long idUsuario;
 
 
@@ -31,12 +33,12 @@ public class UsuarioConsultaDTO extends BaseDTO {
         this.idUsuario = idUsuario;
     }
 
-    public RolDTO getRol() {
-        return rol;
+    public List<RolUsuarioDTO> getRoles() {
+        return roles;
     }
 
-    public void setRol(RolDTO rol) {
-        this.rol = rol;
+    public void setRoles(List<RolUsuarioDTO> roles) {
+        this.roles = roles;
     }
 
     public String getNombre() {
