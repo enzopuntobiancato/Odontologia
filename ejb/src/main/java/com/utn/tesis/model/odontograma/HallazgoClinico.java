@@ -12,6 +12,7 @@ public abstract class HallazgoClinico implements Serializable {
     private String color;
     private EstadoHallazgoClinico estado;
 
+
     public HallazgoClinico() {
     }
 
