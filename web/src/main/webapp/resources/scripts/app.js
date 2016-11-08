@@ -1060,7 +1060,26 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         return service.findAsignacion($stateParams.idAsignacion);
                     }]
                 }
-
+            })
+            .state('permisos', {
+                url: '/permisos',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('permisosModule')
+            })
+            .state('permisos.administrate', {
+                url: '/administrar',
+                templateUrl: 'views/permisos/permisos.html',
+                controllerAs: 'vm',
+                controller: 'PermisosCtrl',
+                resolve: {
+                    funcionalidadesResponse: ['loadMyModule', 'PermisosSrv', function(loadMyModule, service) {
+                        return service.findAllFuncionalidades();
+                    }],
+                    rolesResponse: ['loadMyModule', 'PermisosSrv', function(loadMyModule, service) {
+                        return service.findAllRoles();
+                    }]
+                }
             })
 
         $ocLazyLoadProvider.config({
@@ -1165,6 +1184,13 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         url('/atencion/atencionSrv.js'),
                         url('/atencion/atencionCreateCtrl.js')
                     ]
+                },
+                {
+                    name: 'permisosModule',
+                    files: [
+                        url('/permisos/permisosCtrl.js'),
+                        url('/permisos/permisosSrv.js')
+                    ]
                 }
             ]
         });
@@ -1185,6 +1211,7 @@ angular.module('historiaClinicaModule', ['pacienteModule', 'atencionModule']);
 angular.module('atencionModule', []);
 angular.module('historiaClinicaModule', ['pacienteModule']);
 angular.module('profesorModule', []);
+angular.module('permisosModule', []);
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', '$q',
@@ -1318,7 +1345,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             var resultMenu = [];
 
             var items = $filter('filter')(permisos, function (permission) {
-                return permission.esItemMenu;
+                return permission.funcionalidad.esItemMenu;
             });
 
             angular.forEach(items, function (item) {

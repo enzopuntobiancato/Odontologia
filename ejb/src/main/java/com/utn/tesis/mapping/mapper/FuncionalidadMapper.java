@@ -5,6 +5,8 @@ import com.utn.tesis.model.Funcionalidad;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Enzo
@@ -16,4 +18,6 @@ public interface FuncionalidadMapper {
 
     @Mapping(source = "grupoFuncionalidad.nombre", target = "grupoFuncionalidad")
     FuncionalidadDTO toDTO(Funcionalidad funcionalidad);
+
+    List<FuncionalidadDTO> toDTOList(List<Funcionalidad> sourceList);
 }

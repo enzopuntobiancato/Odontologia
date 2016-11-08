@@ -14,13 +14,6 @@ import javax.validation.Validator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 7/07/15
- * Time: 23:36
- * To change this template use File | Settings | File Templates.
- */
 @Stateless
 public class RolService extends BaseService<Rol> {
 
@@ -48,6 +41,12 @@ public class RolService extends BaseService<Rol> {
     private Validator validator;
     @Inject
     private PrivilegioMapper privilegioMapper;
+    @Inject
+    private RollMapper rollMapper;
+    @Inject
+    private PrivilegioService privilegioService;
+    @Inject
+    private FuncionalidadService funcionalidadService;
 
     @Override
     DaoBase<Rol> getDao() {
@@ -65,5 +64,27 @@ public class RolService extends BaseService<Rol> {
 
     public List<PrivilegioDTO> findPrivilegiosByRolKey(String rol) {
         return privilegioMapper.toDTOList(dao.findByRolEnum(RolEnum.valueOf(rol)).getPrivilegios());
+    }
+
+    public List<RolEditDTO> findAllRoles() {
+        List<Rol> entities = dao.findAll();
+        return rollMapper.toRolEditDTOList(entities);
+    }
+
+    public void savePermisos(List<RolEditDTO> roles) {
+        for (RolEditDTO rolEditDTO : roles) {
+            Rol rol = this.findById(rolEditDTO.getId());
+            rol.getPrivilegios().clear();
+            for (PrivilegioDTO privilegioDTO : rolEditDTO.getPrivilegios()) {
+                Privilegio privilegio;
+                if (privilegioDTO.getId() != null) {
+                    privilegio = privilegioService.findById(privilegioDTO.getId());
+                } else {
+                    Funcionalidad funcionalidad = funcionalidadService.findById(privilegioDTO.getFuncionalidad().getId());
+                    privilegio = new Privilegio(funcionalidad, rol);
+                }
+                rol.getPrivilegios().add(privilegio);
+            }
+        }
     }
 }

@@ -28,11 +28,11 @@
         <md-list>
             <div ng-repeat="menuItem in menu">
                 <md-list-item ng-class="{'selected-menu-item': menuItem.id === selectedMenuItem}" ng-click="menuItemClick(menuItem)">
-                    <p> {{menuItem.name | uppercase}} </p>
-                    <ng-md-icon icon="{{menuItem.open ? 'expand_less' : 'expand_more'}}" size="20"></ng-md-icon>
+                    <p><small> {{menuItem.name | uppercase}} </small></p>
+                    <ng-md-icon ng-if="menuItem.dropdown" icon="{{menuItem.open ? 'expand_less' : 'expand_more'}}" size="20"></ng-md-icon>
                 </md-list-item>
                 <md-list-item ng-class="{'selected-menu-item': subItem.id === selectedMenuItem.id}" flex-offset="10" ng-click="menuItemClick(subItem)" ng-if="menuItem.dropdown && menuItem.open" ng-repeat="subItem in menuItem.subItems">
-                    <p>{{ subItem.name }}</p>
+                    <p><small>{{ subItem.name }}</small></p>
                 </md-list-item>
                 <md-divider></md-divider>
             </div>
