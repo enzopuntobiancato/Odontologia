@@ -35,6 +35,7 @@ public class InitializationService {
     private static final int REG_ALUMNO_IDX = 12;
     private static final int CONS_ALUMNOS_IDX = 13;
     private static final int ESTADISTICAS_IDX = 14;
+    private static final int PERMISOS_IDX = 15;
 
     @Inject
     private GrupoPracticaOdontologicaService grupoPracticaOdontologicaService;
@@ -288,39 +289,41 @@ public class InitializationService {
         GrupoFuncionalidad alumnos = grupoFuncionalidadList.get(4);
 
         // DATOS ACADEMICOS
-        addFuncionalidad("Materias", "materia.index", datosAcademicos, MATERIAS_IDX);
-        addFuncionalidad("Prácticas odontológicas", "practicaOdontologica.index", datosAcademicos, PRACTICAS_IDX);
-        addFuncionalidad("Trabajos prácticos", "trabajoPractico.index", datosAcademicos, TPS_IDX);
-        addFuncionalidad("Cátedras", "catedra.index", datosAcademicos, CATEDRAS_IDX);
-        addFuncionalidad("Consultar información de trabajos prácticos", "", datosAcademicos, CONS_INFO_TP_IDX);
-        addFuncionalidad("Asignar profesores a cátedras", "profesor.editCatedrasProfesor", datosAcademicos, ASIGNAR_PROF_CAT_IDX);
+        addFuncionalidad("Materias", "materia.index", datosAcademicos, true, MATERIAS_IDX);
+        addFuncionalidad("Prácticas odontológicas", "practicaOdontologica.index", datosAcademicos, true, PRACTICAS_IDX);
+        addFuncionalidad("Trabajos prácticos", "trabajoPractico.index", datosAcademicos, true, TPS_IDX);
+        addFuncionalidad("Cátedras", "catedra.index", datosAcademicos, true, CATEDRAS_IDX);
+        addFuncionalidad("Consultar información de trabajos prácticos", "", datosAcademicos, true, CONS_INFO_TP_IDX);
+        addFuncionalidad("Asignar profesores a cátedras", "profesor.editCatedrasProfesor", datosAcademicos, true, ASIGNAR_PROF_CAT_IDX);
 
         // SOPORTE
-        addFuncionalidad("Usuarios", "usuario.index", soporte, USUARIOS_IDX);
-        addFuncionalidad("Respaldo de datos de sistema", "", soporte, RESPALDO_IDX);
+        addFuncionalidad("Usuarios", "usuario.index", soporte, true, USUARIOS_IDX);
+        addFuncionalidad("Respaldo de datos de sistema", "", soporte, true, RESPALDO_IDX);
 
         // ASIGNACIONES
-        addFuncionalidad("Consultar asignaciones", "asignacion.index", asignaciones, CONS_ASIG_IDX);
-        addFuncionalidad("Autorizar asignaciones", "asignacion.autorizar", asignaciones, AUTORIZAR_ASIG_IDX);
+        addFuncionalidad("Consultar asignaciones", "asignacion.index", asignaciones, true, CONS_ASIG_IDX);
+        addFuncionalidad("Autorizar asignaciones", "asignacion.autorizar", asignaciones, true, AUTORIZAR_ASIG_IDX);
 
         // PACIENTES
-        addFuncionalidad("Consultar pacientes", "paciente.index", pacientes, CONS_PACIENTES_IDX);
-        addFuncionalidad("Emitir bono de consulta", "", pacientes, BONO_IDX);
+        addFuncionalidad("Consultar pacientes", "paciente.index", pacientes, true, CONS_PACIENTES_IDX);
+        addFuncionalidad("Emitir bono de consulta", "", pacientes, true, BONO_IDX);
 
         // ALUMNOS
-        addFuncionalidad("Registrar alumno", "usuario.registerAlumno", alumnos, REG_ALUMNO_IDX);
-        addFuncionalidad("Consultar alumnos", "", alumnos, CONS_ALUMNOS_IDX);
+        addFuncionalidad("Registrar alumno", "usuario.registerAlumno", alumnos, true, REG_ALUMNO_IDX);
+        addFuncionalidad("Consultar alumnos", "", alumnos, true, CONS_ALUMNOS_IDX);
 
         // ESTADISTICOAS
-        addFuncionalidad("Módulo de estadísticas", "estadisticas", null, ESTADISTICAS_IDX);
+        addFuncionalidad("Módulo de estadísticas", "estadisticas", null, true, ESTADISTICAS_IDX);
+        addFuncionalidad("Administrar permisos de rol", "permisos.administrate", soporte, true, PERMISOS_IDX);
         log.info("CargarFuncionalidad FINAL");
     }
 
-    private void addFuncionalidad(String nombre, String estadoAsociado, GrupoFuncionalidad grupo, int idx) throws SAPOException {
+    private void addFuncionalidad(String nombre, String estadoAsociado, GrupoFuncionalidad grupo, boolean isItemMenu, int idx) throws SAPOException {
         Funcionalidad f = new Funcionalidad();
         f.setNombre(nombre);
         f.setEstadoAsociado(estadoAsociado);
         f.setGrupoFuncionalidad(grupo);
+        f.setEsItemMenu(isItemMenu);
         funcionalidadList.add(idx, funcionalidadService.save(f));
     }
 
@@ -336,44 +339,44 @@ public class InitializationService {
 
         // ADMINISTRADOR
         for (Funcionalidad f : funcionalidadList) {
-            addPrivilegio(f, true, administrador);
+            addPrivilegio(f, administrador);
         }
 
         // ALUMNO
-        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), true, alumno);
-        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), true, alumno);
+        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), alumno);
+        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), alumno);
 
         // PROFESOR
-        addPrivilegio(funcionalidadList.get(AUTORIZAR_ASIG_IDX), true, profesor);
-        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), true, profesor);
-        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), true, profesor);
-        addPrivilegio(funcionalidadList.get(CONS_PACIENTES_IDX), true, profesor);
-        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), true, profesor);
-        addPrivilegio(funcionalidadList.get(ESTADISTICAS_IDX), true, profesor);
+        addPrivilegio(funcionalidadList.get(AUTORIZAR_ASIG_IDX), profesor);
+        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), profesor);
+        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), profesor);
+        addPrivilegio(funcionalidadList.get(CONS_PACIENTES_IDX), profesor);
+        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), profesor);
+        addPrivilegio(funcionalidadList.get(ESTADISTICAS_IDX), profesor);
 
         // RESPONSABLE DE RECEPCION
-        addPrivilegio(funcionalidadList.get(CONS_PACIENTES_IDX), true, rrp);
-        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), true, rrp);
-        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), true, rrp);
-        addPrivilegio(funcionalidadList.get(REG_ALUMNO_IDX), true, rrp);
-        addPrivilegio(funcionalidadList.get(BONO_IDX), true, rrp);
+        addPrivilegio(funcionalidadList.get(CONS_PACIENTES_IDX), rrp);
+        addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), rrp);
+        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), rrp);
+        addPrivilegio(funcionalidadList.get(REG_ALUMNO_IDX), rrp);
+        addPrivilegio(funcionalidadList.get(BONO_IDX), rrp);
 
         // ADMINISTRADOR ACADÉMICO
-        addPrivilegio(funcionalidadList.get(MATERIAS_IDX), true, adminAcademico);
-        addPrivilegio(funcionalidadList.get(PRACTICAS_IDX), true, adminAcademico);
-        addPrivilegio(funcionalidadList.get(TPS_IDX), true, adminAcademico);
-        addPrivilegio(funcionalidadList.get(CATEDRAS_IDX), true, adminAcademico);
-        addPrivilegio(funcionalidadList.get(ASIGNAR_PROF_CAT_IDX), true, adminAcademico);
+        addPrivilegio(funcionalidadList.get(MATERIAS_IDX), adminAcademico);
+        addPrivilegio(funcionalidadList.get(PRACTICAS_IDX), adminAcademico);
+        addPrivilegio(funcionalidadList.get(TPS_IDX), adminAcademico);
+        addPrivilegio(funcionalidadList.get(CATEDRAS_IDX), adminAcademico);
+        addPrivilegio(funcionalidadList.get(ASIGNAR_PROF_CAT_IDX), adminAcademico);
 
         // AUTORIDAD
-        addPrivilegio(funcionalidadList.get(ESTADISTICAS_IDX), true, autoridad);
-        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), true, autoridad);
-        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), true, autoridad);
+        addPrivilegio(funcionalidadList.get(ESTADISTICAS_IDX), autoridad);
+        addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), autoridad);
+        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), autoridad);
         log.info("CargarPrivilegio FINAL");
     }
 
-    private void addPrivilegio(Funcionalidad f, boolean isItemMenu, Rol rol) throws SAPOException {
-        Privilegio privilegio = new Privilegio(f, isItemMenu, rol);
+    private void addPrivilegio(Funcionalidad f, Rol rol) throws SAPOException {
+        Privilegio privilegio = new Privilegio(f, rol);
         privilegioService.save(privilegio);
     }
 

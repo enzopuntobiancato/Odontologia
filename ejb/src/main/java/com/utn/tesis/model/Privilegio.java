@@ -13,8 +13,6 @@ public class Privilegio extends EntityBase {
     @ManyToOne
     @JoinColumn(name = "funcionalidad_id")
     private Funcionalidad funcionalidad;
-    @Column(name = "es_item_menu")
-    private boolean esItemMenu;
 
     @ManyToOne
     @JoinColumn(name = "rol_id")
@@ -24,9 +22,8 @@ public class Privilegio extends EntityBase {
     public Privilegio() {
     }
 
-    public Privilegio(Funcionalidad funcionalidad, boolean esItemMenu, Rol rol) {
+    public Privilegio(Funcionalidad funcionalidad, Rol rol) {
         this.funcionalidad = funcionalidad;
-        this.esItemMenu = esItemMenu;
         this.rol = rol;
     }
 
@@ -41,14 +38,6 @@ public class Privilegio extends EntityBase {
 
     public void setFuncionalidad(Funcionalidad funcionalidad) {
         this.funcionalidad = funcionalidad;
-    }
-
-    public boolean isEsItemMenu() {
-        return esItemMenu;
-    }
-
-    public void setEsItemMenu(boolean esItemMenu) {
-        this.esItemMenu = esItemMenu;
     }
 
     public Rol getRol() {

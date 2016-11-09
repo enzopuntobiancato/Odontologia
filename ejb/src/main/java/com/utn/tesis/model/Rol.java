@@ -1,8 +1,12 @@
 package com.utn.tesis.model;
 
 import com.utn.tesis.exception.SAPOValidationException;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -19,7 +23,7 @@ public class Rol extends EntityBase {
     @Column(nullable = false)
     private RolEnum nombre;
 
-    @OneToMany(mappedBy = "rol")
+    @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Privilegio> privilegios;
 
     @Size(max = 250, message = "La descripcion del rol no puede tener mas de 250 caracteres")

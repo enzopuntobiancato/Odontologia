@@ -20,6 +20,9 @@ public class Funcionalidad extends EntityBase {
     @JoinColumn(name = "grupo_funcionalidad_id")
     private GrupoFuncionalidad grupoFuncionalidad;
 
+    @Column(name = "es_item_menu")
+    private boolean esItemMenu;
+
     public Funcionalidad() {
     }
 
@@ -56,5 +59,13 @@ public class Funcionalidad extends EntityBase {
 
     public void setGrupoFuncionalidad(GrupoFuncionalidad grupoFuncionalidad) {
         this.grupoFuncionalidad = grupoFuncionalidad;
+    }
+
+    public boolean isEsItemMenu() {
+        return esItemMenu;
+    }
+
+    public void setEsItemMenu(boolean esItemMenu) {
+        this.esItemMenu = esItemMenu;
     }
 }
