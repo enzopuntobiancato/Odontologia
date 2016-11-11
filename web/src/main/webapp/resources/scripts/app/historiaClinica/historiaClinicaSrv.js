@@ -67,9 +67,14 @@ module
                     method: 'GET',
                     params: {id: pacienteId}
                 })
+            },
+            findDocumentacionesByPaciente: function(pacienteId) {
+                return $http({
+                    url: 'api/historiaClinica/findDocumentaciones',
+                    method: 'GET',
+                    params: {pacienteId: pacienteId}
+                })
             }
-
-
         }
 
     }]);

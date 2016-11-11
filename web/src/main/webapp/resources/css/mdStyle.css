@@ -443,3 +443,8 @@ md-toolbar.md-table-toolbar.alternate-table-toolbar-2 {
 .icon-leave {
     fill: '#00B0FF';
 }
+
+td.markCell:hover{
+    border-radius: 5px;
+    background-color: lightblue;
+}

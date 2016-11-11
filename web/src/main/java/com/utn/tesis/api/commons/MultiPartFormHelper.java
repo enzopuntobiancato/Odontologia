@@ -12,12 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 7/02/16
- * Time: 18:14
- */
 @ApplicationScoped
 public class MultiPartFormHelper {
     public static final String FILE = "file";
@@ -100,5 +94,14 @@ public class MultiPartFormHelper {
             }
         }
         return FileExtension.NONE;
+    }
+
+    public Map<String, Object> findFile(List<Map<String, Object>> files, String fileName) {
+        for (Map<String, Object> file: files) {
+            if (file.get(NAME).equals(fileName)) {
+                return file;
+            }
+        }
+        return null;
     }
 }

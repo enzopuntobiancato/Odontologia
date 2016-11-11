@@ -21,13 +21,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 16/02/16
- * Time: 21:16
- * To change this template use File | Settings | File Templates.
- */
 @Path("/paciente")
 @Slf4j
 @RequestScoped

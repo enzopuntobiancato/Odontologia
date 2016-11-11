@@ -72,4 +72,16 @@ public class PacienteDao extends DaoBase<Paciente> {
         }
         return new JPAQuery(em).from($).where(expression).list($);
     }
+
+    public List<Archivo> findDocumentacionesByPaciente(Long pacienteId) {
+        QHistoriaClinica historiaClinica = QHistoriaClinica.historiaClinica;
+        QArchivo archivo = QArchivo.archivo;
+        JPAQuery query = new JPAQuery(em).from($);
+
+        query.innerJoin($.historiaClinica, historiaClinica)
+                .innerJoin(historiaClinica.documentacion, archivo);
+        query.where($.id.eq(pacienteId));
+
+        return query.list(archivo);
+    }
 }
