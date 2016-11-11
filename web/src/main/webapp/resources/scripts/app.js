@@ -785,11 +785,28 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .state('historiaClinica.documentacionesView', {
                 url: '/documentaciones/view',
                 templateUrl: 'views/hc/documentaciones/documentaciones.html',
-                controller: function ($scope) {
+                controllerAs: 'vm',
+                controller: function ($scope, docResponse, $window) {
+                    var vm = this;
+                    vm.documentaciones = docResponse.data;
+
+                    vm.openInNewTab = function(file) {
+                        var base = 'http://localhost:8160/Odontologia-web/api/file/';
+                        if (file.extension == 'PDF') {
+                            $window.open(base + 'pdf?id=' + file.id);
+                        } else {
+                            $window.open(base + 'image?id=' + file.id);
+                        }
+                    }
 
                 },
                 data: {
                     fullPage: true
+                },
+                resolve: {
+                    docResponse: ['loadMyModule', 'HistoriaClinicaSrv', '$stateParams', function(loadMyModule, service, $stateParams) {
+                        return service.findDocumentacionesByPaciente($stateParams.id);
+                    }]
                 }
             })
             .state('historiaClinica.datosPersonalesEdit', {
@@ -906,10 +923,21 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }]
                 }
             })
-            .state('historiaClinica.atencionesEdit', {
-                url: '/atenciones/edit',
-                template: '<div>It works. Im on atenciones Edit</div>',
-                controller: function ($scope) {
+            .state('historiaClinica.documentacionesEdit', {
+                url: '/documentaciones/edit',
+                templateUrl: 'views/hc/documentaciones/documentacionesEdit.html',
+                controllerAs: 'vm',
+                controller: 'DocumentacionesEdit_Ctrl',
+                data: {
+                    fullPage: true
+                },
+                resolve: {
+                    pacienteId: ['loadMyModule', '$stateParams', function(loadMyModule, $stateParams) {
+                        return $stateParams.id;
+                    }],
+                    docResponse: ['loadMyModule', 'HistoriaClinicaSrv', '$stateParams', function(loadMyModule, service, $stateParams) {
+                        return service.findDocumentacionesByPaciente($stateParams.id);
+                    }]
                 }
             })
             .state('profesor', {
@@ -1160,7 +1188,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         url('/hc/diagnostico/diagnosticoSrv.js'),
                         url('/hc/diagnostico/diagnosticoEditCtrl.js'),
                         url('/hc/diagnostico/diagnosticoViewCtrl.js'),
-                        url('/hc/atenciones/atencionesViewCtrl.js')
+                        url('/hc/atenciones/atencionesViewCtrl.js'),
+                        url('/hc/documentaciones/documentacionesEditCtrl.js')
                     ]
                 },
                 {
@@ -1209,7 +1238,6 @@ angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
 angular.module('historiaClinicaModule', ['pacienteModule', 'atencionModule']);
 angular.module('atencionModule', []);
-angular.module('historiaClinicaModule', ['pacienteModule']);
 angular.module('profesorModule', []);
 angular.module('permisosModule', []);
 

@@ -1,7 +1,9 @@
 package com.utn.tesis.api;
 
 import com.utn.tesis.api.commons.BaseAPI;
+import com.utn.tesis.api.commons.MultiPartFormHelper;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mapping.dto.ArchivoDTO;
 import com.utn.tesis.mapping.dto.HistoriaClinicaDTO;
 import com.utn.tesis.mapping.dto.PacienteDTO;
 import com.utn.tesis.mapping.mapper.HistoriaClinicaMapper;
@@ -10,16 +12,18 @@ import com.utn.tesis.model.*;
 import com.utn.tesis.service.HistoriaClinicaService;
 import com.utn.tesis.service.PacienteService;
 import lombok.extern.slf4j.Slf4j;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.io.InputStream;
+import java.util.*;
 
 @Path("/historiaClinica")
 @RequestScoped
@@ -33,6 +37,8 @@ public class HistoriaClinicaAPI extends BaseAPI {
     private PacienteMapper pacienteMapper;
     @Inject
     private HistoriaClinicaMapper historiaClinicaMapper;
+    @Inject
+    private MultiPartFormHelper helper;
 
     @Path("/find")
     @GET
@@ -108,5 +114,33 @@ public class HistoriaClinicaAPI extends BaseAPI {
 
         ArrayList<PacienteDTO> pacienteDTOs = (ArrayList<PacienteDTO>) pacienteMapper.toDTOList(pacientes);
         return pacienteDTOs;
+    }
+
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/saveDocumentaciones/{idPaciente}")
+    public Response saveDocumentacionesByPaciente(MultipartFormDataInput input, @PathParam("idPaciente") Long idPaciente) throws SAPOException {
+        Map<String, List<InputPart>> form = input.getFormDataMap();
+        ArchivoDTO[] archivosArray = (ArchivoDTO[]) helper.retrieveObject(form, "documentaciones", ArchivoDTO[].class);
+        List<ArchivoDTO> archivoDTOs = Arrays.asList(archivosArray);
+        List<Map<String, Object>> files = helper.retrieveFiles(form, "files");
+        for (ArchivoDTO archivoDTO: archivoDTOs) {
+            if (archivoDTO.getId() != null) {
+                continue;
+            }
+            Map<String, Object> file = helper.findFile(files, archivoDTO.getNombre());
+            archivoDTO.setExtension((FileExtension) file.get(helper.EXTENSION));
+            archivoDTO.setArchivo((InputStream) file.get(helper.FILE));
+        }
+        pacienteService.saveDocumentaciones(archivoDTOs, idPaciente);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/findDocumentaciones")
+    public List<ArchivoDTO> findDocumentacionesByPaciente(@QueryParam("pacienteId") Long pacienteId) {
+        return pacienteService.findDocumentacionesByPaciente(pacienteId);
     }
 }

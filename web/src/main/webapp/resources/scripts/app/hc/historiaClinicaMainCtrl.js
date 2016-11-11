@@ -143,8 +143,12 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
             $state.go($state.current, {editing: convertToBoolean($stateParams.editing)}, {reload: true})
         })
 
+
         $scope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
+                if (fromState.name.startsWith('historiaClinica') && toState.name === 'historiaClinica') {
+                    goToConsultar();
+                }
                 if (!fromState.name.startsWith('historiaClinica')) {
                    goViewOrEdit(DATOS_PERSONALES_TAB);
                 } else {

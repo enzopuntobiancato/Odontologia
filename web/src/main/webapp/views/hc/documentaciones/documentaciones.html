@@ -1,1 +1,31 @@
-<div>It works. Im on documentaciones View</div>
+<div layout="column">
+    <md-content md-scroll-y layout-padding>
+        <md-table-container ng-if="vm.documentaciones.length">
+            <table md-table>
+                <thead md-head>
+                <tr md-row md-auto-select>
+                    <th md-column><span>Nombre archivo</span></th>
+                    <th md-column><span>Tipo</span></th>
+                    <th md-column><span>Descripción</span></th>
+                    <th md-column><span>Opciones</span></th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row ng-repeat="doc in vm.documentaciones">
+                    <td md-cell>{{doc.nombre}}</td>
+                    <td md-cell>{{doc.extension}}</td>
+                    <td md-cell>{{doc.descripcion | noDefinido}}</td>
+                    <td md-cell>
+                        <md-button class="md-icon-button" ng-click="vm.openInNewTab(doc)">
+                            <ng-md-icon icon="file_download"><md-tooltip>Descargar</md-tooltip></ng-md-icon>
+                        </md-button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+        <div ng-show="!vm.documentaciones.length">
+            <ng-include src="'views/no-results.html'"/>
+        </div>
+    </md-content>
+</div>

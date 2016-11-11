@@ -5,7 +5,9 @@ import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.PacienteDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
+import com.utn.tesis.mapping.dto.ArchivoDTO;
 import com.utn.tesis.mapping.dto.PacienteDTO;
+import com.utn.tesis.mapping.mapper.ArchivoMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
 
@@ -25,6 +27,10 @@ public class PacienteService extends BaseService<Paciente> {
     private PacienteMapper pacienteMapper;
     @Inject
     private HistoriaClinicaService historiaClinicaService;
+    @Inject
+    private ArchivoService archivoService;
+    @Inject
+    private ArchivoMapper archivoMapper;
 
     @Override
     DaoBase<Paciente> getDao() {
@@ -70,5 +76,25 @@ public class PacienteService extends BaseService<Paciente> {
     public PacienteDTO findPacienteConDiagnosticos(Long pacienteId) {
         Paciente paciente = this.findById(pacienteId);
         return pacienteMapper.toDTO(paciente);
+    }
+
+    public void saveDocumentaciones(List<ArchivoDTO> archivoDTOs, Long idPaciente) throws SAPOException {
+        Paciente paciente = this.findById(idPaciente);
+        HistoriaClinica hc = paciente.getHistoriaClinica();
+        hc.getDocumentacion().clear();
+        for (ArchivoDTO archivoDTO: archivoDTOs) {
+            Archivo archivo;
+            if (archivoDTO.getId() != null) {
+                archivo = archivoService.findById(archivoDTO.getId());
+                archivo.setDescripcion(archivoDTO.getDescripcion());
+            } else {
+                archivo = archivoService.save(archivoDTO);
+            }
+            hc.getDocumentacion().add(archivo);
+        }
+    }
+
+    public List<ArchivoDTO> findDocumentacionesByPaciente(Long pacienteId) {
+        return archivoMapper.toDTOList(dao.findDocumentacionesByPaciente(pacienteId));
     }
 }
