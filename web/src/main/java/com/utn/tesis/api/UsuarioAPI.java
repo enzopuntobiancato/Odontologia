@@ -145,22 +145,6 @@ public class UsuarioAPI extends BaseAPI {
         return Response.ok().build();
     }
 
-    private void update(UsuarioDTO usuarioDTO) throws SAPOException {
-        Usuario persistedEntity = usuarioService.findById(usuarioDTO.getId());
-        persistedEntity.setNombreUsuario(usuarioDTO.getNombreUsuario());
-        persistedEntity.setEmail(usuarioDTO.getEmail());
-
-        if (usuarioDTO.getPassword() != null) {
-            try {
-                persistedEntity.setContrasenia(EncryptionUtils.encryptMD5A1(usuarioDTO.getPassword()));
-            } catch (NoSuchAlgorithmException e) {
-                persistedEntity.setContrasenia(EncryptionUtils.encryptMD5A2(usuarioDTO.getPassword()));
-            }
-        }
-
-        usuarioService.update(persistedEntity);
-    }
-
     @Path("/findByIdAsUsuarioLogueadoBean")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -189,5 +173,12 @@ public class UsuarioAPI extends BaseAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public UsuarioViewEditDTO findPrivilegiosByRol(@QueryParam("id") Long usuarioId) {
         return usuarioService.findUsuarioView(usuarioId);
+    }
+
+    @PUT
+    @Path("/recuperarPassword")
+    public Response recuperarPassword(@QueryParam("email") String email) throws SAPOException {
+        usuarioService.recuperarPassword(email);
+        return Response.ok().build();
     }
 }

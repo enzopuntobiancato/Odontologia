@@ -211,6 +211,16 @@ public class UsuarioService extends BaseService<Usuario> {
         usuario.setRoles(rolesUsuario);
         usuario.setImagen(archivoService.save(imagen));
     }
+
+    public void recuperarPassword(String email) throws SAPOException {
+        Usuario usuario = dao.findByEmail(email);
+        if (usuario == null) {
+            throw new SAPOException(new SAPOValidationException(ImmutableMap.of("email", "El correo electrónico no se encuentra registrado.")));
+        }
+        String newPassword = RandomStringUtils.randomAlphanumeric(5);
+        mailService.sendRecuperarPasswordMail(usuario.getEmail(), usuario.retrieveFirstPerson().getNombre(), usuario.getNombreUsuario(), newPassword);
+        usuario.setContrasenia(EncryptionUtils.encryptMD5A(newPassword));
+    }
 }
 
 

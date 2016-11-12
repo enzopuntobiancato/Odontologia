@@ -35,4 +35,16 @@ public class MailServiceImpl implements MailService {
 
         sendEmail(email);
     }
+
+    @Override
+    public void sendRecuperarPasswordMail(String toAddress, String toName, String username, String newPassword) {
+        RecuperarPassMail email = RecuperarPassMail.builder()
+                .toAddress(toAddress)
+                .toName(toName)
+                .username(username)
+                .newPassword(newPassword)
+                .build();
+        sendEmail(email);
+    }
+
 }

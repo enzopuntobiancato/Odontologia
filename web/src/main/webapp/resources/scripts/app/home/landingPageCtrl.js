@@ -1,7 +1,7 @@
 var loginModule = angular.module('sapo.login');
 
-loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'MessageSrv', 'initializeData',
-    function ($scope, authFactory, $state, messageSrv, initializeData) {
+loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'MessageSrv', 'initializeData', '$mdDialog',
+    function ($scope, authFactory, $state, messageSrv, initializeData, $mdDialog) {
         // InitializationService execution
         if (initializeData) {
             messageSrv.showMessage(initializeData);
@@ -44,6 +44,65 @@ loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'M
                     });
             }, form);
         };
+
+        vm.recuperarPassword = recuperarPassword;
+
+        function recuperarPassword(ev) {
+            $mdDialog.show({
+                controller: createDialogController,
+                templateUrl: 'views/home/recuperarPasswordDialog.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: false
+            })
+                .then(function () {
+                    messageSrv.successMessage("Correo electrónico enviado a su cuenta.")
+                }, function () {
+                    messageSrv.errorMessage()
+                });
+        };
+
+
+        function createDialogController($scope, $mdDialog, authFactory, MessageSrv) {
+
+            $scope.email;
+            $scope.validationErrorFromServer = {
+                error: false,
+                data: {}
+            }
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+            $scope.recuperar = function (form) {
+                if (form.$valid) {
+                    authFactory.recuperarPassword($scope.email)
+                        .success(function() {
+                            $mdDialog.hide();
+                        })
+                        .error(function(data, status) {
+                            if (status === 1000) {
+                                // Our error response
+                                $scope.validationErrorFromServer.error = true;
+                                var message = [];
+                                var msgs = Object.keys(data);
+                                for (var i = 0; i < msgs.length; i++) {
+                                    message.push(data[msgs[i]]);
+                                }
+                                $scope.validationErrorFromServer.data = message;
+                            } else {
+                                messageSrv.errorMessage("Ocurrió un error.");
+                            }
+                        })
+                } else {
+                    angular.forEach(form.$error, function (field) {
+                        angular.forEach(field, function (errorField) {
+                            errorField.$setTouched();
+                        })
+                    });
+                }
+            };
+        }
     }]);
 
 

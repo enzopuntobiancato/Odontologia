@@ -138,6 +138,14 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
         })
     };
 
+    authFactory.recuperarPassword = function(email) {
+        return $http({
+            url: 'api/usuario/recuperarPassword',
+            method: 'PUT',
+            params: {email: email}
+        })
+    }
+
     return authFactory;
 }]);
 
