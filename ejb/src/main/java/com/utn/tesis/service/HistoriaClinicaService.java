@@ -46,14 +46,6 @@ public class HistoriaClinicaService extends BaseService<HistoriaClinica> {
         return validator;
     }
 
-    public List<HistoriaClinica> findByFilters(Integer numero, Date fechaApertura, Usuario realizoHC,
-                                               Atencion atencion, Diagnostico diagnostico, DetalleHistoriaClinica detalleHC,
-                                               Long page, Long pageSize) {
-        List<HistoriaClinica> historiasClinicas = dao.findByFilters(numero, fechaApertura, realizoHC, atencion, diagnostico,
-                detalleHC, page, pageSize);
-        return dao.reloadList(historiasClinicas,1);
-    }
-
     @Override
     public HistoriaClinica findById(Long id){
         HistoriaClinica historiaClinica = dao.findById(id);

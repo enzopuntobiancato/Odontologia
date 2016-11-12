@@ -29,7 +29,6 @@ public class HistoriaClinicaMapper {
         if ( historiaClinica.getVersion() != null ) {
             historiaClinicaDTO.setVersion( historiaClinica.getVersion() );
         }
-        historiaClinicaDTO.setNumero(historiaClinica.getNumero());
         historiaClinicaDTO.setFechaApertura(historiaClinica.getFechaApertura());
 
         historiaClinicaDTO.setG1p1(detalleMapper.campoSiNoToDTO((CampoSiNo) historiaClinica.getDetallesHC().get(0)));
@@ -242,7 +241,6 @@ public class HistoriaClinicaMapper {
 
         historiaClinica.setVersion( historiaClinicaDTO.getVersion() );
         historiaClinica.setId( historiaClinicaDTO.getId() );
-        historiaClinica.setNumero( historiaClinicaDTO.getNumero() );
         historiaClinica.setFechaApertura( historiaClinicaDTO.getFechaApertura() );
 
         List<DetalleHistoriaClinica> detallesHC = new ArrayList<DetalleHistoriaClinica>();
@@ -446,7 +444,6 @@ public class HistoriaClinicaMapper {
 
         historiaClinica.setVersion( historiaClinicaDTO.getVersion() );
         historiaClinica.setId( historiaClinicaDTO.getId() );
-        historiaClinica.setNumero( historiaClinicaDTO.getNumero() );
         historiaClinica.setFechaApertura( historiaClinicaDTO.getFechaApertura() );
 
         if ( historiaClinica.getDetallesHC() != null ) {

@@ -22,7 +22,6 @@ import java.util.List;
 
 @Stateless
 public class UsuarioService extends BaseService<Usuario> {
-
     @Inject
     private UsuarioDao dao;
     @Inject
@@ -150,10 +149,8 @@ public class UsuarioService extends BaseService<Usuario> {
         return dao.findPersonaByUsuario(usuario);
     }
 
-    public List<Persona> findPersonaByUsuario(Long id) {
-        List<Persona> p = dao.findPersonaByUsuario(id);
-        Collections.reload(p, 1);
-        return p;
+    public Persona findPersonaByUserAndRol(Long idUsuario, RolEnum rol) {
+        return dao.findPersonaByUsuarioAndRol(idUsuario, rol);
     }
 
     public UsuarioLogueadoDTO fetchUser(Long id, EnumDTO rolSelected) {
@@ -220,6 +217,10 @@ public class UsuarioService extends BaseService<Usuario> {
         String newPassword = RandomStringUtils.randomAlphanumeric(5);
         mailService.sendRecuperarPasswordMail(usuario.getEmail(), usuario.retrieveFirstPerson().getNombre(), usuario.getNombreUsuario(), newPassword);
         usuario.setContrasenia(EncryptionUtils.encryptMD5A(newPassword));
+    }
+
+    public PersonaDTO findPersonaDTOByUserAndRol(Long idUsuario, RolEnum rol) {
+        return personaMapper.toDTO(this.findPersonaByUserAndRol(idUsuario, rol));
     }
 }
 

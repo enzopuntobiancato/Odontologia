@@ -13,7 +13,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class HistoriaClinicaDTO extends BaseDTO {
-    private int numero;
     private Calendar fechaApertura;
     private List<DetalleHistoriaClinicaDTO> detalles;
     private String decoratedAtt;
@@ -216,15 +215,6 @@ public class HistoriaClinicaDTO extends BaseDTO {
     private CampoEnumerableDTO  g29p4;
     private CampoDetalleDTO  g29p5;
     private Odontograma odontograma;
-
-    //GETTERS AND SETTERS
-    public int getNumero() {
-        return numero;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
 
     public Calendar getFechaApertura() {
         return fechaApertura;

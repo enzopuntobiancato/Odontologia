@@ -40,21 +40,6 @@ public class HistoriaClinicaAPI extends BaseAPI {
     @Inject
     private MultiPartFormHelper helper;
 
-    @Path("/find")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<HistoriaClinicaDTO> findByFilters(@QueryParam("numero") int numero,
-                                                  @QueryParam("fechaApertura") Date fechaApertura,
-                                                  @QueryParam("dadosBaja") boolean dadosBaja,
-                                                  @QueryParam("pageNumber") Long pageNumber,
-                                                  @QueryParam("pageSize") Long pageSize) {
-
-        List<HistoriaClinica> historiasClinicas = historiaClinicaService.findByFilters(null, null, null, null, null, null,
-                pageNumber, pageSize);
-        List<HistoriaClinicaDTO> historiasClinicaDTOs = historiaClinicaMapper.toDTOList(historiasClinicas);
-        return historiasClinicaDTOs;
-    }
-
     @Path("/findById")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
