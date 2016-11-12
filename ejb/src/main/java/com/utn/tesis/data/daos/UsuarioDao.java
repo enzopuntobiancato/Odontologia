@@ -9,12 +9,6 @@ import com.utn.tesis.model.*;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 03/06/15
- * Time: 22:04
- */
 public class UsuarioDao extends DaoBase<Usuario> {
 
     QUsuario usuario = QUsuario.usuario;
@@ -92,5 +86,11 @@ public class UsuarioDao extends DaoBase<Usuario> {
         query.innerJoin(usuario.roles, rolUsuario);
         query.where(usuario.id.eq(userId));
         return query.list(rolUsuario);
+    }
+
+    public Usuario findByEmail(String email) {
+        JPAQuery query = new JPAQuery(em).from(usuario);
+        query.where(usuario.email.eq(email));
+        return query.uniqueResult(usuario);
     }
 }
