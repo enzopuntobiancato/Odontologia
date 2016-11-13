@@ -59,7 +59,7 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<AsignacionPaciente> findByFilters(Long alumnoId,String nombreAlumno,String apellidoAlumno,
+    public List<AsignacionPacienteDTO> findByFilters(Long alumnoId,String nombreAlumno,String apellidoAlumno,
                                                   Documento documentoAlumno,
                                                   Long profesorId, String nombrePaciente,
                                                   String apellidoPaciente, Documento documentoPaciente,
@@ -72,11 +72,11 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
                 documentoAlumno, profesorId, nombrePaciente, apellidoPaciente,
                 documentoPaciente, catedrasId, estado, diagnosticoId, fechaCreacion, fechaAsignacion, trabajoPracticoId,
                 dadosBaja, page, pageSize);
-        return entities;
+        return asignacionPacienteMapper.toDTOList(entities);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<AsignacionPaciente> findAsignacionesConfirmadasAutorizadas(Long alumnoId,String nombreAlumno,String apellidoAlumno,
+    public List<AsignacionPacienteDTO> findAsignacionesConfirmadasAutorizadas(Long alumnoId,String nombreAlumno,String apellidoAlumno,
                                                   Documento documentoAlumno,
                                                   Long profesorId, String nombrePaciente,
                                                   String apellidoPaciente, Documento documentoPaciente,
@@ -86,7 +86,7 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
         List<AsignacionPaciente> entities = dao.findAsignacionesConfirmadasAutorizadas(alumnoId, nombreAlumno, apellidoAlumno,
                 documentoAlumno, profesorId, nombrePaciente,apellidoPaciente, documentoPaciente, trabajoPracticoId,
                 catedraId, page, pageSize);
-        return entities;
+        return asignacionPacienteMapper.toDTOList(entities);
     }
 
     public List<DiagnosticoSupport> getDiagnosticosSupport(Documento documentoPaciente,
@@ -223,5 +223,10 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
         asignacionPaciente.setUltimoMovimiento(ultimoMovimiento);
         asignacionPaciente.getMovimientoAsignacionPaciente().add(ultimoMovimiento);
         return asignacionPaciente;
+    }
+
+    public AsignacionPacienteDTO findDTOById(Long id) {
+        AsignacionPaciente asignacionPaciente = this.findById(id);
+        return asignacionPacienteMapper.toDTO(asignacionPaciente);
     }
 }

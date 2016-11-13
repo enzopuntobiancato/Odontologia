@@ -72,9 +72,8 @@ public class AsignacionAPI extends BaseAPI {
             if (tipoDocumentoAlumno != null && numeroDocumentoAlumno != null) {
                 documento = new Documento(numeroDocumentoAlumno, TipoDocumento.valueOf(tipoDocumentoAlumno));
             }
-            ArrayList<Alumno> alumnos = (ArrayList<Alumno>) alumnoService.findByFilters(nombreAlumno, apellidoAlumno,
+            return alumnoService.findByFilters(nombreAlumno, apellidoAlumno,
                     documento, null, sexo != null ? Sexo.valueOf(sexo) : null, pageNumber, pageSize);
-            return personaMapper.toAlumnoDTOList(alumnos);
         } catch (Exception ex) {
             log.info(ex.getMessage());
             return new ArrayList<AlumnoDTO>();
@@ -144,12 +143,9 @@ public class AsignacionAPI extends BaseAPI {
                     ? EstadoAsignacionPaciente.valueOf(estado) : null;
             Calendar fecha = fechaAsignacion != null ? fechaAsignacion.getDate() : null;
 
-            List<AsignacionPaciente> entities = asignacionPacienteService.findByFilters(alumnoId, nombreAlumno,
+            return asignacionPacienteService.findByFilters(alumnoId, nombreAlumno,
                     apellidoAlumno, documentoAlumno, profesorId, nombrePaciente, apellidoPaciente, documentoPaciente,
                     catedrasId, estadoAsignacionPaciente, diagnosticoId, null, fecha, trabajoPracticoId, dadosBaja, pageNumber, pageSize);
-
-            entities = asignacionPacienteService.reloadList(entities, 4);
-            return asignacionPacienteMapper.toDTOList(entities);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -184,12 +180,9 @@ public class AsignacionAPI extends BaseAPI {
                 documentoAlumno = new Documento(numeroDocumentoAlumno, TipoDocumento.valueOf(tipoDocumentoAlumno));
             }
 
-            List<AsignacionPaciente> entities = asignacionPacienteService.findAsignacionesConfirmadasAutorizadas(alumnoId,
+            return asignacionPacienteService.findAsignacionesConfirmadasAutorizadas(alumnoId,
                     nombreAlumno, apellidoAlumno, documentoAlumno, profesorId, nombrePaciente, apellidoPaciente,
                     documentoPaciente, catedraId, trabajoPracticoId, pageNumber, pageSize);
-
-            entities = asignacionPacienteService.reloadList(entities, 2);
-            return asignacionPacienteMapper.toDTOList(entities);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -214,9 +207,8 @@ public class AsignacionAPI extends BaseAPI {
     @Path("/findById")
     @GET
     public AsignacionPacienteDTO findById(@QueryParam("id") Long id) {
-        AsignacionPaciente entity = asignacionPacienteService.findById(id);
-        entity = asignacionPacienteService.reload(entity, 2);
-        return asignacionPacienteMapper.toDTO(entity);
+        AsignacionPacienteDTO asignacionPacienteDTO = asignacionPacienteService.findDTOById(id);
+        return asignacionPacienteDTO;
     }
 
     @Path("/cambiarEstadoAsignacion")
