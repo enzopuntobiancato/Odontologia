@@ -2,6 +2,8 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.AlumnoDao;
 import com.utn.tesis.data.daos.DaoBase;
+import com.utn.tesis.mapping.dto.AlumnoDTO;
+import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.*;
 
 import javax.ejb.Stateless;
@@ -9,21 +11,14 @@ import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 04/02/16
- * Time: 12:50
- * To change this template use File | Settings | File Templates.
- */
 @Stateless
 public class AlumnoService extends BaseService<Alumno> {
-
     @Inject
-    AlumnoDao dao;
-
+    private AlumnoDao dao;
     @Inject
-    Validator validator;
+    private Validator validator;
+    @Inject
+    private PersonaMapper personaMapper;
 
     @Override
     DaoBase<Alumno> getDao() {
@@ -35,16 +30,16 @@ public class AlumnoService extends BaseService<Alumno> {
         return validator;
     }
 
-    public List<Alumno> findByFilters(String nombre, String apellido, Documento documento,
+    public List<AlumnoDTO> findByFilters(String nombre, String apellido, Documento documento,
                                         Usuario usuario, Sexo sexo, Long page, Long pageSize) {
-        return dao.findByFilters(nombre, apellido, documento, usuario, sexo, page, pageSize);
+        return personaMapper.toAlumnoDTOList(dao.findByFilters(nombre, apellido, documento, usuario, sexo, page, pageSize));
     }
 
 //    public List<Alumno> findByRol(Rol rol, Long page, Long pageSize) {
 //        return dao.findByRol(rol, page, pageSize);
 //    }
 
-    public List<Alumno> findByNombreApellido(String nombApp, Long page, Long pageSize) {
-        return dao.findByNombreApellido(nombApp, page, pageSize);
+    public List<AlumnoDTO> findByNombreApellido(String nombApp, Long page, Long pageSize) {
+        return personaMapper.toAlumnoDTOList(dao.findByNombreApellido(nombApp, page, pageSize));
     }
 }

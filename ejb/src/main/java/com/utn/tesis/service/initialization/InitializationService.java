@@ -1,6 +1,7 @@
 package com.utn.tesis.service.initialization;
 
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mapping.dto.AlumnoDTO;
 import com.utn.tesis.model.*;
 import com.utn.tesis.service.*;
 import com.utn.tesis.util.EncryptionUtils;
@@ -620,14 +621,14 @@ public class InitializationService {
     public void cargarAsignaciones() throws SAPOException {
         log.info("CARGA DE ASIGNACIONES");
         asignaciones = new ArrayList<AsignacionPaciente>();
-        List<Alumno> alumnos = alumnoService.findByFilters(null, null, null, null, null, 1L, 5L);
+        List<AlumnoDTO> alumnos = alumnoService.findByFilters(null, null, null, null, null, 1L, 5L);
         List<TrabajoPractico> trabajoPracticos = trabajoPracticoService.findAll();
         List<Paciente> pacientesAux = pacienteService.findAll();
         List<Diagnostico> diagnosticoList = diagnosticoService.findAll();
         Usuario usuarioCreador = usuarioService.findAll().get(0);
 
         int numDiag = 0;
-        for (Alumno alumno : alumnos) {
+        for (AlumnoDTO alumno : alumnos) {
             for (TrabajoPractico trabajoPractico : trabajoPracticos) {
                 Random random = new Random();
                 int numero = random.nextInt(8 - 0 + 1) + 0;
@@ -642,7 +643,7 @@ public class InitializationService {
                 AsignacionPaciente asignacionPaciente = new AsignacionPaciente();
                 asignacionPaciente.setDiagnostico(diagnosticoList.get(numDiag));
                 asignacionPaciente.setPaciente(pacientesAux.get(numero));
-                asignacionPaciente.setAlumno(alumno);
+                asignacionPaciente.setAlumno(alumnoService.findById(alumno.getId()));
                 asignacionPaciente.setTrabajoPractico(trabajoPractico);
                 asignacionPaciente.setFechaAsignacion(CalendarRandomizer.aNewCalendarRandomizer().getRandomValue());
                 asignacionPaciente.setFechaCreacion(CalendarRandomizer.aNewCalendarRandomizer().getRandomValue());
