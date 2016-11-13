@@ -3,6 +3,7 @@ package com.utn.tesis.service;
 import com.utn.tesis.data.daos.AsignacionPacienteDao;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
+import com.utn.tesis.mail.MailService;
 import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.mapping.mapper.AsignacionPacienteMapper;
 import com.utn.tesis.mapping.mapper.EnumMapper;
@@ -16,13 +17,6 @@ import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 04/03/16
- * Time: 11:35
- * To change this template use File | Settings | File Templates.
- */
 @Stateless
 public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
 
@@ -47,6 +41,8 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     private EnumMapper enumMapper;
     @Inject
     private AsignacionPacienteMapper asignacionPacienteMapper;
+    @Inject
+    private MailService mailService;
 
     @Inject
     private Validator validator;
@@ -144,7 +140,6 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
 
     public void cambiarEstadoAsignacion(UsuarioLogueadoDTO usuarioLogueadoDTO,
                                                          AsignacionPacienteDTO dto, String estadoKey) throws SAPOException {
-//        AsignacionPaciente asignacion = asignacionPacienteMapper.fromDTO(dto);
         AsignacionPaciente asignacion = dao.findById(dto.getId());
         Usuario usuario = usuarioService.findById(usuarioLogueadoDTO.getId());
         Paciente paciente = pacienteService.findById(dto.getIdPaciente());
@@ -152,10 +147,13 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
         if(estado == null){
             return;
         }
+        boolean sendCanceladoEmail = false;
+        if (estado.equals(EstadoAsignacionPaciente.CANCELADO) && asignacion.getUltimoMovimiento().getEstado() == EstadoAsignacionPaciente.CONFIRMADO) {
+            sendCanceladoEmail = true;
+        }
 
         MovimientoAsignacionPaciente nuevoMovimientoAsignacion = new MovimientoAsignacionPaciente
                 (estado, Calendar.getInstance(), usuario);
-//        movimientoAsignacionPacienteService.save(nuevoMovimientoAsignacion);
         asignacion.addMovimientoAsignacionPaciente(nuevoMovimientoAsignacion);
         asignacion.setUltimoMovimiento(nuevoMovimientoAsignacion);
         asignacion.setPaciente(paciente);
@@ -166,19 +164,48 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
             movimientoDiagnosticoService.save(nuevoMovimientoDiagnostico);
             asignacion.getDiagnostico().addMovimiento(nuevoMovimientoDiagnostico);
         }
-        if(estado.equals(EstadoAsignacionPaciente.AUTORIZADO)){
-            List<Persona> personasUsuario = usuarioService.findPersonaByUsuario(usuarioLogueadoDTO.getId());
-            Profesor profesor = null;
-            for (Persona p: personasUsuario) {
-                if (p instanceof Profesor) {
-                    profesor = (Profesor)p;
-                    break;
-                }
-            }
-                asignacion.setAutorizadoPor(profesor);
 
+        if (estado == EstadoAsignacionPaciente.CONFIRMADO) {
+            mailService.sendAsignacionConfirmadaMail(
+                    asignacion.getPaciente().getEmail(),
+                    asignacion.getPaciente().getApellido(),
+                    asignacion.getPaciente().getNombre(),
+                    asignacion.getAlumno().getApellido(),
+                    asignacion.getAlumno().getNombre(),
+                    asignacion.getAlumno().getUsuario().getEmail(),
+                    asignacion.getFechaAsignacion(),
+                    asignacion.getCatedra().toString(),
+                    asignacion.getTrabajoPractico().getPracticaOdontologica().getDenominacion()
+            );
         }
-//        save(asignacion);
+        if(estado.equals(EstadoAsignacionPaciente.AUTORIZADO)) {
+            Profesor profesor = (Profesor) usuarioService.findPersonaByUserAndRol(usuarioLogueadoDTO.getId(), RolEnum.PROFESOR);
+            asignacion.setAutorizadoPor(profesor);
+            mailService.sendAsignacionAutorizadaMail(
+                    asignacion.getAlumno().getUsuario().getEmail(),
+                    asignacion.getPaciente().getApellido(),
+                    asignacion.getPaciente().getNombre(),
+                    asignacion.getAlumno().getNombre(),
+                    asignacion.getFechaAsignacion(),
+                    asignacion.getCatedra().toString(),
+                    asignacion.getTrabajoPractico().getPracticaOdontologica().getDenominacion(),
+                    asignacion.getTrabajoPractico().getNombre(),
+                    asignacion.getAutorizadoPor().getApellido() + " " + asignacion.getAutorizadoPor().getNombre());
+        }
+
+        if (sendCanceladoEmail) {
+            mailService.sendAsignacionConfirmadaCanceladaMail(
+                    asignacion.getPaciente().getEmail(),
+                    asignacion.getPaciente().getApellido(),
+                    asignacion.getPaciente().getNombre(),
+                    asignacion.getAlumno().getApellido(),
+                    asignacion.getAlumno().getNombre(),
+                    asignacion.getAlumno().getUsuario().getEmail(),
+                    asignacion.getFechaAsignacion(),
+                    asignacion.getCatedra().toString(),
+                    asignacion.getTrabajoPractico().getPracticaOdontologica().getDenominacion()
+            );
+        }
     }
 
     public AsignacionPaciente reload(AsignacionPaciente entity, int depth) {

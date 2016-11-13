@@ -450,7 +450,6 @@ public class InitializationService {
             Random r = new Random();
             int numero = r.nextInt(10000) + 1;  // Entre 0 y 5, más 1.
             HistoriaClinica hc = HistoriaClinica.createDefault();
-            hc.setNumero(numero);
 
             for (DetalleHistoriaClinica detalle : hc.getDetallesHC()) {
                 if (detalle instanceof CampoDetalle) {

@@ -93,4 +93,15 @@ public class UsuarioDao extends DaoBase<Usuario> {
         query.where(usuario.email.eq(email));
         return query.uniqueResult(usuario);
     }
+
+    public Persona findPersonaByUsuarioAndRol(Long idUsuario, RolEnum rol) {
+        QPersona persona = QPersona.persona;
+        QRolUsuario rolUsuario = QRolUsuario.rolUsuario;
+        JPAQuery query = new JPAQuery(em).from(usuario)
+                .innerJoin(usuario.roles, rolUsuario)
+                .innerJoin(rolUsuario.persona, persona);
+
+        query.where(usuario.id.eq(idUsuario)).where(rolUsuario.rol.nombre.eq(rol));
+        return query.uniqueResult(persona);
+    }
 }

@@ -22,13 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 16/02/16
- * Time: 21:16
- * To change this template use File | Settings | File Templates.
- */
 @Path("/asignacion")
 @Slf4j
 @RequestScoped
@@ -289,14 +282,14 @@ public class AsignacionAPI extends BaseAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public AlumnoDTO findAlumnoByUser(@QueryParam("id") Long id) {
-        return personaMapper.alumnoToDTO((Alumno) usuarioService.findPersonaByUsuario(id));
+        return (AlumnoDTO)usuarioService.findPersonaDTOByUserAndRol(id, RolEnum.ALUMNO);
     }
 
     @Path("/findProfesorByUser")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ProfesorDTO findProfesorByUser(@QueryParam("id") Long id) {
-        return personaMapper.profesorToDTO((Profesor) usuarioService.findPersonaByUsuario(id));
+        return  (ProfesorDTO)usuarioService.findPersonaDTOByUserAndRol(id, RolEnum.PROFESOR);
     }
 
     @Path("/getEstadosAsignaciones")

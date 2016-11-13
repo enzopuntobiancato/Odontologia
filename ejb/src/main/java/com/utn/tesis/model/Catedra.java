@@ -154,4 +154,9 @@ public class Catedra extends Bajeable {
         result = 31 * result + (trabajosPracticos != null ? trabajosPracticos.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return materia.getNombre() + " " + denominacion;
+    }
 }

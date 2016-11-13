@@ -20,9 +20,6 @@ import java.util.List;
 public class HistoriaClinica extends EntityBase {
     private static final long serialVersionUID = -8797692234912388646L;
 
-    @NotNull(message = "El numero de historia clinica no puede ser nulo.")
-    private int numero;
-
     @Temporal(TemporalType.DATE)
     @NotNull(message = "La fecha de apertura de historia clinica no puede ser nula.")
     @Column(name = "fecha_apertura")
@@ -63,24 +60,15 @@ public class HistoriaClinica extends EntityBase {
         odontograma = Odontograma.createDefault();
     }
 
-    public HistoriaClinica(int numero, Calendar fechaApertura, Usuario realizoHistoriaClinica,
+    public HistoriaClinica(Calendar fechaApertura, Usuario realizoHistoriaClinica,
                            List<Atencion> atencion, List<Diagnostico> diagnostico) {
         this();
-        this.numero = numero;
         this.fechaApertura = fechaApertura;
         this.realizoHistoriaClinica = realizoHistoriaClinica;
         this.atencion = atencion;
         this.diagnostico = diagnostico;
     }
 
-    //GETTERS AND SETTERS
-    public int getNumero() {
-        return numero;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
 
     public Calendar getFechaApertura() {
         return fechaApertura;
@@ -408,15 +396,12 @@ public class HistoriaClinica extends EntityBase {
 
         HistoriaClinica that = (HistoriaClinica) o;
 
-        if (numero != that.numero) return false;
-
         return true;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + numero;
         return result;
     }
 
