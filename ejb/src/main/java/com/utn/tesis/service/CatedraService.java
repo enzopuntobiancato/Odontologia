@@ -125,4 +125,8 @@ public class CatedraService extends BaseService<Catedra> {
         return catedraMapper.toConsultaDTOList(dao.findCatedrasByPractica(practicaId));
     }
 
+    public List<CatedraDTO> findAllDTOs() {
+        List<Catedra> catedras = this.findAll();
+        return catedraMapper.toDTOList(catedras);
+    }
 }
