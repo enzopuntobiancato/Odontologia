@@ -57,4 +57,9 @@ public class ObraSocial extends EntityBase {
     public void validar() throws SAPOValidationException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

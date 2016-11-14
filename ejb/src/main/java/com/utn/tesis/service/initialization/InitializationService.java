@@ -495,7 +495,7 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarUsuarios() throws SAPOException {
         log.info("CargarUsuariosPersonas INICIO");
-        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), false);
+        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), true);
         Alumno alumno = new Alumno();
         alumno.setLegajo("1233456");
         createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, true);
