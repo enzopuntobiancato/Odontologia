@@ -80,4 +80,9 @@ public class CatedraAPI extends BaseAPI {
         return catedraDTOs;
     }
 
+    @GET
+    @Path("/findAll")
+    public List<CatedraDTO> findAllCatedras() {
+        return catedraService.findAllDTOs();
+    }
 }

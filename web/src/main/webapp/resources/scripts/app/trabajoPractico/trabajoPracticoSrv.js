@@ -44,6 +44,12 @@ module
                     url: 'api/trabajoPractico/find',
                     method: 'GET'
                 })
+            },
+            findAllCatedras: function() {
+                return $http({
+                    url: 'api/catedra/findAll',
+                    method: 'GET'
+                })
             }
         }
     }]);

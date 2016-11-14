@@ -452,6 +452,17 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 }
 
             })
+            .state('trabajoPractico.viewTPsInfo', {
+                url: '/verInfoTps',
+                templateUrl: 'views/trabajoPractico/viewTPsInfo.html',
+                controller: 'TrabajoPracticoCtrl_ViewInfo',
+                controllerAs: 'vm',
+                resolve: {
+                    catedrasResponse: ['loadMyModule', 'TrabajoPracticoSrv', function(loadMyModule, service) {
+                        return service.findAllCatedras();
+                    }]
+                }
+            })
             .state('catedra', {
                 url: '/catedra',
                 template: '<ui-view/>',
@@ -1143,7 +1154,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         url('/trabajoPractico/trabajoPracticoSrv.js'),
                         url('/trabajoPractico/trabajoPracticoIndexCtrl.js'),
                         url('/trabajoPractico/trabajoPracticoCreateCtrl.js'),
-                        url('/trabajoPractico/trabajoPracticoEditCtrl.js')
+                        url('/trabajoPractico/trabajoPracticoEditCtrl.js'),
+                        url('/trabajoPractico/trabajoPracticoViewInfoCtrl.js')
                     ]
                 },
                 {

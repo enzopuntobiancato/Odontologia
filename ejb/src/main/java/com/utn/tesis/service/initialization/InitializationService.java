@@ -294,7 +294,7 @@ public class InitializationService {
         addFuncionalidad("Prácticas odontológicas", "practicaOdontologica.index", datosAcademicos, true, PRACTICAS_IDX);
         addFuncionalidad("Trabajos prácticos", "trabajoPractico.index", datosAcademicos, true, TPS_IDX);
         addFuncionalidad("Cátedras", "catedra.index", datosAcademicos, true, CATEDRAS_IDX);
-        addFuncionalidad("Consultar información de trabajos prácticos", "", datosAcademicos, true, CONS_INFO_TP_IDX);
+        addFuncionalidad("Consultar información de trabajos prácticos", "trabajoPractico.viewTPsInfo", datosAcademicos, true, CONS_INFO_TP_IDX);
         addFuncionalidad("Asignar profesores a cátedras", "profesor.editCatedrasProfesor", datosAcademicos, true, ASIGNAR_PROF_CAT_IDX);
 
         // SOPORTE
@@ -495,7 +495,7 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarUsuarios() throws SAPOException {
         log.info("CargarUsuariosPersonas INICIO");
-        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), false);
+        createUsuarioYPersona("admin", "Enzo", "Biancato", rolList.get(0), new Administrador(), true);
         Alumno alumno = new Alumno();
         alumno.setLegajo("1233456");
         createUsuarioYPersona("alumno", "Ignacio", "López Arzuaga", rolList.get(1), alumno, true);
