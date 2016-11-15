@@ -36,7 +36,7 @@
                         <h4>Min: 11 | Máx: 12</h4>
 
                         <p>{{ vm.paciente.historiaClinicaDTO.g3p10.nombre }}: {{
-                            vm.paciente.historiaClinicaDTO.g3p10.fecha | date:'MM/dd/yyyy' }}</p>
+                            vm.paciente.historiaClinicaDTO.g3p10.fecha | date:'dd/MM/yyyy' }}</p>
                     </div>
                 </md-list-item>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g3p11">
@@ -184,7 +184,7 @@
                 <!--<h4 ng-if='vm.paciente.historiaClinicaDTO.g14p1.siNo == true && vm.paciente.historiaClinicaDTO.g14p2 != null'>-->
                 <!--¿Cuál? {{ vm.paciente.historiaClinicaDTO.g14p2.only_detalle }}</h4>-->
                 <!--<p ng-if='vm.paciente.historiaClinicaDTO.g14p1.siNo == true && vm.paciente.historiaClinicaDTO.g14p3 != null'>-->
-                <!--{{ vm.paciente.historiaClinicaDTO.g14p3.nombre }} {{ vm.paciente.historiaClinicaDTO.g14p3.fecha | date:'MM/dd/yyyy' }}</p>-->
+                <!--{{ vm.paciente.historiaClinicaDTO.g14p3.nombre }} {{ vm.paciente.historiaClinicaDTO.g14p3.fecha | date:'dd/MM/yyyy' }}</p>-->
                 <!--</div>-->
                 <!--</md-list-item>-->
             </div>
@@ -436,7 +436,7 @@
                 <md-list-item class='md-3-line md-long-text'>
                     <div class='md-list-item-text compact'>
                         <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g21p10.nombre
-                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g21p10.fecha | date:'MM/dd/yyyy' }}</h4></div>
+                            }}</h4><h4> {{ vm.paciente.historiaClinicaDTO.g21p10.fecha | date:'dd/MM/yyyy' }}</h4></div>
                         <h4 ng-if='vm.paciente.historiaClinicaDTO.g21p11 != null'>
                             ¿Cuál? {{ vm.paciente.historiaClinicaDTO.g21p11.only_detalle }}</h4>
 
@@ -510,7 +510,7 @@
                 <md-list-item class='md-2-line md-long-text' flex-gt-sm='33'>
                     <div class='md-list-item-text compact'>
                         <h4 style="font-weight: bold"> Fecha última visita {{ vm.paciente.historiaClinicaDTO.g28p1.fecha
-                            | date:'MM/dd/yyyy' }}</h4>
+                            | date:'dd/MM/yyyy' }}</h4>
 
                         <p ng-if='vm.paciente.historiaClinicaDTO.g28p2 != null'>
                             Motivo {{ vm.paciente.historiaClinicaDTO.g28p2.only_detalle }}</p>

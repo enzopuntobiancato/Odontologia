@@ -9,6 +9,7 @@ import com.utn.tesis.mapping.dto.ArchivoDTO;
 import com.utn.tesis.mapping.mapper.ArchivoMapper;
 import com.utn.tesis.model.Archivo;
 import com.utn.tesis.model.FileExtension;
+import com.utn.tesis.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
@@ -26,14 +27,16 @@ import java.util.UUID;
 @Slf4j
 public class ArchivoService extends BaseService<Archivo> {
     private static String OS = System.getProperty("os.name").toLowerCase();
-    private static final String WIN_PATH = "C:\\sapo";
-    private static final String LIN_PATH = System.getProperty("user.home") + File.separator + "sapo_files";
+    public static final String WIN_PATH = "C:\\sapo";
+    public static final String LIN_PATH = System.getProperty("user.home") + File.separator + "sapo_files";
     @Inject
     private ArchivoDao archivoDao;
     @Inject
     private Validator validator;
     @Inject
     private ArchivoMapper archivoMapper;
+    @Inject
+    private FileUtils fileUtils;
 
     @Override
     DaoBase<Archivo> getDao() {
@@ -109,15 +112,7 @@ public class ArchivoService extends BaseService<Archivo> {
     public byte[] findFile(Long id) throws IOException {
         Archivo entity = this.findById(id);
         File f = new File(entity.getRuta());
-        InputStream inputStream = new FileInputStream(f);
-        byte[] buff = new byte[(int) f.length()];
-        inputStream.read(buff, 0, (int) f.length());
-
-        byte[] fileContent;
-        ByteArrayInputStream buffer = new ByteArrayInputStream(buff);
-        fileContent = new byte[buffer.available()];
-        buffer.read(fileContent, 0, buffer.available());
-        return fileContent;
+        return fileUtils.fileToArrayByte(f);
     }
 
 

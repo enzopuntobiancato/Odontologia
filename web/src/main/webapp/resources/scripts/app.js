@@ -1120,6 +1120,18 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }]
                 }
             })
+            .state('backup', {
+                url: '/backup',
+                template: '<ui-view/>',
+                abstract: true,
+                resolve: module('backupModule')
+            })
+            .state('backup.administrate', {
+                url: '/administrar',
+                templateUrl: 'views/backup/administrar.html',
+                controllerAs: 'vm',
+                controller: 'BackupCtrl'
+            })
 
         $ocLazyLoadProvider.config({
             debug: true,
@@ -1232,6 +1244,13 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         url('/permisos/permisosCtrl.js'),
                         url('/permisos/permisosSrv.js')
                     ]
+                },
+                {
+                    name: 'backupModule',
+                    files: [
+                        url('/backup/backupCtrl.js'),
+                        url('/backup/backupSrv.js')
+                    ]
                 }
             ]
         });
@@ -1252,6 +1271,7 @@ angular.module('historiaClinicaModule', ['pacienteModule', 'atencionModule']);
 angular.module('atencionModule', []);
 angular.module('profesorModule', []);
 angular.module('permisosModule', []);
+angular.module('backupModule', []);
 
 
 odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', '$q',

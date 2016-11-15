@@ -1,0 +1,98 @@
+<div layout="column">
+    <md-button class="md-fab md-fab-bottom-right" ng-click="vm.new(form, $event)">
+        <md-tooltip>
+            Nuevo
+        </md-tooltip>
+        <ng-md-icon icon="add" size="24" style="fill: white"></ng-md-icon>
+    </md-button>
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="column" layout-fill layout-padding>
+            <div>
+                <div layout="row" layout-align="center center">
+                    <md-card flex-gt-sm>
+                        <form name="form" novalidate ng-submit="vm.consultar(form)">
+                            <md-toolbar class="md-accent">
+                                <div class="md-toolbar-tools">
+                                    <span>Respaldo de datos de sistema</span>
+                                </div>
+                            </md-toolbar>
+                            <md-card-content>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <div>
+                                        <md-tooltip>Fecha creación</md-tooltip>
+                                        <md-datepicker name="fechaGeneracion" ng-model="vm.filter.fechaGeneracion"
+                                                       md-max-date="vm.data.today"
+                                                       md-placeholder="Fecha creación" class="md-date"></md-datepicker>
+                                        <div class="validation-messages" ng-messages="form.fechaGeneracion.$error" ng-show="form.fechaGeneracion.$touched">
+                                            <div ng-messages-include="error-messages"></div>
+                                            <div ng-message="maxdate">No puede ser mayor a la fecha actual</div>
+                                        </div>
+                                    </div>
+                                    <div flex="50" layout="row" layout-align="start center">
+                                        <md-button type="submit">
+                                            <md-tooltip>
+                                                Buscar
+                                            </md-tooltip>
+                                            <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{vm.colorIcon[0]}}"
+                                                        ng-Mouseover="vm.colorMouseOver(0)"
+                                                        ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
+                                        </md-button>
+                                        <md-button ng-click="vm.cleanFilters()" type="button">
+                                            <md-tooltip>
+                                                Limpiar filtros
+                                            </md-tooltip>
+                                            <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{vm.colorIcon[2]}}"
+                                                        ng-Mouseover="vm.colorMouseOver(2)"
+                                                        ng-mouseleave="vm.colorMouseLeave(2)"></ng-md-icon>
+                                        </md-button>
+                                    </div>
+                                </div>
+                                <filter-chips data="vm.filterChips"></filter-chips>
+                                <md-table-container ng-if="vm.result.length">
+                                    <table md-table>
+                                        <thead md-head>
+                                        <tr md-row md-auto-select>
+                                            <th md-column><span>Nombre archivo</span></th>
+                                            <th md-column><span>Fecha de creación</span></th>
+                                            <th md-column><span>Opciones</span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="backup in vm.result">
+                                            <td md-cell>{{backup.nombre}}</td>
+                                            <td md-cell>{{backup.fechaGeneracion | date:'dd/MM/yyyy' }}</td>
+                                            <td md-cell>
+                                                <md-button class="md-icon-button" ng-click="vm.openInNewTab(backup)">
+                                                    <ng-md-icon icon="file_download"><md-tooltip>Descargar</md-tooltip></ng-md-icon>
+                                                </md-button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                                <div class="buttons table-pagination" layout="row" layout-align="center center" ng-if="vm.result.length > 0">
+                                    <md-button class="md-icon-button" type="button"
+                                               ng-click="vm.previousPage(form)"
+                                               aria-label="Previous" ng-disabled="vm.paginationData.firstPage">
+                                        <md-icon md-svg-icon="navigate-before.svg"></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button"
+                                               type="button" ng-click="vm.nextPage(form)"
+                                               aria-label="Next" ng-disabled="!vm.paginationData.morePages">
+                                        <md-icon md-svg-icon="navigate-next.svg"></md-icon>
+                                    </md-button>
+                                </div>
+                                <div ng-show="!vm.result.length">
+                                    <ng-include src="'views/no-results.html'"/>
+                                </div>
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="vm.cancelar()">{{ 'VOLVER' | translate }}</md-button>
+                            </md-card-actions>
+                        </form>
+                    </md-card>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</div>
