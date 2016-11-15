@@ -184,3 +184,115 @@
     </g>
   </g>
 </svg>
+
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="diente.svg">
+
+	 <g class="cara" id="PD">
+	 <path
+       sodipodi:type="arc"
+       sodipodi:cx="481.48148"
+       sodipodi:cy="544.95477"
+       sodipodi:rx="18.518518"
+       sodipodi:ry="22.222221"
+       d="m 499.99999,544.95477 a 18.518518,22.222221 0 1 1 -37.03703,0 18.518518,22.222221 0 1 1 37.03703,0 z"
+       transform="matrix(1.2361174,0,0,1,-118.05872,0)"/>
+  <rect
+     width="311.42856"
+     height="302.85715"
+     x="219.00423"
+     y="397.74356"
+     transform="matrix(0.9999633,0.00856699,-0.00856699,0.9999633,0,0)"
+     class="cara" />
+	 </g>
+	 <g id="CC" class="cara">
+	 <path
+       sodipodi:type="arc"
+       sodipodi:cx="481.48148"
+       sodipodi:cy="544.95477"
+       sodipodi:rx="18.518518"
+       sodipodi:ry="22.222221"
+       d="m 499.99999,544.95477 a 18.518518,22.222221 0 1 1 -37.03703,0 18.518518,22.222221 0 1 1 37.03703,0 z"
+       transform="matrix(1.2361174,0,0,1,-118.05872,0)"/>
+  <rect
+     width="130.7459"
+     height="130.23091"
+     x="301.00055"
+     y="482.44916" />
+	 </g>
+	 <g id="CIZ" class="cara">
+	     <path
+       sodipodi:type="arc"
+       sodipodi:cx="481.48148"
+       sodipodi:cy="544.95477"
+       sodipodi:rx="18.518518"
+       sodipodi:ry="22.222221"
+       d="m 499.99999,544.95477 a 18.518518,22.222221 0 1 1 -37.03703,0 18.518518,22.222221 0 1 1 37.03703,0 z"
+       transform="matrix(1.2361174,0,0,1,-118.05872,0)"/>
+  <path
+     d="m 228.57143,420.93361 60,60 2.85714,128.57143 -65.71428,80 z"
+     inkscape:connector-curvature="0"/>
+	 </g>
+
+  <g id="CD" class="cara">
+    <path
+       sodipodi:type="arc"
+       sodipodi:cx="481.48148"
+       sodipodi:cy="544.95477"
+       sodipodi:rx="18.518518"
+       sodipodi:ry="22.222221"
+       d="m 499.99999,544.95477 a 18.518518,22.222221 0 1 1 -37.03703,0 18.518518,22.222221 0 1 1 37.03703,0 z"
+       transform="matrix(1.2361174,0,0,1,-118.05872,0)"/>
+    <path
+       inkscape:label="#caraDerecha"
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       d="m 510.15763,417.11567 -65.60501,67.20553 -3.12404,128.9098 71.85309,79.13118 z"/>
+  </g>
+  <g class="cara" id="CS">
+      <path
+       sodipodi:type="arc"
+       sodipodi:cx="481.48148"
+       sodipodi:cy="544.95477"
+       sodipodi:rx="18.518518"
+       sodipodi:ry="22.222221"
+       d="m 499.99999,544.95477 a 18.518518,22.222221 0 1 1 -37.03703,0 18.518518,22.222221 0 1 1 37.03703,0 z"
+       transform="matrix(1.2361174,0,0,1,-118.05872,0)"/>
+  <path
+     d="m 240,415.21932 62.85714,57.14287 137.14286,-10e-6 60,-60 z"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="ccccc"/>
+	 </g>
+	 <g class="cara" id="CI">
+	 <path
+       sodipodi:type="arc"
+       sodipodi:cx="481.48148"
+       sodipodi:cy="544.95477"
+       sodipodi:rx="18.518518"
+       sodipodi:ry="22.222221"
+       d="m 499.99999,544.95477 a 18.518518,22.222221 0 1 1 -37.03703,0 18.518518,22.222221 0 1 1 37.03703,0 z"
+       transform="matrix(1.2361174,0,0,1,-118.05872,0)"/>
+  <path
+     d="m 235.71429,690.6741 62.85714,-68.86983 137.14286,10e-6 68.57143,69.5476 z"
+     id="CI"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="ccccc"/>
+	 </g>
+</svg>
+

@@ -2,12 +2,15 @@ package com.utn.tesis.model.odontograma;
 
 public class ProtesisCompleta extends Protesis {
 
-    public ProtesisCompleta(){
+    //CONTRUCTORES
+    public ProtesisCompleta() {
 
     }
+
     protected ProtesisCompleta(EstadoHallazgoClinico estado) {
         super(estado);
     }
+    //GETTERS Y SETTERS
 
     @Override
     public String getNombre() {
@@ -15,17 +18,17 @@ public class ProtesisCompleta extends Protesis {
     }
 
     @Override
-    public boolean aplicaAPieza() {
+    public boolean isAplicaAPieza() {
         return true;
     }
 
     @Override
-    public boolean aplicaAPiezaGrupal() {
+    public boolean isAplicaAPiezaGrupal() {
         return true;
     }
 
     @Override
-    public String markID() {
+    public String getMarkID() {
         return null;
     }
 }

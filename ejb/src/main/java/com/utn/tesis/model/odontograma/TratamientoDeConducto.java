@@ -1,7 +1,9 @@
 package com.utn.tesis.model.odontograma;
 
+
 public class TratamientoDeConducto extends HallazgoClinico {
 
+    //CONSTRUCTORES
     public TratamientoDeConducto(){
 
     }
@@ -10,18 +12,19 @@ public class TratamientoDeConducto extends HallazgoClinico {
         super(estado);
     }
 
+    //GETTERS Y SETTERS
     @Override
     public String getNombre() {
         return Terminology.TRATAMIENTO_DE_CONDUCTO;
     }
 
     @Override
-    public boolean aplicaAPieza() {
+    public boolean isAplicaAPieza() {
         return true;
     }
 
     @Override
-    public String markID() {
-        return null;
+    public String getMarkID() {
+        return "tratamientoConducto";
     }
 }

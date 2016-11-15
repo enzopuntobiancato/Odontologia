@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+    width="64"
+    height="90">
+    <g id="piezaCompleta" transform="translate(-0,3)">
+  <g id="PD" class="cara"
+  ng-class="{'diente-hover' : selectedTratamiento.aplicaAPieza, 'pointer': selectedTratamiento.aplicaAPieza}"
+    transform="matrix(0.97308798,0,0,0.90408403,0.73056834,9.8440412) scale(0.75) translate(10,0.36363636)">
+   	 <path
+      sodipodi:type="arc"
+      style="stroke-width:5;stroke-opacity:1"
+      class="marca"
+      id="corona"
+      d="m 121.63636,37 a 24.363636,26.272728 0 1 1 -48.727268,0 24.363636,26.272728 0 1 1 48.727268,0 z"
+      transform="matrix(1.267894,0,0,1.121858,-115.49988,-19) scale(1.2)" />
+      <path
+         style="fill-opacity:1;stroke-width:8;stroke-miterlimit:4;stroke-opacity:1"
+         class="marca"
+         id="extraccion"
+         d="M 99.636366,34.90909 80.200855,17.431618 60.363639,35.272727 77.841111,15.837216 60.000002,-4.0000002 79.435513,13.477473 99.272729,-4.3636369 81.795256,10 z"
+         transform="matrix(1.4953523,0,0,1.426545,-87.629031,10)"/>
+    <rect ng-class="{'diente' : selectedTratamiento.aplicaAPieza}"
+       style="fill: transparent"
+       id="6"
+       width="63.650757"
+       height="63.083336"
+       x="0.18560584"
+       y="0.54924226"/>
+    <g
+    id="2" ng-click="dienteClick(2)" ng-right-click="removeArreglo(2)"
+     class="cara"
+     ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+                     <path
+                        d="M 61.636363,2.6363637 62,61.363636 45.636364,44.454546 45.818182,19 z"
+                        id="caries" class="marca"
+                        inkscape:connector-curvature="0" />
+      <path
+         style="fill: transparent"
+         d="M 61.636363,2.6363637 62,61.363636 45.636364,44.454546 45.818182,19 z"
+         id="path3896"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g id="4"  class="cara"
+      ng-click="dienteClick(4)" ng-right-click="removeArreglo(4)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+                     <path
+                      id="caries"
+                      class="marca"
+                        d="M 2.9090909,2.7272727 2.5454545,61.454545 18.909091,44.545455 18.727273,19.090909 z"
+                        id="path3902"/>
+      <path
+         style="fill: transparent"
+         d="M 2.9090909,2.7272727 2.5454545,61.454545 18.909091,44.545455 18.727273,19.090909 z"
+         id="path3902"/>
+    </g>
+    <g
+       id="1" class="cara" ng-click="dienteClick(1)" ng-right-click="removeArreglo(1)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+                     <path
+                      id="caries"
+                      class="marca"
+                         d="M 61.363634,2.5454501 2.6363636,2.1818201 19.545454,18.545452 44.999994,18.363634 z"
+                        id="path3902"/>
+      <path
+         style="fill: transparent"
+         d="M 61.363634,2.5454501 2.6363636,2.1818201 19.545454,18.545452 44.999994,18.363634 z"
+         id="path3898"/>
+
+    </g>
+    <g
+    id="5" class="pointer cara"
+     ng-click="dienteClick(5)" ng-right-click="removeArreglo(5)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+                  <rect
+                    class="marca"
+                     id="caries"
+                     width="24.58679"
+                     height="24.58679"
+                     x="19.954514"
+                     y="19.458696"/>
+                   <path
+                      style="stroke:#000000;stroke-width:0.40000001;stroke-opacity:1"
+                      id="sellador"
+                      class="marca"
+                      d="m 78.363632,27.818182 5.983448,10.363635 -11.966896,0 z"
+                      transform="translate(-46,-1)" />
+      <rect
+         style="fill: transparent"
+         id="rect3904"
+         width="24.58679"
+         height="24.58679"
+         x="19.954514"
+         y="19.458696"/>
+
+    </g>
+    <g
+       id="3" class="cara" ng-click="dienteClick(3)" ng-right-click="removeArreglo(3)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+                     <path
+                      id="caries"
+                      class="marca"
+                         d="M 61.363634,61.090913 2.6363616,61.454543 19.545452,45.090911 44.999994,45.272729 z"
+                        id="path3902"/>
+     <path
+         style="fill: transparent"
+         d="M 61.363634,61.090913 2.6363616,61.454543 19.545452,45.090911 44.999994,45.272729 z"
+         id="path3900"/>
+    </g>
+  </g>
+   <g
+      id="numeroDiente"
+      transform="translate(-0.36363636,-0.36363636)" ng-click="dienteClick(6)" ng-right-click="removeArreglo(6)"
+      ng-class="{'diente-hover' : selectedTratamiento.aplicaAPieza, 'pointer': selectedTratamiento.aplicaAPieza}">
+     <text
+        transform="scale(0.94345888,1.0599296) translate(8,9)"
+        id="text3052"
+        y="65.737595"
+        x="16.584015"
+        style="font-size:15px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;"
+        xml:space="preserve">{{model.numeroSector}}{{model.numeroPieza}}</text>
+   </g>
+     <rect
+        style="fill-opacity:1"
+        class="marca"
+        id="puenteSuperior"
+        width="64"
+        height="2.909091"
+        x="-0.18181819"
+        y="4"
+        inkscape:label="#rect3798"/>
+             <rect
+                style="fill-opacity:1"
+                class="marca"
+                id="puenteInferior"
+                width="64"
+                height="2.909091"
+                x="-0.18181819"
+                y="58"
+                inkscape:label="#rect3798"/>
+                             <text
+                                transform="scale(0.94345888,1.0599296) translate(8,9)"
+                                id="tratamientoConductoSuperior"
+                                y="-2"
+                                x="16.584015"
+                                style="font-size:12px;font-style:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill-opacity:1;stroke:none;"
+                                xml:space="preserve"
+                                opacity="0">TC</text>
+                                             <text
+                                                transform="scale(0.94345888,1.0599296) translate(8,9)"
+                                                id="tratamientoConductoInferior"
+                                                y="52"
+                                                x="16.584015"
+                                                opacity="0"
+                                                style="font-size:12px;font-style:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill-opacity:1;stroke:none;"
+                                                xml:space="preserve">TC</text>
+        </g>
+
+
+</svg>

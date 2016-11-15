@@ -710,6 +710,20 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }]
                 }
             })
+            .state('paciente.odontograma', {
+                url: '/odontograma',
+                templateUrl: 'views/hc/odontograma.html',
+                controller: 'OdontogramaCtrl',
+                controllerAs: 'vm',
+                resolve: {
+                    odontogramaResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
+                        return service.initOdontograma();
+                    }],
+                    hallazgosResponse: ['loadMyModule', 'PacienteSrv', function(loadMyModule, service) {
+                        return service.findHallazgos();
+                    }]
+                }
+            })
             .state('historiaClinica', {
                 url: '/historiaClinica/:id?editing',
                 templateUrl: 'views/hc/historiaClinicaMain.html',
@@ -776,6 +790,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     estadosDiagnosticoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getEstadosDiagnostico();
+                    }],
+                    odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function(loadMyModule, $stateParams, service){
+                        return service.findOdontogramaById($stateParams.id);
                     }]
                 }
             })
@@ -931,6 +948,15 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     finalStatesResponse: ['loadMyModule', 'DiagnosticoSrv', function (loadMyModule, service) {
                         return service.findFinalStates();
+                    }],
+                    hallazgosResponse : ['loadMyModule', '$stateParams', 'PacienteSrv',function(loadMyModule, $stateParams, service){
+                        return service.findHallazgos();
+                    }],
+                    odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function(loadMyModule, $stateParams, service){
+                        return service.findOdontogramaById($stateParams.id);
+                    }],
+                    practicasResponse: ['loadMyModule', 'DiagnosticoSrv', function(loadMyModule, service){
+                        return service.findPracticas();
                     }]
                 }
             })
@@ -1201,7 +1227,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     files: [
                         url('/paciente/pacienteSrv.js'),
                         url('/paciente/pacienteIndexCtrl.js'),
-                        url('/paciente/pacienteEditCreateCtrl.js')
+                        url('/paciente/pacienteEditCreateCtrl.js'),
+                        url('/hc/diagnostico/odontogramaCtrl.js')
                     ]
                 },
                 {

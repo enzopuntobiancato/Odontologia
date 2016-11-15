@@ -2,6 +2,7 @@ package com.utn.tesis.model.odontograma;
 
 public class Extraccion extends HallazgoClinico {
 
+    //CONSTRUCTORES
     public Extraccion(){
 
     }
@@ -10,18 +11,20 @@ public class Extraccion extends HallazgoClinico {
         super(estado);
     }
 
+    //GETTERS Y SETTERS
+
     @Override
     public String getNombre() {
         return Terminology.EXTRACCION;
     }
 
     @Override
-    public boolean aplicaAPieza() {
+    public boolean isAplicaAPieza() {
         return true;
     }
 
     @Override
-    public String markID() {
-        return null;
+    public String getMarkID() {
+        return "extraccion";
     }
 }

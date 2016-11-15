@@ -17,4 +17,14 @@ public class HistoriaClinicaDao extends DaoBase<HistoriaClinica> {
         return query.singleResult(historiaClinica);
     }
 
+    public HistoriaClinica findByPacienteId(Long pacienteId){
+        QPaciente paciente = QPaciente.paciente;
+
+        JPAQuery query = new JPAQuery(em).from(paciente);
+        query.where(paciente.id.eq(pacienteId));
+        query.innerJoin(paciente.historiaClinica, historiaClinica);
+
+        return query.singleResult(historiaClinica);
+    }
+
 }

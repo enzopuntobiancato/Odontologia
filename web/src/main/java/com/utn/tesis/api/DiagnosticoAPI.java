@@ -2,18 +2,24 @@ package com.utn.tesis.api;
 
 import com.utn.tesis.SessionHelper;
 import com.utn.tesis.api.commons.BaseAPI;
+import com.utn.tesis.api.commons.MultiPartFormHelper;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.DiagnosticoDTO;
 import com.utn.tesis.mapping.dto.EnumDTO;
+import com.utn.tesis.mapping.dto.MovimientoDiagnosticoDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.DiagnosticoMapper;
 import com.utn.tesis.mapping.mapper.EnumMapper;
 import com.utn.tesis.model.Diagnostico;
 import com.utn.tesis.model.EstadoDiagnostico;
+import com.utn.tesis.model.MovimientoDiagnostico;
 import com.utn.tesis.model.odontograma.*;
 import com.utn.tesis.service.DiagnosticoService;
+import com.utn.tesis.service.HistoriaClinicaService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -24,10 +30,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Path("/diagnostico")
 @RequestScoped
@@ -41,6 +44,10 @@ public class DiagnosticoAPI extends BaseAPI {
     private EnumMapper enumMapper;
     @Inject
     private SessionHelper sessionHelper;
+    @Inject
+    private MultiPartFormHelper helper;
+    @Inject
+    private HistoriaClinicaService historiaClinicaService;
 
     @GET
     @Path("/find/{id}")
@@ -58,7 +65,7 @@ public class DiagnosticoAPI extends BaseAPI {
         if (StringUtils.isNotBlank(fechaDesdeStr)) {
             fechaDesde = sdf.parse(fechaDesdeStr);
         }
-        if(StringUtils.isNotBlank(fechaHastaStr)) {
+        if (StringUtils.isNotBlank(fechaHastaStr)) {
             fechaHasta = sdf.parse(fechaHastaStr);
         }
         return diagnosticoService.findByFilters(practicaId, estado, fechaDesde, fechaHasta, pacienteId, pageNumber, pageSize);
@@ -87,19 +94,43 @@ public class DiagnosticoAPI extends BaseAPI {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/save/{id}")
-    public Response save(@Context HttpServletRequest request, List<DiagnosticoDTO> diagnosticos, @PathParam("id") Long pacienteId) throws SAPOException {
+    public List<DiagnosticoDTO> save(@Context HttpServletRequest request, MultipartFormDataInput input, @PathParam("id") Long pacienteId) throws SAPOException {
         UsuarioLogueadoDTO usuario = sessionHelper.getUser(request);
-        diagnosticoService.saveDiagnosticosByPaciente(diagnosticos, pacienteId, usuario);
-        return Response.ok().build();
+
+        Map<String, List<InputPart>> form = input.getFormDataMap();
+        DiagnosticoDTO[] diagnosticosArray = (DiagnosticoDTO[]) helper.retrieveObject(form, "diagnosticos", DiagnosticoDTO[].class);
+        PiezaDental[] piezasDentalesArray = (PiezaDental[]) helper.retrieveObject(form, "piezas", PiezaDental[].class);
+        List<PiezaDental> piezas = Arrays.asList(piezasDentalesArray);
+        //Guardamos los diagnosticos.
+        List<DiagnosticoDTO> diagnosticoDTOs = diagnosticoMapper.toDTOList(diagnosticoService.saveDiagnosticosByPaciente
+                (Arrays.asList(diagnosticosArray), pacienteId, usuario));
+        //Recuperamos los diagnosticos guardados para seteale el ID a las piezas.
+        for (DiagnosticoDTO d : diagnosticoDTOs) {
+            if (d.getPiezas() == null || d.getPiezas().size() == 0) {
+                continue;
+            }
+
+            List<Integer> numerosPiezas = d.getPiezas();
+            for (Integer numero : numerosPiezas) {
+                PiezaDental p = findPiezaInList(piezas, numero);
+                if (p == null) {
+                    continue;
+                }
+                p.setDiagnosticoId(d.getId());
+            }
+        }
+        //Guardamos el odontograma con las piezas.
+        historiaClinicaService.saveOdontogramaByPaciente(Arrays.asList(piezasDentalesArray), pacienteId);
+        return findOpenDiagnosticosByPaciente(pacienteId);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getHallazgos")
-    public List<HallazgoClinico> getHallazgosClinicos(){
+    public List<HallazgoClinico> getHallazgosClinicos() {
         List<HallazgoClinico> hallazgos = new ArrayList<HallazgoClinico>();
         hallazgos.add(new Caries());
         hallazgos.add(new Corona());
@@ -110,5 +141,16 @@ public class DiagnosticoAPI extends BaseAPI {
         hallazgos.add(new Sellador());
         hallazgos.add(new TratamientoDeConducto());
         return hallazgos;
+    }
+
+    //AUXILIARES
+    private PiezaDental findPiezaInList(List<PiezaDental> piezas, Integer nombrePieza) {
+        for (PiezaDental p : piezas) {
+            if (p.getNombrePiezaDental() != nombrePieza) {
+                continue;
+            }
+            return p;
+        }
+        return null;
     }
 }

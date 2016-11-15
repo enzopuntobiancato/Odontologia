@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="68"
+   height="94"
+   id="svg2"
+   version="1.1">
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-958.36218)">
+	  <g id="PD" class="cara"
+  ng-class="{'diente-hover' : selectedTratamiento.aplicaAPieza, 'pointer': selectedTratamiento.aplicaAPieza}"
+   transform="scale(0.75)">
+     <path
+        sodipodi:type="star"
+        style="fill-opacity:1;stroke-width:8;stroke-miterlimit:4;stroke-opacity:1"
+        id="extraccion"
+        d="M -47.333331,15.333333 -64.643875,0.19916305 -81.555553,15.777777 l 15.13417,-17.310544 -15.578614,-16.911677 17.310544,15.1341698 16.911678,-15.5786148 -15.13417,17.3105448 z"
+        transform="matrix(1.4596232,5.4680159e-4,-5.2128672e-4,1.4788697,128.16595,1003.2534)"/>
+  <path
+       sodipodi:type="arc"
+       style="stroke-width:3;stroke-opacity:1"
+       id="corona"
+       d="m 66.444445,44.444443 a 31.555555,26.567116 0 1 1 -63.111111,0 31.555555,26.567116 0 1 1 63.111111,0 z"
+       transform="matrix(1.0808754,0,0,1.3020874,-2.9276401,942.70523)" />
+  <rect
+       style="fill: transparent"
+       id="6"
+       width="51.696106"
+       height="51.69611"
+       x="8.5232563"
+       y="975.03168" />
+	       <g
+    id="1" ng-click="dienteClick(1)" ng-right-click="removeArreglo(1)"
+     class="cara"
+     ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+	 	 <path
+		                       id="caries"
+                      class="marca"
+       d="m 42.847037,992.58113 15.017482,-15.98766 -46.910952,0 15.017481,15.98166 z"/>
+	 <path
+       style="fill: transparent"
+       d="m 42.847037,992.58113 15.017482,-15.98766 -46.910952,0 15.017481,15.98166 z"
+       id="1"/>
+</g>
+	 	       <g
+    id="2" ng-click="dienteClick(2)" ng-right-click="removeArreglo(2)"
+     class="cara"
+     ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+
+	 	     <path
+       d="m 58.87979,1025.8254 -15.315134,-18 -0.222222,-14.70407 15.537356,-16.88893 z"
+                             id="caries"
+                      class="marca" />
+	     <path
+       style="fill: transparent"
+       d="m 58.87979,1025.8254 -15.315134,-18 -0.222222,-14.70407 15.537356,-16.88893 z"
+       id="2" /></g>
+	 	       <g
+    id="3" ng-click="dienteClick(3)" ng-right-click="removeArreglo(3)"
+     class="cara"
+     ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+	 	 	    <path
+       d="m 42.843339,1008.3579 15.159617,17.5583 -47.354947,0 15.159617,-17.5517 z"
+                             id="caries"
+                      class="marca"/>
+	 	    <path
+       style="fill: transparent"
+       d="m 42.843339,1008.3579 15.159617,17.5583 -47.354947,0 15.159617,-17.5517 z"
+       id="3"/>
+</g>
+	 	       <g
+    id="2" ng-click="dienteClick(4)" ng-right-click="removeArreglo(4)"
+     class="cara"
+     ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+	     <path
+       d="m 9.7868776,1025.8253 15.3151344,-18 0.222222,-14.70407 L 9.7868776,976.2324 z"
+                             id="caries"
+                      class="marca"/>
+    <path
+       style="fill: transparent"
+       d="m 9.7868776,1025.8253 15.3151344,-18 0.222222,-14.70407 L 9.7868776,976.2324 z"
+       id="4"/>
+	   </g>
+	   <g
+    id="5" class="pointer cara"  disabled
+     ng-click="dienteClick(5)" ng-right-click="removeArreglo(5)"
+      ng-class="{'cara-active' : selectedTratamiento.aplicaACara && !selectedTratamiento.aplicaACaraCentral, 'pointer': !selectedTratamiento.aplicaACaraCentral}">
+	  <path
+       sodipodi:type="star"
+       style="fill:#ffccaa;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4.59999990000000030;stroke-opacity:1;stroke-dasharray:none"
+       id="sellador"
+       d="m 26.804197,1.0063569 -5.129394,0.059855 2.512861,-4.4721133 z"
+       transform="matrix(1.9638833,0,0,1.7130127,-13.501845,1002.5036)"
+       class="marca"/>
+	   	  <path
+                      id="caries"
+                      class="marca"
+       d="M -45,29 -75,29 -75,-0.99999995 -45,-1 z"
+       transform="matrix(0.54272307,0,0,0.46344526,66.831917,993.70344)" />
+	  <path
+     style="fill: transparent"
+       id="5"
+       d="M -45,29 -75,29 -75,-0.99999995 -45,-1 z"
+       transform="matrix(0.54272307,0,0,0.46344526,66.831917,993.70344)" />
+	  </g>
+  </g>
+     <text
+       xml:space="preserve"
+       style="font-size:05px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;"
+       x="30.235935"
+       y="999.03101"
+       id="tratamientoConductoInferior"
+       sodipodi:linespacing="125%"
+       transform="scale(0.96691665,1.0342153)"
+	   class="marca">
+	   <tspan
+         sodipodi:role="line"
+         id="tspan3873"
+         x="30.235935"
+         y="999.03101"
+		 >TC</tspan><tspan
+         sodipodi:role="line"
+         x="30.235935"
+         y="1007.1014"
+         id="tspan3875" /></text>
+    <text
+       xml:space="preserve"
+      style="font-size:10px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;"
+       x="31.140425"
+       y="941.42957"
+       id="tratamientoConductoSuperior"
+       sodipodi:linespacing="125%"
+       transform="scale(0.96691665,1.0342153)" class="marca"><tspan
+         sodipodi:role="line"
+         id="tspan3873-8"
+         x="31.140425"
+         y="941.42957">TC</tspan><tspan
+         sodipodi:role="line"
+         x="31.140425"
+         y="949.49994"
+         id="tspan3875-2" /></text>
+    
+    <rect
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4.5999999;stroke-opacity:1;stroke-dasharray:none"
+       id="protesisSuperior"
+       width="67.555557"
+       height="1.3333334"
+       x="0.44444445"
+       y="964.13989" class="marca"/>
+    <rect
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4.5999999;stroke-opacity:1;stroke-dasharray:none"
+       id="protesisInferior"
+       width="67.555557"
+       height="1.3333334"
+       x="1.1111069"
+       y="1035.9176" class="marca"/>
+   <g
+      id="numeroDiente"
+      transform="translate(-0.36363636,-0.36363636)" ng-click="dienteClick(6)" ng-right-click="removeArreglo(6)"
+      ng-class="{'diente-hover' : selectedTratamiento.aplicaAPieza, 'pointer': selectedTratamiento.aplicaAPieza}">  
+    <text
+       xml:space="preserve"
+       style="font-size:15px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;"
+       x="-0.18742837"
+       y="951.59393"
+       id="text3948"
+       sodipodi:linespacing="125%"
+       transform="scale(0.89737174,1.1143654)"><tspan
+         sodipodi:role="line"
+         id="tspan3950"
+         x="-0.18742837"
+         y="951.59393">{{model.numeroSector}}{{model.numeroPieza}}</tspan></text>
+		 </g>
+    <rect
+       style="fill:none;stroke:#e02200;stroke-width:1.98162031;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:0.50609753;stroke-dasharray:none"
+       id="rect3960"
+       width="65.723801"
+       height="69.111115"
+       x="1.553979"
+       y="966.13995" class="marca"/>
+  </g>
+</svg>

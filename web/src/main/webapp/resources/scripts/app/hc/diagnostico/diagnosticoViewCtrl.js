@@ -1,7 +1,8 @@
 var module = angular.module('historiaClinicaModule');
 
-module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageSrv', '$state', 'PaginationService', '$filter', 'estadosDiagnosticoResponse', '$stateParams',
-    function ($scope, service, message, $state, pagination, $filter, estadosDiagnosticoResponse, $stateParams) {
+module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageSrv', '$state', 'PaginationService',
+    '$filter', 'estadosDiagnosticoResponse', '$stateParams', 'odontogramaResponse',
+    function ($scope, service, message, $state, pagination, $filter, estadosDiagnosticoResponse, $stateParams, odontogramaResponse) {
         var vm = this;
         vm.filter = {};
         vm.result = [];
@@ -9,6 +10,7 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
         vm.aux = {
             practicaSearchText: null,
             estados: estadosDiagnosticoResponse.data,
+            odontograma: odontogramaResponse.data,
             errorFecha: false,
             mostrarFiltros: false,
             viewingDiagnostico: undefined
@@ -16,13 +18,17 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
         pagination.config('api/diagnostico/find/' + $stateParams.id);
         vm.paginationData = pagination.paginationData;
 
-        vm.searchPractica =  searchPractica;
+        vm.searchPractica = searchPractica;
         vm.consultar = consultar;
         vm.nextPage = nextPage;
         vm.previousPage = previousPage;
         vm.viewDiagnostico = viewDiagnostico;
         vm.cancelView = cancelView;
         vm.cleanFilters = cleanFilters;
+        vm.query = {
+            limit: 5,
+            page: 1
+        };
         search();
 
         function cleanFilters() {
@@ -40,7 +46,7 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
 
         function updateFilterChips() {
             vm.filterChips = [];
-            if(vm.filter.practica) {
+            if (vm.filter.practica) {
                 vm.filterChips.push(newFilterChip('practica', 'Práctica', vm.filter.practica, vm.filter.practica.denominacion));
             }
             if (vm.filter.estado) {
@@ -54,10 +60,10 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
             }
         }
 
-        $scope.$watchCollection('vm.filterChips', function(newCol, oldCol) {
+        $scope.$watchCollection('vm.filterChips', function (newCol, oldCol) {
             if (newCol.length < oldCol.length) {
                 vm.filter = {};
-                angular.forEach(newCol, function(filterChip) {
+                angular.forEach(newCol, function (filterChip) {
                     vm.filter[filterChip.origin] = filterChip.value;
                 });
                 search();
@@ -116,7 +122,7 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
         }
 
         function searchPractica(searchText) {
-            return service.searchPracticas(searchText).then(function(response) {
+            return service.searchPracticas(searchText).then(function (response) {
                 return response.data;
             });
         }

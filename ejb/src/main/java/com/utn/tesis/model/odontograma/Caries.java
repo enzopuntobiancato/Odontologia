@@ -1,26 +1,30 @@
 package com.utn.tesis.model.odontograma;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
+@JsonTypeName("caries")
 public class Caries extends HallazgoClinico {
 
+    //CONSTRUCTORES
     public Caries() {
-    }
-
-    @Override
-    public String getNombre() {
-        return Terminology.CARIES;
     }
 
     protected Caries(EstadoHallazgoClinico estado) {
         super(estado);
     }
+    //GETTERS Y SETERS
+    @Override
+    public String getNombre() {
+        return Terminology.CARIES;
+    }
 
     @Override
-    public boolean aplicaACara() {
+    public boolean isAplicaACara() {
         return true;
     }
 
     @Override
-    public String markID() {
-        return null;
+    public String getMarkID() {
+        return "caries";
     }
 }

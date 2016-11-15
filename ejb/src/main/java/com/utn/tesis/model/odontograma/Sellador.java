@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Sellador extends HallazgoClinico {
 
+    //CONSTRUCTORES
     public Sellador(){
 
     }
@@ -13,36 +14,39 @@ public class Sellador extends HallazgoClinico {
         super(estado);
     }
 
+    //GETTERS Y SETTES
+
     @Override
     public String getNombre() {
         return Terminology.SELLADOR;
     }
 
     @Override
-    public boolean aplicaACara() {
+    public boolean isAplicaACara() {
         return true;
     }
 
     @Override
-    public boolean aplicaACaraCentral() {
+    public boolean isAplicaACaraCentral() {
         return true;
     }
 
     @Override
-    public boolean aplicaAPosicion() {
+    public boolean isAplicaAPosicion() {
         return true;
     }
 
     @Override
-    public List<Integer> posiciones() {
-        return Arrays.asList(Integer.valueOf(4),
+    public List<Integer> getPosiciones() {
+        return null;
+/*        return Arrays.asList(Integer.valueOf(4),
                 Integer.valueOf(5),
                 Integer.valueOf(6),
-                Integer.valueOf(7));
+                Integer.valueOf(7));*/
     }
 
     @Override
-    public String markID() {
-        return null;
+    public String getMarkID() {
+        return "sellador";
     }
 }

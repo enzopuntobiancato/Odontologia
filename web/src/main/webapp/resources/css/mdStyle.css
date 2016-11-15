@@ -448,3 +448,29 @@ td.markCell:hover{
     border-radius: 5px;
     background-color: lightblue;
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+svg .cara {
+    stroke-width: 2;
+    stroke: #000000;
+    fill: #e4e4e4;
+
+    -webkit-transition: stroke 0.5s, stroke-width 0.5s;
+    -o-transition: stroke 0.5s, stroke-width 0.5s;
+    transition: stroke 0.5s, stroke-width 0.5s;
+}
+
+svg .cara-active:hover {
+    fill: #949494;
+    stroke-width: 4;
+    stroke: #58aeff;
+}
+
+#PD:hover .diente {
+    fill: #949494;
+    stroke-width: 4;
+    stroke: #58aeff;
+}

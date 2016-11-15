@@ -5,6 +5,7 @@ public class Puente extends HallazgoClinico {
     public Puente() {
 
     }
+
     protected Puente(EstadoHallazgoClinico estado) {
         super(estado);
     }
@@ -15,17 +16,18 @@ public class Puente extends HallazgoClinico {
     }
 
     @Override
-    public boolean aplicaAPieza() {
+    public boolean isAplicaAPieza() {
         return true;
     }
 
     @Override
-    public boolean aplicaAPiezaGrupal() {
+    public boolean isAplicaAPiezaGrupal() {
         return true;
     }
 
     @Override
-    public String markID() {
-        return null;
+    public String getMarkID() {
+        return "puente";
     }
+
 }
