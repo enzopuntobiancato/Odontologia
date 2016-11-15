@@ -68,7 +68,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
 
         $mdDateLocaleProvider.parseDate = function (dateString) {
             var parts = dateString.split("/");
-            var date = new Date(parts[2], parts[1], parts[0]);
+            var date = new Date(parts[2], parts[1] -1, parts[0]);
             return date;
         };
 
@@ -814,12 +814,12 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/documentaciones/view',
                 templateUrl: 'views/hc/documentaciones/documentaciones.html',
                 controllerAs: 'vm',
-                controller: function ($scope, docResponse, $window) {
+                controller: function ($scope, docResponse, $window, $location) {
                     var vm = this;
                     vm.documentaciones = docResponse.data;
 
                     vm.openInNewTab = function(file) {
-                        var base = 'http://localhost:8160/Odontologia-web/api/file/';
+                        var base = $location.protocol() + '://'+ $location.host() +':'+  $location.port() + "/Odontologia-web/api/file/";
                         if (file.extension == 'PDF') {
                             $window.open(base + 'pdf?id=' + file.id);
                         } else {

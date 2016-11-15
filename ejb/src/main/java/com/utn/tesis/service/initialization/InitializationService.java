@@ -33,11 +33,11 @@ public class InitializationService {
     private static final int CONS_ASIG_IDX = 8;
     private static final int AUTORIZAR_ASIG_IDX = 9;
     private static final int CONS_PACIENTES_IDX = 10;
-    private static final int BONO_IDX = 11;
-    private static final int REG_ALUMNO_IDX = 12;
-    private static final int CONS_ALUMNOS_IDX = 13;
-    private static final int ESTADISTICAS_IDX = 14;
-    private static final int PERMISOS_IDX = 15;
+//    private static final int BONO_IDX = 11;
+    private static final int REG_ALUMNO_IDX = 11;
+//    private static final int CONS_ALUMNOS_IDX = 13;
+    private static final int ESTADISTICAS_IDX = 12;
+    private static final int PERMISOS_IDX = 13;
 
     @Inject
     private GrupoPracticaOdontologicaService grupoPracticaOdontologicaService;
@@ -152,26 +152,26 @@ public class InitializationService {
     public void cargarGrupoPracticaOdontologica() throws SAPOException {
         log.info("CargarGrupoPracticaOdontologica INICIO");
 
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("OPERATORIA DENTAL")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("ENDODONCIA SIN OBTURACIÓN")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("PRÓTESIS")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("ODONTOLOGÍA PREVENTIVA")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("ORTODONCIA Y ORTOPEDIA FUNCIONAL")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("ODONTOPEDIATRÍA")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("PERIODONCIA")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("PROSTODONCIA")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("RADIOLOGÍA")));
-        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("CIRUGÍA BUCAL")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Operatoria dental")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Endodoncia sin obturación")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Prótesis")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Odontología preventiva")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Ortodoncia y ortopedia funcional")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Odontopediatría")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Periodoncia")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Prostodoncia")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Radiología")));
+        grupoPracticaOdontologicasList.add(grupoPracticaOdontologicaService.create(new GrupoPracticaOdontologica("Cirugía bucal")));
         log.info("CargarGrupoPracticaOdontologica FINAL");
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarPracticaOdontologica() throws SAPOException {
         log.info("CargarPracticaOdontologica INICIO");
-        practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "EXAMEN DIAGNÓSTICO, FICHADO Y PLAN DE TRATAMIENTO", "Se considera primera consulta al examen, diagnóstico, fichado y plan de tratamiento. Como consecuencia del exámen, el fichado deberá reflejar el estado actual de la boca, previo al tratamiento.")));
-        practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "VISITA A DOMICILIO", "Se considera consulta domiciliaria a la atención de pacientes impedidos de trasladarse al consultorio del odontólogo.")));
-        practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "CONSULTA DE URGENCIA", "Se considera consulta de urgencia a toda prestación que no constituye paso intermedio y/o final de tratamiento. Importante establecer el motivo de la misma.")));
-        practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "OBTURACIÓN CON AMALGAMA - CAVIDAD SIMPLE", "Se reconocerá como obturación simple de amalgama a aquellas en las que se haya practicado un adecuado tallado de la cavidad.")));
+        practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "Examen, diagnóstico, fichado y plan de tratamiento", "Se considera primera consulta al examen, diagnóstico, fichado y plan de tratamiento. Como consecuencia del exámen, el fichado deberá reflejar el estado actual de la boca, previo al tratamiento.")));
+        practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "Visita a domicilio", "Se considera consulta domiciliaria a la atención de pacientes impedidos de trasladarse al consultorio del odontólogo.")));
+        practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "Consulta de urgencia", "Se considera consulta de urgencia a toda prestación que no constituye paso intermedio y/o final de tratamiento. Importante establecer el motivo de la misma.")));
+        practicaOdontologicasList.add(practicaOdontologicaService.create(new PracticaOdontologica(grupoPracticaOdontologicasList.get(1), "Obturación con amalgama - Cavidad simple", "Se reconocerá como obturación simple de amalgama a aquellas en las que se haya practicado un adecuado tallado de la cavidad.")));
         log.info("CargarPracticaOdontologica FINAL");
     }
 
@@ -308,11 +308,11 @@ public class InitializationService {
 
         // PACIENTES
         addFuncionalidad("Consultar pacientes", "paciente.index", pacientes, true, CONS_PACIENTES_IDX);
-        addFuncionalidad("Emitir bono de consulta", "", pacientes, true, BONO_IDX);
+//        addFuncionalidad("Emitir bono de consulta", "bonoConsulta", pacientes, false, BONO_IDX);
 
         // ALUMNOS
         addFuncionalidad("Registrar alumno", "usuario.registerAlumno", alumnos, true, REG_ALUMNO_IDX);
-        addFuncionalidad("Consultar alumnos", "", alumnos, true, CONS_ALUMNOS_IDX);
+//        addFuncionalidad("Consultar alumnos", "", alumnos, true, CONS_ALUMNOS_IDX);
 
         // ESTADISTICOAS
         addFuncionalidad("Módulo de estadísticas", "estadisticas", null, true, ESTADISTICAS_IDX);
@@ -351,7 +351,7 @@ public class InitializationService {
         // PROFESOR
         addPrivilegio(funcionalidadList.get(AUTORIZAR_ASIG_IDX), profesor);
         addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), profesor);
-        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), profesor);
+//        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), profesor);
         addPrivilegio(funcionalidadList.get(CONS_PACIENTES_IDX), profesor);
         addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), profesor);
         addPrivilegio(funcionalidadList.get(ESTADISTICAS_IDX), profesor);
@@ -361,7 +361,7 @@ public class InitializationService {
         addPrivilegio(funcionalidadList.get(CONS_ASIG_IDX), rrp);
         addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), rrp);
         addPrivilegio(funcionalidadList.get(REG_ALUMNO_IDX), rrp);
-        addPrivilegio(funcionalidadList.get(BONO_IDX), rrp);
+//        addPrivilegio(funcionalidadList.get(BONO_IDX), rrp);
 
         // ADMINISTRADOR ACADÉMICO
         addPrivilegio(funcionalidadList.get(MATERIAS_IDX), adminAcademico);
@@ -373,7 +373,7 @@ public class InitializationService {
         // AUTORIDAD
         addPrivilegio(funcionalidadList.get(ESTADISTICAS_IDX), autoridad);
         addPrivilegio(funcionalidadList.get(CONS_INFO_TP_IDX), autoridad);
-        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), autoridad);
+//        addPrivilegio(funcionalidadList.get(CONS_ALUMNOS_IDX), autoridad);
         log.info("CargarPrivilegio FINAL");
     }
 
@@ -646,6 +646,7 @@ public class InitializationService {
                 asignacionPaciente.setPaciente(pacientesAux.get(numero));
                 asignacionPaciente.setAlumno(alumnoService.findById(alumno.getId()));
                 asignacionPaciente.setTrabajoPractico(trabajoPractico);
+                asignacionPaciente.setCatedra(trabajoPractico.getCatedras().get(0));
                 asignacionPaciente.setFechaAsignacion(CalendarRandomizer.aNewCalendarRandomizer().getRandomValue());
                 asignacionPaciente.setFechaCreacion(CalendarRandomizer.aNewCalendarRandomizer().getRandomValue());
                 asignacionPaciente.setMovimientoAsignacionPaciente(movimientos);

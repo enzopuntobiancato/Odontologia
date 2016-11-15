@@ -1,7 +1,7 @@
 var module = angular.module('historiaClinicaModule');
 
-module.controller('AtencionCtrl_View', ['$scope', 'MessageSrv', 'AtencionSrv', '$state', 'PaginationService', '$filter', '$stateParams', 'catedrasResponse', '$window',
-    function ($scope, message, service, $state, pagination, $filter, $stateParams, catedrasResponse, $window) {
+module.controller('AtencionCtrl_View', ['$scope', 'MessageSrv', 'AtencionSrv', '$state', 'PaginationService', '$filter', '$stateParams', 'catedrasResponse', '$window', '$location',
+    function ($scope, message, service, $state, pagination, $filter, $stateParams, catedrasResponse, $window, $location) {
         var vm = this;
         vm.filter = {};
         vm.result = [];
@@ -162,7 +162,7 @@ module.controller('AtencionCtrl_View', ['$scope', 'MessageSrv', 'AtencionSrv', '
         }
 
         vm.openInNewTab = function(file) {
-            var base = 'http://localhost:8160/Odontologia-web/api/file/';
+            var base = $location.protocol() + '://'+ $location.host() +':'+  $location.port() + "/Odontologia-web/api/file/";
             if (file.extension == 'PDF') {
                 $window.open(base + 'pdf?id=' + file.id);
             } else {

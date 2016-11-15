@@ -1,8 +1,8 @@
 var module = angular.module('backupModule');
 
 
-module.controller('BackupCtrl', ['$scope', 'BackupSrv', 'PaginationService', '$filter', '$state', 'MessageSrv', '$window', '$mdDialog',
-    function ($scope, service, pagination, $filter, $state, message, $window, $mdDialog) {
+module.controller('BackupCtrl', ['$scope', 'BackupSrv', 'PaginationService', '$filter', '$state', 'MessageSrv', '$window', '$mdDialog', '$location',
+    function ($scope, service, pagination, $filter, $state, message, $window, $mdDialog, $location) {
         var vm = this;
         vm.filter = {};
         vm.filterChips = [];
@@ -40,7 +40,6 @@ module.controller('BackupCtrl', ['$scope', 'BackupSrv', 'PaginationService', '$f
                     })
             }, function() {
             });
-
         }
 
         function updateFilterChips() {
@@ -93,7 +92,7 @@ module.controller('BackupCtrl', ['$scope', 'BackupSrv', 'PaginationService', '$f
         }
 
         vm.openInNewTab = function(backup) {
-            var base = 'http://localhost:8160/Odontologia-web/api/backup/getBackup';
+            var base = $location.protocol() + '://'+ $location.host() +':'+  $location.port() + "/Odontologia-web/api/backup/getBackup";
             $window.open(base + '?idBackup=' + backup.id);
         }
 
