@@ -20,6 +20,7 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
             isTipoDocumentoSelected: false,
             mostrarFiltros: true
         }
+
         vm.filter = {};
         vm.filter.dadosBaja = false;
         vm.filterChips = [];
@@ -51,7 +52,7 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
                         for (var i = 0; i < vm.data.catedras.length; i++) {
                             vm.filter.catedrasId.push(vm.data.catedras[i].id);
                         }
-                        executeQuery();
+//                        executeQuery();
                     }).error(function (error) {
                         console.log(error);
                     })
@@ -59,7 +60,7 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
                 service.getCatedras()
                     .success(function (data) {
                         vm.data.catedras = data;
-                        executeQuery();
+//                        executeQuery();
                     }).error(function (error) {
                         console.log(error);
                     })

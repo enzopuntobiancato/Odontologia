@@ -131,7 +131,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         }
 
         function printHC() {
-            var base = 'http://localhost:8160/Odontologia-web/api/historiaClinica/printHC';
+            var base = 'http://localhost:80/Odontologia-web/api/historiaClinica/printHC';
             $window.open(base + '?idPaciente=' + $stateParams.id);
         }
 

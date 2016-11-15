@@ -74,7 +74,7 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
     public List<AsignacionPaciente> findAsignacionesConfirmadasAutorizadas(Long alumnoId, String nombreAlumno, String apellidoAlumno,
                                                     Documento documentoAlumno, Long profesorId, String nombrePaciente,
                                                     String apellidoPaciente, Documento documentoPaciente, Long trabajoPracticoId,
-                                                    Long catedraId, Long page, Long pageSize) {
+                                                    Long catedraId, Calendar fechaAsignacion, Long page, Long pageSize) {
 
         QPaciente paciente = QPaciente.paciente;
         QAlumno alumno = QAlumno.alumno;
@@ -109,6 +109,8 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
         }
         if (catedraId != null)
             query.where(asignacionPaciente.trabajoPractico.catedras.any().id.eq(catedraId));
+        if (fechaAsignacion != null)
+            query.where(asignacionPaciente.fechaAsignacion.eq(fechaAsignacion));
 
         query.where(asignacionPaciente.ultimoMovimiento.estado.in(estados));
 
