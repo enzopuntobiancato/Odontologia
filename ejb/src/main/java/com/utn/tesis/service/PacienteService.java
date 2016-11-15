@@ -10,10 +10,12 @@ import com.utn.tesis.mapping.dto.PacienteDTO;
 import com.utn.tesis.mapping.mapper.ArchivoMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +33,8 @@ public class PacienteService extends BaseService<Paciente> {
     private ArchivoService archivoService;
     @Inject
     private ArchivoMapper archivoMapper;
+    @Inject
+    private PdfGenerator pdfGenerator;
 
     @Override
     DaoBase<Paciente> getDao() {
@@ -45,10 +49,6 @@ public class PacienteService extends BaseService<Paciente> {
     public List<Paciente> findByFilters(String nombre, String apellido, Documento documento, Sexo sexo, boolean dadosBaja, Long page, Long pageSize) {
         return dao.findByFilters(nombre, apellido, documento, sexo, dadosBaja, page, pageSize);
     }
-
-//    public List<Paciente> findByRol(Rol rol, Long page, Long pageSize) {
-//        return dao.findByRol(rol, page, pageSize);
-//    }
 
     public List<Paciente> findByNombreApellido(String nombApp, Long page, Long pageSize) {
         return dao.findByNombreApellido(nombApp, page, pageSize);
@@ -96,5 +96,20 @@ public class PacienteService extends BaseService<Paciente> {
 
     public List<ArchivoDTO> findDocumentacionesByPaciente(Long pacienteId) {
         return archivoMapper.toDTOList(dao.findDocumentacionesByPaciente(pacienteId));
+    }
+
+
+    public Pair<String, byte[]> generateHCPDF(Long idPaciente) throws IOException {
+        Paciente paciente = this.findById(idPaciente);
+        File hcPdf = pdfGenerator.createHCPDF(paciente);
+        InputStream inputStream = new FileInputStream(hcPdf);
+        byte[] buff = new byte[(int) hcPdf.length()];
+        inputStream.read(buff, 0, (int) hcPdf.length());
+
+        byte[] fileContent;
+        ByteArrayInputStream buffer = new ByteArrayInputStream(buff);
+        fileContent = new byte[buffer.available()];
+        buffer.read(fileContent, 0, buffer.available());
+        return Pair.of(hcPdf.getName(), fileContent);
     }
 }

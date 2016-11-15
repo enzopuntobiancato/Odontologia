@@ -1,7 +1,7 @@
 var module = angular.module('historiaClinicaModule');
 
-module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state', '$stateParams', 'pacienteResponse', '$cacheFactory', 'DeleteRestoreSrv',
-    function ($scope, $rootScope, $state, $stateParams, pacienteResponse, $cacheFactory, deleteRestoreService) {
+module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state', '$stateParams', 'pacienteResponse', '$cacheFactory', 'DeleteRestoreSrv', '$window',
+    function ($scope, $rootScope, $state, $stateParams, pacienteResponse, $cacheFactory, deleteRestoreService, $window) {
         var vm = this;
 
         var PREFIX = 'historiaClinica.';
@@ -50,6 +50,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         vm.openDeleteDialog = openDeleteDialog;
         vm.openRestoreDialog = openRestoreDialog;
         vm.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+        vm.printHC = printHC;
 
         function submit(form, continueEditing) {
             $scope.$broadcast('validatedForm', {form: form, continueEditing: continueEditing});
@@ -127,6 +128,11 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
 
         function convertToBoolean(paramValue) {
             return (paramValue == 'true');
+        }
+
+        function printHC() {
+            var base = 'http://localhost:8160/Odontologia-web/api/historiaClinica/printHC';
+            $window.open(base + '?idPaciente=' + $stateParams.id);
         }
 
         deleteRestoreService.config('api/paciente/remove', 'api/paciente/restore', 'Paciente');

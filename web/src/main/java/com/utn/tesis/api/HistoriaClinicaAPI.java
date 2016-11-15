@@ -12,16 +12,16 @@ import com.utn.tesis.model.*;
 import com.utn.tesis.service.HistoriaClinicaService;
 import com.utn.tesis.service.PacienteService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -127,5 +127,22 @@ public class HistoriaClinicaAPI extends BaseAPI {
     @Path("/findDocumentaciones")
     public List<ArchivoDTO> findDocumentacionesByPaciente(@QueryParam("pacienteId") Long pacienteId) {
         return pacienteService.findDocumentacionesByPaciente(pacienteId);
+    }
+
+    @GET
+    @Path("/printHC")
+    @Produces({"application/pdf"})
+    public Response getPdf(@QueryParam("idPaciente") Long idPaciente) {
+        Response.ResponseBuilder response = Response.noContent();
+        if (idPaciente != null) {
+            try {
+                Pair<String, byte[]> pdf = pacienteService.generateHCPDF(idPaciente);
+                response = Response.ok(pdf.getRight());
+                response.header("Content-Disposition", String.format("attachment; filename=\"%s\"", pdf.getLeft()));
+            } catch (IOException e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+        return response.build();
     }
 }
