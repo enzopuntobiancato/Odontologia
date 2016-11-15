@@ -80,12 +80,12 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
                                                   Documento documentoAlumno,
                                                   Long profesorId, String nombrePaciente,
                                                   String apellidoPaciente, Documento documentoPaciente,
-                                                  Long catedraId, Long trabajoPracticoId,
+                                                  Long catedraId, Long trabajoPracticoId, Calendar fechaAsignacion,
                                                   Long page, Long pageSize) {
 
         List<AsignacionPaciente> entities = dao.findAsignacionesConfirmadasAutorizadas(alumnoId, nombreAlumno, apellidoAlumno,
                 documentoAlumno, profesorId, nombrePaciente,apellidoPaciente, documentoPaciente, trabajoPracticoId,
-                catedraId, page, pageSize);
+                catedraId, fechaAsignacion, page, pageSize);
         return asignacionPacienteMapper.toDTOList(entities);
     }
 

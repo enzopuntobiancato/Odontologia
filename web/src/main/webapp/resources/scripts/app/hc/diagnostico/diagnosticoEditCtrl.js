@@ -342,6 +342,9 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
         }
 
         function cambiarEstadoTratamiento() {
+            if(!vm.selectedTratamiento){
+                return;
+            }
             if (vm.hecho) {
                 vm.estadoSelectedTratamiento = "Realizado";
                 vm.selectedTratamiento.estado = 'REALIZADO';

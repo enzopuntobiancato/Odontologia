@@ -167,6 +167,7 @@ public class AsignacionAPI extends BaseAPI {
                                                                               @QueryParam("profesorId") Long profesorId,
                                                                               @QueryParam("catedraId") Long catedraId,
                                                                               @QueryParam("trabajoPracticoId") Long trabajoPracticoId,
+                                                                              @QueryParam("fechaAsignacion") DateParameter fechaAsignacion,
                                                                               @QueryParam("pageNumber") Long pageNumber,
                                                                               @QueryParam("pageSize") Long pageSize) {
         try {
@@ -180,9 +181,11 @@ public class AsignacionAPI extends BaseAPI {
                 documentoAlumno = new Documento(numeroDocumentoAlumno, TipoDocumento.valueOf(tipoDocumentoAlumno));
             }
 
+            Calendar fecha = fechaAsignacion != null ? fechaAsignacion.getDate() : null;
+
             return asignacionPacienteService.findAsignacionesConfirmadasAutorizadas(alumnoId,
                     nombreAlumno, apellidoAlumno, documentoAlumno, profesorId, nombrePaciente, apellidoPaciente,
-                    documentoPaciente, catedraId, trabajoPracticoId, pageNumber, pageSize);
+                    documentoPaciente, catedraId, trabajoPracticoId, fecha, pageNumber, pageSize);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
