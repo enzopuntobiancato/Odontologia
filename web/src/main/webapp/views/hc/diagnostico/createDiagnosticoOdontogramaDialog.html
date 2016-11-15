@@ -29,8 +29,11 @@
                                 <td md-cell>{{ getNombrePiezasDiagnostico(diagnostico.piezas)}}</td>
                                 <td md-cell>{{ diagnostico.hallazgoClinico.nombre }}</td>
                                 <td md-cell>
-                                    <md-select ng-model="diagnostico.practicaOdontologica" name="practica" placeholder="Práctica odontológica"
-                                            ng-disabled="diagnostico.tieneDiagnostico" ng-model-options="{trackBy: '$value.id'}">
+                                    <md-select ng-model="diagnostico.practicaOdontologica"
+                                               required
+                                               name="practica" placeholder="Práctica odontológica"
+                                               ng-disabled="diagnostico.tieneDiagnostico"
+                                               ng-model-options="{trackBy: '$value.id'}">
                                         <md-option ng-repeat="practica in practicas" ng-value="practica">
                                             {{ practica.denominacion }}
                                         </md-option>
@@ -42,7 +45,8 @@
                             </tbody>
                         </table>
                     </md-table-container>
-                    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{ diagnosticosOdontograma.length }}"></md-table-pagination>
+                    <md-table-pagination md-limit="query.limit" md-page="query.page"
+                                         md-total="{{ diagnosticosOdontograma.length }}"></md-table-pagination>
                 </div>
             </div>
         </md-dialog-content>
