@@ -10,7 +10,7 @@
                 <ng-form name="autorizarAsignacionesForm">
                     <div layout="column">
                         <div layout="row" layout-margin>
-                            <md-input-container>
+                            <md-input-container flex="20">
                                 <md-select ng-model="vm.filter.catedra" name="catedra"
                                            placeholder="{{ 'CATEDRA' | translate }}"
                                            ng-change="vm.onCatedraSelected()"
@@ -22,7 +22,7 @@
                                 <error-messages form="autorizarAsignacionesForm.catedra"
                                                 submitted="vm.submitted"></error-messages>
                             </md-input-container>
-                            <md-input-container flex-gt-sm>
+                            <md-input-container flex="30">
                                 <md-select ng-model="vm.filter.trabajoPractico" name="trabajoPractico"
                                            placeholder="{{ 'TP' | translate }}" required>
                                     <md-option ng-repeat="trabajoPractico in vm.data.trabajosPracticos"
@@ -33,7 +33,7 @@
                                 <error-messages form="autorizarAsignacionesForm.trabajoPractico"
                                                 submitted="vm.submitted"></error-messages>
                             </md-input-container>
-                            <div layout="row" layout="column">
+                            <div layout="column">
                                 <md-datepicker name="fechaAsignacion" ng-model="vm.filter.fechaAsignacion"
                                                md-placeholder="{{ 'FECHA_ASIGNADO' | translate }}"
                                                ng-required="true">
@@ -41,7 +41,7 @@
                                 <error-messages form="autorizarAsignacionesForm.fechaAsignacion"
                                                 submitted="vm.submitted"></error-messages>
                             </div>
-                            <div flex="50" layout-gt-sm="row" layout-align="start center">
+                            <div flex="30" layout-gt-sm="row" layout-align="start center">
                                 <md-button ng-click="vm.buscarAsignaciones(autorizarAsignacionesForm)">
                                     <md-tooltip>
                                         {{ 'BUSCAR' | translate }}

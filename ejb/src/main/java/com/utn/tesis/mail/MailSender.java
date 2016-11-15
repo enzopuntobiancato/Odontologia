@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class MailSender  {
     private final ExecutorService executor = Executors.newFixedThreadPool(2);
-    private static final boolean ACTIVE = false;
+    private static final boolean ACTIVE = true;
 
     public void execute(Runnable command) {
         if (ACTIVE) {
