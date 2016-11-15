@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 
 @ApplicationScoped
 public class PdfGenerator {
@@ -26,6 +28,122 @@ public class PdfGenerator {
         File file = File.createTempFile(paciente.getApellido(), paciente.getApellido() + "_" + paciente.getNombre());
         createPDF(file, paciente);
         return file;
+    }
+
+    public void crearListaAsignaciones(File pdfNewFile, ArrayList<AsignacionPaciente> asignaciones) {
+        if(asignaciones == null) {
+            asignaciones = new ArrayList<AsignacionPaciente>();
+        }
+        try {
+            Document document = new Document();
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+            } catch (FileNotFoundException fileNotFoundException) {
+                System.out.println("No such file was found to generate the PDF "
+                        + "(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
+            }
+
+            try {
+                document.open();
+                Paragraph par = new Paragraph();
+
+                Image uncheck = Image.getInstance("D:\\Documentos\\Desktop\\GitHub SAPO\\Odontologia\\ejb\\src\\main\\resources\\HCPDF\\unchecked_checkbox.png");
+
+                separator(par, "Listado de Asignaciones para Autorizar");
+
+                PdfPTable table = new PdfPTable(7);
+                table.setWidthPercentage(100);
+                table.setSpacingAfter(5f);
+                table.setSpacingBefore(5f);
+                table.addCell(cell(1,new Chunk("ID", questionFont)));
+                table.addCell(cell(1,new Chunk("Alumno", questionFont)));
+                table.addCell(cell(1,new Chunk("Paciente", questionFont)));
+                table.addCell(cell(1,new Chunk("Estado", questionFont)));
+                table.addCell(cell(1,new Chunk("Trabajo Practico", questionFont)));
+                table.addCell(cell(1,new Chunk("Fecha Asignacion", questionFont)));
+                table.addCell(cell(1,new Chunk("Autorizado", questionFont)));
+
+                for (AsignacionPaciente a : asignaciones) {
+
+                    table.addCell(cell(1,new Chunk(text(a.getId()), answerFont)));
+                    table.addCell(cell(1,new Chunk(text(a.getAlumno().getApellido()+ ", "
+                            + text(a.getAlumno().getNombre())), answerFont)));
+                    table.addCell(cell(1,new Chunk(text(a.getPaciente().getApellido()+ ", "
+                            + text(a.getPaciente().getNombre())), answerFont)));
+                    table.addCell(cell(1,new Chunk(text(a.getUltimoMovimiento().getEstado()), answerFont)));
+                    table.addCell(cell(1,new Chunk(text(a.getTrabajoPractico().getNombre()), answerFont)));
+                    table.addCell(cell(1,new Chunk(text(FechaUtils.fechaConSeparador(a.getFechaAsignacion())), answerFont)));
+                    table.addCell(cell(1,new Chunk(uncheck, 20, -5, true)));
+                    par.add(table);
+                }
+                par.add(new Chunk(Chunk.NEWLINE));
+
+                document.add(par);
+                document.add(table);
+            } catch (BadElementException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+            document.close();
+            System.out.println("PDF Generado con exito!");
+        } catch (DocumentException documentException) {
+            System.out.println("The file not exists (Se ha producido un error al generar un documento): " + documentException);
+        }
+    }
+
+    public void crearBonoConsultaPDF(File pdfNewFile) {
+        try {
+            Document document = new Document(PageSize.A6);
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+            } catch (FileNotFoundException fileNotFoundException) {
+                System.out.println("No such file was found to generate the PDF "
+                        + "(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
+            }
+
+            try {
+                document.open();
+                Paragraph par = new Paragraph();
+                par.setAlignment(Element.ALIGN_CENTER);
+
+                PdfPTable table = new PdfPTable(1);
+                table.setWidthPercentage(100);
+                table.setSpacingAfter(5f);
+                table.setSpacingBefore(5f);
+
+                par.add(new Chunk(Chunk.NEWLINE));
+                par.add(new Chunk("Bono de consulta", HcFont));
+                par.add(new Chunk(Chunk.NEWLINE));
+                par.add(new Chunk(Chunk.NEWLINE));
+                par.add(new Chunk(Chunk.NEWLINE));
+                par.add(new Chunk("Fecha: ", questionFont));
+                par.add(new Chunk(text(FechaUtils.fechaConSeparador(Calendar.getInstance())), answerFont));
+                par.add(new Chunk(Chunk.NEWLINE));
+                par.add(new Chunk(Chunk.NEWLINE));
+                par.add(new Chunk("Bono Nº: " + UUID.randomUUID().toString(), answerFont));
+                par.add(new Chunk(Chunk.NEWLINE));
+                par.add(new Chunk(Chunk.NEWLINE));
+
+                table.addCell(cell(1,par));
+
+
+                document.add(table);
+            } catch (BadElementException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+            document.close();
+            System.out.println("PDF Generado con exito!");
+        } catch (DocumentException documentException) {
+            System.out.println("The file not exists (Se ha producido un error al generar un documento): " + documentException);
+        }
+
     }
 
     private void separator(Paragraph p, String title) {

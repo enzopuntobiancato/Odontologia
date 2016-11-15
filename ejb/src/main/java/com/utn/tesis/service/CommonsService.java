@@ -3,9 +3,13 @@ package com.utn.tesis.service;
 import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.mapping.mapper.*;
 import com.utn.tesis.model.*;
+import com.utn.tesis.util.FileUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +39,10 @@ public class CommonsService {
     private BarrioService barrioService;
     @Inject
     private CiudadService ciudadService;
+    @Inject
+    private PdfGenerator pdfGenerator;
+    @Inject
+    private FileUtils fileUtils;
 
 
     public List<EnumDTO> findAllNiveles() {
@@ -100,5 +108,11 @@ public class CommonsService {
 
     public List<EnumDTO> findAllEstadosDiagnostico() {
         return enumMapper.estadoDiagnosticoListToDTOList(Arrays.asList(EstadoDiagnostico.values()));
+    }
+
+    public Pair<String, byte[]> generateBono() throws IOException {
+        File bono = File.createTempFile("Bono", "Consulta.pdf");
+        pdfGenerator.crearBonoConsultaPDF(bono);
+        return Pair.of(bono.getName(), fileUtils.fileToArrayByte(bono));
     }
 }

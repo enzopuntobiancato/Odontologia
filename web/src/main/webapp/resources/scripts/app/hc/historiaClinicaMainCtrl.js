@@ -1,7 +1,7 @@
 var module = angular.module('historiaClinicaModule');
 
-module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state', '$stateParams', 'pacienteResponse', '$cacheFactory', 'DeleteRestoreSrv', '$window',
-    function ($scope, $rootScope, $state, $stateParams, pacienteResponse, $cacheFactory, deleteRestoreService, $window) {
+module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state', '$stateParams', 'pacienteResponse', '$cacheFactory', 'DeleteRestoreSrv', '$window', '$location',
+    function ($scope, $rootScope, $state, $stateParams, pacienteResponse, $cacheFactory, deleteRestoreService, $window, $location) {
         var vm = this;
 
         var PREFIX = 'historiaClinica.';
@@ -131,7 +131,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         }
 
         function printHC() {
-            var base = 'http://localhost:80/Odontologia-web/api/historiaClinica/printHC';
+            var base = $location.protocol() + '://'+ $location.host() +':'+  $location.port() + "/Odontologia-web/api/historiaClinica/printHC";
             $window.open(base + '?idPaciente=' + $stateParams.id);
         }
 

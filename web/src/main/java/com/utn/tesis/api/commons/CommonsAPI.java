@@ -7,15 +7,14 @@ import com.utn.tesis.service.CiudadService;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.ProvinciaService;
 import com.utn.tesis.service.initialization.InitializationInvoker;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +42,7 @@ public class CommonsAPI {
     @Path("/getRoles")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<RolDTO> findAllRoles(){
+    public List<RolDTO> findAllRoles() {
         return commonsService.findAllRoles();
     }
 
@@ -96,35 +95,35 @@ public class CommonsAPI {
     @Path("/getEstadosCivil")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<EnumDTO> findAllEstadosCivil(){
+    public List<EnumDTO> findAllEstadosCivil() {
         return commonsService.findAllEstadosCivil();
     }
 
     @Path("/getNivelesEstudio")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<EnumDTO> findAllNivelesEstudio(){
+    public List<EnumDTO> findAllNivelesEstudio() {
         return commonsService.findAllNivelesEstudio();
     }
 
     @Path("/getObrasSociales")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ObraSocialDTO> findAllObrasSociales(){
+    public List<ObraSocialDTO> findAllObrasSociales() {
         return commonsService.findAllObrasSociales();
     }
 
     @Path("/getTrabajos")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TrabajoDTO> findAllTrabajos(){
+    public List<TrabajoDTO> findAllTrabajos() {
         return commonsService.findAllTrabajos();
     }
 
     @Path("/getNacionalidades")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<EnumDTO> findAllNacionalidades(){
+    public List<EnumDTO> findAllNacionalidades() {
         return commonsService.findAllNacionalidades();
     }
 
@@ -145,4 +144,20 @@ public class CommonsAPI {
     public List<EnumDTO> findAllEstadosDiagnostico() {
         return commonsService.findAllEstadosDiagnostico();
     }
+
+    @GET
+    @Path("/getBono")
+    @Produces({"application/pdf"})
+    public Response getBono() {
+        Response.ResponseBuilder response = Response.noContent();
+        try {
+            Pair<String, byte[]> file = commonsService.generateBono();
+            response = Response.ok(file.getRight());
+            response.header("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getLeft()));
+        } catch (IOException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return response.build();
+    }
+
 }

@@ -19,7 +19,7 @@ public class BackupGenerator {
     private static final String DB_NAME = "odontologia_db";
     private static final String DB_PORT= "3306";
     private static final String LIN_PATH_MYSQLDUMP = "mysqldump";
-    private static final String WIN_PATH_MYSQLDUMP = "C:\\Archivos de programa\\MySQL\\MySQL Server 5.3\\bin\\mysqldump";
+    private static final String WIN_PATH_MYSQLDUMP = "mysqldump";
 
     public File backupDatabase() {
         boolean status = false;
@@ -45,7 +45,7 @@ public class BackupGenerator {
                 cmd = new String[]{"/bin/sh", "-c", batchCommand};
             } else {
                 batchCommand = WIN_PATH_MYSQLDUMP + endBatchCommand;
-                cmd = new String[]{batchCommand};
+                cmd = new String[]{ "cmd.exe", "/c", batchCommand};
             }
 
             p = rt.exec(cmd);
