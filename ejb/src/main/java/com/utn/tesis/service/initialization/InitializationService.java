@@ -299,7 +299,7 @@ public class InitializationService {
 
         // SOPORTE
         addFuncionalidad("Usuarios", "usuario.index", soporte, true, USUARIOS_IDX);
-        addFuncionalidad("Respaldo de datos de sistema", "", soporte, true, RESPALDO_IDX);
+        addFuncionalidad("Respaldo de datos de sistema", "backup.administrate", soporte, true, RESPALDO_IDX);
 
         // ASIGNACIONES
         addFuncionalidad("Consultar asignaciones", "asignacion.index", asignaciones, true, CONS_ASIG_IDX);
