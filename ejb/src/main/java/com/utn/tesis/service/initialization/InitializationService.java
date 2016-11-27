@@ -296,7 +296,7 @@ public class InitializationService {
         addFuncionalidad("Trabajos prácticos", "trabajoPractico.index", datosAcademicos, true, TPS_IDX);
         addFuncionalidad("Cátedras", "catedra.index", datosAcademicos, true, CATEDRAS_IDX);
         addFuncionalidad("Consultar información de trabajos prácticos", "trabajoPractico.viewTPsInfo", datosAcademicos, true, CONS_INFO_TP_IDX);
-        addFuncionalidad("Asignar profesores a cátedras", "profesor.editCatedrasProfesor", datosAcademicos, true, ASIGNAR_PROF_CAT_IDX);
+        addFuncionalidad("Asignar cátedra a profesor", "profesor.editCatedrasProfesor", datosAcademicos, true, ASIGNAR_PROF_CAT_IDX);
 
         // SOPORTE
         addFuncionalidad("Usuarios", "usuario.index", soporte, true, USUARIOS_IDX);

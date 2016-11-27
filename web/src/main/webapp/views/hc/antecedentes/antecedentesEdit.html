@@ -155,10 +155,10 @@
                     {{vm.paciente.historiaClinicaDTO.g5p8.nombre }}: {{vm.paciente.historiaClinicaDTO.g5p8.siNo |
                     siNo}}
                 </md-switch>
-                <div layout="column" ng-if="vm.paciente.historiaClinicaDTO.g5p1.siNo == true">
-                    <md-input-container>
+                <!--<div layout="column" ng-if="vm.paciente.historiaClinicaDTO.g5p1.siNo == true">-->
+                    <md-input-container layout-margin flex>
+                        <label>{{ 'G5P9' | translate }}</label>
                         <md-datepicker name="G5P9" ng-model="vm.paciente.historiaClinicaDTO.g5p9.fecha"
-                                       md-placeholder="{{ 'G5P9' | translate }}"
                                        ng-required="vm.paciente.historiaClinicaDTO.g5p8.siNo == true"></md-datepicker>
                         <error-messages form="editHistoriaClinicaForm.G5.G5P9"
                                         submitted="vm.submitted"></error-messages>
@@ -168,7 +168,7 @@
                                    ng-required="vm.paciente.historiaClinicaDTO.g5p8.siNo == true"></md-datepicker>
                     <error-messages form="editHistoriaClinicaForm.G5.G5P9"
                                     submitted="vm.submitted"></error-messages>-->
-                </div>
+                <!--</div>-->
             </div>
         </ng-form>
     </section>
@@ -679,8 +679,8 @@
                     <error-messages form="editHistoriaClinicaForm.G21.G21P9"
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
-                <div layout="column">
-                    <md-input-container>
+                <!--<div layout="column">-->
+                    <md-input-container layout-margin flex="40">
                         <label> {{ vm.paciente.historiaClinicaDTO.g21p10.nombre }} </label>
                         <md-datepicker name="G21P10" ng-model="vm.paciente.historiaClinicaDTO.g21p10.fecha"></md-datepicker>
                         <error-messages form="editHistoriaClinicaForm.G21.G21P10" submitted="vm.submitted"></error-messages>
@@ -691,7 +691,7 @@
                         <error-messages form="editHistoriaClinicaForm.G5.G5P9"
                                         submitted="vm.submitted"></error-messages>-->
 
-                </div>
+                <!--</div>-->
                 <md-input-container flex-gt-sm>
                     <label> {{vm.paciente.historiaClinicaDTO.g21p11.nombre }} </label>
                     <input name="G21P11" ng-model="vm.paciente.historiaClinicaDTO.g21p11.only_detalle"

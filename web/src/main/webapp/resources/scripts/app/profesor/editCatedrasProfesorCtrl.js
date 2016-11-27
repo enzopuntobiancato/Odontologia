@@ -34,6 +34,9 @@ module.controller('CatedrasProfesorCtrl_Edit', ['$scope', '$cacheFactory', 'Prof
         vm.paginationData = pagination.paginationData;
 
         function searchProfesores() {
+            for(var i=0; i < vm.catedras.length; i++){
+                vm.catedras[i].selected = false;
+            }
             return service.findProfesoresByApellido(vm.searchTextProfesor).then(function (response) {
                 return response.data;
             });
@@ -76,7 +79,6 @@ module.controller('CatedrasProfesorCtrl_Edit', ['$scope', '$cacheFactory', 'Prof
         function addCatedra(catedra) {
             if (catedra.selected) {
                 vm.selectedProfesor.catedras.push(catedra);
-//                selectedCatedras.push(catedra);
             } else {
                 vm.deleteCatedra(catedra.id, 1);
             }
@@ -93,6 +95,9 @@ module.controller('CatedrasProfesorCtrl_Edit', ['$scope', '$cacheFactory', 'Prof
                             + vm.selectedProfesor.nombre +" has sido modificado correctamente");
                         vm.selectedProfesor = null;
                         vm.selectedCatedras = null;
+                        for(var i=0; i < vm.catedras.length; i++){
+                            vm.catedras[i].selected = false;
+                        }
                     })
                     .error(function (data, status) {
                         handleError(data, status);
@@ -143,7 +148,6 @@ module.controller('CatedrasProfesorCtrl_Edit', ['$scope', '$cacheFactory', 'Prof
             pagination.paginate(vm.filter, pageNumber).then(function (data) {
                 vm.catedras = data;
                 vm.paginationData = pagination.getPaginationData();
-//                updateFilterChips();
             }, function () {
             });
         }

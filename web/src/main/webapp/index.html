@@ -5,8 +5,7 @@
     <meta name="viewport" content="initial-scale=1">
     <link rel="stylesheet" href="resources/css/mdStyle.css"/>
     <link rel="stylesheet" href="components/angular-loading-bar/build/loading-bar.css">
-    <!--<link rel="stylesheet" href="components/angular-material/angular-material.min.css">-->
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="components/angular-material/angular-material.css">
     <link href="resources/img/git_avatar.png">
     <link rel="stylesheet" href="components/angular-animate/animate.css"/>
     <link rel="stylesheet" href="components/google-fonts/google-fonts.css">
@@ -27,7 +26,7 @@
         </div>
     </md-toolbar>
     <md-content>
-        <md-list>
+        <md-list class="md-dense">
             <div ng-repeat="menuItem in menu">
                 <md-list-item ng-class="{'selected-menu-item': menuItem.id === selectedMenuItem}" ng-click="menuItemClick(menuItem)">
                     <p><small> {{menuItem.name | uppercase}} </small></p>
@@ -49,9 +48,9 @@
             <md-button ng-click="toggleSidenav('left')" ng-hide="$mdMedia('gt-md') || menuOpen || !session.user || session.user.missingRole || session.user.firstLogin" class="md-icon-button">
                 <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
             </md-button>
-            <h2 ng-if="selectedMenuItem.name && selectedMenuItem.group">{{ selectedMenuItem.group }} > {{ selectedMenuItem.name }}</h2>
-            <h2 ng-if="selectedMenuItem.name && !selectedMenuItem.group">{{ selectedMenuItem.name }}</h2>
-            <h1 ng-if="!selectedMenuItem.name">SAPO</h1>
+            <h2 ng-if="nombrePaquete && nombreCasoUso">{{ nombrePaquete }} > {{ nombreCasoUso }}</h2>
+            <!--<h2 ng-if="selectedMenuItem.name && !selectedMenuItem.group">{{ selectedMenuItem.name }}</h2>-->
+            <h1 ng-if="!nombrePaquete && !nombreCasoUso">SAPO</h1>
             <span flex></span>
 
             <div ng-if="session.user">

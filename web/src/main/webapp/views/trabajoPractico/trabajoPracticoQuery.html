@@ -76,7 +76,7 @@
                                 </div>
                             </form>
                             <filter-chips data="filterChips"></filter-chips>
-                            <md-list ng-show="result.length > 0">
+                            <md-list ng-show="result.length > 0" class="md-dense">
                                 <md-list-item class="md-3-line" ng-repeat="item in result" ng-class="{'deleted-item' : item.fechaBaja}"
                                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">
                                     <img ng-src="resources/img/odontology/{{paginationData.imagesIdx[$index]}}.svg"

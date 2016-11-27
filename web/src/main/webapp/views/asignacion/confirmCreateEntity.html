@@ -15,6 +15,32 @@
                     el día <b>{{ asignacion.fechaAsignacion | date:'dd/MM/yyyy' }}</b> para resolver las problemáticas pertenecientes al trabajo práctico
                     <b>{{ asignacion.trabajoPractico.nombre }}</b>?
                 </p>
+                <p>Para confirma la asistencia del paciente al turno, contáctese usando alguno de los siguientes medios:</p>
+                <md-list class="md-dense">
+                    <div layout="row">
+                        <md-list-item class="md-2-line" flex="33">
+                            <ng-md-icon icon="phone"></ng-md-icon>
+                            <div class="md-list-item-text">
+                                <h4>{{'TELEFONO' | translate}}</h4>
+                                <p>{{ asignacion.telefono }}</p>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line" flex="33">
+                            <ng-md-icon icon="stay_current_portrait"></ng-md-icon>
+                            <div class="md-list-item-text">
+                                <h4>{{'CEL' | translate}} </h4>
+                                <p>{{ asignacion.celular }}</p>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line" flex="33">
+                            <ng-md-icon icon="mail"></ng-md-icon>
+                            <div class="md-list-item-text">
+                                <h4>{{'EMAIL' | translate}} </h4>
+                                <p>{{ asignacion.email }}</p>
+                            </div>
+                        </md-list-item>
+                    </div>
+                </md-list>
             </div>
         </md-dialog-content>
         <div class="md-actions" layout="row">
