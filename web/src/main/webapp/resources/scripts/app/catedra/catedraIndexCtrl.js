@@ -8,6 +8,9 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
         $scope.result = [];
         $scope.filterChips = [];
 
+        var handleError = $scope.$parent.handleError;
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+
         var cache = $cacheFactory.get('catedraIndexCache') || $cacheFactory('catedraIndexCache');
 
         $scope.aux = {
@@ -58,6 +61,7 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
         }
 
         function executeQuery(pageNumber) {
+            $scope.validationErrorFromServer.error = false;
             pagination.paginate($scope.filter, pageNumber).then(function (data) {
                 $scope.result = data;
                 $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
@@ -120,7 +124,7 @@ module.controller('CatedraCtrl_Index', ['$scope', '$state', '$cacheFactory', 'Me
             updateFilterChips();
         }
 
-        deleteRestoreService.config('api/catedra/remove', 'api/catedra/restore', 'Cátedra', executeQuery);
+        deleteRestoreService.config('api/catedra/remove', 'api/catedra/restore', 'Cátedra', executeQuery, handleError);
         $scope.openDeleteDialog = function (event, id, nombre) {
             deleteRestoreService.delete(event, id, nombre, $scope.paginationData.pageNumber, $scope.filter.dadosBaja, $scope.result.length);
         }

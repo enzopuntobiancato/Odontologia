@@ -9,6 +9,9 @@ module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv',
         $scope.niveles = nivelesResponse.data;
         $scope.filterChips = [];
 
+        var handleError = $scope.$parent.handleError;
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+
         var cache = $cacheFactory.get('materiaIndexCache') || $cacheFactory('materiaIndexCache');
 
         $scope.aux = {
@@ -16,7 +19,7 @@ module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv',
             mostrarFiltros: true
         }
 
-        deleteRestoreService.config('api/materia/remove', 'api/materia/restore', 'Materia', executeQuery);
+        deleteRestoreService.config('api/materia/remove', 'api/materia/restore', 'Materia', executeQuery, handleError);
 
         pagination.config('api/materia/find');
 
@@ -54,6 +57,7 @@ module.controller('MateriaCtrl_Index', ['$scope', '$cacheFactory', 'MateriaSrv',
         }
 
         function executeQuery(pageNumber) {
+            $scope.validationErrorFromServer.error = false;
             pagination.paginate($scope.filter, pageNumber).then(function (data) {
                 $scope.result = data;
                 $scope.aux.showDadosBaja = $scope.filter.dadosBaja;

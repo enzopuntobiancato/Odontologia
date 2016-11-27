@@ -30,7 +30,7 @@
     </md-input-container>
 </div>
 
-<div layout-gt-sm="row" layout-margin>
+<div layout-gt-sm="row" layout-margin style="margin-bottom: -20px">
     <md-input-container class="md-block" flex-gt-sm="33">
         <label>Tipo documento</label>
         <md-select required ng-model="vm.persona.documento.tipoDocumento"
@@ -53,13 +53,15 @@
             <div ng-messages-include="error-messages"></div>
         </div>
     </md-input-container>
-    <div flex-gt-sm="33">
+    <div flex-gt-sm="33" style="margin-top: -10px">
         <md-input-container>
             <label>{{ 'FECHA_NACIMIENTO' | translate }}</label>
             <md-datepicker name="nacimiento" ng-model="vm.persona.fechaNacimiento"
-                           required class="md-date"></md-datepicker>
+                           required class="md-date" md-max-date="vm.restrictedDate.maxDate" md-min-date="vm.restrictedDate.minDate"></md-datepicker>
             <div class="validation-messages" ng-messages="form.nacimiento.$error" ng-show="form.nacimiento.$touched">
                 <div ng-messages-include="error-messages"></div>
+                <div ng-message="mindate">No puede ser menor a {{ vm.restrictedDate.minDate | date:'dd/MM/yyyy' }}</div>
+                <div ng-message="maxdate">No puede ser mayor a {{ vm.restrictedDate.maxDate | date:'dd/MM/yyyy' }}</div>
             </div>
         </md-input-container>
 

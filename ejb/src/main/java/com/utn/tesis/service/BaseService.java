@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by enzo on 09/02/2015.
@@ -50,6 +48,7 @@ public abstract class BaseService<T extends SuperEntityBase> {
     public T remove(Long id, String motivoBaja) throws SAPOException {
         T entity = getDao().findById(id);
         ((IBajeable) entity).darDeBaja(motivoBaja);
+        validateBaja(entity);
         getDao().deleteLogical(entity);
         return entity;
     }
@@ -130,6 +129,18 @@ public abstract class BaseService<T extends SuperEntityBase> {
         }
     }
 
+    void validateBaja(T entity) throws SAPOException {
+        try {
+            bussinessValidationBaja(entity);
+        } catch (SAPOValidationException sve) {
+            log.error(sve.getMessage(), sve);
+            throw new SAPOException(sve);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new SAPOException(e);
+        }
+    }
+
     /**
      * Validación de las restricciones definidas sobre la entity.
      * @param entity Entidad sobre la que se ejecutan las validaciones definidas de acuerdo a las @Annotation en sus campos
@@ -151,5 +162,9 @@ public abstract class BaseService<T extends SuperEntityBase> {
      */
     protected void bussinessValidation(T entity) throws SAPOValidationException {
         entity.validar();
+    }
+
+    protected void bussinessValidationBaja(T entity) throws SAPOValidationException {
+        // Do nothing
     }
 }

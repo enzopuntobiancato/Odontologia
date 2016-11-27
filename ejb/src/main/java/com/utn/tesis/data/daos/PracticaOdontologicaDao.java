@@ -64,4 +64,26 @@ public class PracticaOdontologicaDao extends DaoBase<PracticaOdontologica> {
         return query.listDistinct(practica);
     }
 
+    public boolean hasActiveCatedras(PracticaOdontologica entity) {
+        QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
+        JPAQuery query = new JPAQuery(em).from(trabajoPractico)
+                .innerJoin(trabajoPractico.practicaOdontologica, practica)
+                .where(practica.id.eq(entity.getId()).and(trabajoPractico.fechaBaja.isNull()));
+
+        List<TrabajoPractico> trabajoPracticos = query.list(trabajoPractico);
+        return trabajoPracticos.isEmpty();
+    }
+
+    public boolean hasActiveDiagnosticos(PracticaOdontologica entity) {
+        QDiagnostico diagnostico = QDiagnostico.diagnostico;
+        QMovimientoDiagnostico movimientoDiagnostico = QMovimientoDiagnostico.movimientoDiagnostico;
+        JPAQuery query = new JPAQuery(em).from(diagnostico)
+                .innerJoin(diagnostico.practicaOdontologica, practica)
+                .innerJoin(diagnostico.ultimoMovimiento, movimientoDiagnostico)
+                .where(practica.id.eq(entity.getId()).and(movimientoDiagnostico.estado.notIn(EstadoDiagnostico.FINAL_STATES)));
+
+        List<Diagnostico> diagnosticos = query.list(diagnostico);
+        return diagnosticos.isEmpty();
+    }
+
 }

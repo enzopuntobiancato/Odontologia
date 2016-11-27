@@ -1,5 +1,6 @@
 package com.utn.tesis.service;
 
+import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.PracticaOdontologicaDao;
 import com.utn.tesis.exception.SAPOException;
@@ -16,12 +17,6 @@ import java.util.HashMap;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 09/05/15
- * Time: 21:12
- */
 @Stateless
 public class PracticaOdontologicaService extends BaseService<PracticaOdontologica> {
 
@@ -95,5 +90,22 @@ public class PracticaOdontologicaService extends BaseService<PracticaOdontologic
             }
         }
         super.bussinessValidation(entity);
+    }
+
+    @Override
+    protected void bussinessValidationBaja(PracticaOdontologica entity) throws SAPOValidationException {
+        boolean hasActiveCatedras = dao.hasActiveCatedras(entity);
+        if (!hasActiveCatedras) {
+            throw new SAPOValidationException(
+                    ImmutableMap.of("referenceToEntity",
+                            String.format("No puede dar de baja la práctica %s, la misma está siendo referenciada por algún trabajo práctico activo", entity.getDenominacion())));
+        }
+
+        boolean hasActiveDiagnosticos = dao.hasActiveDiagnosticos(entity);
+        if (!hasActiveDiagnosticos) {
+            throw new SAPOValidationException(
+                    ImmutableMap.of("referenceToEntity",
+                            String.format("No puede dar de baja la práctica %s, la misma está siendo referenciada por algún diagnóstico abierto", entity.getDenominacion())));
+        }
     }
 }

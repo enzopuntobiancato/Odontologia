@@ -76,6 +76,8 @@
                                 </div>
                             </form>
                             <filter-chips data="filterChips"></filter-chips>
+                            <ng-include ng-if="validationErrorFromServer.error"
+                                        src="'views/validation-error.html'"></ng-include>
                             <md-list ng-show="result.length > 0" class="md-dense">
                                 <md-list-item class="md-3-line" ng-repeat="item in result" ng-class="{'deleted-item' : item.fechaBaja}"
                                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">

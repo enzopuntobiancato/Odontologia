@@ -73,4 +73,16 @@ public class CatedraDao extends DaoBase<Catedra> {
         query.where(trabajoPractico.practicaOdontologica.id.eq(practicaId));
         return query.listDistinct(catedra);
     }
+
+    public boolean canDelete(Catedra entity) {
+        QAsignacionPaciente asignacionPaciente = QAsignacionPaciente.asignacionPaciente;
+        QMovimientoAsignacionPaciente movimientoAsignacionPaciente = QMovimientoAsignacionPaciente.movimientoAsignacionPaciente;
+        JPAQuery query = new JPAQuery(em).from(asignacionPaciente)
+                .innerJoin(asignacionPaciente.catedra, catedra)
+                .innerJoin(asignacionPaciente.ultimoMovimiento, movimientoAsignacionPaciente)
+                .where(catedra.id.eq(entity.getId()).and(movimientoAsignacionPaciente.estado.notIn(EstadoAsignacionPaciente.FINAL_STATES)));
+
+        List<AsignacionPaciente> asignacionPacientes = query.list(asignacionPaciente);
+        return asignacionPacientes.isEmpty();
+    }
 }

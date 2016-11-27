@@ -1,9 +1,7 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.utn.tesis.model.Materia;
-import com.utn.tesis.model.Nivel;
-import com.utn.tesis.model.QMateria;
+import com.utn.tesis.model.*;
 
 import java.util.List;
 
@@ -33,5 +31,15 @@ public class MateriaDao extends DaoBase<Materia> {
 
         List<Materia> result = query.list(materia);
         return result.isEmpty() ? null : result.get(0);
+    }
+
+    public boolean canDelete(Materia entity) {
+        QCatedra catedra = QCatedra.catedra;
+        JPAQuery query = new JPAQuery(em).from(catedra)
+                .innerJoin(catedra.materia, materia)
+                .where(materia.id.eq(entity.getId()).and(catedra.fechaBaja.isNull()));
+
+        List<Catedra> catedras = query.list(catedra);
+        return catedras.isEmpty();
     }
 }
