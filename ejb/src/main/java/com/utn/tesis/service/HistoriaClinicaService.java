@@ -74,10 +74,11 @@ public class HistoriaClinicaService extends BaseService<HistoriaClinica> {
         }
     }
 
-    public boolean saveOdontogramaByPaciente(List<PiezaDental> piezas, Long pacienteId) {
+    public boolean saveOdontogramaByPaciente(List<PiezaDental> piezas, Long pacienteId, String odontogramaUri) {
         try {
             HistoriaClinica hc = findByPacienteId(pacienteId);
             Odontograma odontograma = hc.getOdontograma();
+            hc.setOdontogramaUri(odontogramaUri);
             if (piezas != null && piezas.size() > 0) {
                 for (PiezaDental pieza : piezas) {
                     odontograma.reemplazarPieza(pieza);

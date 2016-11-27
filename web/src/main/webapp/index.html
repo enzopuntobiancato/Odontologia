@@ -26,7 +26,7 @@
         </div>
     </md-toolbar>
     <md-content>
-        <md-list class="md-dense">
+        <md-list>
             <div ng-repeat="menuItem in menu">
                 <md-list-item ng-class="{'selected-menu-item': menuItem.id === selectedMenuItem}" ng-click="menuItemClick(menuItem)">
                     <p><small> {{menuItem.name | uppercase}} </small></p>
@@ -49,6 +49,7 @@
                 <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
             </md-button>
             <h2 ng-if="nombrePaquete && nombreCasoUso">{{ nombrePaquete }} > {{ nombreCasoUso }}</h2>
+            <!--<h2 ng-if="selectedMenuItem.name && !selectedMenuItem.group">{{ selectedMenuItem.name }}</h2>-->
             <h1 ng-if="!nombrePaquete && !nombreCasoUso">SAPO</h1>
             <span flex></span>
 
@@ -101,6 +102,7 @@
 <script src="components/angular-material/angular-material11.min.js"></script>
 
 <!-- Auxiliares -->
+<script type="text/javascript" src="components/saveAsPng/saveAsPng.js"></script>
 <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.js"></script>
 <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
 <script type="text/javascript" src="components/ocLazyLoad/dist/ocLazyLoad.min.js"></script>

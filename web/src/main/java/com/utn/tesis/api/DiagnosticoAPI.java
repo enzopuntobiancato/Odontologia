@@ -107,6 +107,7 @@ public class DiagnosticoAPI extends BaseAPI {
         Map<String, List<InputPart>> form = input.getFormDataMap();
         DiagnosticoDTO[] diagnosticosArray = (DiagnosticoDTO[]) helper.retrieveObject(form, "diagnosticos", DiagnosticoDTO[].class);
         PiezaDental[] piezasDentalesArray = (PiezaDental[]) helper.retrieveObject(form, "piezas", PiezaDental[].class);
+        String uri = (String) helper.retrieveObject(form, "uri", String.class);
         List<PiezaDental> piezas = Arrays.asList(piezasDentalesArray);
         //Guardamos los diagnosticos.
         List<DiagnosticoDTO> diagnosticoDTOs = diagnosticoMapper.toDTOList(diagnosticoService.saveDiagnosticosByPaciente
@@ -127,7 +128,7 @@ public class DiagnosticoAPI extends BaseAPI {
             }
         }
         //Guardamos el odontograma con las piezas.
-        historiaClinicaService.saveOdontogramaByPaciente(Arrays.asList(piezasDentalesArray), pacienteId);
+        historiaClinicaService.saveOdontogramaByPaciente(Arrays.asList(piezasDentalesArray), pacienteId, uri);
         return findOpenDiagnosticosByPaciente(pacienteId);
     }
 

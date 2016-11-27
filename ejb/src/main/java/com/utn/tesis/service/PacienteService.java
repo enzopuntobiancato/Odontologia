@@ -156,4 +156,9 @@ public class PacienteService extends BaseService<Paciente> {
         if (paciente == null) return null;
         return pacienteMapper.toDTO(paciente);
     }
+
+    public String findOdontogramaUriById(Long id) {
+        HistoriaClinica hc = historiaClinicaService.findById(id);
+        return hc.getOdontogramaUri();
+    }
 }

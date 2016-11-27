@@ -29,6 +29,7 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
             limit: 5,
             page: 1
         };
+        vm.dientesSvg = [];
         search();
 
         function cleanFilters() {
@@ -154,5 +155,4 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
                 vm.clickIcon = 'expand_more';
             }
         };
-
     }]);
