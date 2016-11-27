@@ -6,18 +6,19 @@ import com.utn.tesis.api.commons.MultiPartFormHelper;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.mapping.dto.DiagnosticoDTO;
 import com.utn.tesis.mapping.dto.EnumDTO;
-import com.utn.tesis.mapping.dto.MovimientoDiagnosticoDTO;
 import com.utn.tesis.mapping.dto.UsuarioLogueadoDTO;
 import com.utn.tesis.mapping.mapper.DiagnosticoMapper;
 import com.utn.tesis.mapping.mapper.EnumMapper;
 import com.utn.tesis.model.Diagnostico;
 import com.utn.tesis.model.EstadoDiagnostico;
-import com.utn.tesis.model.MovimientoDiagnostico;
 import com.utn.tesis.model.odontograma.*;
 import com.utn.tesis.service.DiagnosticoService;
 import com.utn.tesis.service.HistoriaClinicaService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.james.mime4j.message.BodyPart;
+import org.apache.james.mime4j.message.SingleBody;
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -27,7 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -97,8 +99,10 @@ public class DiagnosticoAPI extends BaseAPI {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/save/{id}")
-    public List<DiagnosticoDTO> save(@Context HttpServletRequest request, MultipartFormDataInput input, @PathParam("id") Long pacienteId) throws SAPOException {
+    public List<DiagnosticoDTO> save(@Context HttpServletRequest request, MultipartFormDataInput input, @PathParam("id")
+    Long pacienteId) throws SAPOException {
         UsuarioLogueadoDTO usuario = sessionHelper.getUser(request);
+
 
         Map<String, List<InputPart>> form = input.getFormDataMap();
         DiagnosticoDTO[] diagnosticosArray = (DiagnosticoDTO[]) helper.retrieveObject(form, "diagnosticos", DiagnosticoDTO[].class);
@@ -126,6 +130,8 @@ public class DiagnosticoAPI extends BaseAPI {
         historiaClinicaService.saveOdontogramaByPaciente(Arrays.asList(piezasDentalesArray), pacienteId);
         return findOpenDiagnosticosByPaciente(pacienteId);
     }
+
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

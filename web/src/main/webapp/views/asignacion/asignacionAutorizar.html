@@ -33,14 +33,14 @@
                                 <error-messages form="autorizarAsignacionesForm.trabajoPractico"
                                                 submitted="vm.submitted"></error-messages>
                             </md-input-container>
-                            <div layout="column">
+                            <md-input-container flex="20">
+                                <label>{{ 'FECHA_ASIGNADO' | translate }}</label>
                                 <md-datepicker name="fechaAsignacion" ng-model="vm.filter.fechaAsignacion"
-                                               md-placeholder="{{ 'FECHA_ASIGNADO' | translate }}"
                                                ng-required="true">
                                 </md-datepicker>
                                 <error-messages form="autorizarAsignacionesForm.fechaAsignacion"
                                                 submitted="vm.submitted"></error-messages>
-                            </div>
+                            </md-input-container>
                             <div flex="30" layout-gt-sm="row" layout-align="start center">
                                 <md-button ng-click="vm.buscarAsignaciones(autorizarAsignacionesForm)">
                                     <md-tooltip>

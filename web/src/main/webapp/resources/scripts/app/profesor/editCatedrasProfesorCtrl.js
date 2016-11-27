@@ -40,9 +40,14 @@ module.controller('CatedrasProfesorCtrl_Edit', ['$scope', '$cacheFactory', 'Prof
         }
 
         function onProfesorSelected() {
-            vm.selectedCatedras = vm.selectedProfesor.catedras;
-            for (var i = 0; i < vm.selectedCatedras.length; i++) {
-                var catAux = findItemById(vm.selectedCatedras[i].id, vm.catedras);
+            if(vm.selectedProfesor == null){
+                return;
+            }
+            for (var i = 0; i < vm.catedras.length; i++) {
+                vm.catedras[i].selected = false;
+            }
+            for (var i = 0; i < vm.selectedProfesor.catedras.length; i++) {
+                var catAux = findItemById(vm.selectedProfesor.catedras[i].id, vm.catedras);
                 if (catAux !== null && angular.isDefined(catAux)) {
                     catAux.selected = true;
                 }
@@ -70,7 +75,8 @@ module.controller('CatedrasProfesorCtrl_Edit', ['$scope', '$cacheFactory', 'Prof
 
         function addCatedra(catedra) {
             if (catedra.selected) {
-                vm.selectedCatedras.push(catedra);
+                vm.selectedProfesor.catedras.push(catedra);
+//                selectedCatedras.push(catedra);
             } else {
                 vm.deleteCatedra(catedra.id, 1);
             }
@@ -96,9 +102,9 @@ module.controller('CatedrasProfesorCtrl_Edit', ['$scope', '$cacheFactory', 'Prof
 
         function deleteCatedra(catedraId, band) {
             if (band == 1) {
-                var index = findItemIndexInList(catedraId, vm.selectedCatedras);
+                var index = findItemIndexInList(catedraId, vm.selectedProfesor.catedras);
                 if (index >= 0) {
-                    vm.selectedCatedras.splice(index, 1);
+                    vm.selectedProfesor.catedras.splice(index, 1);
                 }
             } else {
                 var cat = findItemById(catedraId, vm.catedras);

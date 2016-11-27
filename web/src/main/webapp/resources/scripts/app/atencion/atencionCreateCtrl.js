@@ -1,7 +1,8 @@
 var module = angular.module('atencionModule');
 
 
-module.controller('AtencionCtrl_Create', ['$scope', '$rootScope', 'AtencionSrv', '$state', 'MessageSrv', 'Upload', '$filter', 'asignacionResponse',
+module.controller('AtencionCtrl_Create', ['$scope', '$rootScope', 'AtencionSrv', '$state', 'MessageSrv', 'Upload',
+    '$filter', 'asignacionResponse',
     function ($scope, $rootScope, service, $state, message, Upload, $filter, asignacionResponse) {
         var vm = this;
         vm.atencion = {
@@ -19,10 +20,23 @@ module.controller('AtencionCtrl_Create', ['$scope', '$rootScope', 'AtencionSrv',
         vm.goIndex = goIndex;
         vm.save = save;
         vm.newFiles = newFiles;
+        vm.openSection = openSection;
+        vm.sections = [false, false, true];
+        vm.odontograma = {};
 
+
+        (function findOdontograma() {
+            var idPaciente = vm.atencion.asignacionPaciente.idPaciente;
+            service.findOdontogramaById(idPaciente)
+                .then(function (response) {
+                    vm.odontograma = response.data;
+                }, function (error) {
+                    console.log(error);
+                });
+        })();
 
         function save(form) {
-            performSubmit(function() {
+            performSubmit(function () {
                 Upload.upload({
                     url: 'api/atencion/save',
                     data: {files: vm.data.files, atencion: Upload.json(vm.atencion)}
@@ -41,8 +55,8 @@ module.controller('AtencionCtrl_Create', ['$scope', '$rootScope', 'AtencionSrv',
 
         function newFiles($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
             if ($files.length) {
-                $files.forEach(function(file) {
-                    var duplicate = $filter('filter')(vm.data.files, function(currentFile) {
+                $files.forEach(function (file) {
+                    var duplicate = $filter('filter')(vm.data.files, function (currentFile) {
                         return file.name == currentFile.name;
                     });
                     if (!duplicate.length) {
@@ -50,6 +64,10 @@ module.controller('AtencionCtrl_Create', ['$scope', '$rootScope', 'AtencionSrv',
                     }
                 });
             }
+        }
+
+        function openSection(idSection) {
+            vm.sections[idSection] = !vm.sections[idSection];
         }
 
     }]);

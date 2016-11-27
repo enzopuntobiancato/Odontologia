@@ -14,13 +14,13 @@
                                      md-min-length="3"
                                      md-selected-item="vm.selectedProfesor"
                                      md-search-text="vm.searchTextProfesor"
-                                     md-items="item in vm.searchProfesores(aux.practicaSearchText)"
+                                     md-items="item in vm.searchProfesores(vm.searchTextProfesor)"
                                      md-item-text="item.apellido"
                                      md-floating-label="Apellido, nombre o legajo del profesor"
                                      md-selected-item-change="vm.onProfesorSelected()">
                         <md-item-template>
                         <span md-highlight-text="vm.searchTextProfesor" md-highlight-flags="i">{{ item.apellido }},
-                            {{ item.nombre }} ({{ item.legajo }})</span>
+                            {{ item.nombre }} (Legajo: {{ item.legajo }})</span>
                         </md-item-template>
                         <md-not-found>
                             Sin resultados
@@ -31,11 +31,11 @@
                             <div ng-messages-include="error-messages"></div>
                         </div>
                     </md-autocomplete>
-                    <section ng-hide="!vm.selectedProfesor">
-                    <md-input-container flex>
+                    <!--<section >-->
+                    <md-input-container flex ng-if="vm.selectedProfesor">
                         <p class="subtitle-text">Cátedras del profesor</p>
-                        <md-chips class="query-chips" name="catedras" validate-length
-                                  ng-model="vm.selectedCatedras" ng-model-options="{ allowInvalid: true }"
+                        <md-chips class="query-chips" name="catedras"
+                                  ng-model="vm.selectedProfesor.catedras"
                                   md-on-remove="vm.deleteCatedra($chip.id,2)">
                             <md-chip-template>
                              <span>
@@ -77,10 +77,17 @@
                         </div>
                     </div>
                     <md-list>
-                        <md-list-item ng-repeat="catedra in vm.catedras">
+                        <md-list-item class="md-2-line" ng-repeat="catedra in vm.catedras">
                             <md-checkbox ng-model="catedra.selected" ng-change="vm.addCatedra(catedra)"
                                          ng-disabled="!vm.selectedProfesor"></md-checkbox>
-                            <p>{{catedra.materia.nombre}} {{ catedra.denominacion }}</p>
+                            <div class="md-list-item-text">
+                                <h3 class="md-title">
+                                    <a>{{catedra.materia.nombre}} {{ catedra.denominacion }}</a>
+                                </h3>
+                                <!--<h4>{{ item.practicaOdontologica.grupo.nombre }} - {{ item.practicaOdontologica.denominacion }}</h4>-->
+                                <p class="justified-text small-line">{{catedra.descripcion}}</p>
+                            </div>
+                            <!--<p>{{catedra.materia.nombre}} {{ catedra.denominacion }}</p>-->
                         </md-list-item>
                         <md-divider></md-divider>
                         <md-list-item layout class="inset">
@@ -101,7 +108,7 @@
                     <div ng-show="vm.catedras.length == 0">
                         <ng-include src="'views/no-results.html'"></ng-include>
                     </div>
-                    </section>
+                    <!--</section>-->
                 </ng-form>
             </md-card-content>
             <md-card-actions layout="row" layout-align="end center">
@@ -110,7 +117,6 @@
             </md-card-actions>
         </form>
     </md-card>
-
 </md-content>
 
 

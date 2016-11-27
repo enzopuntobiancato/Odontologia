@@ -78,12 +78,19 @@
                     </md-input-container>
                     <div layout-gt-sm="column" flex="40">
                         <div layout="row">
-                            <md-tooltip>Fecha de creación</md-tooltip>
-                            <md-datepicker flex name="fechaDesde" ng-model="vm.filter.fechaDesde"
-                                           class="md-date" md-placeholder="Fecha desde"></md-datepicker>
-                            <md-datepicker flex name="fechaHasta" ng-model="vm.filter.fechaHasta"
-                                           md-placeholder="Fecha hasta" md-min-date="vm.filter.fechaDesde"
-                                           class="md-date"></md-datepicker>
+                            <!--<md-tooltip>Fecha de creación</md-tooltip>-->
+                            <md-input-container>
+                                <label>{{ 'FECHA_DESDE' | translate }}</label>
+                                <md-datepicker flex name="fechaDesde" ng-model="vm.filter.fechaDesde"
+                                               class="md-date"></md-datepicker>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>{{ 'FECHA_HASTA' | translate }}</label>
+                                <md-datepicker flex name="fechaHasta" ng-model="vm.filter.fechaHasta"
+                                               md-min-date="vm.filter.fechaDesde"
+                                               class="md-date"></md-datepicker>
+                            </md-input-container>
+
                         </div>
                         <div class="validation-messages" ng-messages="vm.form.fechaHasta.$error"
                              ng-if="vm.form.fechaHasta.$touched">

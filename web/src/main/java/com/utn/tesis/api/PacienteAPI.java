@@ -155,11 +155,6 @@ public class PacienteAPI extends BaseAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public Odontograma findOdontogramaById(@QueryParam("pacienteId") Long pacienteId) {
         Paciente paciente = pacienteService.findById(pacienteId);
-        Odontograma odontograma = paciente.getHistoriaClinica().getOdontograma();
-        List<HistoriaClinica> listHc = historiaClinicaService.findAll();
-/*        HistoriaClinica hc = listHc.get(0);
-        hc = historiaClinicaService.reload(hc, 3);*/
-        odontograma = pacienteService.findOdontogramaById(paciente.getHistoriaClinica().getId());
-        return odontograma;
+        return pacienteService.findOdontogramaById(paciente.getHistoriaClinica().getId());
     }
 }

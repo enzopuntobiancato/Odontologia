@@ -3,7 +3,7 @@ var module = angular.module('atencionModule');
 module
     .factory('AtencionSrv', ['$http', function ($http) {
         return {
-            findAsignacion: function(asignacionId) {
+            findAsignacion: function (asignacionId) {
                 return $http({
                     url: 'api/asignacion/findById',
                     method: 'GET',
@@ -48,6 +48,13 @@ module
                     method: 'GET',
                     url: 'api/atencion/findDocumentaciones',
                     params: {atencionId: atencionId}
+                })
+            },
+            findOdontogramaById: function (pacienteId) {
+                return $http({
+                    url: 'api/paciente/findOdontogramaById',
+                    method: 'GET',
+                    params: {pacienteId: pacienteId}
                 })
             }
         }

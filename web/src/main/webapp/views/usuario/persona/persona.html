@@ -54,11 +54,19 @@
         </div>
     </md-input-container>
     <div flex-gt-sm="33">
-        <md-datepicker name="nacimiento" ng-model="vm.usuario.fechaNacimiento"
+        <md-input-container>
+            <label>{{ 'FECHA_NACIMIENTO' | translate }}</label>
+            <md-datepicker name="nacimiento" ng-model="vm.usuario.fechaNacimiento"
+                           required class="md-date"></md-datepicker>
+            <div class="validation-messages" ng-messages="form.nacimiento.$error" ng-show="form.nacimiento.$touched">
+                <div ng-messages-include="error-messages"></div>
+            </div>
+        </md-input-container>
+<!--        <md-datepicker name="nacimiento" ng-model="vm.usuario.fechaNacimiento"
                        md-placeholder="Fecha de nac."
                        required class="md-date"></md-datepicker>
         <div class="validation-messages" ng-messages="form.nacimiento.$error" ng-show="form.nacimiento.$touched || vm.data.submitted">
             <div ng-messages-include="error-messages"></div>
-        </div>
+        </div>-->
     </div>
 </div>

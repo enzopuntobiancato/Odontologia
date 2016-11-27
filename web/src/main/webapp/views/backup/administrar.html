@@ -18,16 +18,25 @@
                             </md-toolbar>
                             <md-card-content>
                                 <div layout-gt-sm="row" layout-margin>
-                                    <div>
-                                        <md-tooltip>Fecha creación</md-tooltip>
+                                    <!--<div>-->
+                                        <md-input-container flex>
+                                            <label>{{ 'FECHA_CREACION' | translate }}</label>
+                                            <md-datepicker name="fechaGeneracion" ng-model="vm.filter.fechaGeneracion"
+                                                           md-max-date="vm.data.today" class="md-date"></md-datepicker>
+                                            <div class="validation-messages" ng-messages="form.fechaGeneracion.$error" ng-show="form.fechaGeneracion.$touched">
+                                                <div ng-messages-include="error-messages"></div>
+                                                <div ng-message="maxdate">No puede ser mayor a la fecha actual</div>
+                                            </div>
+                                        </md-input-container>
+                                        <!--<md-tooltip>Fecha creación</md-tooltip>
                                         <md-datepicker name="fechaGeneracion" ng-model="vm.filter.fechaGeneracion"
                                                        md-max-date="vm.data.today"
                                                        md-placeholder="Fecha creación" class="md-date"></md-datepicker>
                                         <div class="validation-messages" ng-messages="form.fechaGeneracion.$error" ng-show="form.fechaGeneracion.$touched">
                                             <div ng-messages-include="error-messages"></div>
                                             <div ng-message="maxdate">No puede ser mayor a la fecha actual</div>
-                                        </div>
-                                    </div>
+                                        </div>-->
+                                    <!--</div>-->
                                     <div flex="50" layout="row" layout-align="start center">
                                         <md-button type="submit">
                                             <md-tooltip>
