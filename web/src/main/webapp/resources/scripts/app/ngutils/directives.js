@@ -170,9 +170,12 @@ var templateEditHC =
         '<input name="detalle" ng-model="vm.campodetalle.only_detalle" md-maxlength="75" ng-required="vm.camposino.siNo == true" aria-label="{{vm.campodetalle.nombre }}">' +
         '<error-messages form="formDetalle.detalle" submitted="vm.submitted"></error-messages>' +
         '</md-input-container>' +
-        '<div layout="column" ng-if="vm.campofecha && vm.camposino.siNo == true" ng-form="formDetalle">' +
+        '<div ng-if="vm.campofecha && vm.camposino.siNo == true" ng-form="formDetalle">' +
+        '<md-input-container>' +
+        '<label>{{ vm.campofecha.nombre }}</label>' +
         '<md-datepicker name="fecha" ng-model="vm.campofecha.fecha" md-placeholder="{{ vm.campofecha.nombre }}" ng-required="vm.camposino.siNo == true"></md-datepicker>' +
         '<error-messages form="formDetalle.fecha" submitted="vm.submitted"></error-messages>' +
+        '</md-input-container>' +
         '</div>' +
         '<div ng-transclude layout-gt-sm="row" layout-margin flex-gt-sm></div> ' +
         '</div>';

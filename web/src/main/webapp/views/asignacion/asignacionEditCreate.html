@@ -20,7 +20,8 @@
 </md-toolbar>
 <div layout ng-show="vm.asignacion.alumno && !vm.user.alumno">
     <md-button class="md-icon-button" ng-click="vm.deleteSelectedAlumno()" ng-disabled="vm.updating">
-        <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}" ng-hide="vm.updating"></ng-md-icon>
+        <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"
+                    ng-hide="vm.updating"></ng-md-icon>
     </md-button>
     <h2 class="md-body-1">{{ vm.asignacion.alumno.apellido }}, {{ vm.asignacion.alumno.nombre }}</h2>
 </div>
@@ -112,13 +113,15 @@
     <div layout="column" ng-show="vm.isDiagnosticoSelected">
         <div layout="row">
             <md-button class="md-icon-button" ng-click="vm.onDeleteSelectedTrabajoPractico()" ng-disabled="vm.updating">
-                <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"  ng-hide="vm.updating"></ng-md-icon>
+                <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"
+                            ng-hide="vm.updating"></ng-md-icon>
             </md-button>
             <h2 class="md-body-1">{{ vm.asignacion.trabajoPractico.nombre }}</h2>
         </div>
         <div layout="row">
             <md-button class="md-icon-button" ng-click="vm.onDeleteSelectedDiagnostico()" ng-disabled="vm.updating">
-                <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"  ng-hide="vm.updating"></ng-md-icon>
+                <ng-md-icon icon="delete" size="24" ng-attr-style="fill: {{ vm.colorIconRemove }}"
+                            ng-hide="vm.updating"></ng-md-icon>
             </md-button>
             <h2 class="md-body-1">{{ vm.asignacion.apellidoPaciente }}, {{ vm.asignacion.nombrePaciente }}</h2>
         </div>
@@ -183,7 +186,7 @@
                 </div>
             </div>
             <div layout="row" layout-margin ng-show="vm.mostrarFiltros">
-                <md-input-container flex-gt-sm>
+                <md-input-container flex-gt-sm="33">
                     <md-select name="tipoDocumentoPaciente" ng-model="vm.filter.tipoDocumentoPaciente"
                                placeholder="{{ 'TIPO_DOC' | translate }}"
                                ng-disabled="!vm.filter.trabajoPractico || !vm.autorizado">
@@ -192,7 +195,7 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
-                <md-input-container flex-gt-sm>
+                <md-input-container flex-gt-sm="33">
                     <label>{{ 'NUM_DOC' | translate }}</label>
                     <input ng-model="vm.filter.numeroDocumentoPaciente" name="numeroDocumentoPaciente"
                            ng-disabled="!vm.filter.tipoDocumentoPaciente || !vm.filter.trabajoPractico
@@ -201,9 +204,12 @@
                     <error-messages form="consultarDiagnosticoForm.numeroDocumentoPaciente"
                                     submitted="vm.submitted"></error-messages>
                 </md-input-container>
-                <md-datepicker ng-model="vm.filter.fechaNacimiento"
-                               md-placeholder="{{ 'FECHA_NAC' | translate }}"
-                               ng-disabled="!vm.filter.trabajoPractico || !vm.autorizado"></md-datepicker>
+                <md-input-container flex-gt-sm="33">
+                    <label>{{ 'FECHA_NAC' | translate }}</label>
+                    <md-datepicker ng-model="vm.filter.fechaNacimiento"
+                                   ng-disabled="!vm.filter.trabajoPractico || !vm.autorizado"></md-datepicker>
+                </md-input-container>
+
             </div>
         </ng-form>
     </section>
@@ -257,10 +263,12 @@
     <ng-form name="consultarFechaForm">
         <div layout="row" layout-margin ng-show="vm.isDiagnosticoSelected">
             <div flex-gt-sm="33">
-                <md-datepicker name="fechaAsignacion" ng-model="vm.asignacion.fechaAsignacion"
-                               md-placeholder="{{ 'FECHA' | translate }}"
-                               required class="md-date"></md-datepicker>
-                <error-messages form="consultarFechaForm.fechaAsignacion" submitted="vm.submitted"></error-messages>
+                <md-input-container>
+                    <label>{{ 'FECHA' | translate }}</label>
+                    <md-datepicker name="fechaAsignacion" ng-model="vm.asignacion.fechaAsignacion"
+                                   required class="md-date"></md-datepicker>
+                    <error-messages form="consultarFechaForm.fechaAsignacion" submitted="vm.submitted"></error-messages>
+                </md-input-container>
             </div>
         </div>
     </ng-form>

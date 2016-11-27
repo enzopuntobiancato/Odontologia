@@ -3,9 +3,9 @@ var module = angular.module('asignacionModule');
 
 module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'AsignacionSrv', '$state', '$stateParams', 'MessageSrv',
     'CommonsSrv', 'PaginationService', '$mdDialog','practicasResponse', 'profesorResponse', 'tiposDocumentoResponse',
-    'estadosAsignacionResponse', 'authFactory',
+    'estadosAsignacionResponse', 'authFactory','$filter',
     function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,
-              practicasResponse, profesorResponse, tiposDocumentoResponse,estadosAsignacionResponse,authFactory) {
+              practicasResponse, profesorResponse, tiposDocumentoResponse,estadosAsignacionResponse,authFactory, $filter) {
         var vm = this;
         vm.result = [];
         vm.data = {
@@ -52,7 +52,6 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
                         for (var i = 0; i < vm.data.catedras.length; i++) {
                             vm.filter.catedrasId.push(vm.data.catedras[i].id);
                         }
-//                        executeQuery();
                     }).error(function (error) {
                         console.log(error);
                     })
@@ -60,7 +59,6 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
                 service.getCatedras()
                     .success(function (data) {
                         vm.data.catedras = data;
-//                        executeQuery();
                     }).error(function (error) {
                         console.log(error);
                     })
@@ -212,9 +210,17 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
 
         //Cambio de estado
         function autorizar(){
-            /*for (var i = 0; i < vm.selectedAsignaciones.length; i++) {
-                vm.selectedAsignaciones[i].autorizadoPor = vm.data.profesor;
-            }*/
+            if(!vm.filter.fechaAsignacion){
+              message.errorMessage("Se debe seleccionar una fecha para el práctico,");
+              return;
+            }
+            var today = new Date();
+/*            var todayTime = today.getTime();
+            var fechaTime = vm.filter.fechaAsignacion.getTime();*/
+            if(vm.filter.fechaAsignacion > today){
+                message.errorMessage("Solo pueden autorizarse las asignaciones a partir del día " +  $filter('date')(vm.filter.fechaAsignacion, 'dd/MM/yyyy') +".");
+                return;
+            }
             service.autorizar(vm.selectedAsignaciones)
                 .then(function(){
                     vm.selectedAsignaciones = [];

@@ -1,195 +1,362 @@
-<div layout="column" flex>
-    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
-        <div layout="column" layout-fill layout-padding>
-            <div>
-                <div layout="row" layout-align="center center">
-                    <md-card flex class="md-whiteframe-z5">
-                        <md-toolbar class="md-accent">
-                            <div class="md-toolbar-tools">
-                                <h2 class="md-title">Registrar atención</h2>
-                                <span flex></span>
-                            </div>
-                        </md-toolbar>
+<div layout="column" flex xmlns="http://www.w3.org/1999/html">
+<md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+<div layout="column" layout-fill layout-padding>
+<div>
+<div layout="row" layout-align="center center">
+<md-card flex class="md-whiteframe-z5">
+<md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+        <h2 class="md-title">Registrar atención</h2>
+        <span flex></span>
+    </div>
+</md-toolbar>
+<md-card-content>
+<section>
+<md-list class="md-dense">
+    <md-list-item flex="100" ng-click="vm.openSection(0)">
+        <ng-md-icon icon="expand_more" size="20"
+                    icon="{{vm.sections[0] == 'true' ? 'expand_less' : 'expand_more'}}"></ng-md-icon>
+        <md-subheader class="md-no-sticky">Datos de la asignación</md-subheader>
+    </md-list-item>
+    <section id="sectionAsignacion" ng-show="vm.sections[0]">
+        <div layout="row">
+            <md-list-item class="md-2-line" flex="33">
+                <div class="md-list-item-text md-offset">
+                    <h4>Fecha de creación</h4>
 
-                        <md-card>
-                            <md-card-header>
-                                <md-card-header-text>
-                                    <span class="md-title">Datos de la asignación paciente</span>
-                                </md-card-header-text>
-                            </md-card-header>
-                            <md-card-content>
-                                <md-list>
-                                    <div layout="row">
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Fecha de creación</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.fechaCreacion |
-                                                    date:'dd/MM/yyyy'}}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Fecha asignación (citación paciente)</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.fechaAsignacion |
-                                                    date:'dd/MM/yyyy'}}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Estado</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.ultimoMovimiento.estado.nombre}}</p>
-                                            </div>
-                                        </md-list-item>
-                                    </div>
-                                    <div layout="row">
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Autorizado por</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.autorizadoPor.apellido}},
-                                                    {{vm.atencion.asignacionPaciente.autorizadoPor.nombre}}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Cátedra</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.catedra.materia}} {{vm.atencion.asignacionPaciente.catedra.denominacion}}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Trabajo práctico</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.trabajoPractico.nombre}}</p>
-                                            </div>
-                                        </md-list-item>
-                                    </div>
-                                    <div layout="row">
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Paciente diagnosticado para</h4>
-
-                                                <p>
-                                                    {{vm.atencion.asignacionPaciente.diagnostico.practicaOdontologica.denominacion
-                                                    ||
-                                                    vm.atencion.asignacionPaciente.diagnostico.practicaNoExistente}}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Observaciones diagnóstico</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.diagnostico.observaciones}}</p>
-                                            </div>
-                                        </md-list-item>
-                                    </div>
-                                    <md-list-item>
-                                        <p md-offset class="subtitle-text">Datos del paciente</p>
-                                    </md-list-item>
-                                    <div layout="row">
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Nombre</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.apellidoPaciente}},
-                                                    {{vm.atencion.asignacionPaciente.nombrePaciente}}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text md-offset">
-                                                <h4>Documento</h4>
-
-                                                <p>{{vm.atencion.asignacionPaciente.tipoDocumentoPaciente}} -
-                                                    {{vm.atencion.asignacionPaciente.numeroDocumentoPaciente}}</p>
-                                            </div>
-                                        </md-list-item>
-                                    </div>
-                                </md-list>
-                            </md-card-content>
-                        </md-card>
-                        <md-card-content>
-                            <ng-include ng-if="validationErrorFromServer.error"
-                                        src="'views/validation-error.html'"></ng-include>
-                            <form name="atencionForm" ng-submit="vm.save(atencionForm)" novalidate>
-                                <div layout="row" layout-margin>
-                                    <div>
-                                        <!--<md-datepicker name="fechaAtencion" ng-model="vm.atencion.fechaAtencion"
-                                                       md-placeholder="Fecha de atención"
-                                                       required md-min-date="vm.atencion.asignacionPaciente.fechaAsignacion" md-max-date="vm.data.today" class="md-date"></md-datepicker>-->
-                                        <md-datepicker name="fechaAtencion" ng-model="vm.atencion.fechaAtencion"
-                                                       md-placeholder="Fecha de atención"
-                                                       required class="md-date"></md-datepicker>
-                                        <div class="validation-messages" ng-messages="atencionForm.fechaAtencion.$error"
-                                             ng-show="atencionForm.fechaAtencion.$touched">
-                                            <div ng-messages-include="error-messages"></div>
-                                            <div ng-message="mindate">No puede ser menor a la fecha de la asignación</div>
-                                            <div ng-message="maxdate">No puede ser mayor a la fecha actual</div>
-                                        </div>
-                                    </div>
-                                    <md-switch ng-model="vm.atencion.diagnosticoSolucionado"
-                                               ng-true-value="true"
-                                               ng-false-value="false"
-                                               ng-change="vm.atencion.motivoNoSolucion = null"
-                                               class="md-primary"> Diagnóstico solucionado:
-                                        {{vm.atencion.diagnosticoSolucionado | siNo}}
-                                    </md-switch>
-                                    <md-input-container ng-show="!vm.atencion.diagnosticoSolucionado" flex>
-                                        <label>¿Cuál fue el problema?</label>
-                                        <input ng-required="!vm.atencion.diagnosticoSolucionado"
-                                               ng-model="vm.atencion.motivoNoSolucion"
-                                               md-maxlength="400"
-                                               name="motivoNoSolucion"/>
-
-                                        <div ng-messages="atencionForm.motivoNoSolucion.$error"
-                                             ng-show="atencionForm.motivoNoSolucion.$touched">
-                                            <div ng-messages-include="error-messages"></div>
-                                        </div>
-                                    </md-input-container>
-                                </div>
-                                <div layout="row" layout-margin>
-                                    <md-input-container flex>
-                                        <label>Descripción del procedimiento</label>
-                                        <textarea required ng-model="vm.atencion.descripcionProcedimiento" rows="10"
-                                                  md-maxlength="700"
-                                                  name="descripcion"></textarea>
-
-                                        <div ng-messages="atencionForm.descripcion.$error"
-                                             ng-show="atencionForm.descripcion.$touched">
-                                            <div ng-messages-include="error-messages"></div>
-                                        </div>
-                                    </md-input-container>
-                                </div>
-                                <div layout="column" layout-margin>
-                                    <p md-offset class="subtitle-text">Documentaciones relacionadas</p>
-                                    <div layout="row">
-                                        <md-button name="files" ngf-pattern="'.jpg,.png,.bmp,.pdf'" multiple
-                                                   ngf-select="vm.newFiles($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
-                                                   ng-model-options="{allowInvalid: false, debounce: 0}"
-                                                   accept=".jpg,.png,.bmp,application/pdf" ngf-max-size="20MB">Seleccionar archivos
-                                        </md-button>
-                                    </div>
-                                    <div ng-if="vm.data.files.length" class="query-chips">
-                                        <md-chips ng-model="vm.data.files">
-                                            <md-chip-template>
-                                                {{$chip.name}}
-                                            </md-chip-template>
-                                        </md-chips>
-                                    </div>
-                                </div>
-                                <md-card-actions layout="row" layout-align="end center">
-                                    <md-button ng-click="vm.goIndex()">{{ 'CANCELAR' | translate }}</md-button>
-                                    <md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}
-                                    </md-button>
-                                </md-card-actions>
-                            </form>
-                        </md-card-content>
-                    </md-card>
+                    <p>{{vm.atencion.asignacionPaciente.fechaCreacion |
+                        date:'dd/MM/yyyy'}}</p>
                 </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" flex="33">
+                <div class="md-list-item-text md-offset">
+                    <h4>Fecha asignación (citación paciente)</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.fechaAsignacion |
+                        date:'dd/MM/yyyy'}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" flex="33">
+                <div class="md-list-item-text md-offset">
+                    <h4>Estado</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.ultimoMovimiento.estado.nombre}}</p>
+                </div>
+            </md-list-item>
+        </div>
+        <div layout="row">
+            <md-list-item class="md-2-line" flex="33">
+                <div class="md-list-item-text md-offset">
+                    <h4>Cátedra</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.catedra.materia}}
+                        {{vm.atencion.asignacionPaciente.catedra.denominacion}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" flex="33">
+                <div class="md-list-item-text md-offset">
+                    <h4>Trabajo práctico</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.trabajoPractico.nombre}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" flex="33">
+                <div class="md-list-item-text md-offset">
+                    <h4>Paciente diagnosticado para</h4>
+
+                    <p>
+                        {{vm.atencion.asignacionPaciente.diagnostico.practicaOdontologica.denominacion
+                        ||
+                        vm.atencion.asignacionPaciente.diagnostico.practicaNoExistente}}</p>
+                </div>
+            </md-list-item>
+        </div>
+        <div layout="row">
+            <md-list-item class="md-2-line" flex="33">
+                <div class="md-list-item-text md-offset">
+                    <h4>Autorizado por</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.autorizadoPor.apellido}},
+                        {{vm.atencion.asignacionPaciente.autorizadoPor.nombre}}</p>
+                </div>
+            </md-list-item>
+        </div>
+        <div layout="row">
+            <md-list-item class="md-2-line" flex="100">
+                <div class="md-list-item-text md-offset">
+                    <h4>Observaciones diagnóstico</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.diagnostico.observaciones}}</p>
+                </div>
+            </md-list-item>
+        </div>
+        <div layout="column" layout-align="start center">
+            <div layout="row">
+                <div ng-repeat="piezaDental in vm.odontograma.piezasDentalesSuperiores"
+                     diente-consulta
+                     model="piezaDental"></div>
+            </div>
+            <div layout="row">
+                <div ng-repeat="piezaDental in vm.odontograma.piezasDentalesInferiores"
+                     diente-consulta
+                     model="piezaDental"></div>
             </div>
         </div>
-    </md-content>
+        <!--<md-list-item>
+            <p md-offset class="subtitle-text"></p>
+        </md-list-item>
+        <div layout="row">
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text md-offset">
+                    <h4>Nombre</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.apellidoPaciente}},
+                        {{vm.atencion.asignacionPaciente.nombrePaciente}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text md-offset">
+                    <h4>Documento</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.tipoDocumentoPaciente}} -
+                        {{vm.atencion.asignacionPaciente.numeroDocumentoPaciente}}</p>
+                </div>
+            </md-list-item>
+        </div>-->
+    </section>
+</md-list>
+<!--<md-subheader> Datos del paciente</md-subheader>-->
+<md-list class="md-dense">
+    <md-list-item flex="100" ng-click="vm.openSection(1)">
+        <ng-md-icon icon="expand_more" size="20" icon="{{vm.sections[1] ? 'expand_less' : 'expand_more'}}"></ng-md-icon>
+        <!--<p><small>  Datos del paciente </small></p>-->
+        <md-subheader class="md-no-sticky"> Datos del paciente</md-subheader>
+    </md-list-item>
+    <section ng-show="vm.sections[1]">
+        <div layout="row">
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text md-offset">
+                    <h4>Nombre</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.apellidoPaciente}},
+                        {{vm.atencion.asignacionPaciente.nombrePaciente}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text md-offset">
+                    <h4>Documento</h4>
+
+                    <p>{{vm.atencion.asignacionPaciente.tipoDocumentoPaciente}} -
+                        {{vm.atencion.asignacionPaciente.numeroDocumentoPaciente}}</p>
+                </div>
+            </md-list-item>
+        </div>
+    </section>
+</md-list>
+<!-- <md-card>
+     <md-card-header>
+         <md-card-header-text>
+             <span class="md-title">Datos de la asignación paciente</span>
+         </md-card-header-text>
+     </md-card-header>
+     <md-card-content>
+         <md-list>
+             <div layout="row">
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Fecha de creación</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.fechaCreacion |
+                             date:'dd/MM/yyyy'}}</p>
+                     </div>
+                 </md-list-item>
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Fecha asignación (citación paciente)</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.fechaAsignacion |
+                             date:'dd/MM/yyyy'}}</p>
+                     </div>
+                 </md-list-item>
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Estado</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.ultimoMovimiento.estado.nombre}}</p>
+                     </div>
+                 </md-list-item>
+             </div>
+             <div layout="row">
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Autorizado por</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.autorizadoPor.apellido}},
+                             {{vm.atencion.asignacionPaciente.autorizadoPor.nombre}}</p>
+                     </div>
+                 </md-list-item>
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Cátedra</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.catedra.materia}} {{vm.atencion.asignacionPaciente.catedra.denominacion}}</p>
+                     </div>
+                 </md-list-item>
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Trabajo práctico</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.trabajoPractico.nombre}}</p>
+                     </div>
+                 </md-list-item>
+             </div>
+             <div layout="row">
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Paciente diagnosticado para</h4>
+
+                         <p>
+                             {{vm.atencion.asignacionPaciente.diagnostico.practicaOdontologica.denominacion
+                             ||
+                             vm.atencion.asignacionPaciente.diagnostico.practicaNoExistente}}</p>
+                     </div>
+                 </md-list-item>
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Observaciones diagnóstico</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.diagnostico.observaciones}}</p>
+                     </div>
+                 </md-list-item>
+             </div>
+             <md-list-item>
+                 <p md-offset class="subtitle-text">Datos del paciente</p>
+             </md-list-item>
+             <div layout="row">
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Nombre</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.apellidoPaciente}},
+                             {{vm.atencion.asignacionPaciente.nombrePaciente}}</p>
+                     </div>
+                 </md-list-item>
+                 <md-list-item class="md-2-line">
+                     <div class="md-list-item-text md-offset">
+                         <h4>Documento</h4>
+
+                         <p>{{vm.atencion.asignacionPaciente.tipoDocumentoPaciente}} -
+                             {{vm.atencion.asignacionPaciente.numeroDocumentoPaciente}}</p>
+                     </div>
+                 </md-list-item>
+             </div>
+         </md-list>
+     </md-card-content>
+ </md-card>-->
+<ng-include ng-if="validationErrorFromServer.error"
+            src="'views/validation-error.html'"></ng-include>
+<form name="atencionForm" ng-submit="vm.save(atencionForm)" novalidate>
+    <!--<md-subheader>Atención médica</md-subheader>-->
+    <!---->
+    <md-list>
+        <md-list-item flex="100" ng-click="vm.openSection(2)">
+            <ng-md-icon icon="expand_more" size="20"
+                        icon="{{vm.sections[2] ? 'expand_less' : 'expand_more'}}"></ng-md-icon>
+            <md-subheader class="md-no-sticky">Atención médica</md-subheader>
+        </md-list-item>
+    </md-list>
+    <section ng-show="vm.sections[2]">
+        <div layout="row" layout-margin>
+            <div>
+                <md-input-container>
+                    <label>{{ 'FECHA_ATENCION' | translate }}</label>
+                    <md-datepicker name="fechaAtencion" ng-model="vm.atencion.fechaAtencion"
+                                   required class="md-date"></md-datepicker>
+                    <div class="validation-messages" ng-messages="atencionForm.fechaAtencion.$error"
+                         ng-show="atencionForm.fechaAtencion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                        <div ng-message="mindate">No puede ser menor a la fecha de la asignación</div>
+                        <div ng-message="maxdate">No puede ser mayor a la fecha actual</div>
+                    </div>
+                </md-input-container>
+               <!-- <md-input-container flex="33">
+                    <label>Fecha de atención</label>
+                    <md-datepicker name="fechaAtencion" ng-model="vm.atencion.fechaAtencion"
+                                   required class="md-date"></md-datepicker>
+                    <div class="validation-messages" ng-messages="atencionForm.fechaAtencion.$error"
+                         ng-show="atencionForm.fechaAtencion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                        <div ng-message="mindate">No puede ser menor a la fecha de la asignación</div>
+                        <div ng-message="maxdate">No puede ser mayor a la fecha actual</div>
+                    </div>
+                </md-input-container>-->
+                <!--<md-datepicker name="fechaAtencion" ng-model="vm.atencion.fechaAtencion"
+                       md-placeholder="Fecha de atención"
+                       required md-min-date="vm.atencion.asignacionPaciente.fechaAsignacion" md-max-date="vm.data.today" class="md-date"></md-datepicker>-->
+
+
+            </div>
+            <md-switch ng-model="vm.atencion.diagnosticoSolucionado"
+                       ng-true-value="true"
+                       ng-false-value="false"
+                       ng-change="vm.atencion.motivoNoSolucion = null"
+                       class="md-primary"> Diagnóstico solucionado:
+                {{vm.atencion.diagnosticoSolucionado | siNo}}
+            </md-switch>
+            <md-input-container ng-show="!vm.atencion.diagnosticoSolucionado" flex>
+                <label>¿Cuál fue el problema?</label>
+                <input ng-required="!vm.atencion.diagnosticoSolucionado"
+                       ng-model="vm.atencion.motivoNoSolucion"
+                       md-maxlength="400"
+                       name="motivoNoSolucion"/>
+
+                <div ng-messages="atencionForm.motivoNoSolucion.$error"
+                     ng-show="atencionForm.motivoNoSolucion.$touched">
+                    <div ng-messages-include="error-messages"></div>
+                </div>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-margin>
+            <md-input-container flex>
+                <label>Descripción del procedimiento</label>
+                <textarea required ng-model="vm.atencion.descripcionProcedimiento" rows="3"
+                          md-maxlength="700"
+                          name="descripcion"></textarea>
+                <div ng-messages="atencionForm.descripcion.$error"
+                     ng-show="atencionForm.descripcion.$touched">
+                    <div ng-messages-include="error-messages"></div>
+                </div>
+            </md-input-container>
+        </div>
+        <div layout="column" layout-margin>
+            <p md-offset class="subtitle-text">Documentaciones relacionadas</p>
+
+            <div layout="row">
+                <md-button name="files" ngf-pattern="'.jpg,.png,.bmp,.pdf'" multiple
+                           ngf-select="vm.newFiles($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+                           ng-model-options="{allowInvalid: false, debounce: 0}"
+                           accept=".jpg,.png,.bmp,application/pdf" ngf-max-size="20MB">Seleccionar archivos
+                </md-button>
+            </div>
+            <div ng-if="vm.data.files.length" class="query-chips">
+                <md-chips ng-model="vm.data.files">
+                    <md-chip-template>
+                        {{$chip.name}}
+                    </md-chip-template>
+                </md-chips>
+            </div>
+        </div>
+    </section>
+    <md-card-actions layout="row" layout-align="end center">
+        <md-button ng-click="vm.goIndex()">{{ 'CANCELAR' | translate }}</md-button>
+        <md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}
+        </md-button>
+    </md-card-actions>
+</form>
+</md-card-content>
+</md-card>
+</div>
+</div>
+</div>
+</md-content>
 </div>

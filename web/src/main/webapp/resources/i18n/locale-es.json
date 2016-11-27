@@ -1,4 +1,5 @@
 {
+    "FECHA_CREACION" : "Fecha de creación",
     "CONTACTO":"Contacto",
     "ACCIONES" : "Acciones",
     "AUTORIZAR" : "Autorizar",
@@ -156,6 +157,9 @@
     "AUTORIZAR_ASIGNACIONES" : "Autorizar asignaciones",
 
     "FECHA" : "Fecha",
+    "FECHA_NACIMIENTO" : "Fecha de nacimiento",
+    "FECHA_DESDE" : "Fecha desde",
+    "FECHA_HASTA": "Fecha hasta",
 
 
     "G1P1":"Tiene problemas cardíacos",

@@ -474,3 +474,7 @@ svg .cara-active:hover {
     stroke-width: 4;
     stroke: #58aeff;
 }
+
+.md-sidenav-menu{
+    min-width: 263px;
+}

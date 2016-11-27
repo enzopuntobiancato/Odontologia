@@ -30,7 +30,7 @@
                                 <td md-cell>{{ diagnostico.hallazgoClinico.nombre }}</td>
                                 <td md-cell>
                                     <md-select ng-model="diagnostico.practicaOdontologica"
-                                               required
+                                               ng-required="true"
                                                name="practica" placeholder="Práctica odontológica"
                                                ng-disabled="diagnostico.tieneDiagnostico"
                                                ng-model-options="{trackBy: '$value.id'}">

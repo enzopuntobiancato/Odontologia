@@ -1,7 +1,9 @@
 var module = angular.module('historiaClinicaModule');
 
-module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageSrv', '$mdDialog', '$state', 'pacienteId', 'diagnosticosResponse', 'finalStatesResponse', 'odontogramaResponse', 'hallazgosResponse', 'practicasResponse', '$mdEditDialog', 'Upload',
-    function ($scope, service, message, $mdDialog, $state, pacienteId, diagnosticosResponse, finalStatesResponse, odontogramaResponse, hallazgosResponse, practicasResponse, $mdEditDialog, Upload) {
+module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageSrv', '$mdDialog', '$state', 'pacienteId',
+    'diagnosticosResponse', 'finalStatesResponse', 'odontogramaResponse', 'hallazgosResponse', 'practicasResponse',
+    '$mdEditDialog', 'Upload', '$http',
+    function ($scope, service, message, $mdDialog, $state, pacienteId, diagnosticosResponse, finalStatesResponse, odontogramaResponse, hallazgosResponse, practicasResponse, $mdEditDialog, Upload, $http) {
         var vm = this;
 
         var pacienteId = pacienteId;
@@ -144,19 +146,63 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
                 return;
             }
             performSubmit(function () {
-                Upload.upload({
-                    url: 'api/diagnostico/save/' + pacienteId,
-                    data: {piezas: Upload.json(vm.modifiedPiezas), diagnosticos: Upload.json(vm.diagnosticos)}
+                var piezas = Upload.json(vm.modifiedPiezas);
+                var diagnosticos = Upload.json(vm.diagnosticos);
+
+                var boundary = Math.random().toString().substr(2);
+                var header = "multipart/form-data; charset=utf-8; boundary=" + boundary;
+
+                $http({
+                    url: "api/diagnostico/save/" + pacienteId,
+                    headers: { "Content-Type": header },
+                    data: createRequest(piezas, diagnosticos, boundary),
+                    method: "POST"
                 }).then(function (response) {
+                        $scope.result = response.data;
                         vm.modifiedPiezas = [];
                         vm.diagnosticos = response.data;
                         message.successMessage("Diagnósticos registrados con éxito")
                     }, function (response) {
-                        handleError(response.data, response.status)
+                        handleError(response.data, response.status);
                     });
             }, args.form);
         });
 
+        function createRequest(piezas, diagnosticos, boundary) {
+            var multipart = "";
+            multipart += "--" + boundary
+                + "\r\nContent-Disposition: form-data; name=piezas"
+                + "\r\nContent-type: application/json"
+                + "\r\n\r\n" + piezas + "\r\n";
+            multipart += "--" + boundary
+                + "\r\nContent-Disposition: form-data; name=diagnosticos"
+                + "\r\nContent-type: application/json"
+                + "\r\n\r\n" + diagnosticos + "\r\n";
+            multipart += "--" + boundary + "--\r\n";
+            return multipart;
+        }
+
+        /*vm.sendData = function () {
+         var piezas = Upload.json(vm.modifiedPiezas);
+         var diagnosticos = Upload.json(vm.diagnosticos);
+
+         var boundary = Math.random().toString().substr(2);
+         var header = "multipart/form-data; charset=utf-8; boundary=" + boundary;
+
+         $http({
+         url: "api/diagnostico/save/" + pacienteId,
+         headers: { "Content-Type": header },
+         data: createRequest(piezas, diagnosticos, boundary),
+         method: "POST"
+         }).then(function (response) {
+         $scope.result = response.data;
+         vm.modifiedPiezas = [];
+         vm.diagnosticos = response.data;
+         message.successMessage("Diagnósticos registrados con éxito")
+         }, function (response) {
+         handleError(response.data, response.status);
+         });
+         }*/
 
         function addNewDiagnostico(ev) {
             $mdDialog.show({
@@ -342,7 +388,7 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
         }
 
         function cambiarEstadoTratamiento() {
-            if(!vm.selectedTratamiento){
+            if (!vm.selectedTratamiento) {
                 return;
             }
             if (vm.hecho) {
@@ -455,7 +501,9 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
                     title: 'Observaciones',
                     validators: {
                         'md-maxlength': 200
-                    }
+                    },
+                    ok: 'Aceptar',
+                    cancel: 'Cancelar'
                 };
 
                 var promise;
