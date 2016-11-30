@@ -70,11 +70,9 @@ public class AtencionAPI {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/save")
-    public Response save(@Context HttpServletRequest request, MultipartFormDataInput input) throws SAPOException {
+    @Path("/saveRelatedDocs")
+    public Response saveRelatedDocs(MultipartFormDataInput input, @QueryParam("atencionId") Long atencionId) throws SAPOException {
         Map<String, List<InputPart>> form = input.getFormDataMap();
-        AtencionDTO atencion = (AtencionDTO) helper.retrieveObject(form, "atencion", AtencionDTO.class);
-
         List<Map<String, Object>> files = helper.retrieveFiles(form, "files");
         List<ArchivoDTO> documentaciones = new ArrayList<ArchivoDTO>();
         for (Map<String, Object> file: files) {
@@ -84,9 +82,18 @@ public class AtencionAPI {
             archivoDTO.setArchivo((InputStream) file.get(helper.FILE));
             documentaciones.add(archivoDTO);
         }
-        UsuarioLogueadoDTO usuarioLogueadoDTO = sessionHelper.getUser(request);
-        atencionService.save(atencion, documentaciones, usuarioLogueadoDTO);
+        atencionService.saveRelatedDocs(atencionId, documentaciones);
         return Response.ok().build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/save")
+    public Response save(@Context HttpServletRequest request, AtencionDTO atencion) throws SAPOException {
+        UsuarioLogueadoDTO usuarioLogueadoDTO = sessionHelper.getUser(request);
+        Long atencionId = atencionService.save(atencion, usuarioLogueadoDTO);
+        return Response.ok(atencionId).build();
     }
 
     @GET

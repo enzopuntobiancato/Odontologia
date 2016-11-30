@@ -2,8 +2,8 @@ var module = angular.module('atencionModule');
 
 
 module.controller('AtencionCtrl_Create', ['$scope', '$rootScope', 'AtencionSrv', '$state', 'MessageSrv', 'Upload',
-    '$filter', 'asignacionResponse',
-    function ($scope, $rootScope, service, $state, message, Upload, $filter, asignacionResponse) {
+    '$filter', 'asignacionResponse', '$q',
+    function ($scope, $rootScope, service, $state, message, Upload, $filter, asignacionResponse, $q) {
         var vm = this;
         vm.atencion = {
             asignacionPaciente: asignacionResponse.data,
@@ -37,16 +37,38 @@ module.controller('AtencionCtrl_Create', ['$scope', '$rootScope', 'AtencionSrv',
 
         function save(form) {
             performSubmit(function () {
-                Upload.upload({
-                    url: 'api/atencion/save',
-                    data: {files: vm.data.files, atencion: Upload.json(vm.atencion)}
-                }).then(function (response) {
+                doSave().then(function (response) {
                         message.successMessage("Atención registrada con éxito")
                         goIndex();
                     }, function (response) {
                         handleError(response.data, response.status)
                     });
             }, form);
+        }
+
+        function doSave() {
+            var deferred = $q.defer();
+            service.saveAtencion(vm.atencion)
+                .then(function (response) {
+                    if (vm.data.files && vm.data.files.length) {
+                        Upload.upload({
+                            url: 'api/atencion/saveRelatedDocs',
+                            data: {files: vm.data.files},
+                            params: {atencionId: response.data}
+                        })
+                            .then(function (response) {
+                                deferred.resolve(response);
+                            }, function (response) {
+                                deferred.reject(response);
+                            })
+                    } else {
+                        deferred.resolve(response);
+                    }
+                }, function (response) {
+                    deferred.reject(response);
+                })
+
+            return deferred.promise;
         }
 
         function goIndex() {

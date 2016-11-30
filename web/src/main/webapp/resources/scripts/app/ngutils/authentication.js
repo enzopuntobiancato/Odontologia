@@ -42,11 +42,6 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
         })
     };
 
-    authFactory.fetchUser = function() {
-        var current = this.session.user;
-
-    }
-
     function lookForImage(imageId) {
         return $http({
             method: 'GET',
@@ -69,7 +64,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
 
     authFactory.setAuthData = function (user, image) {
         this.session.user = user;
-        this.session.image = image ? image : this.session.image;
+        this.session.image = image;
         $cookies.remove(USER_COOKIE);
         $cookies.putObject(USER_COOKIE, this.session.user, {expires: getExpiresDate()});
     };

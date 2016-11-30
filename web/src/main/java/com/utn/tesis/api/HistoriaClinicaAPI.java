@@ -9,6 +9,7 @@ import com.utn.tesis.mapping.dto.PacienteDTO;
 import com.utn.tesis.mapping.mapper.HistoriaClinicaMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
+import com.utn.tesis.service.ArchivoService;
 import com.utn.tesis.service.HistoriaClinicaService;
 import com.utn.tesis.service.PacienteService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,8 @@ public class HistoriaClinicaAPI extends BaseAPI {
     private HistoriaClinicaMapper historiaClinicaMapper;
     @Inject
     private MultiPartFormHelper helper;
+    @Inject
+    private ArchivoService archivoService;
 
     @Path("/findById")
     @GET
@@ -104,22 +107,30 @@ public class HistoriaClinicaAPI extends BaseAPI {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/saveDocumentaciones/{idPaciente}")
-    public Response saveDocumentacionesByPaciente(MultipartFormDataInput input, @PathParam("idPaciente") Long idPaciente) throws SAPOException {
+    @Path("/saveNewFiles")
+    public Response saveDocumentacionesFiles(MultipartFormDataInput input) throws SAPOException {
         Map<String, List<InputPart>> form = input.getFormDataMap();
-        ArchivoDTO[] archivosArray = (ArchivoDTO[]) helper.retrieveObject(form, "documentaciones", ArchivoDTO[].class);
-        List<ArchivoDTO> archivoDTOs = Arrays.asList(archivosArray);
+        Long[] newArchivosIds = (Long[]) helper.retrieveObject(form, "newFilesIds", Long[].class);
         List<Map<String, Object>> files = helper.retrieveFiles(form, "files");
-        for (ArchivoDTO archivoDTO: archivoDTOs) {
-            if (archivoDTO.getId() != null) {
-                continue;
-            }
+        List<ArchivoDTO> archivoDTOs = new ArrayList<ArchivoDTO>();
+        for (Long newArchivo: newArchivosIds) {
+            ArchivoDTO archivoDTO = archivoService.findArchivo(newArchivo);
             Map<String, Object> file = helper.findFile(files, archivoDTO.getNombre());
             archivoDTO.setExtension((FileExtension) file.get(helper.EXTENSION));
             archivoDTO.setArchivo((InputStream) file.get(helper.FILE));
+            archivoDTOs.add(archivoDTO);
         }
-        pacienteService.saveDocumentaciones(archivoDTOs, idPaciente);
+        archivoService.saveList(archivoDTOs);
         return Response.ok().build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/saveDocumentaciones/{idPaciente}")
+    public Response saveDocumentacionesByPaciente(List<ArchivoDTO> documentaciones, @PathParam("idPaciente") Long idPaciente) throws SAPOException {
+        List<Long> newFiles = pacienteService.updateCurrentDocsDescriptionAndSaveTempNewDocs(documentaciones, idPaciente);
+        return Response.ok(newFiles).build();
     }
 
     @GET

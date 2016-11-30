@@ -74,6 +74,13 @@ module
                     method: 'GET',
                     params: {pacienteId: pacienteId}
                 })
+            },
+            updateCurrentDocsAndSaveTempNewDocs: function(documentaciones, idPaciente) {
+                return $http({
+                    url: 'api/historiaClinica/saveDocumentaciones/' + idPaciente,
+                    method: 'POST',
+                    data: documentaciones
+                })
             }
         }
 

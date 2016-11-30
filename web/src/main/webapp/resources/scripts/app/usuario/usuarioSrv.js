@@ -85,5 +85,13 @@ module.
             });
         }
 
+        service.updateUser = function(usuario) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/updateUser',
+                data: usuario
+            })
+        }
+
         return service;
     }]);
