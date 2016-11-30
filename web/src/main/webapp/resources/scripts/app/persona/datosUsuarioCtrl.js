@@ -4,6 +4,13 @@ module.controller('PersonaCtrl_DatosUsuario', ['$scope', '$rootScope', '$state',
     function ($scope, $rootScope, $state, authFactory, message, Upload, personaResponse, tiposDocumentoResponse, sexosResponse, cargosResponse, imageResponse, $timeout) {
 
         var vm = this;
+        var today = new Date();
+
+        vm.restrictedDate = {
+            maxDate: new Date(today.getFullYear() - 15, 0, 1),
+            minDate: new Date(1900, 0, 1)
+        };
+
         vm.persona = personaResponse.data ? personaResponse.data : {};
         vm.usuario = authFactory.getAuthData();
         vm.file = imageResponse.data;

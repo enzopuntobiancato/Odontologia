@@ -1,6 +1,7 @@
 package com.utn.tesis.service;
 
 
+import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.data.daos.CatedraDao;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.exception.SAPOException;
@@ -128,5 +129,15 @@ public class CatedraService extends BaseService<Catedra> {
     public List<CatedraDTO> findAllDTOs() {
         List<Catedra> catedras = this.findAll();
         return catedraMapper.toDTOList(catedras);
+    }
+
+    @Override
+    protected void bussinessValidationBaja(Catedra entity) throws SAPOValidationException {
+        boolean canDelete = dao.canDelete(entity);
+        if (!canDelete) {
+            throw new SAPOValidationException(
+                    ImmutableMap.of("referenceToEntity",
+                            String.format("No puede dar de baja la cátedra %s %s, la misma está siendo referenciada por alguna asignación de paciente abierta", entity.getMateria().getNombre(), entity.getDenominacion())));
+        }
     }
 }

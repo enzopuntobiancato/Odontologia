@@ -171,11 +171,12 @@ services
 
         service.data = {};
 
-        service.config = function (deleteUrl, restoreUrl, entityName, queryFunction) {
+        service.config = function (deleteUrl, restoreUrl, entityName, queryFunction, validationErrorFn) {
             service.data.deleteUrl = deleteUrl;
             service.data.restoreUrl = restoreUrl;
             service.data.entityName = entityName;
             service.data.queryFunction = queryFunction;
+            service.data.validationErrorFn = validationErrorFn;
         };
 
         service.delete = function (event, entityId, liveEntityName, currentPage, dadosBaja, resultSize) {
@@ -213,8 +214,12 @@ services
                             } else {
                                 $rootScope.$broadcast('successDeleteRestoreEvent');
                             }
-                        }, function () {
-                            messages.errorMessage('Error en baja: ' + liveEntityName);
+                        }, function (response) {
+                            if (response.status == 1000) {
+                                service.data.validationErrorFn(response.data, response.status);
+                            } else {
+                                messages.errorMessage('Error en baja: ' + liveEntityName);
+                            }
                         })
                 },
                 function () {

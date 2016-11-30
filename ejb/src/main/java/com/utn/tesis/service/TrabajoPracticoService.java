@@ -1,5 +1,6 @@
 package com.utn.tesis.service;
 
+import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.TrabajoPracticoDao;
 import com.utn.tesis.exception.SAPOValidationException;
@@ -12,20 +13,14 @@ import javax.validation.Validator;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Enzo
- * Date: 13/05/15
- * Time: 13:16
- */
 @Stateless
 public class TrabajoPracticoService extends BaseService<TrabajoPractico> {
 
     @Inject
-    TrabajoPracticoDao dao;
+    private TrabajoPracticoDao dao;
 
     @Inject
-    Validator validator;
+    private Validator validator;
 
     @Override
     DaoBase<TrabajoPractico> getDao() {
@@ -66,5 +61,22 @@ public class TrabajoPracticoService extends BaseService<TrabajoPractico> {
             }
         }
         super.bussinessValidation(entity);
+    }
+
+    @Override
+    protected void bussinessValidationBaja(TrabajoPractico entity) throws SAPOValidationException {
+        boolean hasActiveCatedras = dao.hasActiveCatedras(entity);
+        if (!hasActiveCatedras) {
+            throw new SAPOValidationException(
+                    ImmutableMap.of("referenceToEntity",
+                            String.format("No puede dar de baja el trabajo práctico %s, el mismo está siendo referenciada por alguna cátedra activa", entity.getNombre())));
+        }
+
+        boolean hasActiveAsignaciones = dao.hasActiveAsignaciones(entity);
+        if (!hasActiveAsignaciones) {
+            throw new SAPOValidationException(
+                    ImmutableMap.of("referenceToEntity",
+                            String.format("No puede dar de baja el trabajo práctico %s, el mismo está siendo referenciada por alguna asignación de paciente activa", entity.getNombre())));
+        }
     }
 }

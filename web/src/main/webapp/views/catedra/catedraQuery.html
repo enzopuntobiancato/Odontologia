@@ -56,6 +56,8 @@
                     </md-input-container>
                 </div>
                 <filter-chips data="filterChips"></filter-chips>
+                <ng-include ng-if="validationErrorFromServer.error"
+                            src="'views/validation-error.html'"></ng-include>
                 <md-list ng-show="result.length > 0" class="md-dense">
                     <md-list-item class="md-3-line" ng-class="{'deleted-item' : item.fechaBaja}"
                                   ng-repeat="item in result"
@@ -85,7 +87,7 @@
                                 </md-tooltip>
                             </ng-md-icon>
                             <ng-md-icon ng-show="!item.fechaBaja" icon="delete" size="24"
-                                        ng-click="openDeleteDialog($event,item.id, item.materia + ' ' + item.denominacion)"
+                                        ng-click="openDeleteDialog($event,item.id, item.materia.nombre + ' ' + item.denominacion)"
                                         ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
                                         ng-mouseleave="colorMouseLeave(5)">
                                 <md-tooltip>
@@ -93,7 +95,7 @@
                                 </md-tooltip>
                             </ng-md-icon>
                             <ng-md-icon ng-show="item.fechaBaja" icon="restore" size="24"
-                                        ng-click="openRestoreDialog($event,item.id, item.materia + ' ' + item.denominacion)"
+                                        ng-click="openRestoreDialog($event,item.id, item.materia.nombre + ' ' + item.denominacion)"
                                         ng-attr-style="fill: {{colorIcon[5]}}" ng-Mouseover="colorMouseOver(5)"
                                         ng-mouseleave="colorMouseLeave(5)">
                                 <md-tooltip>

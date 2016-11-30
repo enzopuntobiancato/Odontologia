@@ -1,5 +1,6 @@
 package com.utn.tesis.service;
 
+import com.google.common.collect.ImmutableMap;
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.MateriaDao;
 import com.utn.tesis.exception.SAPOValidationException;
@@ -61,5 +62,15 @@ public class MateriaService extends BaseService<Materia> {
             }
         }
         super.bussinessValidation(entity);
+    }
+
+    @Override
+    protected void bussinessValidationBaja(Materia entity) throws SAPOValidationException {
+        boolean canDelete = dao.canDelete(entity);
+        if (!canDelete) {
+            throw new SAPOValidationException(
+                    ImmutableMap.of("referenceToEntity",
+                            String.format("No puede dar de baja la materia %s, la misma está siendo referenciada por alguna cátedra activa", entity.getNombre())));
+        }
     }
 }

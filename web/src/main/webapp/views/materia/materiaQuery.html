@@ -10,11 +10,11 @@
             <div>
                 <div layout="row" layout-align="center center">
                     <md-card flex-gt-sm>
-<!--                        <md-toolbar class="md-accent">
+                        <md-toolbar class="md-accent">
                             <div class="md-toolbar-tools">
                                 <span>{{ 'CONS_MATERIA' | translate }}</span>
                             </div>
-                        </md-toolbar>-->
+                        </md-toolbar>
                         <md-card-content>
                             <form name="form" novalidate ng-submit="consultar()">
                                 <div layout-gt-sm="row" layout-margin>
@@ -67,6 +67,8 @@
                                 </div>
                             </form>
                             <filter-chips data="filterChips"></filter-chips>
+                            <ng-include ng-if="validationErrorFromServer.error"
+                                        src="'views/validation-error.html'"></ng-include>
                             <md-list ng-show="result.length > 0" class="md-dense">
                                 <md-list-item class="md-3-line" ng-class="{'deleted-item' : item.fechaBaja}" ng-repeat="item in result"
                                               ng-Mouseover="mostrarAcciones(item)" ng-mouseleave="ocultarAcciones(item)">

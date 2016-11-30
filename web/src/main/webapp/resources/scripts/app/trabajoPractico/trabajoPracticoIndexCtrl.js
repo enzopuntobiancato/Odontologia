@@ -1,11 +1,3 @@
-/**
- * Created with IntelliJ IDEA.
- * User: enzo
- * Date: 12/05/15
- * Time: 20:49
- */
-
-
 var module = angular.module('trabajoPracticoModule');
 
 
@@ -16,6 +8,9 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         $scope.filter = {};
         $scope.result = [];
         $scope.filterChips = [];
+
+        var handleError = $scope.$parent.handleError;
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
 
         $scope.data = {
             gruposPractica: gruposPracticaResponse.data,
@@ -99,6 +94,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
         $scope.paginationData = pagination.paginationData;
 //        executeQuery();
         function executeQuery(pageNumber) {
+            $scope.validationErrorFromServer.error = false;
             pagination.paginate($scope.filter, pageNumber).then(function (data) {
                 $scope.result = data;
                 $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
@@ -134,7 +130,7 @@ module.controller('TrabajoPracticoCtrl_Index', ['$scope', '$cacheFactory', 'Trab
             $state.go('^.create');
         }
 
-        deleteRestoreService.config('api/trabajoPractico/remove', 'api/trabajoPractico/restore', 'Trabajo práctico', executeQuery);
+        deleteRestoreService.config('api/trabajoPractico/remove', 'api/trabajoPractico/restore', 'Trabajo práctico', executeQuery, handleError);
 
         $scope.openDeleteDialog = function (event, id, nombre) {
             deleteRestoreService.delete(event, id, nombre, $scope.paginationData.pageNumber, $scope.filter.dadosBaja, $scope.result.length);

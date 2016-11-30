@@ -24,6 +24,14 @@ module.controller('UsuarioCtrl_Edit', ['$scope',
               personaEmumsResponse) {
 
         var vm = this;
+
+        var today = new Date();
+
+        vm.restrictedDate = {
+            maxDate: new Date(today.getFullYear() - 15, 0, 1),
+            minDate: new Date(1900, 0, 1)
+        };
+
         vm.usuario = usuarioResponse.data;
         vm.file = imageResponse.data;
         var personaEnums = personaEmumsResponse.data;

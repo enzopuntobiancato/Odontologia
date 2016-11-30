@@ -1,5 +1,9 @@
 package com.utn.tesis.model;
 
+import com.google.common.collect.ImmutableList;
+
+import java.util.List;
+
 public enum EstadoAsignacionPaciente {
 
     PENDIENTE {
@@ -44,5 +48,12 @@ public enum EstadoAsignacionPaciente {
             return "No registra atencion";
         }
     };
+
+    public static List<EstadoAsignacionPaciente> FINAL_STATES = ImmutableList.of(
+            NO_REGISTRA_ATENCION,
+            ATENCION_REGISTRADA,
+            ANULADO,
+            CANCELADO
+    );
 
 }

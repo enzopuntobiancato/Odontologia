@@ -9,6 +9,9 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
         $scope.gruposPractica = gruposPracticaResponse.data;
         $scope.filterChips = [];
 
+        var handleError = $scope.$parent.handleError;
+        $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
+
         var cache = $cacheFactory.get('practicaIndexCache') || $cacheFactory('practicaIndexCache');
 
         $scope.aux = {
@@ -56,6 +59,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
         }
 
         function executeQuery(pageNumber) {
+            $scope.validationErrorFromServer.error = false;
             pagination.paginate($scope.filter, pageNumber).then(function (data) {
                 $scope.result = data;
                 $scope.aux.showDadosBaja = $scope.filter.dadosBaja;
@@ -98,7 +102,7 @@ module.controller('PracticaOdontologicaCtrl_Index', ['$scope', '$cacheFactory', 
             executeQuery();
         }
 
-        deleteRestoreService.config('api/practicaOdontologica/remove', 'api/practicaOdontologica/restore', 'Práctica odontológica', executeQuery);
+        deleteRestoreService.config('api/practicaOdontologica/remove', 'api/practicaOdontologica/restore', 'Práctica odontológica', executeQuery, handleError);
 
         $scope.openDeleteDialog = function (event, id, nombre) {
             deleteRestoreService.delete(event, id, nombre, $scope.paginationData.pageNumber, $scope.filter.dadosBaja, $scope.result.length);

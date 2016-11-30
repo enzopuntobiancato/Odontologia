@@ -11,6 +11,14 @@ module.controller('PacienteCtrl_EditCreate',
             var vm = this;
             vm.paciente= pacienteResponse.data;
             vm.submitted = false;
+
+            var today = new Date();
+
+            vm.restrictedDate = {
+                maxDate: new Date(today.getFullYear() - 3, 0, 1),
+                minDate: new Date(1900, 0, 1)
+            };
+
             vm.data = {
                 ciudades : ciudadesResponse.data,
                 barrios : barriosResponse.data,

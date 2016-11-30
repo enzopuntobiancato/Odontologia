@@ -42,4 +42,26 @@ public class TrabajoPracticoDao extends DaoBase<TrabajoPractico> {
         List<TrabajoPractico> result = query.list(trabajoPractico);
         return query.list(trabajoPractico);
     }
+
+    public boolean hasActiveCatedras(TrabajoPractico entity) {
+        JPAQuery query = new JPAQuery(em).from(catedra)
+                .innerJoin(catedra.trabajosPracticos, trabajoPractico)
+                .where(trabajoPractico.id.eq(entity.getId()).and(catedra.fechaBaja.isNull()));
+
+        List<Catedra> catedras = query.list(catedra);
+        return catedras.isEmpty();
+    }
+
+    public boolean hasActiveAsignaciones(TrabajoPractico entity) {
+        QAsignacionPaciente asignacionPaciente = QAsignacionPaciente.asignacionPaciente;
+        QMovimientoAsignacionPaciente movimientoAsignacionPaciente = QMovimientoAsignacionPaciente.movimientoAsignacionPaciente;
+
+        JPAQuery query = new JPAQuery(em).from(asignacionPaciente)
+                .innerJoin(asignacionPaciente.trabajoPractico, trabajoPractico)
+                .innerJoin(asignacionPaciente.ultimoMovimiento, movimientoAsignacionPaciente)
+                .where(trabajoPractico.id.eq(entity.getId()).and(movimientoAsignacionPaciente.estado.notIn(EstadoAsignacionPaciente.FINAL_STATES)));
+
+        List<AsignacionPaciente> asignacionPacientes = query.list(asignacionPaciente);
+        return asignacionPacientes.isEmpty();
+    }
 }
