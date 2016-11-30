@@ -10,6 +10,7 @@ import com.utn.tesis.mapping.mapper.UsuarioConsultaMapper;
 import com.utn.tesis.mapping.mapper.UsuarioMapper;
 import com.utn.tesis.model.FileExtension;
 import com.utn.tesis.model.Persona;
+import com.utn.tesis.model.RolEnum;
 import com.utn.tesis.model.Usuario;
 import com.utn.tesis.service.CommonsService;
 import com.utn.tesis.service.RolService;
@@ -29,11 +30,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * User: Enzo
- * Date: 30/06/15
- * Time: 22:04
- */
 @Path("/usuario")
 @RequestScoped
 @Slf4j
@@ -122,10 +118,9 @@ public class UsuarioAPI extends BaseAPI {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/update")
-    public Response save(MultipartFormDataInput input) throws SAPOException {
+    @Path("/saveUserImage/{usuarioId}")
+    public Response saveUserImage(MultipartFormDataInput input, @PathParam("usuarioId") Long usuarioId) throws SAPOException {
         Map<String, List<InputPart>> form = input.getFormDataMap();
-        UsuarioViewEditDTO usuario = (UsuarioViewEditDTO) multiPartFormHelper.retrieveObject(form, "usuario", UsuarioViewEditDTO.class);
 
         Map<String, Object> file = multiPartFormHelper.retrieveFile(form, "file");
         ArchivoDTO imagenUsuario = null;
@@ -135,8 +130,17 @@ public class UsuarioAPI extends BaseAPI {
             imagenUsuario.setNombre((String) file.get(multiPartFormHelper.NAME));
             imagenUsuario.setArchivo((InputStream) file.get(multiPartFormHelper.FILE));
         }
+        usuarioService.saveUserImage(usuarioId, imagenUsuario);
+        return Response.ok().build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/updateUser")
+    public Response updateUser(UsuarioViewEditDTO usuario) throws SAPOException {
         try {
-            usuarioService.updateUser(usuario, imagenUsuario);
+            usuarioService.updateUser(usuario);
         } catch (IllegalAccessException e) {
             throw new SAPOException(e);
         } catch (InstantiationException e) {

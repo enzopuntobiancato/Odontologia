@@ -1,7 +1,7 @@
 var module = angular.module('historiaClinicaModule');
 
-module.controller('DocumentacionesEdit_Ctrl', ['$scope', 'MessageSrv', '$state', '$filter', '$stateParams', '$window', '$mdEditDialog', 'Upload', 'pacienteId', 'docResponse',
-    function ($scope, message, $state, $filter, $stateParams, $window, $mdEditDialog, Upload, pacienteId, docResponse) {
+module.controller('DocumentacionesEdit_Ctrl', ['$scope', 'HistoriaClinicaSrv', 'MessageSrv', '$state', '$filter', '$stateParams', '$window', '$mdEditDialog', 'Upload', 'pacienteId', 'docResponse', '$q',
+    function ($scope, historiaClinicaSrv, message, $state, $filter, $stateParams, $window, $mdEditDialog, Upload, pacienteId, docResponse, $q) {
         var vm = this;
 
         var pacienteId = pacienteId;
@@ -41,10 +41,7 @@ module.controller('DocumentacionesEdit_Ctrl', ['$scope', 'MessageSrv', '$state',
                doc.extension = null;
             });
             performSubmit(function() {
-                Upload.upload({
-                    url: 'api/historiaClinica/saveDocumentaciones/' + pacienteId,
-                    data: {files: vm.filesAdded, documentaciones: Upload.json(vm.documentaciones)}
-                }).then(function (response) {
+                doSave().then(function (response) {
                         message.successMessage('Documentaciones guardadas con éxito.');
                        goViewOrContinueEditing(args);
                     }, function (response) {
@@ -52,6 +49,30 @@ module.controller('DocumentacionesEdit_Ctrl', ['$scope', 'MessageSrv', '$state',
                     });
             }, args.form);
         });
+
+        function doSave() {
+            var deferred = $q.defer();
+            historiaClinicaSrv.updateCurrentDocsAndSaveTempNewDocs(vm.documentaciones, pacienteId)
+                .then(function (response) {
+                    if (vm.filesAdded && vm.filesAdded.length) {
+                        Upload.upload({
+                            url: 'api/historiaClinica/saveNewFiles',
+                            data: {files: vm.filesAdded, newFilesIds: Upload.json(response.data)}
+                        })
+                            .then(function (response) {
+                                deferred.resolve(response);
+                            }, function (response) {
+                                deferred.reject(response);
+                            })
+                    } else {
+                        deferred.resolve(response);
+                    }
+                }, function (response) {
+                    deferred.reject(response);
+                })
+
+            return deferred.promise;
+        }
 
         function goViewOrContinueEditing(args) {
             if  (args.continueEditing) {

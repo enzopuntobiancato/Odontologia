@@ -54,7 +54,7 @@ public class PersonaService extends BaseService<Persona> {
         return super.create(entity);
     }
 
-    public void update(PersonaDTO persona, ArchivoDTO imagen) throws SAPOException {
+    public void update(PersonaDTO persona) throws SAPOException {
         Persona personaEntity = this.findById(persona.getId());
         String encryptedPassword;
         if (persona.getUsuario().isChangePassword()) {
@@ -70,7 +70,6 @@ public class PersonaService extends BaseService<Persona> {
             personaEntity.getUsuario().setUltimaConexion(Calendar.getInstance());
         }
         personaEntity.getUsuario().setContrasenia(encryptedPassword);
-        personaEntity.getUsuario().setImagen(archivoService.save(imagen));
         for (RolUsuario rolUsuario : personaEntity.getUsuario().getRoles()) {
             if (!personaEntity.getClass().equals(rolUsuario.getPersona().getClass())) {
                 personaEntity.populateTo(rolUsuario.getPersona());

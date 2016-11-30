@@ -11,17 +11,9 @@ module.controller('UsuarioCtrl_Edit', ['$scope',
     'imageResponse',
     'rolesResponse',
     'personaEmumsResponse',
-    function ($scope,
-              $rootScope,
-              $state,
-              message,
-              $filter,
-              Upload,
-              $timeout,
-              usuarioResponse,
-              imageResponse,
-              rolesResponse,
-              personaEmumsResponse) {
+    'UsuarioSrv',
+    '$q',
+    function ($scope, $rootScope, $state, message, $filter, Upload, $timeout, usuarioResponse, imageResponse, rolesResponse, personaEmumsResponse, usuarioSrv, $q) {
 
         var vm = this;
 
@@ -86,7 +78,7 @@ module.controller('UsuarioCtrl_Edit', ['$scope',
 
         function rolSelected(rol) {
             var selected = false;
-            for (var i = 0; i< vm.data.roles.length; i++) {
+            for (var i = 0; i < vm.data.roles.length; i++) {
                 if (vm.data.roles[i].selected && vm.data.roles[i].nombre.key == rol) {
                     selected = true;
                     break;
@@ -97,7 +89,7 @@ module.controller('UsuarioCtrl_Edit', ['$scope',
 
         function associatePersons() {
             vm.usuario.roles = [];
-            getSelectedRoles().forEach(function(rol) {
+            getSelectedRoles().forEach(function (rol) {
                 var persona = getPersonForRol(rol);
                 persona.nombreRol = rol.nombre.key;
                 vm.usuario.roles.push({
@@ -109,7 +101,7 @@ module.controller('UsuarioCtrl_Edit', ['$scope',
 
         function getPersonForRol(rol) {
             var person;
-            switch(rol.nombre.key) {
+            switch (rol.nombre.key) {
                 case 'ADMINISTRADOR':
                     person = vm.usuario.administradorDTO;
                     break;
@@ -142,17 +134,34 @@ module.controller('UsuarioCtrl_Edit', ['$scope',
             }
             associatePersons();
             performSubmit(function () {
-                Upload.upload({
-                    url: 'api/usuario/update',
-                    data: {file: vm.file, usuario: Upload.json(vm.usuario)}
-                }).then(function () {
-                        vm.data.persistedOperation = true;
-                        message.successMessage('Usuario ' + vm.usuario.nombreUsuario + ' modificado con éxito.');
-                        goIndex();
-                    }, function (response) {
-                        handleError(response.data, response.status);
-                    });
+                doSave().then(function () {
+                    vm.data.persistedOperation = true;
+                    message.successMessage('Usuario ' + vm.usuario.nombreUsuario + ' modificado con éxito.');
+                    goIndex();
+                }, function (response) {
+                    handleError(response.data, response.status);
+                });
             }, form);
+        }
+
+        function doSave() {
+            var deferred = $q.defer();
+            usuarioSrv.updateUser(vm.usuario)
+                .then(function () {
+                    Upload.upload({
+                        url: 'api/usuario/saveUserImage/' + vm.usuario.id,
+                        data: {file: vm.file}
+                    })
+                        .then(function (response) {
+                            deferred.resolve(response);
+                        }, function (response) {
+                            deferred.reject(response);
+                        })
+                }, function (response) {
+                    deferred.reject(response);
+                })
+
+            return deferred.promise;
         }
 
         function getSelectedRoles() {

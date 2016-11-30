@@ -174,7 +174,7 @@ public class UsuarioService extends BaseService<Usuario> {
         return usuarioViewDTO;
     }
 
-    public void updateUser(UsuarioViewEditDTO usuarioDTO, ArchivoDTO imagen) throws IllegalAccessException, InstantiationException, SAPOException {
+    public void updateUser(UsuarioViewEditDTO usuarioDTO) throws IllegalAccessException, InstantiationException, SAPOException {
         Usuario usuario = findById(usuarioDTO.getId());
         usuarioMapper.updateFromDTO(usuarioDTO, usuario);
 
@@ -206,7 +206,6 @@ public class UsuarioService extends BaseService<Usuario> {
             persona.setUsuario(usuario);
         }
         usuario.setRoles(rolesUsuario);
-        usuario.setImagen(archivoService.save(imagen));
     }
 
     public void recuperarPassword(String email) throws SAPOException {
@@ -221,6 +220,11 @@ public class UsuarioService extends BaseService<Usuario> {
 
     public PersonaDTO findPersonaDTOByUserAndRol(Long idUsuario, RolEnum rol) {
         return personaMapper.toDTO(this.findPersonaByUserAndRol(idUsuario, rol));
+    }
+
+    public void saveUserImage(Long userId, ArchivoDTO archivoDTO) throws SAPOException {
+        Usuario usuario = findById(userId);
+        usuario.setImagen(archivoService.save(archivoDTO));
     }
 }
 

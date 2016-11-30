@@ -174,7 +174,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                             .then(function (response) {
                                 var user = response.data;
                                 user.missingRole = false;
-                                authFactory.setAuthData(user);
+                                authFactory.setAuthData(user, authFactory.getImage());
                                 if (user.firstLogin) {
                                     authFactory.communicateAuthChangedMissingStep();
                                     $state.go('persona.firstLogin');

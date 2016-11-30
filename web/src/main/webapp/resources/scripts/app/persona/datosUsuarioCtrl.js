@@ -1,7 +1,7 @@
 var module = angular.module('personaModule');
 
-module.controller('PersonaCtrl_DatosUsuario', ['$scope', '$rootScope', '$state', 'authFactory', 'MessageSrv', 'Upload', 'personaResponse', 'tiposDocumentoResponse', 'sexosResponse', 'cargosResponse', 'imageResponse', '$timeout',
-    function ($scope, $rootScope, $state, authFactory, message, Upload, personaResponse, tiposDocumentoResponse, sexosResponse, cargosResponse, imageResponse, $timeout) {
+module.controller('PersonaCtrl_DatosUsuario', ['$scope', 'PersonaSrv', '$rootScope', '$state', 'authFactory', 'MessageSrv', 'Upload', 'personaResponse', 'tiposDocumentoResponse', 'sexosResponse', 'cargosResponse', 'imageResponse', '$timeout', '$q',
+    function ($scope, personaSrv, $rootScope, $state, authFactory, message, Upload, personaResponse, tiposDocumentoResponse, sexosResponse, cargosResponse, imageResponse, $timeout, $q) {
 
         var vm = this;
         var today = new Date();
@@ -33,17 +33,36 @@ module.controller('PersonaCtrl_DatosUsuario', ['$scope', '$rootScope', '$state',
 
         function save(form) {
             performSubmit(function () {
-                Upload.upload({
-                    url: 'api/persona/saveUserRelatedData',
-                    data: {file: vm.file, usuario: Upload.json(vm.usuario), persona: Upload.json(vm.persona)}
-                }).then(function (response) {
-                        authFactory.setAuthData(response.data, vm.file);
-                        authFactory.communicateAuthChanged();
-                        $state.go('home');
-                    }, function (response) {
-                        handleError(response.data, response.status);
-                    });
+                doSave().then(function (response) {
+                    authFactory.setAuthData(response.data, vm.file);
+                    authFactory.communicateAuthChanged();
+                    $state.go('home');
+                }, function (response) {
+                    handleError(response.data, response.status);
+                });
             }, form);
+        }
+
+        function doSave() {
+            var deferred = $q.defer();
+            vm.persona.nombreRol = vm.usuario.rol.key;
+            personaSrv.saveUserRelatedData(vm.persona, vm.usuario.rol.key)
+                .then(function (response) {
+                    Upload.upload({
+                        url: 'api/persona/saveUserImage/' + vm.usuario.id,
+                        params: {rol: vm.usuario.rol.key},
+                        data: {file: vm.file}
+                    })
+                        .then(function (response) {
+                            deferred.resolve(response);
+                        }, function (response) {
+                            deferred.reject(response);
+                        })
+                }, function (response) {
+                    deferred.reject(response);
+                })
+
+            return deferred.promise;
         }
 
         function isFileSelected() {

@@ -17,6 +17,14 @@ module.factory('PersonaSrv', ['$http', function ($http) {
                 headers: {'Content-Type': 'application/json'},
                 responseType: 'blob'
             });
+        },
+        saveUserRelatedData: function(persona, rol) {
+            return $http({
+                method: 'POST',
+                url: 'api/persona/saveUserRelatedData',
+                data: persona,
+                params: {rol: rol}
+            })
         }
     }
 }]);

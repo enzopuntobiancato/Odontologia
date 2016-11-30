@@ -63,12 +63,11 @@ public class AtencionService extends BaseService<Atencion> {
         return dao.findByFilters(fechaAtencion, asignacionPaciente, page, pageSize);
     }
 
-    public void save(AtencionDTO atencionDTO, List<ArchivoDTO> documentaciones, UsuarioLogueadoDTO generadoPor) throws SAPOException {
+    public Long save(AtencionDTO atencionDTO, UsuarioLogueadoDTO generadoPor) throws SAPOException {
         Atencion atencion = atencionMapper.fromDTO(atencionDTO);
         atencion.setFechaDeCarga(Calendar.getInstance());
         AsignacionPaciente asignacionPaciente = asignacionPacienteService.registrarMovimiento(atencionDTO.getAsignacionPaciente().getId(), generadoPor.getId(), EstadoAsignacionPaciente.ATENCION_REGISTRADA);
         atencion.setAsignacionPaciente(asignacionPaciente);
-        atencion.setDocumentaciones(archivoService.saveList(documentaciones));
         save(atencion);
         HistoriaClinica hc = asignacionPaciente.getPaciente().getHistoriaClinica();
         hc.addAtencion(atencion);
@@ -99,6 +98,17 @@ public class AtencionService extends BaseService<Atencion> {
                 observacionesForDiagnostico,
                 referenceForDiagnostico
         );
+        return atencion.getId();
+    }
+
+    public void saveRelatedDocs(Long atencionId, List<ArchivoDTO> documentaciones) throws SAPOException {
+        Atencion atencion = findById(atencionId);
+        if (atencion.getDocumentaciones() == null) {
+            atencion.setDocumentaciones(new ArrayList<Archivo>());
+        } else {
+            atencion.getDocumentaciones().clear();
+        }
+        atencion.getDocumentaciones().addAll(archivoService.saveList(documentaciones));
     }
 
     public List<AtencionDTO> findByFilters(Long pacienteId, Long practicaId, Long catedraId, Long trabajoPracticoId, Date fechaDesde, Date fechaHasta, Long pageNumber, Long pageSize) {

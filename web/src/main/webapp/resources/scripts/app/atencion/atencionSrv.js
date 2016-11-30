@@ -56,6 +56,13 @@ module
                     method: 'GET',
                     params: {pacienteId: pacienteId}
                 })
+            },
+            saveAtencion: function(atencion) {
+                return $http({
+                    url: 'api/atencion/save',
+                    method: 'POST',
+                    data: atencion
+                })
             }
         }
     }]);

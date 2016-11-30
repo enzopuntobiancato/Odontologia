@@ -80,8 +80,8 @@
                                                 </md-checkbox>
                                             </div>
                                         </div>
-                                        <div ng-messages="usuarioForm.roles.$error" ng-show="data.missingRole">
-                                            <div>Es obligatorio</div>
+                                        <div style="color: rgb(221,44,0)" ng-if="data.missingRole">
+                                            <div><small>Es obligatorio</small></div>
                                         </div>
                                     </fieldset>
                                 </md-input-container>

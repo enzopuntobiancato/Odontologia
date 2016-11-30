@@ -2,7 +2,6 @@ package com.utn.tesis.mail;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

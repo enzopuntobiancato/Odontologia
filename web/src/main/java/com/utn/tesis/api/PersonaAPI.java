@@ -7,6 +7,7 @@ import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.FileExtension;
 import com.utn.tesis.model.Persona;
 import com.utn.tesis.model.Profesor;
+import com.utn.tesis.model.RolEnum;
 import com.utn.tesis.service.PersonaService;
 import com.utn.tesis.service.ProfesorService;
 import com.utn.tesis.service.RolService;
@@ -44,11 +45,9 @@ public class PersonaAPI {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/saveUserRelatedData")
-    public Response save(MultipartFormDataInput input) throws SAPOException {
+    @Path("/saveUserImage/{usuarioId}")
+    public Response saveUserImage(MultipartFormDataInput input, @PathParam("usuarioId") Long usuarioId, @QueryParam("rol") String rolKey) throws SAPOException {
         Map<String, List<InputPart>> form = input.getFormDataMap();
-        UsuarioLogueadoDTO usuario = (UsuarioLogueadoDTO) helper.retrieveObject(form, "usuario", UsuarioLogueadoDTO.class);
-        PersonaDTO person = (PersonaDTO) helper.retrieveObject(form, "persona", RolService.rolToPerson.get(usuario.getRol().getKey()));
 
         Map<String, Object> file = helper.retrieveFile(form, "file");
         ArchivoDTO imagenUsuario = null;
@@ -58,8 +57,20 @@ public class PersonaAPI {
             imagenUsuario.setNombre((String) file.get(helper.NAME));
             imagenUsuario.setArchivo((InputStream) file.get(helper.FILE));
         }
-        personaService.update(person, imagenUsuario);
-        UsuarioLogueadoDTO updatedUser = usuarioService.fetchUser(person.getUsuario().getId(), usuario.getRol());
+        usuarioService.saveUserImage(usuarioId, imagenUsuario);
+        RolEnum rolEnum = RolEnum.valueOf(rolKey);
+        UsuarioLogueadoDTO updatedUser = usuarioService.fetchUser(usuarioId, new EnumDTO(rolEnum.getKey(), rolEnum.toString()));
+        return Response.ok(updatedUser).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/saveUserRelatedData")
+    public Response saveUserRelatedData(PersonaDTO persona, @QueryParam("rol") String rolKey) throws SAPOException {
+        personaService.update(persona);
+        RolEnum rolEnum = RolEnum.valueOf(rolKey);
+        UsuarioLogueadoDTO updatedUser = usuarioService.fetchUser(persona.getUsuario().getId(), new EnumDTO(rolEnum.getKey(), rolEnum.toString()));
         return Response.ok(updatedUser).build();
     }
 

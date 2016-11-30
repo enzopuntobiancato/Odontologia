@@ -17,8 +17,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class PacienteService extends BaseService<Paciente> {
@@ -79,20 +81,27 @@ public class PacienteService extends BaseService<Paciente> {
         return pacienteMapper.toDTO(paciente);
     }
 
-    public void saveDocumentaciones(List<ArchivoDTO> archivoDTOs, Long idPaciente) throws SAPOException {
+    public List<Long> updateCurrentDocsDescriptionAndSaveTempNewDocs(List<ArchivoDTO> archivoDTOs, Long idPaciente) throws SAPOException {
         Paciente paciente = this.findById(idPaciente);
         HistoriaClinica hc = paciente.getHistoriaClinica();
         hc.getDocumentacion().clear();
+        List<Long> newFiles = new ArrayList<Long>();
         for (ArchivoDTO archivoDTO: archivoDTOs) {
             Archivo archivo;
             if (archivoDTO.getId() != null) {
                 archivo = archivoService.findById(archivoDTO.getId());
                 archivo.setDescripcion(archivoDTO.getDescripcion());
             } else {
-                archivo = archivoService.save(archivoDTO);
+                archivo = new Archivo();
+                archivoMapper.updateFromDTO(archivoDTO, archivo);
+                archivo.setRuta("temporalPath");
+                archivo.setExtension(FileExtension.NONE);
+                archivoService.save(archivo);
+                newFiles.add(archivo.getId());
             }
             hc.getDocumentacion().add(archivo);
         }
+        return newFiles;
     }
 
     public List<ArchivoDTO> findDocumentacionesByPaciente(Long pacienteId) {
