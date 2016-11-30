@@ -49,7 +49,6 @@ module.controller('AsignacionCtrl_EditCreate',
             //Seleccion Alumno
             vm.onAlumnoSelected = onAlumnoSelected;
             vm.deleteSelectedAlumno = onDeleteSelectedAlumno;
-//            vm.isAlumnoSelected = false;
             vm.selectedAlumnos = [];
             //Seleccion diagnostico
             vm.onDiagnosticoSelected = onDiagnosticoSelected;
@@ -104,7 +103,6 @@ module.controller('AsignacionCtrl_EditCreate',
                     service.getCatedras()
                         .success(function (data) {
                             vm.data.catedras = data;
-//                            executeQuery();
                         }).error(function (error) {
                             console.log(error);
                         })
@@ -234,6 +232,10 @@ module.controller('AsignacionCtrl_EditCreate',
                 vm.asignacion.idPaciente = diagnosticoSupport.idPaciente;
                 vm.asignacion.apellidoPaciente = diagnosticoSupport.apellido;
                 vm.asignacion.nombrePaciente = diagnosticoSupport.nombre;
+                vm.asignacion.email = diagnosticoSupport.email;
+                vm.asignacion.telefono = diagnosticoSupport.telefono;
+                vm.asignacion.celular = diagnosticoSupport.celular;
+
                 vm.asignacion.trabajoPractico = vm.filter.trabajoPractico;
                 vm.asignacion.catedra = vm.filter.catedra;
                 vm.filterPaciente.push(newFilterChip('selectedPaciente', 'Paciente', vm.asignacion.idPaciente, vm.asignacion.apellidoPaciente + ", " + vm.asignacion.nombrePaciente));
@@ -252,6 +254,9 @@ module.controller('AsignacionCtrl_EditCreate',
                 vm.asignacion.paciente = {};
                 vm.asignacion.apellidoPaciente = {};
                 vm.asignacion.nombrePaciente = {};
+                vm.asignacion.email = {};
+                vm.asignacion.telefono = {};
+                vm.asignacion.celular = {};
                 vm.selectedDiagnosticos = [];
                 vm.filter = {};
                 vm.diagnosticos = [];
@@ -263,6 +268,9 @@ module.controller('AsignacionCtrl_EditCreate',
                 vm.asignacion.paciente = {};
                 vm.asignacion.apellidoPaciente = {};
                 vm.asignacion.nombrePaciente = {};
+                vm.asignacion.email = {};
+                vm.asignacion.telefono = {};
+                vm.asignacion.celular = {};
                 vm.selectedDiagnosticos = [];
             }
 
@@ -347,8 +355,9 @@ module.controller('AsignacionCtrl_EditCreate',
                     .then(function (asignacion) {
                         save(form, asignacion);
                     },
-                    function () {
-                        // Cancelled dialog. Do nothing
+                    function (error) {
+                        message.errorMessage("Error");
+                        console.log(error);
                     });
             }
             //Chips

@@ -76,7 +76,7 @@
                             </md-button>
                         </div>
                     </div>
-                    <md-list>
+                    <md-list class="md-dense">
                         <md-list-item class="md-2-line" ng-repeat="catedra in vm.catedras">
                             <md-checkbox ng-model="catedra.selected" ng-change="vm.addCatedra(catedra)"
                                          ng-disabled="!vm.selectedProfesor"></md-checkbox>

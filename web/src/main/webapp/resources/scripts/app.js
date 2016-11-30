@@ -68,7 +68,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
 
         $mdDateLocaleProvider.parseDate = function (dateString) {
             var parts = dateString.split("/");
-            var date = new Date(parts[2], parts[1] -1, parts[0]);
+            var date = new Date(parts[2], parts[1] - 1, parts[0]);
             return date;
         };
 
@@ -211,20 +211,28 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/estadisticas',
                 templateUrl: 'views/estadisticas/estadisticas.html',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombrePaquete: 'Estadísticas'
                 },
-                controller: function ($scope) {}
+                controller: function ($scope) {
+                }
             })
             .state('persona', {
                 url: '/persona',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Usuarios'
+                },
                 resolve: module('personaModule')
             })
             .state('persona.firstLogin', {
                 url: '/firstLogin',
                 templateUrl: 'views/persona/firstLogin.html',
                 controller: 'PersonaCtrl_FirstLogin',
+                data:{
+                    nombreCasoUso : 'Primer login'
+                },
                 controllerAs: 'vm',
                 resolve: {
                     personaResponse: ['loadMyModule', 'authFactory', 'PersonaSrv', function (loadMyModule, authFactory, personaSrv) {
@@ -247,6 +255,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/persona/datosUsuario.html',
                 controller: 'PersonaCtrl_DatosUsuario',
                 controllerAs: 'vm',
+                data:{
+                    nombreCasoUso : 'Datos del usuario'
+                },
                 resolve: {
                     personaResponse: ['loadMyModule', 'authFactory', 'PersonaSrv', function (loadMyModule, authFactory, personaSrv) {
                         var user = authFactory.getAuthData();
@@ -270,6 +281,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .state('materia', {
                 url: '/materia',
                 template: '<ui-view/>',
+                data: {
+                    nombrePaquete: "Materias"
+                },
                 abstract: true,
                 resolve: module('materiaModule')
             })
@@ -278,6 +292,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/',
                 templateUrl: 'views/materia/materiaQuery.html',
                 controller: 'MateriaCtrl_Index',
+                data: {
+                    nombreCasoUso: 'Consultar materias'
+                },
                 params: {execQuery: false, execQuerySamePage: false},
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
@@ -289,6 +306,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/create',
                 templateUrl: 'views/materia/materiaCreate.html',
                 controller: 'MateriaCtrl_Create',
+                data: {
+                    nombreCasoUso: 'Crear materia'
+                },
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
@@ -299,6 +319,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/edit/:id',
                 templateUrl: 'views/materia/materiaEdit.html',
                 controller: 'MateriaCtrl_Edit',
+                data: {
+                    nombreCasoUso: 'Modificar materia'
+                },
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
                         return commons.getNiveles();
@@ -312,6 +335,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .state('materia.view', {
                 url: '/view/:id',
                 templateUrl: 'views/materia/materiaView.html',
+                data: {
+                    nombreCasoUso: 'Ver materia'
+                },
                 resolve: {
                     materiaResponse: ['loadMyModule', '$stateParams', 'MateriaSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -319,9 +345,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 },
                 controller: function ($scope, $state, materiaResponse) {
                     $scope.materia = materiaResponse.data;
-
                     $scope.imgIdx = Math.floor(Math.random() * (47 - 1 + 1)) + 1;
-
                     $scope.goIndex = function () {
                         $state.go('^.index');
                     }
@@ -332,6 +356,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/practicaOdontologica',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Prácticas odontológicas'
+                },
                 resolve: module('practicaOdontologicaModule')
             })
             .state('practicaOdontologica.index', {
@@ -339,6 +366,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/practicaOdontologica/practicaOdontologicaQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'PracticaOdontologicaCtrl_Index',
+                data:{
+                    nombreCasoUso : 'Consultar prácticas odontológicas'
+                },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
@@ -349,6 +379,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/create',
                 templateUrl: 'views/practicaOdontologica/practicaOdontologicaCreate.html',
                 controller: 'PracticaOdontologicaCtrl_Create',
+                data:{
+                    nombreCasoUso : 'Crear práctica odontológica'
+                },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
@@ -359,6 +392,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/edit/:id',
                 templateUrl: 'views/practicaOdontologica/practicaOdontologicaEdit.html',
                 controller: 'PracticaOdontologicaCtrl_Edit',
+                data:{
+                    nombreCasoUso : 'Modificar práctica odontológica'
+                },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
@@ -371,6 +407,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .state('practicaOdontologica.view', {
                 url: '/view/:id',
                 templateUrl: 'views/practicaOdontologica/practicaOdontologicaView.html',
+                data:{
+                    nombreCasoUso : 'Ver práctica odontológica'
+                },
                 resolve: {
                     practicaResponse: ['loadMyModule', '$stateParams', 'PracticaOdontologicaSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -389,6 +428,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/trabajoPractico',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Trabajo práctico'
+                },
                 resolve: module('trabajoPracticoModule')
             })
             .state('trabajoPractico.index', {
@@ -396,6 +438,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/trabajoPractico/trabajoPracticoQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'TrabajoPracticoCtrl_Index',
+                data:{
+                    nombreCasoUso : 'Consultar trabajo práctico'
+                },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
@@ -409,6 +454,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/create',
                 templateUrl: 'views/trabajoPractico/trabajoPracticoCreate.html',
                 controller: 'TrabajoPracticoCtrl_Create',
+                data:{
+                    nombreCasoUso : 'Crear trabajo práctico'
+                },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
@@ -423,6 +471,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/trabajoPractico/trabajoPracticoEdit.html',
                 controller: 'TrabajoPracticoCtrl_Edit',
                 controllerAs: 'vm',
+                data:{
+                    nombreCasoUso : 'Modificar trabajo práctico'
+                },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
                         return commons.getGruposPractica();
@@ -438,6 +489,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .state('trabajoPractico.view', {
                 url: '/view/:id',
                 templateUrl: 'views/trabajoPractico/trabajoPracticoView.html',
+                data:{
+                    nombreCasoUso : 'Ver trabajo práctico'
+                },
                 resolve: {
                     trabajoPracticoResponse: ['loadMyModule', '$stateParams', 'TrabajoPracticoSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -457,8 +511,11 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/trabajoPractico/viewTPsInfo.html',
                 controller: 'TrabajoPracticoCtrl_ViewInfo',
                 controllerAs: 'vm',
+                data:{
+                    nombreCasoUso : 'Consultar información de trabajos prácticos'
+                },
                 resolve: {
-                    catedrasResponse: ['loadMyModule', 'TrabajoPracticoSrv', function(loadMyModule, service) {
+                    catedrasResponse: ['loadMyModule', 'TrabajoPracticoSrv', function (loadMyModule, service) {
                         return service.findAllCatedras();
                     }]
                 }
@@ -467,6 +524,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/catedra',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Cátedras'
+                },
                 resolve: module('catedraModule')
             })
             .state('catedra.index', {
@@ -474,6 +534,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/catedra/catedraQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'CatedraCtrl_Index',
+                data:{
+                    nombreCasoUso : 'Consultar cátedras'
+                },
                 resolve: {
                     materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
                         return service.findAllMaterias();
@@ -484,6 +547,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/create',
                 templateUrl: 'views/catedra/catedraCreate.html',
                 controller: 'CatedraCtrl_Create',
+                data:{
+                    nombreCasoUso : 'Crear cátedra'
+                },
                 resolve: {
                     materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
                         return service.findAllMaterias();
@@ -503,6 +569,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/edit/:id',
                 templateUrl: 'views/catedra/catedraEdit.html',
                 controller: 'CatedraCtrl_Edit',
+                data:{
+                    nombreCasoUso : 'Modificar cátedra'
+                },
                 resolve: {
                     materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
                         return service.findAllMaterias();
@@ -524,6 +593,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .state('catedra.view', {
                 url: '/view/:id',
                 templateUrl: 'views/catedra/catedraView.html',
+                data:{
+                    nombreCasoUso : 'Ver cátedra'
+                },
                 resolve: {
                     catedraResponse: ['loadMyModule', '$stateParams', 'CatedraSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
@@ -541,6 +613,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/usuario',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Usuarios'
+                },
                 resolve: module('usuarioModule')
             })
             .state('usuario.index', {
@@ -548,6 +623,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/usuario/usuarioQuery.html',
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'UsuarioCtrl_Index',
+                data:{
+                    nombreCasoUso : 'Consultar usuarios'
+                },
                 resolve: {
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
@@ -558,6 +636,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/create',
                 templateUrl: 'views/usuario/usuarioCreate.html',
                 controller: 'UsuarioCtrl_Create',
+                data:{
+                    nombreCasoUso : 'Crear usuario'
+                },
                 resolve: {
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
@@ -577,6 +658,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/createAlumno',
                 templateUrl: 'views/usuario/usuarioCreate.html',
                 controller: 'UsuarioCtrl_Create',
+                data:{
+                    nombreCasoUso : 'Crear alumno'
+                },
                 resolve: {
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
@@ -597,6 +681,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/usuario/usuarioEdit.html',
                 controller: 'UsuarioCtrl_Edit',
                 controllerAs: 'vm',
+                data:{
+                    nombreCasoUso : 'Modificar usuario'
+                },
                 resolve: {
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
                         return service.getRoles();
@@ -616,6 +703,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .state('usuario.view', {
                 url: '/view/:id',
                 templateUrl: 'views/usuario/usuarioView.html',
+                data:{
+                    nombreCasoUso : 'Ver usuario'
+                },
                 resolve: {
                     usuarioResponse: ['loadMyModule', '$stateParams', 'UsuarioSrv', function (loadMyModule, $stateParams, service) {
                         return service.findUsuarioView($stateParams.id);
@@ -649,11 +739,17 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/paciente',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Pacientes'
+                },
                 resolve: module('pacienteModule')
             })
             .state('paciente.index', {
                 url: '/',
                 templateUrl: 'views/paciente/pacienteQuery.html',
+                data:{
+                    nombreCasoUso : 'Consultar pacientes'
+                },
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'PacienteCtrl_Index',
                 controllerAs: 'vm',
@@ -669,6 +765,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
             .state('paciente.create', {
                 url: '/create',
                 templateUrl: 'views/paciente/pacienteCreate.html',
+                data:{
+                    nombreCasoUso : 'Crear paciente'
+                },
                 controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
                 resolve: {
@@ -719,7 +818,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     odontogramaResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
                         return service.initOdontograma();
                     }],
-                    hallazgosResponse: ['loadMyModule', 'PacienteSrv', function(loadMyModule, service) {
+                    hallazgosResponse: ['loadMyModule', 'PacienteSrv', function (loadMyModule, service) {
                         return service.findHallazgos();
                     }]
                 }
@@ -730,7 +829,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'HistoriaClinicaCtrl_Main',
                 controllerAs: 'vm',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombrePaquete: 'Historia clínica'
                 },
                 resolve: {
                     loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -747,7 +847,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/hc/datosPersonales/datosPersonales.html',
                 controllerAs: 'vm',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Ver historia clínica'
                 },
                 controller: function ($scope, pacienteResponse) {
                     var vm = this;
@@ -768,7 +869,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     vm.paciente = pacienteResponse.data;
                 },
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Ver historia clínica'
                 },
                 resolve: {
                     pacienteResponse: ['loadMyModule', '$stateParams', 'HistoriaClinicaSrv', function (loadMyModule, $stateParams, service) {
@@ -782,7 +884,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controllerAs: 'vm',
                 controller: 'DiagnosticoCtrl_View',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Ver historia clínica'
                 },
                 resolve: {
                     pacienteResponse: ['loadMyModule', '$stateParams', 'HistoriaClinicaSrv', function (loadMyModule, $stateParams, service) {
@@ -791,7 +894,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     estadosDiagnosticoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getEstadosDiagnostico();
                     }],
-                    odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function(loadMyModule, $stateParams, service){
+                    odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function (loadMyModule, $stateParams, service) {
                         return service.findOdontogramaById($stateParams.id);
                     }]
                 }
@@ -802,7 +905,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'AtencionCtrl_View',
                 controllerAs: 'vm',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Ver historia clínica'
                 },
                 resolve: {
                     catedrasResponse: ['loadMyModule', 'AtencionSrv', function (loadMyModule, service) {
@@ -818,8 +922,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     var vm = this;
                     vm.documentaciones = docResponse.data;
 
-                    vm.openInNewTab = function(file) {
-                        var base = $location.protocol() + '://'+ $location.host() +':'+  $location.port() + "/Odontologia-web/api/file/";
+                    vm.openInNewTab = function (file) {
+                        var base = $location.protocol() + '://' + $location.host() + ':' + $location.port() + "/Odontologia-web/api/file/";
                         if (file.extension == 'PDF') {
                             $window.open(base + 'pdf?id=' + file.id);
                         } else {
@@ -829,10 +933,11 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
 
                 },
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Ver historia clínica'
                 },
                 resolve: {
-                    docResponse: ['loadMyModule', 'HistoriaClinicaSrv', '$stateParams', function(loadMyModule, service, $stateParams) {
+                    docResponse: ['loadMyModule', 'HistoriaClinicaSrv', '$stateParams', function (loadMyModule, service, $stateParams) {
                         return service.findDocumentacionesByPaciente($stateParams.id);
                     }]
                 }
@@ -843,7 +948,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Editar historia clínica'
                 },
                 resolve: {
                     nivelesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
@@ -890,7 +996,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Editar historia clínica'
                 },
                 resolve: {
                     nivelesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
@@ -937,7 +1044,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'DiagnosticoCtrl_Edit',
                 controllerAs: 'vm',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Editar historia clínica'
                 },
                 resolve: {
                     pacienteId: ['loadMyModule', '$stateParams', function (loadMyModule, $stateParams) {
@@ -949,13 +1057,13 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     finalStatesResponse: ['loadMyModule', 'DiagnosticoSrv', function (loadMyModule, service) {
                         return service.findFinalStates();
                     }],
-                    hallazgosResponse : ['loadMyModule', '$stateParams', 'PacienteSrv',function(loadMyModule, $stateParams, service){
+                    hallazgosResponse: ['loadMyModule', '$stateParams', 'PacienteSrv', function (loadMyModule, $stateParams, service) {
                         return service.findHallazgos();
                     }],
-                    odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function(loadMyModule, $stateParams, service){
+                    odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function (loadMyModule, $stateParams, service) {
                         return service.findOdontogramaById($stateParams.id);
                     }],
-                    practicasResponse: ['loadMyModule', 'DiagnosticoSrv', function(loadMyModule, service){
+                    practicasResponse: ['loadMyModule', 'DiagnosticoSrv', function (loadMyModule, service) {
                         return service.findPracticas();
                     }]
                 }
@@ -966,13 +1074,14 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controllerAs: 'vm',
                 controller: 'DocumentacionesEdit_Ctrl',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    nombreCasoUso: 'Editar historia clínica'
                 },
                 resolve: {
-                    pacienteId: ['loadMyModule', '$stateParams', function(loadMyModule, $stateParams) {
+                    pacienteId: ['loadMyModule', '$stateParams', function (loadMyModule, $stateParams) {
                         return $stateParams.id;
                     }],
-                    docResponse: ['loadMyModule', 'HistoriaClinicaSrv', '$stateParams', function(loadMyModule, service, $stateParams) {
+                    docResponse: ['loadMyModule', 'HistoriaClinicaSrv', '$stateParams', function (loadMyModule, service, $stateParams) {
                         return service.findDocumentacionesByPaciente($stateParams.id);
                     }]
                 }
@@ -981,12 +1090,18 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/profesor',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Datos académicos'
+                },
                 resolve: module('profesorModule')
             })
             .state('profesor.editCatedrasProfesor', {
                 url: '/editCatedrasProfesor.html',
                 templateUrl: 'views/profesor/editCatedrasProfesor.html',
                 controller: 'CatedrasProfesorCtrl_Edit',
+                data:{
+                    nombreCasoUso : 'Asignar cátedra a profesor'
+                },
                 controllerAs: 'vm',
                 resolve: {
                     materiasResponse: ['loadMyModule', 'ProfesorSrv', function (loadMyModule, service) {
@@ -998,11 +1113,17 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/asignacion',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Asignaciones de paciente'
+                },
                 resolve: module('asignacionModule')
             })
             .state('asignacion.view', {
                 url: '/view/:id',
                 templateUrl: 'views/asignacion/asignacionView.html',
+                data:{
+                    nombreCasoUso : 'Ver asignación'
+                },
                 controllerAs: 'vm',
                 resolve: {asignacionResponse: ['$stateParams', 'AsignacionSrv', function ($stateParams, service) {
                     return service.findById($stateParams.id);
@@ -1010,6 +1131,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: function ($scope, $state, asignacionResponse) {
                     var vm = this;
                     vm.asignacion = asignacionResponse.data;
+                    $scope.$parent.$parent.nombreCasoUso = "Ver asignación"
                     vm.goIndex = goIndex;
                     vm.imgIdx = Math.floor(Math.random() * (47 - 1 + 1)) + 1;
                     function goIndex() {
@@ -1022,6 +1144,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/asignacion/asignacionQuery.html',
                 controller: 'AsignacionCtrl_Index',
                 controllerAs: 'vm',
+                data:{
+                    nombreCasoUso : 'Consultar asignaciones'
+                },
                 params: {execQuery: false, execQuerySamePage: false},
                 resolve: {
                     practicasResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
@@ -1043,6 +1168,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/asignacion/asignacionAutorizar.html',
                 controller: 'AsignacionCtrl_Autorizar',
                 controllerAs: 'vm',
+                data:{
+                    nombreCasoUso : 'Autorizar asignaciones'
+                },
                 resolve: {
                     practicasResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return service.getPracticas();
@@ -1051,10 +1179,10 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         var user = authFactory.getAuthData();
                         return service.findProfesorByUser(user.id);
                     }],
-                    trabajosPracticosResponse: ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                    trabajosPracticosResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return null;
                     }],
-                    estadosAsignacionResponse : ['loadMyModule','AsignacionSrv', function (loadMyModule, service) {
+                    estadosAsignacionResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return service.getEstadosAsignaciones();
                     }],
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
@@ -1066,9 +1194,11 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/create',
                 templateUrl: 'views/asignacion/asignacionEditCreate.html',
                 controller: 'AsignacionCtrl_EditCreate',
+
                 controllerAs: 'vm',
                 data: {
-                    updating: false
+                    updating: false,
+                    nombreCasoUso: 'Crear asignación'
                 },
                 resolve: {
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
@@ -1092,7 +1222,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'AsignacionCtrl_EditCreate',
                 controllerAs: 'vm',
                 data: {
-                    updating: true
+                    updating: true,
+                    nombreCasoUso: 'Modificar asignación'
                 },
                 resolve: {
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
@@ -1113,6 +1244,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/atencion',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Atenciones'
+                },
                 resolve: module('atencionModule')
             })
             .state('atencion.create', {
@@ -1120,6 +1254,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/atencion/atencionCreate.html',
                 controllerAs: 'vm',
                 controller: 'AtencionCtrl_Create',
+                data:{
+                    nombreCasoUso : 'Crear atención'
+                },
                 resolve: {
                     asignacionResponse: ['loadMyModule', '$stateParams', 'AtencionSrv', function (loadMyModule, $stateParams, service) {
                         return service.findAsignacion($stateParams.idAsignacion);
@@ -1130,18 +1267,24 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/permisos',
                 template: '<ui-view/>',
                 abstract: true,
+                data:{
+                    nombrePaquete : 'Soporte'
+                },
                 resolve: module('permisosModule')
             })
             .state('permisos.administrate', {
                 url: '/administrar',
                 templateUrl: 'views/permisos/permisos.html',
                 controllerAs: 'vm',
+                data:{
+                    nombreCasoUso : 'Administrar permisos de rol'
+                },
                 controller: 'PermisosCtrl',
                 resolve: {
-                    funcionalidadesResponse: ['loadMyModule', 'PermisosSrv', function(loadMyModule, service) {
+                    funcionalidadesResponse: ['loadMyModule', 'PermisosSrv', function (loadMyModule, service) {
                         return service.findAllFuncionalidades();
                     }],
-                    rolesResponse: ['loadMyModule', 'PermisosSrv', function(loadMyModule, service) {
+                    rolesResponse: ['loadMyModule', 'PermisosSrv', function (loadMyModule, service) {
                         return service.findAllRoles();
                     }]
                 }
@@ -1150,11 +1293,17 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/backup',
                 template: '<ui-view/>',
                 abstract: true,
+                data: {
+                    nombrePaquete: 'Soporte'
+                },
                 resolve: module('backupModule')
             })
             .state('backup.administrate', {
                 url: '/administrar',
                 templateUrl: 'views/backup/administrar.html',
+                data: {
+                  nombreCasoUso : 'Respaldo de datos de sistema'
+                },
                 controllerAs: 'vm',
                 controller: 'BackupCtrl'
             })
@@ -1313,6 +1462,9 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             data: {}
         };
         $scope.session = {};
+        $scope.casoUso = null;
+
+        $scope.nombreCasoUso = null;
 
         retrieveSession();
 
@@ -1324,7 +1476,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
                     $scope.session.image = response.data;
                 });
             }
-            retrieveMenu().then(function(response) {
+            retrieveMenu().then(function (response) {
                 $scope.menu = response;
             });
         }
@@ -1375,10 +1527,16 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
                 }
             });
 
+        $scope.$on('$stateChangeSuccess',
+            function (event, toState, toParams, fromState, fromParams) {
+                $scope.nombrePaquete = toState.data.nombrePaquete;
+                $scope.nombreCasoUso = toState.data.nombreCasoUso;
+            })
+
         $scope.$on('authChanged', function () {
             retrieveSession();
             $scope.selectedMenuItem = {};
-            retrieveMenu().then(function(response) {
+            retrieveMenu().then(function (response) {
                 $scope.menu = response;
             });
         });
@@ -1386,14 +1544,14 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         function retrieveMenu() {
             var deferred = $q.defer();
             if ($scope.session.user && !$scope.session.user.missingRole) {
-                 if ($scope.menu && $scope.menu.length) {
-                     deferred.resolve($scope.menu);
-                 } else {
-                     authFactory.getPermisos($scope.session.user.rol.key)
-                         .then(function(response) {
-                             deferred.resolve(buildMenu(response.data));
-                         })
-                 }
+                if ($scope.menu && $scope.menu.length) {
+                    deferred.resolve($scope.menu);
+                } else {
+                    authFactory.getPermisos($scope.session.user.rol.key)
+                        .then(function (response) {
+                            deferred.resolve(buildMenu(response.data));
+                        })
+                }
             }
             return deferred.promise;
         }

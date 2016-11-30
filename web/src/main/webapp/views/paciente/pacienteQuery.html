@@ -87,7 +87,7 @@
                                     </md-input-container>
                                 </div>
                                 <filter-chips data="vm.filterChips"></filter-chips>
-                                <md-list ng-show="vm.result.length > 0">
+                                <md-list ng-show="vm.result.length > 0" class="md-dense">
                                     <md-list-item class="md-3-line" ng-class="{'deleted-item' : item.fechaBaja}" ng-repeat="item in vm.result" ng-click="vm.view(item.id)">
                                         <img ng-src="{{item.img}}" class="md-avatar list-item-{{$index}}" hide-xs/>
                                         <div class="md-list-item-text" layout="column">
