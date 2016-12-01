@@ -4,13 +4,16 @@ module.controller('PacienteCtrl_EditCreate',
     ['$scope', '$rootScope', '$filter','PacienteSrv', '$state', 'MessageSrv',
         'tiposDocumentoResponse','sexosResponse','provinciaResponse', 'ciudadesResponse','barriosResponse','estadosResponse',
         'trabajosResponse','obrasSocialesResponse','nivelesEstudioResponse','nacionalidadesResponse', 'pacienteResponse',
+        'Upload', '$q', 'imagenResponse',
         function ($scope, $rootScope, $filter, service, $state, message,
                   tiposDocumentoResponse,sexosResponse,provinciaResponse,ciudadesResponse,barriosResponse,estadosResponse,
-                  trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse,pacienteResponse
+                  trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse,pacienteResponse,
+                  Upload, $q, imagenResponse
             ) {
             var vm = this;
             vm.paciente= pacienteResponse.data;
             vm.submitted = false;
+            vm.file = imagenResponse.data;
 
             var today = new Date();
 
@@ -29,7 +32,8 @@ module.controller('PacienteCtrl_EditCreate',
                 trabajos: trabajosResponse.data,
                 obrasSociales: obrasSocialesResponse.data,
                 nivelesEstudio: nivelesEstudioResponse.data,
-                nacionalidades: nacionalidadesResponse.data
+                nacionalidades: nacionalidadesResponse.data,
+                wrongImageFormat: false
             }
 
             var performSubmit = $scope.$parent.performSubmit;
@@ -43,6 +47,9 @@ module.controller('PacienteCtrl_EditCreate',
             vm.ciudadDomicilioChange = ciudadDomicilioChange;
             vm.domicilioRequired = domicilioRequired;
             vm.limpiarCampos = limpiarCampos;
+            vm.isFileSelected = isFileSelected;
+            vm.fileChanged = fileChanged;
+            vm.deleteImage = deleteImage;
 
             init();
 
@@ -50,35 +57,56 @@ module.controller('PacienteCtrl_EditCreate',
                 event.defaultPrevented = true;
                 if (args.form.$valid) {
                     performSubmit(function(){
-                        service.save(vm.paciente)
-                            .success(function(){
-                                message.successMessage(vm.paciente.nombre + " editado con éxito");
+                        doSave()
+                            .then(function(response){
+                                var paciente = response.data;
+                                message.successMessage(paciente.apellido + ", " + paciente.nombre + " editado con éxito");
                                 if  (args.continueEditing) {
                                     $state.go($state.current, {editing: true}, {reload: true})
                                 } else {
                                     $state.go($state.current.name.replace('Edit', 'View'),  {editing: false});
                                 }
-                            }).error(function(data,status){
+                            }, function(response) {
                                 vm.validationErrorFromServer;
-                                handleError(data,status);
-                            })
+                                handleError(response.data,response.status);
+                            });
                     },args.form);
                 } else {
                     vm.submitted = true;
                 }
             });
 
+            function doSave() {
+                var deferred = $q.defer();
+                service.save(vm.paciente)
+                    .then(function (response) {
+                        Upload.upload({
+                            url: 'api/paciente/savePacienteImage/' + response.data.id,
+                            data: {file: vm.file}
+                        })
+                            .then(function (response) {
+                                deferred.resolve(response);
+                            }, function (response) {
+                                deferred.reject(response);
+                            })
+                    }, function (response) {
+                        deferred.reject(response);
+                    })
+
+                return deferred.promise;
+            }
+
             function create(form){
                 if (form.$valid) {
                     performSubmit(function(){
-                        service.save(vm.paciente)
-                            .success(function(pacienteResponse){
+                        doSave()
+                            .then(function(response){
                                 message.successMessage(vm.paciente.nombre + " creado con éxito");
                                 $rootScope.created = true;
-                                $state.go('historiaClinica', {id: pacienteResponse.id});
-                            }).error(function(data,status){
-                                handleError(data,status);
-                            })
+                                $state.go('historiaClinica', {id: response.data.id});
+                            }, function(response) {
+                                handleError(response.data,response.status);
+                            });
                     },form);
                 } else {
                     vm.submitted = true;
@@ -98,6 +126,29 @@ module.controller('PacienteCtrl_EditCreate',
                         return barrio.ciudad.id == vm.ciudadDomicilio.id;
                     });
                 }
+            }
+
+            function isFileSelected() {
+                return vm.file &&
+                    angular.isDefined(vm.file) &&
+                    vm.file != null &&
+                    vm.file.size > 0
+            }
+
+            function fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
+                if ($file) {
+                    vm.file = $file;
+                }
+                if ($invalidFiles.length) {
+                    vm.data.wrongImageFormat = true;
+                    $timeout(function () {
+                        vm.data.wrongImageFormat = false;
+                    }, 3000);
+                }
+            }
+
+            function deleteImage() {
+                vm.file = undefined;
             }
 
             function provinciaLugarDeNacimientoChange() {

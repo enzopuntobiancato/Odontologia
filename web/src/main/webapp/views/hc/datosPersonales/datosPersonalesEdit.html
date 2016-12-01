@@ -11,51 +11,124 @@
     <md-tab-body>
         <div layout-margin id="datosPersonales">
             <ng-form name="datosPersonalesForm">
-                <div layout="row" layout-margin>
-                    <md-input-container flex="30">
-                        <label>Nombre</label>
-                        <input name="nombre" ng-model="vm.paciente.nombre"
-                               required md-maxlength="75"/>
-
-                        <div ng-messages="datosPersonalesForm.nombre.$error"
-                             ng-show="datosPersonalesForm.nombre.$touched || vm.submitted" class="errors">
-                            <div ng-messages-include="error-messages"></div>
+                <div layout-gt-sm="row" layout-margin>
+                    <div flex-gt-sm="30" layout="column" layout-align="center center">
+                        <md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"
+                                   ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+                                   ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"
+                                   ngf-accept="'.jpg,.png,.bmp'" ngf-max-size="20MB" ngf-min-height="100">
+                            <img class="user-image-sm" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
+                                 ngf-resize="{width: 200, height: auto}">
+                            <img class="user-image-sm" ng-if="!vm.isFileSelected()"
+                                 src="resources/img/image_user.jpg"/>
+                        </md-button>
+                        <ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"
+                                    ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
+                                    ng-mouseleave="colorMouseLeave(3)">
+                            <md-tooltip>
+                                Quitar
+                            </md-tooltip>
+                        </ng-md-icon>
+                        <div class="validation-messages" ng-if="vm.data.wrongImageFormat">
+                            <div>El formato debe ser: .jpg, .png o .bmp</div>
                         </div>
-                    </md-input-container>
-                    <md-input-container flex="30">
-                        <label>Apellido</label>
-                        <input name="apellido" ng-model="vm.paciente.apellido"
-                               required md-maxlength="75"/>
+                    </div>
+                    <div flex="5"></div>
+                    <div flex-gt-sm="60" layout="column" layout-margin>
+                        <div layout="row">
+                            <md-input-container flex="50">
+                                <label>Nombre</label>
+                                <input name="nombre" ng-model="vm.paciente.nombre"
+                                       required md-maxlength="75"/>
 
-                        <div ng-messages="datosPersonalesForm.apellido.$error"
-                             ng-show="datosPersonalesForm.apellido.$touched || vm.submitted" class="errors">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container flex="20">
-                        <label>Sexo</label>
-                        <md-select ng-model="vm.paciente.sexo" name="sexo" required
-                                   ng-model-options="{ trackBy: '$value.key'}">
-                            <md-option ng-repeat="item in vm.data.sexos" ng-value="item">
-                                {{ item.nombre }}
-                            </md-option>
-                        </md-select>
-                        <div ng-messages="datosPersonalesForm.sexo.$error"
-                             ng-show="datosPersonalesForm.sexo.$touched || vm.submitted" class="errors">
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container flex="20">
-                        <label>Estado civil</label>
-                        <md-select ng-model="vm.paciente.estadoCivil" name="estadoCivil"
-                                   ng-model-options="{trackBy: '$value.key'}">
-                            <md-option ng-repeat="item in vm.data.estados" ng-value="item">
-                                {{ item.nombre }}
-                            </md-option>
-                        </md-select>
-                    </md-input-container>
+                                <div ng-messages="datosPersonalesForm.nombre.$error"
+                                     ng-show="datosPersonalesForm.nombre.$touched || vm.submitted" class="errors">
+                                    <div ng-messages-include="error-messages"></div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label>Apellido</label>
+                                <input name="apellido" ng-model="vm.paciente.apellido"
+                                       required md-maxlength="75"/>
 
-                </div>
+                                <div ng-messages="datosPersonalesForm.apellido.$error"
+                                     ng-show="datosPersonalesForm.apellido.$touched || vm.submitted" class="errors">
+                                    <div ng-messages-include="error-messages"></div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex="50">
+                                <label>Sexo</label>
+                                <md-select ng-model="vm.paciente.sexo" name="sexo" required
+                                           ng-model-options="{ trackBy: '$value.key'}">
+                                    <md-option ng-repeat="item in vm.data.sexos" ng-value="item">
+                                        {{ item.nombre }}
+                                    </md-option>
+                                </md-select>
+                                <div ng-messages="datosPersonalesForm.sexo.$error"
+                                     ng-show="datosPersonalesForm.sexo.$touched || vm.submitted" class="errors">
+                                    <div ng-messages-include="error-messages"></div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label>Estado civil</label>
+                                <md-select ng-model="vm.paciente.estadoCivil" name="estadoCivil"
+                                           ng-model-options="{trackBy: '$value.key'}">
+                                    <md-option ng-repeat="item in vm.data.estados" ng-value="item">
+                                        {{ item.nombre }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+
+                    </div>
+                    </div>
+                <!--<div layout="row" layout-margin>-->
+                    <!--<md-input-container flex="30">-->
+                        <!--<label>Nombre</label>-->
+                        <!--<input name="nombre" ng-model="vm.paciente.nombre"-->
+                               <!--required md-maxlength="75"/>-->
+
+                        <!--<div ng-messages="datosPersonalesForm.nombre.$error"-->
+                             <!--ng-show="datosPersonalesForm.nombre.$touched || vm.submitted" class="errors">-->
+                            <!--<div ng-messages-include="error-messages"></div>-->
+                        <!--</div>-->
+                    <!--</md-input-container>-->
+                    <!--<md-input-container flex="30">-->
+                        <!--<label>Apellido</label>-->
+                        <!--<input name="apellido" ng-model="vm.paciente.apellido"-->
+                               <!--required md-maxlength="75"/>-->
+
+                        <!--<div ng-messages="datosPersonalesForm.apellido.$error"-->
+                             <!--ng-show="datosPersonalesForm.apellido.$touched || vm.submitted" class="errors">-->
+                            <!--<div ng-messages-include="error-messages"></div>-->
+                        <!--</div>-->
+                    <!--</md-input-container>-->
+                    <!--<md-input-container flex="20">-->
+                        <!--<label>Sexo</label>-->
+                        <!--<md-select ng-model="vm.paciente.sexo" name="sexo" required-->
+                                   <!--ng-model-options="{ trackBy: '$value.key'}">-->
+                            <!--<md-option ng-repeat="item in vm.data.sexos" ng-value="item">-->
+                                <!--{{ item.nombre }}-->
+                            <!--</md-option>-->
+                        <!--</md-select>-->
+                        <!--<div ng-messages="datosPersonalesForm.sexo.$error"-->
+                             <!--ng-show="datosPersonalesForm.sexo.$touched || vm.submitted" class="errors">-->
+                            <!--<div ng-messages-include="error-messages"></div>-->
+                        <!--</div>-->
+                    <!--</md-input-container>-->
+                    <!--<md-input-container flex="20">-->
+                        <!--<label>Estado civil</label>-->
+                        <!--<md-select ng-model="vm.paciente.estadoCivil" name="estadoCivil"-->
+                                   <!--ng-model-options="{trackBy: '$value.key'}">-->
+                            <!--<md-option ng-repeat="item in vm.data.estados" ng-value="item">-->
+                                <!--{{ item.nombre }}-->
+                            <!--</md-option>-->
+                        <!--</md-select>-->
+                    <!--</md-input-container>-->
+
+                <!--</div>-->
                 <div layout="row" layout-margin>
                     <md-input-container flex="25">
                         <label>Tipo doc.</label>

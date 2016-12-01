@@ -806,6 +806,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     pacienteResponse: ['loadMyModule', '$stateParams', 'PacienteSrv', function (loadMyModule, $stateParams, service) {
                         return service.initPaciente();
+                    }],
+                    imagenResponse: ['loadMyModule', function(loadMyModule) {
+                        return {data: null};
                     }]
                 }
             })
@@ -850,13 +853,27 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     fullPage: true,
                     nombreCasoUso: 'Ver historia clínica'
                 },
-                controller: function ($scope, pacienteResponse) {
+                controller: function ($scope, pacienteResponse, imagenResponse) {
                     var vm = this;
                     vm.paciente = pacienteResponse.data;
+                    vm.image = imagenResponse.data;
+                    vm.hasFile = hasFile;
+
+                    function hasFile() {
+                        var img = vm.image;
+                        return img &&
+                            angular.isDefined(img) &&
+                            img != null &&
+                            img.size > 0;
+                    }
                 },
                 resolve: {
                     pacienteResponse: ['loadMyModule', '$stateParams', 'HistoriaClinicaSrv', function (loadMyModule, $stateParams, service) {
                         return service.findPacienteById($stateParams.id);
+                    }],
+                    imagenResponse: ['loadMyModule', 'pacienteResponse', 'PacienteSrv', function(loadMyModule, pacienteResponse, service) {
+                        var paciente = pacienteResponse.data;
+                        return service.findPacienteImage(paciente.imagenId);
                     }]
                 }
             })
@@ -987,6 +1004,10 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     pacienteResponse: ['loadMyModule', '$stateParams', 'PacienteSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
+                    }],
+                    imagenResponse: ['loadMyModule', 'pacienteResponse', 'PacienteSrv', function(loadMyModule, pacienteResponse, service) {
+                        var paciente = pacienteResponse.data;
+                        return service.findPacienteImage(paciente.imagenId);
                     }]
                 }
             })
