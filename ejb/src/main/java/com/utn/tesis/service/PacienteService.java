@@ -6,8 +6,10 @@ import com.utn.tesis.data.daos.PacienteDao;
 import com.utn.tesis.exception.SAPOException;
 import com.utn.tesis.exception.SAPOValidationException;
 import com.utn.tesis.mapping.dto.ArchivoDTO;
+import com.utn.tesis.mapping.dto.HistoriaClinicaDTO;
 import com.utn.tesis.mapping.dto.PacienteDTO;
 import com.utn.tesis.mapping.mapper.ArchivoMapper;
+import com.utn.tesis.mapping.mapper.HistoriaClinicaMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
 import org.apache.commons.lang3.tuple.Pair;
@@ -38,6 +40,8 @@ public class PacienteService extends BaseService<Paciente> {
     private ArchivoMapper archivoMapper;
     @Inject
     private PdfGenerator pdfGenerator;
+    @Inject
+    private HistoriaClinicaMapper historiaClinicaMapper;
 
     @Override
     DaoBase<Paciente> getDao() {
@@ -127,5 +131,29 @@ public class PacienteService extends BaseService<Paciente> {
         fileContent = new byte[buffer.available()];
         buffer.read(fileContent, 0, buffer.available());
         return Pair.of(hcPdf.getName(), fileContent);
+    }
+
+    public PacienteDTO savePacienteImage(ArchivoDTO archivo, Long pacienteId) throws SAPOException {
+        Paciente paciente = findById(pacienteId);
+        paciente.setImagen(archivoService.save(archivo));
+        return pacienteMapper.toDTO(paciente);
+    }
+
+    public PacienteDTO findDTOById(Long pacienteId) {
+        Paciente paciente = findById(pacienteId);
+        if (paciente == null) {
+            return null;
+        }
+
+        PacienteDTO pacienteDTO = pacienteMapper.toDTO(paciente);
+        HistoriaClinicaDTO historiaClinicaDTO = historiaClinicaMapper.toDTO(paciente.getHistoriaClinica());
+        pacienteDTO.setHistoriaClinicaDTO(historiaClinicaDTO);
+        return pacienteDTO;
+    }
+
+    public PacienteDTO findLightDTOById(Long pacienteId) {
+        Paciente paciente = findById(pacienteId);
+        if (paciente == null) return null;
+        return pacienteMapper.toDTO(paciente);
     }
 }

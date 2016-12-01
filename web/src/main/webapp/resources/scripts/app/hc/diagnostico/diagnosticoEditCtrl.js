@@ -160,7 +160,11 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
                 }).then(function (response) {
                         $scope.result = response.data;
                         vm.modifiedPiezas = [];
-                        vm.diagnosticos = response.data;
+                        if  (args.continueEditing) {
+                            vm.diagnosticos = response.data;
+                        } else {
+                            $state.go('historiaClinica.diagnosticoView',  {editing: false});
+                        }
                         message.successMessage("Diagnósticos registrados con éxito")
                     }, function (response) {
                         handleError(response.data, response.status);

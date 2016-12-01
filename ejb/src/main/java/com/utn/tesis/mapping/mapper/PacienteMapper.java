@@ -6,13 +6,6 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 20/02/16
- * Time: 16:32
- * To change this template use File | Settings | File Templates.
- */
 @Mapper(componentModel = "cdi", uses = {
         EnumMapper.class,
         TrabajoMapper.class,
@@ -27,7 +20,8 @@ public interface PacienteMapper {
     Paciente fromDTO(PacienteDTO pacienteDTO);
 
     @Mappings({
-            @Mapping(source = "paciente.historiaClinica.id", target = "historiaClinicaId")
+            @Mapping(source = "paciente.historiaClinica.id", target = "historiaClinicaId"),
+            @Mapping(source = "paciente.imagen.id", target = "imagenId")
     })
     PacienteDTO toDTO(Paciente paciente);
 

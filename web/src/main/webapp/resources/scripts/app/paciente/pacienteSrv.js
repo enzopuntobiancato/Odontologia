@@ -87,6 +87,16 @@ module.
                 url: 'api/diagnostico/getHallazgos',
                 method: 'GET'
             })
+        };
+
+        service.findPacienteImage = function(imageId) {
+            return $http({
+                method: 'GET',
+                params: {id: imageId},
+                url: 'api/file/image',
+                headers: {'Content-Type': 'application/json'},
+                responseType: 'blob'
+            });
         }
         return service;
     }]);

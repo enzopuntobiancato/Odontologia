@@ -47,6 +47,8 @@ public class PacienteDTO extends BaseDTO {
     private Calendar fechaBaja;
     //Historia clínica
     private HistoriaClinicaDTO historiaClinicaDTO;
+
+    private Long imagenId;
     //CONSTRUCTOR
 
     public PacienteDTO() {
@@ -259,5 +261,13 @@ public class PacienteDTO extends BaseDTO {
 
     public void setFechaBaja(Calendar fechaBaja) {
         this.fechaBaja = fechaBaja;
+    }
+
+    public Long getImagenId() {
+        return imagenId;
+    }
+
+    public void setImagenId(Long imagenId) {
+        this.imagenId = imagenId;
     }
 }
