@@ -6,6 +6,8 @@
     "CONFIRMAR_ASIGNACION" : "Confirmar asignación",
     "NOMBRE_PACIENTE" : "Nombre del paciente",
     "APELLIDO_PACIENTE": "Apellido del paciente",
+    "APELLIDO_ALUMNO": "Apellido del alumno",
+    "NOMBRE_ALUMNO": "Nombre del alumno",
     "CUAL":"¿Cuál?",
     "CUALES":"¿Cuáles?",
     "CUANDO":"¿Cuando?",

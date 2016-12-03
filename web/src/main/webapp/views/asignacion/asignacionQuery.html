@@ -129,13 +129,11 @@
             </md-select>
         </md-input-container>
     </div>
-    <!--<div layout="row" layout-margin layout-xs="column">-->
         <md-input-container flex>
-            <label>{{ 'FECHA_ASIGNADO' | translate }}</label>
+            <label>Fecha asign.</label>
             <md-datepicker ng-model="vm.filter.fechaAsignacion">
             </md-datepicker>
         </md-input-container>
-    <!--</div>-->
 </div>
 <filter-chips data="vm.filterChips"></filter-chips>
 <md-table-container ng-if="vm.result.length > 0">

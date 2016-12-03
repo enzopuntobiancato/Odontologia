@@ -186,28 +186,6 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
             return multipart;
         }
 
-        /*vm.sendData = function () {
-         var piezas = Upload.json(vm.modifiedPiezas);
-         var diagnosticos = Upload.json(vm.diagnosticos);
-
-         var boundary = Math.random().toString().substr(2);
-         var header = "multipart/form-data; charset=utf-8; boundary=" + boundary;
-
-         $http({
-         url: "api/diagnostico/save/" + pacienteId,
-         headers: { "Content-Type": header },
-         data: createRequest(piezas, diagnosticos, boundary),
-         method: "POST"
-         }).then(function (response) {
-         $scope.result = response.data;
-         vm.modifiedPiezas = [];
-         vm.diagnosticos = response.data;
-         message.successMessage("Diagnósticos registrados con éxito")
-         }, function (response) {
-         handleError(response.data, response.status);
-         });
-         }*/
-
         function addNewDiagnostico(ev) {
             $mdDialog.show({
                 controller: createDialogController,

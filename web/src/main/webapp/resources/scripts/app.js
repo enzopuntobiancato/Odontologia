@@ -1166,6 +1166,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'AsignacionCtrl_Index',
                 controllerAs: 'vm',
                 data:{
+                    fullPage: true,
                     nombreCasoUso : 'Consultar asignaciones'
                 },
                 params: {execQuery: false, execQuerySamePage: false},
@@ -1190,24 +1191,26 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'AsignacionCtrl_Autorizar',
                 controllerAs: 'vm',
                 data:{
+                    fullPage: true,
                     nombreCasoUso : 'Autorizar asignaciones'
                 },
                 resolve: {
                     practicasResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return service.getPracticas();
                     }],
-                    profesorResponse: ['loadMyModule', 'AsignacionSrv', 'authFactory', function (loadMyModule, service, authFactory) {
-                        var user = authFactory.getAuthData();
-                        return service.findProfesorByUser(user.id);
-                    }],
-                    trabajosPracticosResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
-                        return null;
-                    }],
                     estadosAsignacionResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return service.getEstadosAsignaciones();
                     }],
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
+                    }],
+                    catedrasResponse: ['loadMyModule', 'authFactory', 'AsignacionSrv', function(loadMyModule, authFactory, service) {
+                        var user = authFactory.getAuthData();
+                        if (user && user.profesor) {
+                            return service.findCatedrasByProfesor(user.id);
+                        } else {
+                            return service.getCatedras();
+                        }
                     }]
                 }
             })
@@ -1551,7 +1554,10 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         $scope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
                 $scope.nombrePaquete = toState.data.nombrePaquete;
-                $scope.nombreCasoUso = toState.data.nombreCasoUso;
+                $scope.nombreCasoUso = toState.data.nombreCasoUso
+                if (toState.data.fullPage) {
+                    $mdSidenav('left').close();
+                }
             })
 
         $scope.$on('authChanged', function () {
