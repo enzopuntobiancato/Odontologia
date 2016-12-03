@@ -1331,6 +1331,41 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controllerAs: 'vm',
                 controller: 'BackupCtrl'
             })
+            .state('bonoConsulta', {
+                url: '/bonoConsulta',
+                template: '<div></div>',
+                data: {
+                    nombrePaquete: 'Pacientes',
+                    nombreCasoUso: 'Emitir bono de consulta'
+                },
+                controller: function($scope, $mdDialog, $state, $window, $location) {
+                    $scope.showAdvanced = function() {
+                        $mdDialog.show({
+                            controller: DialogController,
+                            templateUrl: 'views/bono.html',
+                            parent: angular.element(document.body)
+                        })
+                            .then(function() {
+                                var base = $location.protocol() + '://' + $location.host() + ':' + $location.port() + "/Odontologia-web/api/commons/getBono";
+                                $window.open(base);
+                                $state.go('home');
+                            }, function() {
+                                $state.go('home');
+                            });
+                    };
+                    $scope.showAdvanced();
+
+                    function DialogController($scope, $mdDialog) {
+                        $scope.aceptar = function() {
+                            $mdDialog.hide();
+                        };
+                        $scope.cancelar = function() {
+                            $mdDialog.cancel();
+                        };
+                    }
+                }
+
+        })
 
         $ocLazyLoadProvider.config({
             debug: true,

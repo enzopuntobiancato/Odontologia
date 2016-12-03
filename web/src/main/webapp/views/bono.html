@@ -1,0 +1,21 @@
+<md-dialog flex="40" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Emitir bono de consulta</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancelar()">
+                    <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div layout="row" layout-margin>
+                <p>Confirme la generación del bono de consulta clickeando "Aceptar"</p>
+            </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="cancelar()">Cancelar</md-button>
+            <md-button ng-click="aceptar()" class="md-raised md-primary">Aceptar</md-button>
+        </div>
+</md-dialog>
