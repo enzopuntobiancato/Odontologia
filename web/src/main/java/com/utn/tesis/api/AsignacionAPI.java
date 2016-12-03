@@ -10,6 +10,7 @@ import com.utn.tesis.service.*;
 import com.utn.tesis.util.DateParameter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -152,44 +154,24 @@ public class AsignacionAPI extends BaseAPI {
         }
     }
 
-    @Path("/findAsignacionesConfirmadasAutorizadas")
+    @Path("/findAsignacionesConfirmadas")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public List<AsignacionPacienteDTO> findAsignacionesConfirmadasAutorizadas(@QueryParam("alumnoId") Long alumnoId,
-                                                                              @QueryParam("nombreAlumno") String nombreAlumno,
-                                                                              @QueryParam("apellidoAlumno") String apellidoAlumno,
-                                                                              @QueryParam("tipoDocumentoAlumno") String tipoDocumentoAlumno,
-                                                                              @QueryParam("numeroDocumentoAlumno") String numeroDocumentoAlumno,
-                                                                              @QueryParam("nombrePaciente") String nombrePaciente,
-                                                                              @QueryParam("apellidoPaciente") String apellidoPaciente,
-                                                                              @QueryParam("tipoDocumentoPaciente") String tipoDocumentoPaciente,
-                                                                              @QueryParam("numeroDocumentoPaciente") String numeroDocumentoPaciente,
-                                                                              @QueryParam("profesorId") Long profesorId,
-                                                                              @QueryParam("catedraId") Long catedraId,
-                                                                              @QueryParam("trabajoPracticoId") Long trabajoPracticoId,
-                                                                              @QueryParam("fechaAsignacion") DateParameter fechaAsignacion,
-                                                                              @QueryParam("pageNumber") Long pageNumber,
-                                                                              @QueryParam("pageSize") Long pageSize) {
-        try {
-            Documento documentoPaciente = null;
-            if (tipoDocumentoPaciente != null && numeroDocumentoPaciente != null) {
-                documentoPaciente = new Documento(numeroDocumentoPaciente, TipoDocumento.valueOf(tipoDocumentoPaciente));
-            }
-
-            Documento documentoAlumno = null;
-            if (tipoDocumentoAlumno != null && numeroDocumentoAlumno != null) {
-                documentoAlumno = new Documento(numeroDocumentoAlumno, TipoDocumento.valueOf(tipoDocumentoAlumno));
-            }
-
-            Calendar fecha = fechaAsignacion != null ? fechaAsignacion.getDate() : null;
-
-            return asignacionPacienteService.findAsignacionesConfirmadasAutorizadas(alumnoId,
-                    nombreAlumno, apellidoAlumno, documentoAlumno, profesorId, nombrePaciente, apellidoPaciente,
-                    documentoPaciente, catedraId, trabajoPracticoId, fecha, pageNumber, pageSize);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return null;
-        }
+    public List<AsignacionPacienteDTO> findAsignacionesConfirmadas(@QueryParam("nombreAlumno") String nombreAlumno,
+                                                                   @QueryParam("apellidoAlumno") String apellidoAlumno,
+                                                                   @QueryParam("tipoDocumentoAlumno") String tipoDocumentoAlumno,
+                                                                   @QueryParam("numeroDocumentoAlumno") String numeroDocumentoAlumno,
+                                                                   @QueryParam("catedraId") Long catedraId,
+                                                                   @QueryParam("trabajoPracticoId") Long trabajoPracticoId,
+                                                                   @QueryParam("fechaAsignacion") DateParameter fechaAsignacion) {
+        return asignacionPacienteService.findAsignacionesConfirmadas(
+                nombreAlumno,
+                apellidoAlumno,
+                tipoDocumentoAlumno,
+                numeroDocumentoAlumno,
+                catedraId,
+                trabajoPracticoId,
+                fechaAsignacion != null ? fechaAsignacion.getDate() : null);
     }
 
     @POST
@@ -277,14 +259,14 @@ public class AsignacionAPI extends BaseAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public AlumnoDTO findAlumnoByUser(@QueryParam("id") Long id) {
-        return (AlumnoDTO)usuarioService.findPersonaDTOByUserAndRol(id, RolEnum.ALUMNO);
+        return (AlumnoDTO) usuarioService.findPersonaDTOByUserAndRol(id, RolEnum.ALUMNO);
     }
 
     @Path("/findProfesorByUser")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ProfesorDTO findProfesorByUser(@QueryParam("id") Long id) {
-        return  (ProfesorDTO)usuarioService.findPersonaDTOByUserAndRol(id, RolEnum.PROFESOR);
+        return (ProfesorDTO) usuarioService.findPersonaDTOByUserAndRol(id, RolEnum.PROFESOR);
     }
 
     @Path("/getEstadosAsignaciones")
@@ -313,5 +295,23 @@ public class AsignacionAPI extends BaseAPI {
     @GET
     public List<TrabajoPracticoDTO> getTrabajosPracticos() {
         return trabajoPracticoMapper.toDTOList(trabajoPracticoService.findAll());
+    }
+
+
+    @GET
+    @Path("/printPorAutorizar")
+    @Produces({"application/pdf"})
+    public Response printAsignacionesPorAutorizar(@QueryParam("ids") List<Long> asignacionesIds) {
+        Response.ResponseBuilder response = Response.noContent();
+        if (asignacionesIds != null && !asignacionesIds.isEmpty()) {
+            try {
+                Pair<String, byte[]> pdf = asignacionPacienteService.printAsignacionesPorAutorizar(asignacionesIds);
+                response = Response.ok(pdf.getRight());
+                response.header("Content-Disposition", String.format("attachment; filename=\"%s\"", pdf.getLeft()));
+            } catch (IOException e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+        return response.build();
     }
 }
