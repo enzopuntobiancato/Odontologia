@@ -912,7 +912,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         return commons.getEstadosDiagnostico();
                     }],
                     odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function (loadMyModule, $stateParams, service) {
-                        return service.findOdontogramaById($stateParams.id);
+                        return service.findOdontogramaUriById($stateParams.id);
                     }]
                 }
             })
@@ -1166,6 +1166,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'AsignacionCtrl_Index',
                 controllerAs: 'vm',
                 data:{
+                    fullPage: true,
                     nombreCasoUso : 'Consultar asignaciones'
                 },
                 params: {execQuery: false, execQuerySamePage: false},
@@ -1190,24 +1191,26 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'AsignacionCtrl_Autorizar',
                 controllerAs: 'vm',
                 data:{
+                    fullPage: true,
                     nombreCasoUso : 'Autorizar asignaciones'
                 },
                 resolve: {
                     practicasResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return service.getPracticas();
                     }],
-                    profesorResponse: ['loadMyModule', 'AsignacionSrv', 'authFactory', function (loadMyModule, service, authFactory) {
-                        var user = authFactory.getAuthData();
-                        return service.findProfesorByUser(user.id);
-                    }],
-                    trabajosPracticosResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
-                        return null;
-                    }],
                     estadosAsignacionResponse: ['loadMyModule', 'AsignacionSrv', function (loadMyModule, service) {
                         return service.getEstadosAsignaciones();
                     }],
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
                         return commons.getTiposDocumento();
+                    }],
+                    catedrasResponse: ['loadMyModule', 'authFactory', 'AsignacionSrv', function(loadMyModule, authFactory, service) {
+                        var user = authFactory.getAuthData();
+                        if (user && user.profesor) {
+                            return service.findCatedrasByProfesor(user.id);
+                        } else {
+                            return service.getCatedras();
+                        }
                     }]
                 }
             })
@@ -1328,6 +1331,41 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controllerAs: 'vm',
                 controller: 'BackupCtrl'
             })
+            .state('bonoConsulta', {
+                url: '/bonoConsulta',
+                template: '<div></div>',
+                data: {
+                    nombrePaquete: 'Pacientes',
+                    nombreCasoUso: 'Emitir bono de consulta'
+                },
+                controller: function($scope, $mdDialog, $state, $window, $location) {
+                    $scope.showAdvanced = function() {
+                        $mdDialog.show({
+                            controller: DialogController,
+                            templateUrl: 'views/bono.html',
+                            parent: angular.element(document.body)
+                        })
+                            .then(function() {
+                                var base = $location.protocol() + '://' + $location.host() + ':' + $location.port() + "/Odontologia-web/api/commons/getBono";
+                                $window.open(base);
+                                $state.go('home');
+                            }, function() {
+                                $state.go('home');
+                            });
+                    };
+                    $scope.showAdvanced();
+
+                    function DialogController($scope, $mdDialog) {
+                        $scope.aceptar = function() {
+                            $mdDialog.hide();
+                        };
+                        $scope.cancelar = function() {
+                            $mdDialog.cancel();
+                        };
+                    }
+                }
+
+        })
 
         $ocLazyLoadProvider.config({
             debug: true,
@@ -1551,7 +1589,10 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         $scope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
                 $scope.nombrePaquete = toState.data.nombrePaquete;
-                $scope.nombreCasoUso = toState.data.nombreCasoUso;
+                $scope.nombreCasoUso = toState.data.nombreCasoUso
+                if (toState.data.fullPage) {
+                    $mdSidenav('left').close();
+                }
             })
 
         $scope.$on('authChanged', function () {

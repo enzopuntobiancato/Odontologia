@@ -1,16 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
-   xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
     width="64"
-    height="90">
+    height="90" id="diente" name="dienteConsulta">
     <g id="piezaCompleta" transform="translate(-0,3)">
   <g id="PD" class="cara"
     transform="matrix(0.97308798,0,0,0.90408403,0.73056834,9.8440412) scale(0.75) translate(10,0.36363636)">
    	 <path
-      sodipodi:type="arc"
       style="stroke-width:5;stroke-opacity:1"
       class="marca"
       id="corona"
@@ -34,13 +29,12 @@
      class="cara">
                      <path
                         d="M 61.636363,2.6363637 62,61.363636 45.636364,44.454546 45.818182,19 z"
-                        id="caries" class="marca"
-                        inkscape:connector-curvature="0" />
+                        id="caries" class="marca"/>
       <path
          style="fill: transparent"
          d="M 61.636363,2.6363637 62,61.363636 45.636364,44.454546 45.818182,19 z"
          id="path3896"
-         inkscape:connector-curvature="0" />
+         />
     </g>
     <g id="4"  class="cara">
                      <path
@@ -121,8 +115,7 @@
         width="64"
         height="2.909091"
         x="-0.18181819"
-        y="4"
-        inkscape:label="#rect3798"/>
+        y="4"/>
              <rect
                 style="fill-opacity:1"
                 class="marca"
@@ -130,8 +123,7 @@
                 width="64"
                 height="2.909091"
                 x="-0.18181819"
-                y="58"
-                inkscape:label="#rect3798"/>
+                y="58"/>
                              <text
                                 transform="scale(0.94345888,1.0599296) translate(8,9)"
                                 id="tratamientoConductoSuperior"

@@ -131,11 +131,6 @@ public class PacienteAPI extends BaseAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public Odontograma initOdontograma() {
         Odontograma odontograma = Odontograma.createDefault();
-/*        for (PiezaDental pieza : odontograma.getPiezasDentalesInferiores()){
-            CaraPiezaDental cara = pieza.getCarasPiezaDental().get(0);
-            Caries caries = new Caries();
-            cara.setHallazgoClinico(caries);
-        }*/
         return odontograma;
     }
 
@@ -165,4 +160,14 @@ public class PacienteAPI extends BaseAPI {
         PacienteDTO pacienteDTO = pacienteService.savePacienteImage(imagenPaciente, pacienteId);
         return Response.ok(pacienteDTO).build();
     }
+
+    @Path("/findOdontogramaUriById")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String findOdontogramaUriById(@QueryParam("pacienteId") Long pacienteId) {
+        Paciente paciente = pacienteService.findById(pacienteId);
+        return pacienteService.findOdontogramaUriById(paciente.getHistoriaClinica().getId());
+    }
+
+
 }

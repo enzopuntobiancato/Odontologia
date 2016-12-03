@@ -2,8 +2,8 @@ var module = angular.module('historiaClinicaModule');
 
 module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageSrv', '$mdDialog', '$state', 'pacienteId',
     'diagnosticosResponse', 'finalStatesResponse', 'odontogramaResponse', 'hallazgosResponse', 'practicasResponse',
-    '$mdEditDialog', 'Upload', '$http',
-    function ($scope, service, message, $mdDialog, $state, pacienteId, diagnosticosResponse, finalStatesResponse, odontogramaResponse, hallazgosResponse, practicasResponse, $mdEditDialog, Upload, $http) {
+    '$mdEditDialog', 'Upload', '$http', '$q',
+    function ($scope, service, message, $mdDialog, $state, pacienteId, diagnosticosResponse, finalStatesResponse, odontogramaResponse, hallazgosResponse, practicasResponse, $mdEditDialog, Upload, $http, $q) {
         var vm = this;
 
         var pacienteId = pacienteId;
@@ -145,9 +145,18 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
                 message.errorMessage("Hay hallazgos pendientes a los que no se les cargó diagnósticos. Revise el odontograma.");
                 return;
             }
+            drawInlineSVG(function(){
+                imageAsUri(function(uri){
+                    save(args, uri);
+                });
+            });
+        });
+
+        function save(args, uri){
             performSubmit(function () {
                 var piezas = Upload.json(vm.modifiedPiezas);
                 var diagnosticos = Upload.json(vm.diagnosticos);
+                var uriJson = Upload.json(uri);
 
                 var boundary = Math.random().toString().substr(2);
                 var header = "multipart/form-data; charset=utf-8; boundary=" + boundary;
@@ -155,7 +164,7 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
                 $http({
                     url: "api/diagnostico/save/" + pacienteId,
                     headers: { "Content-Type": header },
-                    data: createRequest(piezas, diagnosticos, boundary),
+                    data: createRequest(piezas, diagnosticos, uriJson, boundary),
                     method: "POST"
                 }).then(function (response) {
                         $scope.result = response.data;
@@ -170,9 +179,9 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
                         handleError(response.data, response.status);
                     });
             }, args.form);
-        });
+        }
 
-        function createRequest(piezas, diagnosticos, boundary) {
+        function createRequest(piezas, diagnosticos, uri, boundary) {
             var multipart = "";
             multipart += "--" + boundary
                 + "\r\nContent-Disposition: form-data; name=piezas"
@@ -182,31 +191,13 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
                 + "\r\nContent-Disposition: form-data; name=diagnosticos"
                 + "\r\nContent-type: application/json"
                 + "\r\n\r\n" + diagnosticos + "\r\n";
+            multipart += "--" + boundary
+                + "\r\nContent-Disposition: form-data; name=uri"
+                + "\r\nContent-type: application/json"
+                + "\r\n\r\n" + uri + "\r\n";
             multipart += "--" + boundary + "--\r\n";
             return multipart;
         }
-
-        /*vm.sendData = function () {
-         var piezas = Upload.json(vm.modifiedPiezas);
-         var diagnosticos = Upload.json(vm.diagnosticos);
-
-         var boundary = Math.random().toString().substr(2);
-         var header = "multipart/form-data; charset=utf-8; boundary=" + boundary;
-
-         $http({
-         url: "api/diagnostico/save/" + pacienteId,
-         headers: { "Content-Type": header },
-         data: createRequest(piezas, diagnosticos, boundary),
-         method: "POST"
-         }).then(function (response) {
-         $scope.result = response.data;
-         vm.modifiedPiezas = [];
-         vm.diagnosticos = response.data;
-         message.successMessage("Diagnósticos registrados con éxito")
-         }, function (response) {
-         handleError(response.data, response.status);
-         });
-         }*/
 
         function addNewDiagnostico(ev) {
             $mdDialog.show({
@@ -403,6 +394,43 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
                 vm.selectedTratamiento.estado = 'PENDIENTE';
             }
         }
+
+        function drawInlineSVG(cb) {
+            vm.dientesSvg = [];
+            var svgs = document.getElementsByName("diente");
+
+            var myCanvas = document.getElementById('canvas');
+            var ctx = myCanvas.getContext('2d');
+
+            var x = 0;
+            var y = 0;
+            var cont = 0;
+            for (var i = 0; i < svgs.length; i++) {
+                var svg = svgs[i];
+                svgAsPngUri(svg, {}, function (uri) {
+                    var img = new Image;
+                    img.onload = function () {
+                        ctx.drawImage(img, x, y);
+                        x += 70;
+                        if (x > 1050) {
+                            x = 0;
+                            y = 90;
+                        }
+                        if(cont == 31){
+                            cb();
+                        }
+                        cont++;
+                    };
+                    img.src = uri;
+                });
+            }
+        }
+
+        function imageAsUri(cb) {
+            var myCanvas = document.getElementById('canvas');
+            cb(myCanvas.toDataURL());
+        }
+
 
         //CONTROLLERS DIALOGOS
         /**

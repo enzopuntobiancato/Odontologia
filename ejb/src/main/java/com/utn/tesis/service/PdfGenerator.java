@@ -30,7 +30,13 @@ public class PdfGenerator {
         return file;
     }
 
-    public void crearListaAsignaciones(File pdfNewFile, ArrayList<AsignacionPaciente> asignaciones) {
+    public File createAsignacionesListPdf(ArrayList<AsignacionPaciente> asignaciones) throws IOException {
+        File file = File.createTempFile("asignaciones", "autorizar");
+        crearListaAsignaciones(file, asignaciones);
+        return file;
+    }
+
+    private void crearListaAsignaciones(File pdfNewFile, ArrayList<AsignacionPaciente> asignaciones) {
         if(asignaciones == null) {
             asignaciones = new ArrayList<AsignacionPaciente>();
         }
@@ -47,7 +53,8 @@ public class PdfGenerator {
                 document.open();
                 Paragraph par = new Paragraph();
 
-                Image uncheck = Image.getInstance("D:\\Documentos\\Desktop\\GitHub SAPO\\Odontologia\\ejb\\src\\main\\resources\\HCPDF\\unchecked_checkbox.png");
+                String uncheckStr = this.getClass().getClassLoader().getResource("hcpdf/unchecked_checkbox.png").getFile();
+                Image uncheck = Image.getInstance(uncheckStr);
 
                 separator(par, "Listado de Asignaciones para Autorizar");
 
@@ -79,7 +86,6 @@ public class PdfGenerator {
                 par.add(new Chunk(Chunk.NEWLINE));
 
                 document.add(par);
-                document.add(table);
             } catch (BadElementException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (IOException e) {

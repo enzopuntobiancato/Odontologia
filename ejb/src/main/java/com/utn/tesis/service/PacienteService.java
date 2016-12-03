@@ -12,6 +12,7 @@ import com.utn.tesis.mapping.mapper.ArchivoMapper;
 import com.utn.tesis.mapping.mapper.HistoriaClinicaMapper;
 import com.utn.tesis.mapping.mapper.PacienteMapper;
 import com.utn.tesis.model.*;
+import com.utn.tesis.util.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import com.utn.tesis.model.odontograma.Odontograma;
 
@@ -42,6 +43,8 @@ public class PacienteService extends BaseService<Paciente> {
     private PdfGenerator pdfGenerator;
     @Inject
     private HistoriaClinicaMapper historiaClinicaMapper;
+    @Inject
+    private FileUtils fileUtils;
 
     @Override
     DaoBase<Paciente> getDao() {
@@ -122,15 +125,7 @@ public class PacienteService extends BaseService<Paciente> {
     public Pair<String, byte[]> generateHCPDF(Long idPaciente) throws IOException {
         Paciente paciente = this.findById(idPaciente);
         File hcPdf = pdfGenerator.createHCPDF(paciente);
-        InputStream inputStream = new FileInputStream(hcPdf);
-        byte[] buff = new byte[(int) hcPdf.length()];
-        inputStream.read(buff, 0, (int) hcPdf.length());
-
-        byte[] fileContent;
-        ByteArrayInputStream buffer = new ByteArrayInputStream(buff);
-        fileContent = new byte[buffer.available()];
-        buffer.read(fileContent, 0, buffer.available());
-        return Pair.of(hcPdf.getName(), fileContent);
+        return Pair.of(hcPdf.getName(), fileUtils.fileToArrayByte(hcPdf));
     }
 
     public PacienteDTO savePacienteImage(ArchivoDTO archivo, Long pacienteId) throws SAPOException {
@@ -155,5 +150,10 @@ public class PacienteService extends BaseService<Paciente> {
         Paciente paciente = findById(pacienteId);
         if (paciente == null) return null;
         return pacienteMapper.toDTO(paciente);
+    }
+
+    public String findOdontogramaUriById(Long id) {
+        HistoriaClinica hc = historiaClinicaService.findById(id);
+        return hc.getOdontogramaUri();
     }
 }
