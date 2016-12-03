@@ -1,6 +1,7 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.jpa.impl.JPASubQuery;
 import com.utn.tesis.mapping.dto.DiagnosticoSupport;
 import com.utn.tesis.model.*;
 import org.apache.commons.lang3.StringUtils;
@@ -71,48 +72,35 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
         return query.list(asignacionPaciente);
     }
 
-    public List<AsignacionPaciente> findAsignacionesConfirmadasAutorizadas(Long alumnoId, String nombreAlumno, String apellidoAlumno,
-                                                    Documento documentoAlumno, Long profesorId, String nombrePaciente,
-                                                    String apellidoPaciente, Documento documentoPaciente, Long trabajoPracticoId,
-                                                    Long catedraId, Calendar fechaAsignacion, Long page, Long pageSize) {
+    public List<AsignacionPaciente> findAsignacionesConfirmadas(String nombreAlumno,
+                                                                String apellidoAlumno,
+                                                                String tipoDocumentoAlumno,
+                                                                String numeroDocumentoAlumno,
+                                                                Long catedraId,
+                                                                Long trabajoPracticoId,
+                                                                Calendar fechaAsignacion) {
 
-        QPaciente paciente = QPaciente.paciente;
         QAlumno alumno = QAlumno.alumno;
-        List<EstadoAsignacionPaciente> estados = new ArrayList<EstadoAsignacionPaciente>();
-        estados.add(EstadoAsignacionPaciente.AUTORIZADO);
-        estados.add(EstadoAsignacionPaciente.CONFIRMADO);
 
-        JPAQuery query = new JPAQuery(em).from(asignacionPaciente);
-        if (alumnoId != null)
-            query.where(asignacionPaciente.alumno.id.eq(alumnoId));
+        JPAQuery query = new JPAQuery(em).from(asignacionPaciente)
+                .innerJoin(asignacionPaciente.alumno, alumno);
         if (StringUtils.isNotBlank(nombreAlumno))
-            query.where(asignacionPaciente.alumno.nombre.eq(nombreAlumno));
+            query.where(alumno.nombre.startsWithIgnoreCase(nombreAlumno));
         if (StringUtils.isNotBlank(apellidoAlumno))
-            query.where(asignacionPaciente.alumno.apellido.eq(apellidoAlumno));
-        if (documentoAlumno != null) {
-            query.innerJoin(asignacionPaciente.alumno, alumno);
-            query.where(alumno.documento.numero.equalsIgnoreCase(documentoAlumno.getNumero())
-                    .and(alumno.documento.tipoDocumento.eq(documentoAlumno.getTipoDocumento())));
+            query.where(alumno.apellido.startsWithIgnoreCase(apellidoAlumno));
+        if (StringUtils.isNotBlank(tipoDocumentoAlumno)) {
+            query.where(alumno.documento.tipoDocumento.eq(TipoDocumento.valueOf(tipoDocumentoAlumno)));
         }
+        if(StringUtils.isNotBlank(numeroDocumentoAlumno))
+            query.where(alumno.documento.numero.startsWithIgnoreCase(numeroDocumentoAlumno));
         if (trabajoPracticoId != null)
             query.where(asignacionPaciente.trabajoPractico.id.eq(trabajoPracticoId));
-        if (profesorId != null)
-            query.where(asignacionPaciente.autorizadoPor.id.eq(profesorId));
-        if (StringUtils.isNotBlank(nombrePaciente))
-            query.where(asignacionPaciente.paciente.nombre.eq(nombrePaciente));
-        if (StringUtils.isNotBlank(apellidoPaciente))
-            query.where(asignacionPaciente.paciente.apellido.eq(apellidoPaciente));
-        if (documentoPaciente != null) {
-            query.innerJoin(asignacionPaciente.paciente, paciente);
-            query.where(paciente.documento.numero.equalsIgnoreCase(documentoPaciente.getNumero())
-                    .and(paciente.documento.tipoDocumento.eq(documentoPaciente.getTipoDocumento())));
-        }
         if (catedraId != null)
-            query.where(asignacionPaciente.trabajoPractico.catedras.any().id.eq(catedraId));
+            query.where(asignacionPaciente.catedra.id.eq(catedraId));
         if (fechaAsignacion != null)
             query.where(asignacionPaciente.fechaAsignacion.eq(fechaAsignacion));
 
-        query.where(asignacionPaciente.ultimoMovimiento.estado.in(estados));
+        query.where(asignacionPaciente.ultimoMovimiento.estado.eq(EstadoAsignacionPaciente.CONFIRMADO));
 
         return query.list(asignacionPaciente);
     }

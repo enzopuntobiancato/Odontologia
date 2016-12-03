@@ -9,12 +9,16 @@ import com.utn.tesis.mapping.mapper.AsignacionPacienteMapper;
 import com.utn.tesis.mapping.mapper.EnumMapper;
 import com.utn.tesis.mapping.mapper.PersonaMapper;
 import com.utn.tesis.model.*;
+import com.utn.tesis.util.FileUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @Stateless
@@ -43,6 +47,10 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     private AsignacionPacienteMapper asignacionPacienteMapper;
     @Inject
     private MailService mailService;
+    @Inject
+    private FileUtils fileUtils;
+    @Inject
+    private PdfGenerator pdfGenerator;
 
     @Inject
     private Validator validator;
@@ -59,14 +67,14 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<AsignacionPacienteDTO> findByFilters(Long alumnoId,String nombreAlumno,String apellidoAlumno,
-                                                  Documento documentoAlumno,
-                                                  Long profesorId, String nombrePaciente,
-                                                  String apellidoPaciente, Documento documentoPaciente,
-                                                  List<Long> catedrasId, EstadoAsignacionPaciente estado,
-                                                  Long diagnosticoId, Calendar fechaCreacion,
-                                                  Calendar fechaAsignacion, Long trabajoPracticoId, boolean dadosBaja,
-                                                  Long page, Long pageSize) {
+    public List<AsignacionPacienteDTO> findByFilters(Long alumnoId, String nombreAlumno, String apellidoAlumno,
+                                                     Documento documentoAlumno,
+                                                     Long profesorId, String nombrePaciente,
+                                                     String apellidoPaciente, Documento documentoPaciente,
+                                                     List<Long> catedrasId, EstadoAsignacionPaciente estado,
+                                                     Long diagnosticoId, Calendar fechaCreacion,
+                                                     Calendar fechaAsignacion, Long trabajoPracticoId, boolean dadosBaja,
+                                                     Long page, Long pageSize) {
 
         List<AsignacionPaciente> entities = dao.findByFilters(alumnoId, nombreAlumno, apellidoAlumno,
                 documentoAlumno, profesorId, nombrePaciente, apellidoPaciente,
@@ -75,17 +83,22 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
         return asignacionPacienteMapper.toDTOList(entities);
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<AsignacionPacienteDTO> findAsignacionesConfirmadasAutorizadas(Long alumnoId,String nombreAlumno,String apellidoAlumno,
-                                                  Documento documentoAlumno,
-                                                  Long profesorId, String nombrePaciente,
-                                                  String apellidoPaciente, Documento documentoPaciente,
-                                                  Long catedraId, Long trabajoPracticoId, Calendar fechaAsignacion,
-                                                  Long page, Long pageSize) {
+    public List<AsignacionPacienteDTO> findAsignacionesConfirmadas(String nombreAlumno,
+                                                                   String apellidoAlumno,
+                                                                   String tipoDocumentoAlumno,
+                                                                   String numeroDocumentoAlumno,
+                                                                   Long catedraId,
+                                                                   Long trabajoPracticoId,
+                                                                   Calendar fechaAsignacion) {
 
-        List<AsignacionPaciente> entities = dao.findAsignacionesConfirmadasAutorizadas(alumnoId, nombreAlumno, apellidoAlumno,
-                documentoAlumno, profesorId, nombrePaciente,apellidoPaciente, documentoPaciente, trabajoPracticoId,
-                catedraId, fechaAsignacion, page, pageSize);
+        List<AsignacionPaciente> entities = dao.findAsignacionesConfirmadas(
+                nombreAlumno,
+                apellidoAlumno,
+                tipoDocumentoAlumno,
+                numeroDocumentoAlumno,
+                catedraId,
+                trabajoPracticoId,
+                fechaAsignacion);
         return asignacionPacienteMapper.toDTOList(entities);
     }
 
@@ -107,7 +120,7 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     public AsignacionPacienteDTO save(UsuarioLogueadoDTO usuarioLogueadoDTO, AsignacionPacienteDTO dto) throws SAPOException {
         AsignacionPaciente asignacion;
 
-        if (dto.getId() == null){
+        if (dto.getId() == null) {
             asignacion = asignacionPacienteMapper.fromDTO(dto);
             Usuario usuario = usuarioService.findById(usuarioLogueadoDTO.getId());
             Paciente paciente = pacienteService.findById(dto.getIdPaciente());
@@ -130,7 +143,7 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
             asignacion.setFechaCreacion(Calendar.getInstance());
             asignacion.setDiagnostico(diagnostico);
 
-        }else{
+        } else {
             asignacion = findById(dto.getId());
             asignacionPacienteMapper.updateFromDTO(dto, asignacion);
         }
@@ -139,12 +152,12 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     }
 
     public void cambiarEstadoAsignacion(UsuarioLogueadoDTO usuarioLogueadoDTO,
-                                                         AsignacionPacienteDTO dto, String estadoKey) throws SAPOException {
+                                        AsignacionPacienteDTO dto, String estadoKey) throws SAPOException {
         AsignacionPaciente asignacion = dao.findById(dto.getId());
         Usuario usuario = usuarioService.findById(usuarioLogueadoDTO.getId());
         Paciente paciente = pacienteService.findById(dto.getIdPaciente());
         EstadoAsignacionPaciente estado = EstadoAsignacionPaciente.valueOf(estadoKey);
-        if(estado == null){
+        if (estado == null) {
             return;
         }
         boolean sendCanceladoEmail = false;
@@ -158,7 +171,7 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
         asignacion.setUltimoMovimiento(nuevoMovimientoAsignacion);
         asignacion.setPaciente(paciente);
 
-        if(estado.equals(EstadoAsignacionPaciente.CANCELADO) || estado.equals(EstadoAsignacionPaciente.ANULADO)){
+        if (estado.equals(EstadoAsignacionPaciente.CANCELADO) || estado.equals(EstadoAsignacionPaciente.ANULADO)) {
             MovimientoDiagnostico nuevoMovimientoDiagnostico = new MovimientoDiagnostico
                     (EstadoDiagnostico.PENDIENTE, Calendar.getInstance(), usuario);
             movimientoDiagnosticoService.save(nuevoMovimientoDiagnostico);
@@ -178,7 +191,7 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
                     asignacion.getTrabajoPractico().getPracticaOdontologica().getDenominacion()
             );
         }
-        if(estado.equals(EstadoAsignacionPaciente.AUTORIZADO)) {
+        if (estado.equals(EstadoAsignacionPaciente.AUTORIZADO)) {
             Profesor profesor = (Profesor) usuarioService.findPersonaByUserAndRol(usuarioLogueadoDTO.getId(), RolEnum.PROFESOR);
             asignacion.setAutorizadoPor(profesor);
             mailService.sendAsignacionAutorizadaMail(
@@ -228,5 +241,14 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     public AsignacionPacienteDTO findDTOById(Long id) {
         AsignacionPaciente asignacionPaciente = this.findById(id);
         return asignacionPacienteMapper.toDTO(asignacionPaciente);
+    }
+
+    public Pair<String, byte[]> printAsignacionesPorAutorizar(List<Long> asignacionesIds) throws IOException {
+        ArrayList<AsignacionPaciente> asignacionPacientes = new ArrayList<AsignacionPaciente>();
+        for (Long id : asignacionesIds) {
+            asignacionPacientes.add(findById(id));
+        }
+        File file = pdfGenerator.createAsignacionesListPdf(asignacionPacientes);
+        return Pair.of(file.getName(), fileUtils.fileToArrayByte(file));
     }
 }

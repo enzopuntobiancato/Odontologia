@@ -2,68 +2,46 @@ var module = angular.module('asignacionModule');
 
 
 module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'AsignacionSrv', '$state', '$stateParams', 'MessageSrv',
-    'CommonsSrv', 'PaginationService', '$mdDialog','practicasResponse', 'profesorResponse', 'tiposDocumentoResponse',
-    'estadosAsignacionResponse', 'authFactory','$filter',
+    'CommonsSrv', 'PaginationService', '$mdDialog','practicasResponse','tiposDocumentoResponse',
+    'estadosAsignacionResponse', 'catedrasResponse','$filter', '$window', '$location',
     function ($scope, $cacheFactory, service, $state, $stateParams, message, commons, pagination, $mdDialog,
-              practicasResponse, profesorResponse, tiposDocumentoResponse,estadosAsignacionResponse,authFactory, $filter) {
+              practicasResponse, tiposDocumentoResponse,estadosAsignacionResponse,catedrasResponse, $filter, $window, $location) {
         var vm = this;
         vm.result = [];
         vm.data = {
             practicas: practicasResponse.data,
-            profesor: profesorResponse.data,
             tiposDocumentos: tiposDocumentoResponse.data,
             estados: estadosAsignacionResponse.data,
-            profesor : profesorResponse.data,
+            catedras: catedrasResponse.data,
             trabajosPracticos: []
         };
         vm.aux = {
-            isTipoDocumentoSelected: false,
             mostrarFiltros: true
         }
 
-        vm.filter = {};
-        vm.filter.dadosBaja = false;
+        vm.filter = { fechaAsignacion: new Date()};
+        vm.restrictedDate = {
+            maxDate: new Date()
+        }
         vm.filterChips = [];
         vm.selectedAsignaciones = [];
         vm.buscarAsignaciones = buscarAsignaciones;
         //Cambio de estado
         vm.autorizar = autorizar;
-        vm.reload = reload;
-        //paginación
-        vm.nextPage = nextPage;
-        vm.previousPage = previousPage;
         //Diálogos
         vm.filterAlumno = {};
         vm.paginationData = pagination.paginationData;
         vm.busqueda = false;
         vm.onCatedraSelected = onCatedraSelected;
-        vm.goIndex = goIndex;
+        vm.goHome = goHome;
+        vm.printResults = printResults;
+
+        function goHome() {
+            $state.go('home');
+        }
 
         var handleError = $scope.$parent.handleError;
         $scope.validationErrorFromServer = $scope.$parent.validationErrorFromServer;
-
-        (function init() {
-            vm.user = authFactory.getAuthData();
-            vm.data.catedras = [];
-            if (vm.user.profesor) {
-                service.findCatedrasByProfesor(vm.user.id)
-                    .success(function (data) {
-                        vm.data.catedras = data;
-                        for (var i = 0; i < vm.data.catedras.length; i++) {
-                            vm.filter.catedrasId.push(vm.data.catedras[i].id);
-                        }
-                    }).error(function (error) {
-                        console.log(error);
-                    })
-            } else {
-                service.getCatedras()
-                    .success(function (data) {
-                        vm.data.catedras = data;
-                    }).error(function (error) {
-                        console.log(error);
-                    })
-            }
-        })();
 
 
         //BUSQUEDA ALUMNO
@@ -78,14 +56,8 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
                 })
         }
 
-        //SELECCION DE ALUMNO
-        function reload() {
-            $rootScope.persistedOperation = vm.data.persistedOperation;
-            $state.go($state.current, {}, {reload: true});
-        }
-
         vm.paginationData = pagination.paginationData;
-        pagination.config('api/asignacion/findAsignacionesConfirmadasAutorizadas');
+        pagination.config('api/asignacion/findAsignacionesConfirmadas');
 
         //Consulta
         function executeQuery(pageNumber) {
@@ -93,7 +65,6 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
                 .then(function (data) {
                         vm.result = data;
                         updateFilterChips();
-                        vm.aux.showDadosBaja = vm.filter.dadosBaja;
                     vm.paginationData = pagination.getPaginationData();
                 }, function () {
                 });
@@ -114,30 +85,33 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
             }
         }
 
-        vm.keyboardOk = function (event) {
-            if (event.which == 13) {
-                executeQuery();
-            }
-        }
-
         //Chips
         function updateFilterChips() {
             vm.filterChips = [];
+            if (vm.filter.fechaAsignacion) {
+                vm.filterChips.push(newFilterChip('fechaAsignacion', 'Fecha asignación', vm.filter.fechaAsignacion, $filter('date')(vm.filter.fechaAsignacion, 'dd/MM/yyyy')));
+            }
             if (vm.filter.catedra) {
                 vm.filterChips.push(newFilterChip('catedra', 'Cátedra', vm.filter.catedra, (vm.filter.catedra.materia + ' ' +  vm.filter.catedra.denominacion)));
             }
             if (vm.filter.trabajoPractico) {
                 vm.filterChips.push(newFilterChip('trabajoPractico', 'Trabajo práctico', vm.filter.trabajoPractico, vm.filter.trabajoPractico.nombre ));
             }
-            if (vm.filter.profesorId) {
-                vm.filterChips.push(newFilterChip('profesorId', 'Profesor', vm.filter.profesorId));
+            if (vm.filter.apellidoAlumno) {
+                vm.filterChips.push(newFilterChip('apellidoAlumno', 'Apellido alumno', vm.filter.apellidoAlumno));
             }
-            if (vm.filter.fechaAsignacion) {
-                vm.filterChips.push(newFilterChip('fechaAsignacion', 'Fecha asignación', vm.filter.fechaAsignacion, $filter('date')(vm.filter.fechaAsignacion, 'dd/MM/yyyy')));
+            if (vm.filter.nombreAlumno) {
+                vm.filterChips.push(newFilterChip('nombreAlumno', 'Nombre alumno', vm.filter.nombreAlumno));
             }
-            if (vm.filter.practica) {
-                vm.filterChips.push(newFilterChip('practica', 'Práctica', vm.filter.practica));
+
+            if (vm.filter.tipoDocumentoAlumno) {
+                vm.filterChips.push(newFilterChip('tipoDocumentoAlumno', 'Tipo doc. alumno', vm.filter.tipoDocumentoAlumno, vm.filter.tipoDocumentoAlumno.nombre));
             }
+
+            if (vm.filter.numeroDocumentoAlumno) {
+                vm.filterChips.push(newFilterChip('numeroDocumentoAlumno', 'Núm. doc. alumno', vm.filter.numeroDocumentoAlumno));
+            }
+
         }
 
         $scope.$watchCollection('vm.filterChips', function (newCol, oldCol) {
@@ -159,64 +133,9 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
             return filterChip;
         }
 
-        function findInColecction(id, collection) {
-            for (var i = 0; i < collection.length; i++) {
-                if (collection[i].key == id) {
-                    return collection[i].nombre;
-                }
-            }
-            return "Sin definir";
-        }
-
-        function findObjectInCollection(id, collection){
-            for (var i = 0; i < collection.length; i++) {
-                if (collection[i].key == id) {
-                    return collection[i];
-                }
-            }
-            return {};
-        }
-
-
-        //Caché
-        function cacheData() {
-            var data = {
-                filter: vm.filter,
-                result: vm.result,
-                aux: vm.aux
-            }
-            cache.put('data', data);
-        };
-
-        function getCachedData() {
-            var data = cache.get('data');
-            vm.filter = data.filter;
-            vm.result = data.result;
-            vm.aux = data.aux;
-        };
-
-        //Paginación
-        function nextPage() {
-            if (vm.paginationData.morePages) {
-                executeQuery(++vm.paginationData.pageNumber);
-            }
-        }
-
-        function previousPage() {
-            if (!vm.paginationData.firstPage) {
-                executeQuery(--vm.paginationData.pageNumber);
-            }
-        }
-
         //Cambio de estado
         function autorizar(){
-            if(!vm.filter.fechaAsignacion){
-              message.errorMessage("Se debe seleccionar una fecha para el práctico,");
-              return;
-            }
             var today = new Date();
-/*            var todayTime = today.getTime();
-            var fechaTime = vm.filter.fechaAsignacion.getTime();*/
             if(vm.filter.fechaAsignacion > today){
                 message.errorMessage("Solo pueden autorizarse las asignaciones a partir del día " +  $filter('date')(vm.filter.fechaAsignacion, 'dd/MM/yyyy') +".");
                 return;
@@ -225,19 +144,24 @@ module.controller('AsignacionCtrl_Autorizar', ['$scope', '$cacheFactory', 'Asign
                 .then(function(){
                     vm.selectedAsignaciones = [];
                     buscarAsignaciones("autorizarAsignacionesForm");
-                    message.successMessage("Asignaciones autorizadas", null, 3000);
+                    message.successMessage("Asignaciones autorizadas");
                 }, function(data){
                     handleError(data, status);
                 });
 
         }
-        //NAVEGACION
-        function goIndex() {
-            $state.go('^.index', {execQuery: vm.data.persistedOperation});
+
+        function printResults(asignaciones) {
+            var ids = [];
+            asignaciones.forEach(function(asignacion) {
+               ids.push(asignacion.id);
+            });
+            var base = $location.protocol() + '://' + $location.host() + ':' + $location.port() + "/Odontologia-web/api/asignacion/printPorAutorizar";
+            $window.open(base + '?ids=' + ids);
         }
 
         //Métodos auxiliares
-        vm.clickIcon = 'expand_more';
+        vm.clickIcon = 'expand_less';
         vm.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
 
         vm.cleanFilters = function () {
