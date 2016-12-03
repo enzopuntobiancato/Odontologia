@@ -912,7 +912,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         return commons.getEstadosDiagnostico();
                     }],
                     odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function (loadMyModule, $stateParams, service) {
-                        return service.findOdontogramaById($stateParams.id);
+                        return service.findOdontogramaUriById($stateParams.id);
                     }]
                 }
             })
