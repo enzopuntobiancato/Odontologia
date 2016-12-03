@@ -33,11 +33,11 @@ public class InitializationService {
     private static final int CONS_ASIG_IDX = 8;
     private static final int AUTORIZAR_ASIG_IDX = 9;
     private static final int CONS_PACIENTES_IDX = 10;
-//    private static final int BONO_IDX = 11;
-    private static final int REG_ALUMNO_IDX = 11;
+    private static final int BONO_IDX = 11;
+    private static final int REG_ALUMNO_IDX = 12;
 //    private static final int CONS_ALUMNOS_IDX = 13;
-    private static final int ESTADISTICAS_IDX = 12;
-    private static final int PERMISOS_IDX = 13;
+    private static final int ESTADISTICAS_IDX = 13;
+    private static final int PERMISOS_IDX = 14;
 
     @Inject
     private GrupoPracticaOdontologicaService grupoPracticaOdontologicaService;
@@ -308,7 +308,7 @@ public class InitializationService {
 
         // PACIENTES
         addFuncionalidad("Consultar pacientes", "paciente.index", pacientes, true, CONS_PACIENTES_IDX);
-//        addFuncionalidad("Emitir bono de consulta", "bonoConsulta", pacientes, false, BONO_IDX);
+        addFuncionalidad("Emitir bono de consulta", "bonoConsulta", pacientes, true, BONO_IDX);
 
         // ALUMNOS
         addFuncionalidad("Registrar alumno", "usuario.registerAlumno", alumnos, true, REG_ALUMNO_IDX);

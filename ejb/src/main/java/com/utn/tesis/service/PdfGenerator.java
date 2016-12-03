@@ -86,7 +86,6 @@ public class PdfGenerator {
                 par.add(new Chunk(Chunk.NEWLINE));
 
                 document.add(par);
-                document.add(table);
             } catch (BadElementException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (IOException e) {
