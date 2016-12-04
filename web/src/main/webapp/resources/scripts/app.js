@@ -1588,9 +1588,9 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
 
         $scope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
-                $scope.nombrePaquete = toState.data.nombrePaquete;
-                $scope.nombreCasoUso = toState.data.nombreCasoUso
-                if (toState.data.fullPage) {
+                $scope.nombrePaquete = toState.data ? toState.data.nombrePaquete : null;
+                $scope.nombreCasoUso = toState.data ? toState.data.nombreCasoUso : null;
+                if (toState.data && toState.data.fullPage) {
                     $mdSidenav('left').close();
                 }
             })
@@ -1598,6 +1598,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
         $scope.$on('authChanged', function () {
             retrieveSession();
             $scope.selectedMenuItem = {};
+            $scope.menu = null;
             retrieveMenu().then(function (response) {
                 $scope.menu = response;
             });

@@ -72,6 +72,15 @@
                         ng-Mouseover="vm.colorMouseOver(2)"
                         ng-mouseleave="vm.colorMouseLeave(2)"></ng-md-icon>
         </md-button>
+        <md-button ng-click="vm.imprimirConsentimiento()" type="button">
+            <md-tooltip>
+                Imprimir consentimiento informado
+            </md-tooltip>
+            <ng-md-icon icon="file_download" size="40"
+                        ng-attr-style="fill: {{vm.colorIcon[4]}}"
+                        ng-Mouseover="vm.colorMouseOver(4)"
+                        ng-mouseleave="vm.colorMouseLeave(4)"></ng-md-icon>
+        </md-button>
     </div>
 </div>
 <div layout="column" ng-show="vm.aux.mostrarFiltros" class="animated-div">
@@ -120,7 +129,7 @@
             </md-select>
         </md-input-container>
         <md-input-container flex-gt-sm>
-            <md-select ng-model="vm.filter.trabajoPractico" name="trabajoPractico"
+            <md-select ng-model="vm.filter.trabajoPractico" name="trabajoPractico" ng-disabled="!vm.filter.catedra"
                        placeholder="{{ 'TP' | translate }}">
                 <md-option ng-repeat="trabajoPractico in vm.data.trabajosPracticos"
                            ng-value="trabajoPractico">

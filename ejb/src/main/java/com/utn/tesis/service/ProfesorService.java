@@ -2,20 +2,16 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.ProfesorDao;
-import com.utn.tesis.model.*;
+import com.utn.tesis.model.Documento;
+import com.utn.tesis.model.Profesor;
+import com.utn.tesis.model.Sexo;
+import com.utn.tesis.model.Usuario;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 04/02/16
- * Time: 13:00
- * To change this template use File | Settings | File Templates.
- */
 @Stateless
 public class ProfesorService extends BaseService<Profesor> {
 
@@ -39,10 +35,6 @@ public class ProfesorService extends BaseService<Profesor> {
                                        Usuario usuario, Sexo sexo, Long page, Long pageSize) {
         return dao.findByFilters(nombre, apellido, documento, usuario, sexo, page, pageSize);
     }
-
-//    public List<Profesor> findByRol(Rol rol, Long page, Long pageSize) {
-//        return dao.findByRol(rol, page, pageSize);
-//    }
 
     public List<Profesor> findByNombreApellido(String nombApp, Long page, Long pageSize) {
         return dao.findByNombreApellido(nombApp, page, pageSize);

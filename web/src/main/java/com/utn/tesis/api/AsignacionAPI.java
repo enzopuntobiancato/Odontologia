@@ -30,27 +30,27 @@ import java.util.List;
 public class AsignacionAPI extends BaseAPI {
 
     @Inject
-    AsignacionPacienteService asignacionPacienteService;
+    private AsignacionPacienteService asignacionPacienteService;
     @Inject
-    AlumnoService alumnoService;
+    private AlumnoService alumnoService;
     @Inject
-    CatedraService catedraService;
+    private CatedraService catedraService;
     @Inject
-    TrabajoPracticoService trabajoPracticoService;
+    private TrabajoPracticoService trabajoPracticoService;
     @Inject
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
     @Inject
-    PersonaMapper personaMapper;
+    private PersonaMapper personaMapper;
     @Inject
-    TrabajoPracticoMapper trabajoPracticoMapper;
+    private TrabajoPracticoMapper trabajoPracticoMapper;
     @Inject
-    CatedraMapper catedraMapper;
+    private CatedraMapper catedraMapper;
     @Inject
-    AsignacionPacienteMapper asignacionPacienteMapper;
+    private AsignacionPacienteMapper asignacionPacienteMapper;
     @Inject
-    MovimientoAsignacionMapper movimientoAsignacionMapper;
+    private MovimientoAsignacionMapper movimientoAsignacionMapper;
     @Inject
-    EnumMapper enumMapper;
+    private EnumMapper enumMapper;
     @Inject
     private SessionHelper sessionHelper;
     @Inject
@@ -122,32 +122,41 @@ public class AsignacionAPI extends BaseAPI {
                                                                @QueryParam("tipoDocumentoPaciente") String tipoDocumentoPaciente,
                                                                @QueryParam("numeroDocumentoPaciente") String numeroDocumentoPaciente,
                                                                @QueryParam("profesorId") Long profesorId,
-                                                               @QueryParam("catedrasId") List<Long> catedrasId,
+                                                               @QueryParam("isProfe") boolean isProfe,
+                                                               @QueryParam("catedrasProfe") List<Long> catedrasProfe,
+                                                               @QueryParam("catedraId") Long catedraId,
                                                                @QueryParam("trabajoPracticoId") Long trabajoPracticoId,
                                                                @QueryParam("estado") String estado,
                                                                @QueryParam("diagnosticoId") Long diagnosticoId,
                                                                @QueryParam("fechaAsignacion") DateParameter fechaAsignacion,
-                                                               @QueryParam("dadosBaja") boolean dadosBaja,
                                                                @QueryParam("pageNumber") Long pageNumber,
                                                                @QueryParam("pageSize") Long pageSize) {
         try {
-            Documento documentoPaciente = null;
-            if (tipoDocumentoPaciente != null && numeroDocumentoPaciente != null) {
-                documentoPaciente = new Documento(numeroDocumentoPaciente, TipoDocumento.valueOf(tipoDocumentoPaciente));
-            }
-
-            Documento documentoAlumno = null;
-            if (tipoDocumentoAlumno != null && numeroDocumentoAlumno != null) {
-                documentoAlumno = new Documento(numeroDocumentoAlumno, TipoDocumento.valueOf(tipoDocumentoAlumno));
-            }
-            EstadoAsignacionPaciente estadoAsignacionPaciente = (estado != null && StringUtils.isNotBlank(estado)
-                    && EstadoAsignacionPaciente.valueOf(estado) != null)
-                    ? EstadoAsignacionPaciente.valueOf(estado) : null;
+            TipoDocumento tipoDocPaciente = StringUtils.isNotBlank(tipoDocumentoPaciente) ? TipoDocumento.valueOf(tipoDocumentoPaciente) : null;
+            TipoDocumento tipoDocAlumno = StringUtils.isNotBlank(tipoDocumentoAlumno) ? TipoDocumento.valueOf(tipoDocumentoAlumno) : null;
+            EstadoAsignacionPaciente estadoAsignacionPaciente = StringUtils.isNotBlank(estado) ? EstadoAsignacionPaciente.valueOf(estado) : null;
             Calendar fecha = fechaAsignacion != null ? fechaAsignacion.getDate() : null;
 
-            return asignacionPacienteService.findByFilters(alumnoId, nombreAlumno,
-                    apellidoAlumno, documentoAlumno, profesorId, nombrePaciente, apellidoPaciente, documentoPaciente,
-                    catedrasId, estadoAsignacionPaciente, diagnosticoId, null, fecha, trabajoPracticoId, dadosBaja, pageNumber, pageSize);
+            return asignacionPacienteService.findByFilters(alumnoId,
+                    nombreAlumno,
+                    apellidoAlumno,
+                    tipoDocAlumno,
+                    numeroDocumentoAlumno,
+                    profesorId,
+                    isProfe,
+                    catedrasProfe,
+                    nombrePaciente,
+                    apellidoPaciente,
+                    tipoDocPaciente,
+                    numeroDocumentoPaciente,
+                    catedraId,
+                    estadoAsignacionPaciente,
+                    diagnosticoId,
+                    null,
+                    fecha,
+                    trabajoPracticoId,
+                    pageNumber,
+                    pageSize);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -285,10 +294,8 @@ public class AsignacionAPI extends BaseAPI {
     @Path("/findCatedrasByProfesor")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CatedraConsultaDTO> findCatedrasByProfesor(@QueryParam("profesorId") Long profesorId) {
-        List<Catedra> entities = catedraService.findCatedrasByProfesor(profesorId);
-        entities = catedraService.reloadList(entities, 1);
-        return catedraMapper.toConsultaDTOList(entities);
+    public List<CatedraConsultaDTO> findCatedrasByProfesor(@QueryParam("profesorId") Long userId) {
+        return catedraService.findCatedrasByProfesor(userId);
     }
 
     @Path("/getTrabajosPracticos")

@@ -67,19 +67,47 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<AsignacionPacienteDTO> findByFilters(Long alumnoId, String nombreAlumno, String apellidoAlumno,
-                                                     Documento documentoAlumno,
-                                                     Long profesorId, String nombrePaciente,
-                                                     String apellidoPaciente, Documento documentoPaciente,
-                                                     List<Long> catedrasId, EstadoAsignacionPaciente estado,
-                                                     Long diagnosticoId, Calendar fechaCreacion,
-                                                     Calendar fechaAsignacion, Long trabajoPracticoId, boolean dadosBaja,
-                                                     Long page, Long pageSize) {
+    public List<AsignacionPacienteDTO> findByFilters(Long alumnoId,
+                                                     String nombreAlumno,
+                                                     String apellidoAlumno,
+                                                     TipoDocumento tipoDocumentoAlumno,
+                                                     String numeroDocumentoAlumno,
+                                                     Long profesorId,
+                                                     boolean isProfe,
+                                                     List<Long> catedrasProfe,
+                                                     String nombrePaciente,
+                                                     String apellidoPaciente,
+                                                     TipoDocumento tipoDocumentoPaciente,
+                                                     String numeroDocumentoPaciente,
+                                                     Long catedraId,
+                                                     EstadoAsignacionPaciente estado,
+                                                     Long diagnosticoId,
+                                                     Calendar fechaCreacion,
+                                                     Calendar fechaAsignacion,
+                                                     Long trabajoPracticoId,
+                                                     Long page,
+                                                     Long pageSize) {
 
-        List<AsignacionPaciente> entities = dao.findByFilters(alumnoId, nombreAlumno, apellidoAlumno,
-                documentoAlumno, profesorId, nombrePaciente, apellidoPaciente,
-                documentoPaciente, catedrasId, estado, diagnosticoId, fechaCreacion, fechaAsignacion, trabajoPracticoId,
-                dadosBaja, page, pageSize);
+        List<AsignacionPaciente> entities = dao.findByFilters(alumnoId,
+                nombreAlumno,
+                apellidoAlumno,
+                tipoDocumentoAlumno,
+                numeroDocumentoAlumno,
+                profesorId,
+                isProfe,
+                catedrasProfe,
+                nombrePaciente,
+                apellidoPaciente,
+                tipoDocumentoPaciente,
+                numeroDocumentoPaciente,
+                catedraId,
+                estado,
+                diagnosticoId,
+                fechaCreacion,
+                fechaAsignacion,
+                trabajoPracticoId,
+                page,
+                pageSize);
         return asignacionPacienteMapper.toDTOList(entities);
     }
 

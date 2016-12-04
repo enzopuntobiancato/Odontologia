@@ -1,64 +1,76 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.jpa.impl.JPASubQuery;
 import com.utn.tesis.mapping.dto.DiagnosticoSupport;
 import com.utn.tesis.model.*;
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 20/02/16
- * Time: 15:26
- * To change this template use File | Settings | File Templates.
- */
 public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
 
     QAsignacionPaciente asignacionPaciente = QAsignacionPaciente.asignacionPaciente;
 
-    public List<AsignacionPaciente> findByFilters(Long alumnoId, String nombreAlumno, String apellidoAlumno,
-                                                  Documento documentoAlumno, Long profesorId, String nombrePaciente,
-                                                  String apellidoPaciente, Documento documentoPaciente,
-                                                  List<Long> catedrasId, EstadoAsignacionPaciente estado,
-                                                  Long diagnosticoId, Calendar fechaCreacion,
-                                                  Calendar fechaAsignacion, Long trabajoPracticoId, boolean dadosBaja,
-                                                  Long page, Long pageSize) {
+    public List<AsignacionPaciente> findByFilters(Long alumnoId,
+                                                  String nombreAlumno,
+                                                  String apellidoAlumno,
+                                                  TipoDocumento tipoDocumentoAlumno,
+                                                  String numeroDocumentoAlumno,
+                                                  Long profesorId,
+                                                  boolean isProfe,
+                                                  List<Long> catedrasProfe,
+                                                  String nombrePaciente,
+                                                  String apellidoPaciente,
+                                                  TipoDocumento tipoDocumentoPaciente,
+                                                  String numeroDocumentoPaciente,
+                                                  Long catedraId,
+                                                  EstadoAsignacionPaciente estado,
+                                                  Long diagnosticoId,
+                                                  Calendar fechaCreacion,
+                                                  Calendar fechaAsignacion,
+                                                  Long trabajoPracticoId,
+                                                  Long page,
+                                                  Long pageSize) {
 
         QPaciente paciente = QPaciente.paciente;
         QAlumno alumno = QAlumno.alumno;
 
-        JPAQuery query = new JPAQuery(em).from(asignacionPaciente);
+        JPAQuery query = new JPAQuery(em).from(asignacionPaciente)
+                .innerJoin(asignacionPaciente.paciente, paciente)
+                .innerJoin(asignacionPaciente.alumno, alumno);
         if (alumnoId != null)
-            query.where(asignacionPaciente.alumno.id.eq(alumnoId));
+            query.where(alumno.id.eq(alumnoId));
         if (StringUtils.isNotBlank(nombreAlumno))
-            query.where(asignacionPaciente.alumno.nombre.eq(nombreAlumno));
+            query.where(alumno.nombre.startsWithIgnoreCase(nombreAlumno));
         if (StringUtils.isNotBlank(apellidoAlumno))
-            query.where(asignacionPaciente.alumno.apellido.eq(apellidoAlumno));
-        if (documentoAlumno != null) {
-            query.innerJoin(asignacionPaciente.alumno, alumno);
-            query.where(alumno.documento.numero.equalsIgnoreCase(documentoAlumno.getNumero())
-                    .and(alumno.documento.tipoDocumento.eq(documentoAlumno.getTipoDocumento())));
-        }
+            query.where(alumno.apellido.startsWithIgnoreCase(apellidoAlumno));
+        if (tipoDocumentoAlumno != null)
+            query.where(alumno.documento.tipoDocumento.eq(tipoDocumentoAlumno));
+        if (StringUtils.isNotBlank(numeroDocumentoAlumno))
+            query.where(alumno.documento.numero.startsWith(numeroDocumentoAlumno));
         if (profesorId != null)
             query.where(asignacionPaciente.autorizadoPor.id.eq(profesorId));
         if (StringUtils.isNotBlank(nombrePaciente))
-            query.where(asignacionPaciente.paciente.nombre.eq(nombrePaciente));
+            query.where(paciente.nombre.startsWithIgnoreCase(nombrePaciente));
         if (StringUtils.isNotBlank(apellidoPaciente))
-            query.where(asignacionPaciente.paciente.apellido.eq(apellidoPaciente));
-        if (documentoPaciente != null) {
-            query.innerJoin(asignacionPaciente.paciente, paciente);
-            query.where(paciente.documento.numero.equalsIgnoreCase(documentoPaciente.getNumero())
-                    .and(paciente.documento.tipoDocumento.eq(documentoPaciente.getTipoDocumento())));
-        }
+            query.where(paciente.apellido.startsWithIgnoreCase(apellidoPaciente));
+        if (tipoDocumentoPaciente != null)
+            query.where(paciente.documento.tipoDocumento.eq(tipoDocumentoPaciente));
+        if (StringUtils.isNotBlank(numeroDocumentoPaciente))
+            query.where(paciente.documento.numero.startsWith(numeroDocumentoPaciente));
         if (estado != null)
             query.where(asignacionPaciente.ultimoMovimiento.estado.eq(estado));
-        if (catedrasId != null && catedrasId.size() > 0)
-            query.where(asignacionPaciente.catedra.id.in(catedrasId));
+        if (catedraId != null)
+            query.where(asignacionPaciente.catedra.id.eq(catedraId));
+        if (isProfe)
+            if (catedrasProfe != null && !catedrasProfe.isEmpty())
+                query.where(asignacionPaciente.catedra.id.in(catedrasProfe));
+            else
+                return Collections.emptyList();
         if (diagnosticoId != null)
             query.where(asignacionPaciente.diagnostico.id.eq(diagnosticoId));
         if (trabajoPracticoId != null)
