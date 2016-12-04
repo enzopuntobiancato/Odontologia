@@ -299,6 +299,15 @@ public class PdfGenerator {
 
                 document.add(par);
 
+                if(p.getImagen() != null) {
+                    Image iTextImage = Image.getInstance(new File(p.getImagen().getRuta()).toURI().toURL());
+                    if(iTextImage != null) {
+                        iTextImage.scaleAbsolute(80, 80);
+                        iTextImage.setAbsolutePosition(480, 610);
+                        document.add(iTextImage);
+                    }
+                }
+
                 Paragraph par1 = new Paragraph();
                 separator(par1, "Datos Personales");
                 par1.add(new Chunk("Apellido y Nombre: ", questionFont));
@@ -407,6 +416,21 @@ public class PdfGenerator {
 
                 Paragraph par2 = new Paragraph();
                 separator(par2, "Diagnosticos");
+                par2.add(new Chunk(Chunk.NEWLINE));
+
+                String uri = p.getHistoriaClinica().getOdontogramaUri();
+                if (uri == null) {
+                    uri = HistoriaClinica.EMPTY_URI;
+                }
+                String base64Image = uri.split(",")[1];
+                try {
+                    byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+                    Image iTextImage = Image.getInstance(imageBytes);
+                    iTextImage.scaleAbsolute(560, 150);
+                    par2.add(iTextImage);
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
 
                 for (Diagnostico d : p.getHistoriaClinica().getDiagnostico()) {
                     PdfPTable table = table();
