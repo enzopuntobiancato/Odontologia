@@ -3,9 +3,9 @@ var module = angular.module('asignacionModule');
 
 module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$cacheFactory', 'AsignacionSrv', '$state', '$stateParams', 'MessageSrv',
     'CommonsSrv', 'PaginationService', '$mdDialog', 'practicasResponse', 'tiposDocumentoResponse', 'estadosAsignacionResponse',
-    'trabajosPracticosResponse', 'authFactory',
+    'trabajosPracticosResponse', 'authFactory', '$window', '$location',
     function ($scope, $rootScope, $filter, $cacheFactory, service, $state, $stateParams, message, commons, pagination,
-              $mdDialog, practicasResponse, tiposDocumentoResponse, estadosAsignacionResponse, trabajosPracticosResponse, authFactory) {
+              $mdDialog, practicasResponse, tiposDocumentoResponse, estadosAsignacionResponse, trabajosPracticosResponse, authFactory, $window, $location) {
         var vm = this;
         vm.asignacion = {};
         vm.result = [];
@@ -22,7 +22,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
             mostrarFiltros: true
         }
         vm.filter = {
-            catedrasId : []
+            catedrasProfe : []
         };
         vm.filter.dadosBaja = false;
         vm.filterChips = [];
@@ -50,6 +50,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         vm.showConsultarAlumnosDialog = showConsultarAlumnosDialog;
         vm.consultar = consultar;
         vm.goRegistrarAtencion = goRegistrarAtencion;
+        vm.imprimirConsentimiento = imprimirConsentimiento;
         vm.user = authFactory.getAuthData();
         //CACHE
         var cache = $cacheFactory.get('asignacionIndexCache') || $cacheFactory('asignacionIndexCache');
@@ -72,10 +73,14 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 service.findCatedrasByProfesor(vm.user.id)
                     .success(function(data){
                        vm.data.catedras = data;
-                        for(var i = 0; i < vm.data.catedras.length; i++){
-                            vm.filter.catedrasId.push(vm.data.catedras[i].id);
+                        if (vm.data.catedras.length) {
+                            for(var i = 0; i < vm.data.catedras.length; i++){
+                                vm.filter.catedrasProfe.push(vm.data.catedras[i].id);
+                            }
+                            executeQuery();
+                        } else {
+                            message.showMessage('No tiene ninguna cátedra asociada. Solicite al administrador académico le asigne sus cátedras.');
                         }
-                        executeQuery();
                     }).error(function(error){
                         console.log(error);
                     })
@@ -106,7 +111,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         //BUSQUEDA ALUMNO
         function onCatedraSelected() {
             var idCatedra = vm.filter.catedra.id;
-            vm.filter.catedrasId.push(idCatedra);
+            vm.filter.catedraId = idCatedra;
             service.getTrabajosPracticosByCatedra(idCatedra)
                 .success(function (response) {
                     vm.data.trabajosPracticos = response;
@@ -141,7 +146,7 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         function executeQuery(pageNumber) {
             pagination.config('api/asignacion/findAsignacionByFilters');
             vm.filter.trabajoPracticoId = angular.isUndefined(vm.filter.trabajoPractico) ? null : vm.filter.trabajoPractico.id;
-//            vm.filter.catedraId = angular.isUndefined(vm.filter.catedra) ? null : vm.filter.catedra.id;
+            vm.filter.isProfe = vm.user.profesor;
             pagination.paginate(vm.filter, pageNumber)
                 .then(function (data) {
                     vm.result = data;
@@ -198,7 +203,14 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
 
         $scope.$watchCollection('vm.filterChips', function (newCol, oldCol) {
             if (newCol.length < oldCol.length) {
-                vm.filter = {};
+                vm.filter = {
+                    catedrasProfe : []
+                }
+                if (vm.user.profesor) {
+                    for(var i = 0; i < vm.data.catedras.length; i++){
+                        vm.filter.catedrasProfe.push(vm.data.catedras[i].id);
+                    }
+                }
                 if (vm.user.alumno) {
                     vm.filter["selectedAlumno"] = vm.selectedAlumno;
                     vm.filter.alumnoId = vm.selectedAlumno.id;
@@ -210,17 +222,8 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 if (vm.filter["selectedAlumno"] != null) {
                     executeQuery();
                 } else {
-                    vm.filter = {};
                     executeQuery();
                 }
-            }
-        })
-
-        $scope.$watch('vm.filter.tipoDocumento', function () {
-            if (vm.filter.tipoDocumento != null && vm.filter.tipoDocumento != 'undefined') {
-                vm.aux.isTipoDocumentoSelected = true;
-            } else {
-                vm.aux.isTipoDocumentoSelected = false;
             }
         })
 
@@ -429,17 +432,19 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
         }
 
         //Métodos auxiliares
-        vm.clickIcon = 'expand_more';
+        vm.clickIcon = 'expand_less';
         vm.colorIcon = ['#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF', '#00B0FF'];
 
         vm.cleanFilters = function () {
-            vm.filter = {};
-            vm.filterChips = [];
-            if(vm.user.profesor){
+            vm.filter = {
+                catedrasProfe : []
+            }
+            if (vm.user.profesor) {
                 for(var i = 0; i < vm.data.catedras.length; i++){
-                    vm.filter.catedrasId.push(vm.data.catedras[i].id);
+                    vm.filter.catedrasProfe.push(vm.data.catedras[i].id);
                 }
             }
+            vm.filterChips = [];
         };
 
         vm.mostrarAcciones = function (item) {
@@ -466,6 +471,11 @@ module.controller('AsignacionCtrl_Index', ['$scope', '$rootScope', '$filter', '$
                 vm.clickIcon = 'expand_more';
             }
         };
+
+        function imprimirConsentimiento() {
+            var base = $location.protocol() + '://' + $location.host() + ':' + $location.port() + "/Odontologia-web/resources/consentimiento_informado.pdf";
+            $window.open(base);
+        }
 
         $scope.$on('$stateChangeStart',
             function (event, toState) {

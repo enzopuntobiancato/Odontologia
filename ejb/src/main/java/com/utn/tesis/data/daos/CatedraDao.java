@@ -5,6 +5,7 @@ import com.mysema.query.jpa.impl.JPAQuery;
 import com.utn.tesis.model.*;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CatedraDao extends DaoBase<Catedra> {
@@ -51,18 +52,22 @@ public class CatedraDao extends DaoBase<Catedra> {
         return tuplas;
     }
 
-    public List<Catedra> findCatedrasByProfesor(Long id){
-        QProfesor profesor = QProfesor.profesor;
+    public List<Catedra> findCatedrasByProfesor(Long userId){
+        QUsuario usuario = QUsuario.usuario;
+        QRolUsuario rolUsuario = QRolUsuario.rolUsuario;
+        QPersona persona = QPersona.persona;
 
         JPAQuery query = new JPAQuery(em);
-        query.from(profesor);
-        query.innerJoin(profesor.catedras, catedra);
-        if (profesor != null) {
-            query.where(profesor.id.eq(id));
-        }
+        query.from(usuario)
+        .innerJoin(usuario.roles, rolUsuario)
+        .innerJoin(rolUsuario.persona, persona);
+        query.where(usuario.id.eq(userId).and(rolUsuario.rol.nombre.eq(RolEnum.PROFESOR)));
 
-        List<Catedra> tuplas = query.list(catedra);
-        return tuplas;
+        Persona profesor = query.uniqueResult(persona);
+        if (profesor != null) {
+            return ((Profesor)profesor).getCatedras();
+        }
+        return Collections.emptyList();
     }
 
     public List<Catedra> findCatedrasByPractica(Long practicaId) {
