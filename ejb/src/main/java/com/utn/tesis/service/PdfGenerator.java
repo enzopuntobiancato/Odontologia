@@ -36,6 +36,73 @@ public class PdfGenerator {
         return file;
     }
 
+    public File createImpresionAtencion(Atencion atencion) throws IOException {
+        File file = File.createTempFile(atencion.getAsignacionPaciente().getAlumno().getApellido() +
+                " " + atencion.getAsignacionPaciente().getAlumno().getNombre() +
+                " Atencion Nº " + atencion.getId().toString() , "Atencion");
+        crearAtencion(file, atencion);
+        return file;
+    }
+
+    private void crearAtencion(File pdfNewFile, Atencion a) {
+        if (a == null) {
+            return;
+        }
+        try {
+            Document document = new Document();
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+            } catch (FileNotFoundException fileNotFoundException) {
+                System.out.println("No such file was found to generate the PDF "
+                        + "(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
+            }
+            try {
+                document.open();
+                PdfPTable table = table();
+                table.addCell(cell(2,
+                        new Chunk("Fecha Atencion: ", questionFont),
+                        new Chunk(text(FechaUtils.fechaConSeparador(a.getFechaAtencion())), answerFont)));
+                table.addCell(cell(2,
+                        new Chunk("Fecha de Carga: ", questionFont),
+                        new Chunk(text(FechaUtils.fechaConSeparador(a.getFechaDeCarga())), answerFont)));
+                table.addCell(cell(2,
+                        new Chunk("Alumno: ", questionFont),
+                        new Chunk(text(a.getAsignacionPaciente().getAlumno().getApellido()
+                                + ", " + text(a.getAsignacionPaciente().getAlumno().getNombre())), answerFont)));
+                table.addCell(cell(2,
+                        new Chunk("Profesor Autorizante: ", questionFont),
+                        new Chunk(text(a.getAsignacionPaciente().getAutorizadoPor().getApellido()
+                                + ", " + text(a.getAsignacionPaciente().getAutorizadoPor().getNombre())), answerFont)));
+                table.addCell(cell(2,
+                        new Chunk("Numero de Diagnostico: ", questionFont),
+                        new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getId()), answerFont)));
+                if (nullOVacio(a.getAsignacionPaciente().getDiagnostico().getPracticaNoExistente())) {
+                    table.addCell(cell(2,
+                            new Chunk("Practica Odontologica: ", questionFont),
+                            new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getPracticaOdontologica().getDenominacion()), answerFont)));
+                } else {
+                    table.addCell(cell(2,
+                            new Chunk("Practica Odontologica: ", questionFont),
+                            new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getPracticaNoExistente()), answerFont)));
+                }
+                table.addCell(cell(4,
+                        new Chunk("Descripción de Procedimiento: ", questionFont),
+                        new Chunk(text(a.getDescripcionProcedimiento()), answerFont)));
+                table.addCell(cell(4,
+                        new Chunk("Diagnostico Solucionado: ", questionFont),
+                        new Chunk(a.isDiagnosticoSolucionado() ? "Si" : "No", answerFont)));
+                document.add(table);
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            document.close();
+            System.out.println("PDF Generado con exito!");
+        } catch (DocumentException documentException) {
+            System.out.println("The file not exists (Se ha producido un error al generar un documento): " + documentException);
+        }
+    }
+
+
     private void crearListaAsignaciones(File pdfNewFile, ArrayList<AsignacionPaciente> asignaciones) {
         if(asignaciones == null) {
             asignaciones = new ArrayList<AsignacionPaciente>();
