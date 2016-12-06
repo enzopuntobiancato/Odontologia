@@ -5,11 +5,11 @@
                 <div layout="row" layout-align="center center">
                     <md-card flex-gt-sm>
                         <form name="createMateriaForm" ng-submit="save(createMateriaForm)" novalidate>
-                           <!-- <md-toolbar class="md-accent">
+                           <md-toolbar class="md-accent">
                                 <div class="md-toolbar-tools">
                                     <span>{{ 'CREAR_MATERIA' | translate }}</span>
                                 </div>
-                            </md-toolbar>-->
+                            </md-toolbar>
                             <md-card-content>
                                 <ng-include ng-if="validationErrorFromServer.error"
                                             src="'views/validation-error.html'"></ng-include>

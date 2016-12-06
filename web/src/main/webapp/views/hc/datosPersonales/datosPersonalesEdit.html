@@ -42,7 +42,7 @@
                                        required md-maxlength="75"/>
 
                                 <div ng-messages="datosPersonalesForm.nombre.$error"
-                                     ng-show="datosPersonalesForm.nombre.$touched || vm.submitted" class="errors">
+                                     ng-if="datosPersonalesForm.nombre.$touched || vm.submitted" class="errors">
                                     <div ng-messages-include="error-messages"></div>
                                 </div>
                             </md-input-container>
@@ -51,8 +51,7 @@
                                 <input name="apellido" ng-model="vm.paciente.apellido"
                                        required md-maxlength="75"/>
 
-                                <div ng-messages="datosPersonalesForm.apellido.$error"
-                                     ng-show="datosPersonalesForm.apellido.$touched || vm.submitted" class="errors">
+                                <div ng-messages="datosPersonalesForm.apellido.$error" md-auto-hide="false" ng-hide="!(datosPersonalesForm.apellido.$touched || vm.submitted)">
                                     <div ng-messages-include="error-messages"></div>
                                 </div>
                             </md-input-container>
@@ -84,51 +83,6 @@
 
                     </div>
                     </div>
-                <!--<div layout="row" layout-margin>-->
-                    <!--<md-input-container flex="30">-->
-                        <!--<label>Nombre</label>-->
-                        <!--<input name="nombre" ng-model="vm.paciente.nombre"-->
-                               <!--required md-maxlength="75"/>-->
-
-                        <!--<div ng-messages="datosPersonalesForm.nombre.$error"-->
-                             <!--ng-show="datosPersonalesForm.nombre.$touched || vm.submitted" class="errors">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container flex="30">-->
-                        <!--<label>Apellido</label>-->
-                        <!--<input name="apellido" ng-model="vm.paciente.apellido"-->
-                               <!--required md-maxlength="75"/>-->
-
-                        <!--<div ng-messages="datosPersonalesForm.apellido.$error"-->
-                             <!--ng-show="datosPersonalesForm.apellido.$touched || vm.submitted" class="errors">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container flex="20">-->
-                        <!--<label>Sexo</label>-->
-                        <!--<md-select ng-model="vm.paciente.sexo" name="sexo" required-->
-                                   <!--ng-model-options="{ trackBy: '$value.key'}">-->
-                            <!--<md-option ng-repeat="item in vm.data.sexos" ng-value="item">-->
-                                <!--{{ item.nombre }}-->
-                            <!--</md-option>-->
-                        <!--</md-select>-->
-                        <!--<div ng-messages="datosPersonalesForm.sexo.$error"-->
-                             <!--ng-show="datosPersonalesForm.sexo.$touched || vm.submitted" class="errors">-->
-                            <!--<div ng-messages-include="error-messages"></div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                    <!--<md-input-container flex="20">-->
-                        <!--<label>Estado civil</label>-->
-                        <!--<md-select ng-model="vm.paciente.estadoCivil" name="estadoCivil"-->
-                                   <!--ng-model-options="{trackBy: '$value.key'}">-->
-                            <!--<md-option ng-repeat="item in vm.data.estados" ng-value="item">-->
-                                <!--{{ item.nombre }}-->
-                            <!--</md-option>-->
-                        <!--</md-select>-->
-                    <!--</md-input-container>-->
-
-                <!--</div>-->
                 <div layout="row" layout-margin>
                     <md-input-container flex="25">
                         <label>Tipo doc.</label>
@@ -162,7 +116,6 @@
                             </md-option>
                         </md-select>
                     </md-input-container>
-                    <!--<div flex="25">-->
                         <md-input-container layout-margin flex="40">
                             <label>{{ 'FECHA_NACIMIENTO' | translate }}</label>
                             <md-datepicker name="nacimiento" ng-model="vm.paciente.fechaNacimiento"
@@ -174,7 +127,6 @@
                                 <div ng-message="maxdate">No puede ser mayor a {{ vm.restrictedDate.maxDate | date:'dd/MM/yyyy' }}</div>
                             </div>
                         </md-input-container>
-                    <!--</div>-->
                 </div>
                 <div layout="row" layout-margin>
                     <md-input-container flex="30">

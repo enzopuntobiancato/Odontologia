@@ -125,7 +125,8 @@ var templateDetalleHC = "<md-list-item class='md-3-line md-long-text' flex-gt-sm
 var detalle = function () {
     return {
         restrict: 'E',
-        template: templateDetalleHC,
+//        template: templateDetalleHC,
+        templateUrl: 'views/templateDetalleHC.html',
         replace: true,
         scope: {
             camposino: "=",
@@ -189,7 +190,8 @@ var editHC = function () {
             submitted: '=',
             change: '&'
         },
-        template: templateEditHC,
+//        template: templateEditHC,
+        templateUrl: 'views/templateEditHC.html',
         controller: controllerEditHC,
         controllerAs: 'vm',
         bindToController: true,

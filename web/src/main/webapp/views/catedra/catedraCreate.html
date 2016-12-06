@@ -1,151 +1,169 @@
-<md-content layout-align="center start" layout class="md-main-content" flex>
-    <md-card class="md-whiteframe-z5 md-main-content-card">
-        <form name="mainForm" novalidate ng-submit="save(mainForm)">
-            <md-toolbar class="md-accent">
-                <div class="md-toolbar-tools">
-                    <span>Crear cátedra</span>
+<div layout="column">
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="column" layout-fill layout-padding>
+            <div>
+                <div layout="row" layout-align="center center">
+                    <md-card flex-gt-sm>
+                        <form name="mainForm" novalidate ng-submit="save(mainForm)">
+                            <md-toolbar class="md-accent">
+                                <div class="md-toolbar-tools">
+                                    <span>Crear cátedra</span>
+                                </div>
+                            </md-toolbar>
+                            <md-card-content>
+                                <ng-include ng-if="validationErrorFromServer.error"
+                                            src="'views/validation-error.html'"></ng-include>
+                                <md-tabs md-dynamic-height md-border-bottom>
+                                    <md-tab>
+                                        <md-tab-label>
+                                            <div layout layout-align="center center"
+                                                 ng-class="(mainForm.$submitted && generalForm.$invalid)? 'md-has-error': 'md-no-error' ">
+                                                General
+                                                <ng-md-icon icon="error">
+                                                </ng-md-icon>
+                                            </div>
+                                        </md-tab-label>
+                                        <md-tab-body layout="column" class="md-padding">
+                                            <ng-form name="generalForm">
+                                                <p> Complete los datos generales de la cátedra</p>
+
+                                                <div layout-gt-sm="row" layout-margin>
+                                                    <md-input-container flex-gt-sm="33">
+                                                        <label>Nombre</label>
+                                                        <input name="denominacion" ng-model="catedra.denominacion"
+                                                               required md-maxlength="10">
+
+                                                        <div ng-messages="generalForm.denominacion.$error"
+                                                             ng-show="mainForm.$submitted || generalForm.denominacion.$touched">
+                                                            <div ng-messages-include="error-messages"></div>
+                                                        </div>
+                                                    </md-input-container>
+                                                    <md-input-container flex-gt-sm="33">
+                                                        <label>Materia</label>
+                                                        <md-select ng-model="catedra.materia" name="materia" required>
+                                                            <md-option ng-repeat="materia in data.materias"
+                                                                       ng-value="materia">
+                                                                {{ materia.nombre }}
+                                                            </md-option>
+                                                        </md-select>
+                                                        <div ng-messages="generalForm.materia.$error"
+                                                             ng-show="mainForm.$submitted || generalForm.materia.$touched">
+                                                            <div ng-messages-include="error-messages"></div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                                <div layout-gt-sm="row" layout-margin>
+                                                    <md-input-container flex>
+                                                        <label>Descripción</label>
+                                                        <textarea ng-model="catedra.descripcion" name="descripcion"
+                                                                  columns="5"
+                                                                  md-maxlength="400"></textarea>
+
+                                                        <div ng-messages="generalForm.descripcion.$error"
+                                                             ng-show="generalForm.descripcion.$touched || mainForm.$submitted">
+                                                            <div ng-messages-include="error-messages"></div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                            </ng-form>
+                                        </md-tab-body>
+                                    </md-tab>
+                                    <md-tab>
+                                        <md-tab-label>
+                                            <div layout layout-align="center center"
+                                                 ng-class="(mainForm.$submitted && horariosForm.$invalid)? 'md-has-error': 'md-no-error' ">
+                                                Horarios
+                                                <ng-md-icon icon="error">
+                                                </ng-md-icon>
+                                            </div>
+                                        </md-tab-label>
+                                        <md-tab-body class="md-padding">
+                                            <ng-form name="horariosForm">
+                                                <p>Agregue los horarios en los que atiende el consultorio de la
+                                                    cátedra</p>
+
+                                                <div layout-gt-sm="row" layout="margin">
+                                                    <md-input-container flex-gt-sm="25">
+                                                        <label>Día</label>
+                                                        <md-select ng-model="newHorario.dia"
+                                                                   ng-model-options="{trackBy: '$value.key'}"
+                                                                   name="dia">
+                                                            <md-option ng-repeat="dia in  data.dias" ng-value="dia">
+                                                                {{ dia.nombre }}
+                                                            </md-option>
+                                                        </md-select>
+                                                    </md-input-container>
+                                                    <md-input-container flex-gt-sm="15">
+                                                        <label>Hora desde</label>
+                                                        <input type=time step=900 name="horaDesde"
+                                                               ng-model="newHorario.horaDesde">
+                                                    </md-input-container>
+                                                    <md-input-container flex-gt-sm="15">
+                                                        <label>Hora hasta</label>
+                                                        <input type=time step=900 name="horaHasta"
+                                                               ng-model="newHorario.horaHasta">
+                                                    </md-input-container>
+                                                    <md-button
+                                                            ng-hide="!newHorario.horaDesde || !newHorario.horaHasta || !newHorario.dia"
+                                                            class="md-icon-button md-primary" aria-label="Settings"
+                                                            ng-click="addHorario()">
+                                                        <md-tooltip>
+                                                            Agregar
+                                                        </md-tooltip>
+                                                        <ng-md-icon icon="add" size="30"></ng-md-icon>
+                                                    </md-button>
+                                                    <div flex class="validation-messages" ng-show="errorHorario.show">
+                                                        {{errorHorario.message}}
+                                                    </div>
+                                                </div>
+                                                <md-input-container flex>
+                                                    <p class="subtitle-text">Horarios agregados</p>
+                                                    <md-chips class="query-chips" name="horarios" validate-length
+                                                              md-on-remove="deleteHorario()"
+                                                              ng-model="catedra.horarios"
+                                                              ng-model-options="{ allowInvalid: true}">
+                                                        <md-chip-template>
+                                                            <strong>{{$chip.dia.nombre}}</strong>
+                                                            <em>{{$chip.horaDesde | date:'HH:mm'}} - {{$chip.horaHasta |
+                                                                date:'HH:mm'}}</em>
+                                                        </md-chip-template>
+                                                    </md-chips>
+                                                    <div ng-messages="horariosForm.horarios.$error"
+                                                         ng-show="horariosForm.horarios.$touched || mainForm.$submitted">
+                                                        <div ng-messages-include="error-messages"></div>
+                                                    </div>
+                                                </md-input-container>
+
+                                            </ng-form>
+                                        </md-tab-body>
+                                    </md-tab>
+                                    <md-tab>
+                                        <md-tab-label>
+                                            <div layout layout-align="center center"
+                                                 ng-class="(mainForm.$submitted && tpForm.$invalid)? 'md-has-error': 'md-no-error' ">
+                                                Trabajos prácticos
+                                                <ng-md-icon icon="error">
+                                                </ng-md-icon>
+                                            </div>
+                                        </md-tab-label>
+                                        <md-tab-body class="md-padding">
+                                            <ng-form name="tpForm">
+                                                <ng-include
+                                                        src="'views/catedra/catedraAddTrabajoPractico.html'"></ng-include>
+                                            </ng-form>
+                                        </md-tab-body>
+                                    </md-tab>
+                                </md-tabs>
+
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="goIndex()">Cancelar</md-button>
+                                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                            </md-card-actions>
+                        </form>
+                    </md-card>
                 </div>
-            </md-toolbar>
-            <md-card-content>
-                <ng-include ng-if="validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
-                <md-tabs md-dynamic-height md-border-bottom>
-                    <md-tab>
-                        <md-tab-label>
-                            <div layout layout-align="center center"
-                                 ng-class="(mainForm.$submitted && generalForm.$invalid)? 'md-has-error': 'md-no-error' ">
-                                General
-                                <ng-md-icon icon="error">
-                                </ng-md-icon>
-                            </div>
-                        </md-tab-label>
-                        <md-tab-body layout="column" class="md-padding">
-                            <ng-form name="generalForm">
-                                <p> Complete los datos generales de la cátedra</p>
-
-                                <div layout-gt-sm="row" layout-margin>
-                                    <md-input-container flex-gt-sm="33">
-                                        <label>Nombre</label>
-                                        <input name="denominacion" ng-model="catedra.denominacion"
-                                               required md-maxlength="10">
-
-                                        <div ng-messages="generalForm.denominacion.$error"
-                                             ng-show="mainForm.$submitted || generalForm.denominacion.$touched">
-                                            <div ng-messages-include="error-messages"></div>
-                                        </div>
-                                    </md-input-container>
-                                    <md-input-container flex-gt-sm="33">
-                                        <label>Materia</label>
-                                        <md-select ng-model="catedra.materia" name="materia" required>
-                                            <md-option ng-repeat="materia in data.materias" ng-value="materia">
-                                                {{ materia.nombre }}
-                                            </md-option>
-                                        </md-select>
-                                        <div ng-messages="generalForm.materia.$error"
-                                             ng-show="mainForm.$submitted || generalForm.materia.$touched">
-                                            <div ng-messages-include="error-messages"></div>
-                                        </div>
-                                    </md-input-container>
-                                </div>
-                                <div layout-gt-sm="row" layout-margin>
-                                    <md-input-container flex>
-                                        <label>Descripción</label>
-                                        <textarea ng-model="catedra.descripcion" name="descripcion" columns="5"
-                                                  md-maxlength="400"></textarea>
-
-                                        <div ng-messages="generalForm.descripcion.$error"
-                                             ng-show="generalForm.descripcion.$touched || mainForm.$submitted">
-                                            <div ng-messages-include="error-messages"></div>
-                                        </div>
-                                    </md-input-container>
-                                </div>
-                            </ng-form>
-                        </md-tab-body>
-                    </md-tab>
-                    <md-tab>
-                        <md-tab-label>
-                            <div layout layout-align="center center"
-                                 ng-class="(mainForm.$submitted && horariosForm.$invalid)? 'md-has-error': 'md-no-error' ">
-                                Horarios
-                                <ng-md-icon icon="error">
-                                </ng-md-icon>
-                            </div>
-                        </md-tab-label>
-                        <md-tab-body class="md-padding">
-                            <ng-form name="horariosForm">
-                                <p>Agregue los horarios en los que atiende el consultorio de la cátedra</p>
-
-                                <div layout-gt-sm="row" layout="margin">
-                                    <md-input-container flex-gt-sm="25">
-                                        <label>Día</label>
-                                        <md-select ng-model="newHorario.dia" ng-model-options="{trackBy: '$value.key'}"
-                                                   name="dia">
-                                            <md-option ng-repeat="dia in  data.dias" ng-value="dia">
-                                                {{ dia.nombre }}
-                                            </md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                    <md-input-container flex-gt-sm="15">
-                                        <label>Hora desde</label>
-                                        <input type=time step=900 name="horaDesde" ng-model="newHorario.horaDesde">
-                                    </md-input-container>
-                                    <md-input-container flex-gt-sm="15">
-                                        <label>Hora hasta</label>
-                                        <input type=time step=900 name="horaHasta" ng-model="newHorario.horaHasta">
-                                    </md-input-container>
-                                    <md-button
-                                            ng-hide="!newHorario.horaDesde || !newHorario.horaHasta || !newHorario.dia"
-                                            class="md-icon-button md-primary" aria-label="Settings"
-                                            ng-click="addHorario()">
-                                        <md-tooltip>
-                                            Agregar
-                                        </md-tooltip>
-                                        <ng-md-icon icon="add" size="30"></ng-md-icon>
-                                    </md-button>
-                                    <div flex class="validation-messages" ng-show="errorHorario.show">
-                                        {{errorHorario.message}}
-                                    </div>
-                                </div>
-                                <md-input-container flex>
-                                    <p class="subtitle-text">Horarios agregados</p>
-                                    <md-chips class="query-chips" name="horarios" validate-length md-on-remove="deleteHorario()"
-                                              ng-model="catedra.horarios" ng-model-options="{ allowInvalid: true}">
-                                        <md-chip-template>
-                                            <strong>{{$chip.dia.nombre}}</strong>
-                                            <em>{{$chip.horaDesde | date:'HH:mm'}} - {{$chip.horaHasta |
-                                                date:'HH:mm'}}</em>
-                                        </md-chip-template>
-                                    </md-chips>
-                                    <div ng-messages="horariosForm.horarios.$error"
-                                         ng-show="horariosForm.horarios.$touched || mainForm.$submitted">
-                                        <div ng-messages-include="error-messages"></div>
-                                    </div>
-                                </md-input-container>
-
-                            </ng-form>
-                        </md-tab-body>
-                    </md-tab>
-                    <md-tab>
-                        <md-tab-label>
-                            <div layout layout-align="center center"
-                                 ng-class="(mainForm.$submitted && tpForm.$invalid)? 'md-has-error': 'md-no-error' ">
-                                Trabajos prácticos
-                                <ng-md-icon icon="error">
-                                </ng-md-icon>
-                            </div>
-                        </md-tab-label>
-                        <md-tab-body class="md-padding">
-                            <ng-form name="tpForm">
-                                <ng-include src="'views/catedra/catedraAddTrabajoPractico.html'"></ng-include>
-                            </ng-form>
-                        </md-tab-body>
-                    </md-tab>
-                </md-tabs>
-
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="goIndex()">Cancelar</md-button>
-                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-            </md-card-actions>
-        </form>
-    </md-card>
-</md-content>
+            </div>
+        </div>
+    </md-content>
+</div>

@@ -113,6 +113,15 @@ module.controller('PacienteCtrl_EditCreate',
                 }
             }
 
+            function setFormErrorsTouched(form) {
+                angular.forEach(form.$error, function (field) {
+                    angular.forEach(field, function (errorField) {
+                        console.log(field.name);
+                        errorField.$setTouched();
+                    })
+                });
+            }
+
             function init() {
                 if (angular.isDefined(vm.paciente.lugarDeNacimiento)) {
                     vm.selectedProvincia = vm.paciente.lugarDeNacimiento.provincia;

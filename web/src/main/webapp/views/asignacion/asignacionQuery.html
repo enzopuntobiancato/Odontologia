@@ -6,7 +6,6 @@
     <ng-md-icon icon="add" size="24" style="fill: white"></ng-md-icon>
 </md-button>
 <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
-<form>
 <div layout="column" layout-fill layout-padding>
 <div>
 <div layout="row" layout-align="center center">
@@ -19,20 +18,18 @@
 </md-toolbar>
 <md-card-content>
 <section>
-<ng-form name="consultarAsignacionesForm" novalidate>
+<form name="consultarAsignacionesForm" novalidate ng-submit="vm.consultar(consultarAsignacionesForm)">
 <div layout="row" layout-margin>
     <md-input-container flex-gt-sm>
         <label>Apellido paciente</label>
-        <input ng-model="vm.filter.apellidoPaciente" name="apellidoPaciente"
-               ng-keypress="vm.keyboardOk($event)">
+        <input ng-model="vm.filter.apellidoPaciente" name="apellidoPaciente">
     </md-input-container>
     <md-input-container flex-gt-sm>
         <label>Nombre paciente</label>
-        <input ng-model="vm.filter.nombrePaciente" name="nombrePaciente"
-               ng-keypress="vm.keyboardOk($event)">
+        <input ng-model="vm.filter.nombrePaciente" name="nombrePaciente">
     </md-input-container>
     <div flex="50" layout-gt-sm="row" layout-align="start center">
-        <md-button ng-click="vm.consultar(consultarAsignacionesForm)">
+        <md-button type="submit">
             <md-tooltip>
                 {{ 'BUSCAR' | translate }}
             </md-tooltip>
@@ -138,11 +135,11 @@
             </md-select>
         </md-input-container>
     </div>
-        <md-input-container flex>
-            <label>Fecha asign.</label>
-            <md-datepicker ng-model="vm.filter.fechaAsignacion">
-            </md-datepicker>
-        </md-input-container>
+    <md-input-container>
+        <label>Fecha asign.</label>
+        <md-datepicker ng-model="vm.filter.fechaAsignacion">
+        </md-datepicker>
+    </md-input-container>
 </div>
 <filter-chips data="vm.filterChips"></filter-chips>
 <md-table-container ng-if="vm.result.length > 0">
@@ -240,7 +237,7 @@
 </div>
 <ng-include ng-if="vm.result.length == 0"
             src="'views/no-results.html'"></ng-include>
-</ng-form>
+</form>
 </section>
 
 </md-card-content>
@@ -248,7 +245,6 @@
 </div>
 </div>
 </div>
-</form>
 </md-content>
 </div>
 

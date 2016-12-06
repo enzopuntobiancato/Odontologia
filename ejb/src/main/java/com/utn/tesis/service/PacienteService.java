@@ -53,8 +53,8 @@ public class PacienteService extends BaseService<Paciente> {
         return validator;
     }
 
-    public List<Paciente> findByFilters(String nombre, String apellido, Documento documento, Sexo sexo, boolean dadosBaja, Long page, Long pageSize) {
-        return dao.findByFilters(nombre, apellido, documento, sexo, dadosBaja, page, pageSize);
+    public List<PacienteDTO> findByFilters(String nombre, String apellido, Documento documento, Sexo sexo, boolean dadosBaja, Long page, Long pageSize) {
+        return pacienteMapper.toDTOList(dao.findByFilters(nombre, apellido, documento, sexo, dadosBaja, page, pageSize));
     }
 
     public List<Paciente> findByNombreApellido(String nombApp, Long page, Long pageSize) {
@@ -168,5 +168,10 @@ public class PacienteService extends BaseService<Paciente> {
     public String findOdontogramaUriById(Long id) {
         HistoriaClinica hc = historiaClinicaService.findById(id);
         return hc.getOdontogramaUri();
+    }
+
+    public PacienteDTO removeToDTO(Long pacienteId, String motivoBaja) throws SAPOException {
+        Paciente paciente = remove(pacienteId, motivoBaja);
+        return pacienteMapper.toDTO(paciente);
     }
 }

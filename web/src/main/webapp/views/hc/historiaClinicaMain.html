@@ -94,7 +94,7 @@
                                     <ui-view></ui-view>
                             </md-card-content>
                             <md-card-actions ng-if="!vm.data.editing" layout="row" layout-align="end center">
-                                <md-button ng-click="vm.goToConsultar()">{{ 'VOLVER' | translate }}</md-button>
+                                <md-button ng-click="vm.goToConsultar()" class="md-primary">{{ 'VOLVER' | translate }}</md-button>
                             </md-card-actions>
 
                             <md-card-actions ng-if="vm.data.editing" layout="row" layout-align="end center">
