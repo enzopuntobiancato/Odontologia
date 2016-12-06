@@ -79,9 +79,9 @@
                                             <h3 class="md-title">
                                                 {{ item.materia.nombre }} {{item.denominacion}}
                                             </h3>
-                                            <p class="justified-text small-line">{{item.descripcion}}</p>
+                                                <p>{{item.descripcion}}</p>
                                         </div>
-                                        <div ng-show="item.showAction">
+                                        <div ng-show="item.showAction" layout="row">
                                             <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.id)"
                                                         ng-attr-style="fill: {{colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
                                                         ng-mouseleave="colorMouseLeave(3)">

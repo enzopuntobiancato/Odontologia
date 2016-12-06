@@ -1,122 +1,134 @@
-<md-content layout-align="center start" layout class="md-main-content" flex>
-
-    <md-card class="md-whiteframe-z5 md-main-content-card">
-        <form novalidate ng-submit="vm.save(editCatedrasPorProfesorForm)" name="editCatedrasPorProfesorForm">
-            <md-toolbar class="md-accent">
-                <div class="md-toolbar-tools">
-                    <span>Asignar cátedra a profesor</span>
-                </div>
-            </md-toolbar>
-            <md-card-content>
-                <ng-form name="buscarProfesorForm">
-                    <md-autocomplete ng-required="true" md-input-name="profesor"
-                                     md-input-minlength="3"
-                                     md-min-length="3"
-                                     md-selected-item="vm.selectedProfesor"
-                                     md-search-text="vm.searchTextProfesor"
-                                     md-items="item in vm.searchProfesores(vm.searchTextProfesor)"
-                                     md-item-text="item.apellido"
-                                     md-floating-label="Apellido, nombre o legajo del profesor"
-                                     md-selected-item-change="vm.onProfesorSelected()">
-                        <md-item-template>
+<div layout="column">
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="column" layout-fill layout-padding>
+            <div>
+                <div layout="row" layout-align="center center">
+                    <md-card flex>
+                        <form novalidate ng-submit="vm.save(editCatedrasPorProfesorForm)"
+                              name="editCatedrasPorProfesorForm">
+                            <md-toolbar class="md-accent">
+                                <div class="md-toolbar-tools">
+                                    <span>Asignar cátedra a profesor</span>
+                                </div>
+                            </md-toolbar>
+                            <md-card-content>
+                                <ng-form name="buscarProfesorForm">
+                                    <md-autocomplete ng-required="true" md-input-name="profesor"
+                                                     md-input-minlength="3"
+                                                     md-min-length="3"
+                                                     md-selected-item="vm.selectedProfesor"
+                                                     md-search-text="vm.searchTextProfesor"
+                                                     md-items="item in vm.searchProfesores(vm.searchTextProfesor)"
+                                                     md-item-text="item.apellido"
+                                                     md-floating-label="Apellido, nombre o legajo del profesor"
+                                                     md-selected-item-change="vm.onProfesorSelected()">
+                                        <md-item-template>
                         <span md-highlight-text="vm.searchTextProfesor" md-highlight-flags="i">{{ item.apellido }},
                             {{ item.nombre }} (Legajo: {{ item.legajo }})</span>
-                        </md-item-template>
-                        <md-not-found>
-                            Sin resultados
-                        </md-not-found>
-                        <div ng-messages="buscarProfesorForm.profesor.$error"
-                             ng-if="buscarProfesorForm.profesor.$touched">
-                            <div ng-message="minlength">Escribe al menos 3 letras para buscar</div>
-                            <div ng-messages-include="error-messages"></div>
-                        </div>
-                    </md-autocomplete>
-                    <!--<section >-->
-                    <md-input-container flex ng-if="vm.selectedProfesor">
-                        <p class="subtitle-text">Cátedras del profesor</p>
-                        <md-chips class="query-chips" name="catedras"
-                                  ng-model="vm.selectedProfesor.catedras"
-                                  md-on-remove="vm.deleteCatedra($chip.id,2)">
-                            <md-chip-template>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            Sin resultados
+                                        </md-not-found>
+                                        <div ng-messages="buscarProfesorForm.profesor.$error"
+                                             ng-if="buscarProfesorForm.profesor.$touched">
+                                            <div ng-message="minlength">Escribe al menos 3 letras para buscar</div>
+                                            <div ng-messages-include="error-messages"></div>
+                                        </div>
+                                    </md-autocomplete>
+                                    <!--<section >-->
+                                    <md-input-container flex ng-if="vm.selectedProfesor">
+                                        <p class="subtitle-text">Cátedras del profesor</p>
+                                        <md-chips class="query-chips" name="catedras"
+                                                  ng-model="vm.selectedProfesor.catedras"
+                                                  md-on-remove="vm.deleteCatedra($chip.id,2)">
+                                            <md-chip-template>
                              <span>
                                 <strong>{{$chip.materia.nombre}} {{ $chip.denominacion }}</strong>
                              </span>
-                            </md-chip-template>
-                        </md-chips>
-                    </md-input-container>
-                    <div layout-gt-sm="row" layout-margin>
-                        <md-input-container flex ng-disabled="!vm.selectedProfesor">
-                            <label>Nombre</label>
-                            <input ng-model="vm.filter.denominacion" name="denominacion">
-                        </md-input-container>
-                        <md-input-container flex>
-                            <md-select ng-model="vm.filter.materiaId" name="materia" placeholder="Materia"
-                                       ng-disabled="!vm.selectedProfesor">
-                                <md-option ng-repeat="materia in vm.data.materias" ng-value="vm.materia.id">
-                                    {{ materia.nombre }}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                        <div flex="50" layout="row" layout-align="start center">
-                            <md-button ng-click="vm.searchCatedras(buscarProfesorForm)" type="button">
-                                <md-tooltip>
-                                    Buscar
-                                </md-tooltip>
-                                <ng-md-icon icon="search" size="40" ng-attr-style="fill: {{vm.colorIcon[0]}}"
-                                            ng-Mouseover="vm.colorMouseOver(0)"
-                                            ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
-                            </md-button>
-                            <md-button ng-click="vm.cleanFilters()" type="button">
-                                <md-tooltip>
-                                    Limpiar filtros
-                                </md-tooltip>
-                                <ng-md-icon icon="clear" size="40" ng-attr-style="fill: {{vm.colorIcon[2]}}"
-                                            ng-Mouseover="vm.colorMouseOver(2)"
-                                            ng-mouseleave="vm.colorMouseLeave(2)"></ng-md-icon>
-                            </md-button>
-                        </div>
-                    </div>
-                    <md-list class="md-dense">
-                        <md-list-item class="md-2-line" ng-repeat="catedra in vm.catedras">
-                            <md-checkbox ng-model="catedra.selected" ng-change="vm.addCatedra(catedra)"
-                                         ng-disabled="!vm.selectedProfesor"></md-checkbox>
-                            <div class="md-list-item-text">
-                                <h3 class="md-title">
-                                    <a>{{catedra.materia.nombre}} {{ catedra.denominacion }}</a>
-                                </h3>
-                                <!--<h4>{{ item.practicaOdontologica.grupo.nombre }} - {{ item.practicaOdontologica.denominacion }}</h4>-->
-                                <p class="justified-text small-line">{{catedra.descripcion}}</p>
-                            </div>
-                            <!--<p>{{catedra.materia.nombre}} {{ catedra.denominacion }}</p>-->
-                        </md-list-item>
-                        <md-divider></md-divider>
-                        <md-list-item layout class="inset">
-                            <md-button layout layout-align="center center" flex ng-click="tpData.previousPage()"
-                                       ng-disabled="paginationData.firstPage">
-                                <ng-md-icon icon="arrow_back" ng-disabled="vm.paginationData.firstPage"></ng-md-icon>
-                                Anterior
-                            </md-button>
+                                            </md-chip-template>
+                                        </md-chips>
+                                    </md-input-container>
+                                    <div layout-gt-sm="row" layout-margin>
+                                        <md-input-container flex ng-disabled="!vm.selectedProfesor">
+                                            <label>Nombre</label>
+                                            <input ng-model="vm.filter.denominacion" name="denominacion">
+                                        </md-input-container>
+                                        <md-input-container flex>
+                                            <md-select ng-model="vm.filter.materiaId" name="materia"
+                                                       placeholder="Materia"
+                                                       ng-disabled="!vm.selectedProfesor">
+                                                <md-option ng-repeat="materia in vm.data.materias"
+                                                           ng-value="vm.materia.id">
+                                                    {{ materia.nombre }}
+                                                </md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <div flex="50" layout="row" layout-align="start center">
+                                            <md-button ng-click="vm.searchCatedras(buscarProfesorForm)" type="button">
+                                                <md-tooltip>
+                                                    Buscar
+                                                </md-tooltip>
+                                                <ng-md-icon icon="search" size="40"
+                                                            ng-attr-style="fill: {{vm.colorIcon[0]}}"
+                                                            ng-Mouseover="vm.colorMouseOver(0)"
+                                                            ng-mouseleave="vm.colorMouseLeave(0)"></ng-md-icon>
+                                            </md-button>
+                                            <md-button ng-click="vm.cleanFilters()" type="button">
+                                                <md-tooltip>
+                                                    Limpiar filtros
+                                                </md-tooltip>
+                                                <ng-md-icon icon="clear" size="40"
+                                                            ng-attr-style="fill: {{vm.colorIcon[2]}}"
+                                                            ng-Mouseover="vm.colorMouseOver(2)"
+                                                            ng-mouseleave="vm.colorMouseLeave(2)"></ng-md-icon>
+                                            </md-button>
+                                        </div>
+                                    </div>
+                                    <md-list class="md-dense">
+                                        <md-list-item class="md-2-line" ng-repeat="catedra in vm.catedras">
+                                            <md-checkbox ng-model="catedra.selected" ng-change="vm.addCatedra(catedra)"
+                                                         ng-disabled="!vm.selectedProfesor"></md-checkbox>
+                                            <div class="md-list-item-text">
+                                                <h3 class="md-title">
+                                                    <a>{{catedra.materia.nombre}} {{ catedra.denominacion }}</a>
+                                                </h3>
 
-                            <md-button layout layout-align="center center" flex ng-click="tpData.nextPage()"
-                                       ng-disabled="!vm.paginationData.morePages">
-                                Siguiente
-                                <ng-md-icon icon="arrow_forward" style="fill: black"
-                                            ng-disabled="!vm.paginationData.morePages"></ng-md-icon>
-                            </md-button>
-                        </md-list-item>
-                    </md-list>
-                    <div ng-show="vm.catedras.length == 0">
-                        <ng-include src="'views/no-results.html'"></ng-include>
-                    </div>
-                    <!--</section>-->
-                </ng-form>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="goIndex()">Cancelar</md-button>
-                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-            </md-card-actions>
-        </form>
-    </md-card>
-</md-content>
+                                                <p class="justified-text small-line">{{catedra.descripcion}}</p>
+                                            </div>
+                                        </md-list-item>
+                                        <md-divider></md-divider>
+                                        <md-list-item layout class="inset">
+                                            <md-button layout layout-align="center center" flex
+                                                       ng-click="tpData.previousPage()"
+                                                       ng-disabled="paginationData.firstPage">
+                                                <ng-md-icon icon="arrow_back"
+                                                            ng-disabled="vm.paginationData.firstPage"></ng-md-icon>
+                                                Anterior
+                                            </md-button>
 
+                                            <md-button layout layout-align="center center" flex
+                                                       ng-click="tpData.nextPage()"
+                                                       ng-disabled="!vm.paginationData.morePages">
+                                                Siguiente
+                                                <ng-md-icon icon="arrow_forward" style="fill: black"
+                                                            ng-disabled="!vm.paginationData.morePages"></ng-md-icon>
+                                            </md-button>
+                                        </md-list-item>
+                                    </md-list>
+                                    <div ng-show="vm.catedras.length == 0">
+                                        <ng-include src="'views/no-results.html'"></ng-include>
+                                    </div>
+                                </ng-form>
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="goIndex()">Cancelar</md-button>
+                                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                            </md-card-actions>
+                        </form>
+                    </md-card>
 
+                </div>
+            </div>
+        </div>
+    </md-content>
+</div>

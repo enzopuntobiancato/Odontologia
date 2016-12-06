@@ -10,7 +10,7 @@
                             </div>
                         </md-toolbar>
                         <md-card-content>
-                            <md-list flex>
+                            <md-list>
                                 <div layout-gt-sm="row" layout-margin>
                                     <div layout-align="center center">
                                         <img class="user-image-sm" ng-if="hasFile()" ngf-thumbnail="image"
@@ -18,30 +18,33 @@
                                         <img class="user-image-sm" ng-if="!hasFile()"
                                              src="resources/img/image_user.jpg"/>
                                     </div>
-                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
+                                    <md-list-item class="md-2-line md-long-text">
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{'NOMBRE_USUARIO' | translate}}</h4>
 
-                                            <p>{{usuario.nombreUsuario}}</p>
+                                            <h2>{{usuario.nombreUsuario}}</h2>
                                         </div>
                                     </md-list-item>
-                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
-                                        <div class="md-list-item-text md-offset">
+                                    <md-list-item class="md-2-line md-long-text">
+                                        <div class="md-list-item-text">
                                             <h4>{{'ROLES' | translate}}</h4>
-                                           <div ng-repeat="rol in usuario.roles">
-                                               <p>{{rol.rol.nombre.nombre}}</p>
-                                           </div>
+
+                                            <div ng-repeat="rol in usuario.roles">
+                                                <h3>{{rol.rol.nombre.nombre}}</h3>
+                                            </div>
                                         </div>
                                     </md-list-item>
-                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
+                                </div>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <md-list-item class="md-2-line md-long-text">
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{'EMAIL' | translate}}</h4>
 
                                             <p>{{usuario.email}}</p>
                                         </div>
                                     </md-list-item>
-                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="10">
-                                        <div class="md-list-item-text md-offset">
+                                    <md-list-item class="md-2-line md-long-text">
+                                        <div class="md-list-item-text">
                                             <h4>{{'ULTIMA_CONEXION' | translate}}</h4>
 
                                             <p>{{(usuario.ultimaConexion | date:'dd/MM/yyyy') ||
@@ -50,15 +53,15 @@
                                     </md-list-item>
                                 </div>
                                 <div layout-gt-sm="row" ng-if="persona.usuario.fechaBaja">
-                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
+                                    <md-list-item class="md-2-line md-long-text">
                                         <div class="md-list-item-text md-offset">
                                             <h4>{{'FECHA_BAJA' | translate}}</h4>
 
                                             <p>{{usuario.fechaBaja | date:'dd/MM/yyyy' }}</p>
                                         </div>
                                     </md-list-item>
-                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="70">
-                                        <div class="md-list-item-text md-offset">
+                                    <md-list-item class="md-2-line md-long-text">
+                                        <div class="md-list-item-text">
                                             <h4>{{'MOTIVO_BAJA' | translate}}</h4>
 
                                             <p>{{usuario.motivoBaja | noDefinido}}</p>
