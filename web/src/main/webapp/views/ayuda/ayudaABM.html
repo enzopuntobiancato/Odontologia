@@ -1,0 +1,106 @@
+<style>
+    img {
+        margin: auto;
+        max-width: 100%;
+    }
+</style>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>Ayuda: {{ casoUso }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()">
+            <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content>
+    <div class="md-dialog-content">
+        <h2>{{ paquete }}</h2>
+
+        <p>
+            En la sección {{ paquete }} podemos visualizar, crear, editar y dar de baja {{ entities }} en el sistema
+            S.A.P.O.
+        </p>
+
+        <h2> Consultar {{ entities }}</h2>
+
+        <p>
+            Corresponde a la vista general de la sección {{ paquete }} y desde aquí se podrá acceder al resto de las
+            acciones
+            que pueden ser realizadas sobre {{ entities }}.</p>
+        <img style="margin: auto; max-width: 100%;" src="{{ imagenConsulta }}">
+
+        <p> El sistema ofrece una pantalla para consultar las {{ entities }} existentes en él. La búsqueda se puede
+            acotar
+            utilizando los campos filtros que aparecen en pantalla. Al presionar el botón de "Buscar" (lupa), se
+            desplegará una
+            lista con los resultados de la búsqueda.</p>
+
+        <p>Al posicionarse sobre alguno de los resultados, se mostrarán las opciones "Editar" (lápiz), "Ver" (ojo) y
+            "Dar de baja" (basurero). </p>
+
+        <p>Asimismo, en el rincón inferior derecho, se podrá apreciar un botón circular para registrar una nueva
+            entidad.</p>
+        </p>
+
+        <h2>Dar de baja {{ entity }}</h2>
+
+        <p>Para dar de baja de una {{ entity }}, seleccione la opción "Dar de baja" (en forma de basurero) que aparecerá
+            cuando se posicione sobre uno de los elementos de la lista.
+            A continuación, se desplegará un diálogo para que complete el motivo de baja.</p>
+        <img style="margin: auto; max-width: 100%;" src="{{ imagenBaja }}">
+
+        <p>Finalmente, presione “Aceptar” para confirmar la acción.</p>
+
+        <h2>Registrar {{ entity }}</h2>
+
+        <p>
+            Al seleccionar la opción "Registrar nuevo" desde "Consultar {{ entities }}", se desplegará la
+            siguiente pantalla para registrar una nueva entidad.
+        </p>
+        <p ng-if="esUsuario">
+            Seleccione el o los roles del usuario, marcando las casillas de verificación correspondientes.
+            Una vez registrado el usuario, se le enviará un mail al correo electrónico registrado con los datos del mismo.
+        </p>
+        <img style="margin: auto; max-width: 100%;" src="{{ imagenRegistrar }}">
+
+        <div ng-if="esCatedra">
+            <p>
+                Para las cátedras, se presentan tres secciones a completar: "General", "Horarios" y "Trabajos
+                prácticos".
+            </p>
+
+            <p><strong>General: </strong>El sistema nos solicita los datos que identificarán a la cátedra tales como ser
+                nombre, materia y descripción.</p>
+
+            <p><strong>Horarios: </strong>En esta pantalla podemos especificar los días y horarios en los cuales se
+                dicta la cátedra.</p>
+
+            <p><strong>Trabajos prácticos: </strong> Permite determinar qué trabajos prácticos se realizarán en el
+                cursado de dicha cátedra.
+                Busque los trabajos prácticos correspondientes a la cátedra y márquelos en la casilla de verificación
+                que aparece a la derecha. A medida que seleccione los trabajos prácticos, los mismos se irán agregando
+                a la cátedra.</p>
+            <p>Para quitar un trabajo práctico perteneciente a la cátedra, marque como vacía la casilla de verifiación.</p>
+            <img style="margin: auto; max-width: 100%;" src="resources/img/ayuda/catedraRegistrarTP.PNG">
+        </div>
+
+        <p>Complete los campos y confirme la acción presionando "Aceptar". En caso de no completar los campos
+            obligatorios,
+            los mismos se marcarán en rojo, con un mensaje aclaratorio.</p>
+
+        <h2>Modificar {{ entity }}</h2>
+
+        <p>Cuando se desea modificar una {{ entity }} se debe buscarla en la pantalla de consulta.
+            Una vez que se identificado, seleccionamos la opción "Modificar" (símbolo en forma de lápiz)
+            que aparece en el lado derecho del elemento seleccionado.</p>
+
+        <p>Luego, el sistema mostrará una misma pantalla similar a la presentada en el registro de una nueva entidad,
+            con los campos de la entidad seleccionda para ser modificada.
+            Finalmente, las correcciones efectuadas se guardarán haciendo un “Click” en el botón “Aceptar”.</p>
+    </div>
+</md-dialog-content>
+<div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="close()" class="md-primary">Volver</md-button>
+</div>

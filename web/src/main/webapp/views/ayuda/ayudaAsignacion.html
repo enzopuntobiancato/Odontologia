@@ -1,0 +1,161 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>Ayuda: {{ casoUso }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()">
+            <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content>
+    <div class="md-dialog-content">
+        <h2>{{ paquete }}</h2>
+
+        <p>
+            En la sección {{ paquete }} podemos visualizar, crear, editar y dar de baja asignaciones de pacientes en el
+            sistema
+            S.A.P.O. Los alumnos podrán ver y confirmar sus asignaciones, mientras que los profesores podrán consultar
+            aquéllas
+            correspondientes a sus cátedras. Además, las autoridades y profesores podrán autorizar las asignaciones que
+            se encuentren confirmadas.
+        </p>
+
+        <h2>Consultar asignaciones</h2>
+
+        <div ng-if="user.alumno">
+            <p>
+                En esta pantalla, el alumno puede consultar todas sus asignaciones, pudiendo filtrar los resultados
+                según una
+                serie de filtros, tales como cátedra, fecha de asignación, estado, paciente o trabajo práctico.
+            </p>
+
+            <p>Una vez seleccionado la opción de "Buscar" (lupa), el sistema desplegará una lista con los resultados de
+                la búsqueda.
+                Dependiendo del estado en el que se encuentre la asignación, se podrán realizar una serie de acciones,
+                tal como se detalla a continuación:</p>
+
+            <p><strong>Pendiente:</strong> Se refiera a un asignación que no ha sido confirmada todavía por el paciente.
+                La asignación podrá ser: modificada, consultada, confirmada o cancelada.</p>
+
+            <p><strong>Confirmada:</strong> Se refiera a un asignación que ha sido confirmada por el paciente. La
+                asignación podrá ser: consultada o cancelada.</p>
+
+            <p><strong>Cancelada:</strong> Se refiera a un asignación que ha sido cancelada por el alumno. La única
+                acción posible es la consulta.</p>
+
+            <p><strong>Autorizada:</strong> Se refiera a un asignación que ha sido autorizada por el profesor el día de
+                la práctica o los días posteriores. Le permite al alumno consultar los detalles o registrar la atención
+                realizada en la práctica.</p>
+        </div>
+        <div ng-if="!user.alumno">
+            <p>
+                En esta pantalla, el profesor puede consultar todas las asignaciones correspondientes a sus cátedras,
+                pudiendo filtrar los resultados
+                según una
+                serie de filtros, tales como cátedra, fecha de asignación, estado, paciente o trabajo práctico. Además,
+                tiene disponible la posibilidad
+                de filtrar por alumno. Para ello debe seleccionar la opción "Buscar alumno" que despliega un diálogo de
+                búsqueda de alumnos. Al seleccionar uno,
+                se listarán todas las asignaciones que tenga registradas.
+            </p>
+
+            <p>Una vez seleccionado la opción de "Buscar" (lupa), el sistema desplegará una lista con los resultados de
+                la búsqueda.
+                Dependiendo del estado en el que se encuentre la asignación, se podrán realizar una serie de acciones,
+                tal como se detalla a continuación:</p>
+
+            <p><strong>Pendiente:</strong> Se refiera a un asignación que no ha sido confirmada todavía por el paciente.
+                La asignación podrá ser: modificada, consultada, confirmada o cancelada.</p>
+
+            <p><strong>Confirmada:</strong> Se refiera a un asignación que ha sido confirmada por el paciente. La
+                asignación podrá ser: consultada o cancelada.</p>
+
+            <p><strong>Cancelada:</strong> Se refiera a un asignación que ha sido cancelada por el alumno. La única
+                acción posible es la consulta.</p>
+
+            <p><strong>Autorizada:</strong> Se refiera a un asignación que ha sido autorizada por el profesor el día de
+                la práctica o los días posteriores. Le permite al alumno consultar los detalles o registrar la atención
+                realizada en la práctica.</p>
+        </div>
+        <img src="resources/img/ayuda/asignacionesConsultar.png">
+
+        <h2>Registrar asignación de paciente</h2>
+
+        <p>Para registrar una nueva asignación de paciente, el usuario debe seleccionar la opción "Registrar nueva
+            asignación de paciente",
+            ubicada en la esquina inferior izquierda de la pantalla "Consultar asignaciones".</p>
+
+        <p>A continuación, se desplegará la ventana para crear una nueva asignación.</p>
+
+        <div ng-if="!user.alumno">
+            <p>En primer lugar, deberá buscar el alumno para el cual se quiere crear la asignación, usando para ello el
+                número de documento. En el siguiente
+                paso, se deberá elegir la cátedra y el trabajo práctico para el cual se desea realizar la asignación.
+                Cabe aclarar que ambos campos son obligatorios.</p>
+            <img src="resources/img/ayuda/asignacionpacientepaso1.png">
+        </div>
+        <div ng-if="user.alumno">
+            <p>En primer lugar, deberá buscar la cátedra y el trabajo práctico para el cual se desea realizar la
+                asignación. Cabe aclarar que ambos campos son obligatorios.</p>
+        </div>
+        <p>Una vez seleccionada la cátedra y el trabajo práctico, el sistema listará todos los diagnósticos disponibles
+            que se ajusta a los criterios de búsqueda. El alumno podrá
+            elegir alguno de estos siempre y cuando no tenga reservado con anterioridad dos asignaciones para el mismo
+            trabajo práctico.</p>
+        <img src="resources/img/ayuda/asignacionpacientepaso2.png">
+
+        <p>Después de elegido el paciente, el sistema le permitirá se ingrese la fecha de realización del trabajo
+            práctico. De esta manera, el paciente queda agendado
+            para esa fecha y no podrá se elegido nuevamente por otro alumno. Es deber del alumno confirmar la asistencia
+            del paciente al turno.</p>
+        <img src="resources/img/ayuda/asignacionpacientepaso3.png">
+
+        <h2>Confirmar Asignación</h2>
+
+        <p>Las asignaciones creadas quedan en estado pendiente hasta que la asistencia del paciente sea confirmada. Para
+            ello, el alumno pueden visualizar
+            los datos del paciente en la asignación y así contactarse y acordar la fecha de la atención.
+            Luego del contacto, el alumno debe confirmar en el sistema la atención para que el profesor la autorice y la
+            práctica se realice.
+        </p>
+
+        <p>Para poder confirmar una asignación, se deben buscar las asignaciones pendientes en la pantalla "Consultar
+            asignaciones" y seleccionar
+            la opción "Confirmar asignación" sobre el elemento correspondiente. Dicha opción se encuentra en la última
+            columna de la tabla de asignaciones.</p>
+
+        <p>El sistema desplegará un cuadro de diálogo mostrando los detalles de la acción y le preguntará si está de
+            acuerdo con la confirmación
+            . En caso afirmativo, el usuario presiona "Aceptar" y la asignación quedará confirmada.</p>
+        <img src="resources/img/ayuda/asignacionpacienteconfirmar.png">
+
+        <h2>Cancelar asignación de paciente</h2>
+
+        <p>Para cancelar una asignación, el usuario debe identificar la asignación a cancelar desde la pantalla
+            "Consultar asignaciones"
+            y seleccionar la opción "Cancelar asignación" sobre la fila correspondiente. El sistema cancelará la
+            asignación indicada
+            y la pintará de color rojo, tal como se muestra en la imagen.</p>
+
+        <h2>Registrar atención</h2>
+
+        <p>El alumno podrá cargar el procedimiento realizado en la práctica, es decir la atención, desde la pantalla
+            "Consultar asignaciones".
+            Para ello, deberá buscar entre las asignaciones aquéllas que hayan sido autorizadas por el profesor.
+        </p>
+        <img src="resources/img/ayuda/registrarAtencion.png">
+
+        <p>Para crear una nueva atención, el usuario selecciona al opción "Registrar atención" que aparece sobre las
+            asignaciones
+            autorizadas. Inmediatamente, el sistema lleva al usuario a una nueva pantalla donde se podrá explayar sobre
+            el procedimiento.</p>
+
+        <p>Para ayudar al alumno, se muestra en la misma pantalla la información básica del paciente.</p>
+
+        <img src="resources/img/ayuda/registrarAtencion2.png">
+    </div>
+</md-dialog-content>
+<div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="close()" class="md-primary">Volver</md-button>
+</div>

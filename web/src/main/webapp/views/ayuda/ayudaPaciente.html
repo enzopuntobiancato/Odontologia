@@ -1,0 +1,153 @@
+<style>
+    img {
+        margin: auto;
+        max-width: 100%;
+    }
+</style>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>Ayuda: {{ casoUso }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()">
+            <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content>
+    <div class="md-dialog-content">
+        <h2>{{ paquete }}</h2>
+
+        <p>
+            En la sección Pacientes podemos visualizar, crear, editar y dar de baja pacientes en el sistema
+            S.A.P.O.
+        </p>
+
+        <h2> Consultar pacientes </h2>
+
+        <p>
+            Corresponde a la vista general de la sección Pacientes y desde aquí se podrá acceder al resto de las
+            acciones
+            que pueden ser realizadas sobre los pacientes.</p>
+        <img style="margin: auto; max-width: 100%;" src="resources/img/ayuda/pacienteConsulta.png">
+
+        <p> El sistema ofrece una pantalla para consultar los pacientes existentes en él. La búsqueda se puede
+            acotar
+            utilizando los campos filtros que aparecen en pantalla. Al presionar el botón de "Buscar" (lupa), se
+            desplegará una
+            lista con los resultados de la búsqueda.</p>
+
+        <p>Asimismo, en el rincón inferior derecho, se podrá apreciar un botón circular para registrar una nueva
+            entidad.</p>
+        </p>
+
+        <h2>Registrar paciente</h2>
+
+        <p>
+            Al seleccionar la opción "Registrar nuevo" desde "Consultar pacientes", se desplegará la
+            siguiente pantalla para registrar un nuevo paciente.
+        </p>
+        <img src="resources/img/ayuda/pacienteRegistrar.png">
+
+        <p>
+            Como se aprecie en la imagen, la pantalla presenta cinco secciones a completar: "Datos personales",
+            "Domicilio y contacto", "Trabajo", "Datos médicos" y "Otros datos".
+        </p>
+
+        <p>Complete los campos y confirme la acción presionando "Aceptar". En caso de no completar los campos
+            obligatorios,
+            los mismos se marcarán en rojo, con un mensaje aclaratorio.</p>
+
+        <h2>Ver historia clínica</h2>
+
+        <p>
+            Desde la pantalla "Consultar pacientes" el usuario puede visualizar la historia clínica seleccionando
+            alguno de los pacientes listados como resultado de la búsqueda.
+        </p>
+
+        <p>El sistema mostrará entonces la siguiente pantalla, donde se pueden apreciar una serie de pestañas con toda
+            la
+            información médica del paciente. Las diferentes secciones son:</p>
+
+        <p><strong>Datos personales:</strong> Muestra los datos cargados al registrar el paciente (apellido, nombre,
+            documento, domicilio, datos de contacto, etc.).</p>
+
+        <p><strong>Antecedentes:</strong> Corresponde a los datos registrados por el Encargado de Recepción de Pacientes
+            al recibir por primera vez al paciente en la institución. Contempla datos médicos esenciales para el
+            tratamiento del individuo.</p>
+
+        <p><strong>Diagnósticos:</strong> Lista todos los diagnósticos identificados por el Encargado de Recepción de
+            Pacientes, mostrando para cada uno descripción, observaciones y práctica odontológica. Al seleccionar un
+            diagnóstico, el sisteme expande los detalles del mismo.
+            El sistema carga también el odontograma actualizado.</p>
+
+        <p><strong>Atenciones:</strong> De forma similar a los diagnósticos, lista todas las atenciones cargadas en la
+            historia clínica del paciente.</p>
+
+        <img src="resources/img/ayuda/historiaclinicaVer.png">
+
+        <p><strong>Documentacion:</strong> El alumno puede cargar documentos tales como fotos, escritos, grabaciones,
+            para enriquecer la historia clínica. Estos documentos
+            se listan en esta sección, desde donde pueden ser consultads y descargados.</p>
+
+        <h2>Modificar paciente </h2>
+
+        <p>Para modificar la historia clínica de un paciente, es necesario seguir los siguientes pasos:</p>
+        <ol style="list-style-type:decimal">
+            <li>
+                Se busca el paciente a editar desde la pantalla "Consultar pacientes".
+            </li>
+            <li>
+                Se selecciona el paciente y el sistema muestra la pantalla de "Ver historia clínica".
+            </li>
+            <li>
+                 Se selecciona la opción "Modificar paciente" que aparece en el menú que se despliega de la esquina
+                superior derecha de la pantalla.
+            </li>
+        </ol>
+
+        <img src="resources/img/ayuda/pacienteToolbar.png">
+        <p>Desde la pantalla "Modificar historia clínica", se pueden realizar una serie de acciones tales como cambiar
+            los datos personales,
+            cargar y solucionar diagnósticos y editar la documentación de la historia clínica.</p>
+
+        <h2>Registrar diagnóstico</h2>
+
+        <p>El registro de un nuevo diagnóstico es un proceso complejo que se realiza en dos etapas: el llenado del
+            odontograma y la creación de diagnósticos independientes</p>
+
+        <h3>Diagnósticos en odontograma</h3>
+
+        <p>Para marcar un hallazgo clínico en el odotograma, se debe elegir primero uno de la lista desplegable.
+            Posteriormente, el usuario indica el estado del hallazgo:
+            <strong>pendiente</strong> (identificado con el color azul) o <strong>realizado</strong> (identificado con
+            el color rojo).</p>
+
+        <img src="resources/img/ayuda/odontogramaEdit.png"/>
+
+        <p>Posteriormente el usuario se posiciona sobre cada una de las piezas dentales que registren el hallazgo y las
+            selecciona. Las piezas dentles quedarán así marcadas.</p>
+
+        <img src="resources/img/ayuda/odontogramaMarca.png">
+
+        <p>Para completar la carga del odontograma, el usuario clickea la opción "Finalizar carga", situado sobre el
+            gráfico.
+            El sistema desplegará un diálogo mostando los datos de los hallazos pendientes. El usuario podrá editar las
+            observaciones y deberá cargar
+            la práctica a la que aplica dicho hallazgo. Al aceptar, se agreagan los diagnósticos a la lista.</p>
+        <img src="resources/img/ayuda/odontogramaAddDiagnostico.png"/>
+
+        <h3>Diagnósticos independientes</h3>
+
+        <p>Muchas veces, los pacientes presentan enfermedades que no pueden ser explicitadas en el odontogrma. Por esa
+            razón, el sistema
+            permite cargar diagnósticos por fuera del odontograma. Para ello el usuario selecciona la opción "Nuevo
+            diagnóstico" y un diálogo se despliega, solicitando
+            se complete la descripción del hallazgo y la práctica al cual aplica. Al clickear "Aceptar", se agrega el
+            nuevo dianóstico a la lista.</p>
+        <img src="resources/img/ayuda/nuevodiagnosticoindep.png">
+    </div>
+</md-dialog-content>
+<div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="close()" class="md-primary">Volver</md-button>
+</div>
