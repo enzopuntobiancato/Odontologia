@@ -20,10 +20,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Stateless
 public class PacienteService extends BaseService<Paciente> {
@@ -86,6 +83,22 @@ public class PacienteService extends BaseService<Paciente> {
     public PacienteDTO findPacienteConDiagnosticos(Long pacienteId) {
         Paciente paciente = this.findById(pacienteId);
         return pacienteMapper.toDTO(paciente);
+    }
+
+    public PacienteDTO save(PacienteDTO pacienteDTO) throws SAPOException {
+        Paciente entity;
+        if (pacienteDTO.getId() == null) {
+            entity = pacienteMapper.fromDTO(pacienteDTO);
+            entity.setFechaCarga(Calendar.getInstance());
+            return savePaciente(entity);
+        } else {
+            entity = findById(pacienteDTO.getId());
+            pacienteMapper.updataFromDTO(pacienteDTO, entity);
+            if (pacienteDTO.getHistoriaClinicaDTO() != null) {
+                historiaClinicaMapper.updateHistoriaClinicaFromDTO(pacienteDTO.getHistoriaClinicaDTO(), entity.getHistoriaClinica());
+            }
+            return pacienteMapper.toDTO(entity);
+        }
     }
 
     public List<Long> updateCurrentDocsDescriptionAndSaveTempNewDocs(List<ArchivoDTO> archivoDTOs, Long idPaciente) throws SAPOException {

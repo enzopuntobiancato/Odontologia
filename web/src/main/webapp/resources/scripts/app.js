@@ -1003,7 +1003,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         return commons.getNacionalidaes();
                     }],
                     pacienteResponse: ['loadMyModule', '$stateParams', 'PacienteSrv', function (loadMyModule, $stateParams, service) {
-                        return service.findById($stateParams.id);
+                        return service.findPacienteLightById($stateParams.id);
                     }],
                     imagenResponse: ['loadMyModule', 'pacienteResponse', 'PacienteSrv', function(loadMyModule, pacienteResponse, service) {
                         var paciente = pacienteResponse.data;
@@ -1056,6 +1056,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     pacienteResponse: ['loadMyModule', '$stateParams', 'PacienteSrv', function (loadMyModule, $stateParams, service) {
                         return service.findById($stateParams.id);
+                    }],
+                    imagenResponse: ['loadMyModule', function(loadMyModule) {
+                        return {data: null};
                     }]
                 }
             })

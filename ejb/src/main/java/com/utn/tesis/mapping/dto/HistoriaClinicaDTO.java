@@ -5,13 +5,6 @@ import com.utn.tesis.model.odontograma.Odontograma;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 8/05/16
- * Time: 19:08
- * To change this template use File | Settings | File Templates.
- */
 public class HistoriaClinicaDTO extends BaseDTO {
     private Calendar fechaApertura;
     private List<DetalleHistoriaClinicaDTO> detalles;

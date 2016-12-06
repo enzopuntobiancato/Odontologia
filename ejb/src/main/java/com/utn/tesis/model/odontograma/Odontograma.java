@@ -1,6 +1,5 @@
 package com.utn.tesis.model.odontograma;
 
-import com.utn.tesis.exception.SAPOException;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 

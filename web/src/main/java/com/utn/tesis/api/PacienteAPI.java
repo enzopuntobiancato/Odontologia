@@ -47,14 +47,8 @@ public class PacienteAPI extends BaseAPI {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response save(PacienteDTO pacienteDTO) throws SAPOException {
-        Paciente entity = pacienteMapper.fromDTO(pacienteDTO);
-        if (entity.isNew()) {
-            entity.setFechaCarga(Calendar.getInstance());
-        } else {
-            pacienteMapper.updataFromDTO(pacienteDTO, entity);
-        }
-        pacienteDTO = pacienteService.savePaciente(entity);
-        return Response.ok(pacienteDTO).build();
+        PacienteDTO paciente = pacienteService.save(pacienteDTO);
+        return Response.ok(paciente).build();
     }
 
     @Path("/find")

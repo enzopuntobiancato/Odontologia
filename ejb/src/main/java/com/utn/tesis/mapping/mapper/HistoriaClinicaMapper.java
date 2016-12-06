@@ -1,6 +1,6 @@
 package com.utn.tesis.mapping.mapper;
 
-import com.utn.tesis.mapping.dto.HistoriaClinicaDTO;
+import com.utn.tesis.mapping.dto.*;
 import com.utn.tesis.model.*;
 
 import javax.inject.Inject;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class HistoriaClinicaMapper {
     @Inject
-    DetalleMapper detalleMapper;
+    private DetalleMapper detalleMapper;
 
     public HistoriaClinicaDTO toDTO(HistoriaClinica historiaClinica){
         if ( historiaClinica == null ) {
@@ -447,210 +447,216 @@ public class HistoriaClinicaMapper {
         historiaClinica.setFechaApertura( historiaClinicaDTO.getFechaApertura() );
 
         if ( historiaClinica.getDetallesHC() != null ) {
-            historiaClinica.getDetallesHC().clear();
-            historiaClinica.getDetallesHC().addAll(getDetallesFromDTO(historiaClinicaDTO));
-        }
-        else {
-            historiaClinica.getDetallesHC().addAll(getDetallesFromDTO(historiaClinicaDTO));
+            addDetallesFromDTO(historiaClinica.getDetallesHC(), historiaClinicaDTO);
         }
 
         return historiaClinica;
     }
 
-    private List<DetalleHistoriaClinica> getDetallesFromDTO(HistoriaClinicaDTO historiaClinicaDTO){
-        List<DetalleHistoriaClinica> detallesHC = new ArrayList<DetalleHistoriaClinica>();
+    private void addDetallesFromDTO(List<DetalleHistoriaClinica> detallesPersisted, HistoriaClinicaDTO historiaClinicaDTO){
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG1p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG1p2()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG1p3()));
+        List<DetalleHistoriaClinicaDTO> detallesHC = new ArrayList<DetalleHistoriaClinicaDTO>();
+        detallesHC.add(historiaClinicaDTO.getG1p1());
+        detallesHC.add(historiaClinicaDTO.getG1p2());
+        detallesHC.add(historiaClinicaDTO.getG1p3());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG2p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG2p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG2p3()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG2p4()));
+        detallesHC.add(historiaClinicaDTO.getG2p1());
+        detallesHC.add(historiaClinicaDTO.getG2p2());
+        detallesHC.add(historiaClinicaDTO.getG2p3());
+        detallesHC.add(historiaClinicaDTO.getG2p4());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG3p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG3p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG3p3()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG3p4()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG3p5()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG3p6()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG3p7()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG3p8()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG3p9()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG3p10()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG3p11()));
+        detallesHC.add(historiaClinicaDTO.getG3p1());
+        detallesHC.add(historiaClinicaDTO.getG3p2());
+        detallesHC.add(historiaClinicaDTO.getG3p3());
+        detallesHC.add(historiaClinicaDTO.getG3p4());
+        detallesHC.add(historiaClinicaDTO.getG3p5());
+        detallesHC.add(historiaClinicaDTO.getG3p6());
+        detallesHC.add(historiaClinicaDTO.getG3p7());
+        detallesHC.add(historiaClinicaDTO.getG3p8());
+        detallesHC.add(historiaClinicaDTO.getG3p9());
+        detallesHC.add(historiaClinicaDTO.getG3p10());
+        detallesHC.add(historiaClinicaDTO.getG3p11());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG4p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG4p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG4p3()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG4p4()));
+        detallesHC.add(historiaClinicaDTO.getG4p1());
+        detallesHC.add(historiaClinicaDTO.getG4p2());
+        detallesHC.add(historiaClinicaDTO.getG4p3());
+        detallesHC.add(historiaClinicaDTO.getG4p4());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG5p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG5p2()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG5p3()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG5p4()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG5p5()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG5p6()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG5p7()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG5p8()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG5p9()));
+        detallesHC.add(historiaClinicaDTO.getG5p1());
+        detallesHC.add(historiaClinicaDTO.getG5p2());
+        detallesHC.add(historiaClinicaDTO.getG5p3());
+        detallesHC.add(historiaClinicaDTO.getG5p4());
+        detallesHC.add(historiaClinicaDTO.getG5p5());
+        detallesHC.add(historiaClinicaDTO.getG5p6());
+        detallesHC.add(historiaClinicaDTO.getG5p7());
+        detallesHC.add(historiaClinicaDTO.getG5p8());
+        detallesHC.add(historiaClinicaDTO.getG5p9());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG6p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG6p2()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG6p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG6p4()));
+        detallesHC.add(historiaClinicaDTO.getG6p1());
+        detallesHC.add(historiaClinicaDTO.getG6p2());
+        detallesHC.add(historiaClinicaDTO.getG6p3());
+        detallesHC.add(historiaClinicaDTO.getG6p4());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG7p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG7p2()));
+        detallesHC.add(historiaClinicaDTO.getG7p1());
+        detallesHC.add(historiaClinicaDTO.getG7p2());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG8p1()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG8p2()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG8p3()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG8p4()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG8p5()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG8p6()));
+        detallesHC.add(historiaClinicaDTO.getG8p1());
+        detallesHC.add(historiaClinicaDTO.getG8p2());
+        detallesHC.add(historiaClinicaDTO.getG8p3());
+        detallesHC.add(historiaClinicaDTO.getG8p4());
+        detallesHC.add(historiaClinicaDTO.getG8p5());
+        detallesHC.add(historiaClinicaDTO.getG8p6());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG9p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG9p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG9p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG9p4()));
+        detallesHC.add(historiaClinicaDTO.getG9p1());
+        detallesHC.add(historiaClinicaDTO.getG9p2());
+        detallesHC.add(historiaClinicaDTO.getG9p3());
+        detallesHC.add(historiaClinicaDTO.getG9p4());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG10p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG10p2()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG10p3()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG10p4()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG10p5()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG10p6()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG10p7()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG10p8()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG10p9()));
+        detallesHC.add(historiaClinicaDTO.getG10p1());
+        detallesHC.add(historiaClinicaDTO.getG10p2());
+        detallesHC.add(historiaClinicaDTO.getG10p3());
+        detallesHC.add(historiaClinicaDTO.getG10p4());
+        detallesHC.add(historiaClinicaDTO.getG10p5());
+        detallesHC.add(historiaClinicaDTO.getG10p6());
+        detallesHC.add(historiaClinicaDTO.getG10p7());
+        detallesHC.add(historiaClinicaDTO.getG10p8());
+        detallesHC.add(historiaClinicaDTO.getG10p9());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG11p1()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG11p2()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG11p3()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG11p4()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG11p5()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG11p6()));
+        detallesHC.add(historiaClinicaDTO.getG11p1());
+        detallesHC.add(historiaClinicaDTO.getG11p2());
+        detallesHC.add(historiaClinicaDTO.getG11p3());
+        detallesHC.add(historiaClinicaDTO.getG11p4());
+        detallesHC.add(historiaClinicaDTO.getG11p5());
+        detallesHC.add(historiaClinicaDTO.getG11p6());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG12p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG12p2()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG13p1()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG13p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG13p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG13p4()));
+        detallesHC.add(historiaClinicaDTO.getG12p1());
+        detallesHC.add(historiaClinicaDTO.getG12p2());
+        detallesHC.add(historiaClinicaDTO.getG13p1());
+        detallesHC.add(historiaClinicaDTO.getG13p2());
+        detallesHC.add(historiaClinicaDTO.getG13p3());
+        detallesHC.add(historiaClinicaDTO.getG13p4());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG14p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG14p2()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG14p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG14p4()));
+        detallesHC.add(historiaClinicaDTO.getG14p1());
+        detallesHC.add(historiaClinicaDTO.getG14p2());
+        detallesHC.add(historiaClinicaDTO.getG14p3());
+        detallesHC.add(historiaClinicaDTO.getG14p4());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG15p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG15p2()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG15p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG15p4()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG15p5()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG15p6()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG15p7()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG15p8()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG15p9()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG15p10()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG15p11()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG15p12()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG15p13()));
+        detallesHC.add(historiaClinicaDTO.getG15p1());
+        detallesHC.add(historiaClinicaDTO.getG15p2());
+        detallesHC.add(historiaClinicaDTO.getG15p3());
+        detallesHC.add(historiaClinicaDTO.getG15p4());
+        detallesHC.add(historiaClinicaDTO.getG15p5());
+        detallesHC.add(historiaClinicaDTO.getG15p6());
+        detallesHC.add(historiaClinicaDTO.getG15p7());
+        detallesHC.add(historiaClinicaDTO.getG15p8());
+        detallesHC.add(historiaClinicaDTO.getG15p9());
+        detallesHC.add(historiaClinicaDTO.getG15p10());
+        detallesHC.add(historiaClinicaDTO.getG15p11());
+        detallesHC.add(historiaClinicaDTO.getG15p12());
+        detallesHC.add(historiaClinicaDTO.getG15p13());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG16p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG16p2()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG16p3()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG17p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG17p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG17p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG17p4()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG17p5()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG17p6()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG17p7()));
+        detallesHC.add(historiaClinicaDTO.getG16p1());
+        detallesHC.add(historiaClinicaDTO.getG16p2());
+        detallesHC.add(historiaClinicaDTO.getG16p3());
+        detallesHC.add(historiaClinicaDTO.getG17p1());
+        detallesHC.add(historiaClinicaDTO.getG17p2());
+        detallesHC.add(historiaClinicaDTO.getG17p3());
+        detallesHC.add(historiaClinicaDTO.getG17p4());
+        detallesHC.add(historiaClinicaDTO.getG17p5());
+        detallesHC.add(historiaClinicaDTO.getG17p6());
+        detallesHC.add(historiaClinicaDTO.getG17p7());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG18p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG18p2()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG18p3()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG18p4()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG18p5()));
+        detallesHC.add(historiaClinicaDTO.getG18p1());
+        detallesHC.add(historiaClinicaDTO.getG18p2());
+        detallesHC.add(historiaClinicaDTO.getG18p3());
+        detallesHC.add(historiaClinicaDTO.getG18p4());
+        detallesHC.add(historiaClinicaDTO.getG18p5());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG19p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG19p2()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG19p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG19p4()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG19p5()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG19p6()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG19p7()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG19p8()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG19p9()));
+        detallesHC.add(historiaClinicaDTO.getG19p1());
+        detallesHC.add(historiaClinicaDTO.getG19p2());
+        detallesHC.add(historiaClinicaDTO.getG19p3());
+        detallesHC.add(historiaClinicaDTO.getG19p4());
+        detallesHC.add(historiaClinicaDTO.getG19p5());
+        detallesHC.add(historiaClinicaDTO.getG19p6());
+        detallesHC.add(historiaClinicaDTO.getG19p7());
+        detallesHC.add(historiaClinicaDTO.getG19p8());
+        detallesHC.add(historiaClinicaDTO.getG19p9());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG20p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG20p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG20p3()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG20p4()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG20p5()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG20p6()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG20p7()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG20p8()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG20p9()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG20p10()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG20p11()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG20p12()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG20p13()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG20p14()));
+        detallesHC.add(historiaClinicaDTO.getG20p1());
+        detallesHC.add(historiaClinicaDTO.getG20p2());
+        detallesHC.add(historiaClinicaDTO.getG20p3());
+        detallesHC.add(historiaClinicaDTO.getG20p4());
+        detallesHC.add(historiaClinicaDTO.getG20p5());
+        detallesHC.add(historiaClinicaDTO.getG20p6());
+        detallesHC.add(historiaClinicaDTO.getG20p7());
+        detallesHC.add(historiaClinicaDTO.getG20p8());
+        detallesHC.add(historiaClinicaDTO.getG20p9());
+        detallesHC.add(historiaClinicaDTO.getG20p10());
+        detallesHC.add(historiaClinicaDTO.getG20p11());
+        detallesHC.add(historiaClinicaDTO.getG20p12());
+        detallesHC.add(historiaClinicaDTO.getG20p13());
+        detallesHC.add(historiaClinicaDTO.getG20p14());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG21p1()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG21p2()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG21p3()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG21p4()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG21p5()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG21p6()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG21p7()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG21p8()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG21p9()));
-        detallesHC.add(detalleMapper.campoFechaFromDTO(historiaClinicaDTO.getG21p10()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG21p11()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG21p12()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG21p13()));
+        detallesHC.add(historiaClinicaDTO.getG21p1());
+        detallesHC.add(historiaClinicaDTO.getG21p2());
+        detallesHC.add(historiaClinicaDTO.getG21p3());
+        detallesHC.add(historiaClinicaDTO.getG21p4());
+        detallesHC.add(historiaClinicaDTO.getG21p5());
+        detallesHC.add(historiaClinicaDTO.getG21p6());
+        detallesHC.add(historiaClinicaDTO.getG21p7());
+        detallesHC.add(historiaClinicaDTO.getG21p8());
+        detallesHC.add(historiaClinicaDTO.getG21p9());
+        detallesHC.add(historiaClinicaDTO.getG21p10());
+        detallesHC.add(historiaClinicaDTO.getG21p11());
+        detallesHC.add(historiaClinicaDTO.getG21p12());
+        detallesHC.add(historiaClinicaDTO.getG21p13());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG22p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG22p2()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG22p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG22p4()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG22p5()));
+        detallesHC.add(historiaClinicaDTO.getG22p1());
+        detallesHC.add(historiaClinicaDTO.getG22p2());
+        detallesHC.add(historiaClinicaDTO.getG22p3());
+        detallesHC.add(historiaClinicaDTO.getG22p4());
+        detallesHC.add(historiaClinicaDTO.getG22p5());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG23p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG23p2()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG24p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG24p2()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG25p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG25p2()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG25p3()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG25p4()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG25p5()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG26p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG26p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG27p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG27p2()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG27p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG27p4()));
+        detallesHC.add(historiaClinicaDTO.getG23p1());
+        detallesHC.add(historiaClinicaDTO.getG23p2());
+        detallesHC.add(historiaClinicaDTO.getG24p1());
+        detallesHC.add(historiaClinicaDTO.getG24p2());
+        detallesHC.add(historiaClinicaDTO.getG25p1());
+        detallesHC.add(historiaClinicaDTO.getG25p2());
+        detallesHC.add(historiaClinicaDTO.getG25p3());
+        detallesHC.add(historiaClinicaDTO.getG25p4());
+        detallesHC.add(historiaClinicaDTO.getG25p5());
+        detallesHC.add(historiaClinicaDTO.getG26p1());
+        detallesHC.add(historiaClinicaDTO.getG26p2());
+        detallesHC.add(historiaClinicaDTO.getG27p1());
+        detallesHC.add(historiaClinicaDTO.getG27p2());
+        detallesHC.add(historiaClinicaDTO.getG27p3());
+        detallesHC.add(historiaClinicaDTO.getG27p4());
 
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG28p1()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG28p2()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG28p3()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG28p4()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG28p5()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG28p6()));
+        detallesHC.add(historiaClinicaDTO.getG28p1());
+        detallesHC.add(historiaClinicaDTO.getG28p2());
+        detallesHC.add(historiaClinicaDTO.getG28p3());
+        detallesHC.add(historiaClinicaDTO.getG28p4());
+        detallesHC.add(historiaClinicaDTO.getG28p5());
+        detallesHC.add(historiaClinicaDTO.getG28p6());
 
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG29p1()));
-        detallesHC.add(detalleMapper.campoSiNoFromDTO(historiaClinicaDTO.getG29p2()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG29p3()));
-        detallesHC.add(detalleMapper.campoEnumerableFromDTO(historiaClinicaDTO.getG29p4()));
-        detallesHC.add(detalleMapper.campoDetalleFromDTO(historiaClinicaDTO.getG29p5()));
+        detallesHC.add(historiaClinicaDTO.getG29p1());
+        detallesHC.add(historiaClinicaDTO.getG29p2());
+        detallesHC.add(historiaClinicaDTO.getG29p3());
+        detallesHC.add(historiaClinicaDTO.getG29p4());
+        detallesHC.add(historiaClinicaDTO.getG29p5());
 
-        return detallesHC;
+        for (int i = 0; i < detallesHC.size(); i++) {
+            if (detallesHC.get(i) instanceof CampoSiNoDTO) {
+                detalleMapper.updateCampoSiNoFromDTO((CampoSiNoDTO)detallesHC.get(i), (CampoSiNo)detallesPersisted.get(i));
+            } else if (detallesHC.get(i) instanceof CampoDetalleDTO) {
+                detalleMapper.updateCampoDetalleFromDTO((CampoDetalleDTO)detallesHC.get(i), (CampoDetalle)detallesPersisted.get(i));
+            } else if (detallesHC.get(i) instanceof CampoFechaDTO) {
+                detalleMapper.updateCampoFechaFromDTO((CampoFechaDTO)detallesHC.get(i), (CampoFecha)detallesPersisted.get(i));
+            } else if (detallesHC.get(i) instanceof CampoEnumerableDTO) {
+                detalleMapper.updateCampoEnumerableFromDTO((CampoEnumerableDTO)detallesHC.get(i), (CampoEnumerable)detallesPersisted.get(i));
+            }
+        }
     }
 
 }

@@ -44,6 +44,14 @@ module.
                 method: 'GET',
                 params: {id: id}
             })
+        };
+
+        service.findPacienteLightById = function(id) {
+            return $http({
+                url: 'api/paciente/findPacienteLightById',
+                method: 'GET',
+                params: {id: id}
+            })
         }
 
         service.initPaciente = function() {
