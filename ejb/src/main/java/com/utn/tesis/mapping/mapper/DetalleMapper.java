@@ -198,48 +198,39 @@ public class DetalleMapper {
         return campoEnumerable;
     }
 
-    public CampoDetalle updateCampoDetalleFromDTO(CampoDetalleDTO source, CampoDetalle target) {
-        if ( source == null ) {
-            return null;
-        }
-
+    public void updateCampoDetalleFromDTO(CampoDetalleDTO source, CampoDetalle target) {
         target.setVersion( source.getVersion() );
         target.setId( source.getId() );
         target.setNombre( source.getNombre() );
         target.setGrupo( source.getGrupo() );
         target.setPregunta( source.getPregunta() );
         target.setOnly_detalle( source.getOnly_detalle() );
-
-        return target;
     }
 
-    public CampoSiNo updateCampoSiNoFromDTO(CampoSiNoDTO source, CampoSiNo target) {
-        if ( source == null ) {
-            return null;
-        }
-
+    public void updateCampoSiNoFromDTO(CampoSiNoDTO source, CampoSiNo target) {
         target.setVersion( source.getVersion() );
         target.setId( source.getId() );
         target.setNombre( source.getNombre() );
         target.setGrupo( source.getGrupo() );
         target.setPregunta( source.getPregunta() );
         target.setSiNo( source.getSiNo() );
-
-        return target;
     }
 
-    public CampoEnumerable updateCampoEnumerableFromDTO(CampoEnumerableDTO source, CampoEnumerable target) {
-        if ( source == null ) {
-            return null;
-        }
-
+    public void updateCampoEnumerableFromDTO(CampoEnumerableDTO source, CampoEnumerable target) {
         target.setVersion( source.getVersion() );
         target.setId( source.getId() );
         target.setNombre( source.getNombre() );
         target.setGrupo( source.getGrupo() );
         target.setPregunta( source.getPregunta() );
         target.setChecked( source.getChecked() );
+    }
 
-        return target;
+    public void updateCampoFechaFromDTO(CampoFechaDTO source, CampoFecha target) {
+        target.setVersion( source.getVersion() );
+        target.setId( source.getId() );
+        target.setNombre( source.getNombre() );
+        target.setGrupo( source.getGrupo() );
+        target.setPregunta( source.getPregunta() );
+        target.setFecha( source.getFecha());
     }
 }

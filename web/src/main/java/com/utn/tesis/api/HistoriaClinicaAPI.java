@@ -43,26 +43,26 @@ public class HistoriaClinicaAPI extends BaseAPI {
     @Inject
     private ArchivoService archivoService;
 
-    @Path("/findById")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public PacienteDTO findById(@QueryParam("id") Long id) {
-        Paciente paciente = pacienteService.findById(id);
-        if (paciente == null) {
-            return null;
-        }
-
-        PacienteDTO pacienteDTO = pacienteMapper.toDTO(paciente);
-        HistoriaClinica historiaClinica = historiaClinicaService.findById(pacienteDTO.getHistoriaClinicaId());
-        if (historiaClinica == null) {
-            return null;
-        }
-
-        HistoriaClinicaDTO historiaClinicaDTO = historiaClinicaMapper.toDTO(historiaClinica);
-        pacienteDTO.setHistoriaClinicaDTO(historiaClinicaDTO);
-
-        return pacienteDTO;
-    }
+//    @Path("/findById")
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public PacienteDTO findById(@QueryParam("id") Long id) {
+//        Paciente paciente = pacienteService.findById(id);
+//        if (paciente == null) {
+//            return null;
+//        }
+//
+//        PacienteDTO pacienteDTO = pacienteMapper.toDTO(paciente);
+//        HistoriaClinica historiaClinica = historiaClinicaService.findById(pacienteDTO.getHistoriaClinicaId());
+//        if (historiaClinica == null) {
+//            return null;
+//        }
+//
+//        HistoriaClinicaDTO historiaClinicaDTO = historiaClinicaMapper.toDTO(historiaClinica);
+//        pacienteDTO.setHistoriaClinicaDTO(historiaClinicaDTO);
+//
+//        return pacienteDTO;
+//    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -82,27 +82,27 @@ public class HistoriaClinicaAPI extends BaseAPI {
         return Response.ok(dto).build();
     }
 
-    @Path("/findPacientes")
-    @Produces(MediaType.APPLICATION_JSON)
-    @GET
-    public List<PacienteDTO> findPacientesByFilters(@QueryParam("nombre") String nombre,
-                                                    @QueryParam("apellido") String apellido,
-                                                    @QueryParam("tipoDocumento") String tipoDocumento,
-                                                    @QueryParam("numeroDocumento") String numeroDocumento,
-                                                    @QueryParam("sexo") String sexo,
-                                                    @QueryParam("pageNumber") Long pageNumber,
-                                                    @QueryParam("pageSize") Long pageSize) {
-
-        Documento documento = null;
-        if (tipoDocumento != null && numeroDocumento != null) {
-            documento = new Documento(numeroDocumento, TipoDocumento.valueOf(tipoDocumento));
-        }
-        ArrayList<Paciente> pacientes = (ArrayList<Paciente>) pacienteService.findByFilters(nombre, apellido,
-                documento, sexo != null ? Sexo.valueOf(sexo) : null, false, pageNumber, pageSize);
-
-        ArrayList<PacienteDTO> pacienteDTOs = (ArrayList<PacienteDTO>) pacienteMapper.toDTOList(pacientes);
-        return pacienteDTOs;
-    }
+//    @Path("/findPacientes")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @GET
+//    public List<PacienteDTO> findPacientesByFilters(@QueryParam("nombre") String nombre,
+//                                                    @QueryParam("apellido") String apellido,
+//                                                    @QueryParam("tipoDocumento") String tipoDocumento,
+//                                                    @QueryParam("numeroDocumento") String numeroDocumento,
+//                                                    @QueryParam("sexo") String sexo,
+//                                                    @QueryParam("pageNumber") Long pageNumber,
+//                                                    @QueryParam("pageSize") Long pageSize) {
+//
+//        Documento documento = null;
+//        if (tipoDocumento != null && numeroDocumento != null) {
+//            documento = new Documento(numeroDocumento, TipoDocumento.valueOf(tipoDocumento));
+//        }
+//        ArrayList<Paciente> pacientes = (ArrayList<Paciente>) pacienteService.findByFilters(nombre, apellido,
+//                documento, sexo != null ? Sexo.valueOf(sexo) : null, false, pageNumber, pageSize);
+//
+//        ArrayList<PacienteDTO> pacienteDTOs = (ArrayList<PacienteDTO>) pacienteMapper.toDTOList(pacientes);
+//        return pacienteDTOs;
+//    }
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
