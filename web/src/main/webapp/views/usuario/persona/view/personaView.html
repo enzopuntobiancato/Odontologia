@@ -1,27 +1,27 @@
 <div layout-gt-sm="row" layout-margin>
-    <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
+    <md-list-item class="md-2-line md-long-text">
         <div class="md-list-item-text md-offset">
             <h4>{{'APELLIDO' | translate}}, {{'NOMBRE' | translate}}</h4>
 
             <p>{{usuario.apellido}}, {{usuario.nombre}}</p>
         </div>
     </md-list-item>
-    <md-list-item class="md-2-line md-long-text" flex-gt-sm="20">
-        <div class="md-list-item-text md-offset">
+    <md-list-item class="md-2-line md-long-text">
+        <div class="md-list-item-text">
             <h4>{{'DOCUMENTO' | translate}}</h4>
 
             <p>{{usuario.documento.tipoDocumento.nombre}} - {{usuario.documento.numero}}</p>
         </div>
     </md-list-item>
-    <md-list-item class="md-2-line md-long-text" flex-gt-sm="20">
-        <div class="md-list-item-text md-offset">
+    <md-list-item class="md-2-line md-long-text">
+        <div class="md-list-item-text">
             <h4>{{'SEXO' | translate}}</h4>
 
             <p>{{usuario.sexo.nombre | noDefinido}}</p>
         </div>
     </md-list-item>
-    <md-list-item class="md-2-line md-long-text" flex-gt-sm="15">
-        <div class="md-list-item-text md-offset">
+    <md-list-item class="md-2-line md-long-text">
+        <div class="md-list-item-text">
             <h4>{{'FECHA_NAC' | translate}}</h4>
 
             <p>{{(usuario.fechaNacimiento | date:'dd/MM/yyyy') || (usuario.fechaNacimiento | noDefinido)}}</p>

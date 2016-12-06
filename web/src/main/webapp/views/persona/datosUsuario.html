@@ -1,107 +1,225 @@
-<md-content layout="row" layout-align="center start" class="md-main-content" flex>
-    <md-card class="md-whiteframe-z5 md-main-content-card">
-        <md-toolbar class="md-accent">
-            <div class="md-toolbar-tools">
-                <span>Mis datos</span>
-            </div>
-        </md-toolbar>
-        <form name="form" ng-submit="vm.save(form)" novalidate>
-            <md-card-content>
-                <ng-include ng-if="vm.validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
-                <ng-include src="'views/persona/persona.html'"></ng-include>
-                <ng-include ng-if="vm.usuario.alumno" src="'views/persona/alumno.html'"></ng-include>
-                <ng-include ng-if="vm.usuario.profesor" src="'views/persona/profesor.html'"></ng-include>
-                <ng-include ng-if="vm.usuario.autoridad" src="'views/persona/autoridad.html'"></ng-include>
-
-                <p class="subtitle-text">Datos de usuario</p>
-
-                <div layout-gt-sm="row" layout-margin>
-                    <div flex-gt-sm="60" layout="column" layout-align="center center">
-                        <md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"
-                                   ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
-                                   ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"
-                                   ngf-accept="'.jpg,.png,.bmp'" ngf-max-size="20MB" ngf-min-height="100">
-                            <img class="user-image" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
-                                 ngf-resize="{width: 300, height: auto}">
-                            <img class="user-image" ng-if="!vm.isFileSelected()"
-                                 src="resources/img/image_user.jpg"/>
-                        </md-button>
-                        <ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"
-                                    ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
-                                    ng-mouseleave="colorMouseLeave(3)">
-                            <md-tooltip>
-                                Quitar
-                            </md-tooltip>
-                        </ng-md-icon>
-                        <div class="validation-messages" ng-if="vm.data.wrongImageFormat">
-                            <div>El formato debe ser: .jpg, .png o .bmp</div>
-                        </div>
-                    </div>
-                    <div flex-gt-sm="40" layout="column" layout-margin>
-                        <md-input-container flex class="md-block">
-                            <label>Nombre de usuario</label>
-                            <input disabled md-maxlength="75" required name="nombreUsuario"
-                                   ng-model="vm.persona.usuario.nombreUsuario">
-
-                            <div ng-messages="form.nombreUsuario.$error"
-                                 ng-show="form.nombreUsuario.$invalid && form.nombreUsuario.$touched">
-                                <div ng-messages-include="error-messages"></div>
+<div layout="column">
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="column" layout-fill layout-padding>
+            <div>
+                <div layout="row" layout-align="center center">
+                    <md-card flex>
+                        <md-toolbar class="md-accent">
+                            <div class="md-toolbar-tools">
+                                <span>Mis datos</span>
                             </div>
-                        </md-input-container>
-                        <md-input-container flex class="md-block">
-                            <label>Correo electrónico</label>
-                            <input type="email" required name="email" ng-model="vm.persona.usuario.email">
+                        </md-toolbar>
+                        <form name="form" ng-submit="vm.save(form)" novalidate>
+                            <md-card-content>
+                                <ng-include ng-if="vm.validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
+                                <ng-include src="'views/persona/persona.html'"></ng-include>
+                                <ng-include ng-if="vm.usuario.alumno" src="'views/persona/alumno.html'"></ng-include>
+                                <ng-include ng-if="vm.usuario.profesor" src="'views/persona/profesor.html'"></ng-include>
+                                <ng-include ng-if="vm.usuario.autoridad" src="'views/persona/autoridad.html'"></ng-include>
 
-                            <div ng-messages="form.email.$error" ng-show="form.email.$invalid && form.email.$touched">
-                                <div ng-messages-include="error-messages"></div>
-                            </div>
-                        </md-input-container>
-                        <md-input-container flex class="md-block">
-                            <md-checkbox ng-model="vm.persona.usuario.changePassword">
-                                Cambiar contraseña
-                            </md-checkbox>
-                        </md-input-container>
-                        <md-input-container flex class="md-block">
-                            <label>Contraseña actual</label>
-                            <input ng-disabled="!vm.persona.usuario.changePassword" type="password"
-                                   md-maxlength="50" ng-required="vm.persona.usuario.changePassword" name="oldPassword"
-                                   ng-model="vm.persona.usuario.currentPassword">
+                                <p class="subtitle-text">Datos de usuario</p>
 
-                            <div ng-messages="form.oldPassword.$error"
-                                 ng-show="form.oldPassword.$invalid && form.oldPassword.$touched">
-                                <div ng-messages-include="error-messages"></div>
-                            </div>
-                        </md-input-container>
-                        <md-input-container flex class="md-block">
-                            <label>Contraseña</label>
-                            <input ng-disabled="!vm.persona.usuario.changePassword" id="password" type="password"
-                                   md-maxlength="50" ng-required="vm.persona.usuario.changePassword" name="password"
-                                   ng-model="vm.persona.usuario.password">
+                                <div layout-gt-sm="row" layout-margin>
+                                    <div flex-gt-sm="60" layout="column" layout-align="center center">
+                                        <md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"
+                                                   ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+                                                   ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"
+                                                   ngf-accept="'.jpg,.png,.bmp'" ngf-max-size="20MB" ngf-min-height="100">
+                                            <img class="user-image" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
+                                                 ngf-resize="{width: 300, height: auto}">
+                                            <img class="user-image" ng-if="!vm.isFileSelected()"
+                                                 src="resources/img/image_user.jpg"/>
+                                        </md-button>
+                                        <ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"
+                                                    ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
+                                                    ng-mouseleave="colorMouseLeave(3)">
+                                            <md-tooltip>
+                                                Quitar
+                                            </md-tooltip>
+                                        </ng-md-icon>
+                                        <div class="validation-messages" ng-if="vm.data.wrongImageFormat">
+                                            <div>El formato debe ser: .jpg, .png o .bmp</div>
+                                        </div>
+                                    </div>
+                                    <div flex-gt-sm="40" layout="column" layout-margin>
+                                        <md-input-container flex class="md-block">
+                                            <label>Nombre de usuario</label>
+                                            <input disabled md-maxlength="75" required name="nombreUsuario"
+                                                   ng-model="vm.persona.usuario.nombreUsuario">
 
-                            <div ng-messages="form.password.$error"
-                                 ng-show="form.password.$invalid && form.password.$touched">
-                                <div ng-messages-include="error-messages"></div>
-                            </div>
-                        </md-input-container>
-                        <md-input-container flex class="md-block">
-                            <label>Repetir contraseña</label>
-                            <input ng-disabled="!vm.persona.usuario.changePassword" pw-check="password"
-                                   ng-pattern="vm.persona.usuario.contrasenia"
-                                   ng-model="vm.repeatPassword" type="password" md-maxlength="50" name="repeatPassword">
+                                            <div ng-messages="form.nombreUsuario.$error"
+                                                 ng-show="form.nombreUsuario.$invalid && form.nombreUsuario.$touched">
+                                                <div ng-messages-include="error-messages"></div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex class="md-block">
+                                            <label>Correo electrónico</label>
+                                            <input type="email" required name="email" ng-model="vm.persona.usuario.email">
 
-                            <div ng-messages="form.repeatPassword.$error" ng-show="form.repeatPassword.$invalid">
-                                <div ng-message="pwmatch">Las contraseñas no coinciden.</div>
-                            </div>
-                        </md-input-container>
-                    </div>
+                                            <div ng-messages="form.email.$error" ng-show="form.email.$invalid && form.email.$touched">
+                                                <div ng-messages-include="error-messages"></div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex class="md-block">
+                                            <md-checkbox ng-model="vm.persona.usuario.changePassword">
+                                                Cambiar contraseña
+                                            </md-checkbox>
+                                        </md-input-container>
+                                        <md-input-container flex class="md-block">
+                                            <label>Contraseña actual</label>
+                                            <input ng-disabled="!vm.persona.usuario.changePassword" type="password"
+                                                   md-maxlength="50" ng-required="vm.persona.usuario.changePassword" name="oldPassword"
+                                                   ng-model="vm.persona.usuario.currentPassword">
+
+                                            <div ng-messages="form.oldPassword.$error"
+                                                 ng-show="form.oldPassword.$invalid && form.oldPassword.$touched">
+                                                <div ng-messages-include="error-messages"></div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex class="md-block">
+                                            <label>Contraseña</label>
+                                            <input ng-disabled="!vm.persona.usuario.changePassword" id="password" type="password"
+                                                   md-maxlength="50" ng-required="vm.persona.usuario.changePassword" name="password"
+                                                   ng-model="vm.persona.usuario.password">
+
+                                            <div ng-messages="form.password.$error"
+                                                 ng-show="form.password.$invalid && form.password.$touched">
+                                                <div ng-messages-include="error-messages"></div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex class="md-block">
+                                            <label>Repetir contraseña</label>
+                                            <input ng-disabled="!vm.persona.usuario.changePassword" pw-check="password"
+                                                   ng-pattern="vm.persona.usuario.contrasenia"
+                                                   ng-model="vm.repeatPassword" type="password" md-maxlength="50" name="repeatPassword">
+
+                                            <div ng-messages="form.repeatPassword.$error" ng-show="form.repeatPassword.$invalid">
+                                                <div ng-message="pwmatch">Las contraseñas no coinciden.</div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="vm.cancel()">Cancelar</md-button>
+                                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
+                            </md-card-actions>
+                        </form>
+                    </md-card>
+
                 </div>
+            </div>
+        </div>
+    </md-content>
+</div>
 
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="vm.cancel()">Cancelar</md-button>
-                <md-button type="submit" class="md-raised md-primary">Aceptar</md-button>
-            </md-card-actions>
-        </form>
-    </md-card>
 
-</md-content>
+
+<!--<md-content layout="row" layout-align="center start" class="md-main-content" flex>-->
+    <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
+        <!--<md-toolbar class="md-accent">-->
+            <!--<div class="md-toolbar-tools">-->
+                <!--<span>Mis datos</span>-->
+            <!--</div>-->
+        <!--</md-toolbar>-->
+        <!--<form name="form" ng-submit="vm.save(form)" novalidate>-->
+            <!--<md-card-content>-->
+                <!--<ng-include ng-if="vm.validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>-->
+                <!--<ng-include src="'views/persona/persona.html'"></ng-include>-->
+                <!--<ng-include ng-if="vm.usuario.alumno" src="'views/persona/alumno.html'"></ng-include>-->
+                <!--<ng-include ng-if="vm.usuario.profesor" src="'views/persona/profesor.html'"></ng-include>-->
+                <!--<ng-include ng-if="vm.usuario.autoridad" src="'views/persona/autoridad.html'"></ng-include>-->
+
+                <!--<p class="subtitle-text">Datos de usuario</p>-->
+
+                <!--<div layout-gt-sm="row" layout-margin>-->
+                    <!--<div flex-gt-sm="60" layout="column" layout-align="center center">-->
+                        <!--<md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"-->
+                                   <!--ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"-->
+                                   <!--ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"-->
+                                   <!--ngf-accept="'.jpg,.png,.bmp'" ngf-max-size="20MB" ngf-min-height="100">-->
+                            <!--<img class="user-image" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"-->
+                                 <!--ngf-resize="{width: 300, height: auto}">-->
+                            <!--<img class="user-image" ng-if="!vm.isFileSelected()"-->
+                                 <!--src="resources/img/image_user.jpg"/>-->
+                        <!--</md-button>-->
+                        <!--<ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"-->
+                                    <!--ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"-->
+                                    <!--ng-mouseleave="colorMouseLeave(3)">-->
+                            <!--<md-tooltip>-->
+                                <!--Quitar-->
+                            <!--</md-tooltip>-->
+                        <!--</ng-md-icon>-->
+                        <!--<div class="validation-messages" ng-if="vm.data.wrongImageFormat">-->
+                            <!--<div>El formato debe ser: .jpg, .png o .bmp</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div flex-gt-sm="40" layout="column" layout-margin>-->
+                        <!--<md-input-container flex class="md-block">-->
+                            <!--<label>Nombre de usuario</label>-->
+                            <!--<input disabled md-maxlength="75" required name="nombreUsuario"-->
+                                   <!--ng-model="vm.persona.usuario.nombreUsuario">-->
+
+                            <!--<div ng-messages="form.nombreUsuario.$error"-->
+                                 <!--ng-show="form.nombreUsuario.$invalid && form.nombreUsuario.$touched">-->
+                                <!--<div ng-messages-include="error-messages"></div>-->
+                            <!--</div>-->
+                        <!--</md-input-container>-->
+                        <!--<md-input-container flex class="md-block">-->
+                            <!--<label>Correo electrónico</label>-->
+                            <!--<input type="email" required name="email" ng-model="vm.persona.usuario.email">-->
+
+                            <!--<div ng-messages="form.email.$error" ng-show="form.email.$invalid && form.email.$touched">-->
+                                <!--<div ng-messages-include="error-messages"></div>-->
+                            <!--</div>-->
+                        <!--</md-input-container>-->
+                        <!--<md-input-container flex class="md-block">-->
+                            <!--<md-checkbox ng-model="vm.persona.usuario.changePassword">-->
+                                <!--Cambiar contraseña-->
+                            <!--</md-checkbox>-->
+                        <!--</md-input-container>-->
+                        <!--<md-input-container flex class="md-block">-->
+                            <!--<label>Contraseña actual</label>-->
+                            <!--<input ng-disabled="!vm.persona.usuario.changePassword" type="password"-->
+                                   <!--md-maxlength="50" ng-required="vm.persona.usuario.changePassword" name="oldPassword"-->
+                                   <!--ng-model="vm.persona.usuario.currentPassword">-->
+
+                            <!--<div ng-messages="form.oldPassword.$error"-->
+                                 <!--ng-show="form.oldPassword.$invalid && form.oldPassword.$touched">-->
+                                <!--<div ng-messages-include="error-messages"></div>-->
+                            <!--</div>-->
+                        <!--</md-input-container>-->
+                        <!--<md-input-container flex class="md-block">-->
+                            <!--<label>Contraseña</label>-->
+                            <!--<input ng-disabled="!vm.persona.usuario.changePassword" id="password" type="password"-->
+                                   <!--md-maxlength="50" ng-required="vm.persona.usuario.changePassword" name="password"-->
+                                   <!--ng-model="vm.persona.usuario.password">-->
+
+                            <!--<div ng-messages="form.password.$error"-->
+                                 <!--ng-show="form.password.$invalid && form.password.$touched">-->
+                                <!--<div ng-messages-include="error-messages"></div>-->
+                            <!--</div>-->
+                        <!--</md-input-container>-->
+                        <!--<md-input-container flex class="md-block">-->
+                            <!--<label>Repetir contraseña</label>-->
+                            <!--<input ng-disabled="!vm.persona.usuario.changePassword" pw-check="password"-->
+                                   <!--ng-pattern="vm.persona.usuario.contrasenia"-->
+                                   <!--ng-model="vm.repeatPassword" type="password" md-maxlength="50" name="repeatPassword">-->
+
+                            <!--<div ng-messages="form.repeatPassword.$error" ng-show="form.repeatPassword.$invalid">-->
+                                <!--<div ng-message="pwmatch">Las contraseñas no coinciden.</div>-->
+                            <!--</div>-->
+                        <!--</md-input-container>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</md-card-content>-->
+            <!--<md-card-actions layout="row" layout-align="end center">-->
+                <!--<md-button ng-click="vm.cancel()">Cancelar</md-button>-->
+                <!--<md-button type="submit" class="md-raised md-primary">Aceptar</md-button>-->
+            <!--</md-card-actions>-->
+        <!--</form>-->
+    <!--</md-card>-->
+
+<!--</md-content>-->

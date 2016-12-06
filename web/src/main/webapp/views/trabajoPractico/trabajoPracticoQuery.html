@@ -90,7 +90,7 @@
                                         <h4>{{ item.practicaOdontologica.grupo.nombre }}</h4>
                                         <p class="muted">{{item.practicaOdontologica.denominacion}}</p>
                                     </div>
-                                    <div ng-show="item.showAction">
+                                    <div ng-show="item.showAction" layout="row">
                                         <ng-md-icon ng-show="!item.fechaBaja" icon="edit" size="24" ng-click="edit(item.id)"
                                                     ng-attr-style="fill: {{colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
                                                     ng-mouseleave="colorMouseLeave(3)">

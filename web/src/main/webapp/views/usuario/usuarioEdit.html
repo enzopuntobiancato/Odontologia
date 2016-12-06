@@ -1,93 +1,196 @@
-<md-content layout="row" layout-align="center start" class="md-main-content" flex>
-    <md-card class="md-whiteframe-z5 md-main-content-card">
-        <md-toolbar class="md-accent">
-            <div class="md-toolbar-tools">
-                <span>{{'MOD_USUARIO' | translate}}</span>
-            </div>
-        </md-toolbar>
-        <form name="form" ng-submit="vm.save(form)" novalidate>
-            <md-card-content>
-                <ng-include ng-if="vm.validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
-                <p class="subtitle-text">Datos de usuario</p>
-
-                <div layout-gt-sm="row" layout-margin>
-                    <div flex-gt-sm="50" layout="column" layout-align="center center">
-                        <md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"
-                                   ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
-                                   ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"
-                                   ngf-accept="'.jpg,.png,.bmp'" ngf-max-size="20MB" ngf-min-height="100">
-                            <img class="user-image-sm" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
-                                 ngf-resize="{width: 200, height: auto}">
-                            <img class="user-image-sm" ng-if="!vm.isFileSelected()"
-                                 src="resources/img/image_user.jpg"/>
-                        </md-button>
-                        <ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"
-                                    ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
-                                    ng-mouseleave="colorMouseLeave(3)">
-                            <md-tooltip>
-                                Quitar
-                            </md-tooltip>
-                        </ng-md-icon>
-                        <div class="validation-messages" ng-if="vm.data.wrongImageFormat">
-                            <div>El formato debe ser: .jpg, .png o .bmp</div>
-                        </div>
-                    </div>
-                    <div flex-gt-sm="50" layout="column" layout-margin>
-                        <md-input-container flex class="md-block">
-                            <label>{{ 'NOMBRE_USUARIO' | translate }}</label>
-                            <input disabled md-maxlength="75" required name="nombreUsuario"
-                                   ng-model="vm.usuario.nombreUsuario">
-
-                            <div ng-messages="form.nombreUsuario.$error"
-                                 ng-show="form.nombreUsuario.$touched || vm.data.submitted">
-                                <div ng-messages-include="error-messages"></div>
+<div layout="column">
+    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+        <div layout="column" layout-fill layout-padding>
+            <div>
+                <div layout="row" layout-align="center center">
+                    <md-card flex-gt-sm>
+                        <md-toolbar class="md-accent">
+                            <div class="md-toolbar-tools">
+                                <span>{{'MOD_USUARIO' | translate}}</span>
                             </div>
-                        </md-input-container>
-                        <md-input-container flex class="md-block">
-                            <label>{{ 'EMAIL' | translate }}</label>
-                            <input type="email" required name="email" ng-model="vm.usuario.email">
+                        </md-toolbar>
+                        <form name="form" ng-submit="vm.save(form)" novalidate>
+                            <md-card-content>
+                                <ng-include ng-if="vm.validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>
+                                <p class="subtitle-text">Datos de usuario</p>
 
-                            <div ng-messages="form.email.$error" ng-show="form.email.$touched || vm.data.submitted">
-                                <div ng-messages-include="error-messages"></div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                </div>
-                <div layout-row layout-margin>
-                    <md-input-container>
-                        <fieldset class="standard" name="roles">
-                            <legend>Roles</legend>
-                            <div layout="row" layout-wrap flex>
-                                <div flex="50" ng-repeat="rol in vm.data.roles">
-                                    <md-checkbox ng-model="rol.selected" ng-change="vm.clickRol()">
-                                        <span>{{ rol.nombre.nombre }}</span>
-                                    </md-checkbox>
+                                <div layout-gt-sm="row" layout-margin>
+                                    <div flex-gt-sm="50" layout="column" layout-align="center center">
+                                        <md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"
+                                                   ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+                                                   ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"
+                                                   ngf-accept="'.jpg,.png,.bmp'" ngf-max-size="20MB" ngf-min-height="100">
+                                            <img class="user-image-sm" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"
+                                                 ngf-resize="{width: 200, height: auto}">
+                                            <img class="user-image-sm" ng-if="!vm.isFileSelected()"
+                                                 src="resources/img/image_user.jpg"/>
+                                        </md-button>
+                                        <ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"
+                                                    ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"
+                                                    ng-mouseleave="colorMouseLeave(3)">
+                                            <md-tooltip>
+                                                Quitar
+                                            </md-tooltip>
+                                        </ng-md-icon>
+                                        <div class="validation-messages" ng-if="vm.data.wrongImageFormat">
+                                            <div>El formato debe ser: .jpg, .png o .bmp</div>
+                                        </div>
+                                    </div>
+                                    <div flex-gt-sm="50" layout="column" layout-margin>
+                                        <md-input-container flex class="md-block">
+                                            <label>{{ 'NOMBRE_USUARIO' | translate }}</label>
+                                            <input disabled md-maxlength="75" required name="nombreUsuario"
+                                                   ng-model="vm.usuario.nombreUsuario">
+
+                                            <div ng-messages="form.nombreUsuario.$error"
+                                                 ng-show="form.nombreUsuario.$touched || vm.data.submitted">
+                                                <div ng-messages-include="error-messages"></div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex class="md-block">
+                                            <label>{{ 'EMAIL' | translate }}</label>
+                                            <input type="email" required name="email" ng-model="vm.usuario.email">
+
+                                            <div ng-messages="form.email.$error" ng-show="form.email.$touched || vm.data.submitted">
+                                                <div ng-messages-include="error-messages"></div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
                                 </div>
-                            </div>
-                            <div style="color: rgb(221,44,0)" ng-show="vm.data.missingRole || (vm.data.missingRole && vm.data.submitted)">
-                                <div><small>Es obligatorio</small></div>
-                            </div>
-                        </fieldset>
-                    </md-input-container>
+                                <div layout-row layout-margin>
+                                    <md-input-container>
+                                        <fieldset class="standard" name="roles">
+                                            <legend>Roles</legend>
+                                            <div layout="row" layout-wrap flex>
+                                                <div flex="50" ng-repeat="rol in vm.data.roles">
+                                                    <md-checkbox ng-model="rol.selected" ng-change="vm.clickRol()">
+                                                        <span>{{ rol.nombre.nombre }}</span>
+                                                    </md-checkbox>
+                                                </div>
+                                            </div>
+                                            <div style="color: rgb(221,44,0)" ng-show="vm.data.missingRole || (vm.data.missingRole && vm.data.submitted)">
+                                                <div><small>Es obligatorio</small></div>
+                                            </div>
+                                        </fieldset>
+                                    </md-input-container>
+                                </div>
+                                <ng-include src="'views/usuario/persona/persona.html'"></ng-include>
+                                <div ng-if="vm.rolSelected('PROFESOR')">
+                                    <p class="subtitle-text">Datos de profesor</p>
+                                    <ng-include src="'views/usuario/persona/profesor.html'"></ng-include>
+                                </div>
+                                <div ng-if="vm.rolSelected('ALUMNO')">
+                                    <p class="subtitle-text">Datos de alumno</p>
+                                    <ng-include src="'views/usuario/persona/alumno.html'"></ng-include>
+                                </div>
+                                <div ng-if="vm.rolSelected('AUTORIDAD')">
+                                    <p class="subtitle-text">Datos de autoridad</p>
+                                    <ng-include src="'views/usuario/persona/autoridad.html'"></ng-include>
+                                </div>
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-click="vm.cancel()">{{ 'CANCELAR' | translate }}</md-button>
+                                <md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}</md-button>
+                            </md-card-actions>
+                        </form>
+                    </md-card>
+
                 </div>
-                <ng-include src="'views/usuario/persona/persona.html'"></ng-include>
-                <div ng-if="vm.rolSelected('PROFESOR')">
-                    <p class="subtitle-text">Datos de profesor</p>
-                    <ng-include src="'views/usuario/persona/profesor.html'"></ng-include>
-                </div>
-                <div ng-if="vm.rolSelected('ALUMNO')">
-                    <p class="subtitle-text">Datos de alumno</p>
-                    <ng-include src="'views/usuario/persona/alumno.html'"></ng-include>
-                </div>
-                <div ng-if="vm.rolSelected('AUTORIDAD')">
-                    <p class="subtitle-text">Datos de autoridad</p>
-                    <ng-include src="'views/usuario/persona/autoridad.html'"></ng-include>
-                </div>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="vm.cancel()">{{ 'CANCELAR' | translate }}</md-button>
-                <md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}</md-button>
-            </md-card-actions>
-        </form>
-    </md-card>
-</md-content>
+            </div>
+        </div>
+    </md-content>
+</div>
+
+<!--<md-content layout="row" layout-align="center start" class="md-main-content" flex>-->
+    <!--<md-card class="md-whiteframe-z5 md-main-content-card">-->
+        <!--<md-toolbar class="md-accent">-->
+            <!--<div class="md-toolbar-tools">-->
+                <!--<span>{{'MOD_USUARIO' | translate}}</span>-->
+            <!--</div>-->
+        <!--</md-toolbar>-->
+        <!--<form name="form" ng-submit="vm.save(form)" novalidate>-->
+            <!--<md-card-content>-->
+                <!--<ng-include ng-if="vm.validationErrorFromServer.error" src="'views/validation-error.html'"></ng-include>-->
+                <!--<p class="subtitle-text">Datos de usuario</p>-->
+
+                <!--<div layout-gt-sm="row" layout-margin>-->
+                    <!--<div flex-gt-sm="50" layout="column" layout-align="center center">-->
+                        <!--<md-button name="file" ngf-pattern="'.jpg,.png,.bmp'"-->
+                                   <!--ngf-select="vm.fileChanged($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"-->
+                                   <!--ng-model-options="{updateOn: 'change', allowInvalid: false, debounce: 0}"-->
+                                   <!--ngf-accept="'.jpg,.png,.bmp'" ngf-max-size="20MB" ngf-min-height="100">-->
+                            <!--<img class="user-image-sm" ng-if="vm.isFileSelected()" ngf-thumbnail="vm.file"-->
+                                 <!--ngf-resize="{width: 200, height: auto}">-->
+                            <!--<img class="user-image-sm" ng-if="!vm.isFileSelected()"-->
+                                 <!--src="resources/img/image_user.jpg"/>-->
+                        <!--</md-button>-->
+                        <!--<ng-md-icon ng-if="vm.isFileSelected()" icon="delete" size="24" ng-click="vm.deleteImage()"-->
+                                    <!--ng-attr-style="fill: {{vm.colorIcon[3]}}" ng-Mouseover="colorMouseOver(3)"-->
+                                    <!--ng-mouseleave="colorMouseLeave(3)">-->
+                            <!--<md-tooltip>-->
+                                <!--Quitar-->
+                            <!--</md-tooltip>-->
+                        <!--</ng-md-icon>-->
+                        <!--<div class="validation-messages" ng-if="vm.data.wrongImageFormat">-->
+                            <!--<div>El formato debe ser: .jpg, .png o .bmp</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div flex-gt-sm="50" layout="column" layout-margin>-->
+                        <!--<md-input-container flex class="md-block">-->
+                            <!--<label>{{ 'NOMBRE_USUARIO' | translate }}</label>-->
+                            <!--<input disabled md-maxlength="75" required name="nombreUsuario"-->
+                                   <!--ng-model="vm.usuario.nombreUsuario">-->
+
+                            <!--<div ng-messages="form.nombreUsuario.$error"-->
+                                 <!--ng-show="form.nombreUsuario.$touched || vm.data.submitted">-->
+                                <!--<div ng-messages-include="error-messages"></div>-->
+                            <!--</div>-->
+                        <!--</md-input-container>-->
+                        <!--<md-input-container flex class="md-block">-->
+                            <!--<label>{{ 'EMAIL' | translate }}</label>-->
+                            <!--<input type="email" required name="email" ng-model="vm.usuario.email">-->
+
+                            <!--<div ng-messages="form.email.$error" ng-show="form.email.$touched || vm.data.submitted">-->
+                                <!--<div ng-messages-include="error-messages"></div>-->
+                            <!--</div>-->
+                        <!--</md-input-container>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div layout-row layout-margin>-->
+                    <!--<md-input-container>-->
+                        <!--<fieldset class="standard" name="roles">-->
+                            <!--<legend>Roles</legend>-->
+                            <!--<div layout="row" layout-wrap flex>-->
+                                <!--<div flex="50" ng-repeat="rol in vm.data.roles">-->
+                                    <!--<md-checkbox ng-model="rol.selected" ng-change="vm.clickRol()">-->
+                                        <!--<span>{{ rol.nombre.nombre }}</span>-->
+                                    <!--</md-checkbox>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div style="color: rgb(221,44,0)" ng-show="vm.data.missingRole || (vm.data.missingRole && vm.data.submitted)">-->
+                                <!--<div><small>Es obligatorio</small></div>-->
+                            <!--</div>-->
+                        <!--</fieldset>-->
+                    <!--</md-input-container>-->
+                <!--</div>-->
+                <!--<ng-include src="'views/usuario/persona/persona.html'"></ng-include>-->
+                <!--<div ng-if="vm.rolSelected('PROFESOR')">-->
+                    <!--<p class="subtitle-text">Datos de profesor</p>-->
+                    <!--<ng-include src="'views/usuario/persona/profesor.html'"></ng-include>-->
+                <!--</div>-->
+                <!--<div ng-if="vm.rolSelected('ALUMNO')">-->
+                    <!--<p class="subtitle-text">Datos de alumno</p>-->
+                    <!--<ng-include src="'views/usuario/persona/alumno.html'"></ng-include>-->
+                <!--</div>-->
+                <!--<div ng-if="vm.rolSelected('AUTORIDAD')">-->
+                    <!--<p class="subtitle-text">Datos de autoridad</p>-->
+                    <!--<ng-include src="'views/usuario/persona/autoridad.html'"></ng-include>-->
+                <!--</div>-->
+            <!--</md-card-content>-->
+            <!--<md-card-actions layout="row" layout-align="end center">-->
+                <!--<md-button ng-click="vm.cancel()">{{ 'CANCELAR' | translate }}</md-button>-->
+                <!--<md-button type="submit" class="md-raised md-primary">{{ 'ACEPTAR' | translate }}</md-button>-->
+            <!--</md-card-actions>-->
+        <!--</form>-->
+    <!--</md-card>-->
+<!--</md-content>-->
