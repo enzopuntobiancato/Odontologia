@@ -1,166 +1,99 @@
 <div layout="column" flex>
     <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
-        <!--<div layout="column" flex layout-fill layout-padding>-->
-            <!--<div>-->
-                <!--<div layout="column">-->
-                    <md-card flex>
-                        <md-toolbar class="md-accent">
-                            <div class="md-toolbar-tools">
-                                <span>Consultar información de trabajos prácticos</span>
-                            </div>
-                        </md-toolbar>
-                        <md-card-content>
-                            <div layout-gt-sm="row">
-                                <div flex-gt-sm="20" layout="column">
-                                    <md-list>
-                                        <md-subheader class="md-no-sticky">Cátedras</md-subheader>
-                                        <md-list-item
-                                                ng-class="{'selected-menu-item': catedra.id === vm.selectedCatedra.id}"
-                                                ng-click="vm.clickCatedra(catedra)"
-                                                ng-repeat="catedra in vm.catedras">
-                                            <p>{{catedra.materia.nombre}} {{catedra.denominacion}}</p>
-                                            <md-divider></md-divider>
-                                        </md-list-item>
-                                    </md-list>
+        <md-card flex>
+            <md-toolbar class="md-accent">
+                <div class="md-toolbar-tools">
+                    <span>Consultar información de trabajos prácticos</span>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <div layout-gt-sm="row">
+                    <div flex-gt-sm="20" layout="column">
+                        <md-list>
+                            <md-subheader class="md-no-sticky">Cátedras</md-subheader>
+                            <md-list-item
+                                    ng-class="{'selected-menu-item': catedra.id === vm.selectedCatedra.id}"
+                                    ng-click="vm.clickCatedra(catedra)"
+                                    ng-repeat="catedra in vm.catedras">
+                                <p>{{catedra.materia.nombre}} {{catedra.denominacion}}</p>
+                                <md-divider></md-divider>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                    <div flex-gt-sm="80" layout="column" layout-margin>
+                        <h2>Cátedra {{vm.selectedCatedra.materia.nombre}}
+                            {{vm.selectedCatedra.denominacion}}</h2>
+                        <md-list>
+                            <md-list-item class="md-2-line">
+                                <div class="md-list-item-text">
+                                    <h4>Descripción</h4>
+
+                                    <p class="justified-text small-line">
+                                        {{vm.selectedCatedra.descripcion | noDefinido}}</p>
                                 </div>
-                                <div flex-gt-sm="80" layout="column" layout-margin>
-                                    <h2>Cátedra {{vm.selectedCatedra.materia.nombre}}
-                                        {{vm.selectedCatedra.denominacion}}</h2>
-                                    <md-list>
+                            </md-list-item>
+                            <md-list-item class="md-2-line">
+                                <div class="md-list-item-text">
+                                    <h4>Horarios de atención</h4>
+                                    <md-chips ng-model="vm.selectedCatedra.horarios" readonly="true">
+                                        <md-chip-template>
+                                            <strong>{{$chip.dia.nombre}}</strong>
+                                            <em>{{$chip.horaDesde | date:'HH:mm'}} - {{$chip.horaHasta |
+                                                date:'HH:mm'}}</em>
+                                        </md-chip-template>
+                                    </md-chips>
+                                </div>
+                            </md-list-item>
+                        </md-list>
+                        <p class="subtitle-text">Trabajos prácticos</p>
+                        <md-tabs md-selected="vm.selectedIndex" md-border-bottom
+                                 md-stretch-tabs="never">
+                            <md-tab ng-repeat="tp in vm.resultTPs"
+                                    label="{{ tp.nombre }}">
+                                <md-list>
+                                    <md-list-item class="md-2-line">
+                                        <div class="md-list-item-text">
+                                            <h4>Descripción</h4>
+
+                                            <p class="justified-text small-line">
+                                                {{tp.descripcion | noDefinido}}</p>
+                                        </div>
+                                    </md-list-item>
+                                    <div layout="row">
                                         <md-list-item class="md-2-line">
                                             <div class="md-list-item-text">
-                                                <h4>Descripción</h4>
+                                                <h4>Práctica odontológica</h4>
 
-                                                <p class="justified-text small-line">
-                                                    {{vm.selectedCatedra.descripcion | noDefinido}}</p>
+                                                <p>
+                                                    {{tp.practicaOdontologica.denominacion}}</p>
                                             </div>
-                                        </md-list-item>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text">
-                                                <h4>Horarios de atención</h4>
-                                                <md-chips ng-model="vm.selectedCatedra.horarios" readonly="true">
-                                                    <md-chip-template>
-                                                        <strong>{{$chip.dia.nombre}}</strong>
-                                                        <em>{{$chip.horaDesde | date:'HH:mm'}} - {{$chip.horaHasta |
-                                                            date:'HH:mm'}}</em>
-                                                    </md-chip-template>
-                                                </md-chips>
-                                            </div>
-                                        </md-list-item>
-                                    </md-list>
-                                    <p class="subtitle-text">Trabajos prácticos</p>
-                                    <md-tabs md-selected="vm.selectedIndex" md-border-bottom
-                                             md-stretch-tabs="never">
-                                        <md-tab ng-repeat="tp in vm.resultTPs"
-                                                label="{{ tp.nombre }}">
-                                            <md-list>
-                                                <md-list-item class="md-2-line">
-                                                    <div class="md-list-item-text">
-                                                        <h4>Descripción</h4>
+                                            <md-list-item class="md-2-line">
+                                                <div class="md-list-item-text">
+                                                    <h4>Grupo práctica odontológica</h4>
 
-                                                        <p class="justified-text small-line">
-                                                            {{tp.descripcion | noDefinido}}</p>
-                                                    </div>
-                                                </md-list-item>
-                                                <div layout="row">
-                                                    <md-list-item class="md-2-line">
-                                                        <div class="md-list-item-text">
-                                                            <h4>Práctica odontológica</h4>
-
-                                                            <p>
-                                                                {{tp.practicaOdontologica.denominacion}}</p>
-                                                        </div>
-                                                        <md-list-item class="md-2-line">
-                                                            <div class="md-list-item-text">
-                                                                <h4>Grupo práctica odontológica</h4>
-
-                                                                <p>
-                                                                    {{tp.practicaOdontologica.grupo.nombre}}</p>
-                                                            </div>
-                                                        </md-list-item>
-                                                    </md-list-item>
+                                                    <p>
+                                                        {{tp.practicaOdontologica.grupo.nombre}}</p>
                                                 </div>
-                                                <md-list-item class="md-2-line">
-                                                    <div class="md-list-item-text">
-                                                        <h4>Observaciones práctica odontológica</h4>
-
-                                                        <p class="justified-text small-line">
-                                                            {{tp.practicaOdontologica.observaciones | noDefinido}}</p>
-                                                    </div>
-                                                </md-list-item>
-                                            </md-list>
-                                        </md-tab>
-                                    </md-tabs>
-                                    <!--<div ng-repeat="tp in vm.resultTPs">
-                                        <md-card>
-                                            <md-card-title>
-                                                <md-card-title-text>
-                                                    <span class="md-headline">{{tp.nombre}}</span>
-                                                </md-card-title-text>
-                                            </md-card-title>
-                                            <md-card-content>
-                                                <md-list>
-                                                    <md-list-item class="md-2-line">
-                                                        <div class="md-list-item-text">
-                                                            <h4>Descripción</h4>
-
-                                                            <p class="justified-text small-line">
-                                                                {{tp.descripcion | noDefinido}}</p>
-                                                        </div>
-                                                    </md-list-item>
-                                                    <div layout="row">
-                                                        <md-list-item class="md-2-line">
-                                                            <div class="md-list-item-text">
-                                                                <h4>Práctica odontológica</h4>
-
-                                                                <p>
-                                                                    {{tp.practicaOdontologica.denominacion}}</p>
-                                                            </div>
-                                                            <md-list-item class="md-2-line">
-                                                                <div class="md-list-item-text">
-                                                                    <h4>Grupo práctica odontológica</h4>
-
-                                                                    <p>
-                                                                        {{tp.practicaOdontologica.grupo.nombre}}</p>
-                                                                </div>
-                                                            </md-list-item>
-                                                        </md-list-item>
-                                                    </div>
-                                                    <md-list-item class="md-2-line">
-                                                        <div class="md-list-item-text">
-                                                            <h4>Observaciones práctica odontológica</h4>
-
-                                                            <p class="justified-text small-line">
-                                                                {{tp.practicaOdontologica.observaciones | noDefinido}}</p>
-                                                        </div>
-                                                    </md-list-item>
-                                                </md-list>
-                                            </md-card-content>
-                                        </md-card>
+                                            </md-list-item>
+                                        </md-list-item>
                                     </div>
-                                    <md-list-item layout class="inset">
-                                        <md-button ng-click="vm.previousPage()" flex layout layout-align="center center"
-                                                   ng-disabled="vm.paginationData.firstPage">
-                                            <ng-md-icon icon="arrow_back"
-                                                        ng-disabled="vm.paginationData.firstPage"></ng-md-icon>
-                                            <span hide-xs>Anterior</span>
-                                        </md-button>
-                                        <md-button layout layout-align="center center" flex ng-click="vm.nextPage()"
-                                                   ng-disabled="!vm.paginationData.morePages">
-                                            <span hide-xs>Siguiente</span>
-                                            <ng-md-icon icon="arrow_forward" style="fill: black"
-                                                        ng-disabled="!vm.paginationData.morePages"></ng-md-icon>
-                                        </md-button>
-                                    </md-list-item>-->
-                                </div>
-                            </div>
-                        </md-card-content>
-                        <md-card-actions layout="row" layout-align="end center">
-                            <md-button ng-click="vm.cancelar()">{{ 'VOLVER' | translate }}</md-button>
-                        </md-card-actions>
-                    </md-card>
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+                                    <md-list-item class="md-2-line">
+                                        <div class="md-list-item-text">
+                                            <h4>Observaciones práctica odontológica</h4>
+
+                                            <p class="justified-text small-line">
+                                                {{tp.practicaOdontologica.observaciones | noDefinido}}</p>
+                                        </div>
+                                    </md-list-item>
+                                </md-list>
+                            </md-tab>
+                        </md-tabs>
+                    </div>
+                </div>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="vm.cancelar()" class="md-primary">{{ 'VOLVER' | translate }}</md-button>
+            </md-card-actions>
+        </md-card>
     </md-content>
 </div>

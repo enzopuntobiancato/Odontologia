@@ -1,8 +1,8 @@
 <md-tabs md-dynamic-height md-border-bottom>
 <md-tab label="{{ 'ANTECEDENTES' | translate }} e {{ 'HIPERTENSION' | translate }}">
-    <md-list>
+    <md-list class="md-dense">
         <section>
-            <md-subheader class="md-no-sticky md-primary">{{ 'ANTECEDENTES' | translate }} view</md-subheader>
+            <md-subheader class="md-no-sticky md-primary">{{ 'ANTECEDENTES' | translate }}</md-subheader>
             <md-divider></md-divider>
             <div layout="row" layout-margin flex-gt-sm>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g1p1"
@@ -33,7 +33,6 @@
                     <div class='md-list-item-text'>
                         <div layout="row"><h4 style="font-weight: bold"> {{ vm.paciente.historiaClinicaDTO.g3p5.nombre
                             }} </h4><h4> {{vm.paciente.historiaClinicaDTO.g3p5.only_detalle }}</h4></div>
-                        <h4>Min: 11 | Máx: 12</h4>
 
                         <p>{{ vm.paciente.historiaClinicaDTO.g3p10.nombre }}: {{
                             vm.paciente.historiaClinicaDTO.g3p10.fecha | date:'dd/MM/yyyy' }}</p>
@@ -78,7 +77,7 @@
     </md-list>
 </md-tab>
 <md-tab label="{{ 'ALERGIAS' | translate }}">
-    <md-list>
+    <md-list class="md-dense">
         <section>
             <md-subheader class="md-no-sticky md-primary"> {{ 'ALERGIAS'|translate }}</md-subheader>
             <md-divider></md-divider>
@@ -109,7 +108,7 @@
     </md-list>
 </md-tab>
 <md-tab label="{{ 'HEPATITIS' | translate }}">
-    <md-list>
+    <md-list class="md-dense">
         <section>
             <md-subheader class="md-no-sticky md-primary"> {{ 'HEPATITIS'|translate }}</md-subheader>
             <md-divider></md-divider>
@@ -159,7 +158,7 @@
     </md-list>
 </md-tab>
 <md-tab label="{{ 'CONVULSIONES' | translate }} y {{ 'EPILEPSIA' | translate }}">
-    <md-list>
+    <md-list class="md-dense">
         <section>
             <md-subheader class="md-no-sticky md-primary"> {{ 'CONVULSIONES'|translate }}</md-subheader>
             <md-divider></md-divider>
@@ -231,7 +230,7 @@
     </md-list>
 </md-tab>
 <md-tab label="{{ 'TRANSFUSIONES' | translate }} y {{ 'TRANSPLANTES' | translate }}">
-    <md-list>
+    <md-list class="md-dense">
         <section>
             <md-subheader class="md-no-sticky md-primary">
                 {{ 'PROBLEMAS_PIEL' | translate }}
@@ -306,7 +305,7 @@
         <section>
             <md-subheader class="md-no-sticky md-primary"> {{ 'TRANSPLANTES'|translate }}</md-subheader>
             <md-divider></md-divider>
-            <div layout="row" layout-margin flex-gt-sm>
+            <div layout="row" layout-margin>
                 <detalle camposino="vm.paciente.historiaClinicaDTO.g22p1"
                          campodetalle="vm.paciente.historiaClinicaDTO.g22p2"></detalle>
                 <md-list-item class='md-3-line md-long-text' flex-gt-sm='33'>
@@ -326,7 +325,7 @@
     </md-list>
 </md-tab>
 <md-tab label="{{ 'CANCER' | translate }}">
-    <md-list>
+    <md-list class="md-dense">
         <section>
             <md-subheader class="md-no-sticky md-primary"> {{ 'CANCER'|translate }}</md-subheader>
             <md-divider></md-divider>
@@ -338,7 +337,7 @@
     </md-list>
 </md-tab>
 <md-tab label="{{ 'SOLO_MUJERES' | translate }}" ng-if="vm.paciente.sexo.key == 'FEMENINO'">
-    <md-list>
+    <md-list class="md-dense">
         <section>
             <md-subheader class="md-no-sticky md-primary"> {{ 'SOLO_MUJERES'|translate }}</md-subheader>
             <md-divider></md-divider>
@@ -399,7 +398,7 @@
     </md-list>
 </md-tab>
 <md-tab label="{{ 'DIABETES' | translate }}">
-    <md-list>
+    <md-list class="md-dense">
         <section>
             <md-subheader class="md-no-sticky md-primary"> {{ 'DIABETES'|translate }}</md-subheader>
             <md-divider></md-divider>
@@ -451,7 +450,7 @@
     </md-list>
 </md-tab>
 <md-tab label="{{ 'VARIOS' | translate }}">
-    <md-list>
+    <md-list class="md-dense">
         <section>
             <md-subheader class="md-no-sticky md-primary"> {{ 'VARIOS'|translate }}</md-subheader>
             <md-divider></md-divider>

@@ -63,10 +63,9 @@ public class PacienteAPI extends BaseAPI {
                                            @QueryParam("pageNumber") Long pageNumber,
                                            @QueryParam("pageSize") Long pageSize) {
         Documento documento = new Documento(numeroDocumento, tipoDocumento !=  null ? TipoDocumento.valueOf(tipoDocumento): null);
-        ArrayList<Paciente> pacientes = (ArrayList<Paciente>) pacienteService.findByFilters(nombre, apellido,
+        List<PacienteDTO> pacienteDTOs = pacienteService.findByFilters(nombre, apellido,
                 documento, sexo != null ? Sexo.valueOf(sexo) : null, dadosBaja, pageNumber, pageSize);
 
-        ArrayList<PacienteDTO> pacienteDTOs = (ArrayList<PacienteDTO>) pacienteMapper.toDTOList(pacientes);
         return pacienteDTOs;
     }
 
@@ -109,9 +108,8 @@ public class PacienteAPI extends BaseAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove(PacienteDTO dto) throws SAPOException {
-        Paciente entity = pacienteService.remove(dto.getId(), dto.getMotivoBaja());
-        dto = pacienteMapper.toDTO(entity);
-        return Response.ok(dto).build();
+        PacienteDTO pacienteDTO = pacienteService.removeToDTO(dto.getId(), dto.getMotivoBaja());
+        return Response.ok(pacienteDTO).build();
     }
 
     @Path("/restore")
@@ -162,6 +160,4 @@ public class PacienteAPI extends BaseAPI {
         Paciente paciente = pacienteService.findById(pacienteId);
         return pacienteService.findOdontogramaUriById(paciente.getHistoriaClinica().getId());
     }
-
-
 }

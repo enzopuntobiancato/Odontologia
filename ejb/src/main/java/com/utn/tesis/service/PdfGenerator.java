@@ -25,13 +25,13 @@ public class PdfGenerator {
     private static final Font answerFont = new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.NORMAL);
 
     public File createHCPDF(Paciente paciente) throws IOException {
-        File file = File.createTempFile(paciente.getApellido(), paciente.getApellido() + "_" + paciente.getNombre());
+        File file = File.createTempFile("histClin", paciente.getApellido() + "_" + paciente.getNombre() + ".pdf");
         createPDF(file, paciente);
         return file;
     }
 
     public File createAsignacionesListPdf(ArrayList<AsignacionPaciente> asignaciones) throws IOException {
-        File file = File.createTempFile("asignaciones", "autorizar");
+        File file = File.createTempFile("asignaciones", "autorizar.pdf");
         crearListaAsignaciones(file, asignaciones);
         return file;
     }
@@ -39,7 +39,7 @@ public class PdfGenerator {
     public File createImpresionAtencion(Atencion atencion) throws IOException {
         File file = File.createTempFile(atencion.getAsignacionPaciente().getAlumno().getApellido() +
                 " " + atencion.getAsignacionPaciente().getAlumno().getNombre() +
-                " Atencion Nº " + atencion.getId().toString() , "Atencion");
+                " Atencion Nº " + atencion.getId().toString() , "Atencion.pdf");
         crearAtencion(file, atencion);
         return file;
     }

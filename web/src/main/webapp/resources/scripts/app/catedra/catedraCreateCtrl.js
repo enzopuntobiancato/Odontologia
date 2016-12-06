@@ -101,6 +101,7 @@ module.controller('CatedraCtrl_Create', ['$scope', '$rootScope', '$state', 'Comm
         $scope.keyboardOk = function (event) {
             if (event.which == 13) {
                 executeQuery();
+                event.preventDefault();
             }
         }
 
