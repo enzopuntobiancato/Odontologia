@@ -4,16 +4,16 @@ module.controller('PacienteCtrl_EditCreate',
     ['$scope', '$rootScope', '$filter','PacienteSrv', '$state', 'MessageSrv',
         'tiposDocumentoResponse','sexosResponse','provinciaResponse', 'ciudadesResponse','barriosResponse','estadosResponse',
         'trabajosResponse','obrasSocialesResponse','nivelesEstudioResponse','nacionalidadesResponse', 'pacienteResponse',
-        'Upload', '$q', 'imagenResponse',
+        'Upload', '$q',
         function ($scope, $rootScope, $filter, service, $state, message,
                   tiposDocumentoResponse,sexosResponse,provinciaResponse,ciudadesResponse,barriosResponse,estadosResponse,
                   trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse,pacienteResponse,
-                  Upload, $q, imagenResponse
+                  Upload, $q
             ) {
             var vm = this;
             vm.paciente= pacienteResponse.data;
             vm.submitted = false;
-            vm.file = imagenResponse.data;
+//            vm.file = imagenResponse.data;
 
             var today = new Date();
 

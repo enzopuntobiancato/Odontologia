@@ -19,7 +19,6 @@
             ng-hide="!session.user || session.user.missingRole || session.user.firstLogin"
             md-is-locked-open="$mdMedia('gt-md') && menuOpen">
     <md-toolbar style="min-height:210px" class="md-tall md-hue-2">
-
         <div layout="column" layout-align="start center">
             <img ng-src="resources/img/naveen-2.png"
                  alt="avatar" class="user-image-sm">
@@ -40,7 +39,6 @@
             </div>
         </md-list>
     </md-content>
-
 </md-sidenav>
 <div ng-cloak layout="column" class="relative" layout-fill role="main">
     <md-toolbar md-theme="altTheme">
@@ -84,6 +82,12 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
+            <md-button type="button" ng-click="showAyudaContextual()" ng-if="mostrarAyuda">
+                <md-tooltip>
+                    Ayuda
+                </md-tooltip>
+                <ng-md-icon icon="help_outline" size="40" ng-attr-style="fill: white"></ng-md-icon>
+            </md-button>
             <md-button ng-if="!session.user" ui-sref="landingPage">Iniciar sesión</md-button>
         </div>
     </md-toolbar>

@@ -748,6 +748,35 @@ directives.filter('cut', function () {
     };
 });
 
+directives.filter('nombrarArchivo', function () {
+    return function (nombrePaquete, tipoABM) {
+        var nombreArchivo = nombrePaquete.replace(/[\s]/g, '');
+        nombreArchivo = nombreArchivo.toLowerCase();
+
+        var tittles = "ãàáäâèéëêìíïîòóöôùúüûç";
+        var original ="aaaaaeeeeiiiioooouuuuc";
+
+        for (var i = 0; i < tittles.length; i++) {
+            nombreArchivo = nombreArchivo.replace(tittles.charAt(i), original.charAt(i)).toLowerCase();
+        };
+
+        switch (tipoABM){
+            case 0:
+                nombreArchivo = nombreArchivo.concat("Registrar");
+                break;
+            case 1:
+                nombreArchivo = nombreArchivo.concat("Baja");
+                break;
+            case 2:
+                nombreArchivo = nombreArchivo.concat("Consulta");
+                break;
+            default :
+                nombreArchivo;
+        }
+        return nombreArchivo;
+    };
+});
+
 //DIRECTIVES AUXILIARES
 directives.filter('noDefinido', function () {
     return function (input) {

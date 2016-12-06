@@ -179,43 +179,44 @@ public class InitializationService {
     public void cargarTrabajoPracticos() throws SAPOException {
         log.info("CargarTrabajoPracticos INICIO");
         TrabajoPractico tp1 = new TrabajoPractico();
-        tp1.setNombre("TP 1 - Diagnostico");
-        tp1.setDescripcion("diagnosticar bla bla bla");
+        tp1.setNombre("Extracción simple de dientes uniradiculares");
+        tp1.setDescripcion("El alumno deberá identificar y diagnosticar un mínimo de 5 casos que requieran una extracción simple para dientes uniradiculares." +
+                "Posteriormte, se realizará la extracción.");
         tp1.setPracticaOdontologica(practicaOdontologicasList.get(0));
 
         trabajoPracticoList.add(trabajoPracticoService.create(tp1));
 
         TrabajoPractico tp2 = new TrabajoPractico();
-        tp2.setNombre("Lorem ipsum dolor");
-        tp2.setDescripcion("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum risus massa, pharetra maximus felis elementum eget. Aliquam erat volutpat. Praesent mollis ullamcorper mollis. Cras porta varius tincidunt. Duis accumsan rutrum tellus, non pulvinar velit. Nam vel justo et justo porta pellentesque at eget diam.");
+        tp2.setNombre("Endodoncia de uniradiculares");
+        tp2.setDescripcion("El alumno deberá realizar entre 6 y 8 tratamientos de conducto sobre dientes uniradiculares y por lo menos uno sobre un molar multiradicular.");
         tp2.setPracticaOdontologica(practicaOdontologicasList.get(0));
 
         trabajoPracticoList.add(trabajoPracticoService.create(tp2));
 
         TrabajoPractico tp3 = new TrabajoPractico();
-        tp3.setNombre("Morbi at ante diam");
-        tp3.setDescripcion("Morbi at ante diam. Integer auctor vulputate nulla id sollicitudin. Nam ac pellentesque quam, sed finibus ipsum. Suspendisse sodales sodales consectetur. Nunc quis risus metus. Morbi in turpis diam. Aenean quis libero lacinia, ornare erat et, mattis purus. Sed scelerisque eleifend elit, sit amet venenatis elit lobortis quis.");
+        tp3.setNombre("Lesiones en tejidos blandos y duros");
+        tp3.setDescripcion("Se deben identificar un mínimo de 3 casos de pacientes con lesiones tales como hongos o herpes en los tejidos blandos o duros.");
         tp3.setPracticaOdontologica(practicaOdontologicasList.get(0));
 
         trabajoPracticoList.add(trabajoPracticoService.create(tp3));
 
         TrabajoPractico tp4 = new TrabajoPractico();
-        tp4.setNombre("Maecenas interdum justo");
-        tp4.setDescripcion("Maecenas interdum justo arcu, ut volutpat lacus vestibulum vel. Cras eu mi et lorem auctor aliquet. Mauris mollis ultricies eros ut pretium. In magna ante, efficitur sed dui eu, fringilla condimentum mi. Donec pulvinar convallis ligula, in consectetur nisi varius ut. ");
+        tp4.setNombre("Extracción simple");
+        tp4.setDescripcion("El alumno debe extraer las muelas de 10 pacientes de forma simple. Una debe ser mediante odontosección.");
         tp4.setPracticaOdontologica(practicaOdontologicasList.get(1));
 
         trabajoPracticoList.add(trabajoPracticoService.create(tp4));
 
         TrabajoPractico tp5 = new TrabajoPractico();
-        tp5.setNombre("Vivamus lacus lorem");
-        tp5.setDescripcion("Vivamus lacus lorem, euismod vitae lobortis vitae, varius a mi. Ut rhoncus tellus id vehicula facilisis. Maecenas nunc metus, sagittis ut urna quis, faucibus feugiat nisi. In hac habitasse platea dictumst. ");
+        tp5.setNombre("Prótesis completa superior");
+        tp5.setDescripcion("Se deben realizar 10 prótesis completas de la sección superior. Requierido para promocionar.");
         tp5.setPracticaOdontologica(practicaOdontologicasList.get(1));
 
         trabajoPracticoList.add(trabajoPracticoService.create(tp5));
 
         TrabajoPractico tp6 = new TrabajoPractico();
-        tp6.setNombre("Duis sapien sapien");
-        tp6.setDescripcion("Duis sapien sapien, tincidunt ut viverra at, tempor nec nisl. Nullam vel massa nec urna consectetur ultricies ut non nunc. Morbi vitae aliquet turpis");
+        tp6.setNombre("Práctico periodoncia");
+        tp6.setDescripcion("Utilizar los métodos vistos en clase para identificar y tratar 5 casos de periodoncia severa.");
         tp6.setPracticaOdontologica(practicaOdontologicasList.get(3));
 
         trabajoPracticoList.add(trabajoPracticoService.create(tp6));
@@ -438,6 +439,8 @@ public class InitializationService {
             diagnostico.setMovimientos(movs);
             diagnostico.setUltimoMovimiento(movD);
             diagnostico.setPracticaOdontologica(practicaOdontologicas.get(numero));
+            diagnostico.setObservaciones("Se observan en la paciente distintas lesiones en el tejido blando, probablemente debidas a escaso higiene bucal. " +
+                    "Asimismo, se evidencia la necesida de una extracción del molar 23, así como un tratamientod de conducto del 36.");
             diagnosticos.add(diagnosticoService.save(diagnostico));
         }
 
@@ -469,14 +472,10 @@ public class InitializationService {
                 }
             }
             List<Diagnostico> diagnosticoList = diagnosticoService.findByFilters(null, null, null, new Long(i), 1L);
-//            List<Diagnostico> diagnosticoList2 = diagnosticoList.subList(2 * i, (2 * i + 2));
             hc.setDiagnostico(diagnosticoList);
             historiaClinicas.add(historiaClinicaService.save(hc));
         }
         log.info("CARGA HISTORIAS CLINICAS FIN");
-
-        List<HistoriaClinica> listHc = historiaClinicaService.findAll();
-        log.info("Historias clinicas traidas de BD");
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -487,6 +486,26 @@ public class InitializationService {
                 .build();
         for (int i = 0; i < 10; i++) {
             Paciente p = enhancedRandom.nextObject(Paciente.class);
+            p.getDocumento().setTipoDocumento(TipoDocumento.DNI);
+            if( i < 2){
+                p.setNombre("Javier");
+                p.setApellido("Páez");
+            }else if(i > 1 && i < 4){
+                p.setNombre("Guido");
+                p.setApellido("Villar");
+
+            }else if (i > 3 && i < 6){
+                p.setNombre("Jonathan");
+                p.setApellido("Blanco");
+
+            }else if(i > 5 && i < 8){
+                p.setNombre("Pablo");
+                p.setApellido("Luguercio");
+
+            }else if(i > 8 && i < 11){
+                p.setNombre("Silvio");
+                p.setApellido("Carrario");
+            }
             p.setHistoriaClinica(historiaClinicas.get(i));
             pacientes.add(pacienteService.save(p));
         }
@@ -604,14 +623,12 @@ public class InitializationService {
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void cargarAlumnos() throws SAPOException {
         log.info("CARGA ALUMNOS INICIO");
-        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
-                .scanClasspathForConcreteTypes(true)
-                .build();
-        List<Usuario> users = new ArrayList<Usuario>();
+        String[] nombres = {"Fabían", "Leandro", "Alan", "Mariano", "Hernán", "Maximiliano", "Maximiliano", "Jorge", "Cristian", "Héctor"};
+        String[] apellidos = {"Cubero", "Somoza", "Aguerre", "Pavone", "Barcos", "Caire", "Romero", "Correa", "Nasuti", "Canteros"};
         for(int i = 0; i < 10 ; i++){
             String nombre = StringRandomizer.aNewStringRandomizer().getRandomValue();
             Alumno alumno = new Alumno();
-            createUsuarioYPersona(nombre, nombre, nombre + "apellido", rolList.get(2), alumno, true);
+            createUsuarioYPersona(nombres[i] + "_" + apellidos[i], nombres[i],apellidos[i] , rolList.get(2), alumno, true);
         }
 
         log.info("CARGA ALUMNOS FIN");
@@ -655,8 +672,6 @@ public class InitializationService {
                 numDiag++;
             }
         }
-        List<HistoriaClinica> listHc = historiaClinicaService.findAll();
-        List<Paciente> pacientes = pacienteService.findAll();
         log.info("FIN CARGA DE ASIGNACIONES");
     }
 
@@ -664,6 +679,7 @@ public class InitializationService {
     public void cargarMovimientos() throws SAPOException {
         log.info("Inicia carga de movimientos");
         Usuario usuarioCreador = usuarioService.findAll().get(0);
+
         for (int i = 0; i < 60; i++) {
             MovimientoDiagnostico movD = new MovimientoDiagnostico();
             movD.setEstado(EstadoDiagnostico.PENDIENTE);
@@ -671,7 +687,6 @@ public class InitializationService {
             movimientoDiagnosticoService.save(movD);
         }
 
-        List<HistoriaClinica> listHc = historiaClinicaService.findAll();
         log.info("Fin carga de movimientos");
     }
 }

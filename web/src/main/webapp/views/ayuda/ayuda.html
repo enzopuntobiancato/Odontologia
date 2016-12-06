@@ -1,0 +1,144 @@
+<style>
+    img {
+        margin: auto;
+        max-width: 100%;
+    }
+</style>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>Ayuda: {{ casoUso }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()">
+            <ng-md-icon icon="close" style="fill: white"></ng-md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content>
+    <div class="md-dialog-content">
+        <h2>{{ casoUso }}</h2>
+
+        <div ng-if="esConsultarTrabajoPractico">
+            <p>
+                En esta sección podemos visualizar los datos de las cátedras y los trabajos prácticos que se efectúan en
+                la misma.
+                En el panel izquierdo se visualizan las cátedras registradas, mientras que a la derecha se puede ver
+                información general (horarios, descripción) y los trabajos prácticos de la misma.
+            </p>
+        </div>
+        <div ng-if="esAsignarProfesorCatedra">
+            <p>
+                Esta funcionalidad tiene como objetivo asignar a cada profesor las cátedras que éste dicta.
+                Una vez asignado el profesor adquiere permisos para autorizar las atenciones que se realizan en sus
+                cátedras.
+            </p>
+
+            <p>Para asignar un profesor a una o varias cátedras, ingrese el nombre o legajo del profesor en el campo
+                correspondiente. El sistema desplegará una lista de los profesores registrados en el sistema.
+                Selecciones uno
+                de ellos</p>
+
+            <p>Automáticamente, el sistema mostrará las cátedras cargadas en el sistema. Elija aquéllas que correspondan
+                al
+                profesor en cuestión.</p>
+        </div>
+        <div ng-if="esRespaldoDatos">
+            <p>
+                En la sección {{ casoUso }}, podrá consultar los backups de la base de datos del sistema, permitiendo el
+                .
+                filtrado de resultados mediando el campo “fecha de creación”.
+            </p>
+        </div>
+        <div ng-if="esAdministrarPermisos">
+            <p>
+                El objetivo de esta pantalla es asignar permisos a cada rol sobre las funcionalidades del sistema.
+                En el panel de la izquiera se muestran todos los roles cargados en el sistema, mientras que a la
+                derecha, se
+                despliega una lista de los permisos.
+            </p>
+
+            <p>
+                Para asignar un nuevo permiso a un rol, se debe elegir en el panel izquierdo, el rol a modificar.
+                En la derecha se mostrarán las funcionalidades que puden ser asignadas al rol. Agregue o quite
+                permisos haciend click sobre las casills de verificación correspondientes.
+            </p>
+        </div>
+        <div ng-if="esAutorizarAsignaciones">
+            <p>El profesor podrá autorizar las asignaciones que se encuentrren confirmadas desde esta pantalla.
+                Para esto, debe seleccionar una cátedra y el trabajo práctico correspondiente a la práctica del día. Es
+                obligatorio
+                también que se especifique la fecha de la práctica.</p>
+
+            <p>El sistema listará entonces todas las asignaciones confirmadas para los filtros definidos arriba. Cabe
+                aclarar que
+                solo se podrán autorizar asignaciones el día de la práctica o los días posteriores.</p>
+
+            <p>El profesor elige de la lista de resultados aquellas asignaciones que se encuentran en condiciones de ser
+                resueltas
+                y selecciona la casilla de verificación, quedando así autorizadas.</p>
+
+            <p>Además, puede descargar el listado completo de las asignaciones, seleccionando la opción "Descargar", en
+                la parte
+                inferior de la pantalla.</p>
+        </div>
+        <img style="margin: auto; max-width: 100%;" src="{{ imagenConsulta }}"
+             ng-if="!esEstadistica && !esConsultarTrabajoPractico">
+
+        <div ng-if="esRespaldoDatos">
+            <p>Para generar un nuevo backup de los datos del seleccionamos la opción “Crear respaldo de datos”, ubicada
+                en la esquina inferios derecha en forma de botón circular. El sistema desplegará entonces el diálogo que
+                aparece
+                a continuación, solicitando la confirmación del respaldo de datos. Al seleccionar "Aceptar", el sistema
+                creará
+                automáticamente un nuevo respaldo para la base de datos.</p>
+            <img src="resources/img/ayuda/confirmarrespaldodatossistema.png">
+
+            <h3>Descargar respaldo de datos</h3>
+
+            <p>Para descargar el archivo generado para crear el respaldo de datos, se debe seleccionar la opción
+                "Descargar respaldo de datos"
+                del backup correspondiente, desde la pantalla "{{ casoUso }}".</p>
+        </div>
+        <div ng-if="esEstadistica">
+            <p>El módulo de estadísticas ha sido confeccionado con la herramienta QlikSense con el objetivo de brindar a
+                los usuarios interfaces sencillas, intuitivas y flexibles para los usuarios. A continuación se presentan
+                cuatro tableros que permiten a los usuarios tomar decisiones en base a la información recopilada por
+                S.A.P.O.
+                Para moverse entre los diferentes tableros se debe utilizar el cuadro de lista que se encuentra en la
+                esquina superior derecha de la pantalla.</p>
+
+            <h3>Tablero Principal </h3>
+
+            <p>En este tablero se ofrece un resumen de los ingresos de pacientes y las atenciones realizas en la
+                facultad a través de tiempo.</p>
+            <img src="resources/img/ayuda/tableroPrincipal.png"/>
+
+
+            <h3>Análisis de Barrios </h3>
+
+            <p>El análisis de barrios nos permite obtener de qué ubicación de la ciudad de Córdoba son las personas que
+                se atienden en la facultad.</p>
+            <img src="resources/img/ayuda/analisisBarrios.png"/>
+
+
+            <h3>Análisis de Cátedras</h3>
+
+            <p>En esta sección podemos identificar cuáles son las cátedras en las que se realizan mayor cantidad de
+                atenciones.</p>
+            <img src="resources/img/ayuda/analisisCatedras.png"/>
+
+            <h3>Análisis de Pacientes</h3>
+
+            <p>Éste análisis nos presenta los pacientes que se atienden en la facultad y los tratamientos que se les
+                realizó.</p>
+            <img src="resources/img/ayuda/analisisPacientes.png"/>
+
+
+        </div>
+
+        <p ng-if="!esEstadistica && !esConsultarTrabajoPractico">Confirme la acción seleccionando "Aceptar".</p>
+    </div>
+</md-dialog-content>
+<div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="close()" class="md-primary">Volver</md-button>
+</div>

@@ -1,5 +1,6 @@
 {
     "FECHA_CREACION" : "Fecha de creación",
+    "FECHA_ATENCION" : "Fecha de atención",
     "CONTACTO":"Contacto",
     "ACCIONES" : "Acciones",
     "AUTORIZAR" : "Autorizar",
@@ -41,7 +42,21 @@
     "FECHA_DIAGNOSTICO" : "Fecha del diagnóstico",
     "VER_ASIGNACION" : "Ver asignación",
 
-    "CREAR_PRACTICA_ODONT": "Crear práctica odontológica",
+    "CREAR_CATEDRA": "Registrar cátedra",
+    "VER_CATEDRA": "Ver cátedra",
+    "CONS_CATEDRA": "Consultar cátedra",
+    "MOD_CATEDRA": "Modificar cátedra",
+    "BORRAR_CATEDRA": "Borrar cátedra",
+    "REST_CATEDRA": "Restaurar cátedra",
+
+    "CREAR_PACIENTE": "Registrar paciente",
+    "VER_PACIENTE": "Ver paciente",
+    "CONS_PACIENTE": "Consultar paciente",
+    "MOD_PACIENTE": "Modificar paciente",
+    "BORRAR_PACIENTE": "Borrar paciente",
+    "REST_PACIENTE": "Restaurar paciente",
+
+    "CREAR_PRACTICA_ODONT": "Registrar práctica odontológica",
     "VER_PRACTICA_ODONT": "Ver práctica odontológica",
     "CONS_PRACTICA_ODONT": "Consultar práctica odontológica",
     "MOD_PRACTICA_ODONT": "Modificar práctica odontológica",
@@ -52,7 +67,7 @@
     "DESCRIPCION":"Descripción",
     "OBSERVACIONES" : "Observaciones",
 
-    "CREAR_MATERIA": "Crear materia",
+    "CREAR_MATERIA": "Registrar materia",
     "VER_MATERIA": "Ver materia",
     "CONS_MATERIA": "Consultar materia",
     "MOD_MATERIA": "Modificar materia",
@@ -61,7 +76,7 @@
     "MATERIA" : "Materia",
     "NIVEL" :"Nivel",
 
-    "CREAR_TP": "Crear trabajo práctico",
+    "CREAR_TP": "Registrar trabajo práctico",
     "VER_TP": "Ver trabajo práctico",
     "CONS_TP": "Consultar trabajo práctico",
     "MOD_TP": "Modificar trabajo práctico",
@@ -95,7 +110,7 @@
     "NUEVO" : "Nuevo",
 
 
-    "CREAR_USUARIO": "Crear usuario",
+    "CREAR_USUARIO": "Registrar usuario",
     "VER_USUARIO": "Ver usuario",
     "CONS_USUARIO": "Consultar usuario",
     "MOD_USUARIO": "Modificar usuario",
@@ -110,7 +125,7 @@
     "MATRICULA": "Matrícula profesional",
     "PROFESION": "Profesión",
 
-    "CREAR_HC": "Crear historia clínica",
+    "CREAR_HC": "Registrar historia clínica",
     "VER_HC": "Ver historia clínica",
     "CONS_HC": "Consultar historia clínica",
     "MOD_HC": "Modificar historia clínica",
@@ -147,7 +162,7 @@
     "HALLAZGO_CLINICO" : "Hallazgo clínico",
     "HORA_ASIGNACION" : "Hora de la asignacion",
     "FECHA_ASIGNACION" : "Fecha de la asignacion",
-    "CREAR_": "Crear asignacion",
+    "CREAR_": "Registrar asignacion",
     "VER_ASIGN": "Ver asignacion",
     "CONS_ASIGN": "Consultar asignaciones",
     "MOD_ASIGN": "Modificar asignacion",
