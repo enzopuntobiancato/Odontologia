@@ -57,6 +57,8 @@ public class AsignacionAPI extends BaseAPI {
     private DiagnosticoService diagnosticoService;
     @Inject
     private UsuarioMapper usuarioMapper;
+    @Inject
+    private AtencionService atencionService;
 
     @Path("/findAlumnoByFilters")
     @Produces(MediaType.APPLICATION_JSON)
@@ -313,6 +315,23 @@ public class AsignacionAPI extends BaseAPI {
         if (asignacionesIds != null && !asignacionesIds.isEmpty()) {
             try {
                 Pair<String, byte[]> pdf = asignacionPacienteService.printAsignacionesPorAutorizar(asignacionesIds);
+                response = Response.ok(pdf.getRight());
+                response.header("Content-Disposition", String.format("attachment; filename=\"%s\"", pdf.getLeft()));
+            } catch (IOException e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+        return response.build();
+    }
+
+    @GET
+    @Path("/printAtencionRealizada")
+    @Produces({"application/pdf"})
+    public Response printAtencionRealizada(@QueryParam("id") Long id) {
+        Response.ResponseBuilder response = Response.noContent();
+        if (id != null) {
+            try {
+                Pair<String, byte[]> pdf = atencionService.printAtencionRealizada(id);
                 response = Response.ok(pdf.getRight());
                 response.header("Content-Disposition", String.format("attachment; filename=\"%s\"", pdf.getLeft()));
             } catch (IOException e) {

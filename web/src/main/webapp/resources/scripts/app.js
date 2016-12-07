@@ -1161,17 +1161,53 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     nombreCasoUso: 'Ver asignación'
                 },
                 controllerAs: 'vm',
-                resolve: {asignacionResponse: ['$stateParams', 'AsignacionSrv', function ($stateParams, service) {
-                    return service.findById($stateParams.id);
-                }]},
-                controller: function ($scope, $state, asignacionResponse) {
+                resolve: {
+                    asignacionResponse: ['$stateParams', 'AsignacionSrv', function ($stateParams, service) {
+                        return service.findById($stateParams.id);
+                    }],
+                    atencionResponse: ['$stateParams', 'AsignacionSrv', 'asignacionResponse', function ($stateParams, service, asignacionResponse) {
+                       var asignacion = asignacionResponse.data;
+                       if(asignacion == null || !angular.isDefined(asignacion)){
+                           return {data: null};
+                       }
+                       return service.findAtencionByAsignacion(asignacion.id);
+                    }]},
+                controller: function ($scope, $state, asignacionResponse, atencionResponse, $location, $window) {
                     var vm = this;
                     vm.asignacion = asignacionResponse.data;
+                    vm.atencion = atencionResponse.data;
+
+
                     $scope.$parent.$parent.nombreCasoUso = "Ver asignación"
                     vm.goIndex = goIndex;
+                    vm.verHistoriaClinica = verHistoriaClinica;
+                    vm.printAtencion = printAtencion;
+
+                    vm.colorMouseOver = colorMouseOver;
+                    vm.colorMouseLeave = colorMouseLeave;
+                    vm.colorIcon = '#00B0FF';
+
                     vm.imgIdx = Math.floor(Math.random() * (47 - 1 + 1)) + 1;
                     function goIndex() {
                         $state.go('^.index');
+                    }
+
+                    function verHistoriaClinica(){
+                        $state.go('historiaClinica', {id : vm.asignacion.idPaciente});
+                    }
+
+                    function colorMouseOver() {
+                        vm.colorIcon = '#E91E63';
+                    }
+
+                    function colorMouseLeave() {
+                        vm.colorIcon = '#00B0FF';
+                    }
+
+                    function printAtencion() {
+                        var id = vm.atencion.id;
+                        var base = $location.protocol() + '://' + $location.host() + ':' + $location.port() + "/Odontologia-web/api/asignacion/printAtencionRealizada";
+                        $window.open(base + '?id=' + id);
                     }
                 }
             })

@@ -139,5 +139,13 @@ module.
             })
         }
 
+        service.findAtencionByAsignacion = function(asignacionId) {
+            return $http({
+                method: 'GET',
+                url: 'api/atencion/findAtencionByAsignacion',
+                params: {asignacionId: asignacionId}
+            })
+        }
+
         return service;
     }]);
