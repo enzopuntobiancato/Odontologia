@@ -298,7 +298,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/materia/materiaQuery.html',
                 controller: 'MateriaCtrl_Index',
                 data: {
-                    nombreCasoUso: 'Consultar materias'
+                    nombreCasoUso: 'Consultar materia'
                 },
                 params: {execQuery: false, execQuerySamePage: false},
                 resolve: {
@@ -312,7 +312,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/materia/materiaCreate.html',
                 controller: 'MateriaCtrl_Create',
                 data: {
-                    nombreCasoUso: 'Crear materia'
+                    nombreCasoUso: 'Registrar materia'
                 },
                 resolve: {
                     nivelesResponse: ['CommonsSrv', function (commons) {
@@ -373,7 +373,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'PracticaOdontologicaCtrl_Index',
                 data: {
-                    nombreCasoUso: 'Consultar prácticas odontológicas'
+                    nombreCasoUso: 'Consultar práctica odontológica'
                 },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
@@ -386,7 +386,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/practicaOdontologica/practicaOdontologicaCreate.html',
                 controller: 'PracticaOdontologicaCtrl_Create',
                 data: {
-                    nombreCasoUso: 'Crear práctica odontológica'
+                    nombreCasoUso: 'Registrar práctica odontológica'
                 },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
@@ -462,7 +462,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/trabajoPractico/trabajoPracticoCreate.html',
                 controller: 'TrabajoPracticoCtrl_Create',
                 data: {
-                    nombreCasoUso: 'Crear trabajo práctico'
+                    nombreCasoUso: 'Registrar trabajo práctico'
                 },
                 resolve: {
                     gruposPracticaResponse: ['CommonsSrv', function (commons) {
@@ -556,7 +556,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/catedra/catedraCreate.html',
                 controller: 'CatedraCtrl_Create',
                 data: {
-                    nombreCasoUso: 'Crear cátedra'
+                    nombreCasoUso: 'Registrar cátedra'
                 },
                 resolve: {
                     materiasResponse: ['loadMyModule', 'CatedraSrv', function (loadMyModule, service) {
@@ -633,7 +633,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'UsuarioCtrl_Index',
                 data: {
-                    nombreCasoUso: 'Consultar usuarios'
+                    nombreCasoUso: 'Consultar usuario'
                 },
                 resolve: {
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
@@ -646,7 +646,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/usuario/usuarioCreate.html',
                 controller: 'UsuarioCtrl_Create',
                 data: {
-                    nombreCasoUso: 'Crear usuario'
+                    nombreCasoUso: 'Registrar usuario'
                 },
                 resolve: {
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
@@ -668,7 +668,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/usuario/usuarioCreate.html',
                 controller: 'UsuarioCtrl_Create',
                 data: {
-                    nombreCasoUso: 'Crear alumno'
+                    nombreCasoUso: 'Registrar alumno'
                 },
                 resolve: {
                     rolesResponse: ['loadMyModule', 'UsuarioSrv', function (loadMyModule, service) {
@@ -758,7 +758,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/',
                 templateUrl: 'views/paciente/pacienteQuery.html',
                 data: {
-                    nombreCasoUso: 'Consultar pacientes'
+                    nombreCasoUso: 'Consultar paciente'
                 },
                 params: {execQuery: false, execQuerySamePage: false},
                 controller: 'PacienteCtrl_Index',
@@ -776,7 +776,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/create',
                 templateUrl: 'views/paciente/pacienteCreate.html',
                 data: {
-                    nombreCasoUso: 'Crear paciente'
+                    nombreCasoUso: 'Registrar paciente'
                 },
                 controller: 'PacienteCtrl_EditCreate',
                 controllerAs: 'vm',
@@ -1028,7 +1028,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controllerAs: 'vm',
                 data: {
                     fullPage: true,
-                    nombreCasoUso: 'Editar historia clínica'
+                    nombreCasoUso: 'Modificar historia clínica'
                 },
                 resolve: {
                     nivelesResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
@@ -1079,7 +1079,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controllerAs: 'vm',
                 data: {
                     fullPage: true,
-                    nombreCasoUso: 'Editar historia clínica'
+                    nombreCasoUso: 'Modificar historia clínica'
                 },
                 resolve: {
                     pacienteId: ['loadMyModule', '$stateParams', function (loadMyModule, $stateParams) {
@@ -1109,7 +1109,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'DocumentacionesEdit_Ctrl',
                 data: {
                     fullPage: true,
-                    nombreCasoUso: 'Editar historia clínica'
+                    nombreCasoUso: 'Modificar historia clínica'
                 },
                 resolve: {
                     pacienteId: ['loadMyModule', '$stateParams', function (loadMyModule, $stateParams) {
@@ -1273,7 +1273,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controllerAs: 'vm',
                 data: {
                     updating: false,
-                    nombreCasoUso: 'Crear asignación'
+                    nombreCasoUso: 'Registrar asignación de paciente'
                 },
                 resolve: {
                     tiposDocumentoResponse: ['loadMyModule', 'CommonsSrv', function (loadMyModule, commons) {
@@ -1330,7 +1330,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controllerAs: 'vm',
                 controller: 'AtencionCtrl_Create',
                 data: {
-                    nombreCasoUso: 'Crear atención'
+                    nombreCasoUso: 'Registrar atención'
                 },
                 resolve: {
                     asignacionResponse: ['loadMyModule', '$stateParams', 'AtencionSrv', function (loadMyModule, $stateParams, service) {
@@ -1377,7 +1377,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 url: '/administrar',
                 templateUrl: 'views/backup/administrar.html',
                 data: {
-                    nombreCasoUso: 'Respaldo de datos de sistema'
+                    nombreCasoUso: 'Consultar backup de datos'
                 },
                 controllerAs: 'vm',
                 controller: 'BackupCtrl'
@@ -1712,7 +1712,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
 
             if (casoUso == 'Consultar información de trabajos prácticos'
                 || casoUso == 'Asignar cátedra a profesor'
-                || casoUso == 'Respaldo de datos de sistema'
+                || casoUso == 'Consultar backup de datos'
                 || casoUso == 'Administrar permisos de rol'
                 || casoUso == 'Autorizar asignaciones'
                 || casoUso == 'Estadísticas') {
@@ -1731,7 +1731,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
                 return;
             }
 
-            if(paquete == 'Historia clínica' || casoUso == 'Consultar pacientes'){
+            if(paquete == 'Historia clínica' || casoUso == 'Consultar paciente'){
                 showAyudaPaciente(casoUso, paquete);
                 return;
             }
@@ -1756,7 +1756,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
 
                     $scope.esConsultarTrabajoPractico = casoUso === 'Consultar información de trabajos prácticos' ? true : false;
                     $scope.esAsignarProfesorCatedra = casoUso === 'Asignar cátedra a profesor' ? true : false;
-                    $scope.esRespaldoDatos = casoUso === 'Respaldo de datos de sistema' ? true : false;
+                    $scope.esRespaldoDatos = casoUso === 'Consultar backup de datos' ? true : false;
                     $scope.esAdministrarPermisos = casoUso === 'Administrar permisos de rol' ? true : false;
                     $scope.esAutorizarAsignaciones = casoUso === 'Autorizar asignaciones' ? true : false;
                     $scope.esEstadistica = casoUso === 'Estadísticas' ? true : false;
