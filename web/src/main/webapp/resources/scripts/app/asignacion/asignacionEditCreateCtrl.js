@@ -17,6 +17,7 @@ module.controller('AsignacionCtrl_EditCreate',
             vm.updating = $state.current.data.updating;
             vm.asignacion = asignacionResponse != null ? asignacionResponse.data : { };
             //Data auxiliar.
+            vm.today = new Date();
             vm.data = {
                 sexos: sexosResponse.data,
                 tiposDocumentos: tiposDocumentoResponse.data,

@@ -28,8 +28,6 @@ public class CommonsService {
     @Inject
     private TrabajoService trabajoService;
     @Inject
-    private GrupoPracticaOdontologicaMapper grupoPracticaMapper;
-    @Inject
     private RollMapper rollMapper;
     @Inject
     private TrabajoMapper trabajoMapper;
@@ -55,11 +53,11 @@ public class CommonsService {
     }
 
     public List<GrupoPracticaOdontologicaDTO> findAllGruposPracticaOdontologica() {
-        return grupoPracticaMapper.toDTOList(grupoPracticaOdontologicaService.findAll());
+        return grupoPracticaOdontologicaService.findAllGruposOrderByNombre();
     }
 
     public List<RolDTO> findAllRoles() {
-        return rollMapper.toDTOList(rolService.findAll());
+        return rolService.findAllRolesOrderByNombre();
     }
 
     public Rol findRolById(long id){
@@ -87,11 +85,11 @@ public class CommonsService {
     }
 
     public List<ObraSocialDTO> findAllObrasSociales(){
-        return obraSocialMapper.toDTOList(obraSocialService.findAll());
+        return obraSocialMapper.toDTOList(obraSocialService.findAllOrderByNombre());
     }
 
     public List<TrabajoDTO> findAllTrabajos(){
-        return trabajoMapper.toDTOList(trabajoService.findAll());
+        return trabajoMapper.toDTOList(trabajoService.findAllOrderByNombre());
     }
 
     public List<EnumDTO> findAllNacionalidades() {

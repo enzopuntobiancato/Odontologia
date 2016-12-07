@@ -6,13 +6,6 @@ import com.utn.tesis.model.QProvincia;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 19/02/16
- * Time: 13:31
- * To change this template use File | Settings | File Templates.
- */
 public class ProvinciaDao extends DaoBase<Provincia> {
 
     QProvincia provincia = QProvincia.provincia;
@@ -24,6 +17,12 @@ public class ProvinciaDao extends DaoBase<Provincia> {
             query.where(provincia.nombre.containsIgnoreCase(nombre));
 
         query = paginar(query, page, pageSize);
+        return query.list(provincia);
+    }
+
+    public List<Provincia> findAllOrderByNombre() {
+        JPAQuery query = new JPAQuery(em).from(provincia)
+                .orderBy(provincia.nombre.asc());
         return query.list(provincia);
     }
 }

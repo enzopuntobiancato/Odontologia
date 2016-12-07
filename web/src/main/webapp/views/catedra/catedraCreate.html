@@ -128,9 +128,8 @@
                                                                 date:'HH:mm'}}</em>
                                                         </md-chip-template>
                                                     </md-chips>
-                                                    <div ng-messages="horariosForm.horarios.$error"
-                                                         ng-show="horariosForm.horarios.$touched || mainForm.$submitted">
-                                                        <div ng-messages-include="error-messages"></div>
+                                                    <div class="validation-messages" ng-if="errorHorario.required">
+                                                        Es obligatorio
                                                     </div>
                                                 </md-input-container>
 

@@ -72,7 +72,33 @@ module.controller('PacienteCtrl_EditCreate',
                             });
                     },args.form);
                 } else {
+                    message.errorMessage('Hay errores en los datos cargados. Por favor, revise los mismos.')
                     vm.submitted = true;
+                    var mainForm = $scope.hcForm;
+                    datosPersonalesForms(mainForm);
+//                    setFormErrorsTouched(mainForm.G1);
+//                    setFormErrorsTouched(mainForm.G2);
+//                    setFormErrorsTouched(mainForm.G3);
+//                    setFormErrorsTouched(mainForm.G4);
+//                    setFormErrorsTouched(mainForm.G5);
+//                    setFormErrorsTouched(mainForm.G6);
+//                    setFormErrorsTouched(mainForm.G10);
+//                    setFormErrorsTouched(mainForm.G11);
+//                    setFormErrorsTouched(mainForm.G12);
+//                    setFormErrorsTouched(mainForm.G13);
+//                    setFormErrorsTouched(mainForm.G14);
+//                    setFormErrorsTouched(mainForm.G15);
+//                    setFormErrorsTouched(mainForm.G16);
+//                    setFormErrorsTouched(mainForm.G17);
+//                    setFormErrorsTouched(mainForm.G18);
+//                    setFormErrorsTouched(mainForm.G19);
+//                    setFormErrorsTouched(mainForm.G20);
+//                    setFormErrorsTouched(mainForm.G21);
+//                    setFormErrorsTouched(mainForm.G22);
+//                    setFormErrorsTouched(mainForm.G23);
+//                    setFormErrorsTouched(mainForm.G27);
+//                    setFormErrorsTouched(mainForm.G28);
+//                    setFormErrorsTouched(mainForm.G29);
                 }
             });
 
@@ -110,16 +136,32 @@ module.controller('PacienteCtrl_EditCreate',
                     },form);
                 } else {
                     vm.submitted = true;
+                    datosPersonalesForms($scope.createPacienteForm);
+                }
+            }
+
+            function datosPersonalesForms(mainForm) {
+                var forms = [];
+                if (mainForm) {
+                    forms.push(mainForm.datosPersonalesForm);
+                    forms.push(mainForm.domicilioContactoForm);
+                    forms.push(mainForm.trabajoForm);
+                    forms.push(mainForm.datosMedicosForm);
+                    forms.push(mainForm.otrosDatosForm);
+                    angular.forEach(forms, function(item) {
+                        setFormErrorsTouched(item);
+                    })
                 }
             }
 
             function setFormErrorsTouched(form) {
-                angular.forEach(form.$error, function (field) {
-                    angular.forEach(field, function (errorField) {
-                        console.log(field.name);
-                        errorField.$setTouched();
-                    })
-                });
+                if (form) {
+                    angular.forEach(form.$error, function (field) {
+                        angular.forEach(field, function (errorField) {
+                            errorField.$setTouched();
+                        })
+                    });
+                }
             }
 
             function init() {

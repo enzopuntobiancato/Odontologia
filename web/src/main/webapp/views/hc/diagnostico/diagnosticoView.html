@@ -67,25 +67,29 @@
                             </md-option>
                         </md-select>
                     </md-input-container>
-                    <div layout-gt-sm="column" flex="40">
+                    <div layout="column">
                         <div layout="row">
-                            <!--<md-tooltip>Fecha de creación</md-tooltip>-->
-                            <md-input-container>
+                            <md-input-container style="top: -20px; margin-bottom: -30px">
                                 <label>{{ 'FECHA_DESDE' | translate }}</label>
                                 <md-datepicker flex name="fechaDesde" ng-model="vm.filter.fechaDesde"
+                                               md-max-date="vm.filter.fechaHasta"
                                                class="md-date"></md-datepicker>
                             </md-input-container>
-                            <md-input-container>
+                            <md-input-container style="top: -20px; margin-bottom: -30px">
                                 <label>{{ 'FECHA_HASTA' | translate }}</label>
                                 <md-datepicker flex name="fechaHasta" ng-model="vm.filter.fechaHasta"
                                                md-min-date="vm.filter.fechaDesde"
                                                class="md-date"></md-datepicker>
                             </md-input-container>
-
+                            <md-tooltip>Fecha de creación</md-tooltip>
                         </div>
                         <div class="validation-messages" ng-messages="vm.form.fechaHasta.$error"
                              ng-if="vm.form.fechaHasta.$touched">
                             <div ng-message="mindate">La fecha desde no puede ser mayor a la fecha hasta</div>
+                        </div>
+                        <div class="validation-messages" ng-messages="vm.form.fechaDesde.$error"
+                             ng-if="vm.form.fechaDesde.$touched">
+                            <div ng-message="maxdate">La fecha hasta no puede ser mayor a la fecha desde</div>
                         </div>
                     </div>
                 </div>

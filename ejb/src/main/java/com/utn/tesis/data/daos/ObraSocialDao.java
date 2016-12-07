@@ -6,13 +6,6 @@ import com.utn.tesis.model.QObraSocial;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 20/02/16
- * Time: 15:34
- * To change this template use File | Settings | File Templates.
- */
 public class ObraSocialDao extends DaoBase<ObraSocial> {
 
     QObraSocial obraSocial = QObraSocial.obraSocial;
@@ -27,4 +20,9 @@ public class ObraSocialDao extends DaoBase<ObraSocial> {
         return query.list(obraSocial);
     }
 
+    public List<ObraSocial> findAllOrderByNombre() {
+        JPAQuery query = new JPAQuery(em).from(obraSocial)
+                .orderBy(obraSocial.nombre.asc());
+        return query.list(obraSocial);
+    }
 }

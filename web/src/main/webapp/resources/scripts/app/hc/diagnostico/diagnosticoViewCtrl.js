@@ -33,7 +33,8 @@ module.controller('DiagnosticoCtrl_View', ['$scope', 'DiagnosticoSrv', 'MessageS
         search();
 
         function cleanFilters() {
-            $scope.filter = {};
+            vm.filter = {};
+            vm.aux.practicaSearchText = null;
             search();
         }
 

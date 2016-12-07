@@ -9,21 +9,14 @@ import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 20/02/16
- * Time: 15:45
- * To change this template use File | Settings | File Templates.
- */
 @Stateless
 public class ObraSocialService extends BaseService<ObraSocial> {
 
     @Inject
-    ObraSocialDao dao;
+    private ObraSocialDao dao;
 
     @Inject
-    Validator validator;
+    private Validator validator;
 
     @Override
     DaoBase<ObraSocial> getDao() {
@@ -37,5 +30,9 @@ public class ObraSocialService extends BaseService<ObraSocial> {
 
     public List<ObraSocial> findByFilters(String nombre, Long page, Long pageSize) {
         return dao.findByFilters(nombre, page, pageSize);
+    }
+
+    public List<ObraSocial> findAllOrderByNombre() {
+        return dao.findAllOrderByNombre();
     }
 }

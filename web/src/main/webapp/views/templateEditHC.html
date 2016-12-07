@@ -14,8 +14,13 @@
     <md-input-container layout-margin flex ng-if="vm.campofecha && vm.camposino.siNo == true" ng-form="formDetalle">
         <label>{{ vm.campofecha.nombre }}</label>
         <md-datepicker name="fecha" ng-model="vm.campofecha.fecha"
-                       ng-required="vm.camposino.siNo == true"></md-datepicker>
-        <error-messages form="formDetalle.fecha" submitted="vm.submitted"></error-messages>
+                       ng-required="vm.camposino.siNo == true" md-max-date="vm.today"></md-datepicker>
+        <div class="validation-messages" ng-messages="formDetalle.fecha.$error" ng-if="formDetalle.fecha.$touched ||  submitted  && formDetalle.$invalid">
+            <div ng-messages-include="error-messages"></div>
+            <div ng-message="maxdate">No puede ser mayor a la fecha actual</div>
+        </div>
     </md-input-container>
     <div ng-transclude layout-gt-sm="row" layout-margin flex-gt-sm></div>
 </div>
+
+<!--<error-messages form="formDetalle.fecha" submitted="vm.submitted"></error-messages>-->

@@ -22,13 +22,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Usuario
- * Date: 4/03/16
- * Time: 23:27
- * To change this template use File | Settings | File Templates.
- */
 @Path("/location")
 @RequestScoped
 public class LocationAPI {
@@ -38,31 +31,25 @@ public class LocationAPI {
     private CiudadService ciudadService;
     @Inject
     private BarrioService barrioService;
-    @Inject
-    private ProvinciaMapper provinciaMapper;
-    @Inject
-    private CiudadMapper ciudadMapper;
-    @Inject
-    private BarrioMapper barrioMapper;
 
     @Path("/getProvincias")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ProvinciaDTO> getProvincias() {
-         return provinciaMapper.toDTOList(provinciaService.findAll());
+         return provinciaService.findAllOrderByNombre();
     }
 
     @Path("/getCiudades")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<CiudadDTO> getCiudades(){
-        return ciudadMapper.toDTOList(ciudadService.findAll());
+        return ciudadService.findAllOrderByNombre();
     }
 
     @Path("/getBarrios")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<BarrioDTO> getBarrios(){
-        return barrioMapper.toDTOList(barrioService.findAll());
+        return barrioService.findAllOrderByNombre();
     }
 }

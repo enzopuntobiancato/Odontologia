@@ -2,22 +2,16 @@ package com.utn.tesis.model;
 
 public enum Cargo {
 
+    ACADEMICO {
+        @Override
+        public String toString() {
+            return "Académico";
+        }
+    },
     BEDEL {
         @Override
         public String toString() {
             return "Bedel";
-        }
-    },
-    ACADEMICO {
-        @Override
-        public String toString() {
-            return "Academico";
-        }
-    },
-    VICEDECANO {
-        @Override
-        public String toString() {
-            return "Vicedecano";
         }
     },
     DECANO {
@@ -30,6 +24,12 @@ public enum Cargo {
         @Override
         public String toString() {
             return "Director";
+        }
+    },
+    VICEDECANO {
+        @Override
+        public String toString() {
+            return "Vicedecano";
         }
     },
     OTRO {

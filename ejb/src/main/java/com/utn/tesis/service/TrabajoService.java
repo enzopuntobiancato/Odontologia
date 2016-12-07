@@ -38,4 +38,8 @@ public class TrabajoService extends BaseService<Trabajo> {
     public List<Trabajo> findByFilters(String nombre, Long page, Long pageSize) {
         return dao.findByFilters(nombre, page, pageSize);
     }
+
+    public List<Trabajo> findAllOrderByNombre() {
+        return dao.findAllOrderByNombre();
+    }
 }

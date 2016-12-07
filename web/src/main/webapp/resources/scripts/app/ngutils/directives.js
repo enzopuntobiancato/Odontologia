@@ -140,7 +140,7 @@ var detalle = function () {
 var errorMessages = function () {
     return{
         restrict: 'AE',
-        template: '<div class="validation-messages" ng-messages="form.$error" ng-show="form.$touched ||  submitted  && form.$invalid" multiple> ' +
+        template: '<div class="validation-messages" ng-messages="form.$error" ng-if="form.$touched ||  submitted  && form.$invalid" multiple> ' +
             '<div ng-messages-include="error-messages"></div>' +
             '</div> ',
         scope: {
@@ -151,16 +151,15 @@ var errorMessages = function () {
 };
 
 var controllerEditHC = function ($scope) {
-
     var vm = this;
-    vm.limpiarCampos = limpiarCampos;
-
+    vm.today = new Date();
     function limpiarCampos(id) {
         $scope.limpiarCampos(id);
     }
 
-
+    vm.limpiarCampos = limpiarCampos;
 };
+
 var templateEditHC =
     '<div layout-gt-sm="row" layout-margin flex-gt-sm>' +
         '<md-switch ng-model="vm.camposino.siNo" aria-label="vm.camposino.nombre" ng-true-value="true" ng-false-value="false" class="md-primary" ng-change="vm.change({id : vm.camposino.id})"> {{vm.camposino.nombre }}: {{vm.camposino.siNo | siNo}} </md-switch>' +

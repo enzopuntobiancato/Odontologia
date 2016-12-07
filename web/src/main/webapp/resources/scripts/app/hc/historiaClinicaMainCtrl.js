@@ -4,6 +4,8 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
     function ($scope, $rootScope, $state, $stateParams, pacienteResponse, $cacheFactory, deleteRestoreService, $window, $location) {
         var vm = this;
 
+        var asignacionState = null;
+
         var PREFIX = 'historiaClinica.';
         var DATOS_PERSONALES_TAB = 'datosPersonales';
         var ANTECEDENTES_TAB = 'antecedentes';
@@ -123,6 +125,9 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         }
 
         function goToConsultar() {
+            if (asignacionState) {
+                $state.go(asignacionState.name, asignacionState.params);
+            }
             $state.go('paciente.index', {execQuery: $rootScope.created, execQuerySamePage: $rootScope.edited});
         }
 
@@ -149,9 +154,11 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
             $state.go($state.current, {editing: convertToBoolean($stateParams.editing)}, {reload: true})
         })
 
-
         $scope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
+                if (fromState.name.starsWih('asignacion')) {
+                    asignacionState = fromState;
+                }
                 if (fromState.name.startsWith('historiaClinica') && toState.name === 'historiaClinica') {
                     goToConsultar();
                 }
