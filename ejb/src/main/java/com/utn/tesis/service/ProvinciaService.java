@@ -3,6 +3,8 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.DaoBase;
 import com.utn.tesis.data.daos.ProvinciaDao;
+import com.utn.tesis.mapping.dto.ProvinciaDTO;
+import com.utn.tesis.mapping.mapper.ProvinciaMapper;
 import com.utn.tesis.model.Provincia;
 
 import javax.ejb.Stateless;
@@ -14,10 +16,11 @@ import java.util.List;
 public class ProvinciaService extends BaseService<Provincia> {
 
     @Inject
-    ProvinciaDao dao;
-
+    private ProvinciaDao dao;
     @Inject
-    Validator validator;
+    private Validator validator;
+    @Inject
+    private ProvinciaMapper provinciaMapper;
 
     @Override
     DaoBase<Provincia> getDao() {
@@ -33,4 +36,7 @@ public class ProvinciaService extends BaseService<Provincia> {
         return dao.findByFilters(nombre, page, pageSize);
     }
 
+    public List<ProvinciaDTO> findAllOrderByNombre() {
+        return provinciaMapper.toDTOList(dao.findAllOrderByNombre());
+    }
 }

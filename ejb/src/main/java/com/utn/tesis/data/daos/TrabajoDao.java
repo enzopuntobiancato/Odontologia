@@ -6,13 +6,6 @@ import com.utn.tesis.model.Trabajo;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 20/02/16
- * Time: 15:35
- * To change this template use File | Settings | File Templates.
- */
 public class TrabajoDao extends DaoBase<Trabajo> {
 
     QTrabajo trabajo = QTrabajo.trabajo;
@@ -24,6 +17,12 @@ public class TrabajoDao extends DaoBase<Trabajo> {
             query.where(trabajo.nombre.containsIgnoreCase(nombre));
 
         query = paginar(query, page, pageSize);
+        return query.list(trabajo);
+    }
+
+    public List<Trabajo> findAllOrderByNombre() {
+        JPAQuery query = new JPAQuery(em).from(trabajo)
+                .orderBy(trabajo.nombre.asc());
         return query.list(trabajo);
     }
 }

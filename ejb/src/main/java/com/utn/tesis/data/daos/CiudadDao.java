@@ -7,13 +7,6 @@ import com.utn.tesis.model.QCiudad;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 20/02/16
- * Time: 15:28
- * To change this template use File | Settings | File Templates.
- */
 public class CiudadDao extends DaoBase<Ciudad> {
 
     QCiudad ciudad = QCiudad.ciudad;
@@ -28,6 +21,12 @@ public class CiudadDao extends DaoBase<Ciudad> {
             query.where(ciudad.nombre.containsIgnoreCase(nombre));
 
         query = paginar(query, page, pageSize);
+        return query.list(ciudad);
+    }
+
+    public List<Ciudad> findAllOrderByNombre() {
+        JPAQuery query = new JPAQuery(em).from(ciudad)
+                .orderBy(ciudad.nombre.asc());
         return query.list(ciudad);
     }
 }

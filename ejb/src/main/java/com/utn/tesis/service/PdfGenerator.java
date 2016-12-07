@@ -60,36 +60,36 @@ public class PdfGenerator {
                 document.open();
                 PdfPTable table = table();
                 table.addCell(cell(2,
-                        new Chunk("Fecha Atencion: ", questionFont),
+                        new Chunk("Fecha de atención: ", questionFont),
                         new Chunk(text(FechaUtils.fechaConSeparador(a.getFechaAtencion())), answerFont)));
                 table.addCell(cell(2,
-                        new Chunk("Fecha de Carga: ", questionFont),
+                        new Chunk("Fecha de carga: ", questionFont),
                         new Chunk(text(FechaUtils.fechaConSeparador(a.getFechaDeCarga())), answerFont)));
                 table.addCell(cell(2,
                         new Chunk("Alumno: ", questionFont),
                         new Chunk(text(a.getAsignacionPaciente().getAlumno().getApellido()
                                 + ", " + text(a.getAsignacionPaciente().getAlumno().getNombre())), answerFont)));
                 table.addCell(cell(2,
-                        new Chunk("Profesor Autorizante: ", questionFont),
+                        new Chunk("Profesor autorizante: ", questionFont),
                         new Chunk(text(a.getAsignacionPaciente().getAutorizadoPor().getApellido()
                                 + ", " + text(a.getAsignacionPaciente().getAutorizadoPor().getNombre())), answerFont)));
                 table.addCell(cell(2,
-                        new Chunk("Numero de Diagnostico: ", questionFont),
+                        new Chunk("Número de aiagnóstico: ", questionFont),
                         new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getId()), answerFont)));
                 if (nullOVacio(a.getAsignacionPaciente().getDiagnostico().getPracticaNoExistente())) {
                     table.addCell(cell(2,
-                            new Chunk("Practica Odontologica: ", questionFont),
+                            new Chunk("Práctica odontológica: ", questionFont),
                             new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getPracticaOdontologica().getDenominacion()), answerFont)));
                 } else {
                     table.addCell(cell(2,
-                            new Chunk("Practica Odontologica: ", questionFont),
+                            new Chunk("Práctica odontológica: ", questionFont),
                             new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getPracticaNoExistente()), answerFont)));
                 }
                 table.addCell(cell(4,
-                        new Chunk("Descripción de Procedimiento: ", questionFont),
+                        new Chunk("Descripción de procedimiento: ", questionFont),
                         new Chunk(text(a.getDescripcionProcedimiento()), answerFont)));
                 table.addCell(cell(4,
-                        new Chunk("Diagnostico Solucionado: ", questionFont),
+                        new Chunk("Diagnóstico solucionado: ", questionFont),
                         new Chunk(a.isDiagnosticoSolucionado() ? "Si" : "No", answerFont)));
                 document.add(table);
             } catch (Exception e) {

@@ -1,17 +1,22 @@
 package com.utn.tesis.model;
 
 public enum TipoDocumento {
-
+    CI {
+        @Override
+        public String toString() {
+            return "Cédula de identidad";
+        }
+    },
     DNI {
         @Override
         public String toString() {
             return "DNI";
         }
     },
-    PASAPORTE {
+    LC {
         @Override
         public String toString() {
-            return "Pasaporte";
+            return "Libreta Cívica";
         }
     },
     LE {
@@ -20,16 +25,10 @@ public enum TipoDocumento {
             return "Libreta de enrolamiento";
         }
     },
-    CI {
+    PASAPORTE {
         @Override
         public String toString() {
-            return "Cédula de identidad";
-        }
-    },
-    LC {
-        @Override
-        public String toString() {
-            return "Libreta Cívica";
+            return "Pasaporte";
         }
     };
 }

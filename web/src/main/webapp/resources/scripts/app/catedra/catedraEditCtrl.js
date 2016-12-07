@@ -188,6 +188,7 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
                 horaDesde: newHour(8, 0),
                 horaHasta: newHour(18, 0)
             };
+            $scope.deleteHorario();
         }
 
         function errorEnHorario(message) {
@@ -199,7 +200,11 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
         }
 
         $scope.deleteHorario = function () {
-            $scope.horariosForm.horarios.$setTouched();
+            if ($scope.catedra.horarios && $scope.catedra.horarios.length) {
+                $scope.errorHorario.required = false;
+            } else {
+                $scope.errorHorario.required = true;
+            }
         }
 
         $scope.save = function (form) {
@@ -215,8 +220,24 @@ module.controller('CatedraCtrl_Edit', ['$scope', '$rootScope', '$state', 'Common
                     .error(function (data, status) {
                         handleError(data, status);
                     })
+            } else {
+                var mainForm = $scope.mainForm;
+                setFormErrorsTouched(mainForm.generalForm);
+                setFormErrorsTouched(mainForm.horariosForm);
+                setFormErrorsTouched(mainForm.tpForm);
+                $scope.deleteHorario();
             }
         };
+
+        function setFormErrorsTouched(form) {
+            if (form) {
+                angular.forEach(form.$error, function (field) {
+                    angular.forEach(field, function (errorField) {
+                        errorField.$setTouched();
+                    })
+                });
+            }
+        }
 
         function getTimeFromDate(date) {
             var time = date.getHours() + ':';

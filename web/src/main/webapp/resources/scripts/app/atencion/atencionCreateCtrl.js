@@ -39,7 +39,7 @@ module.controller('AtencionCtrl_Create', ['$scope', '$rootScope', 'AtencionSrv',
             performSubmit(function () {
                 doSave().then(function (response) {
                         message.successMessage("Atención registrada con éxito")
-                        goIndex();
+                        $state.go('asignacion.view', {id: vm.atencion.asignacionPaciente.id})
                     }, function (response) {
                         handleError(response.data, response.status)
                     });

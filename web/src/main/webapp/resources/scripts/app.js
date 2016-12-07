@@ -1638,6 +1638,8 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             return deferred.promise;
         }
 
+        $scope.goHome = goHome;
+
         $scope.$on('authChangedMissingStep', function () {
             retrieveSession();
             $scope.selectedMenuItem = {};
@@ -1895,5 +1897,9 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             } else {
                 $state.go('error', {response: data});
             }
+        }
+
+        function goHome() {
+            $state.go('home');
         }
     }]);

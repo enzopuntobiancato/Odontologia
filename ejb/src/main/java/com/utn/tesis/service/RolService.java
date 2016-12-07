@@ -63,12 +63,17 @@ public class RolService extends BaseService<Rol> {
     }
 
     public List<PrivilegioDTO> findPrivilegiosByRolKey(String rol) {
-        return privilegioMapper.toDTOList(dao.findByRolEnum(RolEnum.valueOf(rol)).getPrivilegios());
+        return privilegioMapper.toDTOList(dao.findPrivilegiosByRol(rol));
     }
 
-    public List<RolEditDTO> findAllRoles() {
-        List<Rol> entities = dao.findAll();
+    public List<RolEditDTO> findAllRolEditOrderByNombre() {
+        List<Rol> entities = dao.findAllOrderByNombre();
         return rollMapper.toRolEditDTOList(entities);
+    }
+
+    public List<RolDTO> findAllRolesOrderByNombre() {
+        List<Rol> entities = dao.findAllOrderByNombre();
+        return rollMapper.toDTOList(entities);
     }
 
     public void savePermisos(List<RolEditDTO> roles) {

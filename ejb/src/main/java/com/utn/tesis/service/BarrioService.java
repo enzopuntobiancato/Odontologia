@@ -2,6 +2,8 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.data.daos.BarrioDao;
 import com.utn.tesis.data.daos.DaoBase;
+import com.utn.tesis.mapping.dto.BarrioDTO;
+import com.utn.tesis.mapping.mapper.BarrioMapper;
 import com.utn.tesis.model.Barrio;
 import com.utn.tesis.model.Ciudad;
 
@@ -10,21 +12,15 @@ import javax.inject.Inject;
 import javax.validation.Validator;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Maxi
- * Date: 04/03/16
- * Time: 12:26
- * To change this template use File | Settings | File Templates.
- */
 @Stateless
 public class BarrioService extends BaseService<Barrio> {
 
     @Inject
-    BarrioDao dao;
-
+    private BarrioDao dao;
     @Inject
-    Validator validator;
+    private Validator validator;
+    @Inject
+    private BarrioMapper barrioMapper;
 
     @Override
     DaoBase<Barrio> getDao() {
@@ -41,4 +37,7 @@ public class BarrioService extends BaseService<Barrio> {
         return dao.findByFilters(ciudad, nombre, page, pageSize);
     }
 
+    public List<BarrioDTO> findAllOrderByNombre() {
+        return barrioMapper.toDTOList(dao.findAllOrderByNombre());
+    }
 }

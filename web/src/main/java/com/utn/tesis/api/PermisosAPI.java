@@ -38,9 +38,9 @@ public class PermisosAPI {
     }
 
     @GET
-    @Path("/findAllRoles")
+    @Path("/findAllRolesOrderByNombre")
     @Produces(MediaType.APPLICATION_JSON)
     public List<RolEditDTO> findAllRoles() {
-        return rolService.findAllRoles();
+        return rolService.findAllRolEditOrderByNombre();
     }
 }

@@ -132,8 +132,6 @@ public class DiagnosticoAPI extends BaseAPI {
         return findOpenDiagnosticosByPaciente(pacienteId);
     }
 
-
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getHallazgos")
@@ -142,8 +140,6 @@ public class DiagnosticoAPI extends BaseAPI {
         hallazgos.add(new Caries());
         hallazgos.add(new Corona());
         hallazgos.add(new Extraccion());
-        hallazgos.add(new ProtesisCompleta());
-        hallazgos.add(new ProtesisParcial());
         hallazgos.add(new Puente());
         hallazgos.add(new Sellador());
         hallazgos.add(new TratamientoDeConducto());
