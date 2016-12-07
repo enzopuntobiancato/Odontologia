@@ -19,6 +19,7 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
 
         function cacheTab() {
             cache.put('data', vm.data.currentTab);
+
         }
 
         function getTab() {
@@ -125,9 +126,6 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         }
 
         function goToConsultar() {
-            if (asignacionState) {
-                $state.go(asignacionState.name, asignacionState.params);
-            }
             $state.go('paciente.index', {execQuery: $rootScope.created, execQuerySamePage: $rootScope.edited});
         }
 
@@ -156,9 +154,6 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
 
         $scope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
-                if (fromState.name.starsWih('asignacion')) {
-                    asignacionState = fromState;
-                }
                 if (fromState.name.startsWith('historiaClinica') && toState.name === 'historiaClinica') {
                     goToConsultar();
                 }
