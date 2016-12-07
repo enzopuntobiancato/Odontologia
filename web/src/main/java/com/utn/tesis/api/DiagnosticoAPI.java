@@ -140,7 +140,6 @@ public class DiagnosticoAPI extends BaseAPI {
         hallazgos.add(new Caries());
         hallazgos.add(new Corona());
         hallazgos.add(new Extraccion());
-        hallazgos.add(new Puente());
         hallazgos.add(new Sellador());
         hallazgos.add(new TratamientoDeConducto());
         return hallazgos;

@@ -268,10 +268,10 @@
                                 <md-input-container>
                                     <label>{{ 'FECHA' | translate }}</label>
                                     <md-datepicker name="fechaAsignacion" ng-model="vm.asignacion.fechaAsignacion"
-                                                   required md-max-date="vm.today" class="md-date"></md-datepicker>
+                                                   required md-min-date="vm.today" class="md-date"></md-datepicker>
                                     <div class="validation-messages" ng-messages="consultarFechaForm.fechaAsignacion.$error">
                                         <div ng-messages-include="error-messages"></div>
-                                        <div ng-message="maxdate">No puede ser mayor a la fecha actual</div>
+                                        <div ng-message="mindate">No puede ser menor a la fecha actual</div>
                                     </div>
                                 </md-input-container>
                             </div>
