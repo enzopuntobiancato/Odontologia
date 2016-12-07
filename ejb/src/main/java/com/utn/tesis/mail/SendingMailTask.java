@@ -72,7 +72,7 @@ public class SendingMailTask implements Runnable {
             content.addBodyPart(htmlPart);
 
             MimeBodyPart logoPart = new MimeBodyPart();
-            File file = new File(this.getClass().getClassLoader().getResource("naveen-2.png").getFile());
+            File file = new File(this.getClass().getClassLoader().getResource("sapo1.png").getFile());
             logoPart.attachFile(file);
             logoPart.setContentID("<" + cid + ">");
             logoPart.setDisposition(MimeBodyPart.INLINE);
