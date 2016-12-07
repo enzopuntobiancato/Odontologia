@@ -27,4 +27,6 @@ public class HistoriaClinicaDao extends DaoBase<HistoriaClinica> {
         return query.singleResult(historiaClinica);
     }
 
+
+
 }

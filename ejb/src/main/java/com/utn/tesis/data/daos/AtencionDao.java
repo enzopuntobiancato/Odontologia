@@ -76,4 +76,12 @@ public class AtencionDao extends DaoBase<Atencion> {
         query.where(atencion.id.eq(atencionId));
         return query.list(archivo);
     }
+
+    public Atencion findAtencionByAsignacion(Long asignacionPacienteId) {
+
+        JPAQuery query = new JPAQuery(em).from(atencion);
+        if (asignacionPacienteId != null)
+            query.where(atencion.asignacionPaciente.id.eq(asignacionPacienteId));
+        return query.uniqueResult(atencion);
+    }
 }

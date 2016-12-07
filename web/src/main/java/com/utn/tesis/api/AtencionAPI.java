@@ -118,4 +118,11 @@ public class AtencionAPI {
     public List<ArchivoDTO> findDocumentaciones(@QueryParam("atencionId") Long atencionId) {
         return atencionService.findDocumentacionesByAtencion(atencionId);
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/findAtencionByAsignacion")
+    public AtencionDTO findAtencionByAsignacion(@QueryParam("asignacionId") Long asignacionId) {
+        return atencionService.findAtencionByAsignacion(asignacionId);
+    }
 }

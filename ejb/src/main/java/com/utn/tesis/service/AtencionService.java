@@ -11,11 +11,15 @@ import com.utn.tesis.mapping.mapper.AtencionMapper;
 import com.utn.tesis.model.*;
 import com.utn.tesis.model.odontograma.Odontograma;
 import com.utn.tesis.model.odontograma.PiezaDental;
+import com.utn.tesis.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +51,10 @@ public class AtencionService extends BaseService<Atencion> {
     private ArchivoMapper archivoMapper;
     @Inject
     private HistoriaClinicaService historiaClinicaService;
+    @Inject
+    private PdfGenerator pdfGenerator;
+    @Inject
+    private FileUtils fileUtils;
 
     @Override
     DaoBase<Atencion> getDao() {
@@ -129,5 +137,15 @@ public class AtencionService extends BaseService<Atencion> {
             log.error(e.getMessage(), e);
         }
         return false;
+    }
+
+    public AtencionDTO findAtencionByAsignacion(Long asignacionId) {
+        return atencionMapper.toDTO(dao.findAtencionByAsignacion(asignacionId));
+    }
+
+    public Pair<String, byte[]> printAtencionRealizada(Long id) throws IOException {
+        Atencion atencion = dao.findById(id);
+        File file = pdfGenerator.createImpresionAtencion(atencion);
+        return Pair.of(file.getName(), fileUtils.fileToArrayByte(file));
     }
 }

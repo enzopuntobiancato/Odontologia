@@ -1,152 +1,232 @@
 <div layout="column">
-    <md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
-        <div layout="column" layout-fill layout-padding>
-            <div>
-                <div layout="row" layout-align="center center">
-                    <md-card flex-gt-sm>
-                        <md-toolbar class="md-accent">
-                            <div class="md-toolbar-tools">
-                                <span>{{ 'VER_ASIGNACION' | translate }}</span>
-                            </div>
-                        </md-toolbar>
-                        <md-card-content>
-                            <md-list>
-                                <div layout-gt-sm="row" layout-margin>
-                                    <div layout-align="center center">
-                                        <img class="user-image-sm list-item-4"
-                                             ng-src="resources/img/odontology/{{vm.imgIdx}}.svg"/>
-                                    </div>
-                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
-                                        <div class="md-list-item-text md-offset">
-                                            <h4>{{ 'PACIENTE' | translate }}</h4>
+<md-content flex md-scroll-y layout-fill flex-gt-sm="90" flex-gt-xs="90" class="md-main-content">
+<div layout="column" layout-fill layout-padding>
+<div>
+<div layout="row" layout-align="center center">
+<md-card flex-gt-sm>
+<md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+        <span>{{ 'VER_ASIGNACION' | translate }}</span>
+    </div>
+</md-toolbar>
+<md-card-content>
+<md-list>
+    <div layout-gt-sm="row" layout-margin>
+        <div layout-align="center center">
+            <img class="user-image-sm list-item-4"
+                 ng-src="resources/img/odontology/{{vm.imgIdx}}.svg"/>
+        </div>
+        <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
+            <div class="md-list-item-text md-offset">
+                <h4>{{ 'PACIENTE' | translate }}</h4>
 
-                                            <h2>{{vm.asignacion.apellidoPaciente}}, {{
-                                                vm.asignacion.nombrePaciente}}</h2>
-                                        </div>
-                                    </md-list-item>
-                                    <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
-                                        <div class="md-list-item-text md-offset">
-                                            <h4>{{ 'ALUMNO' | translate }}</h4>
+                <div layout="row">
+                    <h2>{{vm.asignacion.apellidoPaciente}}, {{
+                        vm.asignacion.nombrePaciente}}</h2>
+                    <md-button ng-click="vm.verHistoriaClinica()"
+                               ng-if="vm.asignacion.ultimoMovimiento.estado.nombre == 'Autorizado'
+                                                            || vm.asignacion.ultimoMovimiento.estado.nombre == 'Confirmado'">
+                        <ng-md-icon icon="visibility"
+                                    size="40"
+                                    ng-attr-style="fill: {{vm.colorIcon}}"
+                                    ng-Mouseover="vm.colorMouseOver()"
+                                    ng-mouseleave="vm.colorMouseLeave()">
+                            <md-tooltip>
+                                {{ 'VER_HC' | translate }}
+                            </md-tooltip>
+                        </ng-md-icon>
+                    </md-button>
 
-                                            <p>{{vm.asignacion.alumno.apellido}}, {{ vm.asignacion.alumno.nombre }}</p>
-                                        </div>
-                                    </md-list-item>
-                                </div>
-                            </md-list>
-                            <md-tabs md-dynamic-height md-border-bottom>
-                                <md-tab>
-                                    <md-tab-label>
-                                        <div layout layout-align="center center">
-                                            Datos
-                                        </div>
-                                    </md-tab-label>
-                                    <md-tab-body>
-                                        <md-list>
-                                            <md-list-item class="md-3-line">
-                                                <img ng-src="resources/img/odontology/{{ vm.imgIdx }}.svg"
-                                                     class="md-avatar" hide-xs/>
-                                                <div class="md-list-item-text">
-                                                    <h3 class="md-title">{{'TP' | translate}} </h3>
-                                                    <h4>{{ vm.asignacion.trabajoPractico.nombre }}</h4>
-                                                    <p class="muted">{{ vm.asignacion.trabajoPractico.descripcion }}</p>
-                                                </div>
-                                            </md-list-item>
-                                            <md-list-item class="md-3-line">
-                                                <img ng-src="resources/img/odontology/{{ vm.imgIdx }}.svg"
-                                                     class="md-avatar" hide-xs/>
-                                                <div class="md-list-item-text">
-                                                    <h3 class="md-title">{{'PRACTICA_ODONT' | translate}} </h3>
-                                                    <h4>{{ vm.asignacion.diagnostico.practicaOdontologica.denominacion }}</h4>
-                                                    <p class="muted">{{ vm.asignacion.diagnostico.observaciones }}</p>
-                                                </div>
-                                            </md-list-item>
-                                            <div layout="row">
-                                                <md-list-item class="md-2-line" flex="25">
-                                                    <img ng-src="resources/img/odontology/{{ vm.imgIdx }}.svg"
-                                                         class="md-avatar list-item-0" hide-xs/>
-                                                    <div class="md-list-item-text">
-                                                        <h4>{{ 'FECHA' | translate }}</h4>
-                                                        <p class="muted">{{vm.asignacion.fechaAsignacion | date:'dd/MM/yyyy' }}</p>
-                                                    </div>
-                                                </md-list-item>
-                                                <md-list-item class="md-2-line" flex="25">
-                                                    <img ng-src="resources/img/odontology/{{ vm.imgIdx }}.svg"
-                                                         class="md-avatar list-item-0" hide-xs/>
-                                                    <div class="md-list-item-text">
-                                                        <h4>{{'ESTADO' | translate}} </h4>
-                                                        <p class="muted">{{ vm.asignacion.ultimoMovimiento.estado.nombre }}</p>
-                                                    </div>
-                                                </md-list-item>
-                                                <span flex></span>
-                                            </div>
-                                            <md-divider></md-divider>
-                                        </md-list>
-                                    </md-tab-body>
-                                </md-tab>
-                                <md-tab>
-                                    <md-tab-label>
-                                        <div layout layout-align="center center">
-                                            {{ 'CONTACTO' | translate }}
-                                        </div>
-                                    </md-tab-label>
-                                    <md-tab-body>
-                                        <md-list>
-                                            <div layout="row">
-                                                <md-list-item class="md-2-line" flex="33" ng-if="vm.asignacion.telefono">
-                                                    <ng-md-icon icon="phone"></ng-md-icon>
-                                                    <div class="md-list-item-text">
-                                                        <h4>{{'TELEFONO' | translate}}</h4>
-                                                        <p>{{ vm.asignacion.telefono }}</p>
-                                                    </div>
-                                                </md-list-item>
-                                                <md-list-item class="md-2-line" flex="33"  ng-if="vm.asignacion.celular">
-                                                    <ng-md-icon icon="stay_current_portrait"></ng-md-icon>
-                                                    <div class="md-list-item-text">
-                                                        <h4>{{'CEL' | translate}} </h4>
-
-                                                        <p>{{vm.asignacion.celular }}</p>
-                                                    </div>
-                                                </md-list-item>
-                                                <md-list-item class="md-2-line" flex="33" ng-if="vm.asignacion.email">
-                                                    <ng-md-icon icon="mail"></ng-md-icon>
-                                                    <div class="md-list-item-text">
-                                                        <h4>{{'EMAIL' | translate}} </h4>
-
-                                                        <p>{{ vm.asignacion.email }}</p>
-                                                    </div>
-                                                </md-list-item>
-                                            </div>
-                                        </md-list>
-                                    </md-tab-body>
-                                </md-tab>
-                                <md-tab>
-                                    <md-tab-label>
-                                        <div layout layout-align="center center">
-                                            Historico
-                                        </div>
-                                    </md-tab-label>
-                                    <md-tab-body>
-                                    <md-list>
-                                        <md-list-item class="md-3-line"
-                                                      ng-repeat="movimiento in vm.asignacion.movimientoAsignacionPaciente">
-                                            <div class="md-list-item-text md-offset">
-                                                <h3 class="md-title">{{'ESTADO' | translate}}:{{ movimiento.estado.nombre }} </h3>
-                                                <h4>  {{ movimiento.generadoPor.nombreUsuario }}  </h4>
-                                                <p class="muted">{{ movimiento.fechaMovimiento | date:'dd/MM/yyyy' }}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-divider md-inset ng-if="!$last"></md-divider>
-                                    </md-list>
-                                    </md-tab-body>
-                                </md-tab>
-                            </md-tabs>
-                        </md-card-content>
-                        <md-card-actions layout="row" layout-align="end center">
-                            <md-button ng-click="vm.goIndex()" class="md-primary">Volver</md-button>
-                        </md-card-actions>
-                    </md-card>
                 </div>
             </div>
-        </div>
-    </md-content>
+        </md-list-item>
+        <md-list-item class="md-2-line md-long-text" flex-gt-sm="30">
+            <div class="md-list-item-text md-offset">
+                <h4>{{ 'ALUMNO' | translate }}</h4>
+
+                <p>{{vm.asignacion.alumno.apellido}}, {{ vm.asignacion.alumno.nombre }}</p>
+            </div>
+        </md-list-item>
+    </div>
+</md-list>
+<md-tabs md-dynamic-height md-border-bottom>
+    <md-tab>
+        <md-tab-label>
+            <div layout layout-align="center center">
+                Datos
+            </div>
+        </md-tab-label>
+        <md-tab-body>
+            <md-list>
+                <md-list-item class="md-3-line">
+                    <img ng-src="resources/img/odontology/{{ vm.imgIdx }}.svg"
+                         class="md-avatar" hide-xs/>
+
+                    <div class="md-list-item-text">
+                        <h3 class="md-title">{{'TP' | translate}} </h3>
+                        <h4>{{ vm.asignacion.trabajoPractico.nombre }}</h4>
+
+                        <p class="muted">{{ vm.asignacion.trabajoPractico.descripcion }}</p>
+                    </div>
+                </md-list-item>
+                <md-list-item class="md-3-line">
+                    <img ng-src="resources/img/odontology/{{ vm.imgIdx }}.svg"
+                         class="md-avatar" hide-xs/>
+
+                    <div class="md-list-item-text">
+                        <h3 class="md-title">{{'DIAGNOSTICO' | translate}} </h3>
+                        <h4>{{ 'PRACTICA_ODONT' | translate }}: {{
+                            vm.asignacion.diagnostico.practicaOdontologica.denominacion }}</h4>
+
+                        <p class="muted">{{ 'OBSERVACIONES' | translate }}: {{
+                            vm.asignacion.diagnostico.observaciones }}</p>
+                    </div>
+                </md-list-item>
+                <div layout="row">
+                    <md-list-item class="md-2-line" flex="25">
+                        <img ng-src="resources/img/odontology/{{ vm.imgIdx }}.svg"
+                             class="md-avatar list-item-0" hide-xs/>
+
+                        <div class="md-list-item-text">
+                            <h4>{{ 'FECHA_ASIGNACION' | translate }}</h4>
+
+                            <p class="muted">{{vm.asignacion.fechaAsignacion | date:'dd/MM/yyyy' }}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" flex="25">
+                        <img ng-src="resources/img/odontology/{{ vm.imgIdx }}.svg"
+                             class="md-avatar list-item-0" hide-xs/>
+
+                        <div class="md-list-item-text">
+                            <h4>{{'ESTADO' | translate}} </h4>
+
+                            <p class="muted">{{ vm.asignacion.ultimoMovimiento.estado.nombre }}</p>
+                        </div>
+                    </md-list-item>
+                    <span flex></span>
+                </div>
+                <md-divider></md-divider>
+            </md-list>
+        </md-tab-body>
+    </md-tab>
+    <md-tab>
+        <md-tab-label>
+            <div layout layout-align="center center">
+                {{ 'CONTACTO' | translate }}
+            </div>
+        </md-tab-label>
+        <md-tab-body>
+            <md-list>
+                <div layout="row">
+                    <md-list-item class="md-2-line" flex="33" ng-if="vm.asignacion.telefono">
+                        <ng-md-icon icon="phone"></ng-md-icon>
+                        <div class="md-list-item-text">
+                            <h4>{{'TELEFONO' | translate}}</h4>
+
+                            <p>{{ vm.asignacion.telefono }}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" flex="33" ng-if="vm.asignacion.celular">
+                        <ng-md-icon icon="stay_current_portrait"></ng-md-icon>
+                        <div class="md-list-item-text">
+                            <h4>{{'CEL' | translate}} </h4>
+
+                            <p>{{vm.asignacion.celular }}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" flex="33" ng-if="vm.asignacion.email">
+                        <ng-md-icon icon="mail"></ng-md-icon>
+                        <div class="md-list-item-text">
+                            <h4>{{'EMAIL' | translate}} </h4>
+
+                            <p>{{ vm.asignacion.email }}</p>
+                        </div>
+                    </md-list-item>
+                </div>
+            </md-list>
+        </md-tab-body>
+    </md-tab>
+    <md-tab>
+        <md-tab-label>
+            <div layout layout-align="center center">
+                Historico
+            </div>
+        </md-tab-label>
+        <md-tab-body>
+            <md-list>
+                <md-list-item class="md-3-line"
+                              ng-repeat="movimiento in vm.asignacion.movimientoAsignacionPaciente">
+                    <div class="md-list-item-text md-offset">
+                        <h3 class="md-title">{{'ESTADO' | translate}}:{{ movimiento.estado.nombre }} </h3>
+                        <h4> {{ movimiento.generadoPor.nombreUsuario }} </h4>
+
+                        <p class="muted">{{ movimiento.fechaMovimiento | date:'dd/MM/yyyy' }}</p>
+                    </div>
+                </md-list-item>
+                <md-divider md-inset ng-if="!$last"></md-divider>
+            </md-list>
+        </md-tab-body>
+    </md-tab>
+    <md-tab ng-if="vm.asignacion.ultimoMovimiento.estado.nombre == 'Atencion registrada'">
+        <md-tab-label>
+            <div layout layout-align="center center">
+                {{ 'ATENCION' | translate}}
+            </div>
+        </md-tab-label>
+        <md-tab-body>
+            <md-list>
+                <div layout="row">
+                    <md-list-item class="md-2-line">
+                        <div class="md-list-item-text md-offset">
+                            <h4>{{'FECHA_ATENCION' | translate}}</h4>
+
+                            <p>{{vm.atencion.fechaAtencion |
+                                date:'dd/MM/yyyy'}}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <div class="md-list-item-text md-offset">
+                            <h4>{{ 'FECHA_CARGA' | translate }}</h4>
+
+                            <p>{{vm.atencion.fechaDeCarga |
+                                date:'dd/MM/yyyy'}}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <div class="md-list-item-text md-offset">
+                            <h4>Diagnostico resuelto</h4>
+
+                            <p>{{vm.atencion.diagnosticoSolucionado | siNo}}</p>
+                        </div>
+                    </md-list-item>
+                </div>
+                <div layout="row">
+                    <md-list-item class="md-2-line">
+                        <div class="md-list-item-text md-offset">
+                            <h4>{{ 'DESCRIPCION_PROC' | translate}}</h4>
+
+                            <p>{{vm.atencion.descripcionProcedimiento}}</p>
+                        </div>
+                    </md-list-item>
+                </div>
+            </md-list>
+            <div layout="row" layout-align="start center" layout-margin>
+                <md-button ng-click="vm.printAtencion()">
+                    <md-tooltip>Imprimir atención</md-tooltip>
+                    <ng-md-icon icon="file_download" style="fill: black" size="24"></ng-md-icon>
+                    Descargar
+                </md-button>
+            </div>
+        </md-tab-body>
+    </md-tab>
+</md-tabs>
+</md-card-content>
+<md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="vm.goIndex()" class="md-primary">Volver</md-button>
+</md-card-actions>
+</md-card>
+</div>
+</div>
+</div>
+</md-content>
 </div>

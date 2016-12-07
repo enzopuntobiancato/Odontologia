@@ -57,20 +57,20 @@
                                         </md-button>
                                     </md-menu-item>
                                     <md-divider show-xs hide-gt-sm></md-divider>
-                                    <md-menu-item>
+                                    <md-menu-item ng-if="!session.user.alumno">
                                         <md-button ng-disabled="vm.paciente.fechaBaja || vm.onAtencionesView()" aria-label="Editar paciente"
                                                    ng-click="vm.goEdit()">
                                             <ng-md-icon icon="edit" size="24" hide-xs></ng-md-icon>
                                             {{ 'MODIFICAR' | translate }}
                                         </md-button>
                                     </md-menu-item>
-                                    <md-menu-item ng-if="!vm.paciente.fechaBaja">
+                                    <md-menu-item ng-if="!vm.paciente.fechaBaja && !session.user.alumno">
                                         <md-button ng-click="vm.openDeleteDialog($event, vm.paciente.id, vm.paciente.apellido)">
                                             <ng-md-icon icon="delete" hide-xs></ng-md-icon>
                                             {{ 'DAR_BAJA' | translate }}
                                         </md-button>
                                     </md-menu-item>
-                                    <md-menu-item ng-if="vm.paciente.fechaBaja">
+                                    <md-menu-item ng-if="vm.paciente.fechaBaja && !session.user.alumno">
                                         <md-button ng-click="vm.openRestoreDialog($event, vm.paciente.id, vm.paciente.apellido)">
                                             <ng-md-icon icon="restore" hide-xs></ng-md-icon>
                                             {{ 'DAR_ALTA' | translate }}
