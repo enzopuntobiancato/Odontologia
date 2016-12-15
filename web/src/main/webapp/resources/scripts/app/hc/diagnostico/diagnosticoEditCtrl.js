@@ -2,8 +2,8 @@ var module = angular.module('historiaClinicaModule');
 
 module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageSrv', '$mdDialog', '$state', 'pacienteId',
     'diagnosticosResponse', 'finalStatesResponse', 'odontogramaResponse', 'hallazgosResponse', 'practicasResponse',
-    '$mdEditDialog', 'Upload', '$http', '$q',
-    function ($scope, service, message, $mdDialog, $state, pacienteId, diagnosticosResponse, finalStatesResponse, odontogramaResponse, hallazgosResponse, practicasResponse, $mdEditDialog, Upload, $http, $q) {
+    '$mdEditDialog', 'Upload', '$http', '$q', 'cfpLoadingBar', '$timeout',
+    function ($scope, service, message, $mdDialog, $state, pacienteId, diagnosticosResponse, finalStatesResponse, odontogramaResponse, hallazgosResponse, practicasResponse, $mdEditDialog, Upload, $http, $q, cfpLoadingBar, $timeout) {
         var vm = this;
 
         var pacienteId = pacienteId;
@@ -139,17 +139,21 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
 
         $scope.$on('validatedForm', function (event, args) {
             event.defaultPrevented = true;
-
+            cfpLoadingBar.start();
             var validatePiezas = validarPiezasDentalesPendientes();
             if (!validatePiezas) {
+                cfpLoadingBar.complete();
                 message.errorMessage("Hay hallazgos pendientes a los que no se les cargó diagnósticos. Revise el odontograma.");
                 return;
             }
-            drawInlineSVG(function(){
-                imageAsUri(function(uri){
-                    save(args, uri);
+            $timeout(function() {
+                drawInlineSVG(function(){
+                    imageAsUri(function(uri){
+                        save(args, uri);
+                    });
                 });
-            });
+            }, 1000);
+
         });
 
         function save(args, uri){
@@ -406,6 +410,7 @@ module.controller('DiagnosticoCtrl_Edit', ['$scope', 'DiagnosticoSrv', 'MessageS
             var y = 0;
             var cont = 0;
             for (var i = 0; i < svgs.length; i++) {
+                cfpLoadingBar.inc();
                 var svg = svgs[i];
                 svgAsPngUri(svg, {}, function (uri) {
                     var img = new Image;

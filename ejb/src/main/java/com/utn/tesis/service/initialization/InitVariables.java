@@ -12,7 +12,7 @@ public class InitVariables {
     private boolean initializationRunned;
 
     private InitVariables(){
-        this.initializationRunned = false;
+        this.initializationRunned = true;
     }
 
     public static synchronized InitVariables getInstance(){

@@ -7,6 +7,7 @@ import com.utn.tesis.model.Domicilio;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,6 +24,8 @@ public interface DomicilioMapper {
 
     @InheritInverseConfiguration
     Domicilio fromDTO(DomicilioDTO domicilioDTO);
+
+    void updateDomicilioFromDTO(DomicilioDTO domicilioDTO, @MappingTarget Domicilio domicilio);
 
    /* DomicilioDTO toDomicilioDTO(Domicilio domicilio);
 

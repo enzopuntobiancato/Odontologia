@@ -73,6 +73,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
         };
 
         cfpLoadingBarProvider.loadingBarTemplate = '<div id="bar-container"></div><div id="loading-bar"><div class="bar"><div class="peg"></div></div></div></div>';
+        cfpLoadingBarProvider.includeSpinner = false;
 
         $httpProvider.defaults.transformResponse.push(function (responseData, status) {
             convertDateStringsToDates(responseData);
@@ -1553,15 +1554,15 @@ angular.module('sapo.login', []);
 angular.module('personaModule', []);
 angular.module('pacienteModule', []);
 angular.module('asignacionModule', []);
-angular.module('historiaClinicaModule', ['pacienteModule', 'atencionModule']);
+angular.module('historiaClinicaModule', ['pacienteModule', 'atencionModule', 'cfp.loadingBar']);
 angular.module('atencionModule', []);
 angular.module('profesorModule', []);
 angular.module('permisosModule', []);
 angular.module('backupModule', []);
 
 
-odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', '$q', '$mdDialog',
-    function ($scope, $state, authFactory, $filter, $mdSidenav, $q, $mdDialog) {
+odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '$filter', '$mdSidenav', '$q', '$mdDialog', 'MessageSrv',
+    function ($scope, $state, authFactory, $filter, $mdSidenav, $q, $mdDialog, messageSrv) {
 
         $scope.performSubmit = performSubmit;
         $scope.handleError = handleError;
@@ -1931,7 +1932,7 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
                 }
                 $scope.validationErrorFromServer.data = message;
             } else {
-                $state.go('error', {response: data});
+                messageSrv.errorMessage('Ocurrió un error. Intente nuevamente más tarde.');
             }
         }
 
