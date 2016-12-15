@@ -13,7 +13,7 @@ import java.util.Calendar;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Persona extends SuperEntityBase {
 
-    @TableGenerator(name = "PERSON_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", allocationSize = 1)
+    @TableGenerator(name = "PERSON_GEN", table = "id_gen", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", allocationSize = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "PERSON_GEN")
     private Long id;

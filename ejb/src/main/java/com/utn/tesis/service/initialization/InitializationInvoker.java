@@ -17,7 +17,7 @@ public class InitializationInvoker {
 
     @TransactionAttribute(TransactionAttributeType.NEVER)
     public boolean initializeData() throws SAPOException {
-        if (!initVariables.isInitializationRunned()) {
+        if (false) {
             try {
                 //Materia
                 initializationService.cargarMaterias();

@@ -4,8 +4,6 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
     function ($scope, $rootScope, $state, $stateParams, pacienteResponse, $cacheFactory, deleteRestoreService, $window, $location) {
         var vm = this;
 
-        var asignacionState = null;
-
         var PREFIX = 'historiaClinica.';
         var DATOS_PERSONALES_TAB = 'datosPersonales';
         var ANTECEDENTES_TAB = 'antecedentes';
@@ -19,7 +17,6 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
 
         function cacheTab() {
             cache.put('data', vm.data.currentTab);
-
         }
 
         function getTab() {
@@ -126,7 +123,13 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
         }
 
         function goToConsultar() {
-            $state.go('paciente.index', {execQuery: $rootScope.created, execQuerySamePage: $rootScope.edited});
+            var asignacionState = cache.get('asignacion');
+            if (asignacionState) {
+                cache.put('asignacion', null);
+                $state.go(asignacionState.state.name, asignacionState.params);
+            } else {
+                $state.go('paciente.index', {execQuery: $rootScope.created, execQuerySamePage: $rootScope.edited});
+            }
         }
 
         function convertToBoolean(paramValue) {
@@ -154,6 +157,9 @@ module.controller('HistoriaClinicaCtrl_Main', ['$scope', '$rootScope', '$state',
 
         $scope.$on('$stateChangeSuccess',
             function (event, toState, toParams, fromState, fromParams) {
+                if (fromState.name == 'asignacion.view') {
+                    cache.put('asignacion', {state: fromState, params: fromParams})
+                }
                 if (fromState.name.startsWith('historiaClinica') && toState.name === 'historiaClinica') {
                     goToConsultar();
                 }
