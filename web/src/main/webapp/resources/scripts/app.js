@@ -15,7 +15,8 @@ var odontologiaApp = angular.module('odontologiaApp', [
     'ngMdIcons',
     'ngFileUpload',
     'pascalprecht.translate',
-    'md.data.table'
+    'md.data.table',
+    'jkAngularCarousel'
 ]);
 
 odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvider', 'cfpLoadingBarProvider', '$httpProvider',
@@ -120,31 +121,13 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 controller: 'LandingPageCtrl',
                 controllerAs: 'vm',
                 data: {
-                    isFree: true
+                    isFree: true,
+                    title: "Iniciar sesión"
                 },
                 resolve: {
                     loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
                         //lazyload de un modulo
                         return $ocLazyLoad.load('sapo.login');
-                    }],
-                    initializeData: ['loadMyModule', '$http', '$q', function (loadMyModule, $http, $q) {
-                        var deferred = $q.defer();
-                        $http({
-                            url: 'api/commons/initializeData',
-                            method: 'POST'
-                        })
-                            .success(function (response) {
-                                if (response) {
-                                    deferred.resolve('Inicialización de datos ejecutada con éxito.');
-                                } else {
-                                    deferred.resolve(undefined);
-                                }
-
-                            })
-                            .error(function () {
-                                deferred.resolve('Error durante la ejecución de la inicialización de datos');
-                            });
-                        return deferred.promise;
                     }]
                 }
             })
@@ -153,7 +136,8 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/home/selectRol.html',
                 controllerAs: 'vm',
                 data: {
-                    fullPage: true
+                    fullPage: true,
+                    title: 'Seleccionar rol'
                 },
                 resolve: {
                     rolesResponse: ['$http', 'authFactory', function ($http, authFactory) {
@@ -202,7 +186,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/home/home.html',
                 controller: 'HomeCtrl',
                 data: {
-                    nombrePaquete: 'Home'
+                    nombreCasoUso: 'Inicio'
                 },
                 resolve: {
                     loadMyModule: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -216,7 +200,6 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                 templateUrl: 'views/estadisticas/estadisticas.html',
                 data: {
                     fullPage: true,
-                    nombrePaquete: 'Estadísticas',
                     nombreCasoUso: 'Estadísticas'
                 },
                 controller: function ($scope) {
@@ -1646,6 +1629,13 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
             function (event, toState, toParams, fromState, fromParams) {
                 $scope.nombrePaquete = toState.data ? toState.data.nombrePaquete : null;
                 $scope.nombreCasoUso = toState.data ? toState.data.nombreCasoUso : null;
+
+                if (toState.data && toState.data.title) {
+                    $scope.title = toState.data.title;
+                } else {
+                    $scope.title = $scope.nombreCasoUso;
+                }
+
                 if (toState.data && toState.data.fullPage) {
                     $mdSidenav('left').close();
                 }

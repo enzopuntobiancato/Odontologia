@@ -80,6 +80,8 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
         if (fechaAsignacion != null)
             query.where(asignacionPaciente.fechaAsignacion.eq(fechaAsignacion));
 
+        query.orderBy(asignacionPaciente.fechaCreacion.desc());
+
         query = paginar(query, page, pageSize);
         return query.list(asignacionPaciente);
     }

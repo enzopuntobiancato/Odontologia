@@ -91,7 +91,7 @@ module.controller('CatedrasProfesorCtrl_Edit', ['$scope', '$cacheFactory', 'Prof
                         vm.data.persistedOperation = true;
                         vm.data.disableFields = true;
                         vm.data.saved = true;
-                        message.successMessage("El profesor"+ vm.selectedProfesor.apellido + ", "
+                        message.successMessage("El profesor "+ vm.selectedProfesor.apellido + ", "
                             + vm.selectedProfesor.nombre +" has sido modificado correctamente");
                         vm.selectedProfesor = null;
                         vm.selectedCatedras = null;

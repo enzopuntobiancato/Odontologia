@@ -1,7 +1,7 @@
-<html lang="en" ng-app="odontologiaApp">
+<html lang="en" ng-app="odontologiaApp" ng-controller="AppController">
 <head>
     <meta content="text/html;" http-equiv="content-type" charset="utf-8">
-    <title>S.A.P.O.</title>
+    <title>SAPO - {{title}}</title>
     <meta name="viewport" content="initial-scale=1">
     <link rel="stylesheet" href="resources/css/mdStyle.css"/>
     <link rel="stylesheet" href="components/angular-loading-bar/build/loading-bar.css">
@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="components/angular-animate/animate.css"/>
     <link rel="stylesheet" href="components/google-fonts/google-fonts.css">
     <link rel="stylesheet" href="components/md-datatable/md-data-table.min.css">
+    <link rel="stylesheet" href="components/angular-jk-carousel-master/jk-carousel.min.css">
+    <link rel="shortcut icon" href="resources/img/favicon.ico">
     <style>
     </style>
 </head>
-<body ng-controller="AppController" layout="row">
+<body layout="row">
 
 <md-sidenav ng-cloak layout="column" class="md-sidenav-left md-whiteframe-z2 md-sidenav-menu" md-component-id="left"
             ng-hide="!session.user || session.user.missingRole || session.user.firstLogin"
@@ -47,9 +49,16 @@
                 <ng-md-icon icon="menu" style="fill: white"></ng-md-icon>
             </md-button>
             <h2 ng-if="nombrePaquete && nombreCasoUso">{{ nombrePaquete }} > {{ nombreCasoUso }}</h2>
-            <h1 ng-if="!nombrePaquete && !nombreCasoUso">SAPO</h1>
+            <h2 ng-if="!nombrePaquete && nombreCasoUso">{{ nombreCasoUso }}</h2>
+            <h2 ng-if="!nombrePaquete && !nombreCasoUso">Sistema de Administración de Pacientes Odontológicos</h2>
             <span flex></span>
 
+            <md-button type="button" ng-click="showAyudaContextual()" ng-if="mostrarAyuda">
+                <md-tooltip>
+                    Ayuda
+                </md-tooltip>
+                <ng-md-icon icon="help_outline" size="40" ng-attr-style="fill: white"></ng-md-icon>
+            </md-button>
             <div ng-if="session.user">
                 <img ng-if="userHasImage()" ngf-thumbnail="session.image" class="md-avatar-login">
                 <img ng-if="!userHasImage()" src="resources/img/image_user.jpg" class="md-avatar-login">
@@ -82,13 +91,6 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-            <md-button type="button" ng-click="showAyudaContextual()" ng-if="mostrarAyuda">
-                <md-tooltip>
-                    Ayuda
-                </md-tooltip>
-                <ng-md-icon icon="help_outline" size="40" ng-attr-style="fill: white"></ng-md-icon>
-            </md-button>
-            <!--<md-button ng-if="!session.user" ui-sref="landingPage">Iniciar sesión</md-button>-->
         </div>
     </md-toolbar>
     <div ng-cloak id="main-content" ui-view>
@@ -117,6 +119,7 @@
 <script type="text/javascript" src="components/ng-file-upload/ng-file-upload.js"></script>
 <script type="text/javascript" src="components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 <script type="text/javascript" src="components/md-datatable/md-data-table.min.js"></script>
+<script type="text/javascript" src="components/angular-jk-carousel-master/jk-carousel.js"></script>
 
 <!--OURS JS-->
 <script type="text/javascript" src="resources/scripts/app/ngutils/authentication.js"></script>

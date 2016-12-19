@@ -150,6 +150,7 @@
             <th md-column><span>{{ 'PACIENTE' | translate }}</span></th>
             <th md-column><span>{{ 'DOCUMENTO' | translate }}</span></th>
             <th md-column><span>{{ 'ESTADO' | translate }}</span></th>
+            <th md-column><span>{{ 'CATEDRA' | translate }}</span></th>
             <th md-column><span> {{ 'TP' | translate }}</span></th>
             <th md-column><span> {{ 'FECHA_ASIGNACION' | translate }}</span></th>
             <th md-column><span> {{ 'ALUMNO' | translate }}</span></th>
@@ -167,6 +168,9 @@
                 asignacion.numeroDocumentoPaciente }}
             </td>
             <td md-cell>{{asignacion.ultimoMovimiento.estado.nombre }}</td>
+            <td md-cell>{{asignacion.catedra.materia }} {{
+                asignacion.catedra.denominacion }}
+            </td>
             <td md-cell>{{ asignacion.trabajoPractico.nombre }}</td>
             <td md-cell>{{ asignacion.fechaAsignacion | date:'dd/MM/yyyy' }}</td>
             <td md-cell>{{ asignacion.alumno.apellido }}, {{

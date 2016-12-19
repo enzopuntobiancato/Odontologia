@@ -1,12 +1,11 @@
 package com.utn.tesis.service;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import com.utn.tesis.model.*;
 import com.utn.tesis.util.FechaUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+@Slf4j
 @ApplicationScoped
 public class PdfGenerator {
     private static final Font HcFont = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.UNDERLINE);
@@ -51,7 +51,9 @@ public class PdfGenerator {
         try {
             Document document = new Document();
             try {
-                PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+                PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+                HeaderEvent event = new HeaderEvent();
+                pdfWriter.setPageEvent(event);
             } catch (FileNotFoundException fileNotFoundException) {
                 System.out.println("No such file was found to generate the PDF "
                         + "(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
@@ -110,7 +112,9 @@ public class PdfGenerator {
         try {
             Document document = new Document();
             try {
-                PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+                PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+                HeaderEvent event = new HeaderEvent();
+                pdfWriter.setPageEvent(event);
             } catch (FileNotFoundException fileNotFoundException) {
                 System.out.println("No such file was found to generate the PDF "
                         + "(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
@@ -173,6 +177,7 @@ public class PdfGenerator {
             Document document = new Document(PageSize.A6);
             try {
                 PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+
             } catch (FileNotFoundException fileNotFoundException) {
                 System.out.println("No such file was found to generate the PDF "
                         + "(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
@@ -180,6 +185,11 @@ public class PdfGenerator {
 
             try {
                 document.open();
+                String imageStr = this.getClass().getClassLoader().getResource("hcpdf/headerpdf.png").getFile();
+                Image image = Image.getInstance(imageStr);
+                image.scaleAbsolute(70, 32);
+                image.setAbsolutePosition(document.right() - 40, document.top());
+                document.add(image);
                 Paragraph par = new Paragraph();
                 par.setAlignment(Element.ALIGN_CENTER);
 
@@ -343,7 +353,9 @@ public class PdfGenerator {
         try {
             Document document = new Document();
             try {
-                PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+                PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(pdfNewFile));
+                HeaderEvent event = new HeaderEvent();
+                pdfWriter.setPageEvent(event);
             } catch (FileNotFoundException fileNotFoundException) {
                 System.out.println("No such file was found to generate the PDF "
                         + "(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
@@ -624,6 +636,22 @@ public class PdfGenerator {
             System.out.println("PDF Generado con exito!");
         } catch (DocumentException documentException) {
             System.out.println("The file not exists (Se ha producido un error al generar un documento): " + documentException);
+        }
+    }
+
+    class HeaderEvent extends PdfPageEventHelper {
+        @Override
+        public void onStartPage(PdfWriter writer, Document document) {
+            try {
+                String imageStr = this.getClass().getClassLoader().getResource("hcpdf/headerpdf.png").getFile();
+                Image image = Image.getInstance(imageStr);
+                image.scaleAbsolute(120, 56);
+                image.setAbsolutePosition(document.right() - 110, document.top() - 30);
+                document.add(image);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+
         }
     }
 }
