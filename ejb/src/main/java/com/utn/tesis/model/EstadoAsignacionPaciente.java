@@ -39,13 +39,13 @@ public enum EstadoAsignacionPaciente {
     ATENCION_REGISTRADA {
         @Override
         public String toString() {
-            return "Atencion registrada";
+            return "Atención registrada";
         }
     },
     NO_REGISTRA_ATENCION {
         @Override
         public String toString() {
-            return "No registra atencion";
+            return "No registra atención";
         }
     };
 

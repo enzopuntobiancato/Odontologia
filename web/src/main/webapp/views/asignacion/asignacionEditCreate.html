@@ -233,8 +233,9 @@
                             <tr md-row>
                                 <th md-column><span>{{ 'NOMBRE_APELLIDO' | translate }}</span></th>
                                 <th md-column><span>{{ 'DOCUMENTO' | translate }}</span></th>
-                                <th md-column><span>{{ 'TP' | translate }}</span></th>
+                                <!--<th md-column><span>{{ 'TP' | translate }}</span></th>-->
                                 <th md-column><span>{{ 'FECHA_DIAGNOSTICO' | translate }}</span></th>
+                                <th md-column><span>Práctica odontológica</span></th>
                             </tr>
                             </thead>
                             <tbody md-body>
@@ -243,8 +244,9 @@
                                 <td md-cell>{{diagnosticoSupport.apellido}}, {{ diagnosticoSupport.nombre }}</td>
                                 <td md-cell>{{diagnosticoSupport.tipoDocumento}}: {{diagnosticoSupport.numeroDocumento }}
                                 </td>
-                                <td md-cell>{{diagnosticoSupport.trabajoPractico}}</td>
+                                <!--<td md-cell>{{diagnosticoSupport.trabajoPractico}}</td>-->
                                 <td md-cell>{{diagnosticoSupport.fechaCreacion | date : 'dd/MM/yyyy'}}</td>
+                                <td md-cell>{{diagnosticoSupport.denominacionPractica}}</td>
                             </tr>
                             </tbody>
                         </table>

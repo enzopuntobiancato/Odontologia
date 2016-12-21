@@ -3,8 +3,21 @@
         <div layout="column" md-scroll-y>
             <p class="subtitle-text">Odontograma</p>
 
-            <div layout="column" layout-align="start center">
+<!--            <div layout="column" layout-align="start center">
                 <img ng-src="{{ vm.aux.odontograma }}"/>
+            </div>-->
+
+            <div layout="column" layout-align="start center">
+                <div layout="row">
+                    <div ng-repeat="piezaDental in vm.aux.odontograma.piezasDentalesSuperiores"
+                         diente-consulta
+                         model="piezaDental"></div>
+                </div>
+                <div layout="row">
+                    <div ng-repeat="piezaDental in vm.aux.odontograma.piezasDentalesInferiores"
+                         diente-consulta
+                         model="piezaDental"></div>
+                </div>
             </div>
             <p class="subtitle-text less-bottom">Diagnósticos</p>
             <ng-form name="vm.form">

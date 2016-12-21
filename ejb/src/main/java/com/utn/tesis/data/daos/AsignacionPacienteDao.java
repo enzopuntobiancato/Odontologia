@@ -1,6 +1,7 @@
 package com.utn.tesis.data.daos;
 
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.jpa.impl.JPASubQuery;
 import com.utn.tesis.mapping.dto.DiagnosticoSupport;
 import com.utn.tesis.model.*;
 import org.apache.commons.collections.ListUtils;
@@ -80,7 +81,7 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
         if (fechaAsignacion != null)
             query.where(asignacionPaciente.fechaAsignacion.eq(fechaAsignacion));
 
-        query.orderBy(asignacionPaciente.fechaCreacion.desc());
+        query.orderBy(asignacionPaciente.fechaCreacion.desc(), asignacionPaciente.id.desc());
 
         query = paginar(query, page, pageSize);
         return query.list(asignacionPaciente);
@@ -139,33 +140,42 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
         QDiagnostico diagnostico = QDiagnostico.diagnostico;
         QHistoriaClinica historiaClinica = QHistoriaClinica.historiaClinica;
         QPracticaOdontologica practicaOdontologica = QPracticaOdontologica.practicaOdontologica;
-        QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
+//        QTrabajoPractico trabajoPractico = QTrabajoPractico.trabajoPractico;
         QPaciente paciente = QPaciente.paciente;
 
         JPAQuery query = new JPAQuery(em);
-        query.from(paciente, trabajoPractico);
+        query.from(paciente);
         query.innerJoin(paciente.historiaClinica, historiaClinica);
         query.innerJoin(historiaClinica.diagnostico, diagnostico);
         query.innerJoin(diagnostico.practicaOdontologica, practicaOdontologica);
-        query.innerJoin(trabajoPractico.practicaOdontologica, practicaOdontologica);
-        if (trabajoPracticoId != null) {
-            query.where(trabajoPractico.id.eq(trabajoPracticoId));
-        }
-        if (catedraId != null) {
-            query.where(trabajoPractico.catedras.any().id.eq(catedraId));
-        }
+//        query.innerJoin(trabajoPractico.practicaOdontologica, practicaOdontologica);
+//        if (trabajoPracticoId != null) {
+//            query.where(trabajoPractico.id.eq(trabajoPracticoId));
+//        }
+//        if (catedraId != null) {
+//            query.where(trabajoPractico.catedras.any().id.eq(catedraId));
+//        }
+        QCatedra catedra = QCatedra.catedra;
+        QTrabajoPractico trabajoPractico1 = new QTrabajoPractico("trabajoPractico1");
+        query.where(practicaOdontologica.id.in(new JPASubQuery().from(
+                catedra
+        ).innerJoin(catedra.trabajosPracticos, trabajoPractico1)
+                .where(catedra.id.eq(catedraId)
+                        .and(trabajoPractico1.practicaOdontologica.id.eq(practicaOdontologica.id))
+                .and(trabajoPractico1.id.eq(trabajoPracticoId)))
+                .list(practicaOdontologica.id)));
         if (fechaAsignacion != null) {
             query.where(asignacionPaciente.fechaAsignacion.eq(fechaAsignacion));
         }
         if (documentoPaciente != null) {
             query.where(paciente.documento.eq(documentoPaciente));
         }
-        query.where(diagnostico.ultimoMovimiento.estado.ne(EstadoDiagnostico.RESERVADO));
+        query.where(diagnostico.ultimoMovimiento.estado.eq(EstadoDiagnostico.PENDIENTE));
         query = paginar(query, page, pageSize);
 
         List<Object[]> tuplas = query.list(diagnostico.id, diagnostico.fechaCreacion, diagnostico.practicaOdontologica.denominacion,
                 paciente.apellido, paciente.nombre,
-                paciente.documento.tipoDocumento, paciente.documento.numero, paciente.id, trabajoPractico.nombre,
+                paciente.documento.tipoDocumento, paciente.documento.numero, paciente.id,
                 paciente.email, paciente.telefono, paciente.celular);
         List<DiagnosticoSupport> resultados = new ArrayList<DiagnosticoSupport>();
         if (tuplas.isEmpty()) {
@@ -181,13 +191,13 @@ public class AsignacionPacienteDao extends DaoBase<AsignacionPaciente> {
             String tipoDocumento = (tupla[5]).toString();
             String numeroDocumento = (String) tupla[6];
             Long pacienteId = (Long) tupla[7];
-            String nombreTrabajoPractico = (String) tupla[8];
-            String email = (String) tupla[9];
-            String telefono = (String) tupla[10];
-            String celular = (String) tupla[11];
+//            String nombreTrabajoPractico = (String) tupla[8];
+            String email = (String) tupla[8];
+            String telefono = (String) tupla[9];
+            String celular = (String) tupla[10];
 
             DiagnosticoSupport diagnosticoSupport = new DiagnosticoSupport(idDiagnostico,fechaCreacion, denominacionPractica,
-                    apellido, nombre, tipoDocumento, numeroDocumento, nombreTrabajoPractico, pacienteId, email, telefono,
+                    apellido, nombre, tipoDocumento, numeroDocumento, "", pacienteId, email, telefono,
                     celular);
 
             resultados.add(diagnosticoSupport);

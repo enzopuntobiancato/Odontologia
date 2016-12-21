@@ -906,7 +906,7 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                         return commons.getEstadosDiagnostico();
                     }],
                     odontogramaResponse: ['loadMyModule', '$stateParams', 'DiagnosticoSrv', function (loadMyModule, $stateParams, service) {
-                        return service.findOdontogramaUriById($stateParams.id);
+                        return service.findOdontogramaById($stateParams.id);
                     }]
                 }
             })
@@ -1002,7 +1002,11 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     imagenResponse: ['loadMyModule', 'pacienteResponse', 'PacienteSrv', function (loadMyModule, pacienteResponse, service) {
                         var paciente = pacienteResponse.data;
                         return service.findPacienteImage(paciente.imagenId);
+                    }],
+                    updateImageResponse: ['loadMyModule', function(loadMyModule) {
+                        return true;
                     }]
+
                 }
             })
             .state('historiaClinica.antecedentesEdit', {
@@ -1053,6 +1057,9 @@ odontologiaApp.config(['$urlRouterProvider', '$stateProvider', '$ocLazyLoadProvi
                     }],
                     imagenResponse: ['loadMyModule', function(loadMyModule) {
                         return {data: null};
+                    }],
+                    updateImageResponse: ['loadMyModule', function(loadMyModule) {
+                        return false;
                     }]
                 }
             })
@@ -1588,10 +1595,9 @@ odontologiaApp.controller('AppController', ['$scope', '$state', 'authFactory', '
 
         $scope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
-
+                $scope.mostrarAyuda = toState.name == 'landingPage' || toState.name == 'home' || toState.name == 'selectRol' ? false : true;
                 $scope.validationErrorFromServer.error = false;
                 if ($scope.session.user) {
-                    $scope.mostrarAyuda = toState.name == 'home' || toState.name == 'selectRol' ? false : true;
                     if (toState.name == 'landingPage' || toState.name.startsWith('historiaClinica')) {
                         $scope.menuOpen = false;
                     } else {

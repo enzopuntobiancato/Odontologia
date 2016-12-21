@@ -159,6 +159,7 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
             movimientoDiagnosticoService.save(nuevoMovimientoDiagnostico);
 
             diagnostico.addMovimiento(nuevoMovimientoDiagnostico);
+            diagnostico.setUltimoMovimiento(nuevoMovimientoDiagnostico);
 
             MovimientoAsignacionPaciente nuevoMovimientoAsignacion = new MovimientoAsignacionPaciente
                     (EstadoAsignacionPaciente.PENDIENTE, Calendar.getInstance(), usuario);
@@ -204,6 +205,7 @@ public class AsignacionPacienteService extends BaseService<AsignacionPaciente> {
                     (EstadoDiagnostico.PENDIENTE, Calendar.getInstance(), usuario);
             movimientoDiagnosticoService.save(nuevoMovimientoDiagnostico);
             asignacion.getDiagnostico().addMovimiento(nuevoMovimientoDiagnostico);
+            asignacion.getDiagnostico().setUltimoMovimiento(nuevoMovimientoDiagnostico);
         }
 
         if (estado == EstadoAsignacionPaciente.CONFIRMADO) {
