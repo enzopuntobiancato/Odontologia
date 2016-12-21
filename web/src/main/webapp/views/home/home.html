@@ -1,7 +1,14 @@
-<md-content layout="row">
-    <div layout="column" flex>
-        <md-card>
-            <img style="height: 50%; width: auto" src="resources/img/odonto.jpg"  class="md-card-image" alt="Washed Out">
+<md-content style="background-color: #DADBD4;padding-bottom: 32px">
+    <div layout="column" layout-align="center center">
+        <md-card style="height: 525px; width: 1016px; margin-top: 25px">
+            <jk-carousel
+                    data="carouselData"
+                    item-template-url="'views/carousel-item.html'"
+                    max-width="1016"
+                    max-height="500"
+                    auto-slide="true"
+                    auto-slide-time="3000">
+            </jk-carousel>
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">Sistema de administración de pacientes odontológicos</span>
@@ -12,3 +19,4 @@
         </md-card>
     </div>
 </md-content>
+

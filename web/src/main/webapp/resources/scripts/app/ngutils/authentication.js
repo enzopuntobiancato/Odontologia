@@ -58,7 +58,7 @@ auth.factory('authFactory', ['$rootScope', '$http', '$cookies', '$q', function (
 
     function getExpiresDate() {
         var now = new Date();
-        now.setMinutes(now.getMinutes() + 15);
+        now.setMinutes(now.getMinutes() + 120);
         return now;
     }
 

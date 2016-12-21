@@ -1,12 +1,8 @@
 var loginModule = angular.module('sapo.login');
 
-loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'MessageSrv', 'initializeData', '$mdDialog',
-    function ($scope, authFactory, $state, messageSrv, initializeData, $mdDialog) {
+loginModule.controller('LandingPageCtrl', ['$scope', 'authFactory', '$state', 'MessageSrv', '$mdDialog',
+    function ($scope, authFactory, $state, messageSrv, $mdDialog) {
         // InitializationService execution
-        if (initializeData) {
-            messageSrv.showMessage(initializeData);
-        }
-
         var vm = this;
 
         // Data
