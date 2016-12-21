@@ -123,7 +123,6 @@
                                            multiple="true" ng-model="vm.selectedAsignaciones">
                                         <thead md-head>
                                         <tr md-row>
-                                            <th md-column><span> ID </span></th>
                                             <th md-column><span>{{ 'ALUMNO' | translate }}</span></th>
                                             <th md-column><span>{{ 'PACIENTE' | translate }}</span></th>
                                             <th md-column><span>{{ 'ESTADO' | translate }}</span></th>
@@ -137,7 +136,6 @@
                                             ng-disabled="asignacion.ultimoMovimiento.estado.nombre != 'Confirmado'"
                                             md-row ng-class="{'deleted-item' : asignacion.fechaBaja}"
                                             ng-repeat="asignacion in vm.result">
-                                            <td md-cell>{{asignacion.id}}</td>
                                             <td md-cell>{{asignacion.alumno.apellido}}, {{ asignacion.alumno.nombre }}
                                             </td>
                                             <td md-cell>{{asignacion.apellidoPaciente}}, {{ asignacion.nombrePaciente

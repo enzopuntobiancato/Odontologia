@@ -72,11 +72,11 @@ public class PdfGenerator {
                         new Chunk(text(a.getAsignacionPaciente().getAlumno().getApellido()
                                 + ", " + text(a.getAsignacionPaciente().getAlumno().getNombre())), answerFont)));
                 table.addCell(cell(2,
-                        new Chunk("Profesor autorizante: ", questionFont),
+                        new Chunk("Autorizado por: ", questionFont),
                         new Chunk(text(a.getAsignacionPaciente().getAutorizadoPor().getApellido()
                                 + ", " + text(a.getAsignacionPaciente().getAutorizadoPor().getNombre())), answerFont)));
                 table.addCell(cell(2,
-                        new Chunk("Número de aiagnóstico: ", questionFont),
+                        new Chunk("Número de diagnóstico: ", questionFont),
                         new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getId()), answerFont)));
                 if (nullOVacio(a.getAsignacionPaciente().getDiagnostico().getPracticaNoExistente())) {
                     table.addCell(cell(2,
@@ -93,7 +93,11 @@ public class PdfGenerator {
                 table.addCell(cell(4,
                         new Chunk("Diagnóstico solucionado: ", questionFont),
                         new Chunk(a.isDiagnosticoSolucionado() ? "Si" : "No", answerFont)));
-                document.add(table);
+                Paragraph paragraph = new Paragraph();
+                paragraph.add(new Chunk(Chunk.NEWLINE));
+                paragraph.add(new Chunk(Chunk.NEWLINE));
+                paragraph.add(table);
+                document.add(paragraph);
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -540,7 +544,7 @@ public class PdfGenerator {
                 for (Atencion a : p.getHistoriaClinica().getAtencion()) {
                     PdfPTable table = table();
                     table.addCell(cell(2,
-                            new Chunk("Fecha Atencion: ", questionFont),
+                            new Chunk("Fecha Atención: ", questionFont),
                             new Chunk(text(FechaUtils.fechaConSeparador(a.getFechaAtencion())), answerFont)));
                     table.addCell(cell(2,
                             new Chunk("Fecha de Carga: ", questionFont),
@@ -550,26 +554,26 @@ public class PdfGenerator {
                             new Chunk(text(a.getAsignacionPaciente().getAlumno().getApellido()
                                     + ", " + text(a.getAsignacionPaciente().getAlumno().getNombre())), answerFont)));
                     table.addCell(cell(2,
-                            new Chunk("Profesor Autorizante: ", questionFont),
+                            new Chunk("Autorizado por: ", questionFont),
                             new Chunk(text(a.getAsignacionPaciente().getAutorizadoPor().getApellido()
                                     + ", " + text(a.getAsignacionPaciente().getAutorizadoPor().getNombre())), answerFont)));
                     table.addCell(cell(2,
-                            new Chunk("Numero de Diagnostico: ", questionFont),
+                            new Chunk("Numero de Diagnóstico: ", questionFont),
                             new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getId()), answerFont)));
                     if (nullOVacio(a.getAsignacionPaciente().getDiagnostico().getPracticaNoExistente())) {
                         table.addCell(cell(2,
-                                new Chunk("Practica Odontologica: ", questionFont),
+                                new Chunk("Práctica Odontológica: ", questionFont),
                                 new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getPracticaOdontologica().getDenominacion()), answerFont)));
                     } else {
                         table.addCell(cell(2,
-                                new Chunk("Practica Odontologica: ", questionFont),
+                                new Chunk("Práctica Odontológica: ", questionFont),
                                 new Chunk(text(a.getAsignacionPaciente().getDiagnostico().getPracticaNoExistente()), answerFont)));
                     }
                     table.addCell(cell(4,
                             new Chunk("Descripción de Procedimiento: ", questionFont),
                             new Chunk(text(a.getDescripcionProcedimiento()), answerFont)));
                     table.addCell(cell(4,
-                            new Chunk("Diagnostico Solucionado: ", questionFont),
+                            new Chunk("Diagnóstico Solucionado: ", questionFont),
                             new Chunk(a.isDiagnosticoSolucionado() ? "Si" : "No", answerFont)));
                     par2.add(table);
                 }

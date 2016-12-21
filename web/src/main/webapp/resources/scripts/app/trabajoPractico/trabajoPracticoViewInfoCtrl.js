@@ -35,24 +35,11 @@ module.controller('TrabajoPracticoCtrl_ViewInfo', ['$scope', 'TrabajoPracticoSrv
             if (!vm.selectedCatedra.trabajosPracticos) {
                 vm.selectedCatedra.trabajosPracticos = [];
             }
-            getPage(0);
+            getPage();
         }
 
-        function getPage(pageNumber) {
-            vm.paginationData.firstPage = pageNumber == 0;
-            var limitIdx = vm.selectedCatedra.trabajosPracticos.length - 1;
-            var startIdx = pageNumber * vm.paginationData.pageSize;
-            var endIdx = pageNumber + vm.paginationData.pageSize;
-
-            var result = [];
-            for (var i = 0; i < vm.selectedCatedra.trabajosPracticos.length; i++) {
-                if (i >= startIdx && i < endIdx) {
-                    result.push(vm.selectedCatedra.trabajosPracticos[i]);
-                }
-            }
-            vm.paginationData.morePages = limitIdx > endIdx;
-            vm.paginationData.pageNumber = pageNumber;
-            vm.resultTPs = result;
+        function getPage() {
+            vm.resultTPs = vm.selectedCatedra.trabajosPracticos;
         }
 
         function nextPage() {

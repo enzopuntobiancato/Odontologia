@@ -4,11 +4,11 @@ module.controller('PacienteCtrl_EditCreate',
     ['$scope', '$rootScope', '$filter','PacienteSrv', '$state', 'MessageSrv',
         'tiposDocumentoResponse','sexosResponse','provinciaResponse', 'ciudadesResponse','barriosResponse','estadosResponse',
         'trabajosResponse','obrasSocialesResponse','nivelesEstudioResponse','nacionalidadesResponse', 'pacienteResponse',
-        'Upload', '$q', 'imagenResponse',
+        'Upload', '$q', 'imagenResponse', 'updateImageResponse',
         function ($scope, $rootScope, $filter, service, $state, message,
                   tiposDocumentoResponse,sexosResponse,provinciaResponse,ciudadesResponse,barriosResponse,estadosResponse,
                   trabajosResponse,obrasSocialesResponse,nivelesEstudioResponse,nacionalidadesResponse,pacienteResponse,
-                  Upload, $q, imagenResponse
+                  Upload, $q, imagenResponse, updateImageResponse
             ) {
             var vm = this;
             vm.paciente= pacienteResponse.data;
@@ -106,15 +106,20 @@ module.controller('PacienteCtrl_EditCreate',
                 var deferred = $q.defer();
                 service.save(vm.paciente)
                     .then(function (response) {
-                        Upload.upload({
-                            url: 'api/paciente/savePacienteImage/' + response.data.id,
-                            data: {file: vm.file}
-                        })
-                            .then(function (response) {
-                                deferred.resolve(response);
-                            }, function (response) {
-                                deferred.reject(response);
+                        if (updateImageResponse) {
+                            Upload.upload({
+                                url: 'api/paciente/savePacienteImage/' + response.data.id,
+                                data: {file: vm.file}
                             })
+                                .then(function (response) {
+                                    deferred.resolve(response);
+                                }, function (response) {
+                                    deferred.reject(response);
+                                })
+                        } else {
+                            deferred.resolve(response);
+                        }
+
                     }, function (response) {
                         deferred.reject(response);
                     })
